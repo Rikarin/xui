@@ -1,6 +1,6 @@
 {
   "name": "xui",
-  "version": "0.0.0",
+  "version": "0.0.6",
   "license": "MIT",
   "scripts": {
     "ng": "nx",
@@ -25,7 +25,12 @@
     "update": "ng update @nrwl/workspace",
     "workspace-schematic": "nx workspace-schematic",
     "dep-graph": "nx dep-graph",
-    "help": "nx help"
+    "help": "nx help",
+    "copy-readme": "cp README.md libs/xui/README.md && git add libs/xui/README.md",
+    "copy-version": "VERSION=$npm_package_version && cd libs/xui && npm version $VERSION && cd ../.. && git add libs/xui/package.json",
+    "release": "git pull origin master && standard-version -a",
+    "postrelease": "git push --follow-tags origin master",
+    "lol": "npm-run-all copy-*"
   },
   "private": true,
   "dependencies": {
@@ -39,6 +44,7 @@
     "@angular/router": "^10.1.0",
     "@nrwl/angular": "10.3.3",
     "rxjs": "~6.5.5",
+    "tslib": "^2.0.0",
     "zone.js": "^0.10.2"
   },
   "devDependencies": {
@@ -46,23 +52,47 @@
     "@angular/cli": "~10.1.3",
     "@angular/compiler-cli": "^10.1.0",
     "@angular/language-service": "^10.1.0",
+    "@commitlint/cli": "^11.0.0",
+    "@commitlint/config-conventional": "^11.0.0",
     "@nrwl/cli": "10.3.3",
+    "@nrwl/cypress": "10.3.3",
     "@nrwl/jest": "10.3.3",
     "@nrwl/nx-cloud": "latest",
     "@nrwl/workspace": "10.3.3",
     "@types/jest": "26.0.8",
     "@types/node": "~8.9.4",
     "codelyzer": "~5.0.1",
+    "cypress": "^4.1.0",
+    "cz-conventional-changelog": "^3.3.0",
     "dotenv": "6.2.0",
     "eslint": "7.10.0",
+    "husky": "^4.3.0",
     "jest": "26.2.2",
     "jest-preset-angular": "8.3.1",
+    "ng-packagr": "^10.1.0",
+    "npm-run-all": "^4.1.5",
     "prettier": "2.0.4",
+    "pretty-quick": "^3.1.0",
+    "standard-version": "^9.0.0",
     "ts-jest": "26.4.0",
     "ts-node": "~7.0.0",
     "tslint": "~6.0.0",
-    "typescript": "~4.0.3",
-    "cypress": "^4.1.0",
-    "@nrwl/cypress": "10.3.3"
+    "typescript": "~4.0.3"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "standard-version": {
+    "scripts": {
+      "postbump": "npm-run-all copy-*"
+    }
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
