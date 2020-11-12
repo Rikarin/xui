@@ -1,5 +1,11 @@
 {
   "name": "xui",
+  "license": "MIT",
+  "homepage": "https://xuijs.org/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rikarin/xui.git"
+  },
   "version": "0.0.1",
   "peerDependencies": {
     "@angular/common": "^10.1.6",
