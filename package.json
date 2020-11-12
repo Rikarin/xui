@@ -28,8 +28,9 @@
     "help": "nx help",
     "copy-readme": "cp README.md libs/xui/README.md",
     "copy-version": "VERSION=$npm_package_version && cd libs/xui && npm version $VERSION && cd ../..",
-    "release": "git pull origin master && standard-version",
-    "postrelease": "git push --follow-tags origin master"
+    "release": "git pull origin master && standard-version -a",
+    "postrelease": "git push --follow-tags origin master",
+    "lol": "npm-run-all copy-*"
   },
   "private": true,
   "dependencies": {
