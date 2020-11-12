@@ -39,6 +39,7 @@
     "@angular/router": "^10.1.0",
     "@nrwl/angular": "10.3.3",
     "rxjs": "~6.5.5",
+    "tslib": "^2.0.0",
     "zone.js": "^0.10.2"
   },
   "devDependencies": {
@@ -47,22 +48,24 @@
     "@angular/compiler-cli": "^10.1.0",
     "@angular/language-service": "^10.1.0",
     "@nrwl/cli": "10.3.3",
+    "@nrwl/cypress": "10.3.3",
     "@nrwl/jest": "10.3.3",
     "@nrwl/nx-cloud": "latest",
     "@nrwl/workspace": "10.3.3",
     "@types/jest": "26.0.8",
     "@types/node": "~8.9.4",
     "codelyzer": "~5.0.1",
+    "cypress": "^4.1.0",
     "dotenv": "6.2.0",
     "eslint": "7.10.0",
     "jest": "26.2.2",
     "jest-preset-angular": "8.3.1",
+    "ng-packagr": "^10.1.0",
     "prettier": "2.0.4",
+    "standard-version": "^9.0.0",
     "ts-jest": "26.4.0",
     "ts-node": "~7.0.0",
     "tslint": "~6.0.0",
-    "typescript": "~4.0.3",
-    "cypress": "^4.1.0",
-    "@nrwl/cypress": "10.3.3"
+    "typescript": "~4.0.3"
   }
 }

@@ -119,6 +119,48 @@
           }
         }
       }
+    },
+    "xui": {
+      "projectType": "library",
+      "root": "libs/xui",
+      "sourceRoot": "libs/xui/src",
+      "prefix": "xui",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:package",
+          "options": {
+            "tsConfig": "libs/xui/tsconfig.lib.json",
+            "project": "libs/xui/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/xui/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/xui/tsconfig.lib.json",
+              "libs/xui/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/xui/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/xui/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      }
     }
   },
   "cli": {
