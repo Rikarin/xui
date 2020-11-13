@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { XTitleService } from './title.service';
+import { XuiTitleService } from './title.service';
 // import { LocalStorage } from '../../local-storage';
 
 @Component({
@@ -7,7 +7,7 @@ import { XTitleService } from './title.service';
   templateUrl: './title.component.html',
   styleUrls: ['./title.component.scss'],
 })
-export class UiBreadcrumbComponent implements OnInit, OnDestroy {
+export class XuiTitleComponent implements OnInit, OnDestroy {
   _interval;
 
   @Input() title: string;
@@ -18,7 +18,7 @@ export class UiBreadcrumbComponent implements OnInit, OnDestroy {
   // @LocalStorage
   selected = null;
 
-  constructor(private titleService: XTitleService) {}
+  constructor(private titleService: XuiTitleService) {}
 
   ngOnInit() {
     if (!this.selected) {
