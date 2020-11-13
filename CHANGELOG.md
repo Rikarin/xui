@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.9](https://github.com/Rikarin/xui/compare/v0.0.8...v0.0.9) (2020-11-13)
+
+### Features
+
+- **angular:** update to version 11 ([3320e4c](https://github.com/Rikarin/xui/commit/3320e4c34814ddc0859cf528b18aea1f8a37cab9))
+
+### Bug Fixes
+
+- **title:** fixed access permissions ([5633ec1](https://github.com/Rikarin/xui/commit/5633ec1fe1de628685a7cd2dc279292606aa432f))
+
 ### [0.0.8](https://github.com/Rikarin/xui/compare/v0.0.7...v0.0.8) (2020-11-13)
 
 ### Features
