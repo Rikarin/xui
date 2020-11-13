@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.8](https://github.com/Rikarin/xui/compare/v0.0.7...v0.0.8) (2020-11-13)
+
+### Features
+
+- **title:** title implementation ([8b75fc8](https://github.com/Rikarin/xui/commit/8b75fc82b79300adcd6940fdfec3808ebbb860e0))
+
 ### 0.0.7 (2020-11-12)
 
 ### [0.0.6](https://github.com/Rikarin/xui/compare/v0.0.5...v0.0.6) (2020-11-12)
