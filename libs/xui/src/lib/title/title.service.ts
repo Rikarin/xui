@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class XuiTitleService {
-  _callbacks = [];
+  private _callbacks = [];
 
   constructor() {}
 
