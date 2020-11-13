@@ -1,0 +1,19 @@
+<h1 class="title">{{ title }}</h1>
+<div class="refresh" *ngIf="autoRefresh">
+  <mat-slide-toggle
+    (change)="onChangeAutorefresh($event)"
+    [checked]="autoRefreshEnabled"
+    >Auto Refresh</mat-slide-toggle
+  >
+
+  <mat-form-field class="select" appearance="standard">
+    <mat-select (valueChange)="onChangeSelect($event)" [value]="selected">
+      <mat-option [value]="30000">30 Seconds</mat-option>
+      <mat-option [value]="60000">1 Minute</mat-option>
+      <mat-option [value]="300000">5 Minutes</mat-option>
+      <mat-option [value]="600000">10 Minutes</mat-option>
+      <mat-option [value]="1800000">30 Minutes</mat-option>
+      <mat-option [value]="3600000">1 Hour</mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
