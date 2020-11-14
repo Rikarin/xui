@@ -2,13 +2,18 @@ import { TestBed } from '@angular/core/testing';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { XuiTitleModule } from 'xui';
+import { XuiLayoutModule, XuiTitleModule } from 'xui';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [AppComponent],
-      imports: [BrowserModule, BrowserAnimationsModule, XuiTitleModule],
+      imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        XuiTitleModule,
+        XuiLayoutModule,
+      ],
     }).compileComponents();
   });
 
