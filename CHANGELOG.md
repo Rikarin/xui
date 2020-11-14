@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.1](https://github.com/Rikarin/xui/compare/v0.0.9...v1.0.1) (2020-11-14)
+
+### Bug Fixes
+
+- **title:** fix exports and optional service injection ([23c1682](https://github.com/Rikarin/xui/commit/23c1682bd42e9d9d33448220b29b67c265b30f5b))
+
 ## [1.0.0](https://github.com/Rikarin/xui/compare/v0.0.9...v1.0.0) (2020-11-13)
 
 ### [0.0.9](https://github.com/Rikarin/xui/compare/v0.0.8...v0.0.9) (2020-11-13)
