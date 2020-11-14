@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, Optional } from '@angular/core';
 import { XuiTitleService } from './title.service';
 // import { LocalStorage } from '../../local-storage';
 
@@ -18,7 +18,7 @@ export class XuiTitleComponent implements OnInit, OnDestroy {
   // @LocalStorage
   selected = null;
 
-  constructor(private titleService: XuiTitleService) {}
+  constructor(@Optional() private titleService: XuiTitleService) {}
 
   ngOnInit() {
     if (!this.selected) {
@@ -51,7 +51,7 @@ export class XuiTitleComponent implements OnInit, OnDestroy {
 
     if (this.autoRefreshEnabled && this.autoRefresh) {
       this._interval = setInterval(() => {
-        this.titleService.tick();
+        this.titleService?.tick();
       }, this.selected);
     }
   }
