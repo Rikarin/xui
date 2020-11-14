@@ -127,25 +127,6 @@ jobs:
       - store_artifacts:
           path: dist/cypress
 
-  deploy:
-    <<: *defaults
-    steps:
-      - checkout
-      - restore_cache:
-          <<: *deploy_cache
-      - run:
-          <<: *set_env
-      - restore_cache:
-          <<: *yarn_cache
-      - restore_cache:
-          key: build-{{ .Environment.CIRCLE_WORKFLOW_ID }}
-      - run: yarn affected --target deploy ${AFFECTED_ARGS}
-      - run: git rev-parse HEAD > dist/last-deploy.txt
-      - save_cache:
-          key: last-deploy-sha
-          paths:
-            - dist/last-deploy.txt
-
   publish:
     <<: *defaults
     steps:
@@ -156,15 +137,12 @@ jobs:
           <<: *set_env
       - restore_cache:
           <<: *yarn_cache
-      - run: yarn copy-readme
-      - run: yarn version
-      - run: yarn push-tags
       - run:
           name: Authenticate with npm registry
           command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/repo/.npmrc
       - run:
           name: Publish library to npm
-          command: npm publish ./dist/libs/xui2
+          command: npm publish ./dist/libs/xui
 
 workflows:
   version: 2
@@ -186,22 +164,13 @@ workflows:
       - e2e:
           requires:
             - install
-      - deploy:
-          filters:
-            branches:
-              only:
-                - master
-            tags:
-              only: /.*/
+      - publish:
           requires:
             - check-formatting
             - lint
             - test
             - build
             - e2e
-      - publish:
-          requires:
-            - deploy
           filters:
             tags:
               only: /^v.*/ # runs for no branches and only for tags starting with 'v'
