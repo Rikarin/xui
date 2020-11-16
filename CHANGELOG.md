@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0](https://github.com/Rikarin/xui/compare/v1.0.4...v1.1.0) (2020-11-16)
+
+### Features
+
+- **card:** add card implementation ([b7653bd](https://github.com/Rikarin/xui/commit/b7653bd9330f9ec01ea96b7891747effc00cef5f))
+- **layout:** add first implementation of layout ([4301526](https://github.com/Rikarin/xui/commit/4301526615b76c3c35b6a634cbf31064f815957a))
+- **layout:** add layout ([3f4be02](https://github.com/Rikarin/xui/commit/3f4be02ef44e7ff28a2c4f86f8d068483c49fa9f))
+
 ### [1.0.4](https://github.com/Rikarin/xui/compare/v1.0.3...v1.0.4) (2020-11-14)
 
 ### [1.0.3](https://github.com/Rikarin/xui/compare/v1.0.2...v1.0.3) (2020-11-14)
