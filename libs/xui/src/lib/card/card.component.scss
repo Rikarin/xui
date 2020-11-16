@@ -1,0 +1,23 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  padding: 30px 35px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 24px;
+}
+
+.content {
+  flex: 1 1 auto;
+  display: flex;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+}

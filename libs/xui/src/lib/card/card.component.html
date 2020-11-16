@@ -1,0 +1,19 @@
+<div class="header" *ngIf="title || extra">
+  <div *ngIf="title">
+    <ng-container [cdkPortalOutlet]="titlePortal"></ng-container>
+  </div>
+
+  <div *ngIf="extra">
+    <ng-container [cdkPortalOutlet]="extraPortal"></ng-container>
+  </div>
+</div>
+
+<div class="content">
+  <ng-content></ng-content>
+</div>
+
+<div class="actions" *ngIf="actions">
+  <ng-container [cdkPortalOutlet]="actionsPortal"></ng-container>
+</div>
+
+<ng-template #titleText>{{ title }}</ng-template>

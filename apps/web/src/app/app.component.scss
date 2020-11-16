@@ -17,14 +17,23 @@ xui-sider {
 
 xui-header {
   background: $color4;
+  padding-left: 32px;
+  font-weight: 700;
 }
 
 xui-content {
   background: $color2;
+  justify-content: center;
+  align-items: center;
 }
 
 xui-footer {
   color: $color2;
   background-color: $color5;
   justify-content: center;
+}
+
+xui-card {
+  width: 400px;
+  height: 400px;
 }

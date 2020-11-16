@@ -10,7 +10,7 @@
       },
       "root": "apps/web",
       "sourceRoot": "apps/web/src",
-      "prefix": "xui",
+      "prefix": "app",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
@@ -22,7 +22,10 @@
             "tsConfig": "apps/web/tsconfig.app.json",
             "aot": true,
             "assets": ["apps/web/src/favicon.ico", "apps/web/src/assets"],
-            "styles": ["apps/web/src/styles.scss"],
+            "styles": [
+              "apps/web/src/styles.scss",
+              "node_modules/highlight.js/styles/solarized-dark.css"
+            ],
             "scripts": []
           },
           "configurations": {

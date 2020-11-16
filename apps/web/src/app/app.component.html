@@ -1,11 +1,15 @@
 <xui-layout>
   <xui-sider width="200px">
-    Sider
+    <ul>
+      <li><a href="/">Overview</a></li>
+      <li><a href="/">Getting Started</a></li>
+      <li><a href="/card">Card</a></li>
+    </ul>
   </xui-sider>
   <xui-layout>
     <xui-header>Xui Documentation</xui-header>
     <xui-content>
-      <!-- <xui-title title="foobar" autoRefresh="true"></xui-title> -->
+      <router-outlet></router-outlet>
     </xui-content>
     <xui-footer>Rikarin 2020 - Xui Library docs</xui-footer>
   </xui-layout>
