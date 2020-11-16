@@ -1,5 +1,19 @@
 {
   "name": "xui",
+  "description": " Complex UI components for Angular 11",
+  "keywords": [
+    "ui",
+    "components",
+    "material",
+    "zorro",
+    "ng",
+    "ngx",
+    "angular",
+    "11",
+    "promise",
+    "asyc",
+    "observer"
+  ],
   "license": "MIT",
   "homepage": "https://xuijs.org/",
   "repository": {

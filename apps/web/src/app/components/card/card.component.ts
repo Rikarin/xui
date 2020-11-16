@@ -6,8 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./card.component.scss'],
 })
 export class CardComponent implements OnInit {
-  code = `
-<xui-card title="foobar" [extra]="extra" [actions]="actions">Just like this</xui-card>
+  code = `<xui-card title="foobar" [extra]="extra" [actions]="actions">Just like this</xui-card>
 
 <ng-template #extra>
   button here
