@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.1](https://github.com/Rikarin/xui/compare/v1.1.0...v1.1.1) (2020-11-16)
+
+### Bug Fixes
+
+- **netlify:** fix deployment to netlify ([b7436d8](https://github.com/Rikarin/xui/commit/b7436d89caaff9023ff2420cfed2a64379838e27))
+- **tests:** fix tests ([1e25165](https://github.com/Rikarin/xui/commit/1e25165451a89dc596e3ebf676a2de51bb8bcfaf))
+
 ## [1.1.0](https://github.com/Rikarin/xui/compare/v1.0.4...v1.1.0) (2020-11-16)
 
 ### Features
