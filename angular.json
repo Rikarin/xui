@@ -21,7 +21,11 @@
             "polyfills": "apps/web/src/polyfills.ts",
             "tsConfig": "apps/web/tsconfig.app.json",
             "aot": true,
-            "assets": ["apps/web/src/favicon.ico", "apps/web/src/assets"],
+            "assets": [
+              "apps/web/src/favicon.ico",
+              "apps/web/src/assets",
+              "apps/web/src/_redirects"
+            ],
             "styles": [
               "apps/web/src/styles.scss",
               "node_modules/highlight.js/styles/solarized-dark.css"
