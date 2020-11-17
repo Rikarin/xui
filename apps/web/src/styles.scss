@@ -16,11 +16,11 @@ body {
   padding: 0;
 }
 
-code {
-  // font-family: 'Roboto Mono';
-  // font-size: 14px;
-  // font-weight: 600;
+a {
+  text-decoration: none;
+}
 
+code {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   border-radius: 5px;
   padding: 20px !important;

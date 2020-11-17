@@ -24,7 +24,9 @@
             "assets": [
               "apps/web/src/favicon.ico",
               "apps/web/src/assets",
-              "apps/web/src/_redirects"
+              "apps/web/src/_redirects",
+              "apps/web/src/robots.txt",
+              "apps/web/src/sitemap.xml"
             ],
             "styles": ["apps/web/src/styles.scss"],
             "scripts": []
@@ -42,7 +44,7 @@
               "sourceMap": false,
               "namedChunks": false,
               "extractLicenses": true,
-              "vendorChunk": false,
+              "vendorChunk": true,
               "buildOptimizer": true,
               "budgets": [
                 {
