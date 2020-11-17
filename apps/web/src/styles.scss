@@ -1,9 +1,14 @@
 @import url('https://fonts.googleapis.com/css?family=Rubik&display=swap');
-@import url('https://fonts.googleapis.com/css?family=Inconsolata&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Roboto%20Mono&display=swap');
+@import './material-highlights.scss';
+
+html,
+pre {
+  font-family: 'Rubik';
+}
 
 * {
   box-sizing: border-box;
-  font-family: 'Rubik';
 }
 
 body {
@@ -12,9 +17,11 @@ body {
 }
 
 code {
-  font-family: 'Inconsolata';
-  font-weight: 600;
+  // font-family: 'Roboto Mono';
+  // font-size: 14px;
+  // font-weight: 600;
 
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   border-radius: 5px;
+  padding: 20px !important;
 }
