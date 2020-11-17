@@ -23,8 +23,9 @@ xui-header {
 
 xui-content {
   background: $color2;
-  justify-content: center;
-  align-items: center;
+  align-items: flex-start;
+  padding-top: 30px;
+  padding-left: 130px;
 }
 
 xui-footer {

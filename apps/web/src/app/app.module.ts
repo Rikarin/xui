@@ -8,6 +8,7 @@ import { XuiLayoutModule, XuiTitleModule, XuiCardModule } from 'xui';
 import { RouterModule } from '@angular/router';
 import { CardComponent } from './components/card/card.component';
 import { OverviewComponent } from './components/overview/overview.component';
+import { GettingStartedComponent } from './components/getting-started/getting-started.component';
 
 const routes = [
   {
@@ -15,11 +16,17 @@ const routes = [
     component: OverviewComponent,
     pathMatch: 'full',
   },
+  { path: 'getting-started', component: GettingStartedComponent },
   { path: 'card', component: CardComponent },
 ];
 
 @NgModule({
-  declarations: [AppComponent, OverviewComponent, CardComponent],
+  declarations: [
+    AppComponent,
+    OverviewComponent,
+    GettingStartedComponent,
+    CardComponent,
+  ],
   imports: [
     RouterModule.forRoot(routes),
     BrowserModule,
