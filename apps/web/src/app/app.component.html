@@ -5,10 +5,23 @@
       <span class="u">U</span>
       <span class="i">I</span>
     </div>
-    <ul>
+    <ul xui-menu>
       <li><a href="/">Overview</a></li>
       <li><a href="/getting-started">Getting Started</a></li>
-      <li><a href="/card">Card</a></li>
+
+      <li xui-sub-menu xTitle="Components">
+        <ul>
+          <li xui-menu-group xTitle="General">
+            <ul>
+              <li><a href="/card">Card</a></li>
+              <li>Layout</li>
+              <li>Menu</li>
+              <!-- <li><a href="/card">Layout</a></li>
+              <li><a href="/card">Menu</a></li> -->
+            </ul>
+          </li>
+        </ul>
+      </li>
     </ul>
   </xui-sider>
   <xui-layout>

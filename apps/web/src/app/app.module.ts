@@ -4,7 +4,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HighlightModule, HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
 
 import { AppComponent } from './app.component';
-import { XuiLayoutModule, XuiTitleModule, XuiCardModule } from 'xui';
+import {
+  XuiLayoutModule,
+  XuiTitleModule,
+  XuiCardModule,
+  XuiMenuModule,
+} from 'xui';
 import { RouterModule } from '@angular/router';
 import { CardComponent } from './components/card/card.component';
 import { OverviewComponent } from './components/overview/overview.component';
@@ -36,6 +41,7 @@ const routes = [
     XuiTitleModule,
     XuiLayoutModule,
     XuiCardModule,
+    XuiMenuModule,
   ],
   providers: [
     {
