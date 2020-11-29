@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.0](https://github.com/Rikarin/xui/compare/v1.2.0...v1.3.0) (2020-11-29)
+
+### Features
+
+- **banner:** add banner component ([9c0102c](https://github.com/Rikarin/xui/commit/9c0102c331c0fc88bb5d4bb9d30edc2592f3be9e))
+
 ## [1.2.0](https://github.com/Rikarin/xui/compare/v1.1.1...v1.2.0) (2020-11-29)
 
 ### Features
