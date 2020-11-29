@@ -21,6 +21,18 @@
     border: 1px dashed;
   }
 
+  .xui-button-stroked {
+    @include xui-btn();
+
+    @include xui-btn-color($theme, primary, white);
+    @include xui-btn-color($theme, primary-alt, white);
+    @include xui-btn-color($theme, secondary, white);
+    @include xui-btn-color($theme, destructive, white);
+    @include xui-btn-color($theme, neutral, white);
+
+    border: 1px solid;
+  }
+
   .xui-button-raised {
     @include xui-btn();
 
@@ -41,6 +53,29 @@
     @include xui-btn();
 
     // TODO
+  }
+
+  xui-button-group {
+    display: flex;
+
+    > .xui-button {
+      border-radius: 0;
+      margin-right: 0;
+    }
+
+    > .xui-button:first-child {
+      border-top-left-radius: 5px;
+      border-bottom-left-radius: 5px;
+    }
+
+    > .xui-button:last-child {
+      border-top-right-radius: 5px;
+      border-bottom-right-radius: 5px;
+    }
+
+    > .xui-button:not(:first-child) {
+      margin-left: -1px;
+    }
   }
 }
 

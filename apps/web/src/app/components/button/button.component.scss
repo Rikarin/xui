@@ -2,8 +2,12 @@
   flex-direction: column;
 }
 
-[xui-button] {
+div > [xui-button] {
   margin-right: 8px;
+  margin-bottom: 12px;
+}
+
+xui-button-group {
   margin-bottom: 12px;
 }
 

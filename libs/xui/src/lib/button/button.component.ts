@@ -19,7 +19,8 @@ import { InputBoolean } from '../util/convert';
   },
 })
 export class XuiButtonComponent implements OnInit {
-  @Input() xType: 'normal' | 'dashed' | 'raised' | 'fab' | 'icon' = 'normal';
+  @Input() xType: 'normal' | 'dashed' | 'stroked' | 'raised' | 'fab' | 'icon' =
+    'normal';
   @Input() xSize: 'sm' | 'md' | 'lg' = 'md';
   @Input() xColor:
     | 'primary'

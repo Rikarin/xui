@@ -4,11 +4,14 @@
 <pre>TODO: FAB and ICON button are not working yet.</pre>
 
 <xui-card title="Button Type">
-  <button xui-button xColor="primary" xType="normal">Normal</button>
-  <button xui-button xColor="primary" xType="raised">Raised</button>
-  <button xui-button xColor="primary" xType="dashed">Dashed</button>
-  <button xui-button xColor="primary" xType="fab">Fab</button>
-  <button xui-button xColor="primary" xType="icon">Icon</button>
+  <div>
+    <button xui-button xColor="primary" xType="normal">Normal</button>
+    <button xui-button xColor="primary" xType="raised">Raised</button>
+    <button xui-button xColor="primary" xType="dashed">Dashed</button>
+    <button xui-button xColor="primary" xType="stroked">Stroked</button>
+    <button xui-button xColor="primary" xType="fab">Fab</button>
+    <button xui-button xColor="primary" xType="icon">Icon</button>
+  </div>
 </xui-card>
 
 <xui-card title="Button Size" class="column">
@@ -109,4 +112,22 @@
     </button>
     <button xui-button xColor="minimal" xType="dashed">Minimal</button>
   </div>
+</xui-card>
+
+<xui-card title="Button Group" class="column">
+  <xui-button-group>
+    <button xui-button xColor="primary" xType="raised">First</button>
+    <button xui-button xColor="primary" xType="raised">Second</button>
+    <button xui-button xColor="primary" xType="raised">Third</button>
+  </xui-button-group>
+  <xui-button-group>
+    <button xui-button xColor="primary" xType="dashed">First</button>
+    <button xui-button xColor="primary" xType="dashed">Second</button>
+    <button xui-button xColor="primary" xType="dashed">Third</button>
+  </xui-button-group>
+  <xui-button-group>
+    <button xui-button xColor="primary" xType="stroked">First</button>
+    <button xui-button xColor="primary" xType="stroked">Second</button>
+    <button xui-button xColor="primary" xType="stroked">Third</button>
+  </xui-button-group>
 </xui-card>
