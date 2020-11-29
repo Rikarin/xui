@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.4.0](https://github.com/Rikarin/xui/compare/v1.3.0...v1.4.0) (2020-11-29)
+
+### Features
+
+- **button:** add stroked button and button group ([cfa1b8b](https://github.com/Rikarin/xui/commit/cfa1b8b12740a35b51c7b21b9ed937a18edb39b7))
+
+### Bug Fixes
+
+- **page:** fix page ([37b0f45](https://github.com/Rikarin/xui/commit/37b0f45a7bfe00d82581b90d8b44abecafe247ac))
+
 ## [1.3.0](https://github.com/Rikarin/xui/compare/v1.2.0...v1.3.0) (2020-11-29)
 
 ### Features
