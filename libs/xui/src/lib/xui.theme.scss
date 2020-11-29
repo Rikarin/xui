@@ -1,0 +1,5 @@
+@import 'button/button.theme.scss';
+
+@mixin xui-theme($theme) {
+  @include xui-button($theme);
+}

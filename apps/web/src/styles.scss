@@ -1,6 +1,20 @@
 @import url('https://fonts.googleapis.com/css?family=Rubik&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Roboto%20Mono&display=swap');
 @import './material-highlights.scss';
+@import '../../../libs/xui/src/lib/xui.theme.scss';
+
+// XUI configuration
+$theme: (
+  primary: #1c6e8c,
+  primary-alt: #274156,
+  secondary: #605856,
+  destructive: #b00020,
+  neutral: #d0ccd0,
+);
+
+@include xui-theme($theme);
+
+// End of XUI configuration
 
 html,
 pre {

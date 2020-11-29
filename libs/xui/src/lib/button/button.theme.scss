@@ -1,0 +1,150 @@
+@mixin xui-button($theme) {
+  .xui-button-normal {
+    @include xui-btn();
+
+    @include xui-btn-color($theme, primary, white);
+    @include xui-btn-color($theme, primary-alt, white);
+    @include xui-btn-color($theme, secondary, white);
+    @include xui-btn-color($theme, destructive, white);
+    @include xui-btn-color($theme, neutral, white);
+  }
+
+  .xui-button-dashed {
+    @include xui-btn();
+
+    @include xui-btn-color($theme, primary, white);
+    @include xui-btn-color($theme, primary-alt, white);
+    @include xui-btn-color($theme, secondary, white);
+    @include xui-btn-color($theme, destructive, white);
+    @include xui-btn-color($theme, neutral, white);
+
+    border: 1px dashed;
+  }
+
+  .xui-button-raised {
+    @include xui-btn();
+
+    @include xui-btn-bg-color($theme, primary, white);
+    @include xui-btn-bg-color($theme, primary-alt, white);
+    @include xui-btn-bg-color($theme, secondary, white);
+    @include xui-btn-bg-color($theme, destructive, white);
+    @include xui-btn-bg-color($theme, neutral, white);
+  }
+
+  .xui-button-fab {
+    @include xui-btn();
+
+    // TODO
+  }
+
+  .xui-button-icon {
+    @include xui-btn();
+
+    // TODO
+  }
+}
+
+@mixin xui-btn() {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border: none;
+  border-radius: 5px;
+
+  font-weight: 400;
+  touch-action: manipulation;
+  user-select: none;
+  cursor: pointer;
+
+  outline: none;
+  background: none;
+
+  &[disabled] {
+    cursor: not-allowed;
+  }
+}
+
+@mixin xui-btn-color($theme, $name, $background) {
+  &.xui-button-#{$name} {
+    $color: map-get($theme, $name);
+
+    color: $color;
+    background-color: $background;
+
+    &:focus {
+      color: mix(black, $color, 20%);
+    }
+
+    &:hover {
+      color: mix(black, $color, 10%);
+    }
+
+    &:active {
+      color: mix(black, $color, 20%);
+    }
+
+    &[disabled],
+    &[disabled]:focus,
+    &[disabled]:active,
+    &[disabled]:hover {
+      color: $color;
+      opacity: 0.35;
+    }
+  }
+}
+
+@mixin xui-btn-bg-color($theme, $name, $color) {
+  &.xui-button-#{$name} {
+    $background: map-get($theme, $name);
+
+    color: $color;
+    background-color: $background;
+
+    &:focus {
+      background-color: mix(black, $background, 20%);
+    }
+
+    &:hover {
+      background-color: mix(black, $background, 10%);
+    }
+
+    &:active {
+      background-color: mix(black, $background, 20%);
+    }
+
+    &[disabled],
+    &[disabled]:focus,
+    &[disabled]:active,
+    &[disabled]:hover {
+      background-color: $background;
+      opacity: 0.35;
+    }
+  }
+}
+
+// TODO: move this to type dependant style
+.xui-button-md {
+  padding: 0 20px;
+  min-width: 150px;
+  height: 38px;
+
+  font-size: 1.07143rem;
+  line-height: 15px;
+}
+
+.xui-button-sm {
+  font-size: 1rem;
+  height: 26px;
+  line-height: 14px;
+  min-width: auto;
+  padding: 3px 12px;
+}
+
+.xui-button-lg {
+  font-size: 1.21429rem;
+  height: 40px;
+  line-height: 17px;
+  min-width: 200px;
+  padding: 0 30px;
+}

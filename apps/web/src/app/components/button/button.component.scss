@@ -1,0 +1,12 @@
+.column ::ng-deep .xui-card-content {
+  flex-direction: column;
+}
+
+[xui-button] {
+  margin-right: 8px;
+  margin-bottom: 12px;
+}
+
+xui-card {
+  margin-bottom: 40px;
+}
