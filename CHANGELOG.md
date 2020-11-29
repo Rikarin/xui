@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0](https://github.com/Rikarin/xui/compare/v1.1.1...v1.2.0) (2020-11-29)
+
+### Features
+
+- **button:** add button ([377aa8a](https://github.com/Rikarin/xui/commit/377aa8a7eaafb48a8ec3da830d8cbdccdbb94e7d))
+- **menu:** add menu ([fd61d23](https://github.com/Rikarin/xui/commit/fd61d23a83e03cea34297a09b51c681f2a3b26f3))
+
+### Bug Fixes
+
+- fix ts lint ([d770e02](https://github.com/Rikarin/xui/commit/d770e022cee4df5bdff59b94bd37367257a2ab33))
+
 ### [1.1.1](https://github.com/Rikarin/xui/compare/v1.1.0...v1.1.1) (2020-11-16)
 
 ### Bug Fixes
