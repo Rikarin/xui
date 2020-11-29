@@ -46,7 +46,15 @@
   .xui-button-fab {
     @include xui-btn();
 
-    // TODO
+    @include xui-btn-bg-color($theme, primary, white);
+    @include xui-btn-bg-color($theme, primary-alt, white);
+    @include xui-btn-bg-color($theme, secondary, white);
+    @include xui-btn-bg-color($theme, destructive, white);
+    @include xui-btn-bg-color($theme, neutral, white);
+
+    // border-radius: 50%;
+    border-radius: 40px;
+    min-width: 38px;
   }
 
   .xui-button-icon {

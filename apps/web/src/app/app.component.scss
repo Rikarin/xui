@@ -48,11 +48,16 @@ xui-header {
 }
 
 xui-content {
+  min-height: 0;
+
   .content {
+    flex: 1 1 auto;
+    display: flex;
     background: $color2;
     align-items: flex-start;
     padding-top: 30px;
     padding-left: 130px;
+    overflow-y: auto;
   }
 }
 
