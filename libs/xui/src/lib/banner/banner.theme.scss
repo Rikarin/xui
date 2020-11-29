@@ -1,0 +1,112 @@
+@mixin xui-banner($theme) {
+  $colors: map-get($theme, colors);
+
+  xui-banner {
+    width: 100%;
+    flex: 0 1 auto;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+  }
+
+  .xui-banner-stamp {
+    border-radius: 4px;
+    font-size: 0.78571rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin: 0 10px;
+    padding: 5px 15px;
+  }
+
+  .xui-banner-dismissable {
+    cursor: pointer;
+    pointer-events: all;
+  }
+
+  .xui-banner-close {
+    margin-left: auto;
+    font-weight: 700;
+  }
+
+  .xui-banner-info {
+    $blue: map-get($colors, blue);
+
+    color: map-get($colors, offblack);
+    background-color: desaturate(lighten($blue, 40%), 50%);
+    border: 1px solid desaturate(lighten($blue, 30%), 50%);
+    border-left: none;
+    border-right: none;
+
+    .xui-banner-stamp {
+      color: white;
+      background-color: darken($blue, 10%);
+    }
+
+    &.xui-banner-dismissable {
+      &:hover {
+        background-color: desaturate(lighten(#008bcc, 35%), 50%);
+      }
+    }
+  }
+
+  .xui-banner-success {
+    $green: map-get($colors, green);
+
+    color: white;
+    background-color: $green;
+
+    .xui-banner-stamp {
+      color: $green;
+      background-color: white;
+    }
+
+    &.xui-banner-dismissable {
+      &:hover {
+        background-color: darken($green, 5%);
+      }
+    }
+  }
+
+  .xui-banner-warning {
+    $orange: map-get($colors, orange);
+
+    color: white;
+    background-color: $orange;
+
+    .xui-banner-stamp {
+      color: $orange;
+      background-color: white;
+    }
+
+    &.xui-banner-dismissable {
+      &:hover {
+        background-color: darken($orange, 5%);
+      }
+    }
+  }
+
+  .xui-banner-alert {
+    $red: map-get($colors, red);
+
+    color: white;
+    background-color: $red;
+
+    .xui-banner-stamp {
+      color: $red;
+      background-color: white;
+    }
+
+    &.xui-banner-dismissable {
+      &:hover {
+        background-color: darken($red, 5%);
+      }
+    }
+  }
+}
+
+// @mixin _banner-stamp($theme, $type) {
+//   .xui-banner-#{$type} {
+//     color: white;
+//     background-color: map-get($theme, $type);
+//   }
+// }

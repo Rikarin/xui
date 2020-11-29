@@ -3,21 +3,22 @@ xui-card {
   flex-direction: column;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   border-radius: 5px;
-  padding: 30px 35px;
 }
 
 .xui-card-header {
   display: flex;
   justify-content: space-between;
-  padding-bottom: 24px;
+  padding: 30px 35px 24px 35px;
 }
 
 .xui-card-content {
   flex: 1 1 auto;
   display: flex;
+  padding: 0 35px;
 }
 
 .xui-card-actions {
   display: flex;
   justify-content: flex-end;
+  padding-bottom: 30px;
 }
