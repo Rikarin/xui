@@ -6,6 +6,7 @@ import {
   TemplateRef,
   ViewChild,
   ViewContainerRef,
+  ViewEncapsulation,
 } from '@angular/core';
 import { inNextTick } from '../utils';
 
@@ -14,6 +15,7 @@ import { inNextTick } from '../utils';
   exportAs: 'xuiCard',
   templateUrl: './card.component.html',
   styleUrls: ['./card.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class XuiCardComponent implements AfterViewInit {
   titlePortal: Portal<any>;

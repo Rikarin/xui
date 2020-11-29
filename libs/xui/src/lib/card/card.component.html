@@ -1,4 +1,4 @@
-<div class="header" *ngIf="title || extra">
+<div class="xui-card-header" *ngIf="title || extra">
   <div *ngIf="title">
     <ng-container [cdkPortalOutlet]="titlePortal"></ng-container>
   </div>
@@ -8,11 +8,11 @@
   </div>
 </div>
 
-<div class="content">
+<div class="xui-card-content">
   <ng-content></ng-content>
 </div>
 
-<div class="actions" *ngIf="actions">
+<div class="xui-card-actions" *ngIf="actions">
   <ng-container [cdkPortalOutlet]="actionsPortal"></ng-container>
 </div>
 

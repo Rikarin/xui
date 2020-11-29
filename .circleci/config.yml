@@ -88,6 +88,7 @@ jobs:
       - restore_cache:
           <<: *yarn_cache
       - run: yarn affected:build ${AFFECTED_ARGS} --parallel --configuration production
+      - run: yarn pack-scss
       - save_cache:
           key: build-{{ .Environment.CIRCLE_WORKFLOW_ID }}
           paths:
