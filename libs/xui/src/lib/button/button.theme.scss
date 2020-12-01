@@ -120,11 +120,11 @@
     }
 
     &:hover {
-      color: mix(black, $color, 10%);
+      color: mix(black, $color, 20%);
     }
 
     &:active {
-      color: mix(black, $color, 20%);
+      color: mix(black, $color, 40%);
     }
 
     &[disabled],

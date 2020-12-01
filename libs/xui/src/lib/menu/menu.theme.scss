@@ -1,0 +1,5 @@
+@mixin xui-menu($theme) {
+  [xui-menu] {
+    overflow-y: auto;
+  }
+}
