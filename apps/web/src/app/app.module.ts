@@ -18,6 +18,8 @@ import { OverviewComponent } from './components/overview/overview.component';
 import { GettingStartedComponent } from './components/getting-started/getting-started.component';
 import { ButtonComponent } from './components/button/button.component';
 import { BannerComponent } from './components/banner/banner.component';
+import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.component';
+import { LayoutComponent } from './components/layout/layout.component';
 
 const routes = [
   {
@@ -29,6 +31,8 @@ const routes = [
   { path: 'card', component: CardComponent },
   { path: 'button', component: ButtonComponent },
   { path: 'banner', component: BannerComponent },
+  { path: 'breadcrumb', component: BreadcrumbComponent },
+  { path: 'layout', component: LayoutComponent },
 ];
 
 @NgModule({
@@ -39,6 +43,8 @@ const routes = [
     CardComponent,
     ButtonComponent,
     BannerComponent,
+    BreadcrumbComponent,
+    LayoutComponent,
   ],
   imports: [
     RouterModule.forRoot(routes),
