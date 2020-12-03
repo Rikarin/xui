@@ -87,8 +87,8 @@
   }
 
   .xui-button-state--nonidle {
-    cursor: not-allowed;
-    pointer-events: none;
+    cursor: not-allowed !important;
+    pointer-events: none !important;
     color: white !important;
   }
 

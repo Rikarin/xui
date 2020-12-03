@@ -1,4 +1,5 @@
 import { Component, Input, ViewEncapsulation } from '@angular/core';
+import { WithConfig } from '../config/config.service';
 import { InputBoolean } from '../util/convert';
 import { delay } from '../util/delay';
 
@@ -37,23 +38,22 @@ export class XuiButtonComponent {
   // Type > color & size
 
   @Input() @InputBoolean() disabled = false;
-  @Input() async: () => Promise<boolean>;
-
-  // TODO: input config for how long show success/failed state; default 5 sec
+  @Input() xAsync: () => Promise<boolean>;
+  @Input() @WithConfig() xStateDelay = 5000;
 
   private getStyle() {
     return `xui-button xui-button-${this.xSize} xui-button-${this.xType} xui-button-${this.xColor}`;
   }
 
   async _onAsync() {
-    if (!this.async) {
+    if (!this.xAsync) {
       return;
     }
 
     this.state = 1;
 
     try {
-      this.state = (await this.async()) ? 2 : 3;
+      this.state = (await this.xAsync()) ? 2 : 3;
     } catch {
       this.state = 2;
     }
