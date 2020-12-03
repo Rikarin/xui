@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
-// FIXME: export delay from xui
-import { delay } from 'libs/xui/src/lib/util/delay';
+import { delay } from 'xui';
 
 @Component({
   selector: 'app-button',
@@ -16,6 +14,5 @@ export class ButtonComponent implements OnInit {
   work = async () => {
     await delay(2000);
     return Math.random() > 0.5;
-    // wait for 2 secs, then randomly return true/false
   };
 }

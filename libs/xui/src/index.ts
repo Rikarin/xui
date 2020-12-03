@@ -1,3 +1,5 @@
+export * from './lib/util/convert';
+export * from './lib/util/delay';
 export * from './lib/utils';
 export * from './lib/title';
 export * from './lib/layout';

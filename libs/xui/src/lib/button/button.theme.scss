@@ -86,12 +86,26 @@
     }
   }
 
-  .xui-button-state--succeed {
+  .xui-button-state--nonidle {
+    cursor: not-allowed;
+    pointer-events: none;
+    color: white !important;
+  }
+
+  .xui-button-state--loading {
+    @extend .xui-button-state--nonidle;
+    $colors: map-get($theme, colors);
+    background-color: map-get($colors, blue) !important;
+  }
+
+  .xui-button-state--succeeded {
+    @extend .xui-button-state--nonidle;
     $colors: map-get($theme, colors);
     background-color: map-get($colors, green) !important;
   }
 
   .xui-button-state--failed {
+    @extend .xui-button-state--nonidle;
     $colors: map-get($theme, colors);
     background-color: map-get($colors, red) !important;
   }
@@ -110,6 +124,7 @@
   user-select: none;
   cursor: pointer;
 
+  transition: 0.3s;
   outline: none;
   background: none;
 
