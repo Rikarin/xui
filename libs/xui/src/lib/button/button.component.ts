@@ -8,10 +8,8 @@ import { delay } from '../util/delay';
   exportAs: 'xuiButton',
   encapsulation: ViewEncapsulation.None,
   // changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `<div *ngIf="state === 1">Loading...</div>
-    <div *ngIf="state === 2">Succeeded</div>
-    <div *ngIf="state === 3">Failed</div>
-    <ng-content *ngIf="state === 0"></ng-content> `,
+  template: `<ng-content></ng-content>
+    <div class="xui-button-state-image"></div>`,
   host: {
     '[class]': 'getStyle()',
     '[class.xui-button-state--loading]': 'state == 1',

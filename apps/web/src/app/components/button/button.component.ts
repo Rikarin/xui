@@ -13,6 +13,6 @@ export class ButtonComponent implements OnInit {
 
   work = async () => {
     await delay(2000);
-    return Math.random() > 0.5;
+    return Math.random() >= 0.5;
   };
 }
