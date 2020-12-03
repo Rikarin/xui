@@ -85,6 +85,16 @@
       margin-left: -1px;
     }
   }
+
+  .xui-button-state--succeed {
+    $colors: map-get($theme, colors);
+    background-color: map-get($colors, green) !important;
+  }
+
+  .xui-button-state--failed {
+    $colors: map-get($theme, colors);
+    background-color: map-get($colors, red) !important;
+  }
 }
 
 @mixin xui-btn() {
@@ -103,6 +113,9 @@
   outline: none;
   background: none;
 
+  padding: 0 1em;
+  line-height: 1em;
+
   &[disabled] {
     cursor: not-allowed;
   }
@@ -116,15 +129,17 @@
     background-color: $background;
 
     &:focus {
-      color: mix(black, $color, 20%);
+      color: darken($color, 20%);
     }
 
     &:hover {
-      color: mix(black, $color, 20%);
+      background-color: darken($color, 5%);
+      color: $background;
     }
 
     &:active {
-      color: mix(black, $color, 40%);
+      background-color: darken($color, 10%);
+      color: $background;
     }
 
     &[disabled],
@@ -145,15 +160,15 @@
     background-color: $background;
 
     &:focus {
-      background-color: mix(black, $background, 20%);
+      background-color: darken($background, 10%);
     }
 
     &:hover {
-      background-color: mix(black, $background, 10%);
+      background-color: darken($background, 5%);
     }
 
     &:active {
-      background-color: mix(black, $background, 20%);
+      background-color: darken($background, 10%);
     }
 
     &[disabled],
@@ -168,26 +183,19 @@
 
 // TODO: move this to type dependant style
 .xui-button-md {
-  padding: 0 20px;
   min-width: 150px;
   height: 38px;
-
-  font-size: 1.07143rem;
-  line-height: 15px;
+  font-size: 1rem;
 }
 
 .xui-button-sm {
-  font-size: 1rem;
+  font-size: 0.8rem;
   height: 26px;
-  line-height: 14px;
   min-width: auto;
-  padding: 3px 12px;
 }
 
 .xui-button-lg {
   font-size: 1.21429rem;
   height: 40px;
-  line-height: 17px;
   min-width: 200px;
-  padding: 0 30px;
 }

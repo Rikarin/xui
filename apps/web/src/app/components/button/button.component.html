@@ -5,11 +5,19 @@
 
 <xui-card title="Button Type">
   <div>
-    <button xui-button xColor="primary" xType="normal">Normal</button>
-    <button xui-button xColor="primary" xType="raised">Raised</button>
-    <button xui-button xColor="primary" xType="dashed">Dashed</button>
-    <button xui-button xColor="primary" xType="stroked">Stroked</button>
-    <button xui-button xColor="primary" xType="fab">Fab</button>
+    <button xui-button xColor="primary" xType="normal" [async]="work">
+      Normal
+    </button>
+    <button xui-button xColor="primary" xType="raised" [async]="work">
+      Raised
+    </button>
+    <button xui-button xColor="primary" xType="dashed" [async]="work">
+      Dashed
+    </button>
+    <button xui-button xColor="primary" xType="stroked" [async]="work">
+      Stroked
+    </button>
+    <button xui-button xColor="primary" xType="fab" [async]="work">Fab</button>
     <button xui-button xColor="primary" xType="icon">Icon</button>
   </div>
 </xui-card>
