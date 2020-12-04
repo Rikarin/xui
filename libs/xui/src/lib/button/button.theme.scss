@@ -96,6 +96,7 @@
       height: 1rem;
       background: center no-repeat;
       margin-left: 0.25em;
+      margin-bottom: 2px;
     }
   }
 
@@ -139,7 +140,9 @@
   border: none;
   border-radius: 4px;
 
+  font-family: 'Rubik';
   font-weight: 400;
+  font-style: normal;
   touch-action: manipulation;
   user-select: none;
   cursor: pointer;
