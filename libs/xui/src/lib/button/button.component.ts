@@ -36,7 +36,7 @@ export class XuiButtonComponent {
   // Type > color & size
 
   @Input() @InputBoolean() disabled = false;
-  @Input() xAsync: () => Promise<boolean>;
+  @Input() xClick: () => Promise<boolean>;
   @Input() @WithConfig() xStateDelay = 5000;
 
   private getStyle() {
@@ -44,14 +44,14 @@ export class XuiButtonComponent {
   }
 
   async _onAsync() {
-    if (!this.xAsync) {
+    if (!this.xClick) {
       return;
     }
 
     this.state = 1;
 
     try {
-      this.state = (await this.xAsync()) ? 2 : 3;
+      this.state = (await this.xClick()) ? 2 : 3;
     } catch {
       this.state = 2;
     }
