@@ -137,7 +137,7 @@
   justify-content: center;
 
   border: none;
-  border-radius: 5px;
+  border-radius: 4px;
 
   font-weight: 400;
   touch-action: manipulation;
@@ -150,6 +150,8 @@
 
   padding: 0 1em;
   line-height: 1em;
+  min-width: 4.57em;
+  height: 2.57em;
 
   &[disabled] {
     cursor: not-allowed;
@@ -218,21 +220,15 @@
 
 // TODO: move this to type dependant style
 .xui-button-md {
-  min-width: 150px;
-  height: 38px;
-  font-size: 1rem;
+  font-size: 14px;
 }
 
 .xui-button-sm {
-  font-size: 0.8rem;
-  height: 26px;
-  min-width: auto;
+  font-size: 12px;
 }
 
 .xui-button-lg {
-  font-size: 1.21429rem;
-  height: 40px;
-  min-width: 200px;
+  font-size: 16px;
 }
 
 @keyframes spin {
