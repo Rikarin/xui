@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.5.0](https://github.com/Rikarin/xui/compare/v1.4.0...v1.5.0) (2020-12-04)
+
+### Features
+
+- **button:** add async ([875e277](https://github.com/Rikarin/xui/commit/875e277a8e7f3009fd5c979482e6fc74d4bb1fbe))
+- **button:** add async support ([56cf9fe](https://github.com/Rikarin/xui/commit/56cf9fe26dd1aa0eb65481ec59d37293347eafa5))
+- **button:** show async click result correctly ([0fa7eb6](https://github.com/Rikarin/xui/commit/0fa7eb60905167721114526364c9bb95bdc77c13))
+- **button:** styles ([c2eaf75](https://github.com/Rikarin/xui/commit/c2eaf757414baba6d1e2d676cc6dbddcf886744a))
+- **config:** let button be globaly configurable ([1962938](https://github.com/Rikarin/xui/commit/1962938d842ba3d63b7e025c421e2ffee2d486d1))
+- **scrollbar:** add custon scrollbar ([f138533](https://github.com/Rikarin/xui/commit/f138533b328706bc1e2d42c13fa648083aecfaf8))
+
+### Bug Fixes
+
+- **button:** fix style and api ([b6ad1e6](https://github.com/Rikarin/xui/commit/b6ad1e68e543e30a57cdddd5c1d81d8412d36fa4))
+- **button:** fix styles ([78523a4](https://github.com/Rikarin/xui/commit/78523a4f1d5e374ec187f9b71430aa4d20abd6ed))
+- **button:** improve button style ([c6af699](https://github.com/Rikarin/xui/commit/c6af699398b52bd1749f8d789a7c3cdb7e9e5d05))
+
 ## [1.4.0](https://github.com/Rikarin/xui/compare/v1.3.0...v1.4.0) (2020-11-29)
 
 ### Features
