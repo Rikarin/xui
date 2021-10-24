@@ -96,7 +96,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": []
     },
     "web-e2e": {
       "root": "apps/web-e2e",
@@ -123,7 +124,9 @@
             "exclude": ["**/node_modules/**", "!apps/web-e2e/**/*"]
           }
         }
-      }
+      },
+      "tags": [],
+      "implicitDependencies": ["web"]
     },
     "xui": {
       "projectType": "library",
@@ -165,12 +168,9 @@
         "@schematics/angular:component": {
           "style": "scss"
         }
-      }
+      },
+      "tags": []
     }
-  },
-  "cli": {
-    "defaultCollection": "@nrwl/angular",
-    "analytics": "6fac8635-b0e3-461d-9198-16c7929fcf1d"
   },
   "schematics": {
     "@nrwl/workspace": {
@@ -214,6 +214,5 @@
     "@nrwl/angular:library": {
       "unitTestRunner": "jest"
     }
-  },
-  "defaultProject": "web"
+  }
 }
