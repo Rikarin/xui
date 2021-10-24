@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.6.0](https://github.com/Rikarin/xui/compare/v1.5.0...v1.6.0) (2021-10-24)
+
+### Features
+
+- **angular:** update to angular 12 ([deb20d2](https://github.com/Rikarin/xui/commit/deb20d232b044159465a2432912399fe0553c187))
+- **husky:** update husky ([776bfd7](https://github.com/Rikarin/xui/commit/776bfd77932768daa5803cdb48feeff9c148ccb3))
+
 ## [1.5.0](https://github.com/Rikarin/xui/compare/v1.4.0...v1.5.0) (2020-12-04)
 
 ### Features
