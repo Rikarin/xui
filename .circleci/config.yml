@@ -4,7 +4,7 @@ aliases:
   - &defaults
     working_directory: ~/repo
     docker:
-      - image: circleci/node:12-browsers
+      - image: circleci/node:14-browsers
   - &set_env
     name: Setup Environment Variables
     command: |
@@ -27,9 +27,9 @@ aliases:
       echo $AFFECTED_ARGS
   - &yarn_cache
     keys:
-      - node-deps-node12-{{ checksum "yarn.lock" }}
+      - node-deps-node14-{{ checksum "yarn.lock" }}
       # fallback to using the latest cache if no exact match is found
-      - node-deps-node12-
+      - node-deps-node14-
   - &yarn_install
     name: Install Dependencies
     command: yarn install --frozen-lockfile --non-interactive
@@ -48,7 +48,7 @@ jobs:
       - run:
           <<: *yarn_install
       - save_cache:
-          key: node-deps-node12-{{ checksum "yarn.lock" }}
+          key: node-deps-node14-{{ checksum "yarn.lock" }}
           paths:
             - ~/.cache
             - node_modules
