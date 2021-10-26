@@ -20,6 +20,11 @@ import { ButtonComponent } from './components/button/button.component';
 import { BannerComponent } from './components/banner/banner.component';
 import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.component';
 import { LayoutComponent } from './components/layout/layout.component';
+import {
+  NgxGoogleAnalyticsModule,
+  NgxGoogleAnalyticsRouterModule,
+} from 'ngx-google-analytics';
+import { environment } from '../environments/environment';
 
 const routes = [
   {
@@ -51,6 +56,9 @@ const routes = [
     BrowserModule,
     BrowserAnimationsModule,
     HighlightModule,
+
+    NgxGoogleAnalyticsModule.forRoot(environment.ga),
+    NgxGoogleAnalyticsRouterModule,
 
     XuiTitleModule,
     XuiLayoutModule,

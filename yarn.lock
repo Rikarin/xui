@@ -8571,6 +8571,13 @@ ng-packagr@^12.2.4:
   optionalDependencies:
     esbuild "^0.12.15"
 
+ngx-google-analytics@^11.2.1:
+  version "11.2.1"
+  resolved "https://registry.yarnpkg.com/ngx-google-analytics/-/ngx-google-analytics-11.2.1.tgz#e383a971ff6237c0b9703e5691993310b157e91a"
+  integrity sha512-4rLjlQn3kikQeeeqg7rVMeUOVMsHjFdbFDVHtlLywnTO4z/XaThSsDfLSMMS7x+47L2+PA7fUxmzplniIV+MQw==
+  dependencies:
+    tslib "^2.0.0"
+
 ngx-highlightjs@^5.0.0:
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/ngx-highlightjs/-/ngx-highlightjs-5.0.0.tgz#3d70b7dd4e50dcd56fc679b3e22ad6c77318d52e"
