@@ -25,6 +25,7 @@ import {
   NgxGoogleAnalyticsRouterModule,
 } from 'ngx-google-analytics';
 import { environment } from '../environments/environment';
+import { SelectComponent } from './components/select/select.component';
 
 const routes = [
   {
@@ -38,6 +39,7 @@ const routes = [
   { path: 'banner', component: BannerComponent },
   { path: 'breadcrumb', component: BreadcrumbComponent },
   { path: 'layout', component: LayoutComponent },
+  { path: 'select', component: SelectComponent },
 ];
 
 @NgModule({
@@ -50,6 +52,7 @@ const routes = [
     BannerComponent,
     BreadcrumbComponent,
     LayoutComponent,
+    SelectComponent,
   ],
   imports: [
     RouterModule.forRoot(routes),

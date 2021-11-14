@@ -1,15 +1,17 @@
 {
   "name": "xui",
-  "description": " Complex UI components for Angular 11",
+  "description": " Complex UI components for Angular 12",
   "keywords": [
     "ui",
+    "gui",
+    "lib",
     "components",
     "material",
     "zorro",
     "ng",
     "ngx",
     "angular",
-    "11",
+    "12",
     "promise",
     "asyc",
     "observer"
