@@ -1,3 +1,5 @@
+import getJestProjects from '@nrwl/jest';
+
 module.exports = {
-  projects: ['<rootDir>/apps/web', '<rootDir>/libs/xui'],
+  projects: getJestProjects()
 };

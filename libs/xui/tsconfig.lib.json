@@ -2,7 +2,8 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "../../dist/out-tsc",
-    "target": "es2015",
+    "module": "esnext",
+    "target": "es2020",
     "declaration": true,
     "declarationMap": true,
     "inlineSources": true,
