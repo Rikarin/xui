@@ -15,6 +15,6 @@ export class XuiTitleService {
   }
 
   tick() {
-    this._callbacks.forEach((x) => x());
+    this._callbacks.forEach(x => x());
   }
 }

@@ -7,6 +7,6 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 @NgModule({
   imports: [CommonModule, MatSelectModule, MatSlideToggleModule],
   declarations: [XuiTitleComponent],
-  exports: [XuiTitleComponent],
+  exports: [XuiTitleComponent]
 })
 export class XuiTitleModule {}

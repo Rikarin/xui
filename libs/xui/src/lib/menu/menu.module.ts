@@ -7,17 +7,7 @@ import { XuiMenuItemComponent } from './menu-item/menu-item.component';
 
 @NgModule({
   imports: [CommonModule],
-  declarations: [
-    XuiMenuComponent,
-    XuiSubMenuComponent,
-    XuiMenuGroupComponent,
-    XuiMenuItemComponent,
-  ],
-  exports: [
-    XuiMenuComponent,
-    XuiSubMenuComponent,
-    XuiMenuGroupComponent,
-    XuiMenuItemComponent,
-  ],
+  declarations: [XuiMenuComponent, XuiSubMenuComponent, XuiMenuGroupComponent, XuiMenuItemComponent],
+  exports: [XuiMenuComponent, XuiSubMenuComponent, XuiMenuGroupComponent, XuiMenuItemComponent]
 })
 export class XuiMenuModule {}

@@ -8,19 +8,7 @@ import { XuiFooterComponent } from './footer.component';
 
 @NgModule({
   imports: [CommonModule],
-  declarations: [
-    XuiLayoutComponent,
-    XuiHeaderComponent,
-    XuiSiderComponent,
-    XuiContentComponent,
-    XuiFooterComponent,
-  ],
-  exports: [
-    XuiLayoutComponent,
-    XuiHeaderComponent,
-    XuiSiderComponent,
-    XuiContentComponent,
-    XuiFooterComponent,
-  ],
+  declarations: [XuiLayoutComponent, XuiHeaderComponent, XuiSiderComponent, XuiContentComponent, XuiFooterComponent],
+  exports: [XuiLayoutComponent, XuiHeaderComponent, XuiSiderComponent, XuiContentComponent, XuiFooterComponent]
 })
 export class XuiLayoutModule {}

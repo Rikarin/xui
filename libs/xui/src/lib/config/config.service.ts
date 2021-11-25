@@ -10,7 +10,7 @@ const isDefined = function (value?: any): boolean {
 };
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class NzConfigService {
   private configUpdated$ = new Subject<XuiConfigKey>();
@@ -20,17 +20,13 @@ export class NzConfigService {
     this.config = defaultConfig || {};
   }
 
-  getConfigForComponent<T extends XuiConfigKey>(
-    componentName: T
-  ): XuiConfig[T] {
+  getConfigForComponent<T extends XuiConfigKey>(componentName: T): XuiConfig[T] {
     return this.config[componentName];
   }
 
-  getConfigChangeEventForComponent(
-    componentName: XuiConfigKey
-  ): Observable<void> {
+  getConfigChangeEventForComponent(componentName: XuiConfigKey): Observable<void> {
     return this.configUpdated$.pipe(
-      filter((n) => n === componentName),
+      filter(n => n === componentName),
       mapTo(undefined)
     );
   }
@@ -42,33 +38,25 @@ export class NzConfigService {
 }
 
 export function WithConfig<T>() {
-  return function ConfigDecorator(
-    target: any,
-    propName: any,
-    originalDescriptor?: TypedPropertyDescriptor<T>
-  ): any {
+  return function ConfigDecorator(target: any, propName: any, originalDescriptor?: TypedPropertyDescriptor<T>): any {
     const privatePropName = `$$__assignedValue__${propName}`;
 
     Object.defineProperty(target, privatePropName, {
       configurable: true,
       writable: true,
-      enumerable: false,
+      enumerable: false
     });
 
     return {
       get(): T | undefined {
-        const originalValue = originalDescriptor?.get
-          ? originalDescriptor.get.bind(this)()
-          : this[privatePropName];
-        const assignedByUser =
-          ((this.assignmentCount || {})[propName] || 0) > 1;
+        const originalValue = originalDescriptor?.get ? originalDescriptor.get.bind(this)() : this[privatePropName];
+        const assignedByUser = ((this.assignmentCount || {})[propName] || 0) > 1;
 
         if (assignedByUser && isDefined(originalValue)) {
           return originalValue;
         }
 
-        const componentConfig =
-          this.nzConfigService.getConfigForComponent(this._nzModuleName) || {};
+        const componentConfig = this.nzConfigService.getConfigForComponent(this._nzModuleName) || {};
         const configValue = componentConfig[propName];
         const ret = isDefined(configValue) ? configValue : originalValue;
 
@@ -77,8 +65,7 @@ export function WithConfig<T>() {
       set(value?: T): void {
         // If the value is assigned, we consider the newly assigned value as 'assigned by user'.
         this.assignmentCount = this.assignmentCount || {};
-        this.assignmentCount[propName] =
-          (this.assignmentCount[propName] || 0) + 1;
+        this.assignmentCount[propName] = (this.assignmentCount[propName] || 0) + 1;
 
         if (originalDescriptor?.set) {
           originalDescriptor.set.bind(this)(value);
@@ -87,7 +74,7 @@ export function WithConfig<T>() {
         }
       },
       configurable: true,
-      enumerable: true,
+      enumerable: true
     };
   };
 }

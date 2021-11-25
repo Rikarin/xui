@@ -6,6 +6,6 @@ import { XuiButtonGroupComponent } from './button-group.component';
 @NgModule({
   imports: [CommonModule],
   declarations: [XuiButtonComponent, XuiButtonGroupComponent],
-  exports: [XuiButtonComponent, XuiButtonGroupComponent],
+  exports: [XuiButtonComponent, XuiButtonGroupComponent]
 })
 export class XuiButtonModule {}

@@ -1,10 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnChanges,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit } from '@angular/core';
 import { parseCss } from '../utils';
 
 @Component({
@@ -14,8 +8,8 @@ import { parseCss } from '../utils';
   template: '<ng-content></ng-content>',
   styleUrls: ['./sider.component.scss'],
   host: {
-    '[style.width]': '_width',
-  },
+    '[style.width]': '_width'
+  }
 })
 export class XuiSiderComponent implements OnInit, OnChanges {
   private _width: string;

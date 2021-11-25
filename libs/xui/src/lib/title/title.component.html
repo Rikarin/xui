@@ -1,8 +1,6 @@
 <h1 class="title">{{ title }}</h1>
 <div class="refresh" *ngIf="autoRefresh">
-  <mat-slide-toggle
-    (change)="onChangeAutorefresh($event)"
-    [checked]="autoRefreshEnabled"
+  <mat-slide-toggle (change)="onChangeAutorefresh($event)" [checked]="autoRefreshEnabled"
     >Auto Refresh</mat-slide-toggle
   >
 

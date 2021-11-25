@@ -1,7 +1,4 @@
 {
-  "cli": {
-    "analytics": false
-  },
   "version": 1,
   "projects": {
     "web": {
@@ -31,7 +28,9 @@
               "apps/web/src/robots.txt",
               "apps/web/src/sitemap.xml"
             ],
-            "styles": ["apps/web/src/styles.scss"],
+            "styles": [
+              "apps/web/src/styles.scss"
+            ],
             "scripts": []
           },
           "configurations": {
@@ -89,7 +88,10 @@
               "apps/web/tsconfig.spec.json",
               "apps/web/tsconfig.editor.json"
             ],
-            "exclude": ["**/node_modules/**", "!apps/web/**/*"]
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/web/**/*"
+            ]
           }
         },
         "test": {
@@ -123,13 +125,20 @@
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": ["apps/web-e2e/tsconfig.e2e.json"],
-            "exclude": ["**/node_modules/**", "!apps/web-e2e/**/*"]
+            "tsConfig": [
+              "apps/web-e2e/tsconfig.e2e.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/web-e2e/**/*"
+            ]
           }
         }
       },
       "tags": [],
-      "implicitDependencies": ["web"]
+      "implicitDependencies": [
+        "web"
+      ]
     },
     "xui": {
       "projectType": "library",
@@ -156,7 +165,10 @@
               "libs/xui/tsconfig.lib.json",
               "libs/xui/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/xui/**/*"]
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/xui/**/*"
+            ]
           }
         },
         "test": {

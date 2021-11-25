@@ -4,14 +4,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HighlightModule, HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
 
 import { AppComponent } from './app.component';
-import {
-  XuiLayoutModule,
-  XuiTitleModule,
-  XuiCardModule,
-  XuiMenuModule,
-  XuiButtonModule,
-  XuiBannerModule,
-} from 'xui';
+import { XuiLayoutModule, XuiTitleModule, XuiCardModule, XuiMenuModule, XuiButtonModule, XuiBannerModule } from 'xui';
 import { RouterModule } from '@angular/router';
 import { CardComponent } from './components/card/card.component';
 import { OverviewComponent } from './components/overview/overview.component';
@@ -20,10 +13,7 @@ import { ButtonComponent } from './components/button/button.component';
 import { BannerComponent } from './components/banner/banner.component';
 import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.component';
 import { LayoutComponent } from './components/layout/layout.component';
-import {
-  NgxGoogleAnalyticsModule,
-  NgxGoogleAnalyticsRouterModule,
-} from 'ngx-google-analytics';
+import { NgxGoogleAnalyticsModule, NgxGoogleAnalyticsRouterModule } from 'ngx-google-analytics';
 import { environment } from '../environments/environment';
 import { SelectComponent } from './components/select/select.component';
 
@@ -31,7 +21,7 @@ const routes = [
   {
     path: '',
     component: OverviewComponent,
-    pathMatch: 'full',
+    pathMatch: 'full'
   },
   { path: 'getting-started', component: GettingStartedComponent },
   { path: 'card', component: CardComponent },
@@ -39,7 +29,7 @@ const routes = [
   { path: 'banner', component: BannerComponent },
   { path: 'breadcrumb', component: BreadcrumbComponent },
   { path: 'layout', component: LayoutComponent },
-  { path: 'select', component: SelectComponent },
+  { path: 'select', component: SelectComponent }
 ];
 
 @NgModule({
@@ -52,7 +42,7 @@ const routes = [
     BannerComponent,
     BreadcrumbComponent,
     LayoutComponent,
-    SelectComponent,
+    SelectComponent
   ],
   imports: [
     RouterModule.forRoot(routes),
@@ -68,16 +58,16 @@ const routes = [
     XuiCardModule,
     XuiMenuModule,
     XuiButtonModule,
-    XuiBannerModule,
+    XuiBannerModule
   ],
   providers: [
     {
       provide: HIGHLIGHT_OPTIONS,
       useValue: {
-        fullLibraryLoader: () => import('highlight.js'),
-      },
-    },
+        fullLibraryLoader: () => import('highlight.js')
+      }
+    }
   ],
-  bootstrap: [AppComponent],
+  bootstrap: [AppComponent]
 })
 export class AppModule {}

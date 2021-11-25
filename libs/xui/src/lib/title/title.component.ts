@@ -5,7 +5,7 @@ import { XuiTitleService } from './title.service';
 @Component({
   selector: 'xui-title',
   templateUrl: './title.component.html',
-  styleUrls: ['./title.component.scss'],
+  styleUrls: ['./title.component.scss']
 })
 export class XuiTitleComponent implements OnInit, OnDestroy {
   private _interval: number;

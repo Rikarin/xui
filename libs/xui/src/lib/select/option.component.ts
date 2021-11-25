@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  ViewEncapsulation,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
 import { WithConfig } from '../config/config.service';
 import { InputBoolean } from '../util/convert';
 import { delay } from '../util/delay';
@@ -13,7 +8,7 @@ import { delay } from '../util/delay';
   exportAs: 'xuiOption',
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: '<ng-content></ng-content>',
+  template: '<ng-content></ng-content>'
   // host: {
   //   '[class]': 'getStyle()',
   //   '[class.xui-button-state--loading]': 'state == 1',

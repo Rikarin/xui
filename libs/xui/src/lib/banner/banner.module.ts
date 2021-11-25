@@ -5,6 +5,6 @@ import { XuiBannerComponent } from './banner.component';
 @NgModule({
   imports: [CommonModule],
   declarations: [XuiBannerComponent],
-  exports: [XuiBannerComponent],
+  exports: [XuiBannerComponent]
 })
 export class XuiBannerModule {}

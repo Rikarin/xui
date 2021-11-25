@@ -6,7 +6,7 @@ import {
   TemplateRef,
   ViewChild,
   ViewContainerRef,
-  ViewEncapsulation,
+  ViewEncapsulation
 } from '@angular/core';
 import { inNextTick } from '../utils';
 
@@ -15,7 +15,7 @@ import { inNextTick } from '../utils';
   exportAs: 'xuiCard',
   templateUrl: './card.component.html',
   styleUrls: ['./card.component.scss'],
-  encapsulation: ViewEncapsulation.None,
+  encapsulation: ViewEncapsulation.None
 })
 export class XuiCardComponent implements AfterViewInit {
   titlePortal: Portal<any>;
@@ -47,10 +47,7 @@ export class XuiCardComponent implements AfterViewInit {
     if (this.title instanceof TemplateRef) {
       this.titlePortal = new TemplatePortal(this.title, this.viewContainerRef);
     } else {
-      this.titlePortal = new TemplatePortal(
-        this.titleText,
-        this.viewContainerRef
-      );
+      this.titlePortal = new TemplatePortal(this.titleText, this.viewContainerRef);
     }
   }
 
@@ -75,9 +72,6 @@ export class XuiCardComponent implements AfterViewInit {
       throw new Error('actions is not a TemplateRef');
     }
 
-    this.actionsPortal = new TemplatePortal(
-      this.actions,
-      this.viewContainerRef
-    );
+    this.actionsPortal = new TemplatePortal(this.actions, this.viewContainerRef);
   }
 }

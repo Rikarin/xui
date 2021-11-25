@@ -6,6 +6,6 @@ import { PortalModule } from '@angular/cdk/portal';
 @NgModule({
   imports: [CommonModule, PortalModule],
   declarations: [XuiCardComponent],
-  exports: [XuiCardComponent],
+  exports: [XuiCardComponent]
 })
 export class XuiCardModule {}

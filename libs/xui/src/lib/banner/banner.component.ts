@@ -5,7 +5,7 @@ import {
   Input,
   OnInit,
   Output,
-  ViewEncapsulation,
+  ViewEncapsulation
 } from '@angular/core';
 import { InputBoolean } from '../util/convert';
 
@@ -18,8 +18,8 @@ import { InputBoolean } from '../util/convert';
   host: {
     '[class]': 'getStyle()',
     '[class.xui-banner-dismissable]': 'dismissable',
-    '(click)': 'dismiss()',
-  },
+    '(click)': 'dismiss()'
+  }
 })
 export class XuiBannerComponent {
   @Input() type: 'info' | 'success' | 'warning' | 'alert' = 'info';

@@ -16,8 +16,8 @@ import { delay } from '../util/delay';
     '[class.xui-button-state--failed]': 'state === 3',
     '[class.xui-button-state--succeeded]': 'state == 2',
     '[attr.disabled]': 'disabled || null',
-    '(click)': '_onAsync()',
-  },
+    '(click)': '_onAsync()'
+  }
 })
 export class XuiOptionGroupComponent {
   @Input() label: string | number;

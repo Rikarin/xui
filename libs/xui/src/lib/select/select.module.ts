@@ -5,6 +5,6 @@ import { XuiSelectComponent } from '.';
 @NgModule({
   imports: [CommonModule],
   declarations: [XuiSelectComponent],
-  exports: [XuiSelectComponent],
+  exports: [XuiSelectComponent]
 })
 export class XuiSelectModule {}

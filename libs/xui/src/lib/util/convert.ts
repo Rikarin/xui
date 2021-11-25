@@ -1,8 +1,4 @@
-import {
-  coerceBooleanProperty,
-  coerceCssPixelValue,
-  _isNumberValue,
-} from '@angular/cdk/coercion';
+import { coerceBooleanProperty, coerceCssPixelValue, _isNumberValue } from '@angular/cdk/coercion';
 
 export function toBoolean(value: boolean | string): boolean {
   return coerceBooleanProperty(value);
@@ -10,10 +6,7 @@ export function toBoolean(value: boolean | string): boolean {
 
 export function toNumber(value: number | string): number;
 export function toNumber<D>(value: number | string, fallback: D): number | D;
-export function toNumber(
-  value: number | string,
-  fallbackValue: number = 0
-): number {
+export function toNumber(value: number | string, fallbackValue: number = 0): number {
   return _isNumberValue(value) ? Number(value) : fallbackValue;
 }
 
@@ -21,33 +14,22 @@ export function toCssPixel(value: number | string): string {
   return coerceCssPixelValue(value);
 }
 
-function propDecoratorFactory<T, D>(
-  name: string,
-  fallback: (v: T) => D
-): (target: any, propName: string) => void {
-  function propDecorator(
-    target: any,
-    propName: string,
-    originalDescriptor?: TypedPropertyDescriptor<any>
-  ): any {
+function propDecoratorFactory<T, D>(name: string, fallback: (v: T) => D): (target: any, propName: string) => void {
+  function propDecorator(target: any, propName: string, originalDescriptor?: TypedPropertyDescriptor<any>): any {
     const privatePropName = `$$__${propName}`;
 
     if (Object.prototype.hasOwnProperty.call(target, privatePropName)) {
-      console.warn(
-        `The prop "${privatePropName}" is already exist, it will be overrided by ${name} decorator.`
-      );
+      console.warn(`The prop "${privatePropName}" is already exist, it will be overrided by ${name} decorator.`);
     }
 
     Object.defineProperty(target, privatePropName, {
       configurable: true,
-      writable: true,
+      writable: true
     });
 
     return {
       get(): string {
-        return originalDescriptor?.get
-          ? originalDescriptor.get.bind(this)()
-          : this[privatePropName];
+        return originalDescriptor?.get ? originalDescriptor.get.bind(this)() : this[privatePropName];
       },
       set(value: T): void {
         if (originalDescriptor?.set) {
@@ -55,7 +37,7 @@ function propDecoratorFactory<T, D>(
         }
 
         this[privatePropName] = fallback(value);
-      },
+      }
     };
   }
 
@@ -71,7 +53,5 @@ export function InputCssPixel(): any {
 }
 
 export function InputNumber(fallbackValue?: any): any {
-  return propDecoratorFactory('InputNumber', (value: string | number) =>
-    toNumber(value, fallbackValue)
-  );
+  return propDecoratorFactory('InputNumber', (value: string | number) => toNumber(value, fallbackValue));
 }

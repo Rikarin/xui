@@ -16,22 +16,15 @@ import { delay } from '../util/delay';
     '[class.xui-button-state--failed]': 'state === 3',
     '[class.xui-button-state--succeeded]': 'state == 2',
     '[attr.disabled]': 'disabled || null',
-    '(click)': '_onAsync()',
-  },
+    '(click)': '_onAsync()'
+  }
 })
 export class XuiButtonComponent {
   state: 0 | 1 | 2 | 3 = 0;
 
-  @Input() xType: 'normal' | 'dashed' | 'stroked' | 'raised' | 'fab' | 'icon' =
-    'normal';
+  @Input() xType: 'normal' | 'dashed' | 'stroked' | 'raised' | 'fab' | 'icon' = 'normal';
   @Input() xSize: 'sm' | 'md' | 'lg' = 'md';
-  @Input() xColor:
-    | 'primary'
-    | 'primary-alt'
-    | 'secondary'
-    | 'destructive'
-    | 'neutral'
-    | 'minimal' = 'minimal';
+  @Input() xColor: 'primary' | 'primary-alt' | 'secondary' | 'destructive' | 'neutral' | 'minimal' = 'minimal';
 
   // Type > color & size
 
