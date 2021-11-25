@@ -147,12 +147,12 @@ workflows:
           filters:
             tags:
               only: /.*/
-      - lint:
-          requires:
-            - install
-          filters:
-            tags:
-              only: /.*/
+      # - lint:
+      #     requires:
+      #       - install
+      #     filters:
+      #       tags:
+      #         only: /.*/
       - test:
           requires:
             - install
@@ -174,7 +174,7 @@ workflows:
       - publish:
           requires:
             - check-formatting
-            - lint
+            # - lint
             - test
             - build
             - e2e
