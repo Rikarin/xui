@@ -34,6 +34,14 @@
             "scripts": []
           },
           "configurations": {
+            "development": {
+              "optimization": false,
+              "buildOptimizer": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            },
             "production": {
               "fileReplacements": [
                 {
@@ -61,7 +69,8 @@
                 }
               ]
             }
-          }
+          },
+          "defaultConfiguration": "development"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -69,10 +78,14 @@
             "browserTarget": "web:build"
           },
           "configurations": {
+            "development": {
+              "browserTarget": "web:build:development"
+            },
             "production": {
               "browserTarget": "web:build:production"
             }
-          }
+          },
+          "defaultConfiguration": "development"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
