@@ -22,7 +22,7 @@
     "type": "git",
     "url": "git+https://github.com/rikarin/xui.git"
   },
-  "version": "1.6.2",
+  "version": "1.7.0",
   "peerDependencies": {
     "@angular/cdk": "^13.0.1",
     "@angular/common": "^13.0.1",

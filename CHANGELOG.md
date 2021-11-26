@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.7.0](https://github.com/Rikarin/xui/compare/v1.6.2...v1.7.0) (2021-11-26)
+
+### Features
+
+- add select ([b5e4095](https://github.com/Rikarin/xui/commit/b5e409503d0ff3555433830f5c8991bee4e2afc7))
+- update ([2b63a6c](https://github.com/Rikarin/xui/commit/2b63a6cfbed899ea96bf12829626fd7fbbb72f9e))
+- **update:** update ([d680af3](https://github.com/Rikarin/xui/commit/d680af31146a7494aeee3d54a5c9856c873959df))
+
+### Bug Fixes
+
+- disable linting ([7756c94](https://github.com/Rikarin/xui/commit/7756c9468bf0bc12079ec06529304552c55e53a3))
+- upgrading ([c208635](https://github.com/Rikarin/xui/commit/c2086357cc994ab836fc1c7edd61cf5e247dc2e3))
+
 ### [1.6.2](https://github.com/Rikarin/xui/compare/v1.6.1...v1.6.2) (2021-10-26)
 
 ### [1.6.1](https://github.com/Rikarin/xui/compare/v1.6.0...v1.6.1) (2021-10-24)
