@@ -27,7 +27,8 @@
     "@angular/cdk": "^13.0.1",
     "@angular/common": "^13.0.1",
     "@angular/core": "^13.0.1",
-    "@angular/material": "^13.0.1"
+    "@angular/material": "^13.0.1",
+    "@ngneat/until-destroy": "^9.0.0"
   },
   "dependencies": {
     "tslib": "^2.3.1"

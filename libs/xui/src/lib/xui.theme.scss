@@ -1,11 +1,13 @@
 @import 'button/button.theme.scss';
 @import 'banner/banner.theme.scss';
 @import 'menu/menu.theme.scss';
+@import 'tooltip/tooltip.theme.scss';
 
 @mixin xui-theme($theme) {
   @include xui-banner($theme);
   @include xui-button($theme);
   @include xui-menu($theme);
+  @include xui-tooltip($theme);
 
   *:hover {
     &::-webkit-scrollbar-thumb {

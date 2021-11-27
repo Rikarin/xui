@@ -1744,6 +1744,18 @@
   resolved "https://registry.yarnpkg.com/@jridgewell/resolve-uri/-/resolve-uri-1.0.0.tgz#3fdf5798f0b49e90155896f6291df186eac06c83"
   integrity sha512-9oLAnygRMi8Q5QkYEU4XWK04B+nuoXoxjRvRxgjuChkLZFBja0YPSgdZ7dZtwhncLBcQe/I/E+fLuk5qxcYVJA==
 
+"@mdi/angular-material@^6.5.95":
+  version "6.5.95"
+  resolved "https://registry.yarnpkg.com/@mdi/angular-material/-/angular-material-6.5.95.tgz#c819ca299065378d0c4dc058a729e5678dc77582"
+  integrity sha512-dmnE9VZPYQMW+MIc3qBuLpe2N7at9sEUH/wR8qnRSfbX1mbo7MlQnbrLRWV7KGbf0rHIgkwRtY4VwR/ED04VWw==
+
+"@ngneat/until-destroy@^9.0.0":
+  version "9.0.0"
+  resolved "https://registry.yarnpkg.com/@ngneat/until-destroy/-/until-destroy-9.0.0.tgz#62f478beb625a051bb72ddb677e90593da575bbc"
+  integrity sha512-6NJNJJIIr9qo3fTDI6yeLAKmyvbS1gV0PynIT0ofktq5L4BehlGGxCextcfh2uIltx+fhj9TYpC7ndwnD/3RPA==
+  dependencies:
+    tslib "^2.3.0"
+
 "@ngtools/webpack@13.0.3":
   version "13.0.3"
   resolved "https://registry.yarnpkg.com/@ngtools/webpack/-/webpack-13.0.3.tgz#ec31dfa49dae79aeee68cc970fea6f5fd9ebc76d"
@@ -1997,6 +2009,11 @@
     tslib "^2.3.0"
     yargs "15.4.1"
     yargs-parser "20.0.0"
+
+"@oddbird/blend@^0.2.3":
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/@oddbird/blend/-/blend-0.2.3.tgz#06408addb6acb4ef2a33affd484255e121ad5f23"
+  integrity sha512-P3MYNqeWTQ4RZdmRDOigxpcUK+pvqr+aTzHYnHxF84xmf/1quhCpbTsWZE6TPUifSQ346Cf+e4j0Zgn3fIUmSQ==
 
 "@parcel/watcher@2.0.0-alpha.11":
   version "2.0.0-alpha.11"

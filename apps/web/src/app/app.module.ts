@@ -1,10 +1,18 @@
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, DomSanitizer } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HighlightModule, HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
 
 import { AppComponent } from './app.component';
-import { XuiLayoutModule, XuiTitleModule, XuiCardModule, XuiMenuModule, XuiButtonModule, XuiBannerModule } from 'xui';
+import {
+  XuiLayoutModule,
+  XuiTitleModule,
+  XuiCardModule,
+  XuiMenuModule,
+  XuiButtonModule,
+  XuiBannerModule,
+  XuiTooltipModule
+} from 'xui';
 import { RouterModule } from '@angular/router';
 import { CardComponent } from './components/card/card.component';
 import { OverviewComponent } from './components/overview/overview.component';
@@ -16,6 +24,8 @@ import { LayoutComponent } from './components/layout/layout.component';
 import { NgxGoogleAnalyticsModule, NgxGoogleAnalyticsRouterModule } from 'ngx-google-analytics';
 import { environment } from '../environments/environment';
 import { SelectComponent } from './components/select/select.component';
+import { MatIconRegistry } from '@angular/material/icon';
+import { HttpClientModule } from '@angular/common/http';
 
 const routes = [
   {
@@ -49,6 +59,7 @@ const routes = [
     BrowserModule,
     BrowserAnimationsModule,
     HighlightModule,
+    HttpClientModule,
 
     NgxGoogleAnalyticsModule.forRoot(environment.ga),
     NgxGoogleAnalyticsRouterModule,
@@ -58,7 +69,8 @@ const routes = [
     XuiCardModule,
     XuiMenuModule,
     XuiButtonModule,
-    XuiBannerModule
+    XuiBannerModule,
+    XuiTooltipModule
   ],
   providers: [
     {
@@ -70,4 +82,8 @@ const routes = [
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule {
+  constructor(matIconRegistry: MatIconRegistry, domSanitizer: DomSanitizer) {
+    matIconRegistry.addSvgIconSet(domSanitizer.bypassSecurityTrustResourceUrl('./assets/mdi.svg'));
+  }
+}

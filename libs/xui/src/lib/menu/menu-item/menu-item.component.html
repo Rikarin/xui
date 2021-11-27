@@ -1,1 +1,2 @@
-<p>menu-item works!</p>
+<ng-container *ngIf="icon"><mat-icon [svgIcon]="icon"></mat-icon></ng-container>
+<ng-content *ngIf="showLabel$ | async"></ng-content>

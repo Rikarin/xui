@@ -1,5 +1,92 @@
+@use '~@oddbird/blend';
+
 @mixin xui-menu($theme) {
-  [xui-menu] {
+  xui-menu {
+    flex: auto;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+
     overflow-y: auto;
+  }
+
+  xui-submenu {
+    display: flex;
+    flex-direction: column;
+
+    .xui-submenu-entry {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-right: 8px;
+
+      @include xui-menu-hover();
+    }
+
+    .xui-submenu-title {
+      @include xui-menu-item();
+    }
+  }
+
+  xui-menu-group {
+    display: flex;
+    flex-direction: column;
+
+    padding: 8px 0; // TODO: delete this?
+
+    .xui-menu-group-title {
+      color: gray;
+    }
+  }
+
+  xui-menu-item {
+    @include xui-menu-item();
+    @include xui-menu-hover();
+
+    border-left: 4px solid transparent;
+  }
+
+  .xui-menu-item-selected {
+    $color: map-get($theme, primary);
+    $bgColor: blend.scale($color, $lightness: 60%);
+
+    border-left: $color 4px solid;
+    background-color: $bgColor;
+    color: blend.contrast($bgColor);
+  }
+}
+
+@mixin xui-menu-item() {
+  width: 100%;
+  display: flex;
+  align-items: center;
+
+  padding: 8px 0;
+
+  mat-icon {
+    margin-right: 8px;
+  }
+}
+
+@mixin xui-menu-hover() {
+  $color: map-get($theme, primary);
+
+  &:hover {
+    color: $color;
+    cursor: pointer;
+  }
+
+  &:active {
+    background-color: blend.scale($color, $lightness: 60%);
+  }
+
+  &[disabled],
+  &[disabled]:focus,
+  &[disabled]:active,
+  &[disabled]:hover {
+    cursor: not-allowed;
+    background-color: transparent;
+    color: $color;
+    opacity: 0.35;
   }
 }

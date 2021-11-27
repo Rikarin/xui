@@ -1,14 +1,43 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnInit,
+  Optional,
+  ViewEncapsulation
+} from '@angular/core';
+import { XuiMenuService } from '../menu.service';
+import { XuiSubmenuService } from '../submenu.service';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { combineLatest } from 'rxjs';
 
+@UntilDestroy()
 @Component({
-  selector: 'li[xui-menu-group]',
+  selector: 'xui-menu-group',
+  exportAs: 'xuiMenuGroup',
   templateUrl: './menu-group.component.html',
-  styleUrls: ['./menu-group.component.scss']
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class XuiMenuGroupComponent implements OnInit {
-  @Input() xTitle: string;
+  @Input() title: string;
 
-  constructor() {}
+  private level = (this.submenuService?.level ?? 0) + 0.5;
+  paddingLeft: number = null;
 
-  ngOnInit() {}
+  constructor(
+    private cdr: ChangeDetectorRef,
+    private menuService: XuiMenuService,
+    @Optional() private submenuService: XuiSubmenuService
+  ) {}
+
+  ngOnInit() {
+    combineLatest([this.menuService.mode$, this.menuService.inlineIndent$])
+      .pipe(untilDestroyed(this))
+      .subscribe(([mode, inlineIndent]) => {
+        this.paddingLeft = mode === 'default' ? this.level * inlineIndent : null;
+        this.cdr.markForCheck();
+      });
+  }
 }
