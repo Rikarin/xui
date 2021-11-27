@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.8.0](https://github.com/Rikarin/xui/compare/v1.7.0...v1.8.0) (2021-11-27)
+
+### Features
+
+- **menu:** add menu stuff ([2118411](https://github.com/Rikarin/xui/commit/2118411cffa595554fd8cdd7495211b5c8f98588))
+
 ## [1.7.0](https://github.com/Rikarin/xui/compare/v1.6.2...v1.7.0) (2021-11-26)
 
 ### Features
