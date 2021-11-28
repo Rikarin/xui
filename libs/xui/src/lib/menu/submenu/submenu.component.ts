@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewEncapsulation
+} from '@angular/core';
+import { InputBoolean } from '../../util/convert';
 import { XuiSubmenuService } from '../submenu.service';
 
 @Component({
@@ -15,6 +24,8 @@ import { XuiSubmenuService } from '../submenu.service';
 export class XuiSubMenuComponent implements OnInit {
   @Input() title: string;
   @Input() icon: string;
+  @Input() @InputBoolean() open = false;
+  @Output() readonly openChange: EventEmitter<boolean> = new EventEmitter();
 
   paddingLeft = this.submenuService.level * 24;
 
@@ -22,5 +33,10 @@ export class XuiSubMenuComponent implements OnInit {
 
   ngOnInit() {
     console.log('padding left', this.paddingLeft);
+  }
+
+  toggleSubmenu() {
+    this.open = !this.open;
+    this.openChange.emit();
   }
 }
