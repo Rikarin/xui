@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.9.0](https://github.com/Rikarin/xui/compare/v1.8.0...v1.9.0) (2022-04-20)
+
+
+### Features
+
+* 🎸 use css variables ([73f046c](https://github.com/Rikarin/xui/commit/73f046ca5c346fbe39297a9f93058b9aa4a96d4f))
+* **menu:** add open/close submenu functionality ([5bf347f](https://github.com/Rikarin/xui/commit/5bf347f142077deca60e7049697eac42a28081a8))
+
+
+### Bug Fixes
+
+* 🐛 remove husky stuff ([6a45b82](https://github.com/Rikarin/xui/commit/6a45b821e90fceb70cc4b629a75e902e427bfe52))
+* 🐛 remove singing from release ([a885f9c](https://github.com/Rikarin/xui/commit/a885f9cb30c0ca5c16cde852628787b1541f8e06))
+
 ## [1.8.0](https://github.com/Rikarin/xui/compare/v1.7.0...v1.8.0) (2021-11-27)
 
 ### Features
