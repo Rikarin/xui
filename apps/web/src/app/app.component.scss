@@ -2,6 +2,9 @@
   display: flex;
   width: 100%;
   height: 100vh;
+
+  color: var(--text-normal);
+  background-color: var(--background-primary);
 }
 
 // https://coolors.co/d0ccd0-fbfcff-605856-1c6e8c-274156
@@ -12,7 +15,7 @@ $color4: #1c6e8c;
 $color5: #274156;
 
 xui-sider {
-  background: $color1;
+  background-color: var(--background-secondary);
 
   .logo {
     flex: 0 0 auto;
@@ -25,23 +28,23 @@ xui-sider {
     font-weight: 800;
 
     .x {
-      color: $color5;
+      color: var(--red-color);
     }
 
     .u {
-      color: $color3;
+      color: var(--green-color);
     }
 
     .i {
-      color: $color4;
+      color: var(--blue-color);
     }
   }
 }
 
 xui-header {
   justify-content: space-between;
-  color: $color2;
-  background: $color4;
+  color: white;
+  background: var(--background-secondary-alt);
   padding: 0 32px;
   font-size: 18px;
   font-weight: 700;
@@ -53,7 +56,6 @@ xui-content {
   .content {
     flex: 1 1 auto;
     display: flex;
-    background: $color2;
     align-items: flex-start;
     padding-top: 30px;
     padding-left: 130px;
@@ -63,7 +65,7 @@ xui-content {
 
 xui-footer {
   color: $color2;
-  background-color: $color5;
+  background-color: var(--background-secondary-alt);
   justify-content: center;
 }
 

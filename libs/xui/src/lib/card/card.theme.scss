@@ -1,8 +1,10 @@
 xui-card {
   display: flex;
   flex-direction: column;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--elevation-medium);
   border-radius: 5px;
+
+  background-color: var(--background-secondary-alt);
 }
 
 .xui-card-header {

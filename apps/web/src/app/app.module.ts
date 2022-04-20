@@ -26,6 +26,7 @@ import { environment } from '../environments/environment';
 import { SelectComponent } from './components/select/select.component';
 import { MatIconRegistry } from '@angular/material/icon';
 import { HttpClientModule } from '@angular/common/http';
+import {ThemingComponent} from "./components/theming/theming.component";
 
 const routes = [
   {
@@ -34,6 +35,7 @@ const routes = [
     pathMatch: 'full'
   },
   { path: 'getting-started', component: GettingStartedComponent },
+  { path: 'theming', component: ThemingComponent },
   { path: 'card', component: CardComponent },
   { path: 'button', component: ButtonComponent },
   { path: 'banner', component: BannerComponent },
@@ -52,7 +54,8 @@ const routes = [
     BannerComponent,
     BreadcrumbComponent,
     LayoutComponent,
-    SelectComponent
+    SelectComponent,
+    ThemingComponent
   ],
   imports: [
     RouterModule.forRoot(routes),

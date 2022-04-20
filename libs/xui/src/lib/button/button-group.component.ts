@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'xui-button-group',
@@ -8,5 +8,5 @@ import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@a
   template: '<ng-content></ng-content>'
 })
 export class XuiButtonGroupComponent {
-  // @Input() xSize: 'sm' | 'md' | 'lg' = 'md';
+
 }

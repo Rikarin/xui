@@ -1,12 +1,12 @@
-import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit } from '@angular/core';
-import { parseCss } from '../utils';
+import {ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, ViewEncapsulation} from '@angular/core';
+import {parseCss} from '../utils';
 
 @Component({
   selector: 'xui-sider',
   exportAs: 'xuiSider',
+  encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: '<ng-content></ng-content>',
-  styleUrls: ['./sider.component.scss'],
   host: {
     '[style.width]': '_width'
   }

@@ -1,10 +1,10 @@
-import { Component, Input, ViewEncapsulation } from '@angular/core';
+import {Component, Input, ViewEncapsulation} from '@angular/core';
 import { WithConfig } from '../config/config.service';
 import { InputBoolean } from '../util/convert';
 import { delay } from '../util/delay';
 
 @Component({
-  selector: 'button[xui-button]',
+  selector: 'button[xui]',
   exportAs: 'xuiButton',
   encapsulation: ViewEncapsulation.None,
   // changeDetection: ChangeDetectionStrategy.OnPush,
@@ -22,11 +22,9 @@ import { delay } from '../util/delay';
 export class XuiButtonComponent {
   state: 0 | 1 | 2 | 3 = 0;
 
-  @Input() xType: 'normal' | 'dashed' | 'stroked' | 'raised' | 'fab' | 'icon' = 'normal';
-  @Input() xSize: 'sm' | 'md' | 'lg' = 'md';
-  @Input() xColor: 'primary' | 'primary-alt' | 'secondary' | 'destructive' | 'neutral' | 'minimal' = 'minimal';
-
-  // Type > color & size
+  @Input() xType: 'normal' | 'dashed' | 'stroked' | 'raised' | 'fab' | 'icon' | string = 'normal';
+  @Input() xSize: 'sm' | 'md' | 'lg' | string = 'md';
+  @Input() xColor: 'primary' | 'primary-alt' | 'secondary' | 'destructive' | 'neutral' | 'minimal' | string = 'minimal';
 
   @Input() @InputBoolean() disabled = false;
   @Input() xClick: () => Promise<boolean>;

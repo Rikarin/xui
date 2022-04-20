@@ -14,7 +14,6 @@ import { inNextTick } from '../utils';
   selector: 'xui-card',
   exportAs: 'xuiCard',
   templateUrl: './card.component.html',
-  styleUrls: ['./card.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
 export class XuiCardComponent implements AfterViewInit {
