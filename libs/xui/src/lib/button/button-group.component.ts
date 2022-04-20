@@ -7,6 +7,4 @@ import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: '<ng-content></ng-content>'
 })
-export class XuiButtonGroupComponent {
-
-}
+export class XuiButtonGroupComponent {}

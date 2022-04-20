@@ -6,8 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./theming.component.scss']
 })
 export class ThemingComponent {
-  code =
-`:root {
+  code = `:root {
   --primary-color: #1c6e8c;
   --primary-alt-color: #274156;
   --secondary-color: #605856;

@@ -1,5 +1,5 @@
-import {ChangeDetectionStrategy, Component, ContentChildren, QueryList, ViewEncapsulation} from '@angular/core';
-import {XuiSiderComponent} from './sider.component';
+import { ChangeDetectionStrategy, Component, ContentChildren, QueryList, ViewEncapsulation } from '@angular/core';
+import { XuiSiderComponent } from './sider.component';
 
 @Component({
   selector: 'xui-layout',

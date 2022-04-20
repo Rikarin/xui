@@ -26,7 +26,7 @@ import { environment } from '../environments/environment';
 import { SelectComponent } from './components/select/select.component';
 import { MatIconRegistry } from '@angular/material/icon';
 import { HttpClientModule } from '@angular/common/http';
-import {ThemingComponent} from "./components/theming/theming.component";
+import { ThemingComponent } from './components/theming/theming.component';
 
 const routes = [
   {

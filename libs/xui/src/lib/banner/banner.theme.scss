@@ -25,7 +25,6 @@ xui-banner {
   font-weight: 700;
 }
 
-
 @mixin xui-banner($theme) {
   $colors: map-get($theme, colors);
 
