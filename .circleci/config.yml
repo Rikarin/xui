@@ -166,19 +166,19 @@ workflows:
           filters:
             tags:
               only: /.*/
-      - e2e:
-          requires:
-            - install
-          filters:
-            tags:
-              only: /.*/
+#      - e2e:
+#          requires:
+#            - install
+#          filters:
+#            tags:
+#              only: /.*/
       - publish:
           requires:
             - check-formatting
             # - lint
             - test
             - build
-            - e2e
+#            - e2e
           filters:
             tags:
               only: /^v.*/ # runs for no branches and only for tags starting with 'v'
