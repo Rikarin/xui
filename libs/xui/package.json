@@ -1,6 +1,6 @@
 {
   "name": "xui",
-  "description": "All in one UI components for Angular 13",
+  "description": "All in one UI components for Angular 14",
   "keywords": [
     "ui",
     "gui",
@@ -11,7 +11,7 @@
     "ng",
     "ngx",
     "angular",
-    "13",
+    "14",
     "promise",
     "asyc",
     "observer"
@@ -24,13 +24,13 @@
   },
   "version": "1.9.0",
   "peerDependencies": {
-    "@angular/cdk": "^13.0.1",
-    "@angular/common": "^13.0.1",
-    "@angular/core": "^13.0.1",
-    "@angular/material": "^13.0.1",
-    "@ngneat/until-destroy": "^9.0.0"
+    "@angular/cdk": "14.1.2",
+    "@angular/common": "14.1.2",
+    "@angular/core": "14.1.2",
+    "@angular/material": "14.1.2",
+    "@ngneat/until-destroy": "^9.2.1"
   },
   "dependencies": {
-    "tslib": "^2.3.1"
+    "tslib": "^2.4.0"
   }
 }
