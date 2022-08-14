@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.9.1](https://github.com/Rikarin/xui/compare/v1.9.0...v1.9.1) (2022-08-14)
+
+### Bug Fixes
+
+- some stuff ([42a0f39](https://github.com/Rikarin/xui/commit/42a0f398c7219e6efaacc0f4b03a0f265bfc356a))
+
 ## [1.9.0](https://github.com/Rikarin/xui/compare/v1.8.0...v1.9.0) (2022-04-20)
 
 ### Features
