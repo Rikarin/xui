@@ -34,7 +34,9 @@
                 "output": "./assets"
               }
             ],
-            "styles": ["apps/web/src/styles.scss"],
+            "styles": [
+              "apps/web/src/styles.scss"
+            ],
             "scripts": []
           },
           "configurations": {
@@ -100,8 +102,15 @@
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": ["apps/web/tsconfig.app.json", "apps/web/tsconfig.spec.json", "apps/web/tsconfig.editor.json"],
-            "exclude": ["**/node_modules/**", "!apps/web/**/*"]
+            "tsConfig": [
+              "apps/web/tsconfig.app.json",
+              "apps/web/tsconfig.spec.json",
+              "apps/web/tsconfig.editor.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/web/**/*"
+            ]
           }
         },
         "test": {
@@ -136,13 +145,20 @@
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": ["apps/web-e2e/tsconfig.e2e.json"],
-            "exclude": ["**/node_modules/**", "!apps/web-e2e/**/*"]
+            "tsConfig": [
+              "apps/web-e2e/tsconfig.e2e.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/web-e2e/**/*"
+            ]
           }
         }
       },
       "tags": [],
-      "implicitDependencies": ["web"]
+      "implicitDependencies": [
+        "web"
+      ]
     },
     "xui": {
       "$schema": "../../node_modules/nx/schemas/project-schema.json",
@@ -166,8 +182,14 @@
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": ["libs/xui/tsconfig.lib.json", "libs/xui/tsconfig.spec.json"],
-            "exclude": ["**/node_modules/**", "!libs/xui/**/*"]
+            "tsConfig": [
+              "libs/xui/tsconfig.lib.json",
+              "libs/xui/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/xui/**/*"
+            ]
           }
         },
         "test": {

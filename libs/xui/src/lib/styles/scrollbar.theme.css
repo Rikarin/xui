@@ -1,5 +1,5 @@
 *:hover::-webkit-scrollbar-thumb {
- color: var(--primary-color);
+  color: var(--primary-color);
 }
 
 *::-webkit-scrollbar {
