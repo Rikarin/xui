@@ -1,5 +1,5 @@
 import getJestProjects from '@nrwl/jest';
 
-module.exports = {
+export default {
   projects: getJestProjects()
 };

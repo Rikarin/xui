@@ -19,19 +19,13 @@
       "runner": "@nrwl/nx-cloud",
       "options": {
         "accessToken": "MWU1ZDNiYjItMzExZi00NDdjLTgyMGEtMmM2YTUzNzM1ZmUwfHJlYWQtd3JpdGU=",
-        "cacheableOperations": [
-          "build",
-          "test",
-          "lint",
-          "e2e"
-        ],
+        "cacheableOperations": ["build", "test", "lint", "e2e"],
         "canTrackAnalytics": false,
         "showUsageWarnings": true
       }
     }
   },
   "cli": {
-    "defaultCollection": "@nrwl/angular",
     "analytics": "6fac8635-b0e3-461d-9198-16c7929fcf1d"
   },
   "generators": {
@@ -77,5 +71,6 @@
       "unitTestRunner": "jest"
     }
   },
-  "defaultProject": "web"
+  "defaultProject": "web",
+  "$schema": "./node_modules/nx/schemas/nx-schema.json"
 }

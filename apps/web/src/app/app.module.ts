@@ -13,7 +13,7 @@ import {
   XuiBannerModule,
   XuiTooltipModule
 } from 'xui';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { CardComponent } from './components/card/card.component';
 import { OverviewComponent } from './components/overview/overview.component';
 import { GettingStartedComponent } from './components/getting-started/getting-started.component';
@@ -28,7 +28,7 @@ import { MatIconRegistry } from '@angular/material/icon';
 import { HttpClientModule } from '@angular/common/http';
 import { ThemingComponent } from './components/theming/theming.component';
 
-const routes = [
+const routes: Routes = [
   {
     path: '',
     component: OverviewComponent,
