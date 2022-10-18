@@ -1,7 +1,10 @@
 {
   "name": "xui",
   "description": "Xui Components for Angular",
-  "keywords": ["angular", "components"],
+  "keywords": [
+    "angular",
+    "components"
+  ],
   "license": "MIT",
   "homepage": "https://xuijs.org/",
   "repository": {
@@ -16,7 +19,7 @@
       "sass": "./index.scss"
     }
   },
-  "version": "1.9.2",
+  "version": "1.10.0",
   "peerDependencies": {
     "@angular/cdk": "14.2.5",
     "@angular/common": "14.2.6",
