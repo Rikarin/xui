@@ -17,14 +17,14 @@ import { InputBoolean } from '../util/convert';
   templateUrl: './banner.component.html',
   host: {
     '[class]': 'getStyle()',
-    '[class.xui-banner-dismissable]': 'dismissable',
+    '[class.xui-banner-dismissible]': 'dismissible',
     '(click)': 'dismiss()'
   }
 })
 export class XuiBannerComponent {
   @Input() type: 'info' | 'success' | 'warning' | 'alert' = 'info';
   @Input() stamp: string;
-  @Input() @InputBoolean() dismissable: boolean;
+  @Input() @InputBoolean() dismissible: boolean;
 
   @Output() bannerClose = new EventEmitter();
 

@@ -207,8 +207,5 @@
       },
       "tags": []
     }
-  },
-  "cli": {
-    "analytics": false
   }
 }

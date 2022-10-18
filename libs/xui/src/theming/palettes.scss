@@ -1,0 +1,114 @@
+$dark-primary-text: rgba(black, 0.87); // TODO: is this correct?
+$light-primary-text: white;
+
+$blue-palette: (
+  50: #e9f3fc,
+  100: #cbe2f9,
+  200: #9dc7f1,
+  300: #63a6e9,
+  400: #428fdc,
+  500: #1f75cb,
+  600: #1068bf,
+  700: #0b5cad,
+  800: #064787,
+  900: #033464,
+  950: #002850,
+
+  contrast: (
+    50: $dark-primary-text,
+    100: $dark-primary-text,
+    200: $dark-primary-text,
+    300: $dark-primary-text,
+    400: $dark-primary-text,
+    500: $light-primary-text,
+    600: $light-primary-text,
+    700: $light-primary-text,
+    800: $light-primary-text,
+    900: $light-primary-text,
+    950: $light-primary-text
+  )
+);
+
+$red-palette: (
+  50: #fcf1ef,
+  100: #fdd4cd,
+  200: #fcb5aa,
+  300: #f57f6c,
+  400: #ec5941,
+  500: #dd2b0e,
+  600: #c91c00,
+  700: #ae1800,
+  800: #8d1300,
+  900: #660e00,
+  950: #4d0a00,
+
+  contrast: (
+    50: $dark-primary-text,
+    100: $dark-primary-text,
+    200: $dark-primary-text,
+    300: $dark-primary-text,
+    400: $dark-primary-text,
+    500: $light-primary-text,
+    600: $light-primary-text,
+    700: $light-primary-text,
+    800: $light-primary-text,
+    900: $light-primary-text,
+    950: $light-primary-text
+  )
+);
+
+$green-palette: (
+  50: #ecf4ee,
+  100: #c3e6cd,
+  200: #91d4a8,
+  300: #52b87a,
+  400: #2da160,
+  500: #108548,
+  600: #217645,
+  700: #24663b,
+  800: #0d532a,
+  900: #0a4020,
+  950: #072b15,
+
+  contrast: (
+    50: $dark-primary-text,
+    100: $dark-primary-text,
+    200: $dark-primary-text,
+    300: $dark-primary-text,
+    400: $dark-primary-text,
+    500: $light-primary-text,
+    600: $light-primary-text,
+    700: $light-primary-text,
+    800: $light-primary-text,
+    900: $light-primary-text,
+    950: $light-primary-text
+  )
+);
+
+$orange-palette: (
+  50: #fdf1dd,
+  100: #f5d9a8,
+  200: #e9be74,
+  300: #d99530,
+  400: #c17d10,
+  500: #ab6100,
+  600: #9e5400,
+  700: #8f4700,
+  800: #703800,
+  900: #5c2900,
+  950: #421f00,
+
+  contrast: (
+    50: $dark-primary-text,
+    100: $dark-primary-text,
+    200: $dark-primary-text,
+    300: $dark-primary-text,
+    400: $dark-primary-text,
+    500: $light-primary-text,
+    600: $light-primary-text,
+    700: $light-primary-text,
+    800: $light-primary-text,
+    900: $light-primary-text,
+    950: $light-primary-text
+  )
+);

@@ -141,9 +141,9 @@ workflows:
   pr_check:
     jobs:
       - install
-#      - check-formatting:
-#          requires:
-#            - install
+      #      - check-formatting:
+      #          requires:
+      #            - install
       - lint:
           requires:
             - install
@@ -153,19 +153,19 @@ workflows:
       - build:
           requires:
             - install
-#          filters:
-#            tags:
-#              only: /.*/
+      #          filters:
+      #            tags:
+      #              only: /.*/
       - e2e:
           requires:
             - install
       - publish:
           requires:
-#            - check-formatting
-             - lint
-#            - test
-             - build
-#            - e2e
+            #            - check-formatting
+            - lint
+            #            - test
+            - build
+          #            - e2e
           filters:
             tags:
               only: /^v.*/ # runs for no branches and only for tags starting with 'v'

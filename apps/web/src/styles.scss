@@ -1,13 +1,27 @@
-@import '../../../libs/xui/src/themes/default';
+@use '../../../libs/xui/src/themes/default';
+@use './material-highlights.scss';
+@use '../../../libs/xui/src/index' as xui;
 
 @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;500&display=swap');
 // there's a bug when space is encoded in string it wont compile
 // @import url('https://fonts.googleapis.com/css?family=Roboto%20Mono&display=swap');
-@import './material-highlights.scss';
-@import '../../../libs/xui/src/lib/xui.theme.scss';
+
+$theme: (
+  primary: xui.define-palette(xui.$blue-palette),
+  primary-alt: xui.define-palette(xui.$blue-palette, 800),
+  secondary: xui.define-palette(xui.$blue-palette, 200),
+  // not sure about this
+  neutral: xui.define-palette(xui.$blue-palette),
+  information: xui.define-palette(xui.$blue-palette),
+  success: xui.define-palette(xui.$green-palette),
+  warn: xui.define-palette(xui.$orange-palette),
+  destructive: xui.define-palette(xui.$red-palette)
+);
+
+@debug $theme;
 
 // XUI configuration
-$theme: (
+$themeOld: (
   primary: #1c6e8c,
   primary-alt: #274156,
   secondary: #605856,
@@ -23,7 +37,8 @@ $theme: (
   )
 );
 
-@include xui-theme($theme);
+@include xui.core();
+@include xui.all-component-themes($theme);
 
 // End of XUI configuration
 
@@ -46,6 +61,7 @@ a {
 }
 
 code {
+  background-color: #F0F0F0;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   border-radius: 5px;
   padding: 20px !important;

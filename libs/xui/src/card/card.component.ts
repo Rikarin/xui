@@ -22,9 +22,9 @@ export class XuiCardComponent implements AfterViewInit {
   actionsPortal: Portal<any>;
 
   @Input() loading: boolean;
-  @Input() title: string | TemplateRef<any>;
-  @Input() extra: TemplateRef<any>;
-  @Input() actions: TemplateRef<any>;
+  @Input() title?: string | TemplateRef<any>;
+  @Input() extra?: TemplateRef<any>;
+  @Input() actions?: TemplateRef<any>;
 
   @ViewChild('titleText') titleText: TemplateRef<unknown>;
 

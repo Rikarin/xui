@@ -8,10 +8,9 @@ All notable changes to this project will be documented in this file. See [standa
 
 ## [1.10.0](https://github.com/Rikarin/xui/compare/v1.9.2...v1.10.0) (2022-10-18)
 
-
 ### Features
 
-* include scss with project ([4b9ff55](https://github.com/Rikarin/xui/commit/4b9ff55a461db650a288392e31459fc3738d7441))
+- include scss with project ([4b9ff55](https://github.com/Rikarin/xui/commit/4b9ff55a461db650a288392e31459fc3738d7441))
 
 ### [1.9.2](https://github.com/Rikarin/xui/compare/v1.9.1...v1.9.2) (2022-08-14)
 

@@ -1,3 +1,5 @@
+@use 'sass:map';
+
 xui-banner {
   width: 100%;
   flex: 0 1 auto;
@@ -15,7 +17,7 @@ xui-banner {
   padding: 5px 15px;
 }
 
-.xui-banner-dismissable {
+.xui-banner-dismissible {
   cursor: pointer;
   pointer-events: all;
 }
@@ -25,55 +27,70 @@ xui-banner {
   font-weight: 700;
 }
 
-@mixin xui-banner($theme) {
-  $colors: map-get($theme, colors);
-
+@mixin theme($theme) {
   .xui-banner-info {
-    $blue: map-get($colors, blue);
+    $palette: map.get($theme, information);
 
-    color: map-get($colors, offblack);
-    background-color: desaturate(lighten($blue, 40%), 50%);
-    border: 1px solid desaturate(lighten($blue, 30%), 50%);
+    color: map.get($palette, lighter-contrast);
+    background-color: map.get($palette, lighter);
+    border: 1px solid map.get($palette, 50);
     border-left: none;
     border-right: none;
 
     .xui-banner-stamp {
-      color: white;
-      background-color: darken($blue, 10%);
+      color: map.get($palette, default-contrast);
+      background-color: map.get($palette, default);
     }
   }
 
   .xui-banner-success {
-    color: white;
-    background-color: var(--green-color);
+    $palette: map.get($theme, success);
+
+    color: map.get($palette, default-contrast);
+    background-color: map.get($palette, default);
 
     .xui-banner-stamp {
-      color: var(--green-color);
-      background-color: white;
+      color: map.get($palette, default);
+      background-color: map.get($palette, default-contrast);
+    }
+
+    &.xui-banner-dismissible:hover {
+      color: map.get($palette, darker-contrast);
+      background-color: map.get($palette, darker);
     }
   }
 
   .xui-banner-warning {
-    color: white;
-    background-color: var(--orange-color);
+    $palette: map.get($theme, warn);
+
+    color: map.get($palette, default-contrast);
+    background-color: map.get($palette, default);
 
     .xui-banner-stamp {
-      color: var(--orange-color);
-      background-color: white;
+      color: map.get($palette, default);
+      background-color: map.get($palette, default-contrast);
+    }
+
+    &.xui-banner-dismissible:hover {
+      color: map.get($palette, darker-contrast);
+      background-color: map.get($palette, darker);
     }
   }
 
   .xui-banner-alert {
-    color: white;
-    background-color: var(--red-color);
+    $palette: map.get($theme, destructive);
+
+    color: map.get($palette, default-contrast);
+    background-color: map.get($palette, default);
 
     .xui-banner-stamp {
-      color: var(--red-color);
-      background-color: white;
+      color: map.get($palette, default);
+      background-color: map.get($palette, default-contrast);
+    }
+
+    &.xui-banner-dismissible:hover {
+      color: map.get($palette, darker-contrast);
+      background-color: map.get($palette, darker);
     }
   }
-}
-
-.xui-banner-dismissable:hover {
-  filter: brightness(95%);
 }

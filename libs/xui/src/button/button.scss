@@ -1,3 +1,5 @@
+@use 'sass:map';
+
 .xui-button {
   display: inline-flex;
   align-items: center;
@@ -27,165 +29,148 @@
   }
 }
 
-@mixin xui-btn-color($name, $background) {
+@mixin btn-color($theme, $name) {
+  $palette: map.get($theme, $name);
+
   &.xui-button-#{$name} {
-    color: var(--#{$name}-color);
-    background-color: $background;
+    color: map.get($palette, default);
+    border-color: map.get($palette, default);
 
     &:focus {
-      //color: darken($color, 20%);
-      filter: brightness(95%);
+      color: map.get($palette, darker);
     }
 
     &:hover {
-      //filter: brightness(90%);
-      //background-color: darken($color, 5%);
-      background-color: var(--#{$name}-color);
-      color: $background;
+      background-color: map.get($palette, default);
+      color: map.get($palette, default-contrast);
     }
 
     &:active {
-      //filter: brightness(85%);
-      //background-color: darken($color, 10%);
-      //color: $background;
-
-      background-color: var(--#{$name}-color);
-      color: $background;
+      background-color: map.get($palette, darker);
+      color: map.get($palette, darker-contrast);
     }
 
     &[disabled],
     &[disabled]:focus,
     &[disabled]:active,
     &[disabled]:hover {
-      opacity: 0.35;
+      color: map.get($palette, 950); // TODO
+      background: none;
     }
   }
 }
 
-@mixin xui-btn-bg-color($name, $color) {
+@mixin btn-bg-color($theme, $name) {
+  $palette: map.get($theme, $name);
+
   &.xui-button-#{$name} {
-    color: $color;
-    background-color: var(--#{$name}-color);
+    color: map.get($palette, default-contrast);
+    background-color: map.get($palette, default);
 
-    &:focus {
-      //background-color: darken($background, 10%);
-      filter: brightness(85%);
-    }
-
-    &:hover {
-      //background-color: darken($background, 5%);
-      filter: brightness(90%);
-    }
-
+    &:focus,
+    &:hover,
     &:active {
-      //background-color: darken($background, 10%);
-      filter: brightness(85%);
+      color: map.get($palette, darker-contrast);
+      background-color: map.get($palette, darker);
     }
 
     &[disabled],
     &[disabled]:focus,
     &[disabled]:active,
     &[disabled]:hover {
-      //background-color: $background;
-      opacity: 0.35;
+      color: map.get($palette, default-contrast);
+      background-color: map.get($palette, 950); // TODO
     }
   }
 }
 
-.xui-button-normal {
-  @include xui-btn-color(primary, white);
-  @include xui-btn-color(primary-alt, white);
-  @include xui-btn-color(secondary, white);
-  @include xui-btn-color(destructive, white);
-  @include xui-btn-color(neutral, white);
-
-  border: 1px solid transparent;
+@mixin button-colors($theme) {
+  @include btn-color($theme, primary);
+  @include btn-color($theme, primary-alt);
+  @include btn-color($theme, secondary);
+  @include btn-color($theme, destructive);
 }
 
-.xui-button-dashed {
-  @include xui-btn-color(primary, rgba(0, 0, 0, 0));
-  @include xui-btn-color(primary-alt, rgba(0, 0, 0, 0));
-  @include xui-btn-color(secondary, rgba(0, 0, 0, 0));
-  @include xui-btn-color(destructive, rgba(0, 0, 0, 0));
-  @include xui-btn-color(neutral, rgba(0, 0, 0, 0));
-
-  border: 1px dashed;
+@mixin button-bg-colors($theme) {
+  @include btn-bg-color($theme, primary);
+  @include btn-bg-color($theme, primary-alt);
+  @include btn-bg-color($theme, secondary);
+  @include btn-bg-color($theme, destructive);
 }
 
-.xui-button-stroked {
-  @include xui-btn-color(primary, white);
-  @include xui-btn-color(primary-alt, white);
-  @include xui-btn-color(secondary, white);
-  @include xui-btn-color(destructive, white);
-  @include xui-btn-color(neutral, white);
-
-  border: 1px solid;
-}
-
-.xui-button-raised {
-  @include xui-btn-bg-color(primary, white);
-  @include xui-btn-bg-color(primary-alt, white);
-  @include xui-btn-bg-color(secondary, white);
-  @include xui-btn-bg-color(destructive, white);
-  @include xui-btn-bg-color(neutral, white);
-
-  border: 1px solid transparent;
-}
-
-.xui-button-fab {
-  @include xui-btn-bg-color(primary, white);
-  @include xui-btn-bg-color(primary-alt, white);
-  @include xui-btn-bg-color(secondary, white);
-  @include xui-btn-bg-color(destructive, white);
-  @include xui-btn-bg-color(neutral, white);
-
-  border-radius: 40px;
-  min-width: 38px;
-}
-
-.xui-button-icon {
-  // TODO
-}
-
-.xui-button-state--nonidle {
-  cursor: not-allowed !important;
-  pointer-events: none !important;
-  color: white !important;
-
-  .xui-button-state-image {
-    width: 1rem;
-    height: 1rem;
-    background: center no-repeat;
-    margin-left: 0.25em;
-    margin-bottom: 2px;
+@mixin theme($theme) {
+  .xui-button-normal {
+    @include button-colors($theme);
   }
-}
 
-.xui-button-state--loading {
-  @extend .xui-button-state--nonidle;
-  background-color: var(--processing-color) !important;
-
-  .xui-button-state-image {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' style='width:24px;height:24px' viewBox='0 0 24 24'%3E%3Cpath fill='white' d='M12,4V2A10,10 0 0,0 2,12H4A8,8 0 0,1 12,4Z' /%3E%3C/svg%3E");
-    animation: spin 1s infinite linear;
+  .xui-button-dashed {
+    @include button-colors($theme);
+    border: 1px dashed;
   }
-}
 
-.xui-button-state--succeeded {
-  @extend .xui-button-state--nonidle;
-  background-color: var(--success-color) !important;
-
-  .xui-button-state-image {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' style='width:24px;height:24px' viewBox='0 0 24 24'%3E%3Cpath fill='white' d='M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z' /%3E%3C/svg%3E");
+  .xui-button-stroked {
+    @include button-colors($theme);
+    border: 1px solid;
   }
-}
 
-.xui-button-state--failed {
-  @extend .xui-button-state--nonidle;
-  background-color: var(--fail-color) !important;
+  .xui-button-raised {
+    @include button-bg-colors($theme);
+    border: 1px solid transparent;
+  }
 
-  .xui-button-state-image {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' style='width:24px;height:24px' viewBox='0 0 24 24'%3E%3Cpath fill='white' d='M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z' /%3E%3C/svg%3E");
+  .xui-button-fab {
+    @include button-bg-colors($theme);
+    border-radius: 40px;
+    min-width: 38px;
+  }
+
+  .xui-button-icon {
+    // TODO
+  }
+
+  .xui-button-state--nonidle {
+    cursor: not-allowed !important;
+    pointer-events: none !important;
+
+    .xui-button-state-image {
+      width: 1rem;
+      height: 1rem;
+      background: center no-repeat;
+      margin-left: 0.25em;
+      margin-bottom: 2px;
+    }
+  }
+
+  .xui-button-state--loading {
+    @extend .xui-button-state--nonidle;
+    .xui-button-state-image {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' style='width:24px;height:24px' viewBox='0 0 24 24'%3E%3Cpath fill='white' d='M12,4V2A10,10 0 0,0 2,12H4A8,8 0 0,1 12,4Z' /%3E%3C/svg%3E");
+      animation: spin 1s infinite linear;
+    }
+  }
+
+  .xui-button-state--succeeded {
+    $palette: map.get($theme, success);
+
+    @extend .xui-button-state--nonidle;
+    background-color: map.get($palette, default) !important;
+    color: map.get($palette, default-contrast) !important;
+
+    .xui-button-state-image {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' style='width:24px;height:24px' viewBox='0 0 24 24'%3E%3Cpath fill='white' d='M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z' /%3E%3C/svg%3E");
+    }
+  }
+
+  .xui-button-state--failed {
+    $palette: map.get($theme, destructive);
+
+    @extend .xui-button-state--nonidle;
+    background-color: map.get($palette, default) !important;
+    color: map.get($palette, default-contrast) !important;
+
+    .xui-button-state-image {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' style='width:24px;height:24px' viewBox='0 0 24 24'%3E%3Cpath fill='white' d='M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z' /%3E%3C/svg%3E");
+    }
   }
 }
 

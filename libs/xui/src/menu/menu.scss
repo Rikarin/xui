@@ -1,6 +1,9 @@
-@use '~@oddbird/blend';
+@use 'sass:map';
+@use '@oddbird/blend';
 
-@mixin xui-menu($theme) {
+@mixin theme($theme, $name: primary) {
+  $palette: map.get($theme, $name);
+
   xui-menu {
     flex: auto;
     width: 100%;
@@ -20,7 +23,7 @@
       justify-content: space-between;
       padding-right: 8px;
 
-      @include xui-menu-hover();
+      @include xui-menu-hover($palette);
     }
 
     .xui-submenu-title {
@@ -35,24 +38,23 @@
     padding: 8px 0; // TODO: delete this?
 
     .xui-menu-group-title {
-      color: gray;
+      font-size: 0.85rem;
+      font-weight: 500;
     }
   }
 
   xui-menu-item {
     @include xui-menu-item();
-    @include xui-menu-hover();
+    @include xui-menu-hover($palette);
 
     border-left: 4px solid transparent;
   }
 
   .xui-menu-item-selected {
-    $color: map-get($theme, primary);
-    $bgColor: blend.scale($color, $lightness: 60%);
+    background-color: map.get($palette, default);
+    color: map.get($palette, default-contrast);
 
-    border-left: $color 4px solid;
-    background-color: $bgColor;
-    color: blend.contrast($bgColor);
+    border-left: map.get($palette, 900) 4px solid;
   }
 }
 
@@ -68,16 +70,16 @@
   }
 }
 
-@mixin xui-menu-hover() {
-  $color: map-get($theme, primary);
-
+@mixin xui-menu-hover($palette) {
   &:hover {
-    color: var(--primary-color);
+    color: map.get($palette, default-contrast);
+    background-color: map.get($palette, default);
+
     cursor: pointer;
   }
 
   &:active {
-    background-color: blend.scale($color, $lightness: 60%);
+    background-color: map.get($palette, darker);
   }
 
   &[disabled],
@@ -85,8 +87,8 @@
   &[disabled]:active,
   &[disabled]:hover {
     cursor: not-allowed;
+    color: inherit;
     background-color: transparent;
-    color: white; // TODO: use some general color
     opacity: 0.35;
   }
 }
