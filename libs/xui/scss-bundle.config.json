@@ -1,7 +1,7 @@
 {
   "bundlerOptions": {
-    "entryFile": "./libs/xui/src/lib/xui.theme.scss",
-    "outFile": "../../dist/libs/xui/xui.theme.scss",
-    "includePaths": ["projects/shared-styles"]
+    "entryFile": "./libs/xui/src/lib/index.scss",
+    "outFile": "./dist/libs/xui/index.scss",
+    "includePaths": ["./libs/xui/src/lib"]
   }
 }

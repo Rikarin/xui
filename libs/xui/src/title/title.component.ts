@@ -8,7 +8,7 @@ import { XuiTitleService } from './title.service';
   styleUrls: ['./title.component.scss']
 })
 export class XuiTitleComponent implements OnInit, OnDestroy {
-  private _interval: number;
+  private _interval: any;
 
   @Input() title: string;
   @Input() autoRefresh = false;

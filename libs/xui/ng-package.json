@@ -1,6 +1,13 @@
 {
   "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
   "dest": "../../dist/libs/xui",
+  "assets": [
+    {
+      "glob": "**/*.scss",
+      "input": "src",
+      "output": "."
+    }
+  ],
   "lib": {
     "entryFile": "src/index.ts"
   }

@@ -1,34 +1,28 @@
 {
   "name": "xui",
-  "description": "All in one UI components for Angular 14",
-  "keywords": [
-    "ui",
-    "gui",
-    "lib",
-    "components",
-    "material",
-    "zorro",
-    "ng",
-    "ngx",
-    "angular",
-    "14",
-    "promise",
-    "asyc",
-    "observer"
-  ],
+  "description": "Xui Components for Angular",
+  "keywords": ["angular", "components"],
   "license": "MIT",
   "homepage": "https://xuijs.org/",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rikarin/xui.git"
+    "url": "https://github.com/rikarin/xui.git"
+  },
+  "bugs": {
+    "url": "https://github.com/rikarin/xui/issues"
+  },
+  "exports": {
+    ".": {
+      "sass": "./index.scss"
+    }
   },
   "version": "1.9.2",
   "peerDependencies": {
-    "@angular/cdk": "14.1.2",
-    "@angular/common": "14.1.2",
-    "@angular/core": "14.1.2",
-    "@angular/material": "14.1.2",
-    "@ngneat/until-destroy": "^9.2.1"
+    "@angular/cdk": "14.2.5",
+    "@angular/common": "14.2.6",
+    "@angular/core": "14.2.6",
+    "@angular/material": "14.2.5",
+    "@ngneat/until-destroy": "^9.2.2"
   },
   "dependencies": {
     "tslib": "^2.4.0"

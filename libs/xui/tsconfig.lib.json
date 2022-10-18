@@ -11,6 +11,7 @@
     "lib": ["dom", "es2018"]
   },
   "angularCompilerOptions": {
+    "compileNonExportedClasses": false,
     "skipTemplateCodegen": true,
     "strictMetadataEmit": true,
     "enableResourceInlining": true

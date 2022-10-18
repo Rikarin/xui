@@ -1,0 +1,11 @@
+@forward './banner/banner';
+//@forward './button/button';
+
+@mixin xui-core($theme) {
+  @include xui-banner($theme);
+  @include xui-menu($theme);
+}
+
+a {
+  color: var(--primary-color);
+}
