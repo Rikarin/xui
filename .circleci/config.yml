@@ -144,9 +144,9 @@ workflows:
       #      - check-formatting:
       #          requires:
       #            - install
-      - lint:
-          requires:
-            - install
+#      - lint:
+#          requires:
+#            - install
       - test:
           requires:
             - install
@@ -156,13 +156,13 @@ workflows:
       #          filters:
       #            tags:
       #              only: /.*/
-      - e2e:
-          requires:
-            - install
+#      - e2e:
+#          requires:
+#            - install
       - publish:
           requires:
             #            - check-formatting
-            - lint
+#            - lint
             #            - test
             - build
           #            - e2e
