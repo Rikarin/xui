@@ -4,7 +4,7 @@ aliases:
   - &defaults
     working_directory: ~/repo
     docker:
-      - image: cimg/18.11.0-browsers
+      - image: cimg/node:18.11.0-browsers
   - &set_env
     name: Setup Environment Variables
     command: |
@@ -52,6 +52,7 @@ jobs:
           paths:
             - ~/.cache
             - node_modules
+
   check-formatting:
     <<: *defaults
     steps:
@@ -61,6 +62,7 @@ jobs:
       - restore_cache:
           <<: *yarn_cache
       - run: yarn format:check ${AFFECTED_ARGS}
+
   lint:
     <<: *defaults
     steps:
@@ -79,6 +81,7 @@ jobs:
       - run:
           name: Lint commit message
           command: echo "$COMMIT_MESSAGE" | npx commitlint
+
   build:
     <<: *defaults
     steps:
@@ -88,14 +91,13 @@ jobs:
       - restore_cache:
           <<: *yarn_cache
       - run: yarn affected:build ${AFFECTED_ARGS} --parallel --configuration production
-      # https://github.com/reactway/scss-bundle/issues/90
-      # - run: yarn pack-scss
       - save_cache:
           key: build-{{ .Environment.CIRCLE_WORKFLOW_ID }}
           paths:
             - dist
       - store_artifacts:
           path: dist
+
   test:
     <<: *defaults
     steps:
@@ -138,46 +140,31 @@ workflows:
   version: 2
   pr_check:
     jobs:
-      - install:
-          filters:
-            tags:
-              only: /.*/
-      - check-formatting:
+      - install
+#      - check-formatting:
+#          requires:
+#            - install
+      - lint:
           requires:
             - install
-          filters:
-            tags:
-              only: /.*/
-      # - lint:
-      #     requires:
-      #       - install
-      #     filters:
-      #       tags:
-      #         only: /.*/
       - test:
           requires:
             - install
-          filters:
-            tags:
-              only: /.*/
       - build:
           requires:
             - install
-          filters:
-            tags:
-              only: /.*/
-#      - e2e:
-#          requires:
-#            - install
 #          filters:
 #            tags:
 #              only: /.*/
+      - e2e:
+          requires:
+            - install
       - publish:
           requires:
-            - check-formatting
-            # - lint
-            - test
-            - build
+#            - check-formatting
+             - lint
+#            - test
+             - build
 #            - e2e
           filters:
             tags:

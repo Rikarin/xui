@@ -1,7 +1,0 @@
-{
-  "bundlerOptions": {
-    "entryFile": "./libs/xui/src/lib/index.scss",
-    "outFile": "./dist/libs/xui/index.scss",
-    "includePaths": ["./libs/xui/src/lib"]
-  }
-}
