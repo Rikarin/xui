@@ -169,5 +169,5 @@ workflows:
           filters:
             tags:
               only: /^v.*/ # runs for no branches and only for tags starting with 'v'
-            branches:
-              ignore: /.*/
+#            branches:
+#              ignore: /.*/
