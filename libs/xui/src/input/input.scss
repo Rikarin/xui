@@ -1,0 +1,107 @@
+@use 'sass:map';
+
+@mixin theme($theme) {
+  $background: map.get($theme, background);
+  $destructive: map.get($theme, destructive);
+  $information: map.get($theme, information);
+
+  xui-input {
+    display: flex;
+    flex-direction: column;
+
+    .input {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      border-radius: 4px;
+
+      &:focus-within {
+        outline: 2px solid map.get($information, default);
+        z-index: 1;
+      }
+    }
+
+    input {
+      flex: 100%;
+      -webkit-text-fill-color: var(--text-normal);
+      caret-color: var(--text-normal);
+      background-color: transparent;
+
+      &:disabled {
+        -webkit-text-fill-color: var(--text-muted);
+        cursor: not-allowed;
+      }
+
+      &::placeholder {
+        -webkit-text-fill-color: var(--text-muted);
+      }
+    }
+  }
+
+  .xui-input-light {
+    background-color: map.get($background, secondary);
+  }
+
+  .xui-input-dark {
+    background-color: map.get($background, tertiary);
+  }
+
+  .xui-input-error {
+    outline: 2px solid map.get($destructive, default);
+  }
+
+  .xui-input-error-text {
+    color: map.get($destructive, default);
+    font-size: 0.8rem;
+    margin-top: 4px;
+    margin-left: 8px;
+  }
+}
+
+.xui-input-normal {
+  padding: 12px;
+}
+
+.xui-input-small {
+  padding: 4px 12px;
+}
+
+xui-input-addon {
+  display: grid;
+  place-items: center;
+  padding: 8px;
+
+  border-radius: 4px;
+}
+
+xui-input-group {
+  display: flex;
+
+  > xui-input:not(:first-child) > .input {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+  > xui-input:not(:last-child) > .input {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  > xui-input-addon:not(:first-child) {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+  > xui-input-addon:not(:last-child) {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  > xui-input:not(:first-child) {
+    border-left: 1px solid var(--text-muted);
+  }
+
+  > xui-input-addon:not(:first-child) {
+    border-left: 1px solid var(--text-muted);
+  }
+}

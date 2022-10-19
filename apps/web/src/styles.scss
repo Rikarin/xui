@@ -6,21 +6,13 @@
 // there's a bug when space is encoded in string it wont compile
 //@import url('https://fonts.googleapis.com/css?family=Roboto%20Mono&display=swap');
 
-
-
-$theme: (
-  primary: xui.define-palette(xui.$blue-palette),
-  primary-alt: xui.define-palette(xui.$purple-palette),
-  secondary: xui.define-palette(xui.$orange-palette),
-  information: xui.define-palette(xui.$blue-palette),
-  success: xui.define-palette(xui.$green-palette),
-  warn: xui.define-palette(xui.$orange-palette),
-  destructive: xui.define-palette(xui.$red-palette),
-
-  background: xui.$background-palette,
-  elevation: xui.$default-elevation
+$theme: xui.define-dark-theme(
+  (
+    primary: xui.define-palette(xui.$blue-palette),
+    primary-alt: xui.define-palette(xui.$purple-palette),
+    secondary: xui.define-palette(xui.$orange-palette)
+  )
 );
-
 
 $themeOld: (
   primary: #1c6e8c,
@@ -46,9 +38,8 @@ pre {
   font-family: 'Rubik';
 }
 
-
 code {
-  background-color: #F0F0F0;
+  background-color: #f0f0f0;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   border-radius: 5px;
   padding: 20px !important;

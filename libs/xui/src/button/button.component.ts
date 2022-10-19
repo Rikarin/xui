@@ -1,5 +1,5 @@
 import { Component, Input, ViewEncapsulation } from '@angular/core';
-import { WithConfig } from '../config/config.service';
+import { WithConfig } from '../config';
 import { InputBoolean } from '../util/convert';
 import { delay } from '../util/delay';
 
@@ -30,7 +30,7 @@ export class XuiButtonComponent {
   @Input() xClick: () => Promise<boolean>;
   @Input() @WithConfig() xStateDelay = 5000;
 
-  private getStyle() {
+  getStyle() {
     return `xui-button xui-button-${this.xSize} xui-button-${this.xType} xui-button-${this.xColor}`;
   }
 

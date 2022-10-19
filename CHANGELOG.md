@@ -6,10 +6,9 @@ All notable changes to this project will be documented in this file. See [standa
 
 ## [1.11.0](https://github.com/Rikarin/xui/compare/v1.10.2...v1.11.0) (2022-10-18)
 
-
 ### Features
 
-* component refactoring ([b6d7f53](https://github.com/Rikarin/xui/commit/b6d7f538db79594c542c90ab1271b9b68ecfa0e1))
+- component refactoring ([b6d7f53](https://github.com/Rikarin/xui/commit/b6d7f538db79594c542c90ab1271b9b68ecfa0e1))
 
 ### [1.10.2](https://github.com/Rikarin/xui/compare/v1.10.1...v1.10.2) (2022-10-18)
 

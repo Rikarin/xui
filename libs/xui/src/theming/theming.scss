@@ -1,4 +1,5 @@
 @use 'sass:map';
+@use 'palettes';
 
 @function _get-color-from-palette($palette, $hue) {
   @if map.has-key($palette, $hue) {
@@ -36,4 +37,62 @@
   }
 
   @return $result;
+}
+
+@function set-default($theme, $name, $palette) {
+  @return map.merge(
+    $theme,
+    (
+      $name: define-palette($palette)
+    )
+  );
+}
+
+@function define-dark-theme($theme) {
+  $primary: map.get($theme, primary);
+
+  @if map.get($theme, primary-alt) == null {
+    $theme: map.merge(
+      $theme,
+      (
+        primary-alt: map.get($primary, 700)
+      )
+    );
+  }
+
+  @if map.get($theme, information) == null {
+    $theme: set-default($theme, information, palettes.$blue-palette);
+  }
+
+  @if map.get($theme, success) == null {
+    $theme: set-default($theme, success, palettes.$green-palette);
+  }
+
+  @if map.get($theme, warn) == null {
+    $theme: set-default($theme, warn, palettes.$orange-palette);
+  }
+
+  @if map.get($theme, destructive) == null {
+    $theme: set-default($theme, destructive, palettes.$red-palette);
+  }
+
+  @if map.get($theme, background) == null {
+    $theme: map.merge(
+      $theme,
+      (
+        background: palettes.$background-palette
+      )
+    );
+  }
+
+  @if map.get($theme, elevation) == null {
+    $theme: map.merge(
+      $theme,
+      (
+        elevation: palettes.$default-elevation
+      )
+    );
+  }
+
+  @return $theme;
 }

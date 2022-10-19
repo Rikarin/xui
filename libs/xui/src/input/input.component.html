@@ -1,0 +1,15 @@
+<div [class]="styles" [class.xui-input-error]="showError">
+  <ng-content select="[xui-prefix]"></ng-content>
+  <input [disabled]="disabled" [type]="type" [placeholder]="placeholder ?? ''" [(ngModel)]="value" list="list" />
+  <ng-content select="[xui-suffix]"></ng-content>
+</div>
+
+<div class="xui-input-error-text" *ngIf="showError">
+  <ng-container *ngIf="control?.hasError('message')">{{ errorMessage }}</ng-container>
+  <ng-container *ngIf="control?.hasError('required')">This field is required!</ng-container>
+  <ng-container *ngIf="control?.hasError('email')">Email expected</ng-container>
+</div>
+
+<datalist id="list" *ngIf="dataList">
+  <option *ngFor="let item of dataList" [value]="item"></option>
+</datalist>

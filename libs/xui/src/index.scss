@@ -3,16 +3,18 @@
 @use 'menu/menu';
 @use 'styles/scrollbar';
 @use 'card/card';
+@use 'input/input';
 
 @forward './core/core';
 
 @forward './theming/palettes';
-@forward './theming/theming' show define-palette;
+@forward './theming/theming' show define-palette, define-dark-theme;
 @forward './button/button' as button-* show theme;
 @forward './menu/menu' as menu-* show theme;
 @forward './banner/banner' as banner-* show theme;
 @forward 'styles/scrollbar' as scrollbar-* show theme;
 @forward 'card/card' as card-* show theme;
+@forward 'input/input' as input-* show theme;
 
 @forward 'layout/layout';
 
@@ -28,13 +30,15 @@ a {
 @mixin all-component-themes($theme) {
   @include card.theme($theme);
   @include button.theme($theme);
+  @include input.theme($theme);
   @include banner.theme($theme);
   @include menu.theme($theme);
 
   @include scrollbar.theme($theme);
 }
 
-
-
 // button
 // --font-primary
+
+// input
+// --text stuff

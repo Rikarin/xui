@@ -1,0 +1,50 @@
+<h1>Input</h1>
+
+<pre>Input can be used to input user's input</pre>
+
+<xui-card title="Input">
+  <div>
+    <xui-input type="text"></xui-input>
+    <br />
+    <xui-input type="text" xSize="small"></xui-input>
+    <br />
+    <xui-input type="text" placeholder="Placeholder"></xui-input>
+    <br />
+    <xui-input type="text" color="dark" placeholder="Dark"></xui-input>
+    <br />
+    <xui-input type="text" placeholder="Required" [formControl]="errorControl"></xui-input>
+    <br />
+    <xui-input type="text" placeholder="Disabled" disabled></xui-input>
+    <br />
+    <xui-input type="password" placeholder="Password"></xui-input>
+    <br />
+  </div>
+</xui-card>
+
+<xui-card title="Input Prefix & Suffix">
+  <div>
+    <xui-input type="text" placeholder="your-website">
+      <div xui-prefix>https://</div>
+      <div xui-suffix>.com</div>
+    </xui-input>
+    <br />
+  </div>
+</xui-card>
+
+<xui-card title="Input Group">
+  <div>
+    <xui-input-group>
+      <xui-input-addon>https://</xui-input-addon>
+      <xui-input type="text" placeholder="First Input"></xui-input>
+      <xui-input-addon>.com</xui-input-addon>
+    </xui-input-group>
+    <br />
+
+    <xui-input-group xSize="small">
+      <xui-input-addon>https://</xui-input-addon>
+      <xui-input type="text" placeholder="First Input"></xui-input>
+      <xui-input-addon>.com</xui-input-addon>
+    </xui-input-group>
+    <br />
+  </div>
+</xui-card>

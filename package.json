@@ -47,6 +47,7 @@
     "@angular/router": "14.2.6",
     "@mdi/angular-material": "^7.0.96",
     "@ngneat/until-destroy": "^9.2.2",
+    "@ngx-translate/core": "^14.0.0",
     "@nrwl/angular": "15.0.0",
     "@oddbird/blend": "^0.2.3",
     "ngx-google-analytics": "^14.0.1",

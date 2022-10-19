@@ -27,6 +27,10 @@ import { SelectComponent } from './components/select/select.component';
 import { MatIconRegistry } from '@angular/material/icon';
 import { HttpClientModule } from '@angular/common/http';
 import { ThemingComponent } from './components/theming/theming.component';
+import { XuiInputModule } from '../../../../libs/xui/src/input';
+import { InputComponent } from './components/input/input.component';
+import { TranslateModule } from '@ngx-translate/core';
+import { ReactiveFormsModule } from '@angular/forms';
 
 const routes: Routes = [
   {
@@ -38,6 +42,7 @@ const routes: Routes = [
   { path: 'theming', component: ThemingComponent },
   { path: 'card', component: CardComponent },
   { path: 'button', component: ButtonComponent },
+  { path: 'input', component: InputComponent },
   { path: 'banner', component: BannerComponent },
   { path: 'breadcrumb', component: BreadcrumbComponent },
   { path: 'layout', component: LayoutComponent },
@@ -55,7 +60,8 @@ const routes: Routes = [
     BreadcrumbComponent,
     LayoutComponent,
     SelectComponent,
-    ThemingComponent
+    ThemingComponent,
+    InputComponent
   ],
   imports: [
     RouterModule.forRoot(routes),
@@ -67,13 +73,17 @@ const routes: Routes = [
     NgxGoogleAnalyticsModule.forRoot(environment.ga),
     NgxGoogleAnalyticsRouterModule,
 
+    TranslateModule.forRoot(),
+
     XuiTitleModule,
     XuiLayoutModule,
     XuiCardModule,
     XuiMenuModule,
     XuiButtonModule,
     XuiBannerModule,
-    XuiTooltipModule
+    XuiTooltipModule,
+    XuiInputModule,
+    ReactiveFormsModule
   ],
   providers: [
     {
