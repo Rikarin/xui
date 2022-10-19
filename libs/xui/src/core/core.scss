@@ -1,3 +1,23 @@
 @mixin core() {
+  * {
+    box-sizing: border-box;
+  }
 
+  html body {
+    margin: 0;
+    padding: 0;
+
+    text-rendering: optimizeLegibility;
+    overscroll-behavior: none;
+    user-select: none;
+    font-family: var(--font-primary);
+  }
+
+  a {
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 }

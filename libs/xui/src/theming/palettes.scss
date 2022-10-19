@@ -1,6 +1,22 @@
 $dark-primary-text: rgba(black, 0.87); // TODO: is this correct?
 $light-primary-text: white;
 
+$background-palette: (
+  primary: #32383c,
+  secondary: #2c3136,
+  secondary-alt: #262b2f,
+  tertiary: #1f2429,
+  accent: #4e5358,
+  floating: #13181c
+);
+
+$default-elevation: (
+  stroke: 0 0 0 1px rgba(4, 4, 5, 0.15),
+  low: (0 1px 0 rgba(4, 4, 5, 0.2), 0 1.5px 0 rgba(6, 6, 7, 0.05), 0 2px 0 rgba(4, 4, 5, 0.05)),
+  medium: 0 4px 4px rgba(0, 0, 0, 0.16),
+  high: 0 8px 16px rgba(0, 0, 0, 0.24)
+);
+
 $blue-palette: (
   50: #e9f3fc,
   100: #cbe2f9,
@@ -97,6 +113,34 @@ $orange-palette: (
   800: #703800,
   900: #5c2900,
   950: #421f00,
+
+  contrast: (
+    50: $dark-primary-text,
+    100: $dark-primary-text,
+    200: $dark-primary-text,
+    300: $dark-primary-text,
+    400: $dark-primary-text,
+    500: $light-primary-text,
+    600: $light-primary-text,
+    700: $light-primary-text,
+    800: $light-primary-text,
+    900: $light-primary-text,
+    950: $light-primary-text
+  )
+);
+
+$purple-palette: (
+  50: #f4f0ff,
+  100: #e1d8f9,
+  200: #cbbbf2,
+  300: #ac93e6,
+  400: #9475db,
+  500: #7b58cf,
+  600: #694cc0,
+  700: #5943b6,
+  800: #453894,
+  900: #2f2a6b,
+  950: #232150,
 
   contrast: (
     50: $dark-primary-text,

@@ -2,6 +2,7 @@
 @use 'banner/banner';
 @use 'menu/menu';
 @use 'styles/scrollbar';
+@use 'card/card';
 
 @forward './core/core';
 
@@ -11,18 +12,21 @@
 @forward './menu/menu' as menu-* show theme;
 @forward './banner/banner' as banner-* show theme;
 @forward 'styles/scrollbar' as scrollbar-* show theme;
+@forward 'card/card' as card-* show theme;
 
-@forward 'card/card';
 @forward 'layout/layout';
 
 // TODO
 @forward 'tooltip/tooltip.theme';
+// Select
+// Title
 
 a {
   color: var(--primary-color);
 }
 
 @mixin all-component-themes($theme) {
+  @include card.theme($theme);
   @include button.theme($theme);
   @include banner.theme($theme);
   @include menu.theme($theme);
@@ -30,9 +34,7 @@ a {
   @include scrollbar.theme($theme);
 }
 
-// menu
-//--primary-color
-//--primary-color-contrast
+
 
 // button
 // --font-primary

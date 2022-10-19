@@ -1,21 +1,19 @@
+@use 'sass:map';
+@use '../styles';
+
+$background: map.get(styles.$theme, background);
+
 :host {
   display: flex;
   width: 100%;
   height: 100vh;
 
   color: var(--text-normal);
-  background-color: var(--background-primary);
+  background-color: map.get($background, primary);
 }
 
-// https://coolors.co/d0ccd0-fbfcff-605856-1c6e8c-274156
-$color1: #d0ccd0;
-$color2: #fbfcff;
-$color3: #605856;
-$color4: #1c6e8c;
-$color5: #274156;
-
 xui-sider {
-  background-color: var(--background-secondary);
+  background-color: map.get($background, secondary);
 
   .logo {
     flex: 0 0 auto;
@@ -44,7 +42,7 @@ xui-sider {
 xui-header {
   justify-content: space-between;
   color: white;
-  background: var(--background-secondary-alt);
+  background-color: map.get($background, secondary-alt);
   padding: 0 32px;
   font-size: 18px;
   font-weight: 700;
@@ -64,8 +62,7 @@ xui-content {
 }
 
 xui-footer {
-  color: $color2;
-  background-color: var(--background-secondary-alt);
+  background-color: map.get($background, secondary-alt);
   justify-content: center;
 }
 

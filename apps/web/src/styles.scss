@@ -4,23 +4,24 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;500&display=swap');
 // there's a bug when space is encoded in string it wont compile
-// @import url('https://fonts.googleapis.com/css?family=Roboto%20Mono&display=swap');
+//@import url('https://fonts.googleapis.com/css?family=Roboto%20Mono&display=swap');
+
+
 
 $theme: (
   primary: xui.define-palette(xui.$blue-palette),
-  primary-alt: xui.define-palette(xui.$blue-palette, 800),
-  secondary: xui.define-palette(xui.$blue-palette, 200),
-  // not sure about this
-  neutral: xui.define-palette(xui.$blue-palette),
+  primary-alt: xui.define-palette(xui.$purple-palette),
+  secondary: xui.define-palette(xui.$orange-palette),
   information: xui.define-palette(xui.$blue-palette),
   success: xui.define-palette(xui.$green-palette),
   warn: xui.define-palette(xui.$orange-palette),
-  destructive: xui.define-palette(xui.$red-palette)
+  destructive: xui.define-palette(xui.$red-palette),
+
+  background: xui.$background-palette,
+  elevation: xui.$default-elevation
 );
 
-@debug $theme;
 
-// XUI configuration
 $themeOld: (
   primary: #1c6e8c,
   primary-alt: #274156,
@@ -40,25 +41,11 @@ $themeOld: (
 @include xui.core();
 @include xui.all-component-themes($theme);
 
-// End of XUI configuration
-
 html,
 pre {
   font-family: 'Rubik';
 }
 
-* {
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  padding: 0;
-}
-
-a {
-  text-decoration: none;
-}
 
 code {
   background-color: #F0F0F0;
