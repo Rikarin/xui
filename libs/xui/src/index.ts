@@ -8,3 +8,5 @@ export * from './menu';
 export * from './button';
 export * from './banner';
 export * from './tooltip';
+export * from './input';
+export * from './icon';

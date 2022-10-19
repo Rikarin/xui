@@ -11,7 +11,9 @@ import {
   XuiMenuModule,
   XuiButtonModule,
   XuiBannerModule,
-  XuiTooltipModule
+  XuiTooltipModule,
+  XuiInputModule,
+  XuiIconModule
 } from 'xui';
 import { RouterModule, Routes } from '@angular/router';
 import { CardComponent } from './components/card/card.component';
@@ -27,7 +29,6 @@ import { SelectComponent } from './components/select/select.component';
 import { MatIconRegistry } from '@angular/material/icon';
 import { HttpClientModule } from '@angular/common/http';
 import { ThemingComponent } from './components/theming/theming.component';
-import { XuiInputModule } from '../../../../libs/xui/src/input';
 import { InputComponent } from './components/input/input.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -83,6 +84,7 @@ const routes: Routes = [
     XuiBannerModule,
     XuiTooltipModule,
     XuiInputModule,
+    XuiIconModule,
     ReactiveFormsModule
   ],
   providers: [

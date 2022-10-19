@@ -6,9 +6,10 @@ import { XuiMenuGroupComponent } from './menu-group/menu-group.component';
 import { XuiMenuItemComponent } from './menu-item/menu-item.component';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
+import { XuiIconModule } from '../icon';
 
 @NgModule({
-  imports: [CommonModule, RouterModule, MatIconModule],
+  imports: [CommonModule, RouterModule, XuiIconModule],
   declarations: [XuiMenuComponent, XuiSubMenuComponent, XuiMenuGroupComponent, XuiMenuItemComponent],
   exports: [XuiMenuComponent, XuiSubMenuComponent, XuiMenuGroupComponent, XuiMenuItemComponent]
 })

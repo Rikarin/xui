@@ -1,2 +1,4 @@
-<ng-container *ngIf="icon"><mat-icon [svgIcon]="icon"></mat-icon></ng-container>
+<ng-container *ngIf="icon">
+  <xui-icon>{{ icon }}</xui-icon>
+</ng-container>
 <ng-content *ngIf="showLabel$ | async"></ng-content>

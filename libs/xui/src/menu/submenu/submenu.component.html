@@ -1,9 +1,11 @@
 <div class="xui-submenu-entry" [style.paddingLeft.px]="paddingLeft" (click)="toggleSubmenu()">
   <div class="xui-submenu-title">
-    <ng-container *ngIf="icon"><mat-icon [svgIcon]="icon"></mat-icon></ng-container>
+    <ng-container *ngIf="icon">
+      <xui-icon>{{ icon }}</xui-icon>
+    </ng-container>
     {{ title }}
   </div>
 
-  <mat-icon [svgIcon]="this.open ? 'chevron-down' : 'chevron-up'"></mat-icon>
+  <xui-icon>{{ this.open ? 'chevron-down' : 'chevron-up' }}</xui-icon>
 </div>
 <ng-content *ngIf="this.open"></ng-content>
