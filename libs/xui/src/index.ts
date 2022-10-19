@@ -10,3 +10,4 @@ export * from './banner';
 export * from './tooltip';
 export * from './input';
 export * from './icon';
+export * from './settings';

@@ -24,7 +24,7 @@ export class XuiButtonComponent {
 
   @Input() xType: 'normal' | 'dashed' | 'stroked' | 'raised' | 'fab' | 'icon' | string = 'normal';
   @Input() xSize: 'sm' | 'md' | 'lg' | string = 'md';
-  @Input() xColor: 'primary' | 'primary-alt' | 'secondary' | 'destructive' | 'neutral' | 'minimal' | string = 'minimal';
+  @Input() xColor: 'primary' | 'primary-alt' | 'secondary' | 'destructive' | 'neutral' | 'minimal' | string = 'primary';
 
   @Input() @InputBoolean() disabled = false;
   @Input() xClick: () => Promise<boolean>;

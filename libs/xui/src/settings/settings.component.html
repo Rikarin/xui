@@ -1,0 +1,31 @@
+<dialog [open]="opened">
+  <div class="xui-settings-dialog">
+    <div class="xui-settings-menu">
+      <nav>
+        <div
+          *ngFor="let item of items; let i = index"
+          [class.item]="item.type === 'item'"
+          [class.active]="i == defaultPage"
+          [class.category]="item.type === 'category'"
+          [class.divider]="item.type === 'divider'"
+          [class.red]="item.critical"
+          (click)="navigate(i)"
+        >
+          {{ item.name ? (item.name | translate) : '' }}
+        </div>
+      </nav>
+    </div>
+    <div class="xui-settings-right">
+      <div class="xui-settings-content">
+        <ng-template [cdkPortalOutlet]="portal" (attached)="attached($event)"></ng-template>
+      </div>
+
+      <div class="xui-settings-close-anchor">
+        <div class="xui-settings-close" (click)="close()">
+          <xui-icon>close-circle-outline</xui-icon>
+          ESC
+        </div>
+      </div>
+    </div>
+  </div>
+</dialog>

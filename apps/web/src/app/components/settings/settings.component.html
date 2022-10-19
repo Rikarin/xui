@@ -1,0 +1,12 @@
+<h1>Settings</h1>
+<pre>Settings components is used to show full screen dialog with settings</pre>
+
+<xui-card title="Settings">
+  <button xui xColor="primary" xType="raised" (click)="open()">Open Settings</button>
+</xui-card>
+
+<!--<pre>-->
+<!--  <code [highlight]="code" [languages]="['html']"></code>-->
+<!--</pre>-->
+
+<xui-settings #settings="xuiSettings" [items]="items"></xui-settings>

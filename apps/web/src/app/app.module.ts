@@ -13,7 +13,8 @@ import {
   XuiBannerModule,
   XuiTooltipModule,
   XuiInputModule,
-  XuiIconModule
+  XuiIconModule,
+  XuiSettingsModule
 } from 'xui';
 import { RouterModule, Routes } from '@angular/router';
 import { CardComponent } from './components/card/card.component';
@@ -32,6 +33,7 @@ import { ThemingComponent } from './components/theming/theming.component';
 import { InputComponent } from './components/input/input.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import { SettingsComponent } from './components/settings/settings.component';
 
 const routes: Routes = [
   {
@@ -47,7 +49,8 @@ const routes: Routes = [
   { path: 'banner', component: BannerComponent },
   { path: 'breadcrumb', component: BreadcrumbComponent },
   { path: 'layout', component: LayoutComponent },
-  { path: 'select', component: SelectComponent }
+  { path: 'select', component: SelectComponent },
+  { path: 'settings', component: SettingsComponent }
 ];
 
 @NgModule({
@@ -62,7 +65,8 @@ const routes: Routes = [
     LayoutComponent,
     SelectComponent,
     ThemingComponent,
-    InputComponent
+    InputComponent,
+    SettingsComponent
   ],
   imports: [
     RouterModule.forRoot(routes),
@@ -85,6 +89,7 @@ const routes: Routes = [
     XuiTooltipModule,
     XuiInputModule,
     XuiIconModule,
+    XuiSettingsModule,
     ReactiveFormsModule
   ],
   providers: [
