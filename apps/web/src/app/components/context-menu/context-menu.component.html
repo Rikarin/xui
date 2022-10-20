@@ -1,0 +1,26 @@
+<h1>Context Menu</h1>
+
+<xui-card>
+  <button xui [cdkMenuTriggerFor]="menu">Open Menu</button>
+
+  <xui-context-menu cdkMenu>
+    <button xui cdkMenuItem>Profile <xui-icon>account</xui-icon></button>
+    <hr />
+    <button xui cdkMenuItem>ASDF</button>
+    <button xui cdkMenuGroup>ASDF</button>
+    <button xui xColor="destructive" cdkMenuItem>
+      Delete
+      <xui-icon>delete-outline</xui-icon>
+    </button>
+  </xui-context-menu>
+
+  <ng-template #menu>
+    <xui-context-menu cdkMenu>
+      <button xui cdkMenuItem>Foo</button>
+      <button xui cdkMenuItem>Bar <xui-icon>account</xui-icon></button>
+      <hr />
+      <button xui cdkMenuItem>ASDF</button>
+      <button xui cdkMenuGroup>ASDF</button>
+    </xui-context-menu>
+  </ng-template>
+</xui-card>

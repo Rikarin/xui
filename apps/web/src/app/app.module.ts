@@ -14,7 +14,8 @@ import {
   XuiTooltipModule,
   XuiInputModule,
   XuiIconModule,
-  XuiSettingsModule
+  XuiSettingsModule,
+  XuiTabModule, XuiContextMenuModule
 } from 'xui';
 import { RouterModule, Routes } from '@angular/router';
 import { CardComponent } from './components/card/card.component';
@@ -35,7 +36,8 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SettingsComponent } from './components/settings/settings.component';
 import { TabsComponent } from './components/tabs/tabs.component';
-import { XuiTabModule } from '../../../../libs/xui/src/tabs';
+import { ContextMenuComponent } from './components/context-menu/context-menu.component';
+import {CdkMenuModule} from "@angular/cdk/menu";
 
 const routes: Routes = [
   {
@@ -53,7 +55,8 @@ const routes: Routes = [
   { path: 'layout', component: LayoutComponent },
   { path: 'select', component: SelectComponent },
   { path: 'settings', component: SettingsComponent },
-  { path: 'tabs', component: TabsComponent }
+  { path: 'tabs', component: TabsComponent },
+  { path: 'context-menu', component: ContextMenuComponent }
 ];
 
 @NgModule({
@@ -70,12 +73,14 @@ const routes: Routes = [
     ThemingComponent,
     InputComponent,
     SettingsComponent,
-    TabsComponent
+    TabsComponent,
+    ContextMenuComponent
   ],
   imports: [
     RouterModule.forRoot(routes),
     BrowserModule,
     BrowserAnimationsModule,
+    ReactiveFormsModule,
     HighlightModule,
     HttpClientModule,
 
@@ -83,6 +88,8 @@ const routes: Routes = [
     NgxGoogleAnalyticsRouterModule,
 
     TranslateModule.forRoot(),
+
+    CdkMenuModule,
 
     XuiTitleModule,
     XuiLayoutModule,
@@ -95,7 +102,7 @@ const routes: Routes = [
     XuiIconModule,
     XuiSettingsModule,
     XuiTabModule,
-    ReactiveFormsModule
+    XuiContextMenuModule,
   ],
   providers: [
     {

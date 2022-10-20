@@ -1,9 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ContextMenuComponent } from './context-menu.component';
+import {XuiContextMenuComponent} from './context-menu.component';
+import {CdkMenuModule} from "@angular/cdk/menu";
 
 @NgModule({
-  declarations: [ContextMenuComponent],
-  imports: [CommonModule]
+  declarations: [XuiContextMenuComponent],
+  imports: [CommonModule, CdkMenuModule],
+  exports: [XuiContextMenuComponent]
 })
-export class ContextMenuModule {}
+export class XuiContextMenuModule {}

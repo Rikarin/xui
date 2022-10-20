@@ -1,0 +1,36 @@
+@use 'sass:map';
+
+@mixin theme($theme) {
+  $background: map.get($theme, background);
+
+  xui-context-menu {
+    min-width: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    padding: 8px;
+    background-color: map.get($background, floating);
+    border-radius: 4px;
+
+    hr {
+      width: 95%;
+      margin: 4px;
+
+      border: .5px solid map.get($background, primary);
+    }
+
+    .xui-button {
+      width: 100%;
+      justify-content: space-between;
+
+      padding: 0 0.5em;
+    }
+
+    xui-icon {
+      flex: 1;
+      justify-content: flex-end;
+      display: flex;
+    }
+  }
+}

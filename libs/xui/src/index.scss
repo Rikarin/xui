@@ -1,3 +1,5 @@
+@use 'sass:map';
+
 @use 'button/button';
 @use 'banner/banner';
 @use 'menu/menu';
@@ -6,6 +8,7 @@
 @use 'input/input';
 @use 'settings/settings';
 @use 'tabs/tabs';
+@use 'context-menu/context-menu';
 
 @forward './core/core';
 @forward './theming/palettes';
@@ -18,6 +21,7 @@
 @forward 'input/input' as input-* show input-theme;
 @forward 'settings/settings' as settings-* show settings-theme;
 @forward 'tabs/tabs' as tabs-* show tabs-theme;
+@forward 'context-menu/context-menu' as context-menu-* show tabcontext-menu-theme;
 
 @forward 'layout/layout';
 
@@ -26,9 +30,7 @@
 // Select
 // Title
 
-a {
-  color: var(--primary-color);
-}
+@import '@angular/cdk/overlay-prebuilt.css';
 
 @mixin all-component-themes($theme) {
   @include card.theme($theme);
@@ -37,9 +39,15 @@ a {
   @include banner.theme($theme);
   @include menu.theme($theme);
   @include tabs.theme($theme);
+  @include context-menu.theme($theme);
 
   @include scrollbar.theme($theme);
   @include settings.theme($theme);
+
+  a {
+    $info: map.get($theme, information);
+    color: map.get($info, default);
+  }
 }
 
 // button
