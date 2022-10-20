@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.13.1](https://github.com/Rikarin/xui/compare/v1.13.0...v1.13.1) (2022-10-20)
+
+
+### Bug Fixes
+
+* scrollbar design ([8e91747](https://github.com/Rikarin/xui/commit/8e9174766d1f3ad83ed93c8cfb83d99dab4a084f))
+
 ## [1.13.0](https://github.com/Rikarin/xui/compare/v1.12.0...v1.13.0) (2022-10-20)
 
 
