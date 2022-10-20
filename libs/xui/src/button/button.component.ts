@@ -1,7 +1,6 @@
 import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { WithConfig } from '../config';
-import { InputBoolean } from '../util/convert';
-import { delay } from '../util/delay';
+import { delay, InputBoolean } from '../utils';
 
 @Component({
   selector: 'button[xui]',

@@ -9,11 +9,11 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import { XuiSubmenuService } from '../submenu.service';
-import { InputBoolean } from '../../util/convert';
 import { XuiMenuService } from '../menu.service';
 import { combineLatest, filter, map } from 'rxjs';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { NavigationEnd, Router } from '@angular/router';
+import { InputBoolean } from '../../utils';
 
 @UntilDestroy()
 @Component({

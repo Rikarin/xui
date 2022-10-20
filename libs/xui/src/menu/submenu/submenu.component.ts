@@ -7,8 +7,8 @@ import {
   Output,
   ViewEncapsulation
 } from '@angular/core';
-import { InputBoolean } from '../../util/convert';
 import { XuiSubmenuService } from '../submenu.service';
+import { InputBoolean } from '../../utils';
 
 @Component({
   selector: 'xui-submenu',

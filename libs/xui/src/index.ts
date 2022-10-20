@@ -1,5 +1,3 @@
-export * from './util/convert';
-export * from './util/delay';
 export * from './utils';
 export * from './title';
 export * from './layout';
@@ -11,3 +9,7 @@ export * from './tooltip';
 export * from './input';
 export * from './icon';
 export * from './settings';
+export * from './tabs';
+export * from './context-menu';
+export * from './config';
+// export * from './select';

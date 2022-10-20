@@ -4,24 +4,21 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### [1.13.1](https://github.com/Rikarin/xui/compare/v1.13.0...v1.13.1) (2022-10-20)
 
-
 ### Bug Fixes
 
-* scrollbar design ([8e91747](https://github.com/Rikarin/xui/commit/8e9174766d1f3ad83ed93c8cfb83d99dab4a084f))
+- scrollbar design ([8e91747](https://github.com/Rikarin/xui/commit/8e9174766d1f3ad83ed93c8cfb83d99dab4a084f))
 
 ## [1.13.0](https://github.com/Rikarin/xui/compare/v1.12.0...v1.13.0) (2022-10-20)
 
-
 ### Features
 
-* add tabs ([45e4de3](https://github.com/Rikarin/xui/commit/45e4de3194b199455cf82e5ad21f5219d10aaccc))
-* add xui-icon ([04ee5a4](https://github.com/Rikarin/xui/commit/04ee5a4922d36120e0e67fa37cd605894c84b179))
-* add xui-settings ([fe1fe25](https://github.com/Rikarin/xui/commit/fe1fe2578106119a45bf4e6acd7cf25558863d4c))
-
+- add tabs ([45e4de3](https://github.com/Rikarin/xui/commit/45e4de3194b199455cf82e5ad21f5219d10aaccc))
+- add xui-icon ([04ee5a4](https://github.com/Rikarin/xui/commit/04ee5a4922d36120e0e67fa37cd605894c84b179))
+- add xui-settings ([fe1fe25](https://github.com/Rikarin/xui/commit/fe1fe2578106119a45bf4e6acd7cf25558863d4c))
 
 ### Bug Fixes
 
-* build ([58d841d](https://github.com/Rikarin/xui/commit/58d841db69b832eb36bdf8ba73f2c4cfb17c518a))
+- build ([58d841d](https://github.com/Rikarin/xui/commit/58d841db69b832eb36bdf8ba73f2c4cfb17c518a))
 
 ## [1.12.0](https://github.com/Rikarin/xui/compare/v1.11.1...v1.12.0) (2022-10-19)
 

@@ -1,7 +1,7 @@
 @use 'button/button';
 @use 'banner/banner';
 @use 'menu/menu';
-@use 'styles/scrollbar';
+@use 'core/scrollbar';
 @use 'card/card';
 @use 'input/input';
 @use 'settings/settings';
@@ -13,7 +13,7 @@
 @forward './button/button' as button-* show button-theme;
 @forward './menu/menu' as menu-* show menu-theme;
 @forward './banner/banner' as banner-* show banner-theme;
-@forward 'styles/scrollbar' as scrollbar-* show scrollbar-theme;
+@forward 'core/scrollbar' as scrollbar-* show scrollbar-theme;
 @forward 'card/card' as card-* show card-theme;
 @forward 'input/input' as input-* show input-theme;
 @forward 'settings/settings' as settings-* show settings-theme;

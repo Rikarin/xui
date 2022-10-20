@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, Input, Optional, Self, ViewEncapsulation 
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { InputGroupService } from './input-group.service';
-import { InputBoolean } from '../util/convert';
+import { InputBoolean } from '../utils';
 
 @Component({
   selector: 'xui-input',
