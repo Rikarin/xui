@@ -10,9 +10,9 @@ import {
   Output,
   ViewEncapsulation
 } from '@angular/core';
-import {MAT_SNACK_BAR_DATA, MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
-import {CdkPortalOutletAttachedRef, ComponentPortal} from '@angular/cdk/portal';
-import {SettingsPage} from './settings-page';
+import { MAT_SNACK_BAR_DATA, MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
+import { CdkPortalOutletAttachedRef, ComponentPortal } from '@angular/cdk/portal';
+import { SettingsPage } from './settings-page';
 
 @Component({
   selector: 'xui-settings',

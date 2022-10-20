@@ -1,5 +1,5 @@
-import {Component, ViewChild} from '@angular/core';
-import {MenuItem, XuiSettingsComponent} from "xui";
+import { Component, ViewChild } from '@angular/core';
+import { MenuItem, XuiSettingsComponent } from 'xui';
 
 @Component({
   selector: 'app-settings',

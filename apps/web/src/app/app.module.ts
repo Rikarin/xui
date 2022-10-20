@@ -34,6 +34,8 @@ import { InputComponent } from './components/input/input.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SettingsComponent } from './components/settings/settings.component';
+import { TabsComponent } from './components/tabs/tabs.component';
+import { XuiTabModule } from '../../../../libs/xui/src/tabs';
 
 const routes: Routes = [
   {
@@ -50,7 +52,8 @@ const routes: Routes = [
   { path: 'breadcrumb', component: BreadcrumbComponent },
   { path: 'layout', component: LayoutComponent },
   { path: 'select', component: SelectComponent },
-  { path: 'settings', component: SettingsComponent }
+  { path: 'settings', component: SettingsComponent },
+  { path: 'tabs', component: TabsComponent }
 ];
 
 @NgModule({
@@ -66,7 +69,8 @@ const routes: Routes = [
     SelectComponent,
     ThemingComponent,
     InputComponent,
-    SettingsComponent
+    SettingsComponent,
+    TabsComponent
   ],
   imports: [
     RouterModule.forRoot(routes),
@@ -90,6 +94,7 @@ const routes: Routes = [
     XuiInputModule,
     XuiIconModule,
     XuiSettingsModule,
+    XuiTabModule,
     ReactiveFormsModule
   ],
   providers: [

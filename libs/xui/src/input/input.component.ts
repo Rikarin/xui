@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Component, Input, Optional, Self, ViewEncapsulation 
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { InputGroupService } from './input-group.service';
+import { InputBoolean } from '../util/convert';
 
 @Component({
   selector: 'xui-input',
@@ -17,7 +18,7 @@ export class XuiInputComponent implements ControlValueAccessor {
   onTouched = () => {};
 
   @Input() placeholder?: string;
-  @Input() disabled: boolean = false;
+  @Input() @InputBoolean() disabled: boolean = false;
   @Input() color: 'light' | 'dark' = 'light';
   @Input() xSize: 'normal' | 'small' = 'normal';
   @Input() dataList?: string[] | null;
