@@ -5,6 +5,7 @@
   $palette: map.get($theme, $name);
 
   xui-menu {
+    @extend .thin-scrollbar;
     flex: auto;
     width: 100%;
     display: flex;

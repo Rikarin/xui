@@ -34,7 +34,6 @@ export class XuiMenuComponent implements OnInit, OnChanges {
     }
 
     if (mode) {
-      console.log('set mode', this.mode);
       this.menuService.setMode(this.mode);
     }
   }
