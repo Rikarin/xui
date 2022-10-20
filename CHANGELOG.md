@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.15.1](https://github.com/Rikarin/xui/compare/v1.15.0...v1.15.1) (2022-10-20)
+
+
+### Bug Fixes
+
+* remove lch dependency ([11898e6](https://github.com/Rikarin/xui/commit/11898e604190a28fef61a414cb5677d9695b8e11))
+
 ## [1.15.0](https://github.com/Rikarin/xui/compare/v1.14.0...v1.15.0) (2022-10-20)
 
 
