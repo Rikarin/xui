@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.15.0](https://github.com/Rikarin/xui/compare/v1.14.0...v1.15.0) (2022-10-20)
+
+
+### Features
+
+* xui-progress ([56bba30](https://github.com/Rikarin/xui/commit/56bba305bbda0f67eaba428a50ef69b2572b5334))
+
 ## [1.14.0](https://github.com/Rikarin/xui/compare/v1.13.1...v1.14.0) (2022-10-20)
 
 ### Features
