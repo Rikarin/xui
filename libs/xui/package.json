@@ -2,8 +2,12 @@
   "name": "xui",
   "description": "Xui Components for Angular",
   "keywords": [
+    "xui",
+    "design",
     "angular",
-    "components"
+    "components",
+    "ui",
+    "frontend"
   ],
   "license": "MIT",
   "homepage": "https://xuijs.org/",

@@ -1,5 +1,4 @@
 @use 'sass:map';
-@use '@oddbird/blend';
 
 @mixin theme($theme, $name: primary) {
   $palette: map.get($theme, $name);
