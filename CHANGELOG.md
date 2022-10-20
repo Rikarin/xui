@@ -4,15 +4,13 @@ All notable changes to this project will be documented in this file. See [standa
 
 ## [1.14.0](https://github.com/Rikarin/xui/compare/v1.13.1...v1.14.0) (2022-10-20)
 
-
 ### Features
 
-* context-menu ([5433767](https://github.com/Rikarin/xui/commit/54337673289769b08f90973b5d55c68ea901b67c))
-
+- context-menu ([5433767](https://github.com/Rikarin/xui/commit/54337673289769b08f90973b5d55c68ea901b67c))
 
 ### Bug Fixes
 
-* build ([aa06b54](https://github.com/Rikarin/xui/commit/aa06b548d1af307f99b4882c7226bb516849753b))
+- build ([aa06b54](https://github.com/Rikarin/xui/commit/aa06b548d1af307f99b4882c7226bb516849753b))
 
 ### [1.13.1](https://github.com/Rikarin/xui/compare/v1.13.0...v1.13.1) (2022-10-20)
 

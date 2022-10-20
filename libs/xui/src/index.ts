@@ -12,4 +12,5 @@ export * from './settings';
 export * from './tabs';
 export * from './context-menu';
 export * from './config';
+export * from './progress';
 // export * from './select';

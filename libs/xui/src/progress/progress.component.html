@@ -1,0 +1,31 @@
+<ng-container *ngIf="type === 'line'">
+  <div class="xui-progress-indicator">
+    <div [class]="style" [style.width.%]="progress"></div>
+  </div>
+
+  <div class="status" [ngSwitch]="getIndicator()">
+    <ng-container *ngSwitchCase="1">
+      <xui-icon class="xui-progress-status-success">check-circle</xui-icon>
+    </ng-container>
+    <ng-container *ngSwitchCase="0"> {{ progress }}% </ng-container>
+    <ng-container *ngSwitchCase="-1">
+      <xui-icon class="xui-progress-status-error">close-circle</xui-icon>
+    </ng-container>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="type === 'circle'">
+  <div class="xui-progress-indicator">
+    <div [class]="style" [style.width.%]="progress"></div>
+  </div>
+
+  <div class="status" [ngSwitch]="getIndicator()">
+    <ng-container *ngSwitchCase="1">
+      <xui-icon class="xui-progress-status-success">check-circle</xui-icon>
+    </ng-container>
+    <ng-container *ngSwitchCase="0"> {{ progress }}% </ng-container>
+    <ng-container *ngSwitchCase="-1">
+      <xui-icon class="xui-progress-status-error">close-circle</xui-icon>
+    </ng-container>
+  </div>
+</ng-container>

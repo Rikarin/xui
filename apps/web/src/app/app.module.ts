@@ -16,7 +16,8 @@ import {
   XuiIconModule,
   XuiSettingsModule,
   XuiTabModule,
-  XuiContextMenuModule
+  XuiContextMenuModule,
+  XuiProgressModule
 } from 'xui';
 import { RouterModule, Routes } from '@angular/router';
 import { CardComponent } from './components/card/card.component';
@@ -39,6 +40,7 @@ import { SettingsComponent } from './components/settings/settings.component';
 import { TabsComponent } from './components/tabs/tabs.component';
 import { ContextMenuComponent } from './components/context-menu/context-menu.component';
 import { CdkMenuModule } from '@angular/cdk/menu';
+import { ProgressComponent } from './components/progress/progress.component';
 
 const routes: Routes = [
   {
@@ -57,7 +59,8 @@ const routes: Routes = [
   { path: 'select', component: SelectComponent },
   { path: 'settings', component: SettingsComponent },
   { path: 'tabs', component: TabsComponent },
-  { path: 'context-menu', component: ContextMenuComponent }
+  { path: 'context-menu', component: ContextMenuComponent },
+  { path: 'progress', component: ProgressComponent }
 ];
 
 @NgModule({
@@ -75,7 +78,8 @@ const routes: Routes = [
     InputComponent,
     SettingsComponent,
     TabsComponent,
-    ContextMenuComponent
+    ContextMenuComponent,
+    ProgressComponent
   ],
   imports: [
     RouterModule.forRoot(routes),
@@ -101,6 +105,7 @@ const routes: Routes = [
     XuiTooltipModule,
     XuiInputModule,
     XuiIconModule,
+    XuiProgressModule,
     XuiSettingsModule,
     XuiTabModule,
     XuiContextMenuModule
