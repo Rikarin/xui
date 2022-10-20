@@ -41,6 +41,7 @@ import { TabsComponent } from './components/tabs/tabs.component';
 import { ContextMenuComponent } from './components/context-menu/context-menu.component';
 import { CdkMenuModule } from '@angular/cdk/menu';
 import { ProgressComponent } from './components/progress/progress.component';
+import { ExampleComponent } from './components/example/example.component';
 
 const routes: Routes = [
   {
@@ -79,7 +80,8 @@ const routes: Routes = [
     SettingsComponent,
     TabsComponent,
     ContextMenuComponent,
-    ProgressComponent
+    ProgressComponent,
+    ExampleComponent
   ],
   imports: [
     RouterModule.forRoot(routes),

@@ -1,6 +1,7 @@
 :host {
   width: 100%;
   display: grid;
-  gap: 4px;
+  gap: 12px;
   grid-template-columns: 1fr 1fr;
+  padding-right: 20px;
 }

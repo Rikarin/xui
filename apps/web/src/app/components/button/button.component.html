@@ -3,7 +3,7 @@
 <pre>Button is a clickable component.</pre>
 <pre>TODO: FAB and ICON button are not working yet.</pre>
 
-<xui-card title="Button Type">
+<app-example>
   <div>
     <button xui xColor="primary" xType="normal" [xClick]="work">Normal</button>
     <button xui xColor="primary" xType="raised" [xClick]="work">Raised</button>
@@ -12,9 +12,9 @@
     <button xui xColor="primary" xType="fab" [xClick]="work">Fab</button>
     <button xui xColor="primary" xType="icon">Icon</button>
   </div>
-</xui-card>
+</app-example>
 
-<xui-card title="Button Size" class="column">
+<app-example>
   <div>
     <button xui xColor="primary" xType="normal" xSize="sm">Normal Small</button>
     <button xui xColor="primary" xType="normal" xSize="md">Normal Medium</button>
@@ -40,9 +40,9 @@
     <button xui xColor="primary" xType="icon" xSize="md">Normal Medium</button>
     <button xui xColor="primary" xType="icon" xSize="lg">Normal Large</button>
   </div>
-</xui-card>
+</app-example>
 
-<xui-card title="Button Color" class="column">
+<app-example>
   <div>
     <button xui xColor="primary" xType="normal">Primary</button>
     <button xui xColor="primary-alt" xType="normal">Primary Alternative</button>
@@ -70,9 +70,10 @@
     <button xui xColor="primary" xType="dashed" disabled>Disabled</button>
     <button xui xColor="minimal" xType="dashed">Minimal</button>
   </div>
-</xui-card>
+</app-example>
 
-<xui-card title="Button Group" class="column">
+
+<app-example>
   <xui-button-group>
     <button xui xColor="primary" xType="raised" [xClick]="work">First</button>
     <button xui xColor="primary" xType="raised" [xClick]="work" disabled>Second</button>
@@ -88,4 +89,4 @@
     <button xui xColor="primary" xType="stroked" [xClick]="work">Second</button>
     <button xui xColor="primary" xType="stroked" [xClick]="work">Third</button>
   </xui-button-group>
-</xui-card>
+</app-example>

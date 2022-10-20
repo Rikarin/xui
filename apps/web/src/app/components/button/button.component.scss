@@ -1,10 +1,8 @@
 :host {
   display: flex;
+  gap: 12px;
   flex-direction: column;
-}
-
-.column ::ng-deep .xui-card-content {
-  flex-direction: column;
+  margin-bottom: 12px;
 }
 
 div > button[xui] {
@@ -14,8 +12,4 @@ div > button[xui] {
 
 xui-button-group {
   margin-bottom: 12px;
-}
-
-xui-card {
-  margin-bottom: 40px;
 }

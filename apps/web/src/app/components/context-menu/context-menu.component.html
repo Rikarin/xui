@@ -1,8 +1,6 @@
 <h1>Context Menu</h1>
 
-<xui-card>
-  <button xui [cdkMenuTriggerFor]="menu">Open Menu</button>
-
+<app-example>
   <xui-context-menu cdkMenu>
     <button xui cdkMenuItem>Profile <xui-icon>account</xui-icon></button>
     <hr />
@@ -23,4 +21,6 @@
       <button xui cdkMenuGroup>ASDF</button>
     </xui-context-menu>
   </ng-template>
-</xui-card>
+
+  <button xui [cdkMenuTriggerFor]="menu">Open Menu</button>
+</app-example>

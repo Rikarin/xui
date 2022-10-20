@@ -1,0 +1,37 @@
+@use 'sass:map';
+@use '../../../styles';
+
+.content {
+  display: flex;
+  flex-direction: column;
+  margin: 24px;
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-top: 1px solid gray;
+  padding: 8px;
+
+  xui-icon {
+    cursor: pointer;
+
+    &:hover {
+      $primary: map.get(styles.$theme, primary);
+      color: map.get($primary, default);
+    }
+  }
+
+  .todo {
+    $destructive: map.get(styles.$theme, destructive);
+
+    padding: 2px 4px;
+    margin-right: 12px;
+
+    background-color: map.get($destructive, default);
+    border-radius: 4px;
+
+    font-weight: 700;
+  }
+}

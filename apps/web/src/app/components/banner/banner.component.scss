@@ -2,13 +2,3 @@
   display: flex;
   flex-direction: column;
 }
-
-xui-card {
-  width: 500px;
-  height: 500px;
-
-  ::ng-deep .xui-card-content {
-    padding: 0;
-    flex-direction: column;
-  }
-}
