@@ -15,7 +15,8 @@ import {
   XuiInputModule,
   XuiIconModule,
   XuiSettingsModule,
-  XuiTabModule, XuiContextMenuModule
+  XuiTabModule,
+  XuiContextMenuModule
 } from 'xui';
 import { RouterModule, Routes } from '@angular/router';
 import { CardComponent } from './components/card/card.component';
@@ -37,7 +38,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { SettingsComponent } from './components/settings/settings.component';
 import { TabsComponent } from './components/tabs/tabs.component';
 import { ContextMenuComponent } from './components/context-menu/context-menu.component';
-import {CdkMenuModule} from "@angular/cdk/menu";
+import { CdkMenuModule } from '@angular/cdk/menu';
 
 const routes: Routes = [
   {
@@ -102,7 +103,7 @@ const routes: Routes = [
     XuiIconModule,
     XuiSettingsModule,
     XuiTabModule,
-    XuiContextMenuModule,
+    XuiContextMenuModule
   ],
   providers: [
     {

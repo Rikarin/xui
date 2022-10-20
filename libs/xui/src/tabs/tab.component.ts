@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { XuiTabGroupComponent } from './tab-group.component';
-import { InputBoolean } from 'xui';
+import { InputBoolean } from '../utils';
 
 @Component({
   selector: 'xui-tab',
