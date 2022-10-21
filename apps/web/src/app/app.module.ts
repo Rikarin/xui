@@ -42,6 +42,8 @@ import { ContextMenuComponent } from './components/context-menu/context-menu.com
 import { CdkMenuModule } from '@angular/cdk/menu';
 import { ProgressComponent } from './components/progress/progress.component';
 import { ExampleComponent } from './components/example/example.component';
+import { CheckboxComponent } from './components/checkbox/checkbox.component';
+import { XuiCheckboxModule } from '../../../../libs/xui/src/checkbox';
 
 const routes: Routes = [
   {
@@ -61,7 +63,8 @@ const routes: Routes = [
   { path: 'settings', component: SettingsComponent },
   { path: 'tabs', component: TabsComponent },
   { path: 'context-menu', component: ContextMenuComponent },
-  { path: 'progress', component: ProgressComponent }
+  { path: 'progress', component: ProgressComponent },
+  { path: 'checkbox', component: CheckboxComponent }
 ];
 
 @NgModule({
@@ -81,7 +84,8 @@ const routes: Routes = [
     TabsComponent,
     ContextMenuComponent,
     ProgressComponent,
-    ExampleComponent
+    ExampleComponent,
+    CheckboxComponent
   ],
   imports: [
     RouterModule.forRoot(routes),
@@ -110,7 +114,8 @@ const routes: Routes = [
     XuiProgressModule,
     XuiSettingsModule,
     XuiTabModule,
-    XuiContextMenuModule
+    XuiContextMenuModule,
+    XuiCheckboxModule
   ],
   providers: [
     {

@@ -11,11 +11,13 @@
 @use 'context-menu/context-menu';
 @use 'progress/progress';
 @use 'icon/icon';
+@use 'checkbox/checkbox';
+@use 'theming/theming';
 
 @forward 'core/core';
 @forward 'theming/palettes';
 @forward 'icon/icon';
-@forward 'theming/theming' show define-palette, define-dark-theme;
+@forward 'theming/theming' show define-palette, define-dark-theme, create-variables;
 @forward 'button/button' as button-* show button-theme;
 @forward 'menu/menu' as menu-* show menu-theme;
 @forward 'banner/banner' as banner-* show banner-theme;
@@ -26,6 +28,7 @@
 @forward 'tabs/tabs' as tabs-* show tabs-theme;
 @forward 'context-menu/context-menu' as context-menu-* show context-menu-theme;
 @forward 'progress/progress' as progress-* show progress-theme;
+@forward 'checkbox/checkbox' as checkbox-* show checkbox-theme;
 
 @forward 'layout/layout';
 
@@ -45,6 +48,7 @@
   @include tabs.theme($theme);
   @include context-menu.theme($theme);
   @include progress.theme($theme);
+  @include checkbox.theme($theme);
 
   @include scrollbar.theme($theme);
   @include settings.theme($theme);
@@ -52,6 +56,21 @@
   a {
     $info: map.get($theme, information);
     color: map.get($info, default);
+  }
+}
+
+@mixin all-color-variables($theme) {
+  :root {
+    @include theming.create-variables($theme, primary);
+    @include theming.create-variables($theme, primary-alt);
+    @include theming.create-variables($theme, secondary);
+
+    @include theming.create-variables($theme, information);
+    @include theming.create-variables($theme, success);
+    @include theming.create-variables($theme, destructive);
+    @include theming.create-variables($theme, warn);
+
+    @include theming.create-variables($theme, background);
   }
 }
 

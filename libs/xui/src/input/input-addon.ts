@@ -15,7 +15,7 @@ export class XuiInputAddonComponent {
   @Input() color: 'light' | 'dark' = 'dark';
 
   get styles() {
-    return `xui-input-${this.color} xui-input-${this.groupService?.size ?? 'normal'}`;
+    return `xui-input-${this.color}`;
   }
 
   constructor(@Optional() private groupService: InputGroupService) {}

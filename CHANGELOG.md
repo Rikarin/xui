@@ -4,26 +4,23 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### [1.15.3](https://github.com/Rikarin/xui/compare/v1.15.2...v1.15.3) (2022-10-21)
 
-
 ### Bug Fixes
 
-* examples ([35f2f7d](https://github.com/Rikarin/xui/commit/35f2f7d39b19bd9bdeeeb06d516fecbbab8509ff))
+- examples ([35f2f7d](https://github.com/Rikarin/xui/commit/35f2f7d39b19bd9bdeeeb06d516fecbbab8509ff))
 
 ### [1.15.2](https://github.com/Rikarin/xui/compare/v1.15.1...v1.15.2) (2022-10-20)
 
 ### [1.15.1](https://github.com/Rikarin/xui/compare/v1.15.0...v1.15.1) (2022-10-20)
 
-
 ### Bug Fixes
 
-* remove lch dependency ([11898e6](https://github.com/Rikarin/xui/commit/11898e604190a28fef61a414cb5677d9695b8e11))
+- remove lch dependency ([11898e6](https://github.com/Rikarin/xui/commit/11898e604190a28fef61a414cb5677d9695b8e11))
 
 ## [1.15.0](https://github.com/Rikarin/xui/compare/v1.14.0...v1.15.0) (2022-10-20)
 
-
 ### Features
 
-* xui-progress ([56bba30](https://github.com/Rikarin/xui/commit/56bba305bbda0f67eaba428a50ef69b2572b5334))
+- xui-progress ([56bba30](https://github.com/Rikarin/xui/commit/56bba305bbda0f67eaba428a50ef69b2572b5334))
 
 ## [1.14.0](https://github.com/Rikarin/xui/compare/v1.13.1...v1.14.0) (2022-10-20)
 

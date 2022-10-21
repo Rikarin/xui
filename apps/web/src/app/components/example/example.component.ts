@@ -1,5 +1,5 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {InputBoolean} from "xui";
+import { Component, Input, OnInit } from '@angular/core';
+import { InputBoolean } from 'xui';
 
 @Component({
   selector: 'app-example',

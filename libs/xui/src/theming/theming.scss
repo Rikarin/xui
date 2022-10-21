@@ -28,12 +28,14 @@
   );
 
   @each $hue, $color in $base-palette {
-    $result: map.merge(
-      $result,
-      (
-        '#{$hue}-contrast': get-contrast-color-from-palette($base-palette, $hue)
-      )
-    );
+    @if type-of($hue) == number {
+      $result: map.merge(
+        $result,
+        (
+          '#{$hue}-contrast': get-contrast-color-from-palette($base-palette, $hue)
+        )
+      );
+    }
   }
 
   @return $result;
@@ -95,4 +97,14 @@
   }
 
   @return $theme;
+}
+
+@mixin create-variables($theme, $name) {
+  $palette: map.get($theme, $name);
+
+  @each $weight, $value in $palette {
+    @if type-of($value) != map {
+      --#{$name}-color-#{$weight}: #{$value};
+    }
+  }
 }
