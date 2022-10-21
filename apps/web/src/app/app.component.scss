@@ -26,15 +26,8 @@ xui-sider {
     font-weight: 800;
 
     .x {
-      color: var(--red-color);
-    }
-
-    .u {
-      color: var(--green-color);
-    }
-
-    .i {
-      color: var(--blue-color);
+      $primary: map.get(styles.$theme, primary);
+      color: map.get($primary, default);
     }
   }
 }
