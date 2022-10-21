@@ -1,9 +1,10 @@
+@use 'sass:map';
 @use '../../../libs/xui/src/themes/default';
-@use './material-highlights.scss';
+@use './highlightjs';
 @use '../../../libs/xui/src/index' as xui;
 
 @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;500&display=swap');
-// there's a bug when space is encoded in string it wont compile
+ //there's a bug when space is encoded in string it wont compile
 //@import url('https://fonts.googleapis.com/css?family=Roboto%20Mono&display=swap');
 
 $theme: xui.define-dark-theme(
@@ -39,8 +40,12 @@ pre {
 }
 
 code {
-  background-color: #f0f0f0;
+  $background: map.get($theme, background);
+  background-color: map.get($background, secondary-alt) !important;
+
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   border-radius: 5px;
   padding: 20px !important;
+
+  user-select: text;
 }
