@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.16.0](https://github.com/Rikarin/xui/compare/v1.15.3...v1.16.0) (2022-10-21)
+
+
+### Features
+
+* add color-variables generator and fix input-addon ([068c1a5](https://github.com/Rikarin/xui/commit/068c1a59ecf49e6e3a66dd4dfd27546fb598c4b0))
+
 ### [1.15.3](https://github.com/Rikarin/xui/compare/v1.15.2...v1.15.3) (2022-10-21)
 
 ### Bug Fixes
