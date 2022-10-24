@@ -1,0 +1,80 @@
+@use 'sass:map';
+
+@mixin theme($theme) {
+  xui-switch {
+    flex: 0 0 auto;
+    display: flex;
+    gap: 8px;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+
+    input {
+      opacity: 0;
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+    }
+  }
+
+  .xui-switch-disabled {
+    @extend .xui-disabled-filter;
+    cursor: not-allowed;
+
+    input {
+      cursor: not-allowed;
+    }
+  }
+
+  .xui-switch {
+    position: relative;
+    width: 42px;
+    height: 24px;
+
+    background-color: gray;
+    border-radius: 100px;
+  }
+
+  .xui-switch-handle {
+    display: grid;
+    place-items: center;
+    background-color: white;
+    color: gray;
+    border-radius: 50%;
+
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 18px;
+    height: 18px;
+    transition: all 0.4s ease-out;
+
+    xui-icon {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  .xui-switch-enabled {
+    .xui-switch-handle {
+      left: calc(100% - 21px);
+      transform: rotate(360deg);
+    }
+  }
+}
+
+@mixin generate-color-variations($theme) {
+  @each $key, $value in $theme {
+    @debug $key;
+
+    $default: map.get($value, default);
+
+    .xui-switch-#{$key} {
+      background-color: $default;
+
+      .xui-switch-handle {
+        color: $default;
+      }
+    }
+  }
+}

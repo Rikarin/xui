@@ -1,4 +1,13 @@
-import { ChangeDetectorRef, Component, Input, Optional, Self, ViewEncapsulation } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnInit,
+  Optional,
+  Self,
+  ViewEncapsulation
+} from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { InputGroupService } from './input-group.service';
@@ -8,10 +17,10 @@ import { InputBoolean } from '../utils';
   selector: 'xui-input',
   exportAs: 'xuiInput',
   encapsulation: ViewEncapsulation.None,
-  // changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: 'input.component.html'
 })
-export class XuiInputComponent implements ControlValueAccessor {
+export class XuiInputComponent implements ControlValueAccessor, OnInit {
   _value?: string;
   touched = false;
   onChange = (source?: string) => {};
@@ -22,7 +31,7 @@ export class XuiInputComponent implements ControlValueAccessor {
   @Input() color: 'light' | 'dark' = 'light';
   @Input() xSize: 'normal' | 'small' = 'normal';
   @Input() dataList?: string[] | null;
-  @Input() type = 'text';
+  @Input() type: 'text' | 'password' | 'color' | 'date' | 'email' | 'number' = 'text';
 
   @Input()
   get value() {
@@ -33,6 +42,7 @@ export class XuiInputComponent implements ControlValueAccessor {
     if (this._value !== v) {
       this._value = v;
       this.onChange(v);
+      this.changeDetectorRef.markForCheck();
     }
   }
 

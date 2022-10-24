@@ -21,6 +21,10 @@
     }
   }
 
+  .xui-disabled-filter {
+    filter: grayscale(0.3) brightness(0.8) opacity(0.5);
+  }
+
   a,
   abbr,
   acronym,

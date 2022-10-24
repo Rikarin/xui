@@ -1,0 +1,8 @@
+<ng-content></ng-content>
+
+<div [class]="style">
+  <div class="xui-switch-handle">
+    <xui-icon>{{ value ? 'check-bold' : 'close-thick' }}</xui-icon>
+  </div>
+  <input type="checkbox" [checked]="value" [disabled]="disabled" />
+</div>

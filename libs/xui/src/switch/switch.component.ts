@@ -8,30 +8,30 @@ import {
   Self,
   ViewEncapsulation
 } from '@angular/core';
-import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { InputBoolean } from 'xui';
+import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { InputGroupService } from '../input/input-group.service';
 
 @Component({
-  selector: 'xui-checkbox',
-  exportAs: 'xuiCheckbox',
+  selector: 'xui-switch',
+  exportAs: 'xuiSwitch',
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './checkbox.component.html',
+  templateUrl: './switch.component.html',
   host: {
-    '[class.xui-checkbox-disabled]': 'disabled',
+    '[class.xui-switch-disabled]': 'disabled',
     '(click)': '_click()'
   }
 })
-export class XuiCheckboxComponent implements ControlValueAccessor, OnInit {
+export class XuiSwitchComponent implements ControlValueAccessor, OnInit {
   _value = false;
   touched = false;
   onChange = (source?: boolean) => {};
   onTouched = () => {};
 
   @Input() @InputBoolean() disabled = false;
-  @Input() color: 'success' | 'warn' | 'information' | 'primary' | 'destructive' | string = 'success';
+  @Input() color: 'success' | string = 'success';
 
   @Input()
   get value() {
@@ -46,9 +46,9 @@ export class XuiCheckboxComponent implements ControlValueAccessor, OnInit {
     }
   }
 
-  // get style() {
-  //   return `xui-checkbox ${this.value ? 'xui-switch-enabled ' + 'xui-switch-' + this.color : ''}`;
-  // }
+  get style() {
+    return `xui-switch ${this.value ? 'xui-switch-enabled ' + 'xui-switch-' + this.color : ''}`;
+  }
 
   constructor(
     private changeDetectorRef: ChangeDetectorRef,

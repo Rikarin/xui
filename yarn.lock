@@ -2483,11 +2483,6 @@
     yargs "^17.4.0"
     yargs-parser "21.0.1"
 
-"@oddbird/blend@^0.2.3":
-  version "0.2.3"
-  resolved "https://registry.yarnpkg.com/@oddbird/blend/-/blend-0.2.3.tgz#06408addb6acb4ef2a33affd484255e121ad5f23"
-  integrity sha512-P3MYNqeWTQ4RZdmRDOigxpcUK+pvqr+aTzHYnHxF84xmf/1quhCpbTsWZE6TPUifSQ346Cf+e4j0Zgn3fIUmSQ==
-
 "@parcel/watcher@2.0.4":
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/@parcel/watcher/-/watcher-2.0.4.tgz#f300fef4cc38008ff4b8c29d92588eced3ce014b"
@@ -2558,6 +2553,11 @@
   integrity sha512-BPS4ynJW/o92PUR4wgriz2Ud5gpST5vz6GQfMixEDK0Z8ZCUv2M7SkBLykH56T++Xs+8ln9zTGbOvNGIe02/jw==
   dependencies:
     "@sinonjs/commons" "^1.7.0"
+
+"@stackblitz/sdk@^1.8.0":
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/@stackblitz/sdk/-/sdk-1.8.0.tgz#9bd5f028ccfc1a921d66f914d1e7ea2761139c1e"
+  integrity sha512-hbS4CpQVF3bxJ+ZD8qu8lAjTZVLTPToLbMtgxbxUmp1AIgqm7i0gMFM1POBA8BqY84CT1A3z74gdCd1bsro7qA==
 
 "@tootallnate/once@2":
   version "2.0.0"

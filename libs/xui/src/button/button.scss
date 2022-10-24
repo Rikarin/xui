@@ -54,7 +54,8 @@
     &[disabled]:focus,
     &[disabled]:active,
     &[disabled]:hover {
-      color: map.get($palette, 950); // TODO
+      @extend .xui-disabled-filter;
+      color: map.get($palette, default);
       background: none;
     }
   }
@@ -78,8 +79,9 @@
     &[disabled]:focus,
     &[disabled]:active,
     &[disabled]:hover {
+      @extend .xui-disabled-filter;
       color: map.get($palette, default-contrast);
-      background-color: map.get($palette, 950); // TODO
+      background-color: map.get($palette, default);
     }
   }
 }

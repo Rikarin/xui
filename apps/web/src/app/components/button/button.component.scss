@@ -1,8 +1,12 @@
 :host {
-  display: flex;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 12px;
-  flex-direction: column;
-  margin-bottom: 12px;
+}
+
+.info {
+  grid-column: span 2;
 }
 
 div > button[xui] {

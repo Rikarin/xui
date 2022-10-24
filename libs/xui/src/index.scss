@@ -13,10 +13,12 @@
 @use 'icon/icon';
 @use 'checkbox/checkbox';
 @use 'theming/theming';
+@use 'switch/switch';
 
 @forward 'core/core';
-@forward 'theming/palettes';
 @forward 'icon/icon';
+@forward 'layout/layout';
+@forward 'theming/palettes';
 @forward 'theming/theming' show define-palette, define-dark-theme, create-variables;
 @forward 'button/button' as button-* show button-theme;
 @forward 'menu/menu' as menu-* show menu-theme;
@@ -29,13 +31,8 @@
 @forward 'context-menu/context-menu' as context-menu-* show context-menu-theme;
 @forward 'progress/progress' as progress-* show progress-theme;
 @forward 'checkbox/checkbox' as checkbox-* show checkbox-theme;
-
-@forward 'layout/layout';
-
-// TODO
-@forward 'tooltip/tooltip.theme';
-// Select
-// Title
+@forward 'switch/switch' as switch-* show switch-theme;
+@forward 'tooltip/tooltip.theme' as tooltip-*;
 
 @import '@angular/cdk/overlay-prebuilt.css';
 
@@ -49,9 +46,12 @@
   @include context-menu.theme($theme);
   @include progress.theme($theme);
   @include checkbox.theme($theme);
+  @include switch.theme($theme);
 
   @include scrollbar.theme($theme);
   @include settings.theme($theme);
+
+  @include switch.generate-color-variations($theme);
 
   a {
     $info: map.get($theme, information);
@@ -83,3 +83,20 @@
 // Settings
 
 // TODO: background contrast colors
+
+//@mixin generate-color-variations($theme, $name) {
+//  @each $key, $value in $theme {
+//    @debug $key;
+//
+//    $default: map.get($value, default);
+//
+//    .#{$name}-#{$key} {
+//      background-color: $default;
+//
+//      .xui-switch-handle {
+//        color: $default;
+//      }
+//    }
+//  }
+//}
+//

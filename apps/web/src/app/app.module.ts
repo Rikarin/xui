@@ -44,6 +44,8 @@ import { ProgressComponent } from './components/progress/progress.component';
 import { ExampleComponent } from './components/example/example.component';
 import { CheckboxComponent } from './components/checkbox/checkbox.component';
 import { XuiCheckboxModule } from '../../../../libs/xui/src/checkbox';
+import { SwitchComponent } from './components/switch/switch.component';
+import { XuiSwitchModule } from '../../../../libs/xui/src/switch/switch.module';
 
 const routes: Routes = [
   {
@@ -64,7 +66,8 @@ const routes: Routes = [
   { path: 'tabs', component: TabsComponent },
   { path: 'context-menu', component: ContextMenuComponent },
   { path: 'progress', component: ProgressComponent },
-  { path: 'checkbox', component: CheckboxComponent }
+  { path: 'checkbox', component: CheckboxComponent },
+  { path: 'switch', component: SwitchComponent }
 ];
 
 @NgModule({
@@ -85,7 +88,8 @@ const routes: Routes = [
     ContextMenuComponent,
     ProgressComponent,
     ExampleComponent,
-    CheckboxComponent
+    CheckboxComponent,
+    SwitchComponent
   ],
   imports: [
     RouterModule.forRoot(routes),
@@ -115,7 +119,8 @@ const routes: Routes = [
     XuiSettingsModule,
     XuiTabModule,
     XuiContextMenuModule,
-    XuiCheckboxModule
+    XuiCheckboxModule,
+    XuiSwitchModule
   ],
   providers: [
     {

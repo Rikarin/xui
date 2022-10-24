@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-checkbox',
@@ -6,7 +7,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./checkbox.component.scss']
 })
 export class CheckboxComponent implements OnInit {
-  constructor() {}
+  checkbox = new FormControl(false);
+
+  constructor() {
+    setInterval(() => {
+      this.checkbox.setValue(!this.checkbox.value);
+    }, 1000);
+  }
 
   ngOnInit(): void {}
 }
