@@ -28,7 +28,7 @@
       background-color: transparent;
 
       &:disabled {
-        -webkit-text-fill-color: var(--text-muted);
+        @extend .xui-disabled-filter;
         cursor: not-allowed;
       }
 
