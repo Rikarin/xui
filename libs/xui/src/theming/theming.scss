@@ -1,6 +1,7 @@
 @use 'sass:map';
 @use 'palettes';
 @use '../core/core';
+@use '../core/typography';
 
 @function _get-color-from-palette($palette, $hue) {
   @if map.has-key($palette, $hue) {
@@ -63,8 +64,7 @@
 
   @return (
     color: $color,
-    typography: $typography,
-    // TODO: default typography
+    typography: $typography or typography.define-typography-config(),
     elevation: $elevation or palettes.$default-elevation
   );
 }

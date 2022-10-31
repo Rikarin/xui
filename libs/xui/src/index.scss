@@ -17,6 +17,7 @@
 @use 'switch/switch';
 
 @forward 'core/core';
+@forward 'core/typography';
 @forward 'icon/icon';
 @forward 'layout/layout';
 @forward 'theming/palettes';
@@ -57,9 +58,10 @@
   }
 }
 
-@mixin root-color-variables($theme) {
+@mixin all-root-variables($theme) {
   :root {
     @include theming.create-variables($theme);
+    // TODO: typography
   }
 }
 

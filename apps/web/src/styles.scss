@@ -35,7 +35,7 @@ $themeOld: (
 
 @include xui.core();
 @include xui.all-component-themes($theme);
-@include xui.root-color-variables($theme);
+@include xui.all-root-variables($theme);
 
 html,
 pre {

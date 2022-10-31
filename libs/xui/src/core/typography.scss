@@ -32,5 +32,33 @@
   $button: null,
   $overline: null
 ) {
-  @return ();
+  $font-family: $font-family or 'Roboto, "Helvetica Neue", sans-serif';
+
+  $config: (
+    headline-1: $headline-1 or define-typography-level(112px, 112px, 300, $letter-spacing: -0.05em),
+    headline-2: $headline-2 or define-typography-level(56px, 56px, 400, $letter-spacing: -0.02em),
+    headline-3: $headline-3 or define-typography-level(45px, 48px, 400, $letter-spacing: -0.005em),
+    headline-4: $headline-4 or define-typography-level(34px, 40px, 400),
+    headline-5: $headline-5 or define-typography-level(24px, 32px, 400),
+    headline-6: $headline-6 or define-typography-level(20px, 32px, 500),
+
+    subtitle-1: $subtitle-1 or define-typography-level(15px, 24px, 400),
+    subtitle-2: $subtitle-2 or define-typography-level(16px, 28px, 400),
+
+    body-1: $body-1 or define-typography-level(14px, 20px, 400),
+    body-2: $body-2 or define-typography-level(14px, 24px, 500),
+
+    caption: $caption or define-typography-level(12px, 20px, 400),
+    button: $button or define-typography-level(14px, 14px, 500)
+    // TODO: overline
+  );
+
+  @each $key, $level in $config {
+    @if map.get($level, font-family) == null {
+      $new-level: map.merge($level, (font-family: $font-family));
+      $config: map.merge($config, ($key: $new-level));
+    }
+  }
+
+  @return map.merge($config, (font-family: $font-family));
 }
