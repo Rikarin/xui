@@ -1,8 +1,6 @@
-@use 'sass:map';
+@use '../core/core';
 
 @mixin theme($theme, $name: primary) {
-  $palette: map.get($theme, $name);
-
   xui-menu {
     @extend .thin-scrollbar;
     flex: auto;
@@ -23,7 +21,7 @@
       justify-content: space-between;
       padding-right: 8px;
 
-      @include xui-menu-hover($palette);
+      @include xui-menu-hover($theme, $name);
     }
 
     .xui-submenu-title {
@@ -45,16 +43,15 @@
 
   xui-menu-item {
     @include xui-menu-item();
-    @include xui-menu-hover($palette);
+    @include xui-menu-hover($theme, $name);
 
     border-left: 4px solid transparent;
   }
 
   .xui-menu-item-selected {
-    background-color: map.get($palette, default);
-    color: map.get($palette, default-contrast);
-
-    border-left: map.get($palette, 900) 4px solid;
+    background-color: core.get-color($theme, $name);
+    color: core.get-color($theme, $name, default-contrast);
+    border-left: core.get-color($theme, $name, 900) 4px solid;
   }
 }
 
@@ -70,16 +67,16 @@
   }
 }
 
-@mixin xui-menu-hover($palette) {
+@mixin xui-menu-hover($theme, $name) {
   &:hover {
-    color: map.get($palette, default-contrast);
-    background-color: map.get($palette, default);
+    color: core.get-color($theme, $name, default-contrast);
+    background-color: core.get-color($theme, $name);
 
     cursor: pointer;
   }
 
   &:active {
-    background-color: map.get($palette, darker);
+    background-color: core.get-color($theme, $name, darker);
   }
 
   &[disabled],

@@ -1,16 +1,13 @@
-@use 'sass:map';
+@use '../core/core';
 
 @mixin theme($theme) {
-  $elevation: map.get($theme, elevation);
-  $background: map.get($theme, background);
-
   xui-card {
     display: flex;
     flex-direction: column;
-    box-shadow: map.get($elevation, medium);
+    box-shadow: core.get-elevation($theme, medium);
     border-radius: 5px;
 
-    background-color: map.get($background, secondary-alt);
+    background-color: core.get-color($theme, background, secondary-alt);
   }
 }
 

@@ -1,0 +1,36 @@
+@use 'sass:map';
+
+@function define-typography-level(
+  $font-size,
+  $line-height,
+  $font-weight: 400,
+  $font-family: null,
+  $letter-spacing: normal
+) {
+  @return (
+    font-family: $font-family,
+    font-weight: $font-weight,
+    font-size: $font-size,
+    line-height: $line-height,
+    letter-spacing: $letter-spacing
+  );
+}
+
+@function define-typography-config(
+  $font-family: null,
+  $headline-1: null,
+  $headline-2: null,
+  $headline-3: null,
+  $headline-4: null,
+  $headline-5: null,
+  $headline-6: null,
+  $subtitle-1: null,
+  $subtitle-2: null,
+  $body-1: null,
+  $body-2: null,
+  $caption: null,
+  $button: null,
+  $overline: null
+) {
+  @return ();
+}

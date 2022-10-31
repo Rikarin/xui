@@ -1,7 +1,5 @@
-@use 'sass:map';
 @use '../styles';
-
-$background: map.get(styles.$theme, background);
+@use '../../../../libs/xui/src/index' as xui;
 
 :host {
   display: flex;
@@ -9,11 +7,11 @@ $background: map.get(styles.$theme, background);
   height: 100vh;
 
   color: var(--text-normal);
-  background-color: map.get($background, primary);
+  background-color: xui.get-color(styles.$theme, background, primary);
 }
 
 xui-sider {
-  background-color: map.get($background, secondary);
+  background-color: xui.get-color(styles.$theme, background, secondary);
 
   .logo {
     flex: 0 0 auto;
@@ -30,14 +28,13 @@ xui-sider {
 }
 
 .x-logo {
-  $primary: map.get(styles.$theme, primary);
-  color: map.get($primary, default);
+  color: xui.get-color(styles.$theme, primary);
 }
 
 xui-header {
   justify-content: space-between;
   color: white;
-  background-color: map.get($background, secondary-alt);
+  background-color: xui.get-color(styles.$theme, background, secondary-alt);
   padding: 0 32px;
   font-size: 18px;
   font-weight: 700;
@@ -56,7 +53,7 @@ xui-content {
 }
 
 xui-footer {
-  background-color: map.get($background, secondary-alt);
+  background-color: xui.get-color(styles.$theme, background, secondary-alt);
   justify-content: center;
 }
 

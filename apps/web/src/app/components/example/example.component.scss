@@ -1,4 +1,4 @@
-@use 'sass:map';
+@use 'libs/xui/src/index' as xui;
 @use '../../../styles';
 
 .content {
@@ -18,18 +18,15 @@
     cursor: pointer;
 
     &:hover {
-      $primary: map.get(styles.$theme, primary);
-      color: map.get($primary, default);
+      color: xui.get-color(styles.$theme, primary);
     }
   }
 
   .todo {
-    $destructive: map.get(styles.$theme, destructive);
-
     padding: 2px 4px;
     margin-right: 12px;
 
-    background-color: map.get($destructive, default);
+    background-color: xui.get-color(styles.$theme, error);
     border-radius: 4px;
 
     font-weight: 700;

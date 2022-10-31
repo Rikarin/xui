@@ -1,4 +1,4 @@
-@use 'sass:map';
+@use '../core/core';
 
 xui-tab {
   display: contents;
@@ -16,8 +16,6 @@ xui-tab-group {
 }
 
 @mixin theme($theme) {
-  $primary: map.get($theme, primary);
-
   .xui-tab-group-entry {
     color: var(--text-normal);
     cursor: pointer;
@@ -25,8 +23,8 @@ xui-tab-group {
     margin-right: 20px;
 
     &.active {
-      color: map.get($primary, default);
-      border-bottom: 2px solid map.get($primary, default);
+      color: core.get-color($theme, primary);
+      border-bottom: 2px solid core.get-color($theme, primary);
       padding-bottom: 4px;
     }
 

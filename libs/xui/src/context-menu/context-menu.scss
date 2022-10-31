@@ -1,8 +1,6 @@
-@use 'sass:map';
+@use '../core/core';
 
 @mixin theme($theme) {
-  $background: map.get($theme, background);
-
   xui-context-menu {
     min-width: 200px;
     display: flex;
@@ -10,14 +8,14 @@
     align-items: center;
 
     padding: 8px;
-    background-color: map.get($background, floating);
+    background-color: core.get-color($theme, background, floating);
     border-radius: 4px;
 
     hr {
       width: 95%;
       margin: 4px;
 
-      border: 0.5px solid map.get($background, primary);
+      border: 0.5px solid core.get-color($theme, background, primary);
     }
 
     .xui-button {

@@ -1,4 +1,5 @@
 @use 'sass:map';
+@use '../core/core';
 
 @mixin theme($theme) {
   xui-switch {
@@ -61,19 +62,23 @@
       transform: rotate(360deg);
     }
   }
+
+  @include generate-color-variations($theme);
 }
 
 @mixin generate-color-variations($theme) {
-  @each $key, $value in $theme {
-    @debug $key;
+  $colors: map.get($theme, color);
 
-    $default: map.get($value, default);
+  @each $key, $value in $colors {
+    @if map.has-key($value, default) {
+      $default: map.get($value, default);
 
-    .xui-switch-#{$key} {
-      background-color: $default;
+      .xui-switch-#{$key} {
+        background-color: $default;
 
-      .xui-switch-handle {
-        color: $default;
+        .xui-switch-handle {
+          color: $default;
+        }
       }
     }
   }

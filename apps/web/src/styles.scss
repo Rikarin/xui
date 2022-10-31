@@ -9,9 +9,11 @@
 
 $theme: xui.define-dark-theme(
   (
-    primary: xui.define-palette(xui.$blue-palette),
-    primary-alt: xui.define-palette(xui.$purple-palette),
-    secondary: xui.define-palette(xui.$orange-palette)
+    color: (
+      primary: xui.define-palette(xui.$blue-palette),
+      primary-alt: xui.define-palette(xui.$purple-palette),
+      secondary: xui.define-palette(xui.$orange-palette)
+    )
   )
 );
 
@@ -33,7 +35,7 @@ $themeOld: (
 
 @include xui.core();
 @include xui.all-component-themes($theme);
-@include xui.all-color-variables($theme);
+@include xui.root-color-variables($theme);
 
 html,
 pre {
@@ -41,8 +43,7 @@ pre {
 }
 
 code {
-  $background: map.get($theme, background);
-  background-color: map.get($background, secondary-alt) !important;
+  background-color: xui.get-color($theme, background, secondary-alt) !important;
 
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   border-radius: 5px;

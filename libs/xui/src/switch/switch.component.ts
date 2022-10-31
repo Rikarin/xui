@@ -31,7 +31,7 @@ export class XuiSwitchComponent implements ControlValueAccessor, OnInit {
   onTouched = () => {};
 
   @Input() @InputBoolean() disabled = false;
-  @Input() color: 'success' | string = 'success';
+  @Input() color: 'success' | 'info' | 'error' | string = 'success';
 
   @Input()
   get value() {

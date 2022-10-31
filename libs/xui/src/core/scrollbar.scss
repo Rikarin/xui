@@ -1,19 +1,17 @@
-@use 'sass:map';
+@use 'core';
 
 @mixin theme($theme) {
-  $background: map.get($theme, background);
-
   *::-webkit-scrollbar {
     width: 16px;
     height: 16px;
   }
 
   *::-webkit-scrollbar-thumb {
-    background-color: map.get($background, tertiary);
+    background-color: core.get-color($theme, background, tertiary);
   }
 
   *::-webkit-scrollbar-track {
-    background-color: map.get($background, secondary);
+    background-color: core.get-color($theme, background, secondary);
   }
 
   *::-webkit-scrollbar-button {
@@ -43,6 +41,6 @@
   }
 
   .thin-scrollbar:hover::-webkit-scrollbar-thumb {
-    background-color: map.get($background, tertiary);
+    background-color: core.get-color($theme, background, tertiary);
   }
 }

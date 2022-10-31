@@ -1,10 +1,6 @@
-@use 'sass:map';
+@use '../core/core';
 
 @mixin theme($theme) {
-  $background: map.get($theme, background);
-  $destructive: map.get($theme, destructive);
-  $information: map.get($theme, information);
-
   xui-input {
     display: flex;
     flex-direction: column;
@@ -16,7 +12,7 @@
       border-radius: 4px;
 
       &:focus-within {
-        outline: 2px solid map.get($information, default);
+        outline: 2px solid core.get-color($theme, info);
         z-index: 1;
       }
     }
@@ -39,19 +35,19 @@
   }
 
   .xui-input-light {
-    background-color: map.get($background, secondary);
+    background-color: core.get-color($theme, background, secondary);
   }
 
   .xui-input-dark {
-    background-color: map.get($background, tertiary);
+    background-color: core.get-color($theme, background, tertiary);
   }
 
   .xui-input-error {
-    outline: 2px solid map.get($destructive, default);
+    outline: 2px solid core.get-color($theme, error);
   }
 
   .xui-input-error-text {
-    color: map.get($destructive, default);
+    color: core.get-color($theme, error);
     font-size: 0.8rem;
     margin-top: 4px;
     margin-left: 8px;

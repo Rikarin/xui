@@ -10,7 +10,7 @@ import { InputNumber } from '../utils';
 export class XuiProgressComponent implements OnInit {
   @Input() @InputNumber() progress: number;
   @Input() type: 'line' | 'circle' = 'line';
-  @Input() color: 'primary' | 'primary-alt' | 'secondary' | 'destructive' | 'success' | 'warn' | string = 'primary';
+  @Input() color: 'primary' | 'primary-alt' | 'secondary' | 'error' | 'success' | 'warning' | string = 'primary';
   @Input() status: 'error' | null = null;
 
   get style() {
@@ -35,7 +35,7 @@ export class XuiProgressComponent implements OnInit {
 
   private getColor() {
     if (this.status === 'error') {
-      return 'destructive';
+      return 'error';
     }
 
     if (this.progress === 100) {

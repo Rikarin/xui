@@ -1,5 +1,6 @@
 @use 'sass:map';
 @use 'palettes';
+@use '../core/core';
 
 @function _get-color-from-palette($palette, $hue) {
   @if map.has-key($palette, $hue) {
@@ -41,70 +42,41 @@
   @return $result;
 }
 
-@function set-default($theme, $name, $palette) {
-  @return map.merge(
-    $theme,
+@function define-dark-theme($theme) {
+  $color: map.get($theme, color);
+  $typography: map.get($theme, typography);
+  $elevation: map.get($theme, elevation);
+
+  $primary: map.get($color, primary);
+
+  $color: map.merge(
+    $color,
     (
-      $name: define-palette($palette)
+      primary-alt: map.get($color, primary-alt) or map.get($primary, 700),
+      info: map.get($color, info) or define-palette(palettes.$blue-palette),
+      success: map.get($color, success) or define-palette(palettes.$green-palette),
+      warning: map.get($color, warning) or define-palette(palettes.$orange-palette),
+      error: map.get($color, error) or define-palette(palettes.$red-palette),
+      background: map.get($color, background) or palettes.$background-palette
     )
+  );
+
+  @return (
+    color: $color,
+    typography: $typography,
+    // TODO: default typography
+    elevation: $elevation or palettes.$default-elevation
   );
 }
 
-@function define-dark-theme($theme) {
-  $primary: map.get($theme, primary);
+@mixin create-variables($theme) {
+  $colors: map.get($theme, color);
 
-  @if map.get($theme, primary-alt) == null {
-    $theme: map.merge(
-      $theme,
-      (
-        primary-alt: map.get($primary, 700)
-      )
-    );
-  }
-
-  @if map.get($theme, information) == null {
-    $theme: set-default($theme, information, palettes.$blue-palette);
-  }
-
-  @if map.get($theme, success) == null {
-    $theme: set-default($theme, success, palettes.$green-palette);
-  }
-
-  @if map.get($theme, warn) == null {
-    $theme: set-default($theme, warn, palettes.$orange-palette);
-  }
-
-  @if map.get($theme, destructive) == null {
-    $theme: set-default($theme, destructive, palettes.$red-palette);
-  }
-
-  @if map.get($theme, background) == null {
-    $theme: map.merge(
-      $theme,
-      (
-        background: palettes.$background-palette
-      )
-    );
-  }
-
-  @if map.get($theme, elevation) == null {
-    $theme: map.merge(
-      $theme,
-      (
-        elevation: palettes.$default-elevation
-      )
-    );
-  }
-
-  @return $theme;
-}
-
-@mixin create-variables($theme, $name) {
-  $palette: map.get($theme, $name);
-
-  @each $weight, $value in $palette {
-    @if type-of($value) != map {
-      --#{$name}-color-#{$weight}: #{$value};
+  @each $name, $palette in $colors {
+    @each $weight, $value in $palette {
+      @if type-of($value) != map {
+        --#{$name}-color-#{$weight}: #{$value};
+      }
     }
   }
 }

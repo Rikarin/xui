@@ -1,8 +1,6 @@
-@use 'sass:map';
+@use '../core/core';
 
 @mixin theme($theme) {
-  $primary: map.get($theme, primary);
-
   xui-checkbox {
     display: flex;
     align-items: center;
@@ -12,17 +10,17 @@
 
     &:hover {
       xui-icon {
-        color: map.get($primary, default);
+        color: core.get-color($theme, primary);
       }
 
       .xui-checkbox-checked {
-        color: map.get($primary, darker);
+        color: core.get-color($theme, primary, darker);
       }
     }
   }
 
   .xui-checkbox-checked {
-    color: map.get($primary, default);
+    color: core.get-color($theme, primary);
   }
 
   .xui-checkbox-disabled {
@@ -35,7 +33,7 @@
       }
 
       .xui-checkbox-checked {
-        color: map.get($primary, default);
+        color: core.get-color($theme, primary);
       }
     }
   }

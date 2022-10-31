@@ -1,5 +1,6 @@
 @use 'sass:map';
 
+@use 'core/core';
 @use 'button/button';
 @use 'banner/banner';
 @use 'menu/menu';
@@ -51,26 +52,14 @@
   @include scrollbar.theme($theme);
   @include settings.theme($theme);
 
-  @include switch.generate-color-variations($theme);
-
   a {
-    $info: map.get($theme, information);
-    color: map.get($info, default);
+    color: core.get-color($theme, info);
   }
 }
 
-@mixin all-color-variables($theme) {
+@mixin root-color-variables($theme) {
   :root {
-    @include theming.create-variables($theme, primary);
-    @include theming.create-variables($theme, primary-alt);
-    @include theming.create-variables($theme, secondary);
-
-    @include theming.create-variables($theme, information);
-    @include theming.create-variables($theme, success);
-    @include theming.create-variables($theme, destructive);
-    @include theming.create-variables($theme, warn);
-
-    @include theming.create-variables($theme, background);
+    @include theming.create-variables($theme);
   }
 }
 
@@ -80,23 +69,4 @@
 // input
 // --text stuff
 
-// Settings
-
 // TODO: background contrast colors
-
-//@mixin generate-color-variations($theme, $name) {
-//  @each $key, $value in $theme {
-//    @debug $key;
-//
-//    $default: map.get($value, default);
-//
-//    .#{$name}-#{$key} {
-//      background-color: $default;
-//
-//      .xui-switch-handle {
-//        color: $default;
-//      }
-//    }
-//  }
-//}
-//

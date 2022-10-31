@@ -1,4 +1,4 @@
-@use 'sass:map';
+@use '../core/core';
 
 .xui-button {
   display: inline-flex;
@@ -30,24 +30,22 @@
 }
 
 @mixin btn-color($theme, $name) {
-  $palette: map.get($theme, $name);
-
   &.xui-button-#{$name} {
-    color: map.get($palette, default);
-    border-color: map.get($palette, default);
+    color: core.get-color($theme, $name);
+    border-color: core.get-color($theme, $name);
 
     &:focus {
-      color: map.get($palette, darker);
+      color: core.get-color($theme, $name, darker);
     }
 
     &:hover {
-      background-color: map.get($palette, default);
-      color: map.get($palette, default-contrast);
+      background-color: core.get-color($theme, $name);
+      color: core.get-color($theme, $name, default-contrast);
     }
 
     &:active {
-      background-color: map.get($palette, darker);
-      color: map.get($palette, darker-contrast);
+      background-color: core.get-color($theme, $name, darker);
+      color: core.get-color($theme, $name, darker-contrast);
     }
 
     &[disabled],
@@ -55,24 +53,22 @@
     &[disabled]:active,
     &[disabled]:hover {
       @extend .xui-disabled-filter;
-      color: map.get($palette, default);
+      color: core.get-color($theme, $name);
       background: none;
     }
   }
 }
 
 @mixin btn-bg-color($theme, $name) {
-  $palette: map.get($theme, $name);
-
   &.xui-button-#{$name} {
-    color: map.get($palette, default-contrast);
-    background-color: map.get($palette, default);
+    color: core.get-color($theme, $name, default-contrast);
+    background-color: core.get-color($theme, $name);
 
     &:focus,
     &:hover,
     &:active {
-      color: map.get($palette, darker-contrast);
-      background-color: map.get($palette, darker);
+      color: core.get-color($theme, $name, darker-contrast);
+      background-color: core.get-color($theme, $name, darker);
     }
 
     &[disabled],
@@ -80,8 +76,8 @@
     &[disabled]:active,
     &[disabled]:hover {
       @extend .xui-disabled-filter;
-      color: map.get($palette, default-contrast);
-      background-color: map.get($palette, default);
+      color: core.get-color($theme, $name, default-contrast);
+      background-color: core.get-color($theme, $name);
     }
   }
 }
@@ -90,14 +86,14 @@
   @include btn-color($theme, primary);
   @include btn-color($theme, primary-alt);
   @include btn-color($theme, secondary);
-  @include btn-color($theme, destructive);
+  @include btn-color($theme, error);
 }
 
 @mixin button-bg-colors($theme) {
   @include btn-bg-color($theme, primary);
   @include btn-bg-color($theme, primary-alt);
   @include btn-bg-color($theme, secondary);
-  @include btn-bg-color($theme, destructive);
+  @include btn-bg-color($theme, error);
 }
 
 @mixin theme($theme) {
@@ -152,11 +148,9 @@
   }
 
   .xui-button-state--succeeded {
-    $palette: map.get($theme, success);
-
     @extend .xui-button-state--nonidle;
-    background-color: map.get($palette, default) !important;
-    color: map.get($palette, default-contrast) !important;
+    background-color: core.get-color($theme, success) !important;
+    color: core.get-color($theme, success, default-contrast) !important;
 
     .xui-button-state-image {
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' style='width:24px;height:24px' viewBox='0 0 24 24'%3E%3Cpath fill='white' d='M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z' /%3E%3C/svg%3E");
@@ -164,11 +158,9 @@
   }
 
   .xui-button-state--failed {
-    $palette: map.get($theme, destructive);
-
     @extend .xui-button-state--nonidle;
-    background-color: map.get($palette, default) !important;
-    color: map.get($palette, default-contrast) !important;
+    background-color: core.get-color($theme, error) !important;
+    color: core.get-color($theme, error, default-contrast) !important;
 
     .xui-button-state-image {
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' style='width:24px;height:24px' viewBox='0 0 24 24'%3E%3Cpath fill='white' d='M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z' /%3E%3C/svg%3E");

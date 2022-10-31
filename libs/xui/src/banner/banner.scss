@@ -1,4 +1,4 @@
-@use 'sass:map';
+@use '../core/core';
 
 xui-banner {
   width: 100%;
@@ -29,68 +29,37 @@ xui-banner {
 
 @mixin theme($theme) {
   .xui-banner-info {
-    $palette: map.get($theme, information);
+    color: core.get-color($theme, info, lighter-contrast);
+    background-color: core.get-color($theme, info, lighter);
 
-    color: map.get($palette, lighter-contrast);
-    background-color: map.get($palette, lighter);
-    border: 1px solid map.get($palette, 50);
+    border: 1px solid core.get-color($theme, info, 50);
     border-left: none;
     border-right: none;
 
     .xui-banner-stamp {
-      color: map.get($palette, default-contrast);
-      background-color: map.get($palette, default);
+      color: core.get-color($theme, info, default-contrast);
+      background-color: core.get-color($theme, info);
     }
   }
 
-  .xui-banner-success {
-    $palette: map.get($theme, success);
+  @include generate-banner($theme, success);
+  @include generate-banner($theme, warning);
+  @include generate-banner($theme, alert, error);
+}
 
-    color: map.get($palette, default-contrast);
-    background-color: map.get($palette, default);
+@mixin generate-banner($theme, $name, $palette: $name) {
+  .xui-banner-#{$name} {
+    color: core.get-color($theme, $palette, default-contrast);
+    background-color: core.get-color($theme, $palette);
 
     .xui-banner-stamp {
-      color: map.get($palette, default);
-      background-color: map.get($palette, default-contrast);
+      color: core.get-color($theme, $palette);
+      background-color: core.get-color($theme, $palette, default-contrast);
     }
 
     &.xui-banner-dismissible:hover {
-      color: map.get($palette, darker-contrast);
-      background-color: map.get($palette, darker);
-    }
-  }
-
-  .xui-banner-warning {
-    $palette: map.get($theme, warn);
-
-    color: map.get($palette, default-contrast);
-    background-color: map.get($palette, default);
-
-    .xui-banner-stamp {
-      color: map.get($palette, default);
-      background-color: map.get($palette, default-contrast);
-    }
-
-    &.xui-banner-dismissible:hover {
-      color: map.get($palette, darker-contrast);
-      background-color: map.get($palette, darker);
-    }
-  }
-
-  .xui-banner-alert {
-    $palette: map.get($theme, destructive);
-
-    color: map.get($palette, default-contrast);
-    background-color: map.get($palette, default);
-
-    .xui-banner-stamp {
-      color: map.get($palette, default);
-      background-color: map.get($palette, default-contrast);
-    }
-
-    &.xui-banner-dismissible:hover {
-      color: map.get($palette, darker-contrast);
-      background-color: map.get($palette, darker);
+      color: core.get-color($theme, $palette, darker-contrast);
+      background-color: core.get-color($theme, $palette, darker);
     }
   }
 }

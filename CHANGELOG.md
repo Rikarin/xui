@@ -4,10 +4,9 @@ All notable changes to this project will be documented in this file. See [standa
 
 ## [1.17.0](https://github.com/Rikarin/xui/compare/v1.16.0...v1.17.0) (2022-10-24)
 
-
 ### Features
 
-* add switch and checkbox ([6cde80b](https://github.com/Rikarin/xui/commit/6cde80b4f3f945ecc8dc59d4e5e47cb7ba4c7052))
+- add switch and checkbox ([6cde80b](https://github.com/Rikarin/xui/commit/6cde80b4f3f945ecc8dc59d4e5e47cb7ba4c7052))
 
 ## [1.16.0](https://github.com/Rikarin/xui/compare/v1.15.3...v1.16.0) (2022-10-21)
 

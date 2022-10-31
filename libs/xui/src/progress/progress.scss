@@ -1,4 +1,5 @@
 @use 'sass:map';
+@use '../core/core';
 
 @mixin theme($theme) {
   xui-progress {
@@ -8,14 +9,12 @@
   }
 
   .xui-progress-indicator {
-    $background: map.get($theme, background);
-
     flex: 1 1 auto;
     min-width: 200px;
     height: 8px;
     display: flex;
 
-    background-color: map.get($background, primary);
+    background-color: core.get-color($theme, background, primary);
     border-radius: 4px;
     margin-right: 12px;
   }
@@ -25,29 +24,27 @@
   }
 
   .xui-progress-status-success {
-    $success: map.get($theme, success);
     width: 80%;
-    color: map.get($success, default);
+    color: core.get-color($theme, success);
   }
 
   .xui-progress-status-error {
     flex: 0 0 32px;
-    $destructive: map.get($theme, destructive);
     width: 80%;
-    color: map.get($destructive, default);
+    color: core.get-color($theme, error);
   }
 
-  @include generateColor($theme, primary);
-  @include generateColor($theme, primary-alt);
-  @include generateColor($theme, secondary);
-  @include generateColor($theme, warn);
-  @include generateColor($theme, destructive);
-  @include generateColor($theme, success);
+  @include generate-color-variations($theme);
 }
 
-@mixin generateColor($theme, $name) {
-  .xui-progress-indicator-#{$name} {
-    $palette: map.get($theme, $name);
-    background-color: map.get($palette, default);
+@mixin generate-color-variations($theme) {
+  $colors: map.get($theme, color);
+
+  @each $key, $value in $colors {
+    @if map.has-key($value, default) {
+      .xui-progress-indicator-#{$key} {
+        background-color: map.get($value, default);
+      }
+    }
   }
 }

@@ -14,8 +14,8 @@ $theme: (
   secondary: xui.define-palette(xui.$blue-palette, 200),
   information: xui.define-palette(xui.$blue-palette),
   success: xui.define-palette(xui.$green-palette),
-  warn: xui.define-palette(xui.$orange-palette),
-  destructive: xui.define-palette(xui.$red-palette),
+  warning: xui.define-palette(xui.$orange-palette),
+  error: xui.define-palette(xui.$red-palette),
 
   background: xui.$background-palette,
   elevation: xui.$default-elevation

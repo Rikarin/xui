@@ -1,8 +1,6 @@
-@use 'sass:map';
+@use '../core/core';
 
 @mixin theme($theme) {
-  $background: map.get($theme, background);
-
   xui-settings dialog {
     width: 100%;
     height: 100%;
@@ -17,7 +15,7 @@
     height: 100%;
     display: flex;
 
-    background-color: map.get($background, secondary);
+    background-color: core.get-color($theme, background, secondary);
 
     //&::ng-deep {
     //  .mat-snack-bar-container {
@@ -30,7 +28,7 @@
       flex: 1 0 220px;
       display: flex;
       justify-content: flex-end;
-      background-color: map.get($background, secondary-alt);
+      background-color: core.get-color($theme, background, secondary-alt);
 
       nav {
         width: 220px;
@@ -71,8 +69,7 @@
         }
 
         .red {
-          $destructive: map.get($theme, destructive);
-          color: map.get($destructive, default);
+          color: core.get-color($theme, error);
         }
       }
     }
