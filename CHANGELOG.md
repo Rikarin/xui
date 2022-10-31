@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.17.1](https://github.com/Rikarin/xui/compare/v1.17.0...v1.17.1) (2022-10-31)
+
+
+### Bug Fixes
+
+* refactor color variables ([c9e8c74](https://github.com/Rikarin/xui/commit/c9e8c74038ba80ecac34a1ba9cdb6ddcea93a1e8))
+* use generic filter to indicate input's disabled state ([69a342d](https://github.com/Rikarin/xui/commit/69a342d9cfc7511c3dd1960887080adc661a236c))
+
 ## [1.17.0](https://github.com/Rikarin/xui/compare/v1.16.0...v1.17.0) (2022-10-24)
 
 ### Features
