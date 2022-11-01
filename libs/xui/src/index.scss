@@ -20,7 +20,8 @@
 @forward 'core/typography';
 @forward 'icon/icon';
 @forward 'layout/layout';
-@forward 'theming/theming' show define-palette, define-dark-theme, create-variables;
+@forward 'theming/theming' show define-palette, define-background-palette, define-dark-theme, create-variables,
+  get-color, get-elevation, get-palette, background-level, background-level-var;
 @forward 'button/button' as button-* show button-theme;
 @forward 'menu/menu' as menu-* show menu-theme;
 @forward 'banner/banner' as banner-* show banner-theme;
@@ -53,7 +54,7 @@
   @include settings.theme($theme);
 
   a {
-    color: core.get-color($theme, info);
+    color: theming.get-color($theme, info);
   }
 }
 
@@ -67,8 +68,5 @@
     --text-muted: #72787d;
     --font-primary: 'Rubik';
     --font-headline: 'Bungee';
-
-    // TODO: make function to setting up background color and text color; so we don't need to set the font color on
-    // components without background such as tabs
   }
 }

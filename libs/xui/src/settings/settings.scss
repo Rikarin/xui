@@ -1,4 +1,4 @@
-@use '../core/core';
+@use '../theming/theming';
 
 @mixin theme($theme) {
   xui-settings dialog {
@@ -15,7 +15,7 @@
     height: 100%;
     display: flex;
 
-    background-color: core.get-color($theme, background, secondary);
+    background-color: theming.get-color($theme, background, secondary);
 
     //&::ng-deep {
     //  .mat-snack-bar-container {
@@ -28,7 +28,7 @@
       flex: 1 0 220px;
       display: flex;
       justify-content: flex-end;
-      background-color: core.get-color($theme, background, secondary-alt);
+      background-color: theming.get-color($theme, background, secondary-alt);
 
       nav {
         width: 220px;
@@ -69,7 +69,7 @@
         }
 
         .red {
-          color: core.get-color($theme, error);
+          color: theming.get-color($theme, error);
         }
       }
     }

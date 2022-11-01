@@ -1,4 +1,4 @@
-@use '../core/core';
+@use '../theming/theming';
 
 xui-tab {
   display: contents;
@@ -23,8 +23,8 @@ xui-tab-group {
     margin-right: 20px;
 
     &.active {
-      color: core.get-color($theme, primary);
-      border-bottom: 2px solid core.get-color($theme, primary);
+      color: theming.get-color($theme, primary);
+      border-bottom: 2px solid theming.get-color($theme, primary);
       padding-bottom: 4px;
     }
 

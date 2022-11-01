@@ -1,5 +1,5 @@
 @use 'sass:map';
-@use '../core/core';
+@use '../theming/theming';
 
 @mixin theme($theme) {
   xui-progress {
@@ -14,7 +14,7 @@
     height: 8px;
     display: flex;
 
-    background-color: core.get-color($theme, background, primary);
+    background-color: theming.get-color($theme, background, primary);
     border-radius: 4px;
     margin-right: 12px;
   }
@@ -25,13 +25,13 @@
 
   .xui-progress-status-success {
     width: 80%;
-    color: core.get-color($theme, success);
+    color: theming.get-color($theme, success);
   }
 
   .xui-progress-status-error {
     flex: 0 0 32px;
     width: 80%;
-    color: core.get-color($theme, error);
+    color: theming.get-color($theme, error);
   }
 
   @include generate-color-variations($theme);

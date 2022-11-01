@@ -30,7 +30,24 @@
   );
 
   @each $hue, $color in $base-palette {
-    @if type-of($hue) == number {
+    @if $hue != contrast {
+      $result: map.merge(
+        $result,
+        (
+          '#{$hue}-contrast': get-contrast-color-from-palette($base-palette, $hue)
+        )
+      );
+    }
+  }
+
+  @return $result;
+}
+
+@function define-background-palette($base-palette) {
+  $result: $base-palette;
+
+  @each $hue, $color in $base-palette {
+    @if $hue != contrast {
       $result: map.merge(
         $result,
         (
@@ -58,7 +75,7 @@
       success: map.get($color, success) or define-palette(theme.$green-palette),
       warning: map.get($color, warning) or define-palette(theme.$orange-palette),
       error: map.get($color, error) or define-palette(theme.$red-palette),
-      background: map.get($color, background) or theme.$background-palette
+      background: map.get($color, background) or define-background-palette(theme.$background-palette)
     )
   );
 
@@ -79,4 +96,39 @@
       }
     }
   }
+}
+
+@mixin background-level($theme, $name) {
+  color: get-color($theme, background, $name + '-contrast');
+  background-color: get-color($theme, background, $name);
+}
+
+@mixin background-level-var($name) {
+  color: var(--background-color- + $name + -contrast);
+  background-color: var(--background-color- + $name);
+}
+
+@function get-palette($theme, $palette) {
+  $c: map.get($theme, color);
+
+  @if not map.has-key($c, $palette) {
+    @error 'Palette "' + $palette + '" does not exist in color scheme. Available palettes are: ' + map.keys($c);
+  }
+
+  @return map.get($c, $palette);
+}
+
+@function get-color($theme, $palette, $color: default) {
+  $palette: get-palette($theme, $palette);
+
+  @if not map.has-key($palette, $color) {
+    @error 'Color "' + $color + '" does not exist in palette. Available colors are: ' + map.keys($palette);
+  }
+
+  @return map.get($palette, $color);
+}
+
+@function get-elevation($theme, $elevation) {
+  $e: map.get($theme, elevation);
+  @return map.get($e, $elevation);
 }

@@ -1,4 +1,4 @@
-@use '../core/core';
+@use '../theming/theming';
 
 @mixin theme($theme) {
   xui-context-menu {
@@ -8,14 +8,14 @@
     align-items: center;
 
     padding: 8px;
-    background-color: core.get-color($theme, background, floating);
+    background-color: theming.get-color($theme, background, floating);
     border-radius: 4px;
 
     hr {
       width: 95%;
       margin: 4px;
 
-      border: 0.5px solid core.get-color($theme, background, primary);
+      border: 0.5px solid theming.get-color($theme, background, primary);
     }
 
     .xui-button {

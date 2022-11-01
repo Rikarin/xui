@@ -1,4 +1,4 @@
-@use '../core/core';
+@use '../theming/theming';
 
 xui-banner {
   width: 100%;
@@ -29,16 +29,16 @@ xui-banner {
 
 @mixin theme($theme) {
   .xui-banner-info {
-    color: core.get-color($theme, info, lighter-contrast);
-    background-color: core.get-color($theme, info, lighter);
+    color: theming.get-color($theme, info, lighter-contrast);
+    background-color: theming.get-color($theme, info, lighter);
 
-    border: 1px solid core.get-color($theme, info, 50);
+    border: 1px solid theming.get-color($theme, info, 50);
     border-left: none;
     border-right: none;
 
     .xui-banner-stamp {
-      color: core.get-color($theme, info, default-contrast);
-      background-color: core.get-color($theme, info);
+      color: theming.get-color($theme, info, default-contrast);
+      background-color: theming.get-color($theme, info);
     }
   }
 
@@ -49,17 +49,17 @@ xui-banner {
 
 @mixin generate-banner($theme, $name, $palette: $name) {
   .xui-banner-#{$name} {
-    color: core.get-color($theme, $palette, default-contrast);
-    background-color: core.get-color($theme, $palette);
+    color: theming.get-color($theme, $palette, default-contrast);
+    background-color: theming.get-color($theme, $palette);
 
     .xui-banner-stamp {
-      color: core.get-color($theme, $palette);
-      background-color: core.get-color($theme, $palette, default-contrast);
+      color: theming.get-color($theme, $palette);
+      background-color: theming.get-color($theme, $palette, default-contrast);
     }
 
     &.xui-banner-dismissible:hover {
-      color: core.get-color($theme, $palette, darker-contrast);
-      background-color: core.get-color($theme, $palette, darker);
+      color: theming.get-color($theme, $palette, darker-contrast);
+      background-color: theming.get-color($theme, $palette, darker);
     }
   }
 }

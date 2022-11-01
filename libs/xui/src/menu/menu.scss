@@ -1,4 +1,4 @@
-@use '../core/core';
+@use '../theming/theming';
 
 @mixin theme($theme, $name: primary) {
   xui-menu {
@@ -49,9 +49,9 @@
   }
 
   .xui-menu-item-selected {
-    background-color: core.get-color($theme, $name);
-    color: core.get-color($theme, $name, default-contrast);
-    border-left: core.get-color($theme, $name, 900) 4px solid;
+    background-color: theming.get-color($theme, $name);
+    color: theming.get-color($theme, $name, default-contrast);
+    border-left: theming.get-color($theme, $name, 900) 4px solid;
   }
 }
 
@@ -69,14 +69,14 @@
 
 @mixin xui-menu-hover($theme, $name) {
   &:hover {
-    color: core.get-color($theme, $name, default-contrast);
-    background-color: core.get-color($theme, $name);
+    color: theming.get-color($theme, $name, default-contrast);
+    background-color: theming.get-color($theme, $name);
 
     cursor: pointer;
   }
 
   &:active {
-    background-color: core.get-color($theme, $name, darker);
+    background-color: theming.get-color($theme, $name, darker);
   }
 
   &[disabled],

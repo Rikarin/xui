@@ -1,4 +1,4 @@
-@use 'core';
+@use '../theming/theming';
 
 @mixin theme($theme) {
   *::-webkit-scrollbar {
@@ -7,11 +7,11 @@
   }
 
   *::-webkit-scrollbar-thumb {
-    background-color: core.get-color($theme, background, tertiary);
+    background-color: theming.get-color($theme, background, tertiary);
   }
 
   *::-webkit-scrollbar-track {
-    background-color: core.get-color($theme, background, secondary);
+    background-color: theming.get-color($theme, background, secondary);
   }
 
   *::-webkit-scrollbar-button {
@@ -41,6 +41,6 @@
   }
 
   .thin-scrollbar:hover::-webkit-scrollbar-thumb {
-    background-color: core.get-color($theme, background, tertiary);
+    background-color: theming.get-color($theme, background, tertiary);
   }
 }

@@ -1,4 +1,4 @@
-@use '../core/core';
+@use '../theming/theming';
 
 @mixin theme($theme) {
   xui-checkbox {
@@ -10,17 +10,17 @@
 
     &:hover {
       xui-icon {
-        color: core.get-color($theme, primary);
+        color: theming.get-color($theme, primary);
       }
 
       .xui-checkbox-checked {
-        color: core.get-color($theme, primary, darker);
+        color: theming.get-color($theme, primary, darker);
       }
     }
   }
 
   .xui-checkbox-checked {
-    color: core.get-color($theme, primary);
+    color: theming.get-color($theme, primary);
   }
 
   .xui-checkbox-disabled {
@@ -33,7 +33,7 @@
       }
 
       .xui-checkbox-checked {
-        color: core.get-color($theme, primary);
+        color: theming.get-color($theme, primary);
       }
     }
   }

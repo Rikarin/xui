@@ -18,7 +18,7 @@
     cursor: pointer;
 
     &:hover {
-      color: xui.get-color(styles.$theme, primary);
+      color: var(--primary-color-default);
     }
   }
 
@@ -26,7 +26,8 @@
     padding: 2px 4px;
     margin-right: 12px;
 
-    background-color: xui.get-color(styles.$theme, error);
+    color: var(--error-color-default-contrast);
+    background-color: var(--error-color-default);
     border-radius: 4px;
 
     font-weight: 700;
