@@ -8,7 +8,7 @@ import {
   Self,
   ViewEncapsulation
 } from '@angular/core';
-import { InputBoolean } from 'xui';
+import { InputBoolean } from '../utils';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { InputGroupService } from '../input/input-group.service';

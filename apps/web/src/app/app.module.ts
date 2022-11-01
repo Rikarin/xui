@@ -17,7 +17,9 @@ import {
   XuiSettingsModule,
   XuiTabModule,
   XuiContextMenuModule,
-  XuiProgressModule
+  XuiProgressModule,
+  XuiCheckboxModule,
+  XuiSwitchModule
 } from 'xui';
 import { RouterModule, Routes } from '@angular/router';
 import { CardComponent } from './components/card/card.component';
@@ -43,9 +45,7 @@ import { CdkMenuModule } from '@angular/cdk/menu';
 import { ProgressComponent } from './components/progress/progress.component';
 import { ExampleComponent } from './components/example/example.component';
 import { CheckboxComponent } from './components/checkbox/checkbox.component';
-import { XuiCheckboxModule } from '../../../../libs/xui/src/checkbox';
 import { SwitchComponent } from './components/switch/switch.component';
-import { XuiSwitchModule } from '../../../../libs/xui/src/switch/switch.module';
 
 const routes: Routes = [
   {

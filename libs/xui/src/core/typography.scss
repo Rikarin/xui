@@ -32,7 +32,7 @@
   $button: null,
   $overline: null
 ) {
-  $font-family: $font-family or 'Roboto, "Helvetica Neue", sans-serif';
+  $font-family: $font-family or "Rubik", "Helvetica Neue", sans-serif;
 
   $config: (
     headline-1: $headline-1 or define-typography-level(112px, 112px, 300, $letter-spacing: -0.05em),
@@ -61,4 +61,50 @@
   }
 
   @return map.merge($config, (font-family: $font-family));
+}
+
+@function font-family($theme, $typography) {
+  $typo: map.get($theme, typography);
+  $group: map.get($typo, $typography);
+  @return map.get($group, font-family);
+}
+
+@function font-size($theme, $typography) {
+  $typo: map.get($theme, typography);
+  $group: map.get($typo, $typography);
+  @return map.get($group, font-size);
+}
+
+@function font-weight($theme, $typography) {
+  $typo: map.get($theme, typography);
+  $group: map.get($typo, $typography);
+  @return map.get($group, font-weight);
+}
+
+@function line-height($theme, $typography) {
+  $typo: map.get($theme, typography);
+  $group: map.get($typo, $typography);
+  @return map.get($group, line-height);
+}
+
+@function letter-spacing($theme, $typography) {
+  $typo: map.get($theme, typography);
+  $group: map.get($typo, $typography);
+  @return map.get($group, letter-spacing);
+}
+
+@mixin typography-level($theme, $typography) {
+  font-family: font-family($theme, $typography);
+  font-size: font-size($theme, $typography);
+  font-weight: font-weight($theme, $typography);
+  line-height: line-height($theme, $typography);
+  letter-spacing: letter-spacing($theme, $typography);
+}
+
+@mixin typography-hierarchy($theme) {
+  body {
+    @include typography-level($theme, body-1);
+  }
+
+  // TODO: finish this
 }

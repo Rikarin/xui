@@ -3,16 +3,12 @@
 @mixin core() {
   * {
     box-sizing: border-box;
-  }
-
-  html body {
-    margin: 0;
-    padding: 0;
-
     text-rendering: optimizeLegibility;
     overscroll-behavior: none;
+  }
+
+  .xui-no-user-select {
     user-select: none;
-    font-family: var(--font-primary);
   }
 
   a {
@@ -90,10 +86,6 @@
     padding: 0;
     border: 0;
     outline: 0;
-    font-weight: inherit;
-    font-size: 100%;
-    font-family: inherit;
-    font-style: inherit;
     vertical-align: baseline;
   }
 }

@@ -1,5 +1,5 @@
-$dark-primary-text: rgba(black, 0.87); // TODO: is this correct?
-$light-primary-text: white;
+$dark-primary-text: rgba(black, 0.87);
+$light-primary-text: #d7dee4;
 
 $background-palette: (
   primary: #32383c,
@@ -7,7 +7,16 @@ $background-palette: (
   secondary-alt: #262b2f,
   tertiary: #1f2429,
   accent: #4e5358,
-  floating: #13181c
+  floating: #13181c,
+
+  contrast: (
+    primary: $light-primary-text,
+    secondary: $light-primary-text,
+    secondary-alt: $light-primary-text,
+    tertiary: $light-primary-text,
+    accent: $light-primary-text,
+    floating: $light-primary-text
+  )
 );
 
 $default-elevation: (

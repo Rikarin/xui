@@ -20,7 +20,6 @@
 @forward 'core/typography';
 @forward 'icon/icon';
 @forward 'layout/layout';
-@forward 'theming/palettes';
 @forward 'theming/theming' show define-palette, define-dark-theme, create-variables;
 @forward 'button/button' as button-* show button-theme;
 @forward 'menu/menu' as menu-* show menu-theme;
@@ -62,13 +61,14 @@
   :root {
     @include theming.create-variables($theme);
     // TODO: typography
+
+    // TODO: move this to typography
+    --text-normal: #d7dee4;
+    --text-muted: #72787d;
+    --font-primary: 'Rubik';
+    --font-headline: 'Bungee';
+
+    // TODO: make function to setting up background color and text color; so we don't need to set the font color on
+    // components without background such as tabs
   }
 }
-
-// button
-// --font-primary
-
-// input
-// --text stuff
-
-// TODO: background contrast colors

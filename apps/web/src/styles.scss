@@ -1,46 +1,24 @@
 @use 'sass:map';
-@use '../../../libs/xui/src/themes/default';
 @use './highlightjs';
 @use '../../../libs/xui/src/index' as xui;
+@use '../../../libs/xui/src/theming/xui.theme' as xui-theme;
 
 @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;500&display=swap');
-//there's a bug when space is encoded in string it wont compile
-//@import url('https://fonts.googleapis.com/css?family=Roboto%20Mono&display=swap');
 
 $theme: xui.define-dark-theme(
   (
     color: (
-      primary: xui.define-palette(xui.$blue-palette),
-      primary-alt: xui.define-palette(xui.$purple-palette),
-      secondary: xui.define-palette(xui.$orange-palette)
+      primary: xui.define-palette(xui-theme.$blue-palette),
+      primary-alt: xui.define-palette(xui-theme.$purple-palette),
+      secondary: xui.define-palette(xui-theme.$orange-palette)
     )
-  )
-);
-
-$themeOld: (
-  primary: #1c6e8c,
-  primary-alt: #274156,
-  secondary: #605856,
-  destructive: #b00020,
-  neutral: #d0ccd0,
-  colors: (
-    blue: #00aeff,
-    green: #00a859,
-    purple: #6e53a3,
-    red: #f13c45,
-    orange: #f8961d,
-    offblack: #333333
   )
 );
 
 @include xui.core();
 @include xui.all-component-themes($theme);
 @include xui.all-root-variables($theme);
-
-html,
-pre {
-  font-family: 'Rubik';
-}
+@include xui.typography-hierarchy($theme);
 
 code {
   background-color: xui.get-color($theme, background, secondary-alt) !important;

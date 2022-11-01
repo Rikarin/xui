@@ -1,5 +1,5 @@
 @use 'sass:map';
-@use 'palettes';
+@use 'xui.theme' as theme;
 @use '../core/core';
 @use '../core/typography';
 
@@ -54,18 +54,18 @@
     $color,
     (
       primary-alt: map.get($color, primary-alt) or map.get($primary, 700),
-      info: map.get($color, info) or define-palette(palettes.$blue-palette),
-      success: map.get($color, success) or define-palette(palettes.$green-palette),
-      warning: map.get($color, warning) or define-palette(palettes.$orange-palette),
-      error: map.get($color, error) or define-palette(palettes.$red-palette),
-      background: map.get($color, background) or palettes.$background-palette
+      info: map.get($color, info) or define-palette(theme.$blue-palette),
+      success: map.get($color, success) or define-palette(theme.$green-palette),
+      warning: map.get($color, warning) or define-palette(theme.$orange-palette),
+      error: map.get($color, error) or define-palette(theme.$red-palette),
+      background: map.get($color, background) or theme.$background-palette
     )
   );
 
   @return (
     color: $color,
     typography: $typography or typography.define-typography-config(),
-    elevation: $elevation or palettes.$default-elevation
+    elevation: $elevation or theme.$default-elevation
   );
 }
 

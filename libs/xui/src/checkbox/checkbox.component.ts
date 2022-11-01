@@ -9,7 +9,7 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
-import { InputBoolean } from 'xui';
+import { InputBoolean } from '../utils';
 import { TranslateService } from '@ngx-translate/core';
 import { InputGroupService } from '../input/input-group.service';
 

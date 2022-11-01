@@ -1,33 +1,5 @@
 @use '../core/core';
-
-.xui-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  border: none;
-  border-radius: 4px;
-
-  font-family: var(--font-primary);
-  font-weight: 400;
-  font-style: normal;
-  touch-action: manipulation;
-  user-select: none;
-  cursor: pointer;
-
-  transition: 0.3s;
-  outline: none;
-  background: none;
-
-  padding: 0 1em;
-  line-height: 1em;
-  min-width: 4.57em;
-  height: 2.57em;
-
-  &[disabled] {
-    cursor: not-allowed;
-  }
-}
+@use '../core/typography';
 
 @mixin btn-color($theme, $name) {
   &.xui-button-#{$name} {
@@ -97,6 +69,33 @@
 }
 
 @mixin theme($theme) {
+  .xui-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    border: none;
+    border-radius: 4px;
+
+    touch-action: manipulation;
+    user-select: none;
+    cursor: pointer;
+
+    transition: 0.3s;
+    outline: none;
+    background: none;
+
+    padding: 0 1em;
+    min-width: 4.57em;
+    height: 2.57em;
+
+    @include typography.typography-level($theme, button);
+
+    &[disabled] {
+      cursor: not-allowed;
+    }
+  }
+
   .xui-button-normal {
     @include button-colors($theme);
   }
