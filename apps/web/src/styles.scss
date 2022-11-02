@@ -5,23 +5,41 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;500&display=swap');
 
-$theme: xui.define-dark-theme(
-  (
-    color: (
-      primary: xui.define-palette(xui-theme.$blue-palette),
-      primary-alt: xui.define-palette(xui-theme.$purple-palette),
-      secondary: xui.define-palette(xui-theme.$orange-palette)
-    )
-  )
+$color: (
+  primary: xui.define-palette(xui-theme.$blue-palette),
+  primary-alt: xui.define-palette(xui-theme.$purple-palette),
+  secondary: xui.define-palette(xui-theme.$orange-palette)
 );
 
 @include xui.core();
-@include xui.all-component-themes($theme);
-@include xui.all-root-variables($theme);
-@include xui.typography-hierarchy($theme);
+//@include xui.all-root-variables($theme);
+
+.dark-theme {
+  $theme: xui.define-dark-theme(
+    (
+      color: $color
+    )
+  );
+
+  @include xui.all-component-themes($theme);
+  @include xui.create-variables($theme);
+  @include xui.typography-hierarchy($theme);
+}
+
+.light-theme {
+  $theme: xui.define-light-theme(
+    (
+      color: $color
+    )
+  );
+
+  @include xui.all-component-themes($theme);
+  @include xui.create-variables($theme);
+  @include xui.typography-hierarchy($theme);
+}
 
 code {
-  background-color: xui.get-color($theme, background, secondary-alt) !important;
+  //background-color: xui.get-color($theme, background, secondary-alt) !important;
 
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   border-radius: 5px;

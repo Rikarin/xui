@@ -19,8 +19,6 @@
 
     input {
       flex: 100%;
-      -webkit-text-fill-color: var(--text-normal);
-      caret-color: var(--text-normal);
       background-color: transparent;
 
       &:disabled {
@@ -29,17 +27,29 @@
       }
 
       &::placeholder {
-        -webkit-text-fill-color: var(--text-muted);
+        filter: brightness(0.8) opacity(0.5);
       }
     }
   }
 
   .xui-input-light {
     background-color: theming.get-color($theme, background, secondary);
+
+    input {
+      $contrast: theming.get-color($theme, background, secondary-contrast);
+      -webkit-text-fill-color: $contrast;
+      caret-color: $contrast;
+    }
   }
 
   .xui-input-dark {
     background-color: theming.get-color($theme, background, tertiary);
+
+    input {
+      $contrast: theming.get-color($theme, background, tertiary-contrast);
+      -webkit-text-fill-color: $contrast;
+      caret-color: $contrast;
+    }
   }
 
   .xui-input-error {

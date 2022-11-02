@@ -36,6 +36,11 @@ xui-header {
   padding: 0 32px;
   font-size: 18px;
   font-weight: 700;
+
+  .theme-picker {
+    display: flex;
+    gap: 4px;
+  }
 }
 
 xui-content {

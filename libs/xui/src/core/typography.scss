@@ -113,8 +113,12 @@
 }
 
 @mixin typography-hierarchy($theme) {
-  body {
+  body, pre, .xui-body {
     @include typography-level($theme, body-1);
+
+    p {
+      //margin: 0 0 12px;
+    }
   }
 
   // TODO: finish this

@@ -61,6 +61,14 @@
 }
 
 @function define-dark-theme($theme) {
+  @return _define-theme($theme, theme.$background-dark-palette);
+}
+
+@function define-light-theme($theme) {
+  @return _define-theme($theme, theme.$background-light-palette);
+}
+
+@function _define-theme($theme, $default-background) {
   $color: map.get($theme, color);
   $typography: map.get($theme, typography);
   $elevation: map.get($theme, elevation);
@@ -75,7 +83,7 @@
       success: map.get($color, success) or define-palette(theme.$green-palette),
       warning: map.get($color, warning) or define-palette(theme.$orange-palette),
       error: map.get($color, error) or define-palette(theme.$red-palette),
-      background: map.get($color, background) or define-background-palette(theme.$background-palette)
+      background: map.get($color, background) or define-background-palette($default-background)
     )
   );
 

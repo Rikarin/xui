@@ -20,8 +20,8 @@
 @forward 'core/typography';
 @forward 'icon/icon';
 @forward 'layout/layout';
-@forward 'theming/theming' show define-palette, define-background-palette, define-dark-theme, create-variables,
-  get-color, get-elevation, get-palette, background-level, background-level-var;
+@forward 'theming/theming' show define-palette, define-background-palette, define-dark-theme, define-light-theme,
+  create-variables, get-color, get-elevation, get-palette, background-level, background-level-var;
 @forward 'button/button' as button-* show button-theme;
 @forward 'menu/menu' as menu-* show menu-theme;
 @forward 'banner/banner' as banner-* show banner-theme;

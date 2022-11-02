@@ -1,4 +1,4 @@
-<xui-layout>
+<xui-layout class="xui-body">
   <xui-sider width="280px">
     <div class="logo"><span class="x-logo">x</span>UI</div>
     <xui-menu mode="default">
@@ -74,6 +74,12 @@
   <xui-layout>
     <xui-header>
       <span>Documentation</span>
+
+      <div class="theme-picker">
+        <xui-icon>weather-sunny</xui-icon>
+        <xui-switch [formControl]="themePicker"></xui-switch>
+        <xui-icon>moon-waning-crescent</xui-icon>
+      </div>
       <a href="https://github.com/Rikarin/xui" target="_blank">
         <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
           <title>github-circle-white-transparent</title>

@@ -15,7 +15,7 @@
     height: 100%;
     display: flex;
 
-    background-color: theming.get-color($theme, background, secondary);
+    @include theming.background-level($theme, secondary);
 
     //&::ng-deep {
     //  .mat-snack-bar-container {
@@ -28,7 +28,7 @@
       flex: 1 0 220px;
       display: flex;
       justify-content: flex-end;
-      background-color: theming.get-color($theme, background, secondary-alt);
+      @include theming.background-level($theme, secondary-alt);
 
       nav {
         width: 220px;
@@ -43,7 +43,7 @@
         .item {
           padding: 8px 60px 8px 8px;
           border-radius: 4px;
-          color: var(--text-muted);
+          cursor: pointer;
 
           &:hover {
             background-color: rgba(255, 255, 255, 0.05);
@@ -56,7 +56,6 @@
         }
 
         .category {
-          color: var(--text-muted);
           font-weight: 700;
           font-size: 0.9rem;
           padding-left: 8px;
@@ -65,7 +64,7 @@
         .divider {
           height: 1px;
           margin: 12px;
-          background-color: var(--background-modifier-accent);
+          background-color: theming.get-color($theme, background, accent);
         }
 
         .red {

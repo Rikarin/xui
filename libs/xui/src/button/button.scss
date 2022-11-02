@@ -171,18 +171,18 @@ xui-button-group {
   display: flex;
 
   > button[xui] {
-    border-radius: 0;
+    border-radius: 0 !important;
     margin-right: 0;
   }
 
   > button[xui]:first-child {
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
+    border-top-left-radius: 5px !important;
+    border-bottom-left-radius: 5px !important;
   }
 
   > button[xui]:last-child {
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
+    border-top-right-radius: 5px !important;
+    border-bottom-right-radius: 5px !important;
   }
 
   > button[xui]:not(:first-child) {

@@ -1,7 +1,7 @@
 $dark-primary-text: rgba(black, 0.87);
 $light-primary-text: #d7dee4;
 
-$background-palette: (
+$background-dark-palette: (
   primary: #32383c,
   secondary: #2c3136,
   secondary-alt: #262b2f,
@@ -16,6 +16,23 @@ $background-palette: (
     tertiary: $light-primary-text,
     accent: $light-primary-text,
     floating: $light-primary-text
+  )
+);
+
+$background-light-palette: (
+  primary: hsl(0, 0%, 100%),
+  secondary: hsl(220, 13%, 95.5%),
+  secondary-alt: hsl(210, 11.1%, 92.9%),
+  tertiary: hsl(216, 9.8%, 90%),
+  accent: hsl(213, 9.4%, 45.9%),
+  floating: hsl(0, 0%, 100%),
+  contrast: (
+    primary: $dark-primary-text,
+    secondary: $dark-primary-text,
+    secondary-alt: $dark-primary-text,
+    tertiary: $dark-primary-text,
+    accent: $dark-primary-text,
+    floating: $dark-primary-text
   )
 );
 
