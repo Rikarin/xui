@@ -12,33 +12,33 @@ $color: (
   secondary: xui.define-palette(xui-theme.$orange-palette)
 );
 
+$theme: xui.define-dark-theme(
+  (
+    color: $color
+  )
+);
+
 @include xui.core();
-//@include xui.all-root-variables($theme);
+@include xui.all-component-themes($theme);
+@include xui.all-component-typographies($theme);
+@include xui.typography-hierarchy($theme);
+@include xui.all-root-variables($theme);
 
-.dark-theme {
-  $theme: xui.define-dark-theme(
-    (
-      color: $color
-    )
-  );
-
-  @include xui.all-component-themes($theme);
-  @include xui.all-component-typographies($theme);
+:root {
   @include xui.create-variables($theme);
-  @include xui.typography-hierarchy($theme);
 }
 
-.light-theme {
-  $theme: xui.define-light-theme(
-    (
-      color: $color
-    )
-  );
-
-  @include xui.all-component-themes($theme);
-  @include xui.create-variables($theme);
-  @include xui.typography-hierarchy($theme);
-}
+//.light-theme {
+//  $theme: xui.define-light-theme(
+//    (
+//      color: $color
+//    )
+//  );
+//
+//  @include xui.all-component-themes($theme);
+//  @include xui.create-variables($theme);
+//  @include xui.typography-hierarchy($theme);
+//}
 
 code {
   //background-color: xui.get-color($theme, background, secondary-alt) !important;

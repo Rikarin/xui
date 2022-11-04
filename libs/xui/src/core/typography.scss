@@ -51,14 +51,11 @@
     headline-4: $headline-4 or define-typography-level(2.125rem, 2.5rem, 400, 0.25, $headline-family),
     headline-5: $headline-5 or define-typography-level(1.5rem, 2rem, 400, $font-family: $headline-family),
     headline-6: $headline-6 or define-typography-level(1.25rem, 2rem, 500, 0.25, $headline-family),
-
     subtitle-1: $subtitle-1 or define-typography-level(1rem, 1.75rem, 400, 0.15, $body-family),
     subtitle-2: $subtitle-2 or define-typography-level(0.875rem, 1.375rem, 500, 0.1, $body-family),
     body-1: $body-1 or define-typography-level(1rem, 1.5rem, 400, 0.5, $body-family),
     body-2: $body-2 or define-typography-level(0.875rem, 1.25rem, 400, 0.25, $body-family),
-
     caption: $caption or define-typography-level(0.75rem, 1.25rem, 400, 0.4, $body-family),
-    // 14px, 16px, 500
     button: $button or define-typography-level(0.875rem, 2.25rem, 500, $font-family: $body-family),
     overline: $overline or define-typography-level(0.75rem, 2rem, 500, 2, $body-family) // Default was .8 for both
   );
@@ -158,7 +155,9 @@
     margin: 0 0 12px;
   }
 
-  body, pre, .xui-body {
+  body,
+  pre,
+  .xui-body {
     @include typography-level($theme, body-1);
 
     p {

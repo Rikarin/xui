@@ -5,6 +5,7 @@ export * from './checkbox';
 export * from './config';
 export * from './context-menu';
 export * from './icon';
+export * from './image-upload';
 export * from './input';
 export * from './layout';
 export * from './menu';

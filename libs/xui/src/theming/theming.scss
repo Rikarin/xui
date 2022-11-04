@@ -140,3 +140,7 @@
   $e: map.get($theme, elevation);
   @return map.get($e, $elevation);
 }
+
+@mixin elevate($theme, $elevation) {
+  box-shadow: get-elevation($theme, $elevation);
+}

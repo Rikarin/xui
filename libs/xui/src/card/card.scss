@@ -4,10 +4,10 @@
   xui-card {
     display: flex;
     flex-direction: column;
-    box-shadow: theming.get-elevation($theme, medium);
     border-radius: 5px;
 
     background-color: theming.get-color($theme, background, secondary-alt);
+    @include theming.elevate($theme, medium);
   }
 }
 

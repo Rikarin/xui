@@ -19,7 +19,8 @@ import {
   XuiContextMenuModule,
   XuiProgressModule,
   XuiCheckboxModule,
-  XuiSwitchModule
+  XuiSwitchModule,
+  XuiImageUploadModule
 } from 'xui';
 import { RouterModule, Routes } from '@angular/router';
 import { CardComponent } from './components/card/card.component';
@@ -47,6 +48,7 @@ import { ExampleComponent } from './components/example/example.component';
 import { CheckboxComponent } from './components/checkbox/checkbox.component';
 import { SwitchComponent } from './components/switch/switch.component';
 import { TypographyComponent } from './components/typography/typography.component';
+import { ImageUploadComponent } from './components/image-upload/image-upload.component';
 
 const routes: Routes = [
   {
@@ -69,6 +71,7 @@ const routes: Routes = [
   { path: 'context-menu', component: ContextMenuComponent },
   { path: 'progress', component: ProgressComponent },
   { path: 'checkbox', component: CheckboxComponent },
+  { path: 'image-upload', component: ImageUploadComponent },
   { path: 'switch', component: SwitchComponent }
 ];
 
@@ -92,7 +95,8 @@ const routes: Routes = [
     ExampleComponent,
     CheckboxComponent,
     SwitchComponent,
-    TypographyComponent
+    TypographyComponent,
+    ImageUploadComponent
   ],
   imports: [
     RouterModule.forRoot(routes),
@@ -123,7 +127,8 @@ const routes: Routes = [
     XuiTabModule,
     XuiContextMenuModule,
     XuiCheckboxModule,
-    XuiSwitchModule
+    XuiSwitchModule,
+    XuiImageUploadModule
   ],
   providers: [
     {

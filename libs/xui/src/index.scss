@@ -15,6 +15,7 @@
 @use 'checkbox/checkbox';
 @use 'theming/theming';
 @use 'switch/switch';
+@use 'image-upload/image-upload';
 
 @forward 'core/core';
 @forward 'core/typography';
@@ -35,6 +36,7 @@
 @forward 'checkbox/checkbox' as checkbox-* show checkbox-theme;
 @forward 'switch/switch' as switch-* show switch-theme;
 @forward 'tooltip/tooltip.theme' as tooltip-*;
+@forward 'image-upload/image-upload' as image-upload-* show image-upload-theme;
 
 @import '@angular/cdk/overlay-prebuilt.css';
 
@@ -49,6 +51,7 @@
   @include progress.theme($theme);
   @include checkbox.theme($theme);
   @include switch.theme($theme);
+  @include image-upload.theme($theme);
 
   @include scrollbar.theme($theme);
   @include settings.theme($theme);

@@ -8810,6 +8810,13 @@ ngx-highlightjs@^7.0.1:
     highlightjs-line-numbers.js "^2.8.0"
     tslib "^2.0.0"
 
+ngx-image-cropper@^6.2.2:
+  version "6.2.2"
+  resolved "https://registry.yarnpkg.com/ngx-image-cropper/-/ngx-image-cropper-6.2.2.tgz#cb7b7673819a28638fcc9fddcad909e3598af91d"
+  integrity sha512-/jPSq7zDpkg5b9vnZQh1JZB576SsTtr98W7t4FaHxVwYVnszWyMPXfftWeQymDpec9ReDwpa/FIM9g23d44D1w==
+  dependencies:
+    tslib "^2.3.0"
+
 nice-napi@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/nice-napi/-/nice-napi-1.0.2.tgz#dc0ab5a1eac20ce548802fc5686eaa6bc654927b"
