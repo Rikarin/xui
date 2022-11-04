@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.19.0](https://github.com/Rikarin/xui/compare/v1.18.0...v1.19.0) (2022-11-04)
+
+
+### Features
+
+* add functions to generate background-level colors ([dfbbd94](https://github.com/Rikarin/xui/commit/dfbbd94a8d49c9a5c36f022890b0c4340d48c37a))
+* add image-upload ([7780123](https://github.com/Rikarin/xui/commit/77801234127a59554e086477ad6777a4cb7a21e8))
+* add light theme ([480b33e](https://github.com/Rikarin/xui/commit/480b33e963cb0aec686f15232c8340548a81f1d5))
+* typography ([19bdbc1](https://github.com/Rikarin/xui/commit/19bdbc17fda1fd74eb904ee788c18b0c53e0ab34))
+* typography ([418a92e](https://github.com/Rikarin/xui/commit/418a92e1b3f770e6d7a007037234168790233291))
+
 ## [1.18.0](https://github.com/Rikarin/xui/compare/v1.17.1...v1.18.0) (2022-10-31)
 
 ### Features
