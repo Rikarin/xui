@@ -24,10 +24,6 @@ $theme: xui.define-dark-theme(
 @include xui.typography-hierarchy($theme);
 @include xui.all-root-variables($theme);
 
-:root {
-  @include xui.create-variables($theme);
-}
-
 //.light-theme {
 //  $theme: xui.define-light-theme(
 //    (

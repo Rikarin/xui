@@ -1,6 +1,6 @@
 <app-example>
-  <div class="content">
-    <xui-image-upload></xui-image-upload>
-    <xui-image-upload type="round"></xui-image-upload>
+  <div class="content" [formGroup]="model">
+    <xui-image-upload formControlName="first"></xui-image-upload>
+    <xui-image-upload type="round" formControlName="second"></xui-image-upload>
   </div>
 </app-example>

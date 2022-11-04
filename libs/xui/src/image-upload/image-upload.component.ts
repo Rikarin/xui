@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { Dialog, DialogRef } from '@angular/cdk/dialog';
-import { ControlValueAccessor } from '@angular/forms';
+import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 
 @Component({
   selector: 'xui-image-upload',
@@ -17,6 +17,13 @@ import { ControlValueAccessor } from '@angular/forms';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './image-upload.component.html',
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      multi: true,
+      useExisting: XuiImageUploadComponent
+    }
+  ],
   host: {
     '[class.xui-image-upload-square]': 'type === "square"',
     '[style.border-radius.%]': 'borderRadius',
