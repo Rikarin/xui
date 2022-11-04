@@ -23,7 +23,7 @@
       "sass": "./index.scss"
     }
   },
-  "version": "1.19.1",
+  "version": "1.19.2",
   "peerDependencies": {
     "@angular/cdk": "^14.0.0",
     "@angular/common": "^14.0.0",
