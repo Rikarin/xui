@@ -50,6 +50,8 @@ import { SwitchComponent } from './components/switch/switch.component';
 import { TypographyComponent } from './components/typography/typography.component';
 import { ImageUploadComponent } from './components/image-upload/image-upload.component';
 import { TableComponent } from './components/table/table.component';
+import { CdkTableModule } from '@angular/cdk/table';
+import { UsageComponent } from './components/usage/usage.component';
 
 const routes: Routes = [
   {
@@ -99,7 +101,8 @@ const routes: Routes = [
     SwitchComponent,
     TypographyComponent,
     ImageUploadComponent,
-    TableComponent
+    TableComponent,
+    UsageComponent
   ],
   imports: [
     RouterModule.forRoot(routes),
@@ -115,6 +118,7 @@ const routes: Routes = [
     TranslateModule.forRoot(),
 
     CdkMenuModule,
+    CdkTableModule,
 
     XuiTitleModule,
     XuiLayoutModule,

@@ -1,0 +1,36 @@
+@use '../theming/theming';
+
+@mixin theme($theme) {
+  table {
+  }
+
+  thead {
+    @include theming.background-level($theme, primary);
+  }
+
+  th,
+  td {
+    flex: 1 1 auto;
+    padding: 0 12px;
+  }
+
+  tr {
+    height: 40px;
+    //display: flex;
+    //align-items: center;
+  }
+
+  tbody {
+    tr:nth-child(odd) {
+      @include theming.background-level($theme, secondary-alt);
+    }
+
+    tr:nth-child(even) {
+      @include theming.background-level($theme, secondary);
+    }
+
+    tr:hover {
+      @include theming.background-level($theme, tertiary);
+    }
+  }
+}

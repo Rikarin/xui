@@ -1,4 +1,4 @@
-import { Component, Input, ViewEncapsulation } from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, ViewEncapsulation} from '@angular/core';
 import { WithConfig } from '../config';
 import { delay, InputBoolean } from '../utils';
 
@@ -6,7 +6,7 @@ import { delay, InputBoolean } from '../utils';
   selector: 'button[xui]',
   exportAs: 'xuiButton',
   encapsulation: ViewEncapsulation.None,
-  // changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<ng-content></ng-content>
     <div class="xui-button-state-image"></div>`,
   host: {
@@ -29,6 +29,10 @@ export class XuiButtonComponent {
   @Input() xClick: () => Promise<boolean>;
   @Input() @WithConfig() xStateDelay = 5000;
 
+  constructor(private changeDetectorRef: ChangeDetectorRef) {
+
+  }
+
   getStyle() {
     return `xui-button xui-button-${this.xSize} xui-button-${this.xType} xui-button-${this.xColor}`;
   }
@@ -46,7 +50,9 @@ export class XuiButtonComponent {
       this.state = 2;
     }
 
+    this.changeDetectorRef.markForCheck();
     await delay(5000);
     this.state = 0;
+    this.changeDetectorRef.markForCheck();
   }
 }

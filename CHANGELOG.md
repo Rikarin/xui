@@ -4,28 +4,25 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### [1.19.2](https://github.com/Rikarin/xui/compare/v1.19.1...v1.19.2) (2022-11-04)
 
-
 ### Bug Fixes
 
-* dependencies ([5711315](https://github.com/Rikarin/xui/commit/571131599b888fe97737d8ddac62bc32f755cf53))
+- dependencies ([5711315](https://github.com/Rikarin/xui/commit/571131599b888fe97737d8ddac62bc32f755cf53))
 
 ### [1.19.1](https://github.com/Rikarin/xui/compare/v1.19.0...v1.19.1) (2022-11-04)
 
-
 ### Bug Fixes
 
-* remove redundant uses ([ec4811f](https://github.com/Rikarin/xui/commit/ec4811fd0bf92f982e009640896f37dc8db29f90))
+- remove redundant uses ([ec4811f](https://github.com/Rikarin/xui/commit/ec4811fd0bf92f982e009640896f37dc8db29f90))
 
 ## [1.19.0](https://github.com/Rikarin/xui/compare/v1.18.0...v1.19.0) (2022-11-04)
 
-
 ### Features
 
-* add functions to generate background-level colors ([dfbbd94](https://github.com/Rikarin/xui/commit/dfbbd94a8d49c9a5c36f022890b0c4340d48c37a))
-* add image-upload ([7780123](https://github.com/Rikarin/xui/commit/77801234127a59554e086477ad6777a4cb7a21e8))
-* add light theme ([480b33e](https://github.com/Rikarin/xui/commit/480b33e963cb0aec686f15232c8340548a81f1d5))
-* typography ([19bdbc1](https://github.com/Rikarin/xui/commit/19bdbc17fda1fd74eb904ee788c18b0c53e0ab34))
-* typography ([418a92e](https://github.com/Rikarin/xui/commit/418a92e1b3f770e6d7a007037234168790233291))
+- add functions to generate background-level colors ([dfbbd94](https://github.com/Rikarin/xui/commit/dfbbd94a8d49c9a5c36f022890b0c4340d48c37a))
+- add image-upload ([7780123](https://github.com/Rikarin/xui/commit/77801234127a59554e086477ad6777a4cb7a21e8))
+- add light theme ([480b33e](https://github.com/Rikarin/xui/commit/480b33e963cb0aec686f15232c8340548a81f1d5))
+- typography ([19bdbc1](https://github.com/Rikarin/xui/commit/19bdbc17fda1fd74eb904ee788c18b0c53e0ab34))
+- typography ([418a92e](https://github.com/Rikarin/xui/commit/418a92e1b3f770e6d7a007037234168790233291))
 
 ## [1.18.0](https://github.com/Rikarin/xui/compare/v1.17.1...v1.18.0) (2022-10-31)
 

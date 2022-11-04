@@ -1,0 +1,26 @@
+<app-example>
+  <table cdk-table [dataSource]="dataSource">
+    <ng-container cdkColumnDef="param">
+      <th cdk-header-cell *cdkHeaderCellDef>Param</th>
+      <td cdk-cell *cdkCellDef="let element">{{ element.param }}</td>
+    </ng-container>
+
+    <ng-container cdkColumnDef="description">
+      <th cdk-header-cell *cdkHeaderCellDef>Description</th>
+      <td cdk-cell *cdkCellDef="let element">{{ element.description }}</td>
+    </ng-container>
+
+    <ng-container cdkColumnDef="type">
+      <th cdk-header-cell *cdkHeaderCellDef>Type</th>
+      <td cdk-cell *cdkCellDef="let element">{{ element.type }}</td>
+    </ng-container>
+
+    <ng-container cdkColumnDef="default">
+      <th cdk-header-cell *cdkHeaderCellDef>Default</th>
+      <td cdk-cell *cdkCellDef="let element">{{ element.default }}</td>
+    </ng-container>
+
+    <tr cdk-header-row *cdkHeaderRowDef="displayedColumns"></tr>
+    <tr cdk-row *cdkRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+</app-example>
