@@ -8,6 +8,9 @@
       "output": "."
     }
   ],
+  "allowedNonPeerDependencies": [
+    "ngx-image-cropper"
+  ],
   "lib": {
     "entryFile": "src/index.ts"
   }

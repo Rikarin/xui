@@ -49,6 +49,7 @@ import { CheckboxComponent } from './components/checkbox/checkbox.component';
 import { SwitchComponent } from './components/switch/switch.component';
 import { TypographyComponent } from './components/typography/typography.component';
 import { ImageUploadComponent } from './components/image-upload/image-upload.component';
+import { TableComponent } from './components/table/table.component';
 
 const routes: Routes = [
   {
@@ -72,6 +73,7 @@ const routes: Routes = [
   { path: 'progress', component: ProgressComponent },
   { path: 'checkbox', component: CheckboxComponent },
   { path: 'image-upload', component: ImageUploadComponent },
+  { path: 'table', component: TableComponent },
   { path: 'switch', component: SwitchComponent }
 ];
 
@@ -96,7 +98,8 @@ const routes: Routes = [
     CheckboxComponent,
     SwitchComponent,
     TypographyComponent,
-    ImageUploadComponent
+    ImageUploadComponent,
+    TableComponent
   ],
   imports: [
     RouterModule.forRoot(routes),
