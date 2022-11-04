@@ -23,7 +23,8 @@
 @forward 'icon/icon';
 @forward 'layout/layout';
 @forward 'theming/theming' show define-palette, define-background-palette, define-dark-theme, define-light-theme,
-  create-variables, get-color, get-elevation, get-palette, background-level, background-level-var;
+  create-color-variables, create-elevation-variables, get-color, get-elevation, get-palette, background-level,
+  background-level-var, elevate, elevate-var;
 @forward 'button/button' as button-* show button-theme;
 @forward 'menu/menu' as menu-* show menu-theme;
 @forward 'banner/banner' as banner-* show banner-theme;
@@ -70,7 +71,8 @@
 
 @mixin all-root-variables($theme) {
   :root {
-    @include theming.create-variables($theme);
+    @include theming.create-color-variables($theme);
+    @include theming.create-elevation-variables($theme);
     // TODO: typography
 
     // TODO: move this to typography

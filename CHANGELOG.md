@@ -4,15 +4,13 @@ All notable changes to this project will be documented in this file. See [standa
 
 ## [1.20.0](https://github.com/Rikarin/xui/compare/v1.19.2...v1.20.0) (2022-11-04)
 
-
 ### Features
 
-* add table and app-usage ([dc867a6](https://github.com/Rikarin/xui/commit/dc867a6bec306d3759eee32d948e07ad1f7374e9))
-
+- add table and app-usage ([dc867a6](https://github.com/Rikarin/xui/commit/dc867a6bec306d3759eee32d948e07ad1f7374e9))
 
 ### Bug Fixes
 
-* xui-image-upload value accessor ([8054568](https://github.com/Rikarin/xui/commit/8054568b02c2b004983aa9222d2fcbbc3e4ea76b))
+- xui-image-upload value accessor ([8054568](https://github.com/Rikarin/xui/commit/8054568b02c2b004983aa9222d2fcbbc3e4ea76b))
 
 ### [1.19.2](https://github.com/Rikarin/xui/compare/v1.19.1...v1.19.2) (2022-11-04)
 

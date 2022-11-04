@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, ViewEncapsulation} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, ViewEncapsulation } from '@angular/core';
 import { WithConfig } from '../config';
 import { delay, InputBoolean } from '../utils';
 
@@ -29,9 +29,7 @@ export class XuiButtonComponent {
   @Input() xClick: () => Promise<boolean>;
   @Input() @WithConfig() xStateDelay = 5000;
 
-  constructor(private changeDetectorRef: ChangeDetectorRef) {
-
-  }
+  constructor(private changeDetectorRef: ChangeDetectorRef) {}
 
   getStyle() {
     return `xui-button xui-button-${this.xSize} xui-button-${this.xType} xui-button-${this.xColor}`;

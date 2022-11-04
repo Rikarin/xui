@@ -94,7 +94,7 @@
   );
 }
 
-@mixin create-variables($theme) {
+@mixin create-color-variables($theme) {
   $colors: map.get($theme, color);
 
   @each $name, $palette in $colors {
@@ -103,6 +103,14 @@
         --#{$name}-color-#{$weight}: #{$value};
       }
     }
+  }
+}
+
+@mixin create-elevation-variables($theme) {
+  $elevation: map.get($theme, elevation);
+
+  @each $name, $value in $elevation {
+    --elevation-#{$name}: #{$value};
   }
 }
 
@@ -143,4 +151,8 @@
 
 @mixin elevate($theme, $elevation) {
   box-shadow: get-elevation($theme, $elevation);
+}
+
+@mixin elevate-var($elevation) {
+  box-shadow: var(--elevation- + $elevation);
 }

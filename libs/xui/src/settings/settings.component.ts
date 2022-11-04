@@ -21,7 +21,7 @@ import { SettingsPage } from './settings-page';
   templateUrl: './settings.component.html'
 })
 export class XuiSettingsComponent implements OnInit {
-  @Input() defaultPage = 0;
+  @Input() defaultPage = 1;
   @Input() items?: MenuItem[];
   @Output() onClosed = new EventEmitter<void>();
 
