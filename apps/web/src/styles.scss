@@ -3,7 +3,8 @@
 @use '../../../libs/xui/src/index' as xui;
 @use '../../../libs/xui/src/theming/xui.theme' as xui-theme;
 
-@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Rubik:400,500,600,700,800&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Bungee:400,500,600,700,800&display=swap');
 
 $color: (
   primary: xui.define-palette(xui-theme.$blue-palette),
@@ -22,6 +23,7 @@ $color: (
   );
 
   @include xui.all-component-themes($theme);
+  @include xui.all-component-typographies($theme);
   @include xui.create-variables($theme);
   @include xui.typography-hierarchy($theme);
 }
@@ -40,6 +42,7 @@ $color: (
 
 code {
   //background-color: xui.get-color($theme, background, secondary-alt) !important;
+  font-family: Consolas, sans-serif;
 
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   border-radius: 5px;

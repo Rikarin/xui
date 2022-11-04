@@ -30,6 +30,11 @@
         filter: brightness(0.8) opacity(0.5);
       }
     }
+
+    button {
+      //height: 30px !important;
+      margin: -12px 0;
+    }
   }
 
   .xui-input-light {

@@ -46,6 +46,7 @@ import { ProgressComponent } from './components/progress/progress.component';
 import { ExampleComponent } from './components/example/example.component';
 import { CheckboxComponent } from './components/checkbox/checkbox.component';
 import { SwitchComponent } from './components/switch/switch.component';
+import { TypographyComponent } from './components/typography/typography.component';
 
 const routes: Routes = [
   {
@@ -55,6 +56,7 @@ const routes: Routes = [
   },
   { path: 'getting-started', component: GettingStartedComponent },
   { path: 'theming', component: ThemingComponent },
+  { path: 'typography', component: TypographyComponent },
   { path: 'card', component: CardComponent },
   { path: 'button', component: ButtonComponent },
   { path: 'input', component: InputComponent },
@@ -89,7 +91,8 @@ const routes: Routes = [
     ProgressComponent,
     ExampleComponent,
     CheckboxComponent,
-    SwitchComponent
+    SwitchComponent,
+    TypographyComponent
   ],
   imports: [
     RouterModule.forRoot(routes),

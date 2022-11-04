@@ -58,6 +58,10 @@
   }
 }
 
+@mixin all-component-typographies($theme) {
+  @include button.typography($theme);
+}
+
 @mixin all-root-variables($theme) {
   :root {
     @include theming.create-variables($theme);

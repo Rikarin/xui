@@ -68,6 +68,12 @@
   @include btn-bg-color($theme, error);
 }
 
+@mixin typography($theme) {
+  .xui-button {
+    @include typography.typography-level($theme, button);
+  }
+}
+
 @mixin theme($theme) {
   .xui-button {
     display: inline-flex;
@@ -88,8 +94,6 @@
     padding: 0 1em;
     min-width: 4.57em;
     height: 2.57em;
-
-    @include typography.typography-level($theme, button);
 
     &[disabled] {
       cursor: not-allowed;

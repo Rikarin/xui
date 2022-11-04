@@ -17,7 +17,6 @@ xui-tab-group {
 
 @mixin theme($theme) {
   .xui-tab-group-entry {
-    color: var(--text-normal);
     cursor: pointer;
     font-weight: 500;
     margin-right: 20px;
@@ -33,7 +32,7 @@ xui-tab-group {
     }
 
     &.disabled {
-      color: var(--text-muted);
+      @extend .xui-disabled-filter;
       cursor: not-allowed;
       opacity: 1;
     }
