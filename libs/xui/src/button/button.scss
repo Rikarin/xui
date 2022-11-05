@@ -72,6 +72,18 @@
   .xui-button {
     @include typography.typography-level($theme, button);
   }
+
+  .xui-button.xui-button-md {
+    font-size: typography.font-size($theme, button);
+  }
+
+  .xui-button.xui-button-sm {
+    font-size: typography.font-size($theme, button) - 0.125rem;
+  }
+
+  .xui-button.xui-button-lg {
+    font-size: 1rem;
+  }
 }
 
 @mixin theme($theme) {
@@ -81,7 +93,7 @@
     justify-content: center;
 
     border: none;
-    border-radius: 4px;
+    border-radius: 3px;
 
     touch-action: manipulation;
     user-select: none;
@@ -192,18 +204,6 @@ xui-button-group {
   > button[xui]:not(:first-child) {
     margin-left: -1px;
   }
-}
-
-.xui-button-md {
-  font-size: 14px;
-}
-
-.xui-button-sm {
-  font-size: 12px;
-}
-
-.xui-button-lg {
-  font-size: 16px;
 }
 
 @keyframes spin {

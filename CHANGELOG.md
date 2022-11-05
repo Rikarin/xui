@@ -4,10 +4,9 @@ All notable changes to this project will be documented in this file. See [standa
 
 ## [1.21.0](https://github.com/Rikarin/xui/compare/v1.20.0...v1.21.0) (2022-11-04)
 
-
 ### Features
 
-* create elevation variables and elevate-var() ([9c23891](https://github.com/Rikarin/xui/commit/9c23891d799d01312903f28304214c6c154a28cb))
+- create elevation variables and elevate-var() ([9c23891](https://github.com/Rikarin/xui/commit/9c23891d799d01312903f28304214c6c154a28cb))
 
 ## [1.20.0](https://github.com/Rikarin/xui/compare/v1.19.2...v1.20.0) (2022-11-04)
 

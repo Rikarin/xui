@@ -1,4 +1,5 @@
 @use '../theming/theming';
+@use '../core/typography';
 
 @mixin theme($theme) {
   xui-settings dialog {
@@ -18,13 +19,6 @@
 
     @include theming.background-level($theme, secondary);
 
-    //&::ng-deep {
-    //  .mat-snack-bar-container {
-    //    width: 40vw;
-    //    max-width: 40vw;
-    //  }
-    //}
-
     .xui-settings-menu {
       flex: 1 0 220px;
       display: flex;
@@ -37,13 +31,15 @@
         flex-direction: column;
         padding: 50px 5px 50px 20px;
 
+        font-weight: 500;
+
         * {
           margin: 2px 10px;
         }
 
         .item {
           padding: 8px 60px 8px 8px;
-          border-radius: 4px;
+          border-radius: 3px;
           cursor: pointer;
 
           &:hover {
@@ -57,8 +53,9 @@
         }
 
         .category {
+          font-family: typography.font-family($theme, headline-1);
           font-weight: 700;
-          font-size: 0.9rem;
+          font-size: 0.75rem;
           padding-left: 8px;
         }
 

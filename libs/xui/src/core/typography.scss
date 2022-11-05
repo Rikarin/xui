@@ -9,8 +9,8 @@
   $font-size,
   $line-height,
   $font-weight: 400,
-  $letter-spacing: normal,
-  $font-family: null
+  $font-family: null,
+  $letter-spacing: normal
 ) {
   @if type-of($letter-spacing) == number {
     $letter-spacing: math.div($letter-spacing, strip-unit($font-size) * 16) * 1em;
@@ -45,19 +45,32 @@
   $body-family: $font-family or 'Rubik', 'Helvetica Neue', sans-serif;
 
   $config: (
-    headline-1: $headline-1 or define-typography-level(6rem, 6rem, 300, -1.5, $headline-family),
-    headline-2: $headline-2 or define-typography-level(3.75rem, 3.75rem, 300, -0.5, $headline-family),
-    headline-3: $headline-3 or define-typography-level(3rem, 3.125rem, 400, $font-family: $headline-family),
-    headline-4: $headline-4 or define-typography-level(2.125rem, 2.5rem, 400, 0.25, $headline-family),
-    headline-5: $headline-5 or define-typography-level(1.5rem, 2rem, 400, $font-family: $headline-family),
-    headline-6: $headline-6 or define-typography-level(1.25rem, 2rem, 500, 0.25, $headline-family),
-    subtitle-1: $subtitle-1 or define-typography-level(1rem, 1.75rem, 400, 0.15, $body-family),
-    subtitle-2: $subtitle-2 or define-typography-level(0.875rem, 1.375rem, 500, 0.1, $body-family),
-    body-1: $body-1 or define-typography-level(1rem, 1.5rem, 400, 0.5, $body-family),
-    body-2: $body-2 or define-typography-level(0.875rem, 1.25rem, 400, 0.25, $body-family),
-    caption: $caption or define-typography-level(0.75rem, 1.25rem, 400, 0.4, $body-family),
-    button: $button or define-typography-level(0.875rem, 2.25rem, 500, $font-family: $body-family),
-    overline: $overline or define-typography-level(0.75rem, 2rem, 500, 2, $body-family) // Default was .8 for both
+    //headline-1: $headline-1 or define-typography-level(6rem, 6rem, 300, -1.5, $headline-family),
+    //headline-2: $headline-2 or define-typography-level(3.75rem, 3.75rem, 300, -0.5, $headline-family),
+    //headline-3: $headline-3 or define-typography-level(3rem, 3.125rem, 400, $font-family: $headline-family),
+    //headline-4: $headline-4 or define-typography-level(2.125rem, 2.5rem, 400, 0.25, $headline-family),
+    //headline-5: $headline-5 or define-typography-level(1.5rem, 2rem, 400, $font-family: $headline-family),
+    //headline-6: $headline-6 or define-typography-level(1.25rem, 2rem, 500, 0.25, $headline-family),
+    //subtitle-1: $subtitle-1 or define-typography-level(1rem, 1.75rem, 400, 0.15, $body-family),
+    //subtitle-2: $subtitle-2 or define-typography-level(0.875rem, 1.375rem, 500, 0.1, $body-family),
+    //body-1: $body-1 or define-typography-level(1rem, 1.5rem, 400, 0.5, $body-family),
+    //body-2: $body-2 or define-typography-level(0.875rem, 1.25rem, 400, 0.25, $body-family),
+    //caption: $caption or define-typography-level(0.75rem, 1.25rem, 400, 0.4, $body-family),
+    //button: $button or define-typography-level(0.875rem, 2.25rem, 500, $font-family: $body-family),
+    //overline: $overline or define-typography-level(0.75rem, 2rem, 500, 2, $body-family) // Default was .8 for both
+    headline-1: $headline-1 or define-typography-level(6rem, 6rem, 300, $headline-family),
+    headline-2: $headline-2 or define-typography-level(3.75rem, 3.75rem, 300, $headline-family),
+    headline-3: $headline-3 or define-typography-level(3rem, 3.125rem, 400, $headline-family),
+    headline-4: $headline-4 or define-typography-level(2.125rem, 2.5rem, 400, $headline-family),
+    headline-5: $headline-5 or define-typography-level(1.5rem, 2rem, 400, $headline-family),
+    headline-6: $headline-6 or define-typography-level(1.25rem, 2rem, 500, $headline-family),
+    subtitle-1: $subtitle-1 or define-typography-level(1rem, 1.75rem, 400, $body-family),
+    subtitle-2: $subtitle-2 or define-typography-level(0.875rem, 1.375rem, 500, $body-family),
+    body-1: $body-1 or define-typography-level(1rem, 1.5rem, 400, $body-family),
+    body-2: $body-2 or define-typography-level(0.875rem, 1.25rem, 400, $body-family),
+    caption: $caption or define-typography-level(0.75rem, 1.25rem, 400, $body-family),
+    button: $button or define-typography-level(0.875rem, 2.25rem, 500, $body-family),
+    overline: $overline or define-typography-level(0.75rem, 2rem, 500, $body-family) // Default was .8 for both
   );
 
   @each $key, $level in $config {

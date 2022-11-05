@@ -4,7 +4,7 @@
   xui-card {
     display: flex;
     flex-direction: column;
-    border-radius: 5px;
+    border-radius: 4px;
 
     background-color: theming.get-color($theme, background, secondary-alt);
     @include theming.elevate($theme, medium);

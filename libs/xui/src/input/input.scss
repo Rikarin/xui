@@ -6,10 +6,11 @@
     flex-direction: column;
 
     .input {
+      max-height: 39px;
       display: flex;
       gap: 8px;
       align-items: center;
-      border-radius: 4px;
+      border-radius: 3px;
 
       &:focus-within {
         outline: 2px solid theming.get-color($theme, info);
@@ -29,11 +30,6 @@
       &::placeholder {
         filter: brightness(0.8) opacity(0.5);
       }
-    }
-
-    button {
-      //height: 30px !important;
-      margin: -12px 0;
     }
   }
 
@@ -82,7 +78,7 @@ xui-input-addon {
   place-items: center;
   padding: 0 12px;
 
-  border-radius: 4px;
+  border-radius: 3px;
 }
 
 xui-input-group {

@@ -21,6 +21,9 @@
   "exports": {
     ".": {
       "sass": "./index.scss"
+    },
+    "./theming/xui.theme": {
+      "sass": "./src/theming/xui.theme.scss"
     }
   },
   "version": "1.21.0",
