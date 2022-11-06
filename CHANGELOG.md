@@ -4,10 +4,9 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### [1.21.1](https://github.com/Rikarin/xui/compare/v1.21.0...v1.21.1) (2022-11-05)
 
-
 ### Bug Fixes
 
-* button size, border radius and input sizing ([7879330](https://github.com/Rikarin/xui/commit/7879330c84e58e89f025b966d1e8c9516ea57c9b))
+- button size, border radius and input sizing ([7879330](https://github.com/Rikarin/xui/commit/7879330c84e58e89f025b966d1e8c9516ea57c9b))
 
 ## [1.21.0](https://github.com/Rikarin/xui/compare/v1.20.0...v1.21.0) (2022-11-04)
 

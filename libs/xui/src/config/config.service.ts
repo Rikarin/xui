@@ -12,7 +12,7 @@ const isDefined = function (value?: any): boolean {
 @Injectable({
   providedIn: 'root'
 })
-export class NzConfigService {
+export class XuiConfigService {
   private configUpdated$ = new Subject<XuiConfigKey>();
   private config: XuiConfig;
 

@@ -181,36 +181,36 @@
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' style='width:24px;height:24px' viewBox='0 0 24 24'%3E%3Cpath fill='white' d='M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z' /%3E%3C/svg%3E");
     }
   }
-}
 
-xui-button-group {
-  display: flex;
+  xui-button-group {
+    display: flex;
 
-  > button[xui] {
-    border-radius: 0 !important;
-    margin-right: 0;
+    > button[xui] {
+      border-radius: 0 !important;
+      margin-right: 0;
+    }
+
+    > button[xui]:first-child {
+      border-top-left-radius: 5px !important;
+      border-bottom-left-radius: 5px !important;
+    }
+
+    > button[xui]:last-child {
+      border-top-right-radius: 5px !important;
+      border-bottom-right-radius: 5px !important;
+    }
+
+    > button[xui]:not(:first-child) {
+      margin-left: -1px;
+    }
   }
 
-  > button[xui]:first-child {
-    border-top-left-radius: 5px !important;
-    border-bottom-left-radius: 5px !important;
-  }
-
-  > button[xui]:last-child {
-    border-top-right-radius: 5px !important;
-    border-bottom-right-radius: 5px !important;
-  }
-
-  > button[xui]:not(:first-child) {
-    margin-left: -1px;
-  }
-}
-
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
   }
 }

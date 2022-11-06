@@ -9,30 +9,30 @@
     background-color: theming.get-color($theme, background, secondary-alt);
     @include theming.elevate($theme, medium);
   }
-}
 
-.xui-card-header {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
+  .xui-card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
 
-  font-size: 1.5rem;
-  font-weight: 500;
-  padding: 24px;
-}
+    font-size: 1.5rem;
+    font-weight: 500;
+    padding: 24px;
+  }
 
-.xui-card-content {
-  flex: 1 1 auto;
-  display: flex;
-  flex-direction: column;
-  padding: 0 24px;
-}
+  .xui-card-content {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    padding: 0 24px;
+  }
 
-.xui-card-actions {
-  display: flex;
-  gap: 8px;
-  justify-content: flex-end;
+  .xui-card-actions {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
 
-  padding-bottom: 12px;
-  padding-right: 12px;
+    padding-bottom: 12px;
+    padding-right: 12px;
+  }
 }

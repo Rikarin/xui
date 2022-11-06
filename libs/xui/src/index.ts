@@ -15,5 +15,4 @@ export * from './settings';
 export * from './switch';
 export * from './tabs';
 export * from './title';
-export * from './tooltip';
 export * from './utils';

@@ -1,33 +1,33 @@
 @use '../theming/theming';
 
-xui-banner {
-  width: 100%;
-  flex: 0 1 auto;
-  display: flex;
-  align-items: center;
-  padding: 10px;
-}
-
-.xui-banner-stamp {
-  border-radius: 3px;
-  font-size: 0.78571rem;
-  font-weight: 700;
-  letter-spacing: 1px;
-  margin: 0 10px;
-  padding: 5px 15px;
-}
-
-.xui-banner-dismissible {
-  cursor: pointer;
-  pointer-events: all;
-}
-
-.xui-banner-close {
-  margin-left: auto;
-  font-weight: 700;
-}
-
 @mixin theme($theme) {
+  xui-banner {
+    width: 100%;
+    flex: 0 1 auto;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+  }
+
+  .xui-banner-stamp {
+    border-radius: 3px;
+    font-size: 0.78571rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin: 0 10px;
+    padding: 5px 15px;
+  }
+
+  .xui-banner-dismissible {
+    cursor: pointer;
+    pointer-events: all;
+  }
+
+  .xui-banner-close {
+    margin-left: auto;
+    font-weight: 700;
+  }
+
   .xui-banner-info {
     color: theming.get-color($theme, info, lighter-contrast);
     background-color: theming.get-color($theme, info, lighter);

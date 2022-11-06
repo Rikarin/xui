@@ -1,5 +1,7 @@
-xui-icon {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+@mixin theme($theme) {
+  xui-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }

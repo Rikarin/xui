@@ -1,64 +1,72 @@
 @use 'sass:map';
 
-@use 'core/core';
-@use 'button/button';
 @use 'banner/banner';
-@use 'menu/menu';
-@use 'core/scrollbar';
+@use 'button/button';
 @use 'card/card';
-@use 'input/input';
-@use 'settings/settings';
-@use 'tabs/tabs';
-@use 'context-menu/context-menu';
-@use 'progress/progress';
-@use 'icon/icon';
 @use 'checkbox/checkbox';
-@use 'theming/theming';
-@use 'switch/switch';
+@use 'context-menu/context-menu';
+@use 'core/core';
+@use 'core/scrollbar';
+@use 'icon/icon';
 @use 'image-upload/image-upload';
+@use 'input/input';
+@use 'layout/layout';
+@use 'menu/menu';
+@use 'progress/progress';
+// select
+@use 'settings/settings';
+@use 'switch/switch';
 @use 'table/table';
+@use 'tabs/tabs';
+@use 'theming/theming';
+// title
 
+@forward 'banner/banner' as banner-* show banner-theme;
+@forward 'button/button' as button-* show button-theme;
+@forward 'card/card' as card-* show card-theme;
+@forward 'checkbox/checkbox' as checkbox-* show checkbox-theme;
+@forward 'context-menu/context-menu' as context-menu-* show context-menu-theme;
 @forward 'core/core';
 @forward 'core/typography';
-@forward 'icon/icon';
-@forward 'layout/layout';
+@forward 'core/scrollbar' as scrollbar-* show scrollbar-theme;
+@forward 'icon/icon' as icon-* show icon-theme;
+@forward 'image-upload/image-upload' as image-upload-* show image-upload-theme;
+@forward 'input/input' as input-* show input-theme;
+@forward 'layout/layout' as layout-* show layout-theme;
+@forward 'menu/menu' as menu-* show menu-theme;
+@forward 'progress/progress' as progress-* show progress-theme;
+// select
+@forward 'settings/settings' as settings-* show settings-theme;
+@forward 'switch/switch' as switch-* show switch-theme;
+@forward 'table/table' as table-* show table-theme;
+@forward 'tabs/tabs' as tabs-* show tabs-theme;
 @forward 'theming/theming' show define-palette, define-background-palette, define-dark-theme, define-light-theme,
   create-color-variables, create-elevation-variables, get-color, get-elevation, get-palette, background-level,
   background-level-var, elevate, elevate-var;
-@forward 'button/button' as button-* show button-theme;
-@forward 'menu/menu' as menu-* show menu-theme;
-@forward 'banner/banner' as banner-* show banner-theme;
-@forward 'core/scrollbar' as scrollbar-* show scrollbar-theme;
-@forward 'card/card' as card-* show card-theme;
-@forward 'input/input' as input-* show input-theme;
-@forward 'settings/settings' as settings-* show settings-theme;
-@forward 'tabs/tabs' as tabs-* show tabs-theme;
-@forward 'context-menu/context-menu' as context-menu-* show context-menu-theme;
-@forward 'progress/progress' as progress-* show progress-theme;
-@forward 'checkbox/checkbox' as checkbox-* show checkbox-theme;
-@forward 'switch/switch' as switch-* show switch-theme;
-@forward 'tooltip/tooltip.theme' as tooltip-*;
-@forward 'image-upload/image-upload' as image-upload-* show image-upload-theme;
-@forward 'table/table' as table-* show table-theme;
-
-@import '@angular/cdk/overlay-prebuilt.css';
+// title
 
 @mixin all-component-themes($theme) {
-  @include card.theme($theme);
-  @include button.theme($theme);
-  @include input.theme($theme);
-  @include banner.theme($theme);
-  @include menu.theme($theme);
-  @include tabs.theme($theme);
-  @include context-menu.theme($theme);
-  @include progress.theme($theme);
-  @include checkbox.theme($theme);
-  @include switch.theme($theme);
-  @include image-upload.theme($theme);
-  @include table.theme($theme);
+  @import '@angular/cdk/overlay-prebuilt.css';
 
+  @include banner.theme($theme);
+  @include button.theme($theme);
+  @include card.theme($theme);
+  @include checkbox.theme($theme);
+  @include context-menu.theme($theme);
   @include scrollbar.theme($theme);
+  @include icon.theme($theme);
+  @include image-upload.theme($theme);
+  @include input.theme($theme);
+  @include layout.theme($theme);
+  @include menu.theme($theme);
+  @include progress.theme($theme);
+  // select
   @include settings.theme($theme);
+  @include switch.theme($theme);
+  @include table.theme($theme);
+  @include tabs.theme($theme);
+  // title
+  // tooltip
 
   a {
     color: theming.get-color($theme, info);
