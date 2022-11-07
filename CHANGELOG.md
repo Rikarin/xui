@@ -4,39 +4,34 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### [1.21.8](https://github.com/Rikarin/xui/compare/v1.21.7...v1.21.8) (2022-11-07)
 
-
 ### Bug Fixes
 
-* imports ([337f63f](https://github.com/Rikarin/xui/commit/337f63f4236b019562127f096d1de821f7f2b431))
+- imports ([337f63f](https://github.com/Rikarin/xui/commit/337f63f4236b019562127f096d1de821f7f2b431))
 
 ### [1.21.7](https://github.com/Rikarin/xui/compare/v1.21.6...v1.21.7) (2022-11-07)
 
-
 ### Bug Fixes
 
-* file naming ([552db9d](https://github.com/Rikarin/xui/commit/552db9d52e3701e6f6d242d78cee72274ca158df))
+- file naming ([552db9d](https://github.com/Rikarin/xui/commit/552db9d52e3701e6f6d242d78cee72274ca158df))
 
 ### [1.21.6](https://github.com/Rikarin/xui/compare/v1.21.5...v1.21.6) (2022-11-07)
 
-
 ### Bug Fixes
 
-* lib build ([1fd4837](https://github.com/Rikarin/xui/commit/1fd48372e3819e484076b098026929433f3857ec))
+- lib build ([1fd4837](https://github.com/Rikarin/xui/commit/1fd48372e3819e484076b098026929433f3857ec))
 
 ### [1.21.5](https://github.com/Rikarin/xui/compare/v1.21.4...v1.21.5) (2022-11-07)
 
-
 ### Bug Fixes
 
-* yarn.lock ([a6752e2](https://github.com/Rikarin/xui/commit/a6752e2c4d54d889bd6a63f003d6e49a4750d9cb))
+- yarn.lock ([a6752e2](https://github.com/Rikarin/xui/commit/a6752e2c4d54d889bd6a63f003d6e49a4750d9cb))
 
 ### [1.21.4](https://github.com/Rikarin/xui/compare/v1.21.2...v1.21.4) (2022-11-07)
 
-
 ### Bug Fixes
 
-* build ([d22a7be](https://github.com/Rikarin/xui/commit/d22a7bea87fb5a1948fc2674c0456d4703096729))
-* build ([4c5dfb8](https://github.com/Rikarin/xui/commit/4c5dfb84c7234a3243ae84f635fd5c7013120679))
+- build ([d22a7be](https://github.com/Rikarin/xui/commit/d22a7bea87fb5a1948fc2674c0456d4703096729))
+- build ([4c5dfb8](https://github.com/Rikarin/xui/commit/4c5dfb84c7234a3243ae84f635fd5c7013120679))
 
 ### [1.21.2](https://github.com/Rikarin/xui/compare/v1.21.1...v1.21.2) (2022-11-06)
 

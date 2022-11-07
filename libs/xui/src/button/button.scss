@@ -58,6 +58,7 @@
   @include btn-color($theme, primary);
   @include btn-color($theme, primary-alt);
   @include btn-color($theme, secondary);
+  @include btn-color($theme, success);
   @include btn-color($theme, error);
 }
 
@@ -65,6 +66,7 @@
   @include btn-bg-color($theme, primary);
   @include btn-bg-color($theme, primary-alt);
   @include btn-bg-color($theme, secondary);
+  @include btn-bg-color($theme, success);
   @include btn-bg-color($theme, error);
 }
 
@@ -91,6 +93,7 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    position: relative;
 
     border: none;
     border-radius: 3px;
@@ -98,6 +101,7 @@
     touch-action: manipulation;
     user-select: none;
     cursor: pointer;
+    overflow: hidden;
 
     transition: 0.3s;
     outline: none;
@@ -211,6 +215,45 @@
     }
     to {
       transform: rotate(360deg);
+    }
+  }
+
+  .xui-button-shine {
+    position: absolute;
+    top: -50%;
+    bottom: 0;
+    right: 0;
+
+    animation-duration: 2s;
+    animation-name: shine;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
+    color: hsla(0, 0, 100%, 0.1);
+  }
+
+  .xui-button-shine-inner {
+    display: flex;
+    justify-content: center;
+    background-color: currentColor;
+    height: 300%;
+    position: relative;
+    top: -100%;
+    transform: rotate(30deg);
+    width: 56px;
+  }
+
+  .xui-button-shine-element {
+    width: 16px;
+    height: 100%;
+    background-color: currentColor;
+  }
+
+  @keyframes shine {
+    0% {
+      transform: translate3d(-400%, 0, 0);
+    }
+    to {
+      transform: translate3d(500%, 0, 0);
     }
   }
 }

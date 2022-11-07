@@ -6,7 +6,7 @@
     "ng": "nx",
     "nx": "nx",
     "postinstall": "node ./decorate-angular-cli.js",
-    "start": "nx serve",
+    "start": "nx serve --port 4800",
     "build": "nx build",
     "test": "nx test",
     "lint": "nx workspace-lint && nx lint",
