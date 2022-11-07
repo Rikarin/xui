@@ -10,6 +10,11 @@
       "options": {
         "tsConfig": "libs/xui/tsconfig.lib.json",
         "project": "libs/xui/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/xui/tsconfig.lib.prod.json"
+        }
       }
     },
     "test": {
