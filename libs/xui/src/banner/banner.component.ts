@@ -15,8 +15,8 @@ import { InputBoolean } from '../utils';
 })
 export class XuiBannerComponent {
   @Input() type: 'info' | 'success' | 'warning' | 'alert' = 'info';
-  @Input() stamp: string;
-  @Input() @InputBoolean() dismissible: boolean;
+  @Input() stamp!: string;
+  @Input() @InputBoolean() dismissible = false;
 
   @Output() bannerClose = new EventEmitter();
 

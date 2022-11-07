@@ -42,7 +42,7 @@ export class XuiImageUploadComponent implements ControlValueAccessor {
   onChange = (source?: string) => {};
   onTouched = () => {};
 
-  @Input() hoverLabel?: string = 'change image';
+  @Input() hoverLabel: string = 'xui.change_image';
   @Input() type: 'square' | 'round' = 'square';
   @Input() aspectRatio = 1;
   @ViewChild('cropper') cropper!: TemplateRef<any>;

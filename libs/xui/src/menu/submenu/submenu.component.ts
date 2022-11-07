@@ -22,8 +22,8 @@ import { InputBoolean } from '../../utils';
   }
 })
 export class XuiSubMenuComponent implements OnInit {
-  @Input() title: string;
-  @Input() icon: string;
+  @Input() title!: string;
+  @Input() icon!: string;
   @Input() @InputBoolean() open = false;
   @Output() readonly openChange: EventEmitter<boolean> = new EventEmitter();
 

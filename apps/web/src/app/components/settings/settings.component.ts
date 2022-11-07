@@ -7,7 +7,7 @@ import { MenuItem, XuiSettingsComponent } from 'xui';
   styleUrls: ['./settings.component.scss']
 })
 export class SettingsComponent {
-  @ViewChild('settings') settings: XuiSettingsComponent;
+  @ViewChild('settings') settings!: XuiSettingsComponent;
 
   items: MenuItem[] = [
     {

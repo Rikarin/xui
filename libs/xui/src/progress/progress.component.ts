@@ -8,7 +8,7 @@ import { InputNumber } from '../utils';
   templateUrl: './progress.component.html'
 })
 export class XuiProgressComponent implements OnInit {
-  @Input() @InputNumber() progress: number;
+  @Input() @InputNumber() progress!: number;
   @Input() type: 'line' | 'circle' = 'line';
   @Input() color: 'primary' | 'primary-alt' | 'secondary' | 'error' | 'success' | 'warning' | string = 'primary';
   @Input() status: 'error' | null = null;

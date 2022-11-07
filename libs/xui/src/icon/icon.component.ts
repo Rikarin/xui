@@ -9,7 +9,7 @@ import { ChangeDetectionStrategy, Component, ElementRef, ViewChild, ViewEncapsul
     <span style="display: none" #iconName><ng-content></ng-content></span> `
 })
 export class XuiIconComponent {
-  @ViewChild('iconName', { static: true }) input: ElementRef;
+  @ViewChild('iconName', { static: true }) input!: ElementRef;
 
   get icon() {
     return this.input.nativeElement.innerHTML;

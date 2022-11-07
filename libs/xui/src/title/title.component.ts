@@ -10,13 +10,13 @@ import { XuiTitleService } from './title.service';
 export class XuiTitleComponent implements OnInit, OnDestroy {
   private _interval: any;
 
-  @Input() title: string;
+  @Input() title?: string;
   @Input() autoRefresh = false;
 
   // @LocalStorage
-  autoRefreshEnabled = null;
+  autoRefreshEnabled: boolean | null = null;
   // @LocalStorage
-  selected = null;
+  selected = 5;
 
   constructor(@Optional() private titleService: XuiTitleService) {}
 
@@ -36,12 +36,12 @@ export class XuiTitleComponent implements OnInit, OnDestroy {
     clearInterval(this._interval);
   }
 
-  onChangeAutorefresh(value) {
+  onChangeAutorefresh(value: any) {
     this.autoRefreshEnabled = value.checked;
     this.setup();
   }
 
-  onChangeSelect(value) {
+  onChangeSelect(value: number) {
     this.selected = value;
     this.setup();
   }

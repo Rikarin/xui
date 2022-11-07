@@ -21,10 +21,10 @@ import { combineLatest } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class XuiMenuGroupComponent implements OnInit {
-  @Input() title: string;
+  @Input() title!: string;
 
   private level = (this.submenuService?.level ?? 0) + 0.5;
-  paddingLeft: number = null;
+  paddingLeft: number | null = null;
 
   constructor(
     private cdr: ChangeDetectorRef,

@@ -12,7 +12,7 @@ import { parseCss } from '../utils';
   }
 })
 export class XuiSiderComponent implements OnInit, OnChanges {
-  private _width: string;
+  private _width: string | null = null;
 
   @Input() width: string | number = 'inherit';
 

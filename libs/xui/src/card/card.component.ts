@@ -17,16 +17,16 @@ import { inNextTick } from '../utils';
   encapsulation: ViewEncapsulation.None
 })
 export class XuiCardComponent implements AfterViewInit {
-  titlePortal: Portal<any>;
-  extraPortal: Portal<any>;
-  actionsPortal: Portal<any>;
+  titlePortal?: Portal<any>;
+  extraPortal?: Portal<any>;
+  actionsPortal?: Portal<any>;
 
-  @Input() loading: boolean;
+  @Input() loading!: boolean;
   @Input() title?: string | TemplateRef<any>;
   @Input() extra?: TemplateRef<any>;
   @Input() actions?: TemplateRef<any>;
 
-  @ViewChild('titleText') titleText: TemplateRef<unknown>;
+  @ViewChild('titleText') titleText!: TemplateRef<unknown>;
 
   constructor(private viewContainerRef: ViewContainerRef) {}
 

@@ -27,7 +27,7 @@ import { InputGroupService } from '../input/input-group.service';
 export class XuiCheckboxComponent implements ControlValueAccessor, OnInit {
   _value = false;
   touched = false;
-  onChange = (source?: boolean) => {};
+  onChange = (_?: boolean) => {};
   onTouched = () => {};
 
   @Input() @InputBoolean() disabled = false;

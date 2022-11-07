@@ -6,6 +6,6 @@ import { CdkMenuModule } from '@angular/cdk/menu';
 @NgModule({
   declarations: [XuiContextMenuComponent],
   imports: [CommonModule, CdkMenuModule],
-  exports: [XuiContextMenuComponent]
+  exports: [XuiContextMenuComponent, CdkMenuModule]
 })
 export class XuiContextMenuModule {}

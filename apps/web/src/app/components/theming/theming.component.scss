@@ -1,0 +1,11 @@
+@use '../../../../../../libs/xui/src/index' as xui;
+
+.background {
+  display: grid;
+  place-items: center;
+  width: 300px;
+  height: 100px;
+
+  border-radius: 4px;
+  @include xui.background-level-var(default, primary);
+}

@@ -28,8 +28,8 @@ import { InputBoolean } from '../../utils';
   }
 })
 export class XuiMenuItemComponent implements OnInit {
-  @Input() icon: string;
-  @Input() link: string;
+  @Input() icon!: string;
+  @Input() link!: string;
   @Input() @InputBoolean() disabled = false;
 
   @HostBinding('class.xui-menu-item-selected') selected = false;
@@ -39,7 +39,7 @@ export class XuiMenuItemComponent implements OnInit {
   }
 
   private level = (this.submenuService?.level ?? 0) + 1;
-  paddingLeft: number = null;
+  paddingLeft: number | null = null;
 
   constructor(
     private router: Router,

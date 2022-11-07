@@ -26,7 +26,7 @@ export class XuiButtonComponent {
   @Input() xColor: 'primary' | 'primary-alt' | 'secondary' | 'error' | 'neutral' | 'minimal' | string = 'primary';
 
   @Input() @InputBoolean() disabled = false;
-  @Input() xClick: () => Promise<boolean>;
+  @Input() xClick?: () => Promise<boolean>;
   @Input() @WithConfig() xStateDelay = 5000;
 
   constructor(private changeDetectorRef: ChangeDetectorRef) {}

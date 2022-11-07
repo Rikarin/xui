@@ -9,8 +9,8 @@ import packageInfo from '../../../../../../package.json';
   styleUrls: ['./example.component.scss']
 })
 export class ExampleComponent implements OnInit {
-  @Input() files: { [name: string]: string };
-  @Input() @InputBoolean() todo: boolean;
+  @Input() files: { [name: string]: string } = {};
+  @Input() @InputBoolean() todo = false;
 
   id = this.generateId();
 

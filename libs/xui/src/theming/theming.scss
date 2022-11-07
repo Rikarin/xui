@@ -114,14 +114,14 @@
   }
 }
 
-@mixin background-level($theme, $name) {
-  color: get-color($theme, background, $name + '-contrast');
-  background-color: get-color($theme, background, $name);
+@mixin background-level($theme, $name, $palette: background) {
+  color: get-color($theme, $palette, $name + '-contrast');
+  background-color: get-color($theme, $palette, $name);
 }
 
-@mixin background-level-var($name) {
-  color: var(--background-color- + $name + -contrast);
-  background-color: var(--background-color- + $name);
+@mixin background-level-var($name, $palette: background) {
+  color: var(-- + $palette + -color- + $name + -contrast);
+  background-color: var(-- + $palette + -color- + $name);
 }
 
 @function get-palette($theme, $palette) {
