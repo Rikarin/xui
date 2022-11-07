@@ -31,9 +31,7 @@ export class XuiSubMenuComponent implements OnInit {
 
   constructor(private submenuService: XuiSubmenuService) {}
 
-  ngOnInit() {
-    console.log('padding left', this.paddingLeft);
-  }
+  ngOnInit() {}
 
   toggleSubmenu() {
     this.open = !this.open;

@@ -10,6 +10,7 @@ export * from './input';
 export * from './layout';
 export * from './menu';
 export * from './progress';
+export * from './radio-list';
 // export * from './select';
 export * from './settings';
 export * from './switch';

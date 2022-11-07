@@ -1,0 +1,16 @@
+<app-example>
+  <xui-radio-list [formControl]="model">
+    <xui-radio-option value="first">First</xui-radio-option>
+    <xui-radio-option value="second">Second</xui-radio-option>
+    <xui-radio-option color="success" value="third">Third</xui-radio-option>
+    <xui-radio-option color="primary" value="forth" disabled>Disabled</xui-radio-option>
+    <xui-radio-option color="error" value="fifth">
+      With description
+      <div xuiDescription>Lorem ipsum dolor sit a met</div>
+    </xui-radio-option>
+
+    <p>
+      Selected <strong>{{ model.value | json }}</strong>
+    </p>
+  </xui-radio-list>
+</app-example>

@@ -13,6 +13,7 @@
 @use 'layout/layout';
 @use 'menu/menu';
 @use 'progress/progress';
+@use 'radio-list/radio-list';
 // select
 @use 'settings/settings';
 @use 'switch/switch';
@@ -35,6 +36,7 @@
 @forward 'layout/layout' as layout-* show layout-theme;
 @forward 'menu/menu' as menu-* show menu-theme;
 @forward 'progress/progress' as progress-* show progress-theme;
+@forward 'radio-list/radio-list' as radio-list-* show radio-list-theme;
 // select
 @forward 'settings/settings' as settings-* show settings-theme;
 @forward 'switch/switch' as switch-* show switch-theme;
@@ -58,6 +60,7 @@
   @include layout.theme($theme);
   @include menu.theme($theme);
   @include progress.theme($theme);
+  @include radio-list.theme($theme);
   // select
   @include settings.theme($theme);
   @include switch.theme($theme);

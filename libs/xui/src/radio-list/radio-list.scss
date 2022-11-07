@@ -1,0 +1,58 @@
+@use 'sass:map';
+@use '../theming/theming';
+@use '../core/typography';
+
+@mixin theme($theme) {
+  xui-radio-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    justify-content: space-between;
+  }
+
+  xui-radio-option {
+    height: 64px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    padding: 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+
+    @include theming.background-level($theme, secondary);
+
+    &:hover {
+      @include theming.background-level($theme, primary);
+    }
+  }
+
+  .xui-radio-option-active {
+    @include theming.background-level($theme, primary);
+  }
+
+  .xui-radio-option-disabled {
+    cursor: not-allowed;
+    @extend .xui-disabled-filter;
+  }
+
+  .xui-radio-option-description {
+    @include typography.typography-level($theme, body-2);
+  }
+
+  @include generate-color-variations($theme);
+}
+
+@mixin generate-color-variations($theme) {
+  $colors: map.get($theme, color);
+
+  @each $key, $value in $colors {
+    @if map.has-key($value, default) {
+      .xui-radio-option-border-#{$key} {
+        border-left: 3px solid map.get($value, default);
+        padding-left: 9px;
+      }
+    }
+  }
+}

@@ -19,7 +19,8 @@ import {
   XuiProgressModule,
   XuiCheckboxModule,
   XuiSwitchModule,
-  XuiImageUploadModule
+  XuiImageUploadModule,
+  XuiRadioListModule
 } from 'xui';
 import { RouterModule, Routes } from '@angular/router';
 import { CardComponent } from './components/card/card.component';
@@ -51,6 +52,7 @@ import { ImageUploadComponent } from './components/image-upload/image-upload.com
 import { TableComponent } from './components/table/table.component';
 import { CdkTableModule } from '@angular/cdk/table';
 import { UsageComponent } from './components/usage/usage.component';
+import { RadioListComponent } from './components/radio-list/radio-list.component';
 
 const routes: Routes = [
   {
@@ -75,6 +77,7 @@ const routes: Routes = [
   { path: 'checkbox', component: CheckboxComponent },
   { path: 'image-upload', component: ImageUploadComponent },
   { path: 'table', component: TableComponent },
+  { path: 'radio-list', component: RadioListComponent },
   { path: 'switch', component: SwitchComponent }
 ];
 
@@ -101,7 +104,8 @@ const routes: Routes = [
     TypographyComponent,
     ImageUploadComponent,
     TableComponent,
-    UsageComponent
+    UsageComponent,
+    RadioListComponent
   ],
   imports: [
     RouterModule.forRoot(routes),
@@ -133,7 +137,8 @@ const routes: Routes = [
     XuiContextMenuModule,
     XuiCheckboxModule,
     XuiSwitchModule,
-    XuiImageUploadModule
+    XuiImageUploadModule,
+    XuiRadioListModule
   ],
   providers: [
     {

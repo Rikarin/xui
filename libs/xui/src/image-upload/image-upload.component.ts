@@ -3,13 +3,18 @@ import {
   ChangeDetectorRef,
   Component,
   Input,
+  OnInit,
+  Optional,
+  Self,
   TemplateRef,
   ViewChild,
   ViewEncapsulation
 } from '@angular/core';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { Dialog, DialogRef } from '@angular/cdk/dialog';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR, NgControl } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
+import { InputGroupService } from '../input/input-group.service';
 
 @Component({
   selector: 'xui-image-upload',
@@ -17,13 +22,6 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './image-upload.component.html',
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      multi: true,
-      useExisting: XuiImageUploadComponent
-    }
-  ],
   host: {
     '[class.xui-image-upload-square]': 'type === "square"',
     '[style.border-radius.%]': 'borderRadius',
@@ -31,7 +29,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
     '[style.background-image]': 'backgroundImage'
   }
 })
-export class XuiImageUploadComponent implements ControlValueAccessor {
+export class XuiImageUploadComponent implements ControlValueAccessor, OnInit {
   private _backgroundImage?: string;
   private dialogRef?: DialogRef<any>;
 
@@ -55,7 +53,19 @@ export class XuiImageUploadComponent implements ControlValueAccessor {
     return this.type === 'round' ? 50 : 4;
   }
 
-  constructor(private changeDetectorRef: ChangeDetectorRef, private dialog: Dialog) {}
+  constructor(
+    private changeDetectorRef: ChangeDetectorRef,
+    private dialog: Dialog,
+    @Self() @Optional() public control?: NgControl
+  ) {
+    if (this.control) {
+      this.control.valueAccessor = this;
+    }
+  }
+
+  ngOnInit() {
+    this.control?.statusChanges!.subscribe(() => this.changeDetectorRef.markForCheck());
+  }
 
   handleFileInput(event: any) {
     this.imageChangedEvent = event;
