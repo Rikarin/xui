@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.21.5](https://github.com/Rikarin/xui/compare/v1.21.4...v1.21.5) (2022-11-07)
+
+
+### Bug Fixes
+
+* yarn.lock ([a6752e2](https://github.com/Rikarin/xui/commit/a6752e2c4d54d889bd6a63f003d6e49a4750d9cb))
+
 ### [1.21.4](https://github.com/Rikarin/xui/compare/v1.21.2...v1.21.4) (2022-11-07)
 
 
