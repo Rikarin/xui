@@ -1,6 +1,8 @@
 @use 'sass:map';
 
 @mixin core() {
+  @import '@angular/cdk/overlay-prebuilt.css';
+
   * {
     box-sizing: border-box;
     text-rendering: optimizeLegibility;
