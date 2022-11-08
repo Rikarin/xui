@@ -43,10 +43,7 @@ export class XuiSettingsComponent implements OnInit {
 
   constructor(private snackBar: MatSnackBar, private changeDetectorRef: ChangeDetectorRef) {}
 
-  ngOnInit() {
-    this.navigate(this.defaultPage);
-    this.stateChanged(false);
-  }
+  ngOnInit() {}
 
   stateChanged = (canExit: boolean) => {
     this.canExit = canExit;
@@ -80,6 +77,7 @@ export class XuiSettingsComponent implements OnInit {
 
   open() {
     this.opened = true;
+    this.navigate(this.defaultPage);
   }
 
   close() {
