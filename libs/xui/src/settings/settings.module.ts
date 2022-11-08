@@ -9,14 +9,7 @@ import { XuiButtonModule } from '../button';
 
 @NgModule({
   declarations: [XuiSettingsComponent, SaveResetSnackbarComponent],
-  imports: [
-    CommonModule,
-    MatSnackBarModule,
-    XuiIconModule,
-    XuiButtonModule,
-    PortalModule,
-    TranslateModule.forChild()
-  ],
+  imports: [CommonModule, MatSnackBarModule, XuiIconModule, XuiButtonModule, PortalModule, TranslateModule.forChild()],
   exports: [XuiSettingsComponent]
 })
 export class XuiSettingsModule {}

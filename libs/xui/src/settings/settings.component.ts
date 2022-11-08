@@ -13,12 +13,15 @@ import {
 import { MAT_SNACK_BAR_DATA, MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
 import { CdkPortalOutletAttachedRef, ComponentPortal } from '@angular/cdk/portal';
 import { SettingsPage } from './settings-page';
+import { transition, trigger, useAnimation } from '@angular/animations';
+import { bounce } from '../utils/animations';
 
 @Component({
   selector: 'xui-settings',
   exportAs: 'xuiSettings',
   encapsulation: ViewEncapsulation.None,
-  templateUrl: './settings.component.html'
+  templateUrl: './settings.component.html',
+  animations: [trigger('bounce', [transition('* => *', useAnimation(bounce))])]
 })
 export class XuiSettingsComponent implements OnInit {
   @Input() defaultPage = 1;
@@ -26,6 +29,7 @@ export class XuiSettingsComponent implements OnInit {
   @Output() onClosed = new EventEmitter<void>();
 
   opened = false;
+  animationState = false;
 
   portal?: ComponentPortal<SettingsPage>;
   instance?: SettingsPage;
@@ -41,6 +45,7 @@ export class XuiSettingsComponent implements OnInit {
 
   ngOnInit() {
     this.navigate(this.defaultPage);
+    this.stateChanged(false);
   }
 
   stateChanged = (canExit: boolean) => {
@@ -79,6 +84,7 @@ export class XuiSettingsComponent implements OnInit {
 
   close() {
     if (!this.canExit) {
+      this.animationState = true;
       return;
     }
 
