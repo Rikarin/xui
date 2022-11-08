@@ -50,6 +50,8 @@
             color: var(--text-normal);
             background-color: rgba(255, 255, 255, 0.1);
           }
+
+          @include theming.focus-visible($theme);
         }
 
         .category {
@@ -105,14 +107,35 @@
       font-size: 0.8rem;
       font-weight: 500;
 
-      mat-icon {
+      xui-icon {
         transform: scale(2);
         margin-bottom: 12px;
+        border-radius: 50%;
+
+        &:focus-visible {
+          outline: 2.5px solid theming.get-color($theme, info, 300);
+          outline-offset: -2px;
+          z-index: 1;
+        }
       }
 
       &:hover {
         color: white;
       }
     }
+  }
+
+  xui-settings-save-reset-snackbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .xui-settings-save-reset-snackbar {
+    width: 700px;
+    max-width: 700px !important;
+    padding: 10px !important;
+    z-index: 10001;
+    @include theming.background-level($theme, floating);
   }
 }

@@ -114,6 +114,8 @@
     &[disabled] {
       cursor: not-allowed;
     }
+
+    @include theming.focus-visible($theme);
   }
 
   .xui-button-normal {

@@ -26,7 +26,8 @@ import { InputGroupService } from '../input/input-group.service';
     '[class.xui-image-upload-square]': 'type === "square"',
     '[style.border-radius.%]': 'borderRadius',
     '[style.aspect-ratio]': 'aspectRatio',
-    '[style.background-image]': 'backgroundImage'
+    '[style.background-image]': 'backgroundImage',
+    tabindex: '1'
   }
 })
 export class XuiImageUploadComponent implements ControlValueAccessor, OnInit {

@@ -40,6 +40,8 @@
         display: none;
       }
     }
+
+    @include theming.focus-visible($theme);
   }
 
   .xui-image-upload-hover {

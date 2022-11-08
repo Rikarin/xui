@@ -19,7 +19,8 @@ import { InputBoolean } from '../utils';
     </div> `,
   host: {
     '[class]': 'style',
-    '(click)': 'click()'
+    '(click)': 'click()',
+    '[tabindex]': 'disabled ? -1 : 0'
   }
 })
 export class XuiRadioOptionComponent implements OnInit {

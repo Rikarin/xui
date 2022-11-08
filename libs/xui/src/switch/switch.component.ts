@@ -21,7 +21,8 @@ import { InputGroupService } from '../input/input-group.service';
   templateUrl: './switch.component.html',
   host: {
     '[class.xui-switch-disabled]': 'disabled',
-    '(click)': '_click()'
+    '(click)': '_click()',
+    '[tabindex]': 'disabled ? -1 : 0'
   }
 })
 export class XuiSwitchComponent implements ControlValueAccessor, OnInit {

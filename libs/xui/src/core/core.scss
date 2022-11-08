@@ -92,4 +92,8 @@
     outline: 0;
     vertical-align: baseline;
   }
+
+  .cdk-overlay-container {
+    z-index: 10000;
+  }
 }

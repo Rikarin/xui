@@ -7,7 +7,7 @@ import { FormControl } from '@angular/forms';
   styleUrls: ['./radio-list.component.scss']
 })
 export class RadioListComponent implements OnInit {
-  model = new FormControl();
+  model = new FormControl('second');
 
   constructor() {}
 

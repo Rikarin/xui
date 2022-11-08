@@ -10,6 +10,7 @@
           [class.divider]="item.type === 'divider'"
           [class.red]="item.critical"
           (click)="navigate(i)"
+          [tabindex]="item.type === 'item' ? 0 : -1"
         >
           {{ item.name ? (item.name | translate) : '' }}
         </div>
@@ -22,7 +23,7 @@
 
       <div class="xui-settings-close-anchor">
         <div class="xui-settings-close" (click)="close()">
-          <xui-icon>close-circle-outline</xui-icon>
+          <xui-icon tabindex="0">close-circle-outline</xui-icon>
           ESC
         </div>
       </div>

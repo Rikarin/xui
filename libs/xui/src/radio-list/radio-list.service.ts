@@ -9,7 +9,7 @@ export class RadioListService {
     return this._selected.asObservable();
   }
 
-  select(id: string) {
+  select(id: string | null) {
     this._selected.next(id);
   }
 }

@@ -1,6 +1,13 @@
-<div [class]="styles" [class.xui-input-error]="showError">
+<div [class]="styles" [class.xui-input-error]="showError" [tabindex]="disabled ? -1 : 0">
   <ng-content select="[xui-prefix]"></ng-content>
-  <input [disabled]="disabled" [type]="type" [placeholder]="placeholder ?? ''" [(ngModel)]="value" list="list" />
+  <input
+    tabindex="-1"
+    [disabled]="disabled"
+    [type]="type"
+    [placeholder]="placeholder ?? ''"
+    [(ngModel)]="value"
+    list="list"
+  />
   <ng-content select="[xui-suffix]"></ng-content>
 </div>
 

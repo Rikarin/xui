@@ -1,5 +1,6 @@
 @use 'sass:map';
 @use '../core/core';
+@use '../theming/theming';
 
 @mixin theme($theme) {
   xui-switch {
@@ -9,6 +10,8 @@
     justify-content: space-between;
     align-items: center;
     cursor: pointer;
+    border-radius: 4px;
+    padding: 4px;
 
     input {
       opacity: 0;
@@ -16,6 +19,8 @@
       height: 100%;
       cursor: pointer;
     }
+
+    @include theming.focus-visible($theme);
   }
 
   .xui-switch-disabled {

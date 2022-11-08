@@ -13,6 +13,7 @@ import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { InputGroupService } from '../input/input-group.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { distinctUntilChanged } from 'rxjs';
 
 @UntilDestroy()
 @Component({
@@ -38,6 +39,7 @@ export class XuiRadioListComponent implements ControlValueAccessor, OnInit {
     if (this._value !== v) {
       this._value = v;
       this.onChange(v);
+      this.radioListService.select(v);
       this.changeDetectorRef.markForCheck();
     }
   }
@@ -56,7 +58,9 @@ export class XuiRadioListComponent implements ControlValueAccessor, OnInit {
 
   ngOnInit() {
     this.control?.statusChanges!.subscribe(() => this.changeDetectorRef.markForCheck());
-    this.radioListService.selected$.pipe(untilDestroyed(this)).subscribe(value => (this.value = value));
+    this.radioListService.selected$
+      .pipe(distinctUntilChanged(), untilDestroyed(this))
+      .subscribe(value => (this.value = value));
   }
 
   // get invalid(): boolean {

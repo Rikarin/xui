@@ -22,6 +22,7 @@
     font-weight: 500;
 
     @include theming.background-level($theme, secondary);
+    @include theming.focus-visible($theme);
 
     &:hover {
       @include theming.background-level($theme, primary);

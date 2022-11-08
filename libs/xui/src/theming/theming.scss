@@ -156,3 +156,10 @@
 @mixin elevate-var($elevation) {
   box-shadow: var(--elevation- + $elevation);
 }
+
+@mixin focus-visible($theme) {
+  &:focus-visible {
+    outline: 5px solid get-color($theme, info, 300);
+    z-index: 1;
+  }
+}

@@ -49,7 +49,7 @@ export class XuiSettingsComponent implements OnInit {
     if (!canExit) {
       if (!this.snackbarRef) {
         this.snackbarRef = this.snackBar.openFromComponent(SaveResetSnackbarComponent, {
-          duration: undefined,
+          panelClass: 'xui-settings-save-reset-snackbar',
           data: {
             save: async () => {
               try {
@@ -126,11 +126,15 @@ export interface MenuItem {
 }
 
 @Component({
-  selector: 'cord-save-reset-snackbar',
+  selector: 'xui-settings-save-reset-snackbar',
   template: `
-    Save changes before continue
-    <button (click)="reset()">Reset</button>
-    <button class="save" (click)="save()">Save</button>
+    {{ 'xui.settings.save-changes-text' | translate }}
+    <div>
+      <button xui xSize="sm" xColor="minimal" (click)="reset()" translate>xui.settings.reset</button>
+      <button xui xSize="sm" xColor="success" xType="raised" (click)="save()" translate>
+        xui.settings.save-changes
+      </button>
+    </div>
   `
 })
 export class SaveResetSnackbarComponent {

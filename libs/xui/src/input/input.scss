@@ -12,10 +12,7 @@
       align-items: center;
       border-radius: 3px;
 
-      &:focus-within {
-        outline: 2px solid theming.get-color($theme, info);
-        z-index: 1;
-      }
+      @include theming.focus-visible($theme);
     }
 
     input {
