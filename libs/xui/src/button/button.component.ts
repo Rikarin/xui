@@ -9,7 +9,7 @@ import { delay, InputBoolean } from '../utils';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<ng-content></ng-content>
     <div class="xui-button-state-image"></div>
-    <div class="xui-button-shine" *ngIf="shine && !disabled">
+    <div class="xui-button-shine" *ngIf="xShine && !disabled">
       <div class="xui-button-shine-inner">
         <div class="xui-button-shine-element"></div>
       </div>
@@ -28,10 +28,9 @@ export class XuiButtonComponent {
 
   @Input() xType: 'normal' | 'dashed' | 'stroked' | 'raised' | 'fab' | 'icon' | string = 'normal';
   @Input() xSize: 'sm' | 'md' | 'lg' | string = 'md';
-  @Input() xColor: 'primary' | 'primary-alt' | 'secondary' | 'error' | 'success' | 'neutral' | 'minimal' | string =
-    'primary';
+  @Input() xColor: 'primary' | 'primary-alt' | 'secondary' | 'error' | 'success' | 'minimal' | string = 'primary';
 
-  @Input() @InputBoolean() shine = false;
+  @Input() @InputBoolean() xShine = false;
   @Input() @InputBoolean() disabled = false;
   @Input() xClick?: () => Promise<boolean>;
   @Input() @WithConfig() xStateDelay = 5000;

@@ -21,3 +21,8 @@ xui-button-group {
 app-usage {
   grid-column: span 2;
 }
+
+.button-grid {
+  display: grid;
+  grid-template-columns: auto auto auto;
+}

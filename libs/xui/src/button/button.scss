@@ -5,10 +5,10 @@
   &.xui-button-#{$name} {
     color: theming.get-color($theme, $name);
     border-color: theming.get-color($theme, $name);
-
-    &:focus {
-      color: theming.get-color($theme, $name, darker);
-    }
+    //
+    //&:focus {
+    //  color: theming.get-color($theme, $name, darker);
+    //}
 
     &:hover {
       background-color: theming.get-color($theme, $name);
@@ -36,7 +36,7 @@
     color: theming.get-color($theme, $name, default-contrast);
     background-color: theming.get-color($theme, $name);
 
-    &:focus,
+    //&:focus,
     &:hover,
     &:active {
       color: theming.get-color($theme, $name, darker-contrast);
@@ -118,6 +118,22 @@
 
   .xui-button-normal {
     @include button-colors($theme);
+
+    &.xui-button-minimal {
+      color: inherit;
+
+      &:hover {
+        text-decoration: underline;
+      }
+
+      &[disabled],
+      &[disabled]:focus,
+      &[disabled]:active,
+      &[disabled]:hover {
+        text-decoration: none;
+        @extend .xui-disabled-filter;
+      }
+    }
   }
 
   .xui-button-dashed {

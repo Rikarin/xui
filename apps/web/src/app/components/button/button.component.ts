@@ -33,7 +33,7 @@ export class ButtonComponent implements OnInit {
     {
       param: 'xColor',
       description: 'Color of a button',
-      type: "'primary' | 'primary-alt' | 'secondary' | 'error' | 'neutral' | 'minimal' | string",
+      type: "'primary' | 'primary-alt' | 'secondary' | 'error' | 'minimal' | string",
       default: 'primary'
     },
     {
@@ -51,6 +51,11 @@ export class ButtonComponent implements OnInit {
       description: 'Delay for how long is async state result shown',
       type: 'number',
       default: '5000'
+    },
+    {
+      param: 'xShine',
+      description: 'Add a nice shine to the button',
+      type: 'boolean'
     }
   ];
 }

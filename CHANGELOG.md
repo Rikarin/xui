@@ -4,16 +4,14 @@ All notable changes to this project will be documented in this file. See [standa
 
 ## [1.22.0](https://github.com/Rikarin/xui/compare/v1.21.8...v1.22.0) (2022-11-08)
 
-
 ### Features
 
-* add shine to button ([0023fcf](https://github.com/Rikarin/xui/commit/0023fcf3ea5302d930aa98c75621611a18ef7ba1))
-* add xui-radio-list ([2bd9c4d](https://github.com/Rikarin/xui/commit/2bd9c4d138084cce57423070fc1316965a55ff97))
-
+- add shine to button ([0023fcf](https://github.com/Rikarin/xui/commit/0023fcf3ea5302d930aa98c75621611a18ef7ba1))
+- add xui-radio-list ([2bd9c4d](https://github.com/Rikarin/xui/commit/2bd9c4d138084cce57423070fc1316965a55ff97))
 
 ### Bug Fixes
 
-* increase gap between elements in xui-radio-list ([b0aa4aa](https://github.com/Rikarin/xui/commit/b0aa4aa300f1d5d4bf1bf54e8473e4cdc138130c))
+- increase gap between elements in xui-radio-list ([b0aa4aa](https://github.com/Rikarin/xui/commit/b0aa4aa300f1d5d4bf1bf54e8473e4cdc138130c))
 
 ### [1.21.8](https://github.com/Rikarin/xui/compare/v1.21.7...v1.21.8) (2022-11-07)
 
