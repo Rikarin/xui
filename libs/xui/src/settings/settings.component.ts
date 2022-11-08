@@ -52,6 +52,7 @@ export class XuiSettingsComponent implements OnInit {
       if (!this.snackbarRef) {
         this.snackbarRef = this.snackBar.openFromComponent(SaveResetSnackbarComponent, {
           panelClass: 'xui-settings-save-reset-snackbar',
+          duration: undefined!,
           data: {
             save: async () => {
               try {

@@ -4,15 +4,13 @@ All notable changes to this project will be documented in this file. See [standa
 
 ## [1.24.0](https://github.com/Rikarin/xui/compare/v1.23.0...v1.24.0) (2022-11-08)
 
-
 ### Features
 
-* add bounce animation to the xui-settings ([d78af83](https://github.com/Rikarin/xui/commit/d78af838eda12666077fd74301944a8bee577c56))
-
+- add bounce animation to the xui-settings ([d78af83](https://github.com/Rikarin/xui/commit/d78af838eda12666077fd74301944a8bee577c56))
 
 ### Bug Fixes
 
-* xui-settings navigate on open ([f2b5509](https://github.com/Rikarin/xui/commit/f2b55096b1d9f612464ca6bbfed67d107a88d6bc))
+- xui-settings navigate on open ([f2b5509](https://github.com/Rikarin/xui/commit/f2b55096b1d9f612464ca6bbfed67d107a88d6bc))
 
 ## [1.23.0](https://github.com/Rikarin/xui/compare/v1.22.0...v1.23.0) (2022-11-08)
 
