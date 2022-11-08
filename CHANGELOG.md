@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.23.0](https://github.com/Rikarin/xui/compare/v1.22.0...v1.23.0) (2022-11-08)
+
+
+### Features
+
+* focus on elements and improve xui-settings ([bb9b9bc](https://github.com/Rikarin/xui/commit/bb9b9bc7621999bdef244548e96fd016e9b4bea4))
+
+
+### Bug Fixes
+
+* button xShine attribute and style of minimal button ([2918f73](https://github.com/Rikarin/xui/commit/2918f73f51971af28e0a27eef899c57fdf77cc42))
+
 ## [1.22.0](https://github.com/Rikarin/xui/compare/v1.21.8...v1.22.0) (2022-11-08)
 
 ### Features
