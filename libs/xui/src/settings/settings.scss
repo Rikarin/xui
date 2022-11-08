@@ -12,6 +12,7 @@
     z-index: 10000;
     border: 0;
 
+    @extend .xui-no-user-select;
     @include theming.background-level($theme, secondary);
   }
 
@@ -29,7 +30,7 @@
       @include theming.background-level($theme, secondary-alt);
 
       nav {
-        width: 220px;
+        width: 240px;
         display: flex;
         flex-direction: column;
         padding: 50px 5px 50px 20px;
@@ -41,9 +42,13 @@
         }
 
         .item {
-          padding: 8px 60px 8px 8px;
-          border-radius: 3px;
+          padding: 0 8px;
+          border-radius: 4px;
           cursor: pointer;
+
+          overflow-x: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
 
           &:hover {
             background-color: rgba(255, 255, 255, 0.05);
@@ -55,6 +60,9 @@
           }
 
           @include theming.focus-visible($theme);
+          @include typography.typography-level($theme, button);
+
+          line-height: 2rem;
         }
 
         .category {
@@ -129,16 +137,19 @@
   }
 
   xui-settings-save-reset-snackbar {
+    width: 700px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    padding: 10px !important;
+    border-radius: 4px;
+
+    @include theming.background-level($theme, floating);
+    @include theming.elevate($theme, high);
   }
 
   .xui-settings-save-reset-snackbar {
     width: 700px;
     max-width: 700px !important;
-    padding: 10px !important;
-    z-index: 10001;
-    @include theming.background-level($theme, floating);
   }
 }

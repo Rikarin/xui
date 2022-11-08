@@ -36,6 +36,10 @@
   .xui-radio-option-disabled {
     cursor: not-allowed;
     @extend .xui-disabled-filter;
+
+    &:hover {
+      @include theming.background-level($theme, secondary);
+    }
   }
 
   .xui-radio-option-description {

@@ -20,19 +20,22 @@ export class SettingsComponent {
       // component: ProfileComponent
     },
     {
+      type: 'divider'
+    },
+    {
       type: 'category',
       name: 'General'
     },
     {
       type: 'item',
-      name: 'Profile'
+      name: 'Too Long menu entry item to fit there'
       // component: ProfileComponent
     },
     {
       type: 'item',
-      name: 'Log out',
+      name: 'Show snackbar',
       critical: true,
-      action: () => alert('foo bar')
+      action: () => this.settings.stateChanged(false)
     }
   ];
 

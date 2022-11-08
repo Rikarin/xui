@@ -1,0 +1,35 @@
+@use 'sass:map';
+
+@mixin theme($theme) {
+  xui-decagram {
+    display: inline-flex;
+    width: fit-content;
+    position: relative;
+  }
+
+  .xui-decagram-icon {
+    width: 65%;
+    position: absolute;
+    inset: 0 0 0 0;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  @include generate-color-variations($theme);
+}
+
+@mixin generate-color-variations($theme) {
+  $colors: map.get($theme, color);
+
+  @each $key, $value in $colors {
+    @if map.has-key($value, default) {
+      .xui-decagram-color-#{$key} {
+        color: map.get($value, default);
+
+        .xui-decagram-icon {
+          color: map.get($value, default-contrast);
+        }
+      }
+    }
+  }
+}

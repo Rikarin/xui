@@ -13,8 +13,9 @@ import {
 import { MAT_SNACK_BAR_DATA, MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
 import { CdkPortalOutletAttachedRef, ComponentPortal } from '@angular/cdk/portal';
 import { SettingsPage } from './settings-page';
-import { transition, trigger, useAnimation } from '@angular/animations';
-import { bounce } from '../utils/animations';
+import { animate, AnimationEvent, state, style, transition, trigger, useAnimation } from '@angular/animations';
+import { bounce, fadeInBottom, fadeOutBottom } from '../utils/animations';
+import { lastValueFrom, Subject } from 'rxjs';
 
 @Component({
   selector: 'xui-settings',
@@ -34,7 +35,7 @@ export class XuiSettingsComponent implements OnInit {
   portal?: ComponentPortal<SettingsPage>;
   instance?: SettingsPage;
 
-  private snackbarRef?: MatSnackBarRef<any>;
+  private snackbarRef?: MatSnackBarRef<SaveResetSnackbarComponent>;
   private canExit = true;
 
   @HostListener('document:keydown.escape') onKeydownHandler() {
@@ -57,7 +58,7 @@ export class XuiSettingsComponent implements OnInit {
             save: async () => {
               try {
                 await this.instance?.save();
-                this.hideSnackbar();
+                await this.hideSnackbar();
                 this.changeDetectorRef.markForCheck();
               } catch (e) {
                 // TODO: show error snackbar
@@ -65,7 +66,7 @@ export class XuiSettingsComponent implements OnInit {
             },
             reset: async () => {
               await this.instance?.reset();
-              this.hideSnackbar();
+              await this.hideSnackbar();
               this.changeDetectorRef.markForCheck();
             }
           }
@@ -84,6 +85,7 @@ export class XuiSettingsComponent implements OnInit {
   close() {
     if (!this.canExit) {
       this.animationState = true;
+      this.snackbarRef?.instance.alert();
       return;
     }
 
@@ -115,7 +117,8 @@ export class XuiSettingsComponent implements OnInit {
     }
   }
 
-  private hideSnackbar() {
+  private async hideSnackbar() {
+    await this.snackbarRef?.instance.close();
     this.snackbarRef?.dismiss();
     this.snackbarRef = undefined;
     this.canExit = true;
@@ -135,21 +138,66 @@ export interface MenuItem {
   template: `
     {{ 'xui.settings.save-changes-text' | translate }}
     <div>
-      <button xui xSize="sm" xColor="minimal" (click)="reset()" translate>xui.settings.reset</button>
-      <button xui xSize="sm" xColor="success" xType="raised" (click)="save()" translate>
+      <button xui xSize="sm" xColor="minimal" [xClick]="reset" translate>xui.settings.reset</button>
+      <button xui xSize="sm" xColor="success" xType="raised" [xClick]="save" translate>
         xui.settings.save-changes
       </button>
     </div>
-  `
+  `,
+  animations: [
+    trigger('fade', [
+      state(
+        'close',
+        style({
+          display: 'none'
+        })
+      ),
+      state(
+        'alert',
+        style({
+          backgroundColor: 'var(--error-color-darker)',
+          transform: 'scale(1.1)'
+        })
+      ),
+      transition('open => alert', animate(200)),
+      transition('alert => open', animate(200)),
+      transition('open => close', useAnimation(fadeOutBottom)),
+      transition('void => open', useAnimation(fadeInBottom))
+    ])
+  ],
+  host: {
+    '[@fade]': 'animation',
+    '(@fade.done)': '_animationDone($event)'
+  }
 })
 export class SaveResetSnackbarComponent {
+  animation = 'open';
+  _doneAnimating = new Subject();
+
   constructor(@Inject(MAT_SNACK_BAR_DATA) private data: any) {}
 
-  save() {
-    this.data.save();
+  async close() {
+    this.animation = 'close';
+    return await lastValueFrom(this._doneAnimating.asObservable());
   }
 
-  reset() {
-    this.data.reset();
+  async alert() {
+    this.animation = 'alert';
+    setTimeout(() => (this.animation = 'open'), 1000);
+  }
+
+  save = () => {
+    return this.data.save();
+  };
+
+  reset = () => {
+    return this.data.reset();
+  };
+
+  _animationDone(event: AnimationEvent) {
+    if (event.toState === 'close') {
+      this._doneAnimating.next(undefined);
+      this._doneAnimating.complete();
+    }
   }
 }

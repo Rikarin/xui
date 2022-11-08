@@ -16,3 +16,26 @@ export const bounce = animation(
     ])
   )
 );
+
+export const fadeOutBottom = animation(
+  animate(
+    '800ms ease-in-out',
+    keyframes([
+      style({ transform: 'translate3d(0, -50px, 0)', offset: 0.3 }),
+      style({ transform: 'translate3d(0, -50px, 0)', offset: 0.5 }),
+      style({ transform: 'translate3d(0, 150px, 0)', offset: 0.9 })
+    ])
+  )
+);
+
+export const fadeInBottom = animation(
+  animate(
+    '800ms ease-in-out',
+    keyframes([
+      style({ transform: 'translate3d(0, 150px, 0)', offset: 0 }),
+      style({ transform: 'translate3d(0, -50px, 0)', offset: 0.3 }),
+      style({ transform: 'translate3d(0, -50px, 0)', offset: 0.5 }),
+      style({ transform: 'translate3d(0, 0, 0)', offset: 0.9 })
+    ])
+  )
+);

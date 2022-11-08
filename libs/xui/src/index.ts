@@ -4,6 +4,7 @@ export * from './card';
 export * from './checkbox';
 export * from './config';
 export * from './context-menu';
+export * from './decagram';
 export * from './icon';
 export * from './image-upload';
 export * from './input';

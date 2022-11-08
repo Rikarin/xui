@@ -1,11 +1,14 @@
 @use 'sass:map';
+@use 'sass:color';
 
 @use 'banner/banner';
 @use 'button/button';
 @use 'card/card';
 @use 'checkbox/checkbox';
 @use 'context-menu/context-menu';
+@use 'decagram/decagram';
 @use 'core/core';
+@use 'core/typography';
 @use 'core/scrollbar';
 @use 'icon/icon';
 @use 'image-upload/image-upload';
@@ -27,6 +30,7 @@
 @forward 'card/card' as card-* show card-theme;
 @forward 'checkbox/checkbox' as checkbox-* show checkbox-theme;
 @forward 'context-menu/context-menu' as context-menu-* show context-menu-theme;
+@forward 'decagram/decagram' as decagram-* show decagram-theme;
 @forward 'core/core';
 @forward 'core/typography';
 @forward 'core/scrollbar' as scrollbar-* show scrollbar-theme;
@@ -42,6 +46,7 @@
 @forward 'switch/switch' as switch-* show switch-theme;
 @forward 'table/table' as table-* show table-theme;
 @forward 'tabs/tabs' as tabs-* show tabs-theme;
+@forward 'theming/palette';
 @forward 'theming/theming' show define-palette, define-background-palette, define-dark-theme, define-light-theme,
   create-color-variables, create-elevation-variables, get-color, get-elevation, get-palette, background-level,
   background-level-var, elevate, elevate-var;
@@ -54,6 +59,7 @@
   @include checkbox.theme($theme);
   @include context-menu.theme($theme);
   @include scrollbar.theme($theme);
+  @include decagram.theme($theme);
   @include icon.theme($theme);
   @include image-upload.theme($theme);
   @include input.theme($theme);
@@ -85,6 +91,7 @@
   :root {
     @include theming.create-color-variables($theme);
     @include theming.create-elevation-variables($theme);
+    @include typography.create-typography-variables($theme);
     // TODO: typography
 
     // TODO: move this to typography
@@ -94,3 +101,6 @@
     --font-headline: 'Bungee';
   }
 }
+
+// text area, with world max/counter
+// add used colors to docs

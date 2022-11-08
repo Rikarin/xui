@@ -6,8 +6,11 @@
 @import url('https://fonts.googleapis.com/css?family=Rubik:400,500,600,700,800&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Bungee:400,500,600,700,800&display=swap');
 
+$testPalette: xui.generate-palette(#1f75cb);
+
 $color: (
-  primary: xui.define-palette(xui-theme.$blue-palette),
+  //primary: xui.define-palette(xui-theme.$blue-palette),
+  primary: xui.define-palette(xui.generate-palette(#1f75cb)),
   primary-alt: xui.define-palette(xui-theme.$purple-palette),
   secondary: xui.define-palette(xui-theme.$orange-palette)
 );

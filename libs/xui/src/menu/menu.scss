@@ -9,6 +9,7 @@
     flex-direction: column;
 
     overflow-y: auto;
+    @extend .xui-no-user-select;
   }
 
   xui-submenu {

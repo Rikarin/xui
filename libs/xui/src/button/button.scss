@@ -5,10 +5,6 @@
   &.xui-button-#{$name} {
     color: theming.get-color($theme, $name);
     border-color: theming.get-color($theme, $name);
-    //
-    //&:focus {
-    //  color: theming.get-color($theme, $name, darker);
-    //}
 
     &:hover {
       background-color: theming.get-color($theme, $name);
@@ -36,7 +32,6 @@
     color: theming.get-color($theme, $name, default-contrast);
     background-color: theming.get-color($theme, $name);
 
-    //&:focus,
     &:hover,
     &:active {
       color: theming.get-color($theme, $name, darker-contrast);
@@ -89,8 +84,13 @@
 }
 
 @mixin theme($theme) {
+  button[xui] {
+    transition: width 2s;
+  }
+
   .xui-button {
     display: inline-flex;
+    gap: 4px;
     align-items: center;
     justify-content: center;
     position: relative;
@@ -109,10 +109,15 @@
 
     padding: 0 1em;
     min-width: 4.57em;
+    width: fit-content;
     height: 2.57em;
 
     &[disabled] {
       cursor: not-allowed;
+    }
+
+    xui-icon {
+      width: 18px;
     }
 
     @include theming.focus-visible($theme);
@@ -165,14 +170,16 @@
 
   .xui-button-state--nonidle {
     cursor: not-allowed !important;
-    pointer-events: none !important;
+
+    &:active {
+      pointer-events: none !important;
+    }
 
     .xui-button-state-image {
       width: 1rem;
       height: 1rem;
       background: center no-repeat;
-      margin-left: 0.25em;
-      margin-bottom: 2px;
+      margin-left: 0.5em;
     }
   }
 
@@ -191,6 +198,7 @@
 
     .xui-button-state-image {
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' style='width:24px;height:24px' viewBox='0 0 24 24'%3E%3Cpath fill='white' d='M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z' /%3E%3C/svg%3E");
+      margin-bottom: 2px;
     }
   }
 

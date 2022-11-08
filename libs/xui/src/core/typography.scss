@@ -199,3 +199,11 @@
     @include typography-level($theme, subtitle-2);
   }
 }
+
+@mixin create-typography-variables($theme) {
+  $typography: map.get($theme, typography);
+
+  @each $name, $values in $typography {
+    --font-#{$name}-family: map.get($values, font-family);
+  }
+}

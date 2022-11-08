@@ -2,6 +2,6 @@ export interface SettingsPage {
   // canExit: boolean;
   stateChanged: (state: boolean) => void;
 
-  save(): Promise<void>;
-  reset(): Promise<void>;
+  save(): Promise<boolean>;
+  reset(): Promise<boolean>;
 }
