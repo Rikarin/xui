@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.26.0](https://github.com/Rikarin/xui/compare/v1.25.4...v1.26.0) (2022-11-09)
+
+
+### Features
+
+* snackbar ([3b8c7bc](https://github.com/Rikarin/xui/commit/3b8c7bc881f7c3c9c6401f44b71aeb07042a0f7f))
+* xuiTooltip ([9bffd6f](https://github.com/Rikarin/xui/commit/9bffd6f3755520b60735fc864a2b427077f2ba4b))
+
 ### [1.25.4](https://github.com/Rikarin/xui/compare/v1.25.3...v1.25.4) (2022-11-09)
 
 ### Bug Fixes
