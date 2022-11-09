@@ -1,0 +1,13 @@
+@use '../theming/theming';
+
+@mixin theme($theme) {
+  .mat-tooltip {
+    &.mat-tooltip {
+      font-size: 0.8rem;
+      max-width: 500px;
+      border: 1px solid theming.get-color($theme, background, tertiary);
+
+      @include theming.background-level($theme, tertiary);
+    }
+  }
+}

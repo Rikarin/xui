@@ -24,6 +24,7 @@
 @use 'tabs/tabs';
 @use 'theming/theming';
 // title
+@use 'tooltip/tooltip';
 
 @forward 'banner/banner' as banner-* show banner-theme;
 @forward 'button/button' as button-* show button-theme;
@@ -51,6 +52,7 @@
   create-color-variables, create-elevation-variables, get-color, get-elevation, get-palette, background-level,
   background-level-var, elevate, elevate-var;
 // title
+@forward 'tooltip/tooltip' as tooltip-* show tooltip-theme;
 
 @mixin all-component-themes($theme) {
   @include banner.theme($theme);
@@ -73,7 +75,7 @@
   @include table.theme($theme);
   @include tabs.theme($theme);
   // title
-  // tooltip
+  @include tooltip.theme($theme);
 
   a {
     color: theming.get-color($theme, info);
