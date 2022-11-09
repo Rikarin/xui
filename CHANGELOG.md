@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.26.1](https://github.com/Rikarin/xui/compare/v1.26.0...v1.26.1) (2022-11-09)
+
+
+### Bug Fixes
+
+* snackbar class and input font type ([69865b7](https://github.com/Rikarin/xui/commit/69865b7ac188dfa8318aadf33f1cbfe48895e3cc))
+
 ## [1.26.0](https://github.com/Rikarin/xui/compare/v1.25.4...v1.26.0) (2022-11-09)
 
 ### Features
