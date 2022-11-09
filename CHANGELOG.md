@@ -4,10 +4,9 @@ All notable changes to this project will be documented in this file. See [standa
 
 ## [1.25.0](https://github.com/Rikarin/xui/compare/v1.24.1...v1.25.0) (2022-11-08)
 
-
 ### Features
 
-* decagram ([1c68ef7](https://github.com/Rikarin/xui/commit/1c68ef76de810f824deae88c9f7a0592659337e1))
+- decagram ([1c68ef7](https://github.com/Rikarin/xui/commit/1c68ef76de810f824deae88c9f7a0592659337e1))
 
 ### [1.24.1](https://github.com/Rikarin/xui/compare/v1.24.0...v1.24.1) (2022-11-08)
 

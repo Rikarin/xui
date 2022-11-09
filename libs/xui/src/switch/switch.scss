@@ -45,7 +45,7 @@
     display: grid;
     place-items: center;
     background-color: white;
-    color: gray;
+    color: gray; // TODO: background modifier
     border-radius: 50%;
 
     position: absolute;
@@ -56,6 +56,7 @@
     transition: all 0.4s ease-out;
 
     xui-icon {
+      margin-top: 4px;
       width: 16px;
       height: 16px;
     }
