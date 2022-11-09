@@ -4,11 +4,10 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### [1.25.2](https://github.com/Rikarin/xui/compare/v1.25.1...v1.25.2) (2022-11-09)
 
-
 ### Bug Fixes
 
-* xui-icon and xui-switch icon handling ([373a050](https://github.com/Rikarin/xui/commit/373a050102235849fe8773cd3fe0a2951a741656))
-* xui-icon sizing ([08c04b9](https://github.com/Rikarin/xui/commit/08c04b9ec578bbf73753b3623b36f42d461e64c5))
+- xui-icon and xui-switch icon handling ([373a050](https://github.com/Rikarin/xui/commit/373a050102235849fe8773cd3fe0a2951a741656))
+- xui-icon sizing ([08c04b9](https://github.com/Rikarin/xui/commit/08c04b9ec578bbf73753b3623b36f42d461e64c5))
 
 ### [1.25.1](https://github.com/Rikarin/xui/compare/v1.25.0...v1.25.1) (2022-11-09)
 

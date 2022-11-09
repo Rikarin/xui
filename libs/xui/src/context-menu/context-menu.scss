@@ -20,15 +20,12 @@
 
     .xui-button {
       width: 100%;
-      justify-content: space-between;
-
       padding: 0 0.5em;
-    }
 
-    xui-icon {
-      flex: 1;
-      justify-content: flex-end;
-      display: flex;
+      .xui-button-content {
+        width: 100%;
+        justify-content: space-between;
+      }
     }
   }
 }

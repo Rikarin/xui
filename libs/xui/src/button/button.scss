@@ -116,11 +116,16 @@
       cursor: not-allowed;
     }
 
+    @include theming.focus-visible($theme);
+  }
+
+  .xui-button-content {
+    display: inline-flex;
+
     xui-icon {
       width: 18px;
+      margin-right: 4px;
     }
-
-    @include theming.focus-visible($theme);
   }
 
   .xui-button-normal {

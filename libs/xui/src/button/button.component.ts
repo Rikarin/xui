@@ -7,13 +7,17 @@ import { delay, InputBoolean } from '../utils';
   exportAs: 'xuiButton',
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `<ng-content></ng-content>
+  template: `
+    <div class="xui-button-content">
+      <ng-content></ng-content>
+    </div>
     <div class="xui-button-state-image"></div>
     <div class="xui-button-shine" *ngIf="xShine && !disabled">
       <div class="xui-button-shine-inner">
         <div class="xui-button-shine-element"></div>
       </div>
-    </div> `,
+    </div>
+  `,
   host: {
     '[class]': 'getStyle()',
     '[class.xui-button-state--loading]': 'state == 1',
