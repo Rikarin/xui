@@ -19,6 +19,7 @@
 @use 'radio-list/radio-list';
 // select
 @use 'settings/settings';
+@use 'snackbar/snackbar';
 @use 'switch/switch';
 @use 'table/table';
 @use 'tabs/tabs';
@@ -44,6 +45,7 @@
 @forward 'radio-list/radio-list' as radio-list-* show radio-list-theme;
 // select
 @forward 'settings/settings' as settings-* show settings-theme;
+@forward 'snackbar/snackbar' as snackbar-* show snackbar-theme;
 @forward 'switch/switch' as switch-* show switch-theme;
 @forward 'table/table' as table-* show table-theme;
 @forward 'tabs/tabs' as tabs-* show tabs-theme;
@@ -71,6 +73,7 @@
   @include radio-list.theme($theme);
   // select
   @include settings.theme($theme);
+  @include snackbar.theme($theme);
   @include switch.theme($theme);
   @include table.theme($theme);
   @include tabs.theme($theme);

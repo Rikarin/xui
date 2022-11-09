@@ -1,0 +1,13 @@
+@use '../theming/theming';
+
+@mixin theme($theme) {
+  .mat-snack-bar-container {
+    @include theming.background-level($theme, floating);
+  }
+
+  .xui-simple-snackbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}

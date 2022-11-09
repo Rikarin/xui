@@ -21,7 +21,9 @@ import {
   XuiSwitchModule,
   XuiImageUploadModule,
   XuiRadioListModule,
-  XuiDecagramModule
+  XuiDecagramModule,
+  XuiTooltipModule,
+  XuiSnackbarModule
 } from 'xui';
 import { RouterModule, Routes } from '@angular/router';
 import { CardComponent } from './components/card/card.component';
@@ -55,8 +57,6 @@ import { CdkTableModule } from '@angular/cdk/table';
 import { UsageComponent } from './components/usage/usage.component';
 import { RadioListComponent } from './components/radio-list/radio-list.component';
 import { DecagramComponent } from './components/decagram/decagram.component';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { XuiTooltipModule } from '../../../../libs/xui/src/tooltip';
 import { TooltipComponent } from './components/tooltip/tooltip.component';
 
 const routes: Routes = [
@@ -132,8 +132,6 @@ const routes: Routes = [
     CdkMenuModule,
     CdkTableModule,
 
-    MatTooltipModule,
-
     XuiTitleModule,
     XuiLayoutModule,
     XuiCardModule,
@@ -151,7 +149,8 @@ const routes: Routes = [
     XuiImageUploadModule,
     XuiRadioListModule,
     XuiDecagramModule,
-    XuiTooltipModule
+    XuiTooltipModule,
+    XuiSnackbarModule
   ],
   providers: [
     {

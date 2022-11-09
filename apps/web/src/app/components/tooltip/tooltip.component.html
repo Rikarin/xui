@@ -3,5 +3,7 @@
 <app-example>
   <div class="background" xuiTooltip="This is a tooltip">Element with a tooltip</div>
   <br />
-  <button xui xType="raised" xColor="success" xShine xuiTooltip="Such an awesome button!">Button with a tooltip</button>
+  <button xui xType="raised" xColor="success" xShine xuiTooltip="Such an awesome button!" (click)="openSnackbar()">
+    Button with a tooltip
+  </button>
 </app-example>
