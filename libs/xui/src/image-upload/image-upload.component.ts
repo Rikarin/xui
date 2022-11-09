@@ -41,7 +41,7 @@ export class XuiImageUploadComponent implements ControlValueAccessor, OnInit {
   onChange = (source?: string) => {};
   onTouched = () => {};
 
-  @Input() hoverLabel: string = 'xui.change_image';
+  @Input() hoverLabel: string = 'xui.image_upload.change_image';
   @Input() type: 'square' | 'round' = 'square';
   @Input() aspectRatio = 1;
   @ViewChild('cropper') cropper!: TemplateRef<any>;

@@ -136,11 +136,11 @@ export interface MenuItem {
 @Component({
   selector: 'xui-settings-save-reset-snackbar',
   template: `
-    {{ 'xui.settings.save-changes-text' | translate }}
+    {{ 'xui.settings.save_changes_text' | translate }}
     <div>
-      <button xui xSize="sm" xColor="minimal" [xClick]="reset" translate>xui.settings.reset</button>
-      <button xui xSize="sm" xColor="success" xType="raised" [xClick]="save" translate>
-        xui.settings.save-changes
+      <button xui xSize="sm" xColor="minimal" [xClick]="reset">{{ 'xui.settings.reset' | translate }}</button>
+      <button xui xSize="sm" xColor="success" xType="raised" [xClick]="save">
+        {{ 'xui.settings.save' | translate }}
       </button>
     </div>
   `,

@@ -38,7 +38,7 @@ import { MatIconRegistry } from '@angular/material/icon';
 import { HttpClientModule } from '@angular/common/http';
 import { ThemingComponent } from './components/theming/theming.component';
 import { InputComponent } from './components/input/input.component';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SettingsComponent } from './components/settings/settings.component';
 import { TabsComponent } from './components/tabs/tabs.component';
@@ -156,7 +156,23 @@ const routes: Routes = [
   bootstrap: [AppComponent]
 })
 export class AppModule {
-  constructor(matIconRegistry: MatIconRegistry, domSanitizer: DomSanitizer) {
+  constructor(matIconRegistry: MatIconRegistry, domSanitizer: DomSanitizer, translations: TranslateService) {
     matIconRegistry.addSvgIconSet(domSanitizer.bypassSecurityTrustResourceUrl('./assets/mdi.svg'));
+
+    translations.setDefaultLang('en-US');
+    translations.setTranslation('en-US', {
+      xui: {
+        settings: {
+          save_changes_text: 'Save you changes before continue',
+          save: 'Save',
+          reset: 'Reset'
+        },
+        image_upload: {
+          save: 'Save',
+          no_image: 'No Image',
+          change_image: 'Change Image'
+        }
+      }
+    });
   }
 }

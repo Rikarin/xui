@@ -4,10 +4,9 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### [1.25.3](https://github.com/Rikarin/xui/compare/v1.25.2...v1.25.3) (2022-11-09)
 
-
 ### Bug Fixes
 
-* xui-icon in button and context-menu ([4bc14c6](https://github.com/Rikarin/xui/commit/4bc14c656bbed4d3af2063194365a8ea41ac7574))
+- xui-icon in button and context-menu ([4bc14c6](https://github.com/Rikarin/xui/commit/4bc14c656bbed4d3af2063194365a8ea41ac7574))
 
 ### [1.25.2](https://github.com/Rikarin/xui/compare/v1.25.1...v1.25.2) (2022-11-09)
 
