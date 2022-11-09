@@ -4,10 +4,9 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### [1.25.1](https://github.com/Rikarin/xui/compare/v1.25.0...v1.25.1) (2022-11-09)
 
-
 ### Bug Fixes
 
-* icon sizing ([28d2ba1](https://github.com/Rikarin/xui/commit/28d2ba1d993935a0b2653e8ea630dde485fa6258))
+- icon sizing ([28d2ba1](https://github.com/Rikarin/xui/commit/28d2ba1d993935a0b2653e8ea630dde485fa6258))
 
 ## [1.25.0](https://github.com/Rikarin/xui/compare/v1.24.1...v1.25.0) (2022-11-08)
 
