@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.25.4](https://github.com/Rikarin/xui/compare/v1.25.3...v1.25.4) (2022-11-09)
+
+
+### Bug Fixes
+
+* translation strings and default translation in app ([ba41f38](https://github.com/Rikarin/xui/commit/ba41f38765e7c8fc187c6395314ef9641469ce24))
+
 ### [1.25.3](https://github.com/Rikarin/xui/compare/v1.25.2...v1.25.3) (2022-11-09)
 
 ### Bug Fixes
