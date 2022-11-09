@@ -1,7 +1,7 @@
 @use '../theming/theming';
 
 @mixin theme($theme) {
-  .mat-snack-bar-container {
+  .xui-snackbar {
     @include theming.background-level($theme, floating);
   }
 

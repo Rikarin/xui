@@ -1,4 +1,5 @@
 @use '../theming/theming';
+@use '../core/typography';
 
 @mixin theme($theme) {
   xui-input {
@@ -18,6 +19,8 @@
     input {
       flex: 100%;
       background-color: transparent;
+
+      @include typography.typography-level($theme, body-1);
 
       &:disabled {
         @extend .xui-disabled-filter;
@@ -67,6 +70,11 @@
 
   .xui-input-small {
     padding: 4px 12px;
+
+    input {
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
   }
 
   xui-input-addon {
