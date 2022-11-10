@@ -1,9 +1,17 @@
 <h4>Tooltip</h4>
 
 <app-example>
-  <div class="background" xuiTooltip="This is a tooltip">Element with a tooltip</div>
+  <div class="background" xuiTooltip="examples.random_string">Element with a tooltip</div>
   <br />
-  <button xui xType="raised" xColor="success" xShine xuiTooltip="Such an awesome button!" (click)="openSnackbar()">
+  <button
+    xui
+    xType="raised"
+    xColor="success"
+    xShine
+    xuiTooltip="Such an awesome button!"
+    xuiTooltipPosition="left"
+    (click)="openSnackbar()"
+  >
     Button with a tooltip
   </button>
 </app-example>

@@ -4,21 +4,23 @@ import {
   MAT_TOOLTIP_DEFAULT_OPTIONS,
   MAT_TOOLTIP_SCROLL_STRATEGY,
   MatTooltipDefaultOptions,
-  TooltipComponent
+  TooltipPosition
 } from '@angular/material/tooltip';
 import { ConnectedPosition, Overlay, ScrollDispatcher } from '@angular/cdk/overlay';
 import { Platform } from '@angular/cdk/platform';
 import { AriaDescriber, FocusMonitor } from '@angular/cdk/a11y';
 import { Directionality } from '@angular/cdk/bidi';
 import { DOCUMENT } from '@angular/common';
+import { TranslateService } from '@ngx-translate/core';
+import { XuiTooltipComponent } from './tooltip.component';
 
 @Directive({
   selector: '[xuiTooltip]',
   exportAs: 'xuiTooltip'
 })
-export class XuiTooltipDirective extends _MatTooltipBase<TooltipComponent> {
-  protected override readonly _tooltipComponent = TooltipComponent;
-  protected override readonly _cssClassPrefix = 'mat-mdc';
+export class XuiTooltipDirective extends _MatTooltipBase<XuiTooltipComponent> {
+  protected override readonly _tooltipComponent = XuiTooltipComponent;
+  protected override readonly _cssClassPrefix = 'xui';
 
   @Input('xuiTooltip')
   override get message() {
@@ -26,10 +28,20 @@ export class XuiTooltipDirective extends _MatTooltipBase<TooltipComponent> {
   }
 
   override set message(value) {
-    super.message = value;
+    super.message = this.translate.instant(value);
+  }
+
+  @Input('xuiTooltipPosition')
+  override get position(): TooltipPosition {
+    return super.position;
+  }
+
+  override set position(value: TooltipPosition) {
+    super.position = value;
   }
 
   constructor(
+    private translate: TranslateService,
     overlay: Overlay,
     elementRef: ElementRef<HTMLElement>,
     scrollDispatcher: ScrollDispatcher,

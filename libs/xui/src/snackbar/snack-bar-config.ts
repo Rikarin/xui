@@ -26,7 +26,7 @@ export class XuiSnackBarConfig<D = any> {
   viewContainerRef?: ViewContainerRef;
 
   /** The length of time in milliseconds to wait before automatically dismissing the snack bar. */
-  duration?: number = 0;
+  duration?: number = 3000;
 
   /** Extra CSS classes to be added to the snack bar container. */
   panelClass?: string | string[] = 'xui-snackbar';

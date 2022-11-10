@@ -1,0 +1,17 @@
+<div [class]="styles" [class.xui-textarea-error]="showError" [tabindex]="disabled ? -1 : 0">
+  <textarea
+    [disabled]="disabled"
+    [(ngModel)]="value"
+    [rows]="rows"
+    [placeholder]="placeholder ?? ''"
+    [maxLength]="maxLength ?? -1"
+  ></textarea>
+
+  <div *ngIf="maxLength" class="xui-textarea-word-counter">{{ wordCount }}</div>
+</div>
+
+<div class="xui-textarea-error-text" *ngIf="showError">
+  <ng-container *ngIf="control?.hasError('message')">{{ errorMessage }}</ng-container>
+  <ng-container *ngIf="control?.hasError('required')">This field is required!</ng-container>
+  <ng-container *ngIf="control?.hasError('email')">Email expected</ng-container>
+</div>

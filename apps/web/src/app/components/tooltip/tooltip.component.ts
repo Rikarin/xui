@@ -10,6 +10,6 @@ export class TooltipComponent {
   constructor(private snackbar: XuiSnackBar) {}
 
   openSnackbar() {
-    this.snackbar.open('Hello World!', 'foobar');
+    this.snackbar.open('examples.hello_world', 'foobar');
   }
 }

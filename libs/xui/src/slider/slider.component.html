@@ -1,0 +1,18 @@
+<div [class]="'xui-slider-bar ' + getColor(color)">
+  <div *ngIf="secondColor" [class]="'xui-slider-bar-half ' + getColor(secondColor)"></div>
+</div>
+
+<div class="xui-slider-track" [xuiTooltip]="tooltip" xuiTooltipPosition="above"></div>
+
+<!--<div [class]="styles" [class.xui-input-error]="showError" [tabindex]="disabled ? -1 : 0">-->
+<!--  <ng-content select="[xuiPrefix]"></ng-content>-->
+<!--  <input-->
+<!--    tabindex="-1"-->
+<!--    [disabled]="disabled"-->
+<!--    [type]="type"-->
+<!--    [placeholder]="placeholder ?? ''"-->
+<!--    [(ngModel)]="value"-->
+<!--    list="list"-->
+<!--  />-->
+<!--  <ng-content select="[xuiPostfix]"></ng-content>-->
+<!--</div>-->

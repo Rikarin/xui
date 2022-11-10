@@ -1,62 +1,72 @@
-import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
-import { WithConfig } from '../config/config.service';
-import { InputBoolean } from '../util/convert';
-import { delay } from '../util/delay';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  Input,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+  ViewEncapsulation
+} from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+import { SelectService } from './select.service';
+import { InputBoolean } from '../utils';
+import { XuiSelectComponent } from './select.component';
 
 @Component({
   selector: 'xui-option',
   exportAs: 'xuiOption',
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: '<ng-content></ng-content>'
-  // host: {
-  //   '[class]': 'getStyle()',
-  //   '[class.xui-button-state--loading]': 'state == 1',
-  //   '[class.xui-button-state--failed]': 'state === 3',
-  //   '[class.xui-button-state--succeeded]': 'state == 2',
-  //   '[attr.disabled]': 'disabled || null',
-  //   '(click)': '_onAsync()',
-  // },
+  template: `<span #content><ng-content></ng-content></span>
+    <xui-decagram *ngIf="isSelected" type="circle">check</xui-decagram> `,
+  host: {
+    '[class]': 'styles',
+    '(click)': 'click()'
+  }
 })
-export class XuiOptionComponent {
-  @Input() value: any;
-  @Input() @InputBoolean() disabled = false;
+export class XuiOptionComponent implements OnInit, OnDestroy {
+  isSelected = false;
 
-  // @Input() xType: 'normal' | 'dashed' | 'stroked' | 'raised' | 'fab' | 'icon' =
-  //   'normal';
-  // @Input() xSize: 'sm' | 'md' | 'lg' = 'md';
-  // @Input() xColor:
-  //   | 'primary'
-  //   | 'primary-alt'
-  //   | 'secondary'
-  //   | 'destructive'
-  //   | 'neutral'
-  //   | 'minimal' = 'minimal';
+  @Input() value!: string;
+  @Input() @InputBoolean() disabled: boolean = false;
 
-  // Type > color & size
+  @ViewChild('content') contentRef!: ElementRef;
 
-  @Input() @InputBoolean() disabled = false;
-  @Input() xClick: () => Promise<boolean>;
-  @Input() @WithConfig() xStateDelay = 5000;
-
-  private getStyle() {
-    return `xui-button xui-button-${this.xSize} xui-button-${this.xType} xui-button-${this.xColor}`;
+  get styles() {
+    return `${this.isSelected ? 'xui-option-selected' : ''} ${this.disabled ? 'xui-option-disabled' : ''}
+      xui-option-${this.selectComponent.color}`;
   }
 
-  async _onAsync() {
-    if (!this.xClick) {
-      return;
+  get viewValue(): string {
+    return (this.contentRef.nativeElement.textContent || '').trim();
+  }
+
+  constructor(
+    private selectComponent: XuiSelectComponent,
+    private elementRef: ElementRef,
+    private changeDetectorRef: ChangeDetectorRef,
+    private translation: TranslateService,
+    private selectService: SelectService
+  ) {}
+
+  ngOnInit() {
+    this.selectService.addOption(this);
+  }
+
+  ngOnDestroy() {
+    this.selectService.removeOption(this);
+  }
+
+  click() {
+    if (!this.disabled) {
+      this.selectService.select(this);
     }
+  }
 
-    this.state = 1;
-
-    try {
-      this.state = (await this.xClick()) ? 2 : 3;
-    } catch {
-      this.state = 2;
-    }
-
-    await delay(5000);
-    this.state = 0;
+  select(value: boolean) {
+    this.isSelected = value;
+    this.changeDetectorRef.markForCheck();
   }
 }

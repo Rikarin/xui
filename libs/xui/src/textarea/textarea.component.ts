@@ -2,7 +2,6 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  ElementRef,
   Input,
   OnInit,
   Optional,
@@ -12,32 +11,26 @@ import {
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { InputBoolean } from '../utils';
-import { SelectService } from './select.service';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { XuiOptionComponent } from './option.component';
 
-@UntilDestroy()
 @Component({
-  selector: 'xui-select',
-  exportAs: 'xuiSelect',
+  selector: 'xui-textarea',
+  exportAs: 'xuiTextarea',
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: 'select.component.html',
-  providers: [SelectService]
+  templateUrl: 'textarea.component.html'
 })
-export class XuiSelectComponent implements ControlValueAccessor, OnInit {
+export class XuiTextareaComponent implements ControlValueAccessor, OnInit {
   _value?: string;
   touched = false;
   onChange = (source?: string) => {};
   onTouched = () => {};
 
-  isOpen = false;
-  selectedOption: XuiOptionComponent | null = null;
-
   @Input() placeholder?: string;
   @Input() @InputBoolean() disabled: boolean = false;
   @Input() color: 'light' | 'dark' = 'light';
-  // @Input() size: 'normal' | 'small' = 'normal';
+  @Input() size: 'normal' | 'small' = 'normal';
+  @Input() rows = 3;
+  @Input() maxLength?: number;
 
   @Input()
   get value() {
@@ -52,16 +45,12 @@ export class XuiSelectComponent implements ControlValueAccessor, OnInit {
     }
   }
 
-  get width() {
-    return this.elementRef.nativeElement.offsetWidth;
-  }
-
-  get viewValue() {
-    return this.selectedOption?.viewValue;
+  get wordCount() {
+    return (this.maxLength ?? 0) - (this.value?.length ?? 0);
   }
 
   get styles() {
-    return `xui-select xui-select-${this.color} ${this.disabled ? 'xui-select-disabled' : ''}`;
+    return `xui-textarea xui-textarea-${this.color} ${this.disabled ? 'xui-textarea-disabled' : ''}`;
   }
 
   get errorMessage() {
@@ -70,31 +59,30 @@ export class XuiSelectComponent implements ControlValueAccessor, OnInit {
   }
 
   constructor(
-    private elementRef: ElementRef,
     private changeDetectorRef: ChangeDetectorRef,
     private translation: TranslateService,
-    private selectService: SelectService,
     @Self() @Optional() public control?: NgControl
   ) {
     if (this.control) {
       this.control.valueAccessor = this;
     }
-
-    selectService.selected$.pipe(untilDestroyed(this)).subscribe(option => {
-      this.isOpen = false;
-      this.selectedOption = option;
-      this.changeDetectorRef.markForCheck();
-    });
   }
 
   ngOnInit() {
     this.control?.statusChanges!.subscribe(() => this.changeDetectorRef.markForCheck());
   }
 
-  open() {
-    if (!this.disabled) {
-      this.isOpen = !this.isOpen;
+  get invalid(): boolean {
+    return !!this.control?.invalid;
+  }
+
+  get showError(): boolean {
+    if (!this.control) {
+      return false;
     }
+
+    const { dirty, touched } = this.control;
+    return this.invalid ? dirty! || touched! : false;
   }
 
   writeValue(source: string) {

@@ -1,13 +1,96 @@
 @use '../theming/theming';
+@use '../core/typography';
 
 @mixin theme($theme) {
-  .mat-tooltip {
-    &.mat-tooltip {
-      font-size: 0.8rem;
-      max-width: 500px;
-      border: 1px solid theming.get-color($theme, background, tertiary);
+  xui-tooltip {
+    font-size: 0.8rem;
+    max-width: 500px;
+    border-radius: 4px;
+    padding: 6px 12px;
 
-      @include theming.background-level($theme, tertiary);
-    }
+    @include theming.background-level($theme, tertiary);
+    @include theming.elevate($theme, medium);
+    @include typography.typography-level($theme, body-2);
+
+    font-weight: 500;
   }
+
+  .xui-tooltip-panel-above xui-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+
+    margin-left: -5px;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 7px solid theming.get-color($theme, background, tertiary);
+  }
+
+  .xui-tooltip-panel-below xui-tooltip::after {
+    content: '';
+    position: absolute;
+    top: -7px;
+    left: 50%;
+
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 7px solid theming.get-color($theme, background, tertiary);
+  }
+
+  .xui-tooltip-panel-right xui-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: -7px;
+    margin-top: -4px;
+
+    border-top: 5px solid transparent;
+    border-right: 7px solid theming.get-color($theme, background, tertiary);
+    border-bottom: 5px solid transparent;
+  }
+
+  .xui-tooltip-panel-left xui-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: -7px;
+    margin-top: -4px;
+
+    border-top: 5px solid transparent;
+    border-left: 7px solid theming.get-color($theme, background, tertiary);
+    border-bottom: 5px solid transparent;
+  }
+
+  //.xui-tooltip-show {
+  //  animation: xui-tooltip-show 150ms cubic-bezier(0, 0, 0.2, 1) forwards;
+  //}
+  //
+  //.xui-tooltip-hide {
+  //  animation: xui-tooltip-hide 75ms cubic-bezier(0.4, 0, 1, 1) forwards;
+  //}
+  //
+  //@keyframes mat-mdc-tooltip-show {
+  //  0% {
+  //    opacity: 0;
+  //    transform: scale(0.8);
+  //  }
+  //
+  //  100% {
+  //    opacity: 1;
+  //    transform: scale(1);
+  //  }
+  //}
+  //
+  //@keyframes mat-mdc-tooltip-hide {
+  //  0% {
+  //    opacity: 1;
+  //    transform: scale(1);
+  //  }
+  //
+  //  100% {
+  //    opacity: 0;
+  //    transform: scale(0.8);
+  //  }
+  //}
 }

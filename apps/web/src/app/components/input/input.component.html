@@ -1,45 +1,36 @@
-<h1>Input</h1>
+<h4>Input</h4>
 <pre>Input can be used to input user's input</pre>
 
 <app-example>
   <xui-input type="text"></xui-input>
-  <br />
-  <xui-input type="text" xSize="small"></xui-input>
-  <br />
+  <xui-input type="text" size="small"></xui-input>
   <xui-input type="text" placeholder="Placeholder"></xui-input>
-  <br />
   <xui-input type="text" color="dark" placeholder="Dark"></xui-input>
-  <br />
   <xui-input type="text" placeholder="Required" [formControl]="errorControl"></xui-input>
-  <br />
   <xui-input type="text" placeholder="Disabled" disabled></xui-input>
-  <br />
   <xui-input type="password" placeholder="Password"></xui-input>
 </app-example>
 
 <app-example>
   <xui-input type="text" placeholder="your-website">
-    <div xui-prefix>https://</div>
-    <div xui-suffix>.com</div>
+    <div xuiPrefix>https://</div>
+    <div xuiPostfix>.com</div>
   </xui-input>
-  <br />
 
   <xui-input type="text" placeholder="Icon">
-    <div xui-prefix>
+    <div xuiPrefix>
       <xui-icon>account</xui-icon>
     </div>
   </xui-input>
-  <br />
 
   <xui-input type="text" placeholder="With Medium Button">
-    <div xui-suffix>
+    <div xuiPostfix>
       <button xui xType="raised" xSize="md">Copy</button>
     </div>
   </xui-input>
-  <br />
 
   <xui-input type="text" placeholder="With Small Button">
-    <div xui-suffix>
+    <div xuiPostfix>
       <button xui xType="raised" xSize="sm">Copy</button>
     </div>
   </xui-input>
@@ -51,14 +42,12 @@
     <xui-input type="text" placeholder="First Input"></xui-input>
     <xui-input-addon>.com</xui-input-addon>
   </xui-input-group>
-  <br />
 
   <xui-input-group xSize="small">
     <xui-input-addon>https://</xui-input-addon>
     <xui-input type="text" placeholder="First Input"></xui-input>
     <xui-input-addon>.com</xui-input-addon>
   </xui-input-group>
-  <br />
 
   <xui-input-group>
     <xui-input-addon>
@@ -66,4 +55,11 @@
     </xui-input-addon>
     <xui-input type="text" placeholder="First Input"></xui-input>
   </xui-input-group>
+</app-example>
+
+<app-example>
+  <xui-textarea></xui-textarea>
+  <xui-textarea color="dark" placeholder="Type some text here..."></xui-textarea>
+  <xui-textarea [formControl]="textAreaControl" maxLength="120"></xui-textarea>
+  <xui-textarea color="dark" disabled value="Disabled"></xui-textarea>
 </app-example>

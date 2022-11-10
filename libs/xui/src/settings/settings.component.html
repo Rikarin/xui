@@ -1,5 +1,10 @@
 <dialog [open]="opened">
-  <div class="xui-settings-dialog" [@bounce]="animationState" (@bounce.done)="animationState = false">
+  <div
+    class="xui-settings-dialog"
+    [@open]="openedAnimation"
+    [@bounce]="animationState"
+    (@bounce.done)="animationState = false"
+  >
     <div class="xui-settings-menu">
       <nav>
         <div

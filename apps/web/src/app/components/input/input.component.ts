@@ -8,6 +8,7 @@ import { FormControl, Validators } from '@angular/forms';
 })
 export class InputComponent implements OnInit {
   errorControl = new FormControl(null, Validators.required);
+  textAreaControl = new FormControl('Loaded text', Validators.required);
 
   constructor() {}
 

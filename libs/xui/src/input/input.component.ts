@@ -29,7 +29,7 @@ export class XuiInputComponent implements ControlValueAccessor, OnInit {
   @Input() placeholder?: string;
   @Input() @InputBoolean() disabled: boolean = false;
   @Input() color: 'light' | 'dark' = 'light';
-  @Input() xSize: 'normal' | 'small' = 'normal';
+  @Input() size: 'normal' | 'small' = 'normal';
   @Input() dataList?: string[] | null;
   @Input() type: 'text' | 'password' | 'color' | 'date' | 'email' | 'number' = 'text';
 
@@ -47,7 +47,7 @@ export class XuiInputComponent implements ControlValueAccessor, OnInit {
   }
 
   get styles() {
-    return `input xui-input-${this.color} xui-input-${this.groupService?.size ?? this.xSize}`;
+    return `xui-input xui-input-${this.color} xui-input-${this.groupService?.size ?? this.size}`;
   }
 
   get errorMessage() {

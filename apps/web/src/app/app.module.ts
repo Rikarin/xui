@@ -23,7 +23,10 @@ import {
   XuiRadioListModule,
   XuiDecagramModule,
   XuiTooltipModule,
-  XuiSnackbarModule
+  XuiSnackbarModule,
+  XuiTextareaModule,
+  XuiSelectModule,
+  XuiSliderModule
 } from 'xui';
 import { RouterModule, Routes } from '@angular/router';
 import { CardComponent } from './components/card/card.component';
@@ -58,6 +61,7 @@ import { UsageComponent } from './components/usage/usage.component';
 import { RadioListComponent } from './components/radio-list/radio-list.component';
 import { DecagramComponent } from './components/decagram/decagram.component';
 import { TooltipComponent } from './components/tooltip/tooltip.component';
+import { SliderComponent } from './components/slider/slider.component';
 
 const routes: Routes = [
   {
@@ -85,7 +89,8 @@ const routes: Routes = [
   { path: 'radio-list', component: RadioListComponent },
   { path: 'decagram', component: DecagramComponent },
   { path: 'switch', component: SwitchComponent },
-  { path: 'tooltip', component: TooltipComponent }
+  { path: 'tooltip', component: TooltipComponent },
+  { path: 'slider', component: SliderComponent }
 ];
 
 @NgModule({
@@ -114,7 +119,8 @@ const routes: Routes = [
     UsageComponent,
     RadioListComponent,
     DecagramComponent,
-    TooltipComponent
+    TooltipComponent,
+    SliderComponent
   ],
   imports: [
     RouterModule.forRoot(routes),
@@ -150,7 +156,10 @@ const routes: Routes = [
     XuiRadioListModule,
     XuiDecagramModule,
     XuiTooltipModule,
-    XuiSnackbarModule
+    XuiSnackbarModule,
+    XuiTextareaModule,
+    XuiSelectModule,
+    XuiSliderModule
   ],
   providers: [
     {
@@ -179,6 +188,11 @@ export class AppModule {
           no_image: 'No Image',
           change_image: 'Change Image'
         }
+      },
+
+      examples: {
+        hello_world: 'Hello World!',
+        random_string: 'Translated string'
       }
     });
   }

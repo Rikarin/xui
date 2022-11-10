@@ -16,13 +16,33 @@ import { SettingsPage } from './settings-page';
 import { animate, AnimationEvent, state, style, transition, trigger, useAnimation } from '@angular/animations';
 import { bounce, fadeInBottom, fadeOutBottom } from '../utils/animations';
 import { lastValueFrom, Subject } from 'rxjs';
+import { delay } from '../utils';
 
 @Component({
   selector: 'xui-settings',
   exportAs: 'xuiSettings',
   encapsulation: ViewEncapsulation.None,
   templateUrl: './settings.component.html',
-  animations: [trigger('bounce', [transition('* => *', useAnimation(bounce))])]
+  animations: [
+    trigger('bounce', [transition('* => *', useAnimation(bounce))]),
+    trigger('open', [
+      state(
+        'closed',
+        style({
+          opacity: 0,
+          transform: 'scale(1.05)'
+        })
+      ),
+      state(
+        'opened',
+        style({
+          opacity: 1,
+          transform: 'scale(1)'
+        })
+      ),
+      transition('* => *', animate(100))
+    ])
+  ]
 })
 export class XuiSettingsComponent implements OnInit {
   @Input() defaultPage = 1;
@@ -30,6 +50,7 @@ export class XuiSettingsComponent implements OnInit {
   @Output() onClosed = new EventEmitter<void>();
 
   opened = false;
+  openedAnimation: 'opened' | 'closed' = 'closed';
   animationState = false;
 
   portal?: ComponentPortal<SettingsPage>;
@@ -79,16 +100,19 @@ export class XuiSettingsComponent implements OnInit {
 
   open() {
     this.opened = true;
+    this.openedAnimation = 'opened';
     this.navigate(this.defaultPage);
   }
 
-  close() {
+  async close() {
     if (!this.canExit) {
       this.animationState = true;
       this.snackbarRef?.instance.alert();
       return;
     }
 
+    this.openedAnimation = 'closed';
+    await delay(100);
     this.opened = false;
     this.onClosed.emit();
   }
@@ -183,7 +207,8 @@ export class SaveResetSnackbarComponent {
 
   async alert() {
     this.animation = 'alert';
-    setTimeout(() => (this.animation = 'open'), 1000);
+    await delay(1000);
+    this.animation = 'open';
   }
 
   save = () => {

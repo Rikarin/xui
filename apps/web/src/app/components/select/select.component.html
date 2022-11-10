@@ -1,23 +1,23 @@
-<h1>Select</h1>
+<h4>Select</h4>
 
-<!-- <pre>Button is a clickable component.</pre> -->
-<!-- <pre>TODO: FAB and ICON button are not working yet.</pre> -->
+<app-example>
+  <xui-select>
+    <xui-option value="option1" disabled>Option 1 Disabled</xui-option>
+    <xui-option value="option2">Option 2</xui-option>
+  </xui-select>
 
-<xui-card title="Select">
-  <div>
-    <!-- <button xui-button xColor="primary" xType="normal" [xClick]="work">
-      Normal
-    </button>
-    <button xui-button xColor="primary" xType="raised" [xClick]="work">
-      Raised
-    </button>
-    <button xui-button xColor="primary" xType="dashed" [xClick]="work">
-      Dashed
-    </button>
-    <button xui-button xColor="primary" xType="stroked" [xClick]="work">
-      Stroked
-    </button>
-    <button xui-button xColor="primary" xType="fab" [xClick]="work">Fab</button>
-    <button xui-button xColor="primary" xType="icon">Icon</button> -->
-  </div>
-</xui-card>
+  <xui-select color="dark" value="option1">
+    <xui-option value="option1">Option 1</xui-option>
+    <xui-option value="option2">Option 2</xui-option>
+  </xui-select>
+
+  <xui-select color="dark" disabled placeholder="Disabled">
+    <xui-option value="option1">Option 1</xui-option>
+    <xui-option value="option2">Option 2</xui-option>
+  </xui-select>
+
+  <xui-select disabled placeholder="Disabled">
+    <xui-option value="option1">Option 1</xui-option>
+    <xui-option value="option2">Option 2</xui-option>
+  </xui-select>
+</app-example>

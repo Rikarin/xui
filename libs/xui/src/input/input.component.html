@@ -1,5 +1,5 @@
 <div [class]="styles" [class.xui-input-error]="showError" [tabindex]="disabled ? -1 : 0">
-  <ng-content select="[xui-prefix]"></ng-content>
+  <ng-content select="[xuiPrefix]"></ng-content>
   <input
     tabindex="-1"
     [disabled]="disabled"
@@ -8,7 +8,7 @@
     [(ngModel)]="value"
     list="list"
   />
-  <ng-content select="[xui-suffix]"></ng-content>
+  <ng-content select="[xuiPostfix]"></ng-content>
 </div>
 
 <div class="xui-input-error-text" *ngIf="showError">

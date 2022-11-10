@@ -8,11 +8,11 @@ import { XUI_SNACK_BAR_DATA } from './snack-bar-config';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: ` <div>
-      {{ data.message }}
+      {{ data.message | translate }}
     </div>
 
     <div *ngIf="hasAction">
-      <button xui xSize="sm" xType="raised" xColor="success" (click)="action()">{{ data.action }}</button>
+      <button xui xSize="sm" xType="raised" xColor="success" (click)="action()">{{ data.action | translate }}</button>
     </div>`,
   host: {
     class: 'xui-simple-snackbar'

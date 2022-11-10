@@ -17,12 +17,14 @@
 @use 'menu/menu';
 @use 'progress/progress';
 @use 'radio-list/radio-list';
-// select
+@use 'select/select';
 @use 'settings/settings';
+@use 'slider/slider';
 @use 'snackbar/snackbar';
 @use 'switch/switch';
 @use 'table/table';
 @use 'tabs/tabs';
+@use 'textarea/textarea';
 @use 'theming/theming';
 // title
 @use 'tooltip/tooltip';
@@ -43,12 +45,14 @@
 @forward 'menu/menu' as menu-* show menu-theme;
 @forward 'progress/progress' as progress-* show progress-theme;
 @forward 'radio-list/radio-list' as radio-list-* show radio-list-theme;
-// select
+@forward 'select/select' as select-* show select-theme;
 @forward 'settings/settings' as settings-* show settings-theme;
+@forward 'slider/slider' as slider-* show slider-theme;
 @forward 'snackbar/snackbar' as snackbar-* show snackbar-theme;
 @forward 'switch/switch' as switch-* show switch-theme;
 @forward 'table/table' as table-* show table-theme;
 @forward 'tabs/tabs' as tabs-* show tabs-theme;
+@forward 'textarea/textarea' as textarea-* show textarea-theme;
 @forward 'theming/palette';
 @forward 'theming/theming' show define-palette, define-background-palette, define-dark-theme, define-light-theme,
   create-color-variables, create-elevation-variables, get-color, get-elevation, get-palette, background-level,
@@ -71,12 +75,14 @@
   @include menu.theme($theme);
   @include progress.theme($theme);
   @include radio-list.theme($theme);
-  // select
+  @include select.theme($theme);
+  @include slider.theme($theme);
   @include settings.theme($theme);
   @include snackbar.theme($theme);
   @include switch.theme($theme);
   @include table.theme($theme);
   @include tabs.theme($theme);
+  @include textarea.theme($theme);
   // title
   @include tooltip.theme($theme);
 
