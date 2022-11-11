@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.28.3](https://github.com/Rikarin/xui/compare/v1.28.2...v1.28.3) (2022-11-11)
+
+
+### Bug Fixes
+
+* select formControl bindings ([afc6b52](https://github.com/Rikarin/xui/commit/afc6b52917c56445e55e666ac516ba47696d5eb0))
+
 ### [1.28.2](https://github.com/Rikarin/xui/compare/v1.28.1...v1.28.2) (2022-11-11)
 
 ### Bug Fixes

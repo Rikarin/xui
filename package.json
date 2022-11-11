@@ -1,6 +1,6 @@
 {
   "name": "xui",
-  "version": "1.28.2",
+  "version": "1.28.3",
   "license": "MIT",
   "scripts": {
     "ng": "nx",
