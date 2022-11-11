@@ -96,7 +96,10 @@ export class XuiSliderComponent implements ControlValueAccessor, OnInit, AfterVi
   }
 
   ngOnInit() {
-    this.control?.statusChanges!.subscribe(() => this.changeDetectorRef.markForCheck());
+    this.control?.statusChanges!.subscribe(() => {
+      this.setPositionByPercentage(this.percentage);
+      this.changeDetectorRef.markForCheck();
+    });
   }
 
   async ngAfterViewInit() {
@@ -105,6 +108,7 @@ export class XuiSliderComponent implements ControlValueAccessor, OnInit, AfterVi
   }
 
   ngOnChanges(changes: SimpleChanges) {
+    console.log('cha', changes);
     if (changes['value']) {
       this.setPositionByPercentage(this.percentage);
     }

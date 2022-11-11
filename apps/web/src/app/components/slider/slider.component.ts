@@ -39,4 +39,12 @@ export class SliderComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {}
+
+  toggle() {
+    if (this.model.value) {
+      this.model.setValue(0);
+    } else {
+      this.model.setValue(100);
+    }
+  }
 }
