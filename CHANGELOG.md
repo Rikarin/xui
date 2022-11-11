@@ -4,11 +4,10 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### [1.28.2](https://github.com/Rikarin/xui/compare/v1.28.1...v1.28.2) (2022-11-11)
 
-
 ### Bug Fixes
 
-* table ([32cdda1](https://github.com/Rikarin/xui/commit/32cdda11772baf601b8e1930ef8cdd22a5971967))
-* tabs disabled state ([975862a](https://github.com/Rikarin/xui/commit/975862a8a66e209b94a2d1572e14cb2bfd2fe54d))
+- table ([32cdda1](https://github.com/Rikarin/xui/commit/32cdda11772baf601b8e1930ef8cdd22a5971967))
+- tabs disabled state ([975862a](https://github.com/Rikarin/xui/commit/975862a8a66e209b94a2d1572e14cb2bfd2fe54d))
 
 ### [1.28.1](https://github.com/Rikarin/xui/compare/v1.28.0...v1.28.1) (2022-11-11)
 

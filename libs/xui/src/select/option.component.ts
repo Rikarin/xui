@@ -61,7 +61,7 @@ export class XuiOptionComponent implements OnInit, OnDestroy {
 
   click() {
     if (!this.disabled) {
-      this.selectService.select(this);
+      this.selectService.select(this.value);
     }
   }
 

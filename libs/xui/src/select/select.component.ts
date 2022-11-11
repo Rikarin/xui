@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -11,7 +12,7 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
-import { InputBoolean } from '../utils';
+import { inNextTick, InputBoolean } from '../utils';
 import { SelectService } from './select.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { XuiOptionComponent } from './option.component';
@@ -25,7 +26,7 @@ import { XuiOptionComponent } from './option.component';
   templateUrl: 'select.component.html',
   providers: [SelectService]
 })
-export class XuiSelectComponent implements ControlValueAccessor, OnInit {
+export class XuiSelectComponent implements ControlValueAccessor, OnInit, AfterViewInit {
   _value?: string;
   touched = false;
   onChange = (source?: string) => {};
@@ -48,6 +49,7 @@ export class XuiSelectComponent implements ControlValueAccessor, OnInit {
     if (this._value !== v) {
       this._value = v;
       this.onChange(v);
+      this.selectService.select(v!);
       this.changeDetectorRef.markForCheck();
     }
   }
@@ -82,13 +84,22 @@ export class XuiSelectComponent implements ControlValueAccessor, OnInit {
 
     selectService.selected$.pipe(untilDestroyed(this)).subscribe(option => {
       this.isOpen = false;
+      this.value = option?.value;
       this.selectedOption = option;
       this.changeDetectorRef.markForCheck();
     });
   }
 
   ngOnInit() {
-    this.control?.statusChanges!.subscribe(() => this.changeDetectorRef.markForCheck());
+    this.control?.statusChanges!.subscribe(() => {
+      this.selectService.select(this.value!);
+      this.changeDetectorRef.markForCheck();
+    });
+  }
+
+  async ngAfterViewInit() {
+    await inNextTick();
+    this.selectService.select(this.value!);
   }
 
   open() {

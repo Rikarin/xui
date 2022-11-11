@@ -11,10 +11,14 @@ export class SelectService {
     return this._selected.asObservable();
   }
 
-  select(option: XuiOptionComponent) {
-    this.clearAll();
-    option.select(true);
-    this._selected.next(option);
+  select(value: string) {
+    const option = this._components.value.find(x => x.value === value);
+
+    if (option) {
+      this.clearAll();
+      option.select(true);
+      this._selected.next(option);
+    }
   }
 
   addOption(option: XuiOptionComponent) {
