@@ -5,6 +5,7 @@
   xui-progress {
     display: flex;
     align-items: center;
+    gap: 12px;
     height: 24px;
   }
 
@@ -16,22 +17,10 @@
 
     background-color: theming.get-color($theme, background, primary);
     border-radius: 4px;
-    margin-right: 12px;
   }
 
   .xui-progress-indicator-status {
     border-radius: 4px;
-  }
-
-  .xui-progress-status-success {
-    width: 80%;
-    color: theming.get-color($theme, success);
-  }
-
-  .xui-progress-status-error {
-    flex: 0 0 32px;
-    width: 80%;
-    color: theming.get-color($theme, error);
   }
 
   @include generate-color-variations($theme);

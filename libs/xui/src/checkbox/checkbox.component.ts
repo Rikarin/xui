@@ -34,6 +34,7 @@ export class XuiCheckboxComponent implements ControlValueAccessor, OnInit {
   @Input() color: 'success' | 'warning' | 'info' | 'primary' | 'error' | string = 'success';
 
   @Input()
+  @InputBoolean()
   get value() {
     return this._value;
   }

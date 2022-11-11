@@ -4,7 +4,7 @@
     [(ngModel)]="value"
     [rows]="rows"
     [placeholder]="placeholder ?? ''"
-    [maxLength]="maxLength ?? -1"
+    [maxLength]="maxLength ?? 524288"
   ></textarea>
 
   <div *ngIf="maxLength" class="xui-textarea-word-counter">{{ wordCount }}</div>

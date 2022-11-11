@@ -1,18 +1,26 @@
-<div [class]="'xui-slider-bar ' + getColor(color)">
-  <div *ngIf="secondColor" [class]="'xui-slider-bar-half ' + getColor(secondColor)"></div>
+<div [class]="'xui-slider-track ' + getColor(color)">
+  <div [style.width.%]="width" [class]="'xui-slider-track-half ' + getColor(secondColor ?? 'none')"></div>
 </div>
 
-<div class="xui-slider-track" [xuiTooltip]="tooltip" xuiTooltipPosition="above"></div>
+<div class="xui-slider-container" #track>
+  <div
+    cdkDrag
+    [cdkDragFreeDragPosition]="position$ | async"
+    (cdkDragMoved)="move($event.pointerPosition.x)"
+    class="xui-slider-thumb"
+    xuiTooltipPosition="above"
+    [xuiTooltip]="tooltip"
+    [matTooltipDisabled]="tooltipDisabled"
+    #tooltipRef="xuiTooltip"
+  ></div>
 
-<!--<div [class]="styles" [class.xui-input-error]="showError" [tabindex]="disabled ? -1 : 0">-->
-<!--  <ng-content select="[xuiPrefix]"></ng-content>-->
-<!--  <input-->
-<!--    tabindex="-1"-->
-<!--    [disabled]="disabled"-->
-<!--    [type]="type"-->
-<!--    [placeholder]="placeholder ?? ''"-->
-<!--    [(ngModel)]="value"-->
-<!--    list="list"-->
-<!--  />-->
-<!--  <ng-content select="[xuiPostfix]"></ng-content>-->
-<!--</div>-->
+  <div
+    *ngFor="let mark of marks"
+    [style.left.%]="getPercentage(mark.value)"
+    class="xui-slider-mark"
+    [class]="mark.color ? 'xui-slider-mark-color-' + mark.color : ''"
+  >
+    <div class="xui-slider-mark-label">{{ mark.label }}</div>
+    <div class="xui-slider-mark-dash"></div>
+  </div>
+</div>

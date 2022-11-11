@@ -16,7 +16,7 @@ import { SettingsPage } from './settings-page';
 import { animate, AnimationEvent, state, style, transition, trigger, useAnimation } from '@angular/animations';
 import { bounce, fadeInBottom, fadeOutBottom } from '../utils/animations';
 import { lastValueFrom, Subject } from 'rxjs';
-import { delay } from '../utils';
+import { delay, InputNumber } from '../utils';
 
 @Component({
   selector: 'xui-settings',
@@ -45,7 +45,7 @@ import { delay } from '../utils';
   ]
 })
 export class XuiSettingsComponent implements OnInit {
-  @Input() defaultPage = 1;
+  @Input() @InputNumber() defaultPage = 1;
   @Input() items?: MenuItem[];
   @Output() onClosed = new EventEmitter<void>();
 

@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
-import { InputBoolean } from '../utils';
+import { InputBoolean, InputNumber } from '../utils';
 
 @Component({
   selector: 'xui-textarea',
@@ -29,8 +29,8 @@ export class XuiTextareaComponent implements ControlValueAccessor, OnInit {
   @Input() @InputBoolean() disabled: boolean = false;
   @Input() color: 'light' | 'dark' = 'light';
   @Input() size: 'normal' | 'small' = 'normal';
-  @Input() rows = 3;
-  @Input() maxLength?: number;
+  @Input() @InputNumber() rows = 3;
+  @Input() @InputNumber() maxLength?: number;
 
   @Input()
   get value() {

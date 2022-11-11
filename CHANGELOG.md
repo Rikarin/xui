@@ -4,10 +4,9 @@ All notable changes to this project will be documented in this file. See [standa
 
 ## [1.27.0](https://github.com/Rikarin/xui/compare/v1.26.1...v1.27.0) (2022-11-10)
 
-
 ### Features
 
-* select and textarea ([550e479](https://github.com/Rikarin/xui/commit/550e479857fc3ccc8167110cee49398743f74274))
+- select and textarea ([550e479](https://github.com/Rikarin/xui/commit/550e479857fc3ccc8167110cee49398743f74274))
 
 ### [1.26.1](https://github.com/Rikarin/xui/compare/v1.26.0...v1.26.1) (2022-11-09)
 

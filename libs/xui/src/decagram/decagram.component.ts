@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
+import { InputNumber } from '../utils';
 
 @Component({
   selector: 'xui-decagram',
@@ -7,14 +8,15 @@ import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@a
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <xui-icon>{{ this.type }}</xui-icon>
-    <xui-icon class="xui-decagram-icon"><ng-content></ng-content></xui-icon>
+    <xui-icon [style.width.%]="iconSize" class="xui-decagram-icon"><ng-content></ng-content></xui-icon>
   `,
   host: {
     '[class]': 'style'
   }
 })
 export class XuiDecagramComponent {
-  @Input() type: 'decagram' | 'circle' = 'decagram';
+  @Input() @InputNumber() iconSize: number = 65;
+  @Input() type: 'decagram' | 'circle' | 'shield' = 'decagram';
   @Input() color: 'primary' | 'primary-alt' | 'secondary' | 'error' | 'success' | 'minimal' | string = 'primary';
 
   get style() {

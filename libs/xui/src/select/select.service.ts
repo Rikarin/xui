@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { XuiOptionComponent } from 'xui';
+import { XuiOptionComponent } from './option.component';
 
 @Injectable()
 export class SelectService {

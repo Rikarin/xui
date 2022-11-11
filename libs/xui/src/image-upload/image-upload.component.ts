@@ -15,6 +15,7 @@ import { Dialog, DialogRef } from '@angular/cdk/dialog';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, NgControl } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { InputGroupService } from '../input/input-group.service';
+import { InputNumber } from '../utils';
 
 @Component({
   selector: 'xui-image-upload',
@@ -43,7 +44,7 @@ export class XuiImageUploadComponent implements ControlValueAccessor, OnInit {
 
   @Input() hoverLabel: string = 'xui.image_upload.change_image';
   @Input() type: 'square' | 'round' = 'square';
-  @Input() aspectRatio = 1;
+  @Input() @InputNumber() aspectRatio = 1;
   @ViewChild('cropper') cropper!: TemplateRef<any>;
 
   get backgroundImage() {
