@@ -1,36 +1,38 @@
 @use '../theming/theming';
+@use '../core/typography';
 
 @mixin theme($theme) {
   table {
-  }
-
-  thead {
-    @include theming.background-level($theme, primary);
+    border-collapse: collapse;
   }
 
   th,
   td {
     flex: 1 1 auto;
     padding: 0 12px;
+
+    vertical-align: middle;
   }
 
   tr {
-    height: 40px;
-    //display: flex;
-    //align-items: center;
+    border-bottom: 1px solid theming.get-color($theme, background, primary);
   }
 
   tbody {
-    tr:nth-child(odd) {
-      @include theming.background-level($theme, secondary-alt);
-    }
+    @include typography.typography-level($theme, body-1);
 
-    tr:nth-child(even) {
-      @include theming.background-level($theme, secondary);
+    tr {
+      height: 48px;
     }
+  }
 
-    tr:hover {
-      @include theming.background-level($theme, tertiary);
+  thead {
+    text-align: left;
+    text-transform: uppercase;
+    @include typography.typography-level($theme, caption);
+
+    th {
+      padding-bottom: 8px;
     }
   }
 }
