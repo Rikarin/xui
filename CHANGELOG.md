@@ -4,10 +4,9 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### [1.28.1](https://github.com/Rikarin/xui/compare/v1.28.0...v1.28.1) (2022-11-11)
 
-
 ### Bug Fixes
 
-* programmatically triggered slider didn't move the thumb ([a04021f](https://github.com/Rikarin/xui/commit/a04021ff8da945bbfcc3c98b677ba343c0585ea2))
+- programmatically triggered slider didn't move the thumb ([a04021f](https://github.com/Rikarin/xui/commit/a04021ff8da945bbfcc3c98b677ba343c0585ea2))
 
 ## [1.28.0](https://github.com/Rikarin/xui/compare/v1.27.0...v1.28.0) (2022-11-11)
 

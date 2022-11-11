@@ -17,6 +17,7 @@
   }
 
   .xui-tab-group-entry {
+    user-select: none;
     cursor: pointer;
     font-weight: 500;
     margin-right: 20px;
@@ -34,7 +35,10 @@
     &.disabled {
       @extend .xui-disabled-filter;
       cursor: not-allowed;
-      opacity: 1;
+
+      &:hover {
+        @extend .xui-disabled-filter;
+      }
     }
   }
 }
