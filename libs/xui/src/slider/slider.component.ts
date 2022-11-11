@@ -16,7 +16,8 @@ import {
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { XuiTooltipComponent } from '../tooltip/tooltip.component';
 import { inNextTick, InputBoolean, InputNumber } from '../utils';
-import { BehaviorSubject, map } from 'rxjs';
+import { BehaviorSubject, map, Observable } from 'rxjs';
+import { Point } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'xui-slider',
@@ -88,10 +89,7 @@ export class XuiSliderComponent implements ControlValueAccessor, OnInit, AfterVi
     return ((absolute - this.min) / (this.max - this.min)) * 100;
   }
 
-  constructor(
-    private changeDetectorRef: ChangeDetectorRef,
-    @Self() @Optional() public control?: NgControl
-  ) {
+  constructor(private changeDetectorRef: ChangeDetectorRef, @Self() @Optional() public control?: NgControl) {
     if (this.control) {
       this.control.valueAccessor = this;
     }

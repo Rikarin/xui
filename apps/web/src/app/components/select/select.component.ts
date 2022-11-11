@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-select',
@@ -6,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./select.component.scss']
 })
 export class SelectComponent implements OnInit {
+  model = new FormControl('option1');
+
   constructor() {}
 
   ngOnInit() {}

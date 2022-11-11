@@ -5,7 +5,7 @@
 <div class="xui-slider-container" #track>
   <div
     cdkDrag
-    [cdkDragFreeDragPosition]="position$ | async"
+    [cdkDragFreeDragPosition]="(position$ | async) ?? { x: 0, y: 0 }"
     (cdkDragMoved)="move($event.pointerPosition.x)"
     class="xui-slider-thumb"
     xuiTooltipPosition="above"

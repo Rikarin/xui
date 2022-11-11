@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SliderMark } from 'xui';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-slider',
@@ -33,6 +34,7 @@ export class SliderComponent implements OnInit {
   }));
 
   percentageFormatter = (value: number) => `${value}%`;
+  model = new FormControl(50);
 
   constructor() {}
 

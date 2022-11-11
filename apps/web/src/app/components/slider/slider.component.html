@@ -6,5 +6,6 @@
   <xui-slider color="error" secondColor="success" value="150" min="5" max="200"></xui-slider>
 
   <xui-slider min="10" max="30" step="5" value="20" [marks]="marks"></xui-slider>
-  <xui-slider step="5" value="50" [tipFormatter]="percentageFormatter" [marks]="percentages"></xui-slider>
+  <xui-slider step="5" [formControl]="model" [tipFormatter]="percentageFormatter" [marks]="percentages"></xui-slider>
+  {{ model.value }}
 </app-example>
