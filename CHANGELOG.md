@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.28.0](https://github.com/Rikarin/xui/compare/v1.27.0...v1.28.0) (2022-11-11)
+
+
+### Features
+
+* slider ([130fd08](https://github.com/Rikarin/xui/commit/130fd08cfd73ff8d5f2ff794a585b16f24e8bf79))
+
+
+### Bug Fixes
+
+* slider ([2ea3ecb](https://github.com/Rikarin/xui/commit/2ea3ecb269f519bf2030604483bcab2efec5d10d))
+
 ## [1.27.0](https://github.com/Rikarin/xui/compare/v1.26.1...v1.27.0) (2022-11-10)
 
 ### Features
