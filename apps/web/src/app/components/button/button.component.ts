@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { delay, XuiButtonComponent } from 'xui';
+import { Component } from '@angular/core';
+import { delay } from 'xui';
 import { Usage } from '../usage';
 
 @Component({
@@ -7,16 +7,7 @@ import { Usage } from '../usage';
   templateUrl: './button.component.html',
   styleUrls: ['./button.component.scss']
 })
-export class ButtonComponent implements OnInit {
-  constructor() {}
-
-  ngOnInit() {}
-
-  work = async () => {
-    await delay(2000);
-    return Math.random() >= 0.5;
-  };
-
+export class ButtonComponent {
   usage: Usage[] = [
     {
       param: 'xSize',
@@ -58,4 +49,9 @@ export class ButtonComponent implements OnInit {
       type: 'boolean'
     }
   ];
+
+  work = async () => {
+    await delay(2000);
+    return Math.random() >= 0.5;
+  };
 }

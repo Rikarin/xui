@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 @Component({
@@ -6,7 +6,7 @@ import { FormControl } from '@angular/forms';
   templateUrl: './checkbox.component.html',
   styleUrls: ['./checkbox.component.scss']
 })
-export class CheckboxComponent implements OnInit {
+export class CheckboxComponent {
   checkbox = new FormControl(false);
 
   constructor() {
@@ -14,6 +14,4 @@ export class CheckboxComponent implements OnInit {
       this.checkbox.setValue(!this.checkbox.value);
     }, 1000);
   }
-
-  ngOnInit(): void {}
 }

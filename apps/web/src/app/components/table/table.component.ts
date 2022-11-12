@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { DataSource } from '@angular/cdk/collections';
 import { BehaviorSubject, Observable } from 'rxjs';
 
@@ -27,13 +27,9 @@ const ELEMENT_DATA: PeriodicElement[] = [
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss']
 })
-export class TableComponent implements OnInit {
+export class TableComponent {
   displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
   dataSource = new ExampleDataSource();
-
-  constructor() {}
-
-  ngOnInit(): void {}
 }
 
 export class ExampleDataSource extends DataSource<PeriodicElement> {
@@ -43,5 +39,7 @@ export class ExampleDataSource extends DataSource<PeriodicElement> {
     return this.data;
   }
 
-  disconnect() {}
+  disconnect() {
+    // empty
+  }
 }

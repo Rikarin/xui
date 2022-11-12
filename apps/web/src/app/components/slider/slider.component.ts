@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { SliderMark } from 'xui';
 import { FormControl } from '@angular/forms';
 
@@ -7,7 +7,9 @@ import { FormControl } from '@angular/forms';
   templateUrl: './slider.component.html',
   styleUrls: ['./slider.component.scss']
 })
-export class SliderComponent implements OnInit {
+export class SliderComponent {
+  model = new FormControl(50);
+
   marks: SliderMark[] = [
     {
       label: '10px',
@@ -34,11 +36,6 @@ export class SliderComponent implements OnInit {
   }));
 
   percentageFormatter = (value: number) => `${value}%`;
-  model = new FormControl(50);
-
-  constructor() {}
-
-  ngOnInit(): void {}
 
   toggle() {
     if (this.model.value) {

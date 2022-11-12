@@ -27,9 +27,7 @@
             "output": "./assets"
           }
         ],
-        "styles": [
-          "apps/web/src/styles.scss"
-        ],
+        "styles": ["apps/web/src/styles.scss"],
         "scripts": []
       },
       "configurations": {

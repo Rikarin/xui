@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ComponentRef,
@@ -22,6 +23,7 @@ import { delay, InputNumber } from '../utils';
   selector: 'xui-settings',
   exportAs: 'xuiSettings',
   encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './settings.component.html',
   animations: [
     trigger('bounce', [transition('* => *', useAnimation(bounce))]),
@@ -102,6 +104,7 @@ export class XuiSettingsComponent implements OnInit {
     this.opened = true;
     this.openedAnimation = 'opened';
     this.navigate(this.defaultPage);
+    this.changeDetectorRef.markForCheck();
   }
 
   async close() {
@@ -115,6 +118,7 @@ export class XuiSettingsComponent implements OnInit {
     await delay(100);
     this.opened = false;
     this.onClosed.emit();
+    this.changeDetectorRef.markForCheck();
   }
 
   attached(ref: CdkPortalOutletAttachedRef) {

@@ -16,7 +16,7 @@
     "update": "ng update @nrwl/workspace",
     "copy-readme": "cp README.md libs/xui/README.md && git add libs/xui/README.md",
     "copy-version": "VERSION=$npm_package_version && cd libs/xui && npm version $VERSION && cd ../.. && git add libs/xui/package.json",
-    "release": "git pull origin master && standard-version -a",
+    "release": "yarn format:check && yarn lint && yarn test && git pull origin master && standard-version -a",
     "postrelease": "git push --follow-tags origin master"
   },
   "private": false,
@@ -34,8 +34,8 @@
     "@mdi/angular-material": "^7.0.96",
     "@ngneat/until-destroy": "^9.2.2",
     "@ngx-translate/core": "^14.0.0",
-    "@nrwl/angular": "15.0.3",
-    "@nrwl/eslint-plugin-nx": "^15.0.10",
+    "@nrwl/angular": "15.0.13",
+    "@nrwl/eslint-plugin-nx": "15.0.13",
     "@stackblitz/sdk": "^1.8.0",
     "ng-packagr": "^14.2.2",
     "ngx-google-analytics": "^14.0.1",
@@ -57,11 +57,11 @@
     "@angular/language-service": "14.2.8",
     "@commitlint/cli": "^17.1.2",
     "@commitlint/config-conventional": "^17.1.0",
-    "@nrwl/cli": "15.0.3",
-    "@nrwl/cypress": "15.0.3",
-    "@nrwl/jest": "15.0.3",
-    "@nrwl/nx-cloud": "15.0.0",
-    "@nrwl/workspace": "15.0.3",
+    "@nrwl/cli": "15.0.13",
+    "@nrwl/cypress": "15.0.13",
+    "@nrwl/jest": "15.0.13",
+    "@nrwl/nx-cloud": "15.0.2",
+    "@nrwl/workspace": "15.0.13",
     "@types/jest": "29.2.0",
     "@types/node": "~18.11.7",
     "@typescript-eslint/eslint-plugin": "^5.36.1",
@@ -91,3 +91,4 @@
     }
   }
 }
+

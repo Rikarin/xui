@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 @Component({
@@ -7,7 +7,7 @@ import { FormControl } from '@angular/forms';
   styleUrls: ['./switch.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SwitchComponent implements OnInit {
+export class SwitchComponent {
   asyncSwitch = new FormControl(false);
 
   constructor() {
@@ -15,6 +15,4 @@ export class SwitchComponent implements OnInit {
       this.asyncSwitch.setValue(!this.asyncSwitch.value);
     }, 1000);
   }
-
-  ngOnInit(): void {}
 }

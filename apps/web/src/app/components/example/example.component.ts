@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { InputBoolean } from 'xui';
 import sdk, { Project } from '@stackblitz/sdk';
 import packageInfo from '../../../../../../package.json';
@@ -8,7 +8,7 @@ import packageInfo from '../../../../../../package.json';
   templateUrl: './example.component.html',
   styleUrls: ['./example.component.scss']
 })
-export class ExampleComponent implements OnInit {
+export class ExampleComponent {
   @Input() files: { [name: string]: string } = {};
   @Input() @InputBoolean() todo = false;
 
@@ -46,10 +46,6 @@ export class ExampleComponent implements OnInit {
     };
   }
 
-  constructor() {}
-
-  ngOnInit(): void {}
-
   openProject() {
     sdk.openProject(this.project, {
       newWindow: true,
@@ -58,7 +54,7 @@ export class ExampleComponent implements OnInit {
   }
 
   async embedProject() {
-    const project = await sdk.embedProject(this.id, this.project, {
+    await sdk.embedProject(this.id, this.project, {
       height: 600,
       view: 'editor',
       openFile: this.getFileNames(),

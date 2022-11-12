@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 
 @Component({
@@ -6,11 +6,7 @@ import { FormControl, Validators } from '@angular/forms';
   templateUrl: './input.component.html',
   styleUrls: ['./input.component.scss']
 })
-export class InputComponent implements OnInit {
+export class InputComponent {
   errorControl = new FormControl(null, Validators.required);
   textAreaControl = new FormControl('Loaded text', Validators.required);
-
-  constructor() {}
-
-  ngOnInit() {}
 }
