@@ -1,59 +1,89 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, ViewEncapsulation } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  HostListener,
+  Input,
+  Output,
+  ViewEncapsulation
+} from '@angular/core';
 import { WithConfig } from '../config';
 import { delay, InputBoolean, InputNumber } from '../utils';
-import { XuiButtonColor, XuiButtonSize, XuiButtonType } from './button.types';
+import { ButtonColor, ButtonSize, ButtonType } from './button.types';
 
 @Component({
-  selector: 'button[xui]',
+  selector: 'xui-button',
   exportAs: 'xuiButton',
-  encapsulation: ViewEncapsulation.None,
+  styleUrls: ['button.scss'],
+  encapsulation: ViewEncapsulation.ShadowDom,
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <div class="xui-button-content">
-      <ng-content></ng-content>
-    </div>
-    <div class="xui-button-state-image"></div>
-    <div class="xui-button-shine" *ngIf="xShine && !disabled">
-      <div class="xui-button-shine-inner">
-        <div class="xui-button-shine-element"></div>
+    <div [ngClass]="styles" part="button" tabindex="0">
+      <div class="content" part="content">
+        <ng-content></ng-content>
+      </div>
+      <div class="state-image"></div>
+      <div class="shine" *ngIf="shine && !disabled">
+        <div class="inner">
+          <div class="element"></div>
+        </div>
       </div>
     </div>
   `,
   host: {
-    '[class]': 'getStyle()',
-    '[class.xui-button-state--loading]': 'state == 1',
-    '[class.xui-button-state--failed]': 'state === 3',
-    '[class.xui-button-state--succeeded]': 'state == 2',
-    '[attr.disabled]': 'disabled || null',
-    '(click)': '_onAsync()'
+    '[attr.disabled]': 'disabled || null'
   }
 })
 export class XuiButtonComponent {
   state: 0 | 1 | 2 | 3 = 0;
 
-  @Input() xType: XuiButtonType = 'normal';
-  @Input() xSize: XuiButtonSize = 'md';
-  @Input() xColor: XuiButtonColor = 'primary';
-  @Input() @InputBoolean() xShine = false;
+  @Input() type: ButtonType = 'normal';
+  @Input() size: ButtonSize = 'md';
+  @Input() color: ButtonColor = 'primary';
+  @Input() @InputBoolean() shine = false;
   @Input() @InputBoolean() disabled = false;
-  @Input() xClick?: () => Promise<boolean>;
-  @Input() @InputNumber() @WithConfig() xStateDelay = 5000;
+  @Input() onClick?: () => Promise<boolean>;
+  @Input() @InputNumber() @WithConfig() stateDelay = 5000;
+
+  @Output() readonly click = new EventEmitter<any>();
 
   constructor(private changeDetectorRef: ChangeDetectorRef) {}
 
-  getStyle() {
-    return `xui-button xui-button-${this.xSize} xui-button-${this.xType} xui-button-${this.xColor}`;
+  get styles() {
+    const ret: any = {
+      button: true,
+      'state--loading': this.state == 1,
+      'state--succeeded': this.state == 2,
+      'state--failed': this.state === 3
+    };
+
+    ret[`size-${this.size}`] = true;
+    ret[`type-${this.type}`] = true;
+    ret[`color-${this.color}`] = true;
+
+    return ret;
   }
 
-  async _onAsync() {
-    if (!this.xClick) {
+  @HostListener('keydown.enter', ['$event'])
+  @HostListener('keydown.space', ['$event'])
+  private _keyPress(event: any) {
+    event?.preventDefault();
+    this.click.emit();
+
+    return this._onAsync();
+  }
+
+  @HostListener('click', ['$event'])
+  private async _onAsync() {
+    if (!this.onClick) {
       return;
     }
 
     this.state = 1;
 
     try {
-      this.state = (await this.xClick()) ? 2 : 3;
+      this.state = (await this.onClick()) ? 2 : 3;
     } catch {
       this.state = 2;
     }

@@ -4,95 +4,95 @@
 </div>
 
 <app-example>
-  <div>
-    <button xui xColor="primary" xType="normal" [xClick]="work">Normal</button>
-    <button xui xColor="primary" xType="raised" [xClick]="work">Raised</button>
-    <button xui xColor="primary" xType="dashed" [xClick]="work">Dashed</button>
-    <button xui xColor="primary" xType="stroked" [xClick]="work">Stroked</button>
-    <button xui xColor="primary" xType="fab" [xClick]="work">Fab</button>
-    <button xui xColor="primary" xType="icon">Icon</button>
-    <button xui xColor="success" xType="raised" xShine [xClick]="work">Raised Shine</button>
-    <button xui xColor="success" xType="raised" xShine [xClick]="work">
+  <div style="display: flex; gap: 4px; flex-wrap: wrap">
+    <xui-button color="primary" type="normal" [onClick]="work">Normal</xui-button>
+    <xui-button color="primary" type="raised" [onClick]="work">Raised</xui-button>
+    <xui-button color="primary" type="dashed" [onClick]="work">Dashed</xui-button>
+    <xui-button color="primary" type="stroked" [onClick]="work">Stroked</xui-button>
+    <xui-button color="primary" type="fab" [onClick]="work">Fab</xui-button>
+    <xui-button color="primary" type="icon">Icon</xui-button>
+    <xui-button color="success" type="raised" shine [onClick]="work">Raised Shine</xui-button>
+    <xui-button color="success" type="raised" shine [onClick]="work">
       <xui-icon>shield-crown</xui-icon>
       Raised Shine
-    </button>
+    </xui-button>
   </div>
 </app-example>
 
 <app-example>
   <div class="button-grid">
-    <button xui xColor="primary" xType="normal" xSize="sm">Normal Small</button>
-    <button xui xColor="primary" xType="normal" xSize="md">Normal Medium</button>
-    <button xui xColor="primary" xType="normal" xSize="lg">Normal Large</button>
+    <xui-button color="primary" type="normal" size="sm">Normal Small</xui-button>
+    <xui-button color="primary" type="normal" size="md">Normal Medium</xui-button>
+    <xui-button color="primary" type="normal" size="lg">Normal Large</xui-button>
 
-    <button xui xColor="primary" xType="raised" xSize="sm">Raised Small</button>
-    <button xui xColor="primary" xType="raised" xSize="md">Raised Medium</button>
-    <button xui xColor="primary" xType="raised" xSize="lg">Raised Large</button>
+    <xui-button color="primary" type="raised" size="sm">Raised Small</xui-button>
+    <xui-button color="primary" type="raised" size="md">Raised Medium</xui-button>
+    <xui-button color="primary" type="raised" size="lg">Raised Large</xui-button>
 
-    <button xui xColor="primary" xType="dashed" xSize="sm">Dashed Small</button>
-    <button xui xColor="primary" xType="dashed" xSize="md">Dashed Medium</button>
-    <button xui xColor="primary" xType="dashed" xSize="lg">Dashed Large</button>
+    <xui-button color="primary" type="dashed" size="sm">Dashed Small</xui-button>
+    <xui-button color="primary" type="dashed" size="md">Dashed Medium</xui-button>
+    <xui-button color="primary" type="dashed" size="lg">Dashed Large</xui-button>
 
-    <button xui xColor="primary" xType="fab" xSize="sm">Fab Small</button>
-    <button xui xColor="primary" xType="fab" xSize="md">Fab Medium</button>
-    <button xui xColor="primary" xType="fab" xSize="lg">Fab Large</button>
+    <xui-button color="primary" type="fab" size="sm">Fab Small</xui-button>
+    <xui-button color="primary" type="fab" size="md">Fab Medium</xui-button>
+    <xui-button color="primary" type="fab" size="lg">Fab Large</xui-button>
 
-    <button xui xColor="minimal" xSize="sm">Minimal Small</button>
-    <button xui xColor="minimal" xSize="md">Minimal Medium</button>
-    <button xui xColor="minimal" xSize="lg">Minimal Large</button>
+    <xui-button color="minimal" size="sm">Minimal Small</xui-button>
+    <xui-button color="minimal" size="md">Minimal Medium</xui-button>
+    <xui-button color="minimal" size="lg">Minimal Large</xui-button>
   </div>
 </app-example>
 
 <app-example>
   <div>
-    <button xui xColor="primary" xType="normal">Primary</button>
-    <button xui xColor="primary-alt" xType="normal">Primary Alternative</button>
-    <button xui xColor="secondary" xType="normal">Secondary</button>
-    <button xui xColor="error" xType="normal">Error</button>
-    <button xui xColor="minimal" xType="normal">Minimal</button>
+    <xui-button color="primary" type="normal">Primary</xui-button>
+    <xui-button color="primary-alt" type="normal">Primary Alternative</xui-button>
+    <xui-button color="secondary" type="normal">Secondary</xui-button>
+    <xui-button color="error" type="normal">Error</xui-button>
+    <xui-button color="minimal" type="normal">Minimal</xui-button>
   </div>
   <div>
-    <button xui xColor="primary" disabled>Primary</button>
-    <button xui xColor="primary-alt" disabled>Primary Alternative</button>
-    <button xui xColor="secondary" disabled>Secondary</button>
-    <button xui xColor="error" disabled>Error</button>
-    <button xui xColor="minimal" disabled>Minimal</button>
+    <xui-button color="primary" disabled>Primary</xui-button>
+    <xui-button color="primary-alt" disabled>Primary Alternative</xui-button>
+    <xui-button color="secondary" disabled>Secondary</xui-button>
+    <xui-button color="error" disabled>Error</xui-button>
+    <xui-button color="minimal" disabled>Minimal</xui-button>
   </div>
   <div>
-    <button xui xColor="primary" xType="raised">Primary</button>
-    <button xui xColor="primary-alt" xType="raised">Primary Alternative</button>
-    <button xui xColor="secondary" xType="raised">Secondary</button>
-    <button xui xColor="error" xType="raised">Error</button>
+    <xui-button color="primary" type="raised">Primary</xui-button>
+    <xui-button color="primary-alt" type="raised">Primary Alternative</xui-button>
+    <xui-button color="secondary" type="raised">Secondary</xui-button>
+    <xui-button color="error" type="raised">Error</xui-button>
   </div>
   <div>
-    <button xui xColor="primary" xType="raised" disabled>Primary</button>
-    <button xui xColor="primary-alt" xType="raised" disabled>Primary Alternative</button>
-    <button xui xColor="secondary" xType="raised" disabled>Secondary</button>
-    <button xui xColor="error" xType="raised" disabled>Error</button>
+    <xui-button color="primary" type="raised" disabled>Primary</xui-button>
+    <xui-button color="primary-alt" type="raised" disabled>Primary Alternative</xui-button>
+    <xui-button color="secondary" type="raised" disabled>Secondary</xui-button>
+    <xui-button color="error" type="raised" disabled>Error</xui-button>
   </div>
   <div>
-    <button xui xColor="primary" xType="dashed">Primary</button>
-    <button xui xColor="primary-alt" xType="dashed">Primary Alternative</button>
-    <button xui xColor="secondary" xType="dashed">Secondary</button>
-    <button xui xColor="error" xType="dashed">Error</button>
+    <xui-button color="primary" type="dashed">Primary</xui-button>
+    <xui-button color="primary-alt" type="dashed">Primary Alternative</xui-button>
+    <xui-button color="secondary" type="dashed">Secondary</xui-button>
+    <xui-button color="error" type="dashed">Error</xui-button>
   </div>
 </app-example>
 
 <app-example>
   <xui-button-group>
-    <button xui xColor="primary" xType="raised" [xClick]="work">First</button>
-    <button xui xColor="primary" xType="raised" [xClick]="work" disabled>Second</button>
-    <button xui xColor="primary" xType="raised" [xClick]="work">Third</button>
+    <xui-button color="primary" type="raised" [onClick]="work">First</xui-button>
+    <xui-button color="primary" type="raised" [onClick]="work" disabled>Second</xui-button>
+    <xui-button color="primary" type="raised" [onClick]="work">Third</xui-button>
   </xui-button-group>
   <xui-button-group>
-    <button xui xColor="primary" xType="dashed" [xClick]="work">First</button>
-    <button xui xColor="primary" xType="dashed" [xClick]="work">Second</button>
-    <button xui xColor="primary" xType="dashed" [xClick]="work">Third</button>
+    <xui-button color="primary" type="dashed" [onClick]="work">First</xui-button>
+    <xui-button color="primary" type="dashed" [onClick]="work">Second</xui-button>
+    <xui-button color="primary" type="dashed" [onClick]="work">Third</xui-button>
   </xui-button-group>
   <xui-button-group>
-    <button xui xColor="primary" xType="stroked" [xClick]="work">First</button>
-    <button xui xColor="primary" xType="stroked" [xClick]="work">Second</button>
-    <button xui xColor="primary" xType="stroked" [xClick]="work">Third</button>
+    <xui-button color="primary" type="stroked" [onClick]="work">First</xui-button>
+    <xui-button color="primary" type="stroked" [onClick]="work">Second</xui-button>
+    <xui-button color="primary" type="stroked" [onClick]="work">Third</xui-button>
   </xui-button-group>
 </app-example>
 

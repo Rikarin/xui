@@ -1,23 +1,9 @@
-<input type="file" (change)="handleFileInput($event)" accept="image/*" />
-<div class="xui-image-upload-hover" [style.border-radius.%]="borderRadius">{{ hoverLabel | translate }}</div>
-<div *ngIf="!backgroundImage" class="xui-image-upload-no-image">{{ 'xui.image_upload.no_image' | translate }}</div>
+<div [ngClass]="classes" [ngStyle]="styles" tabindex="0">
+  <input #input type="file" (change)="handleFileInput($event)" accept="image/*" tabindex="-1" />
+  <div class="upload-hover" [style.border-radius.%]="borderRadius">{{ hoverLabel | translate }}</div>
+  <div *ngIf="!backgroundImage" class="no-image">{{ 'xui.image_upload.no_image' | translate }}</div>
 
-<div class="xui-image-upload-icon">
-  <xui-icon>image-plus-outline</xui-icon>
+  <div class="upload-icon">
+    <xui-icon>image-plus-outline</xui-icon>
+  </div>
 </div>
-
-<ng-template #cropper>
-  <div class="xui-image-upload-cropper">
-    <image-cropper
-      [imageChangedEvent]="imageChangedEvent"
-      [maintainAspectRatio]="true"
-      [aspectRatio]="aspectRatio"
-      format="webp"
-      [roundCropper]="type === 'round'"
-      (imageCropped)="imageCropped($event)"
-    ></image-cropper>
-  </div>
-  <div class="xui-image-upload-cropper-actions">
-    <button xui xType="raised" (click)="save()">{{ 'xui.image_upload.save' | translate }}</button>
-  </div>
-</ng-template>

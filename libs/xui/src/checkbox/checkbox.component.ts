@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  HostListener,
   Input,
   OnInit,
   Optional,
@@ -16,13 +17,10 @@ import { InputGroupService } from '../input/input-group.service';
 @Component({
   selector: 'xui-checkbox',
   exportAs: 'xuiCheckbox',
-  encapsulation: ViewEncapsulation.None,
+  styleUrls: ['checkbox.scss'],
+  encapsulation: ViewEncapsulation.ShadowDom,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './checkbox.component.html',
-  host: {
-    '[class.xui-checkbox-disabled]': 'disabled',
-    '(click)': '_click()'
-  }
+  templateUrl: './checkbox.component.html'
 })
 export class XuiCheckboxComponent implements ControlValueAccessor, OnInit {
   _value = false;
@@ -31,7 +29,14 @@ export class XuiCheckboxComponent implements ControlValueAccessor, OnInit {
   onTouched = () => {};
 
   @Input() @InputBoolean() disabled = false;
-  @Input() color: 'success' | 'warning' | 'info' | 'primary' | 'error' | string = 'success';
+  // @Input() color: 'success' | 'warning' | 'info' | 'primary' | 'error' | string = 'success';
+
+  get styles() {
+    return {
+      checkbox: true,
+      disabled: this.disabled
+    };
+  }
 
   @Input()
   @InputBoolean()
@@ -81,7 +86,8 @@ export class XuiCheckboxComponent implements ControlValueAccessor, OnInit {
     }
   }
 
-  _click() {
+  @HostListener('click')
+  private _click() {
     if (!this.disabled) {
       this.value = !this.value;
     }

@@ -13,7 +13,8 @@ import { _TooltipComponentBase } from '@angular/material/tooltip';
 
 @Component({
   selector: 'xui-tooltip',
-  encapsulation: ViewEncapsulation.None,
+  encapsulation: ViewEncapsulation.None, // TODO
+  styleUrls: ['tooltip.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: ` <div
     #tooltip
@@ -36,15 +37,10 @@ export class XuiTooltipComponent extends _TooltipComponentBase {
   _isMultiline = false;
 
   /** Reference to the internal tooltip element. */
-  @ViewChild('tooltip', {
-    // Use a static query here since we interact directly with
-    // the DOM which can happen before `ngAfterViewInit`.
-    static: true
-  })
-  _tooltip!: ElementRef<HTMLElement>;
+  @ViewChild('tooltip', { static: true }) _tooltip!: ElementRef<HTMLElement>;
 
-  _showAnimation = 'mat-mdc-tooltip-show';
-  _hideAnimation = 'mat-mdc-tooltip-hide';
+  _showAnimation = 'xui-tooltip-show';
+  _hideAnimation = 'xui-tooltip-hide';
 
   constructor(
     changeDetectorRef: ChangeDetectorRef,

@@ -4,12 +4,13 @@ import { XuiTabComponent } from './tab.component';
 @Component({
   selector: 'xui-tab-group',
   exportAs: 'xuiTabGroup',
+  styleUrls: ['tabs.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
+  encapsulation: ViewEncapsulation.ShadowDom,
   template: `
-    <div class="xui-tab-group-list">
+    <div class="list">
       <div
-        class="xui-tab-group-entry"
+        class="entry"
         *ngFor="let tab of tabs"
         [class.active]="tab.isActive"
         [class.disabled]="tab.disabled"

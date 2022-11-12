@@ -20,7 +20,7 @@
     border-radius: 4px;
     padding: 0 8px 0 12px;
 
-    @include typography.typography-level($theme, body-1);
+    @include typography.typography-level(body-1);
   }
 
   .xui-select-disabled {
@@ -35,11 +35,11 @@
 
     border-bottom-left-radius: 4px;
     border-bottom-right-radius: 4px;
-    border: 1px solid theming.get-color($theme, background, tertiary);
+    border: 1px solid var(--background-color-tertiary);
     border-top: none;
 
     // TODO: move to light/dark
-    @include theming.background-level($theme, primary);
+    @include theming.background-level(primary);
   }
 
   xui-option {
@@ -53,13 +53,13 @@
 
   .xui-option-light {
     &:hover {
-      @include theming.background-level($theme, secondary);
+      @include theming.background-level(secondary);
     }
   }
 
   .xui-option-dark {
     &:hover {
-      @include theming.background-level($theme, secondary);
+      @include theming.background-level(secondary);
     }
   }
 
@@ -73,14 +73,14 @@
   }
 
   .xui-option-selected {
-    @include theming.background-level($theme, secondary);
+    @include theming.background-level(secondary);
   }
 
   .xui-select-light {
-    @include theming.background-level($theme, secondary);
+    @include theming.background-level(secondary);
   }
 
   .xui-select-dark {
-    @include theming.background-level($theme, tertiary);
+    @include theming.background-level(tertiary);
   }
 }

@@ -1,5 +1,9 @@
 @use 'sass:map';
 
+@mixin disabled-filter() {
+  opacity: 0.6;
+}
+
 @mixin core() {
   @import '@angular/cdk/overlay-prebuilt.css';
 

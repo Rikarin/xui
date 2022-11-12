@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { InputBoolean } from 'xui';
 import sdk, { Project } from '@stackblitz/sdk';
 import packageInfo from '../../../../../../package.json';
@@ -7,6 +7,7 @@ import packageInfo from '../../../../../../package.json';
   selector: 'app-example',
   templateUrl: './example.component.html',
   styleUrls: ['./example.component.scss']
+  // encapsulation: ViewEncapsulation.ShadowDom
 })
 export class ExampleComponent {
   @Input() files: { [name: string]: string } = {};

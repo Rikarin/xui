@@ -13,14 +13,14 @@
       align-items: center;
       border-radius: 3px;
 
-      @include theming.focus-visible($theme);
+      @include theming.focus-visible();
     }
 
     input {
       flex: 100%;
       background-color: transparent;
 
-      @include typography.typography-level($theme, body-1);
+      @include typography.typography-level(body-1);
 
       &:disabled {
         @extend .xui-disabled-filter;
@@ -34,31 +34,29 @@
   }
 
   .xui-input-light {
-    background-color: theming.get-color($theme, background, secondary);
+    background-color: var(--background-color-secondary);
 
     input {
-      $contrast: theming.get-color($theme, background, secondary-contrast);
-      -webkit-text-fill-color: $contrast;
-      caret-color: $contrast;
+      -webkit-text-fill-color: var(--background-color-secondary-contrast);
+      caret-color: var(--background-color-secondary-contrast);
     }
   }
 
   .xui-input-dark {
-    background-color: theming.get-color($theme, background, tertiary);
+    background-color: var(--background-color-tertiary);
 
     input {
-      $contrast: theming.get-color($theme, background, tertiary-contrast);
-      -webkit-text-fill-color: $contrast;
-      caret-color: $contrast;
+      -webkit-text-fill-color: var(--background-color-tertiary-contrast);
+      caret-color: var(--background-color-tertiary-contrast);
     }
   }
 
   .xui-input-error {
-    outline: 2px solid theming.get-color($theme, error);
+    outline: 2px solid var(--error-color-default);
   }
 
   .xui-input-error-text {
-    color: theming.get-color($theme, error);
+    color: var(--error-color-default);
     font-size: 0.8rem;
     margin-top: 4px;
     margin-left: 8px;

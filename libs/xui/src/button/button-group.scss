@@ -1,0 +1,23 @@
+:host {
+  width: fit-content;
+  display: flex;
+}
+
+xui-button::part(button) {
+  border-radius: 0 !important;
+  margin-right: 0;
+}
+
+xui-button:first-of-type::part(button) {
+  border-top-left-radius: 5px !important;
+  border-bottom-left-radius: 5px !important;
+}
+
+xui-button:last-of-type::part(button) {
+  border-top-right-radius: 5px !important;
+  border-bottom-right-radius: 5px !important;
+}
+
+xui-button:not(:first-of-type)::part(button) {
+  margin-left: -1px;
+}

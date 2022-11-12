@@ -1,268 +1,218 @@
+@use '../core/core';
 @use '../theming/theming';
 @use '../core/typography';
 
-@mixin btn-color($theme, $name) {
-  &.xui-button-#{$name} {
-    color: theming.get-color($theme, $name);
-    border-color: theming.get-color($theme, $name);
-
-    &:hover {
-      background-color: theming.get-color($theme, $name);
-      color: theming.get-color($theme, $name, default-contrast);
-    }
-
-    &:active {
-      background-color: theming.get-color($theme, $name, darker);
-      color: theming.get-color($theme, $name, darker-contrast);
-    }
-
-    &[disabled],
-    &[disabled]:focus,
-    &[disabled]:active,
-    &[disabled]:hover {
-      @extend .xui-disabled-filter;
-      color: theming.get-color($theme, $name);
-      background: none;
-    }
-  }
-}
-
-@mixin btn-bg-color($theme, $name) {
-  &.xui-button-#{$name} {
-    color: theming.get-color($theme, $name, default-contrast);
-    background-color: theming.get-color($theme, $name);
-
-    &:hover,
-    &:active {
-      color: theming.get-color($theme, $name, darker-contrast);
-      background-color: theming.get-color($theme, $name, darker);
-    }
-
-    &[disabled],
-    &[disabled]:focus,
-    &[disabled]:active,
-    &[disabled]:hover {
-      @extend .xui-disabled-filter;
-      color: theming.get-color($theme, $name, default-contrast);
-      background-color: theming.get-color($theme, $name);
-    }
-  }
-}
-
-@mixin button-colors($theme) {
-  @include btn-color($theme, primary);
-  @include btn-color($theme, primary-alt);
-  @include btn-color($theme, secondary);
-  @include btn-color($theme, success);
-  @include btn-color($theme, error);
-}
-
-@mixin button-bg-colors($theme) {
-  @include btn-bg-color($theme, primary);
-  @include btn-bg-color($theme, primary-alt);
-  @include btn-bg-color($theme, secondary);
-  @include btn-bg-color($theme, success);
-  @include btn-bg-color($theme, error);
-}
-
-@mixin typography($theme) {
-  .xui-button {
-    @include typography.typography-level($theme, button);
-  }
-
-  .xui-button.xui-button-md {
-    font-size: typography.font-size($theme, button);
-  }
-
-  .xui-button.xui-button-sm {
-    font-size: typography.font-size($theme, button) - 0.125rem;
-  }
-
-  .xui-button.xui-button-lg {
-    font-size: 1rem;
-  }
-}
-
-@mixin theme($theme) {
-  button[xui] {
-    transition: width 2s;
-  }
-
-  .xui-button {
-    display: inline-flex;
-    gap: 4px;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-
-    border: none;
-    border-radius: 3px;
-
-    touch-action: manipulation;
-    user-select: none;
-    cursor: pointer;
-    overflow: hidden;
-
-    transition: 0.3s;
-    outline: none;
-    background: none;
-
-    padding: 0 1em;
-    min-width: 4.57em;
-    width: fit-content;
-    height: 2.57em;
-
-    &[disabled] {
-      cursor: not-allowed;
-    }
-
-    @include theming.focus-visible($theme);
-  }
-
-  .xui-button-content {
-    display: inline-flex;
-
-    xui-icon {
-      width: 18px;
-      margin-right: 4px;
-    }
-  }
-
-  .xui-button-normal {
-    @include button-colors($theme);
-
-    &.xui-button-minimal {
-      color: inherit;
+@mixin button-colors() {
+  @each $name in theming.$variations {
+    &.color-#{$name} {
+      color: var(-- + $name + -color-default);
+      border-color: var(-- + $name + -color-default);
 
       &:hover {
-        text-decoration: underline;
+        @include theming.background-level(default, $name);
+      }
+
+      &:active {
+        @include theming.background-level(darker, $name);
       }
 
       &[disabled],
       &[disabled]:focus,
       &[disabled]:active,
       &[disabled]:hover {
-        text-decoration: none;
-        @extend .xui-disabled-filter;
+        @include core.disabled-filter();
+        color: var(-- + $name + -color-default);
+        background: none;
       }
     }
   }
+}
 
-  .xui-button-dashed {
-    @include button-colors($theme);
-    border: 1px dashed;
-  }
+@mixin button-bg-colors() {
+  @each $name in theming.$variations {
+    &.color-#{$name} {
+      @include theming.background-level(default, $name);
 
-  .xui-button-stroked {
-    @include button-colors($theme);
-    border: 1px solid;
-  }
+      &:hover,
+      &:active {
+        @include theming.background-level(darker, $name);
+      }
 
-  .xui-button-raised {
-    @include button-bg-colors($theme);
-    border: 1px solid transparent;
-  }
-
-  .xui-button-fab {
-    @include button-bg-colors($theme);
-    border-radius: 40px;
-    min-width: 38px;
-  }
-
-  .xui-button-icon {
-    // TODO
-  }
-
-  .xui-button-state--nonidle {
-    cursor: not-allowed !important;
-
-    &:active {
-      pointer-events: none !important;
-    }
-
-    .xui-button-state-image {
-      width: 1rem;
-      height: 1rem;
-      background: center no-repeat;
-      margin-left: 0.5em;
+      &[disabled],
+      &[disabled]:focus,
+      &[disabled]:active,
+      &[disabled]:hover {
+        @include core.disabled-filter();
+        @include theming.background-level(default, $name);
+      }
     }
   }
+}
 
-  .xui-button-state--loading {
-    @extend .xui-button-state--nonidle;
-    .xui-button-state-image {
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' style='width:24px;height:24px' viewBox='0 0 24 24'%3E%3Cpath fill='white' d='M12,4V2A10,10 0 0,0 2,12H4A8,8 0 0,1 12,4Z' /%3E%3C/svg%3E");
-      animation: spin 1s infinite linear;
-    }
+:host {
+  display: inline-flex;
+}
+
+.button {
+  display: inline-flex;
+  gap: 4px;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+
+  border: none;
+  border-radius: 3px;
+
+  touch-action: manipulation;
+  user-select: none;
+  cursor: pointer;
+  overflow: hidden;
+
+  transition: 0.3s;
+  outline: none;
+  background: none;
+
+  padding: 0 1em;
+  min-width: 4.57em;
+  width: fit-content;
+  height: 2.57em;
+
+  &[disabled] {
+    cursor: not-allowed;
   }
 
-  .xui-button-state--succeeded {
-    @extend .xui-button-state--nonidle;
-    background-color: theming.get-color($theme, success) !important;
-    color: theming.get-color($theme, success, default-contrast) !important;
+  @include theming.focus-visible();
+  @include typography.typography-level(button);
+}
 
-    .xui-button-state-image {
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' style='width:24px;height:24px' viewBox='0 0 24 24'%3E%3Cpath fill='white' d='M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z' /%3E%3C/svg%3E");
-      margin-bottom: 2px;
+.size-md {
+  font-size: var(--font-button-size);
+}
+
+.size-sm {
+  font-size: calc(var(--font-button-size) - 0.125rem);
+}
+
+.size-lg {
+  font-size: 1rem;
+}
+
+.content {
+  display: inline-flex;
+
+  xui-icon {
+    width: 18px;
+    margin-right: 4px;
+  }
+}
+
+.type-normal {
+  @include button-colors();
+
+  &.color-minimal {
+    color: inherit;
+
+    &:hover {
+      text-decoration: underline;
+    }
+
+    &[disabled],
+    &[disabled]:focus,
+    &[disabled]:active,
+    &[disabled]:hover {
+      text-decoration: none;
+      @include core.disabled-filter();
     }
   }
+}
 
-  .xui-button-state--failed {
-    @extend .xui-button-state--nonidle;
-    background-color: theming.get-color($theme, error) !important;
-    color: theming.get-color($theme, error, default-contrast) !important;
+.type-dashed {
+  @include button-colors();
+  border: 1px dashed;
+}
 
-    .xui-button-state-image {
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' style='width:24px;height:24px' viewBox='0 0 24 24'%3E%3Cpath fill='white' d='M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z' /%3E%3C/svg%3E");
-    }
+.type-stroked {
+  @include button-colors();
+  border: 1px solid;
+}
+
+.type-raised {
+  @include button-bg-colors();
+  border: 1px solid transparent;
+}
+
+.type-fab {
+  @include button-bg-colors();
+  border-radius: 40px;
+  min-width: 38px;
+}
+
+.state--non-idle {
+  cursor: not-allowed;
+
+  &:active {
+    pointer-events: none !important;
   }
 
-  xui-button-group {
-    display: flex;
-
-    > button[xui] {
-      border-radius: 0 !important;
-      margin-right: 0;
-    }
-
-    > button[xui]:first-child {
-      border-top-left-radius: 5px !important;
-      border-bottom-left-radius: 5px !important;
-    }
-
-    > button[xui]:last-child {
-      border-top-right-radius: 5px !important;
-      border-bottom-right-radius: 5px !important;
-    }
-
-    > button[xui]:not(:first-child) {
-      margin-left: -1px;
-    }
+  .state-image {
+    width: 1rem;
+    height: 1rem;
+    background: center no-repeat;
+    margin-left: 0.5em;
   }
+}
 
-  @keyframes spin {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg);
-    }
+.state--loading {
+  @extend .state--non-idle;
+  .state-image {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' style='width:24px;height:24px' viewBox='0 0 24 24'%3E%3Cpath fill='white' d='M12,4V2A10,10 0 0,0 2,12H4A8,8 0 0,1 12,4Z' /%3E%3C/svg%3E");
+    animation: spin 1s infinite linear;
   }
+}
 
-  .xui-button-shine {
-    position: absolute;
-    top: -50%;
-    bottom: 0;
-    right: 0;
+.state--succeeded {
+  @extend .state--non-idle;
+  background-color: var(--success-color-default) !important;
+  color: var(--success-color-default-contrast) !important;
 
-    animation-duration: 2s;
-    animation-name: shine;
-    animation-iteration-count: infinite;
-    animation-timing-function: ease-in-out;
-    color: hsla(0, 0, 100%, 0.1);
+  .state-image {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' style='width:24px;height:24px' viewBox='0 0 24 24'%3E%3Cpath fill='white' d='M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z' /%3E%3C/svg%3E");
+    margin-bottom: 2px;
   }
+}
 
-  .xui-button-shine-inner {
+.state--failed {
+  @extend .state--non-idle;
+  background-color: var(--error-color-default) !important;
+  color: var(--error-color-default-contrast) !important;
+
+  .state-image {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' style='width:24px;height:24px' viewBox='0 0 24 24'%3E%3Cpath fill='white' d='M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z' /%3E%3C/svg%3E");
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.shine {
+  position: absolute;
+  top: -50%;
+  bottom: 0;
+  right: 0;
+
+  animation-duration: 2s;
+  animation-name: shine;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+  color: hsla(0, 0%, 100%, 0.1);
+
+  .inner {
     display: flex;
     justify-content: center;
     background-color: currentColor;
@@ -271,20 +221,20 @@
     top: -100%;
     transform: rotate(30deg);
     width: 56px;
-  }
 
-  .xui-button-shine-element {
-    width: 16px;
-    height: 100%;
-    background-color: currentColor;
+    .element {
+      width: 16px;
+      height: 100%;
+      background-color: currentColor;
+    }
   }
+}
 
-  @keyframes shine {
-    0% {
-      transform: translate3d(-400%, 0, 0);
-    }
-    to {
-      transform: translate3d(500%, 0, 0);
-    }
+@keyframes shine {
+  0% {
+    transform: translate3d(-400%, 0, 0);
+  }
+  to {
+    transform: translate3d(500%, 0, 0);
   }
 }

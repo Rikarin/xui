@@ -1,40 +1,38 @@
+@use '../core/core';
 @use '../theming/theming';
 
-@mixin theme($theme) {
-  xui-checkbox {
-    display: flex;
-    align-items: center;
-    gap: 4px;
+.checkbox {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
 
-    cursor: pointer;
+  &:hover {
+    xui-icon {
+      color: var(--primary-color-default);
+    }
 
-    &:hover {
-      xui-icon {
-        color: theming.get-color($theme, primary);
-      }
-
-      .xui-checkbox-checked {
-        color: theming.get-color($theme, primary, darker);
-      }
+    .checked {
+      color: var(--primary-color-darker);
     }
   }
+}
 
-  .xui-checkbox-checked {
-    color: theming.get-color($theme, primary);
-  }
+.checked {
+  color: var(--primary-color-default);
+}
 
-  .xui-checkbox-disabled {
-    @extend .xui-disabled-filter;
-    cursor: not-allowed;
+.disabled {
+  @include core.disabled-filter();
+  cursor: not-allowed;
 
-    &:hover {
-      xui-icon {
-        color: inherit;
-      }
+  &:hover {
+    xui-icon {
+      color: inherit;
+    }
 
-      .xui-checkbox-checked {
-        color: theming.get-color($theme, primary);
-      }
+    .checked {
+      color: var(--primary-color-default);
     }
   }
 }

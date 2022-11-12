@@ -1,5 +1,7 @@
-<div *ngIf="stamp" class="xui-banner-stamp">
-  {{ stamp }}
+<div [ngClass]="styles">
+  <div *ngIf="stamp" class="stamp">
+    {{ stamp }}
+  </div>
+  <ng-content></ng-content>
+  <xui-icon *ngIf="dismissible" class="close">close-thick</xui-icon>
 </div>
-<ng-content></ng-content>
-<xui-icon *ngIf="dismissible" class="xui-banner-close">close-thick</xui-icon>

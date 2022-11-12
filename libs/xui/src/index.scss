@@ -1,17 +1,9 @@
 @use 'sass:map';
 @use 'sass:color';
 
-@use 'banner/banner';
-@use 'button/button';
-@use 'card/card';
-@use 'checkbox/checkbox';
-@use 'context-menu/context-menu';
-@use 'decagram/decagram';
 @use 'core/core';
 @use 'core/typography';
 @use 'core/scrollbar';
-@use 'icon/icon';
-@use 'image-upload/image-upload';
 @use 'input/input';
 @use 'layout/layout';
 @use 'menu/menu';
@@ -23,23 +15,15 @@
 @use 'snackbar/snackbar';
 @use 'switch/switch';
 @use 'table/table';
-@use 'tabs/tabs';
+//@use 'tabs/tabs';
 @use 'textarea/textarea';
 @use 'theming/theming';
 // title
-@use 'tooltip/tooltip';
+//@use 'tooltip/tooltip';
 
-@forward 'banner/banner' as banner-* show banner-theme;
-@forward 'button/button' as button-* show button-theme;
-@forward 'card/card' as card-* show card-theme;
-@forward 'checkbox/checkbox' as checkbox-* show checkbox-theme;
-@forward 'context-menu/context-menu' as context-menu-* show context-menu-theme;
-@forward 'decagram/decagram' as decagram-* show decagram-theme;
 @forward 'core/core';
 @forward 'core/typography';
 @forward 'core/scrollbar' as scrollbar-* show scrollbar-theme;
-@forward 'icon/icon' as icon-* show icon-theme;
-@forward 'image-upload/image-upload' as image-upload-* show image-upload-theme;
 @forward 'input/input' as input-* show input-theme;
 @forward 'layout/layout' as layout-* show layout-theme;
 @forward 'menu/menu' as menu-* show menu-theme;
@@ -51,25 +35,16 @@
 @forward 'snackbar/snackbar' as snackbar-* show snackbar-theme;
 @forward 'switch/switch' as switch-* show switch-theme;
 @forward 'table/table' as table-* show table-theme;
-@forward 'tabs/tabs' as tabs-* show tabs-theme;
+//@forward 'tabs/tabs' as tabs-* show tabs-theme;
 @forward 'textarea/textarea' as textarea-* show textarea-theme;
 @forward 'theming/palette';
 @forward 'theming/theming' show define-palette, define-background-palette, define-dark-theme, define-light-theme,
-  create-color-variables, create-elevation-variables, get-color, get-elevation, get-palette, background-level,
-  background-level-var, elevate, elevate-var;
+  create-color-variables, create-elevation-variables, background-level, elevate;
 // title
-@forward 'tooltip/tooltip' as tooltip-* show tooltip-theme;
+//@forward 'tooltip/tooltip' as tooltip-* show tooltip-theme;
 
 @mixin all-component-themes($theme) {
-  @include banner.theme($theme);
-  @include button.theme($theme);
-  @include card.theme($theme);
-  @include checkbox.theme($theme);
-  @include context-menu.theme($theme);
   @include scrollbar.theme($theme);
-  @include decagram.theme($theme);
-  @include icon.theme($theme);
-  @include image-upload.theme($theme);
   @include input.theme($theme);
   @include layout.theme($theme);
   @include menu.theme($theme);
@@ -81,13 +56,13 @@
   @include snackbar.theme($theme);
   @include switch.theme($theme);
   @include table.theme($theme);
-  @include tabs.theme($theme);
+  //@include tabs.theme($theme);
   @include textarea.theme($theme);
   // title
-  @include tooltip.theme($theme);
+  //@include tooltip.theme($theme);
 
   a {
-    color: theming.get-color($theme, info);
+    color: var(--info-color-default);
   }
 }
 
@@ -95,7 +70,7 @@
   @import url('https://fonts.googleapis.com/css?family=Rubik:400,500,600,700,800&display=swap');
   @import url('https://fonts.googleapis.com/css?family=Bungee:400,500,600,700,800&display=swap');
 
-  @include button.typography($theme);
+  //@include button.typography($theme);
 }
 
 @mixin all-root-variables($theme) {

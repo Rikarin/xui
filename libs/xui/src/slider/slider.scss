@@ -42,7 +42,7 @@
     z-index: 1;
 
     border: 1px solid rgba(0, 0, 0, 0.2);
-    @include theming.elevate($theme, medium);
+    @include theming.elevate(medium);
   }
 
   .xui-slider-container {
@@ -62,7 +62,7 @@
   }
 
   .xui-slider-mark-label {
-    @include typography.typography-level($theme, caption);
+    @include typography.typography-level(caption);
     font-size: 0.65rem;
     font-weight: 700;
   }
@@ -70,11 +70,11 @@
   .xui-slider-mark-dash {
     width: 2px;
     height: 24px;
-    background-color: theming.get-color($theme, background, primary);
+    background-color: var(--background-color-primary);
   }
 
   .xui-slider-color-none {
-    background-color: theming.get-color($theme, background, primary);
+    background-color: var(--background-color-primary);
   }
 
   @include generate-color-variations($theme);

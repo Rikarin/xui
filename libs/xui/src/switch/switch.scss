@@ -20,7 +20,7 @@
       cursor: pointer;
     }
 
-    @include theming.focus-visible($theme);
+    @include theming.focus-visible();
   }
 
   .xui-switch-disabled {

@@ -13,7 +13,7 @@
     border: 0;
 
     @extend .xui-no-user-select;
-    @include theming.background-level($theme, secondary);
+    @include theming.background-level(secondary);
   }
 
   .xui-settings-dialog {
@@ -21,13 +21,13 @@
     height: 100%;
     display: flex;
 
-    @include theming.background-level($theme, secondary);
+    @include theming.background-level(secondary);
 
     .xui-settings-menu {
       flex: 1 0 220px;
       display: flex;
       justify-content: flex-end;
-      @include theming.background-level($theme, secondary-alt);
+      @include theming.background-level(secondary-alt);
 
       nav {
         width: 240px;
@@ -59,14 +59,14 @@
             background-color: rgba(255, 255, 255, 0.1);
           }
 
-          @include theming.focus-visible($theme);
-          @include typography.typography-level($theme, button);
+          @include theming.focus-visible();
+          @include typography.typography-level(button);
 
           line-height: 2rem;
         }
 
         .category {
-          font-family: typography.font-family($theme, headline-1);
+          font-family: var(--font-headline-1-family);
           font-weight: 700;
           font-size: 0.75rem;
           padding-left: 8px;
@@ -75,11 +75,11 @@
         .divider {
           height: 1px;
           margin: 12px;
-          background-color: theming.get-color($theme, background, accent);
+          background-color: var(--background-color-accent);
         }
 
         .red {
-          color: theming.get-color($theme, error);
+          color: var(--error-color-default);
         }
       }
     }
@@ -124,7 +124,7 @@
         border-radius: 50%;
 
         &:focus-visible {
-          outline: 2.5px solid theming.get-color($theme, info, 300);
+          outline: 2.5px solid var(--info-color-300);
           outline-offset: -2px;
           z-index: 1;
         }
@@ -144,8 +144,8 @@
     padding: 10px !important;
     border-radius: 4px;
 
-    @include theming.background-level($theme, floating);
-    @include theming.elevate($theme, high);
+    @include theming.background-level(floating);
+    @include theming.elevate(high);
   }
 
   .xui-settings-save-reset-snackbar {

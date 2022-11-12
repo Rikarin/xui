@@ -3,7 +3,8 @@ import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/
 @Component({
   selector: 'xui-button-group',
   exportAs: 'xuiButtonGroup',
-  encapsulation: ViewEncapsulation.None,
+  styleUrls: ['button-group.scss'],
+  encapsulation: ViewEncapsulation.ShadowDom,
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: '<ng-content></ng-content>'
 })

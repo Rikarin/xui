@@ -21,16 +21,16 @@
     cursor: pointer;
     font-weight: 500;
 
-    @include theming.background-level($theme, secondary);
-    @include theming.focus-visible($theme);
+    @include theming.background-level(secondary);
+    @include theming.focus-visible();
 
     &:hover {
-      @include theming.background-level($theme, primary);
+      @include theming.background-level(primary);
     }
   }
 
   .xui-radio-option-active {
-    @include theming.background-level($theme, primary);
+    @include theming.background-level(primary);
   }
 
   .xui-radio-option-disabled {
@@ -38,12 +38,12 @@
     @extend .xui-disabled-filter;
 
     &:hover {
-      @include theming.background-level($theme, secondary);
+      @include theming.background-level(secondary);
     }
   }
 
   .xui-radio-option-description {
-    @include typography.typography-level($theme, body-2);
+    @include typography.typography-level(body-2);
   }
 
   @include generate-color-variations($theme);

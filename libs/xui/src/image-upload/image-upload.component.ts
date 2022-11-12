@@ -2,41 +2,34 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  ElementRef,
+  HostListener,
   Input,
   OnInit,
   Optional,
   Self,
-  TemplateRef,
   ViewChild,
   ViewEncapsulation
 } from '@angular/core';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { Dialog, DialogRef } from '@angular/cdk/dialog';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR, NgControl } from '@angular/forms';
-import { TranslateService } from '@ngx-translate/core';
-import { InputGroupService } from '../input/input-group.service';
+import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { InputNumber } from '../utils';
+import { XuiImageUploadCropperComponent } from './image-upload-cropper';
 
 @Component({
   selector: 'xui-image-upload',
   exportAs: 'xuiImageUpload',
-  encapsulation: ViewEncapsulation.None,
+  styleUrls: ['image-upload.scss'],
+  encapsulation: ViewEncapsulation.ShadowDom,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './image-upload.component.html',
-  host: {
-    '[class.xui-image-upload-square]': 'type === "square"',
-    '[style.border-radius.%]': 'borderRadius',
-    '[style.aspect-ratio]': 'aspectRatio',
-    '[style.background-image]': 'backgroundImage',
-    tabindex: '1'
-  }
+  templateUrl: './image-upload.component.html'
 })
 export class XuiImageUploadComponent implements ControlValueAccessor, OnInit {
   private _backgroundImage?: string;
-  private dialogRef?: DialogRef<any>;
+  private dialogRef?: DialogRef<any, XuiImageUploadCropperComponent>;
 
   touched = false;
-  imageChangedEvent = '';
   croppedImage?: string = '';
 
   onChange = (source?: string) => {};
@@ -45,7 +38,24 @@ export class XuiImageUploadComponent implements ControlValueAccessor, OnInit {
   @Input() hoverLabel: string = 'xui.image_upload.change_image';
   @Input() type: 'square' | 'round' = 'square';
   @Input() @InputNumber() aspectRatio = 1;
-  @ViewChild('cropper') cropper!: TemplateRef<any>;
+  @ViewChild('input') inputElm!: ElementRef;
+
+  get classes() {
+    const ret: any = {
+      'image-upload': true,
+      'upload-square': this.type === 'square'
+    };
+
+    return ret;
+  }
+
+  get styles() {
+    return {
+      'border-radius.%': this.borderRadius,
+      'aspect-ratio': this.aspectRatio,
+      'background-image': this.backgroundImage
+    };
+  }
 
   get backgroundImage() {
     return this._backgroundImage ? `url(${this._backgroundImage})` : null;
@@ -70,20 +80,34 @@ export class XuiImageUploadComponent implements ControlValueAccessor, OnInit {
   }
 
   handleFileInput(event: any) {
-    this.imageChangedEvent = event;
-    this.dialogRef = this.dialog.open(this.cropper);
+    this.dialogRef = this.dialog.open(XuiImageUploadCropperComponent, {
+      data: {
+        type: this.type,
+        aspectRatio: this.aspectRatio,
+        save: this.save,
+        imageChangedEvent: event,
+        imageCropped: this.imageCropped
+      }
+    });
   }
 
-  imageCropped(event: ImageCroppedEvent) {
+  @HostListener('keydown.enter', ['$event'])
+  @HostListener('keydown.space', ['$event'])
+  private _keyPress(event: any) {
+    event?.preventDefault();
+    this.inputElm.nativeElement.click();
+  }
+
+  imageCropped = (event: ImageCroppedEvent) => {
     this.croppedImage = event.base64 ?? undefined;
-  }
+  };
 
-  async save() {
+  save = () => {
     this.onChange(this.croppedImage);
     this._backgroundImage = this.croppedImage;
     this.dialogRef?.close();
     this.changeDetectorRef.markForCheck();
-  }
+  };
 
   writeValue(source: string) {
     this.croppedImage = source;

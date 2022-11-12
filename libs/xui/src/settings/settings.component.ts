@@ -168,10 +168,10 @@ export interface MenuItem {
   template: `
     {{ 'xui.settings.save_changes_text' | translate }}
     <div>
-      <button xui xSize="sm" xColor="minimal" [xClick]="reset">{{ 'xui.settings.reset' | translate }}</button>
-      <button xui xSize="sm" xColor="success" xType="raised" [xClick]="save">
+      <xui-button size="sm" color="minimal" [onClick]="reset">{{ 'xui.settings.reset' | translate }}</xui-button>
+      <xui-button size="sm" color="success" type="raised" [onClick]="save">
         {{ 'xui.settings.save' | translate }}
-      </button>
+      </xui-button>
     </div>
   `,
   animations: [

@@ -1,44 +1,42 @@
-@use '../theming/theming';
+@use '../core/core';
 
-@mixin theme($theme) {
-  xui-tab {
-    display: contents;
+xui-tab {
+  display: contents;
+}
+
+:host {
+  flex: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.list {
+  display: flex;
+  margin: 15px;
+}
+
+.entry {
+  user-select: none;
+  cursor: pointer;
+  font-weight: 500;
+  margin-right: 20px;
+
+  &.active {
+    color: var(--primary-color-default);
+    border-bottom: 2px solid var(--primary-color-default);
+    padding-bottom: 4px;
   }
 
-  xui-tab-group {
-    flex: 100%;
-    display: flex;
-    flex-direction: column;
+  &:hover {
+    opacity: 0.8;
   }
 
-  .xui-tab-group-list {
-    display: flex;
-    margin: 15px;
-  }
-
-  .xui-tab-group-entry {
-    user-select: none;
-    cursor: pointer;
-    font-weight: 500;
-    margin-right: 20px;
-
-    &.active {
-      color: theming.get-color($theme, primary);
-      border-bottom: 2px solid theming.get-color($theme, primary);
-      padding-bottom: 4px;
-    }
+  &.disabled {
+    @include core.disabled-filter;
+    cursor: not-allowed;
 
     &:hover {
-      opacity: 0.8;
-    }
-
-    &.disabled {
-      @extend .xui-disabled-filter;
-      cursor: not-allowed;
-
-      &:hover {
-        @extend .xui-disabled-filter;
-      }
+      @include core.disabled-filter;
     }
   }
 }

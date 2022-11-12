@@ -1,38 +1,29 @@
 @use 'sass:map';
+@use '../theming/theming';
 
-@mixin theme($theme) {
-  xui-decagram {
-    display: inline-flex;
-    width: fit-content;
-    position: relative;
-
-    xui-icon {
-      width: 100%;
-    }
-  }
-
-  .xui-decagram-icon {
-    position: absolute;
-    inset: 0 0 0 0;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  @include generate-color-variations($theme);
+:host {
+  display: inline-flex;
+  width: fit-content;
+  position: relative;
 }
 
-@mixin generate-color-variations($theme) {
-  $colors: map.get($theme, color);
+xui-icon {
+  width: 100%;
+}
 
-  @each $key, $value in $colors {
-    @if map.has-key($value, default) {
-      .xui-decagram-color-#{$key} {
-        color: map.get($value, default);
+.icon {
+  position: absolute;
+  inset: 0 0 0 0;
+  margin-left: auto;
+  margin-right: auto;
+}
 
-        .xui-decagram-icon {
-          color: map.get($value, default-contrast);
-        }
-      }
+@each $value in theming.$variations {
+  .color-#{$value} {
+    color: var(-- + $value + -color-default);
+
+    .icon {
+      color: var(-- + $value + -color-default-contrast);
     }
   }
 }

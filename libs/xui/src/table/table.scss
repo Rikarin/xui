@@ -15,11 +15,11 @@
   }
 
   tr {
-    border-bottom: 1px solid theming.get-color($theme, background, primary);
+    border-bottom: 1px solid var(--background-color-primary);
   }
 
   tbody {
-    @include typography.typography-level($theme, body-1);
+    @include typography.typography-level(body-1);
 
     tr {
       height: 48px;
@@ -29,7 +29,7 @@
   thead {
     text-align: left;
     text-transform: uppercase;
-    @include typography.typography-level($theme, caption);
+    @include typography.typography-level(caption);
 
     th {
       padding-bottom: 8px;

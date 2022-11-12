@@ -45,19 +45,6 @@
   $body-family: $font-family or 'Rubik', 'Helvetica Neue', sans-serif;
 
   $config: (
-    //headline-1: $headline-1 or define-typography-level(6rem, 6rem, 300, -1.5, $headline-family),
-    //headline-2: $headline-2 or define-typography-level(3.75rem, 3.75rem, 300, -0.5, $headline-family),
-    //headline-3: $headline-3 or define-typography-level(3rem, 3.125rem, 400, $font-family: $headline-family),
-    //headline-4: $headline-4 or define-typography-level(2.125rem, 2.5rem, 400, 0.25, $headline-family),
-    //headline-5: $headline-5 or define-typography-level(1.5rem, 2rem, 400, $font-family: $headline-family),
-    //headline-6: $headline-6 or define-typography-level(1.25rem, 2rem, 500, 0.25, $headline-family),
-    //subtitle-1: $subtitle-1 or define-typography-level(1rem, 1.75rem, 400, 0.15, $body-family),
-    //subtitle-2: $subtitle-2 or define-typography-level(0.875rem, 1.375rem, 500, 0.1, $body-family),
-    //body-1: $body-1 or define-typography-level(1rem, 1.5rem, 400, 0.5, $body-family),
-    //body-2: $body-2 or define-typography-level(0.875rem, 1.25rem, 400, 0.25, $body-family),
-    //caption: $caption or define-typography-level(0.75rem, 1.25rem, 400, 0.4, $body-family),
-    //button: $button or define-typography-level(0.875rem, 2.25rem, 500, $font-family: $body-family),
-    //overline: $overline or define-typography-level(0.75rem, 2rem, 500, 2, $body-family) // Default was .8 for both
     headline-1: $headline-1 or define-typography-level(6rem, 6rem, 300, $headline-family),
     headline-2: $headline-2 or define-typography-level(3.75rem, 3.75rem, 300, $headline-family),
     headline-3: $headline-3 or define-typography-level(3rem, 3.125rem, 400, $headline-family),
@@ -91,87 +78,52 @@
     }
   }
 
-  @return map.merge(
-    $config,
-    (
-      font-family: $font-family
-    )
-  );
+  @return $config;
 }
 
-@function font-family($theme, $typography) {
-  $typo: map.get($theme, typography);
-  $group: map.get($typo, $typography);
-  @return map.get($group, font-family);
+@mixin typography-level($typography) {
+  font-family: var(--font- + $typography + -family);
+  font-size: var(--font- + $typography + -size);
+  font-weight: var(--font- + $typography + -weight);
+  line-height: var(--font- + $typography + -line-height);
+  letter-spacing: var(--font- + $typography + -letter-spacing);
 }
 
-@function font-size($theme, $typography) {
-  $typo: map.get($theme, typography);
-  $group: map.get($typo, $typography);
-  @return map.get($group, font-size);
-}
-
-@function font-weight($theme, $typography) {
-  $typo: map.get($theme, typography);
-  $group: map.get($typo, $typography);
-  @return map.get($group, font-weight);
-}
-
-@function line-height($theme, $typography) {
-  $typo: map.get($theme, typography);
-  $group: map.get($typo, $typography);
-  @return map.get($group, line-height);
-}
-
-@function letter-spacing($theme, $typography) {
-  $typo: map.get($theme, typography);
-  $group: map.get($typo, $typography);
-  @return map.get($group, letter-spacing);
-}
-
-@mixin typography-level($theme, $typography) {
-  font-family: font-family($theme, $typography);
-  font-size: font-size($theme, $typography);
-  font-weight: font-weight($theme, $typography);
-  line-height: line-height($theme, $typography);
-  letter-spacing: letter-spacing($theme, $typography);
-}
-
-@mixin typography-hierarchy($theme) {
+@mixin typography-hierarchy() {
   h1 {
-    @include typography-level($theme, headline-1);
+    @include typography-level(headline-1);
     margin: 0 0 16px;
   }
 
   h2 {
-    @include typography-level($theme, headline-2);
+    @include typography-level(headline-2);
     margin: 0 0 16px;
   }
 
   h3 {
-    @include typography-level($theme, headline-3);
+    @include typography-level(headline-3);
     margin: 0 0 16px;
   }
 
   h4 {
-    @include typography-level($theme, headline-4);
+    @include typography-level(headline-4);
     margin: 0 0 16px;
   }
 
   h5 {
-    @include typography-level($theme, headline-5);
+    @include typography-level(headline-5);
     margin: 0 0 12px;
   }
 
   h6 {
-    @include typography-level($theme, headline-6);
+    @include typography-level(headline-6);
     margin: 0 0 12px;
   }
 
   body,
   pre,
   .xui-body {
-    @include typography-level($theme, body-1);
+    @include typography-level(body-1);
 
     p {
       //margin: 0 0 12px;
@@ -179,24 +131,24 @@
   }
 
   label {
-    @include typography-level($theme, overline);
+    @include typography-level(overline);
     text-transform: uppercase;
   }
 
   body strong {
-    @include typography-level($theme, body-2);
+    @include typography-level(body-2);
   }
 
   .xui-caption {
-    @include typography-level($theme, caption);
+    @include typography-level(caption);
   }
 
   .xui-subtitle-1 {
-    @include typography-level($theme, subtitle-1);
+    @include typography-level(subtitle-1);
   }
 
   .xui-subtitle-2 {
-    @include typography-level($theme, subtitle-2);
+    @include typography-level(subtitle-2);
   }
 }
 
@@ -204,6 +156,10 @@
   $typography: map.get($theme, typography);
 
   @each $name, $values in $typography {
-    --font-#{$name}-family: map.get($values, font-family);
+    --font-#{$name}-family: #{map.get($values, font-family)};
+    --font-#{$name}-size: #{map.get($values, font-size)};
+    --font-#{$name}-weight: #{map.get($values, font-weight)};
+    --font-#{$name}-line-height: #{map.get($values, line-height)};
+    --font-#{$name}-letter-spacing: #{map.get($values, letter-spacing)};
   }
 }

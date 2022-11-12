@@ -2,7 +2,7 @@
 
 @mixin theme($theme) {
   .xui-snackbar {
-    @include theming.background-level($theme, floating);
+    @include theming.background-level(floating);
   }
 
   .xui-simple-snackbar {

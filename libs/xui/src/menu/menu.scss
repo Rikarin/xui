@@ -1,6 +1,6 @@
 @use '../theming/theming';
 
-@mixin theme($theme, $name: primary) {
+@mixin theme($theme) {
   xui-menu {
     @extend .thin-scrollbar;
     flex: auto;
@@ -22,7 +22,7 @@
       justify-content: space-between;
       padding-right: 8px;
 
-      @include xui-menu-hover($theme, $name);
+      @include xui-menu-hover();
     }
 
     .xui-submenu-title {
@@ -44,15 +44,14 @@
 
   xui-menu-item {
     @include xui-menu-item();
-    @include xui-menu-hover($theme, $name);
+    @include xui-menu-hover();
 
     border-left: 4px solid transparent;
   }
 
   .xui-menu-item-selected {
-    background-color: theming.get-color($theme, $name);
-    color: theming.get-color($theme, $name, default-contrast);
-    border-left: theming.get-color($theme, $name, 900) 4px solid;
+    @include theming.background-level(default, primary);
+    border-left: 4px solid var(--primary-color-900);
   }
 }
 
@@ -68,16 +67,14 @@
   }
 }
 
-@mixin xui-menu-hover($theme, $name) {
+@mixin xui-menu-hover() {
   &:hover {
-    color: theming.get-color($theme, $name, default-contrast);
-    background-color: theming.get-color($theme, $name);
-
+    @include theming.background-level(default, primary);
     cursor: pointer;
   }
 
   &:active {
-    background-color: theming.get-color($theme, $name, darker);
+    @include theming.background-level(darker, primary);
   }
 
   &[disabled],

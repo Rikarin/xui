@@ -4,6 +4,8 @@
 @use '../core/core';
 @use '../core/typography';
 
+$variations: [primary, primary-alt, secondary, success, error, info, warning];
+
 @function _get-color-from-palette($palette, $hue) {
   @if map.has-key($palette, $hue) {
     @return map.get($palette, $hue);
@@ -115,52 +117,18 @@
   }
 }
 
-@mixin background-level($theme, $name, $palette: background) {
-  color: get-color($theme, $palette, $name + '-contrast');
-  background-color: get-color($theme, $palette, $name);
-}
-
-@mixin background-level-var($name, $palette: background) {
+@mixin background-level($name, $palette: background) {
   color: var(-- + $palette + -color- + $name + -contrast);
   background-color: var(-- + $palette + -color- + $name);
 }
 
-@function get-palette($theme, $palette) {
-  $c: map.get($theme, color);
-
-  @if not map.has-key($c, $palette) {
-    @error 'Palette "' + $palette + '" does not exist in color scheme. Available palettes are: ' + map.keys($c);
-  }
-
-  @return map.get($c, $palette);
-}
-
-@function get-color($theme, $palette, $color: default) {
-  $palette: get-palette($theme, $palette);
-
-  @if not map.has-key($palette, $color) {
-    @error 'Color "' + $color + '" does not exist in palette. Available colors are: ' + map.keys($palette);
-  }
-
-  @return map.get($palette, $color);
-}
-
-@function get-elevation($theme, $elevation) {
-  $e: map.get($theme, elevation);
-  @return map.get($e, $elevation);
-}
-
-@mixin elevate($theme, $elevation) {
-  box-shadow: get-elevation($theme, $elevation);
-}
-
-@mixin elevate-var($elevation) {
+@mixin elevate($elevation) {
   box-shadow: var(--elevation- + $elevation);
 }
 
-@mixin focus-visible($theme) {
+@mixin focus-visible() {
   &:focus-visible {
-    outline: 5px solid get-color($theme, info, 300);
+    outline: 5px solid var(--info-color-300);
     z-index: 1;
   }
 }

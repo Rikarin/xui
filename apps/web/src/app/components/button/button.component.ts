@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { delay } from 'xui';
 import { Usage } from '../usage';
 
@@ -6,6 +6,7 @@ import { Usage } from '../usage';
   selector: 'app-button',
   templateUrl: './button.component.html',
   styleUrls: ['./button.component.scss']
+  // encapsulation: ViewEncapsulation.ShadowDom
 })
 export class ButtonComponent {
   usage: Usage[] = [

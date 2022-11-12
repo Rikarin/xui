@@ -1,29 +1,40 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  HostListener,
+  Input,
+  Output,
+  ViewEncapsulation
+} from '@angular/core';
 import { InputBoolean } from '../utils';
+import { BannerType } from './banner.types';
 
 @Component({
   selector: 'xui-banner',
   exportAs: 'xuiBanner',
-  encapsulation: ViewEncapsulation.None,
+  styleUrls: ['banner.scss'],
+  encapsulation: ViewEncapsulation.ShadowDom,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './banner.component.html',
-  host: {
-    '[class]': 'getStyle()',
-    '[class.xui-banner-dismissible]': 'dismissible',
-    '(click)': 'dismiss()'
-  }
+  templateUrl: './banner.component.html'
 })
 export class XuiBannerComponent {
-  @Input() type: 'info' | 'success' | 'warning' | 'alert' = 'info';
+  @Input() type: BannerType = 'info';
   @Input() stamp!: string;
   @Input() @InputBoolean() dismissible = false;
-
   @Output() bannerClose = new EventEmitter();
 
-  private getStyle() {
-    return `xui-banner-${this.type}`;
+  get styles() {
+    const ret: any = {
+      banner: true,
+      dismissible: this.dismissible
+    };
+    ret[`type-${this.type}`] = true;
+
+    return ret;
   }
 
+  @HostListener('click')
   dismiss() {
     this.bannerClose.emit();
   }

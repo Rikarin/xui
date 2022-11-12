@@ -2,25 +2,25 @@
 
 <app-example>
   <xui-context-menu cdkMenu>
-    <button xui cdkMenuItem>Profile <xui-icon>account</xui-icon></button>
+    <xui-button cdkMenuItem>Profile <xui-icon>account</xui-icon></xui-button>
     <hr />
-    <button xui cdkMenuItem>ASDF</button>
-    <button xui cdkMenuGroup>ASDF</button>
-    <button xui xColor="error" cdkMenuItem>
+    <xui-button cdkMenuItem>ASDF</xui-button>
+    <xui-button cdkMenuGroup>ASDF</xui-button>
+    <xui-button color="error" cdkMenuItem>
       Delete
       <xui-icon>delete-outline</xui-icon>
-    </button>
+    </xui-button>
   </xui-context-menu>
 
   <ng-template #menu>
     <xui-context-menu cdkMenu>
-      <button xui cdkMenuItem>Foo</button>
-      <button xui cdkMenuItem>Bar <xui-icon>account</xui-icon></button>
+      <xui-button cdkMenuItem>Foo</xui-button>
+      <xui-button cdkMenuItem>Bar <xui-icon>account</xui-icon></xui-button>
       <hr />
-      <button xui cdkMenuItem>ASDF</button>
-      <button xui cdkMenuGroup>ASDF</button>
+      <xui-button cdkMenuItem>ASDF</xui-button>
+      <xui-button cdkMenuGroup>ASDF</xui-button>
     </xui-context-menu>
   </ng-template>
 
-  <button xui [cdkMenuTriggerFor]="menu">Open Menu</button>
+  <xui-button [cdkMenuTriggerFor]="menu">Open Menu</xui-button>
 </app-example>
