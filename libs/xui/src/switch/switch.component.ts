@@ -10,7 +10,6 @@ import {
 } from '@angular/core';
 import { InputBoolean } from '../utils';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
-import { TranslateService } from '@ngx-translate/core';
 import { InputGroupService } from '../input/input-group.service';
 
 @Component({
@@ -53,7 +52,6 @@ export class XuiSwitchComponent implements ControlValueAccessor, OnInit {
 
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
-    private translation: TranslateService,
     @Optional() private groupService: InputGroupService,
     @Self() @Optional() public control?: NgControl
   ) {
@@ -65,19 +63,6 @@ export class XuiSwitchComponent implements ControlValueAccessor, OnInit {
   ngOnInit() {
     this.control?.statusChanges!.subscribe(() => this.changeDetectorRef.markForCheck());
   }
-
-  // get invalid(): boolean {
-  //   return !!this.control?.invalid;
-  // }
-
-  // get showError(): boolean {
-  //   if (!this.control) {
-  //     return false;
-  //   }
-  //
-  //   const { dirty, touched } = this.control;
-  //   return this.invalid ? dirty! || touched! : false;
-  // }
 
   writeValue(source: boolean) {
     this.value = source;

@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, ViewEncapsulation } from '@angular/core';
 import { WithConfig } from '../config';
 import { delay, InputBoolean, InputNumber } from '../utils';
+import { XuiButtonColor, XuiButtonSize, XuiButtonType } from './button.types';
 
 @Component({
   selector: 'button[xui]',
@@ -30,10 +31,9 @@ import { delay, InputBoolean, InputNumber } from '../utils';
 export class XuiButtonComponent {
   state: 0 | 1 | 2 | 3 = 0;
 
-  @Input() xType: 'normal' | 'dashed' | 'stroked' | 'raised' | 'fab' | 'icon' | string = 'normal';
-  @Input() xSize: 'sm' | 'md' | 'lg' | string = 'md';
-  @Input() xColor: 'primary' | 'primary-alt' | 'secondary' | 'error' | 'success' | 'minimal' | string = 'primary';
-
+  @Input() xType: XuiButtonType = 'normal';
+  @Input() xSize: XuiButtonSize = 'md';
+  @Input() xColor: XuiButtonColor = 'primary';
   @Input() @InputBoolean() xShine = false;
   @Input() @InputBoolean() disabled = false;
   @Input() xClick?: () => Promise<boolean>;

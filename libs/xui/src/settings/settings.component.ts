@@ -163,6 +163,8 @@ export interface MenuItem {
 
 @Component({
   selector: 'xui-settings-save-reset-snackbar',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
   template: `
     {{ 'xui.settings.save_changes_text' | translate }}
     <div>
@@ -202,7 +204,7 @@ export class SaveResetSnackbarComponent {
   animation = 'open';
   _doneAnimating = new Subject();
 
-  constructor(@Inject(MAT_SNACK_BAR_DATA) private data: any) {}
+  constructor(@Inject(MAT_SNACK_BAR_DATA) private data: any, private changeDetectorRef: ChangeDetectorRef) {}
 
   async close() {
     this.animation = 'close';
@@ -213,6 +215,7 @@ export class SaveResetSnackbarComponent {
     this.animation = 'alert';
     await delay(1000);
     this.animation = 'open';
+    this.changeDetectorRef.markForCheck();
   }
 
   save = () => {

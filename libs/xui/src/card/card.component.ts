@@ -1,6 +1,7 @@
 import { Portal, TemplatePortal } from '@angular/cdk/portal';
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
   Input,
   TemplateRef,
@@ -14,7 +15,8 @@ import { inNextTick } from '../utils';
   selector: 'xui-card',
   exportAs: 'xuiCard',
   templateUrl: './card.component.html',
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class XuiCardComponent implements AfterViewInit {
   titlePortal?: Portal<any>;

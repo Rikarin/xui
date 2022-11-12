@@ -4,7 +4,7 @@ import { ChangeDetectionStrategy, Component, ElementRef, ViewChild, ViewEncapsul
   selector: 'xui-icon',
   exportAs: 'xuiIcon',
   encapsulation: ViewEncapsulation.None,
-  // changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<mat-icon [svgIcon]="icon"></mat-icon>
     <span style="display: none" #iconName><ng-content></ng-content></span>`
 })

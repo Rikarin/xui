@@ -16,8 +16,7 @@ import {
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { XuiTooltipComponent } from '../tooltip/tooltip.component';
 import { inNextTick, InputBoolean, InputNumber } from '../utils';
-import { BehaviorSubject, map, Observable } from 'rxjs';
-import { Point } from '@angular/cdk/drag-drop';
+import { BehaviorSubject, map } from 'rxjs';
 
 @Component({
   selector: 'xui-slider',

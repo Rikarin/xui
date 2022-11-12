@@ -63,19 +63,6 @@ export class XuiRadioListComponent implements ControlValueAccessor, OnInit {
       .subscribe(value => (this.value = value));
   }
 
-  // get invalid(): boolean {
-  //   return !!this.control?.invalid;
-  // }
-
-  // get showError(): boolean {
-  //   if (!this.control) {
-  //     return false;
-  //   }
-  //
-  //   const { dirty, touched } = this.control;
-  //   return this.invalid ? dirty! || touched! : false;
-  // }
-
   writeValue(source: string | null) {
     this.value = source;
   }

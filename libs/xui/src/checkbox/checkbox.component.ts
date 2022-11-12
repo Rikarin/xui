@@ -47,10 +47,6 @@ export class XuiCheckboxComponent implements ControlValueAccessor, OnInit {
     }
   }
 
-  // get style() {
-  //   return `xui-checkbox ${this.value ? 'xui-switch-enabled ' + 'xui-switch-' + this.color : ''}`;
-  // }
-
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
     private translation: TranslateService,
@@ -65,19 +61,6 @@ export class XuiCheckboxComponent implements ControlValueAccessor, OnInit {
   ngOnInit() {
     this.control?.statusChanges!.subscribe(() => this.changeDetectorRef.markForCheck());
   }
-
-  // get invalid(): boolean {
-  //   return !!this.control?.invalid;
-  // }
-
-  // get showError(): boolean {
-  //   if (!this.control) {
-  //     return false;
-  //   }
-  //
-  //   const { dirty, touched } = this.control;
-  //   return this.invalid ? dirty! || touched! : false;
-  // }
 
   writeValue(source: boolean) {
     this.value = source;

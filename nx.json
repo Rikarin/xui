@@ -12,7 +12,8 @@
           "build",
           "test",
           "lint",
-          "e2e"
+          "e2e",
+          "component-test"
         ]
       }
     }
@@ -48,12 +49,17 @@
       "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
       "!{projectRoot}/tsconfig.spec.json",
       "!{projectRoot}/jest.config.[jt]s",
-      "!{projectRoot}/.eslintrc.json"
+      "!{projectRoot}/.eslintrc.json",
+      "!{projectRoot}/cypress/**/*",
+      "!{projectRoot}/**/*.cy.[jt]s?(x)",
+      "!{projectRoot}/cypress.config.[jt]s"
     ]
   },
   "targetDefaults": {
     "build": {
-      "dependsOn": ["^build"],
+      "dependsOn": [
+        "^build"
+      ],
       "inputs": [
         "production",
         "^production"
@@ -76,6 +82,12 @@
         "default",
         "^production",
         "{workspaceRoot}/jest.preset.js"
+      ]
+    },
+    "component-test": {
+      "inputs": [
+        "default",
+        "^production"
       ]
     }
   }

@@ -1,10 +1,11 @@
-import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { InputNumber } from '../utils';
 
 @Component({
   selector: 'xui-progress',
   exportAs: 'xuiProgress',
   encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './progress.component.html'
 })
 export class XuiProgressComponent implements OnInit {
