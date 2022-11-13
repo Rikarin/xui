@@ -105,31 +105,30 @@ jobs:
           command: npm publish ./dist/libs/xui
 
 workflows:
-  version: 2
-  pr_check:
+  build_deploy:
     jobs:
       - install:
         filters:
           tags:
-            only: /^v*/
+            only: /^v.*/
       - check-formatting:
           requires:
             - install
           filters:
             tags:
-              only: /^v*/
+              only: /^v.*/
       - lint:
           requires:
             - install
           filters:
             tags:
-              only: /^v*/
+              only: /^v.*/
       - test:
           requires:
             - install
           filters:
             tags:
-              only: /^v*/
+              only: /^v.*/
       - build:
           requires:
             - install
@@ -138,7 +137,7 @@ workflows:
       #            - install
           filters:
             tags:
-              only: /^v*/
+              only: /^v.*/
       - publish:
           requires:
             - check-formatting
@@ -148,6 +147,6 @@ workflows:
           #            - e2e
           filters:
             tags:
-              only: /^v*/
+              only: /^v.*/
             branches:
               ignore: /.*/
