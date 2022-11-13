@@ -13,9 +13,9 @@
   border-radius: 4px;
   cursor: pointer;
   font-weight: 500;
+  user-select: none;
 
   @include theming.background-level(secondary);
-  @include theming.focus-visible();
 
   &:hover {
     @include theming.background-level(primary);
@@ -24,6 +24,11 @@
 
 .radio-option-active {
   @include theming.background-level(primary);
+}
+
+.radio-option-focus {
+  outline: 5px solid var(--info-color-300);
+  z-index: 1;
 }
 
 .radio-option-disabled {

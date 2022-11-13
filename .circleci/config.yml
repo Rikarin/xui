@@ -108,22 +108,37 @@ workflows:
   version: 2
   pr_check:
     jobs:
-      - install
+      - install:
+        filters:
+          tags:
+            only: /^v.*/
       - check-formatting:
           requires:
             - install
+          filters:
+            tags:
+              only: /^v.*/
       - lint:
           requires:
             - install
+          filters:
+            tags:
+              only: /^v.*/
       - test:
           requires:
             - install
+          filters:
+            tags:
+              only: /^v.*/
       - build:
           requires:
             - install
       #      - e2e:
       #          requires:
       #            - install
+          filters:
+            tags:
+              only: /^v.*/
       - publish:
           requires:
             - check-formatting
@@ -133,6 +148,6 @@ workflows:
           #            - e2e
           filters:
             tags:
-              only: /^v.*/ # runs for no branches and only for tags starting with 'v'
+              only: /^v.*/
             branches:
               ignore: /.*/

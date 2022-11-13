@@ -17,8 +17,6 @@
     height: 100%;
     cursor: pointer;
   }
-
-  @include theming.focus-visible();
 }
 
 .disabled {
@@ -38,6 +36,8 @@
   background-color: gray;
   border-radius: 100px;
   cursor: pointer;
+
+  @include theming.focus-visible();
 }
 
 .handle {

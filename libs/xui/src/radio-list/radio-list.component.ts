@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  HostListener,
   Input,
   OnInit,
   Optional,
@@ -22,7 +23,7 @@ import { distinctUntilChanged } from 'rxjs';
   styleUrls: ['radio-list.scss'],
   encapsulation: ViewEncapsulation.ShadowDom,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: '<div class="radio-list"><ng-content></ng-content></div>',
+  template: '<div class="radio-list" tabindex="0"><ng-content></ng-content></div>',
   providers: [RadioListService]
 })
 export class XuiRadioListComponent implements ControlValueAccessor, OnInit {
@@ -40,7 +41,7 @@ export class XuiRadioListComponent implements ControlValueAccessor, OnInit {
     if (this._value !== v) {
       this._value = v;
       this.onChange(v);
-      this.radioListService.select(v);
+      this.radioListService.select(v!);
       this.changeDetectorRef.markForCheck();
     }
   }
@@ -61,7 +62,7 @@ export class XuiRadioListComponent implements ControlValueAccessor, OnInit {
     this.control?.statusChanges!.subscribe(() => this.changeDetectorRef.markForCheck());
     this.radioListService.selected$
       .pipe(distinctUntilChanged(), untilDestroyed(this))
-      .subscribe(value => (this.value = value));
+      .subscribe(option => (this.value = option?.value ?? null));
   }
 
   writeValue(source: string | null) {
@@ -81,5 +82,25 @@ export class XuiRadioListComponent implements ControlValueAccessor, OnInit {
       this.onTouched();
       this.touched = true;
     }
+  }
+
+  @HostListener('keydown.arrowup')
+  private prev() {
+    this.radioListService.selectPrev();
+  }
+
+  @HostListener('keydown.arrowdown')
+  private next() {
+    this.radioListService.selectNext();
+  }
+
+  @HostListener('focus')
+  private focus() {
+    this.radioListService.focusCurrent();
+  }
+
+  @HostListener('focusout')
+  private focusout() {
+    this.radioListService.clearAllFocus();
   }
 }

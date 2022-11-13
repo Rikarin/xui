@@ -1,7 +1,7 @@
-<div [ngClass]="style" [tabindex]="disabled ? -1 : 0">
+<div [ngClass]="style">
   <ng-content></ng-content>
 
-  <div [ngClass]="styleSwitch" (click)="_click()">
+  <div [ngClass]="styleSwitch" (click)="_click()" [tabIndex]="disabled ? -1 : 0">
     <div class="handle">
       <xui-icon>{{ value ? 'check-bold' : 'close-thick' }}</xui-icon>
     </div>

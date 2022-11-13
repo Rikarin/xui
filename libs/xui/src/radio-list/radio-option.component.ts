@@ -2,24 +2,23 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  ElementRef,
   HostListener,
   Input,
+  OnDestroy,
   OnInit,
   ViewEncapsulation
 } from '@angular/core';
 import { RadioListService } from './radio-list.service';
-import { map } from 'rxjs';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { InputBoolean } from '../utils';
 
-@UntilDestroy()
 @Component({
   selector: 'xui-radio-option',
   exportAs: 'xuiRadioOption',
   styleUrls: ['radio-list-options.scss'],
   encapsulation: ViewEncapsulation.ShadowDom,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `<div [ngClass]="styles" [tabIndex]="disabled ? -1 : 0">
+  template: `<div [ngClass]="styles">
     <xui-icon>{{ icon }}</xui-icon>
     <div>
       <ng-content></ng-content>
@@ -29,23 +28,24 @@ import { InputBoolean } from '../utils';
     </div>
   </div>`
 })
-export class XuiRadioOptionComponent implements OnInit {
+export class XuiRadioOptionComponent implements OnInit, OnDestroy {
   @Input() color?: string;
   @Input() value!: string;
   @Input() description?: string;
   @Input() @InputBoolean() disabled = false;
 
-  private _isActive = false;
-  private isActive$ = this.radioListService.selected$.pipe(map(x => x === this.value));
+  private isSelected = false;
+  private isFocused = false;
 
   get icon() {
-    return this._isActive ? 'radiobox-marked' : 'radiobox-blank';
+    return this.isSelected ? 'radiobox-marked' : 'radiobox-blank';
   }
 
   get styles() {
     const ret: any = {
       'radio-option': true,
-      'radio-option-active': this._isActive,
+      'radio-option-focus': this.isFocused,
+      'radio-option-active': this.isSelected,
       'radio-option-disabled': this.disabled
     };
 
@@ -53,13 +53,18 @@ export class XuiRadioOptionComponent implements OnInit {
     return ret;
   }
 
-  constructor(private radioListService: RadioListService, private changeDetectorRef: ChangeDetectorRef) {}
+  constructor(
+    private radioListService: RadioListService,
+    private changeDetectorRef: ChangeDetectorRef,
+    private elmRef: ElementRef
+  ) {}
 
-  ngOnInit(): void {
-    this.isActive$.pipe(untilDestroyed(this)).subscribe(isActive => {
-      this._isActive = isActive;
-      this.changeDetectorRef.markForCheck();
-    });
+  ngOnInit() {
+    this.radioListService.addOption(this);
+  }
+
+  ngOnDestroy() {
+    this.radioListService.removeOption(this);
   }
 
   @HostListener('click')
@@ -67,5 +72,15 @@ export class XuiRadioOptionComponent implements OnInit {
     if (!this.disabled) {
       this.radioListService.select(this.value);
     }
+  }
+
+  focus(value: boolean) {
+    this.isFocused = value;
+    this.changeDetectorRef.markForCheck();
+  }
+
+  select(value: boolean) {
+    this.isSelected = value;
+    this.changeDetectorRef.markForCheck();
   }
 }
