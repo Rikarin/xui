@@ -110,25 +110,25 @@ workflows:
       - install:
         filters:
           tags:
-            only: /^v.*$/
+            only: /.*/
       - check-formatting:
           requires:
             - install
           filters:
             tags:
-              only: /^v.*$/
+              only: /.*/
       - lint:
           requires:
             - install
           filters:
             tags:
-              only: /^v.*$/
+              only: /.*/
       - test:
           requires:
             - install
           filters:
             tags:
-              only: /^v.*$/
+              only: /.*/
       - build:
           requires:
             - install
@@ -147,6 +147,6 @@ workflows:
           #            - e2e
           filters:
             tags:
-              only: /^v.*$/
+              only: /^v.*/
             branches:
               ignore: /.*/
