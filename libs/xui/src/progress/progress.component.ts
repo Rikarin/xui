@@ -4,23 +4,25 @@ import { InputNumber } from '../utils';
 @Component({
   selector: 'xui-progress',
   exportAs: 'xuiProgress',
+  styleUrls: ['progress.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './progress.component.html'
 })
-export class XuiProgressComponent implements OnInit {
+export class XuiProgressComponent {
   @Input() @InputNumber() progress!: number;
   @Input() type: 'line' | 'circle' = 'line';
   @Input() color: 'primary' | 'primary-alt' | 'secondary' | 'error' | 'success' | 'warning' | string = 'primary';
   @Input() status: 'error' | null = null;
 
   get style() {
-    return `xui-progress-indicator-status xui-progress-indicator-${this.getColor()}`;
+    const ret: any = {
+      'indicator-status': true
+    };
+
+    ret[`progress-color-${this.getColor()}`] = true;
+    return ret;
   }
-
-  constructor() {}
-
-  ngOnInit(): void {}
 
   getIndicator() {
     if (this.status === 'error') {

@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  HostListener,
+  Input,
+  OnInit,
+  ViewEncapsulation
+} from '@angular/core';
 import { RadioListService } from './radio-list.service';
 import { map } from 'rxjs';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -8,20 +16,18 @@ import { InputBoolean } from '../utils';
 @Component({
   selector: 'xui-radio-option',
   exportAs: 'xuiRadioOption',
-  encapsulation: ViewEncapsulation.None,
+  styleUrls: ['radio-list-options.scss'],
+  encapsulation: ViewEncapsulation.ShadowDom,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `<xui-icon>{{ icon }}</xui-icon>
+  template: `<div [ngClass]="styles" [tabIndex]="disabled ? -1 : 0">
+    <xui-icon>{{ icon }}</xui-icon>
     <div>
       <ng-content></ng-content>
-      <div class="xui-radio-option-description">
+      <div class="radio-option-description">
         <ng-content select="[xuiDescription]"></ng-content>
       </div>
-    </div> `,
-  host: {
-    '[class]': 'style',
-    '(click)': 'click()',
-    '[tabindex]': 'disabled ? -1 : 0'
-  }
+    </div>
+  </div>`
 })
 export class XuiRadioOptionComponent implements OnInit {
   @Input() color?: string;
@@ -36,11 +42,15 @@ export class XuiRadioOptionComponent implements OnInit {
     return this._isActive ? 'radiobox-marked' : 'radiobox-blank';
   }
 
-  get style() {
-    return `${this.color ? 'xui-radio-option-border-' + this.color : ''}
-      ${this._isActive ? 'xui-radio-option-active' : ''}
-      ${this.disabled ? 'xui-radio-option-disabled' : ''}
-    `;
+  get styles() {
+    const ret: any = {
+      'radio-option': true,
+      'radio-option-active': this._isActive,
+      'radio-option-disabled': this.disabled
+    };
+
+    ret[`radio-option-color-${this.color}`] = this.color;
+    return ret;
   }
 
   constructor(private radioListService: RadioListService, private changeDetectorRef: ChangeDetectorRef) {}
@@ -52,6 +62,7 @@ export class XuiRadioOptionComponent implements OnInit {
     });
   }
 
+  @HostListener('click')
   click() {
     if (!this.disabled) {
       this.radioListService.select(this.value);

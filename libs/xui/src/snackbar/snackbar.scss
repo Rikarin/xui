@@ -1,13 +1,13 @@
 @use '../theming/theming';
 
-@mixin theme($theme) {
-  .xui-snackbar {
-    @include theming.background-level(floating);
-  }
+.snackbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 
-  .xui-simple-snackbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
+  padding: 12px;
+  border-radius: 4px;
+
+  @include theming.background-level(floating);
+  @include theming.elevate(high);
 }

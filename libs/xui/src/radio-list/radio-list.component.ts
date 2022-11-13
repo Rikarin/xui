@@ -19,9 +19,10 @@ import { distinctUntilChanged } from 'rxjs';
 @Component({
   selector: 'xui-radio-list',
   exportAs: 'xuiRadioList',
-  encapsulation: ViewEncapsulation.None,
+  styleUrls: ['radio-list.scss'],
+  encapsulation: ViewEncapsulation.ShadowDom,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: '<ng-content></ng-content>',
+  template: '<div class="radio-list"><ng-content></ng-content></div>',
   providers: [RadioListService]
 })
 export class XuiRadioListComponent implements ControlValueAccessor, OnInit {

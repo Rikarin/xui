@@ -1,39 +1,29 @@
 @use 'sass:map';
 @use '../theming/theming';
 
-@mixin theme($theme) {
-  xui-progress {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    height: 24px;
-  }
-
-  .xui-progress-indicator {
-    flex: 1 1 auto;
-    min-width: 200px;
-    height: 8px;
-    display: flex;
-
-    background-color: var(--background-color-primary);
-    border-radius: 4px;
-  }
-
-  .xui-progress-indicator-status {
-    border-radius: 4px;
-  }
-
-  @include generate-color-variations($theme);
+.progress {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 24px;
 }
 
-@mixin generate-color-variations($theme) {
-  $colors: map.get($theme, color);
+.indicator {
+  flex: 1 1 auto;
+  min-width: 200px;
+  height: 8px;
+  display: flex;
 
-  @each $key, $value in $colors {
-    @if map.has-key($value, default) {
-      .xui-progress-indicator-#{$key} {
-        background-color: map.get($value, default);
-      }
-    }
+  background-color: var(--background-color-primary);
+  border-radius: 4px;
+}
+
+.indicator-status {
+  border-radius: 4px;
+}
+
+@each $name in theming.$variations {
+  .progress-color-#{$name} {
+    background-color: var(-- + $name + -color-default);
   }
 }

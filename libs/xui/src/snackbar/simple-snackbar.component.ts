@@ -5,18 +5,15 @@ import { XUI_SNACK_BAR_DATA } from './snack-bar-config';
 @Component({
   selector: 'simple-snack-bar',
   exportAs: 'xuiSnackBar',
-  encapsulation: ViewEncapsulation.None,
+  styleUrls: ['snackbar.scss'],
+  encapsulation: ViewEncapsulation.ShadowDom,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: ` <div>
-      {{ data.message | translate }}
-    </div>
-
+  template: `<div class="snackbar">
+    <div>{{ data.message | translate }}</div>
     <div *ngIf="hasAction">
-      <button xui xSize="sm" xType="raised" xColor="success" (click)="action()">{{ data.action | translate }}</button>
-    </div>`,
-  host: {
-    class: 'xui-simple-snackbar'
-  }
+      <xui-button size="sm" type="raised" color="success" (click)="action()">{{ data.action | translate }}</xui-button>
+    </div>
+  </div>`
 })
 export class SimpleSnackBar implements TextOnlySnackBar {
   constructor(

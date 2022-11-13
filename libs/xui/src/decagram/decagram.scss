@@ -19,11 +19,11 @@ xui-icon {
 }
 
 @each $value in theming.$variations {
-  .color-#{$value} {
+  .decagram-color-#{$value} {
     color: var(-- + $value + -color-default);
+  }
 
-    .icon {
-      color: var(-- + $value + -color-default-contrast);
-    }
+  .icon {
+    color: var(-- + $value + -color-default-contrast);
   }
 }

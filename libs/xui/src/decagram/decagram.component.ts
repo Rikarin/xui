@@ -19,6 +19,6 @@ export class XuiDecagramComponent {
   @Input() color: DecagramColor = 'primary';
 
   get style() {
-    return `color-${this.color}`;
+    return `decagram-color-${this.color}`;
   }
 }
