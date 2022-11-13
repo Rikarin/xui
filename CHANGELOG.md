@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.28.4](https://github.com/Rikarin/xui/compare/v1.28.3...v1.28.4) (2022-11-13)
+
+
+### Bug Fixes
+
+* budgets ([81358b8](https://github.com/Rikarin/xui/commit/81358b8d191a55c8ea309677f9bb751ef15e66a7))
+* enhance performance, update, add cypress CT ([d82a70b](https://github.com/Rikarin/xui/commit/d82a70b42399b09a69244da0299fb4a268f38e13))
+
 ### [1.28.3](https://github.com/Rikarin/xui/compare/v1.28.2...v1.28.3) (2022-11-11)
 
 ### Bug Fixes
