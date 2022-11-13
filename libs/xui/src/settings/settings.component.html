@@ -1,11 +1,11 @@
 <dialog [open]="opened">
   <div
-    class="xui-settings-dialog"
+    class="settings-dialog"
     [@open]="openedAnimation"
     [@bounce]="animationState"
     (@bounce.done)="animationState = false"
   >
-    <div class="xui-settings-menu">
+    <div class="settings-menu">
       <nav>
         <div
           *ngFor="let item of items; let i = index"
@@ -21,13 +21,13 @@
         </div>
       </nav>
     </div>
-    <div class="xui-settings-right">
-      <div class="xui-settings-content">
+    <div class="settings-right">
+      <div class="settings-content">
         <ng-template [cdkPortalOutlet]="portal" (attached)="attached($event)"></ng-template>
       </div>
 
-      <div class="xui-settings-close-anchor">
-        <div class="xui-settings-close" (click)="close()">
+      <div class="settings-close-anchor">
+        <div class="settings-close" (click)="close()">
           <xui-icon tabindex="0">close-circle-outline</xui-icon>
           ESC
         </div>

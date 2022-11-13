@@ -1,4 +1,4 @@
-<div [class]="styles" [tabindex]="disabled ? -1 : 0" (click)="open()" cdkOverlayOrigin #trigger="cdkOverlayOrigin">
+<div [ngClass]="styles" [tabindex]="disabled ? -1 : 0" (click)="open()" cdkOverlayOrigin #trigger="cdkOverlayOrigin">
   {{ !viewValue ? placeholder ?? '&nbsp;' : viewValue }}
   <xui-icon>{{ isOpen ? 'chevron-up' : 'chevron-down' }}</xui-icon>
 </div>
@@ -9,7 +9,7 @@
   [cdkConnectedOverlayOpen]="isOpen"
   [cdkConnectedOverlayWidth]="width"
 >
-  <div class="xui-select-options">
+  <xui-select-options>
     <ng-content></ng-content>
-  </div>
+  </xui-select-options>
 </ng-template>

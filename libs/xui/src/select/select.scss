@@ -1,86 +1,33 @@
+@use '../core/core';
 @use '../theming/theming';
 @use '../core/typography';
 
-@mixin theme($theme) {
-  xui-select {
-    display: flex;
-    user-select: none;
-  }
+.select {
+  width: 100%;
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+  align-items: center;
+  min-width: 50px;
+  height: 39px;
 
-  .xui-select {
-    width: 100%;
-    display: flex;
-    gap: 12px;
-    justify-content: space-between;
-    align-items: center;
-    min-width: 50px;
-    height: 39px;
+  cursor: pointer;
+  border-radius: 4px;
+  padding: 0 8px 0 12px;
+  user-select: none;
 
-    cursor: pointer;
-    border-radius: 4px;
-    padding: 0 8px 0 12px;
+  @include typography.typography-level(body-1);
+}
 
-    @include typography.typography-level(body-1);
-  }
+.select-disabled {
+  cursor: not-allowed;
+  @include core.disabled-filter();
+}
 
-  .xui-select-disabled {
-    cursor: not-allowed;
-    @extend .xui-disabled-filter;
-  }
+.select-color-light {
+  @include theming.background-level(secondary);
+}
 
-  .xui-select-options {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-
-    border-bottom-left-radius: 4px;
-    border-bottom-right-radius: 4px;
-    border: 1px solid var(--background-color-tertiary);
-    border-top: none;
-
-    // TODO: move to light/dark
-    @include theming.background-level(primary);
-  }
-
-  xui-option {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 12px;
-    cursor: pointer;
-    user-select: none;
-  }
-
-  .xui-option-light {
-    &:hover {
-      @include theming.background-level(secondary);
-    }
-  }
-
-  .xui-option-dark {
-    &:hover {
-      @include theming.background-level(secondary);
-    }
-  }
-
-  .xui-option-disabled {
-    cursor: not-allowed;
-    @extend .xui-disabled-filter;
-
-    &:hover {
-      background-color: initial;
-    }
-  }
-
-  .xui-option-selected {
-    @include theming.background-level(secondary);
-  }
-
-  .xui-select-light {
-    @include theming.background-level(secondary);
-  }
-
-  .xui-select-dark {
-    @include theming.background-level(tertiary);
-  }
+.select-color-dark {
+  @include theming.background-level(tertiary);
 }

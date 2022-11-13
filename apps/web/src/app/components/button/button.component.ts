@@ -9,23 +9,24 @@ import { Usage } from '../usage';
   // encapsulation: ViewEncapsulation.ShadowDom
 })
 export class ButtonComponent {
+  counter = 0;
   usage: Usage[] = [
     {
       param: 'xSize',
       description: 'Size of a button',
-      type: "'sm' | 'md' | 'lg' | string",
+      type: "'sm' | 'md' | 'lg'",
       default: 'md'
     },
     {
       param: 'xType',
       description: 'Type of a button',
-      type: "'normal' | 'dashed' | 'stroked' | 'raised' | 'fab' | 'icon' | string",
+      type: "'normal' | 'dashed' | 'stroked' | 'raised' | 'fab' | 'icon'",
       default: 'normal'
     },
     {
       param: 'xColor',
       description: 'Color of a button',
-      type: "'primary' | 'primary-alt' | 'secondary' | 'error' | 'minimal' | string",
+      type: "'primary' | 'primary-alt' | 'secondary' | 'error' | 'minimal'",
       default: 'primary'
     },
     {

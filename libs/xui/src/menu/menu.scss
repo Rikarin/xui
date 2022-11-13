@@ -1,15 +1,17 @@
+@use '../core/scrollbar';
 @use '../theming/theming';
 
 @mixin theme($theme) {
   xui-menu {
-    @extend .thin-scrollbar;
+    @include scrollbar.scrollbar-thin;
+
     flex: auto;
     width: 100%;
     display: flex;
     flex-direction: column;
 
     overflow-y: auto;
-    @extend .xui-no-user-select;
+    user-select: none;
   }
 
   xui-submenu {

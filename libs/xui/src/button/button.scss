@@ -51,6 +51,10 @@
 
 :host {
   display: inline-flex;
+
+  &:focus-visible {
+    outline: none;
+  }
 }
 
 .button {

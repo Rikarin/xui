@@ -3,6 +3,7 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  HostListener,
   Input,
   OnDestroy,
   OnInit,
@@ -17,14 +18,13 @@ import { XuiSelectComponent } from './select.component';
 @Component({
   selector: 'xui-option',
   exportAs: 'xuiOption',
-  encapsulation: ViewEncapsulation.None,
+  styleUrls: ['option.scss'],
+  encapsulation: ViewEncapsulation.ShadowDom,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `<span #content><ng-content></ng-content></span>
-    <xui-decagram *ngIf="isSelected" type="circle">check</xui-decagram> `,
-  host: {
-    '[class]': 'styles',
-    '(click)': 'click()'
-  }
+  template: `<div [ngClass]="styles">
+    <span #content><ng-content></ng-content></span>
+    <xui-decagram *ngIf="isSelected" type="circle">check</xui-decagram>
+  </div>`
 })
 export class XuiOptionComponent implements OnInit, OnDestroy {
   isSelected = false;
@@ -35,8 +35,14 @@ export class XuiOptionComponent implements OnInit, OnDestroy {
   @ViewChild('content') contentRef!: ElementRef;
 
   get styles() {
-    return `${this.isSelected ? 'xui-option-selected' : ''} ${this.disabled ? 'xui-option-disabled' : ''}
-      xui-option-${this.selectComponent.color}`;
+    const ret: any = {
+      option: true,
+      'option-selected': this.isSelected,
+      'option-disabled': this.disabled
+    };
+
+    ret[`option-${this.selectComponent.color}`] = true;
+    return ret;
   }
 
   get viewValue(): string {
@@ -59,6 +65,7 @@ export class XuiOptionComponent implements OnInit, OnDestroy {
     this.selectService.removeOption(this);
   }
 
+  @HostListener('click')
   click() {
     if (!this.disabled) {
       this.selectService.select(this.value);

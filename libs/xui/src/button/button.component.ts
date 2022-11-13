@@ -19,7 +19,7 @@ import { ButtonColor, ButtonSize, ButtonType } from './button.types';
   encapsulation: ViewEncapsulation.ShadowDom,
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <div [ngClass]="styles" part="button" tabindex="0">
+    <div [ngClass]="styles" part="button" tabindex="0" (click)="_onAsync()">
       <div class="content" part="content">
         <ng-content></ng-content>
       </div>
@@ -74,8 +74,7 @@ export class XuiButtonComponent {
     return this._onAsync();
   }
 
-  @HostListener('click', ['$event'])
-  private async _onAsync() {
+  async _onAsync() {
     if (!this.onClick) {
       return;
     }

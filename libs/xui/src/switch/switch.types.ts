@@ -1,1 +1,1 @@
-export type SwitchColor = 'success' | 'info' | 'error' | string;
+export type SwitchColor = 'success' | 'info' | 'error';

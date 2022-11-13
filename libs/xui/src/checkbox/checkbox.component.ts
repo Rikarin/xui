@@ -29,7 +29,7 @@ export class XuiCheckboxComponent implements ControlValueAccessor, OnInit {
   onTouched = () => {};
 
   @Input() @InputBoolean() disabled = false;
-  // @Input() color: 'success' | 'warning' | 'info' | 'primary' | 'error' | string = 'success';
+  // @Input() color: 'success' | 'warning' | 'info' | 'primary' | 'error' = 'success';
 
   get styles() {
     return {

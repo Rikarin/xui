@@ -8,9 +8,6 @@
 @use 'input/input';
 @use 'layout/layout';
 @use 'menu/menu';
-@use 'select/select';
-@use 'settings/settings';
-@use 'slider/slider';
 
 @use 'table/table';
 @use 'theming/theming';
@@ -23,9 +20,6 @@
 @forward 'input/input' as input-* show input-theme;
 @forward 'layout/layout' as layout-* show layout-theme;
 @forward 'menu/menu' as menu-* show menu-theme;
-@forward 'select/select' as select-* show select-theme;
-@forward 'settings/settings' as settings-* show settings-theme;
-@forward 'slider/slider' as slider-* show slider-theme;
 @forward 'table/table' as table-* show table-theme;
 @forward 'theming/palette';
 @forward 'theming/theming' show define-palette, define-background-palette, define-dark-theme, define-light-theme,
@@ -38,9 +32,6 @@
   @include input.theme($theme);
   @include layout.theme($theme);
   @include menu.theme($theme);
-  @include select.theme($theme);
-  @include slider.theme($theme);
-  @include settings.theme($theme);
   @include table.theme($theme);
   // title
   //@include tooltip.theme($theme);
@@ -50,11 +41,9 @@
   }
 }
 
-@mixin all-component-typographies($theme) {
+@mixin default-typographies() {
   @import url('https://fonts.googleapis.com/css?family=Rubik:400,500,600,700,800&display=swap');
   @import url('https://fonts.googleapis.com/css?family=Bungee:400,500,600,700,800&display=swap');
-
-  //@include button.typography($theme);
 }
 
 @mixin all-root-variables($theme) {
@@ -67,7 +56,5 @@
     // TODO: move this to typography
     --text-normal: #d7dee4;
     --text-muted: #72787d;
-    --font-primary: 'Rubik';
-    --font-headline: 'Bungee';
   }
 }

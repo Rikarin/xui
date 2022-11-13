@@ -17,11 +17,13 @@ import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { XuiTooltipComponent } from '../tooltip/tooltip.component';
 import { inNextTick, InputBoolean, InputNumber } from '../utils';
 import { BehaviorSubject, map } from 'rxjs';
+import { SliderColor } from './slider.types';
 
 @Component({
   selector: 'xui-slider',
   exportAs: 'xuiSlider',
-  encapsulation: ViewEncapsulation.None,
+  styleUrls: ['slider.scss'],
+  encapsulation: ViewEncapsulation.ShadowDom,
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: 'slider.component.html',
   host: {
@@ -43,8 +45,8 @@ export class XuiSliderComponent implements ControlValueAccessor, OnInit, AfterVi
   // TODO: default and focus
   // @Input() @InputBoolean() disabled: boolean = false;
   @Input() @InputBoolean() tooltipDisabled: boolean = false;
-  @Input() color: 'primary' | 'primary-alt' | 'secondary' | 'error' | 'warning' | 'success' | string = 'primary';
-  @Input() secondColor?: 'primary' | 'primary-alt' | 'secondary' | 'error' | 'success' | string;
+  @Input() color: SliderColor = 'primary';
+  @Input() secondColor?: SliderColor;
   // @Input() size: 'normal' | 'small' = 'normal';
 
   @Input() @InputNumber() min: number = 0;
@@ -81,7 +83,7 @@ export class XuiSliderComponent implements ControlValueAccessor, OnInit, AfterVi
   }
 
   getColor(color: string) {
-    return `xui-slider-color-${color}`;
+    return `slider-color-${color}`;
   }
 
   getPercentage(absolute: number) {
@@ -161,5 +163,5 @@ export class XuiSliderComponent implements ControlValueAccessor, OnInit, AfterVi
 export interface SliderMark {
   label: string;
   value: number;
-  color?: string; // TODO
+  color?: SliderColor;
 }

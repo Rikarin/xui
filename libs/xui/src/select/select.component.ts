@@ -16,12 +16,14 @@ import { inNextTick, InputBoolean } from '../utils';
 import { SelectService } from './select.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { XuiOptionComponent } from './option.component';
+import { SelectColor } from './select.types';
 
 @UntilDestroy()
 @Component({
   selector: 'xui-select',
   exportAs: 'xuiSelect',
-  encapsulation: ViewEncapsulation.None,
+  styleUrls: ['select.scss'],
+  encapsulation: ViewEncapsulation.ShadowDom,
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: 'select.component.html',
   providers: [SelectService]
@@ -37,7 +39,7 @@ export class XuiSelectComponent implements ControlValueAccessor, OnInit, AfterVi
 
   @Input() placeholder?: string;
   @Input() @InputBoolean() disabled: boolean = false;
-  @Input() color: 'light' | 'dark' = 'light';
+  @Input() color: SelectColor = 'light';
   // @Input() size: 'normal' | 'small' = 'normal';
 
   @Input()
@@ -63,7 +65,13 @@ export class XuiSelectComponent implements ControlValueAccessor, OnInit, AfterVi
   }
 
   get styles() {
-    return `xui-select xui-select-${this.color} ${this.disabled ? 'xui-select-disabled' : ''}`;
+    const ret: any = {
+      select: true,
+      'select-disabled': this.disabled
+    };
+
+    ret[`select-color-${this.color}`] = true;
+    return ret;
   }
 
   get errorMessage() {
@@ -127,3 +135,13 @@ export class XuiSelectComponent implements ControlValueAccessor, OnInit, AfterVi
     }
   }
 }
+
+@Component({
+  selector: 'xui-select-options',
+  exportAs: 'xuiSelectOptions',
+  styleUrls: ['select-options.scss'],
+  encapsulation: ViewEncapsulation.ShadowDom,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `<ng-content></ng-content>`
+})
+export class SelectOptionsComponent {}

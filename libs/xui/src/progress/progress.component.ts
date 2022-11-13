@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { InputNumber } from '../utils';
+import { ProgressColor, ProgressStatus, ProgressType } from './progress.types';
 
 @Component({
   selector: 'xui-progress',
@@ -11,9 +12,9 @@ import { InputNumber } from '../utils';
 })
 export class XuiProgressComponent {
   @Input() @InputNumber() progress!: number;
-  @Input() type: 'line' | 'circle' = 'line';
-  @Input() color: 'primary' | 'primary-alt' | 'secondary' | 'error' | 'success' | 'warning' | string = 'primary';
-  @Input() status: 'error' | null = null;
+  @Input() type: ProgressType = 'line';
+  @Input() color: ProgressColor = 'primary';
+  @Input() status: ProgressStatus = null;
 
   get style() {
     const ret: any = {

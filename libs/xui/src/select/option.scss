@@ -1,0 +1,41 @@
+@use '../core/core';
+@use '../theming/theming';
+
+.option {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.option-light {
+  @include theming.background-level(primary);
+
+  &:hover {
+    @include theming.background-level(secondary);
+  }
+}
+
+.option-dark {
+  @include theming.background-level(primary);
+
+  &:hover {
+    @include theming.background-level(secondary);
+  }
+}
+
+.option-disabled {
+  cursor: not-allowed;
+  @include core.disabled-filter();
+
+  &:hover {
+    background-color: initial;
+  }
+}
+
+.option-selected {
+  @include theming.background-level(secondary);
+}

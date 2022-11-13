@@ -2,98 +2,86 @@
 @use '../theming/theming';
 @use '../core/typography';
 
-@mixin theme($theme) {
-  xui-slider {
-    position: relative;
-    display: flex;
-    align-items: center;
-    height: 40px;
+.slider {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 40px;
 
-    user-select: none;
-  }
-
-  .xui-slider-track {
-    width: 100%;
-    height: 8px;
-    display: flex;
-    justify-content: flex-end;
-    border-radius: 4px;
-
-    z-index: 1;
-  }
-
-  .xui-slider-track-half {
-    border-top-right-radius: 4px;
-    border-bottom-right-radius: 4px;
-
-    z-index: 1;
-  }
-
-  .xui-slider-thumb {
-    position: absolute;
-    left: 0;
-    top: 8px;
-    width: 10px;
-    height: 24px;
-
-    background-color: white;
-    border-radius: 4px;
-    cursor: ew-resize;
-    z-index: 1;
-
-    border: 1px solid rgba(0, 0, 0, 0.2);
-    @include theming.elevate(medium);
-  }
-
-  .xui-slider-container {
-    position: absolute;
-    inset: 0 5px 0 5px;
-  }
-
-  .xui-slider-mark {
-    position: absolute;
-    bottom: 8px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    width: 24px;
-    margin-left: -12px;
-  }
-
-  .xui-slider-mark-label {
-    @include typography.typography-level(caption);
-    font-size: 0.65rem;
-    font-weight: 700;
-  }
-
-  .xui-slider-mark-dash {
-    width: 2px;
-    height: 24px;
-    background-color: var(--background-color-primary);
-  }
-
-  .xui-slider-color-none {
-    background-color: var(--background-color-primary);
-  }
-
-  @include generate-color-variations($theme);
+  user-select: none;
 }
 
-@mixin generate-color-variations($theme) {
-  $colors: map.get($theme, color);
+.slider-track {
+  width: 100%;
+  height: 8px;
+  display: flex;
+  justify-content: flex-end;
+  border-radius: 4px;
 
-  @each $key, $value in $colors {
-    @if map.has-key($value, default) {
-      $default: map.get($value, default);
+  z-index: 1;
+}
 
-      .xui-slider-color-#{$key} {
-        background-color: $default;
-      }
+.slider-track-half {
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
 
-      .xui-slider-mark-color-#{$key} {
-        color: $default;
-      }
-    }
+  z-index: 1;
+}
+
+.slider-thumb {
+  position: absolute;
+  left: 0;
+  top: 8px;
+  width: 10px;
+  height: 24px;
+
+  background-color: white;
+  border-radius: 4px;
+  cursor: ew-resize;
+  z-index: 1;
+
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  @include theming.elevate(medium);
+}
+
+.slider-container {
+  position: absolute;
+  inset: 0 5px 0 5px;
+}
+
+.slider-mark {
+  position: absolute;
+  bottom: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  width: 24px;
+  margin-left: -12px;
+}
+
+.slider-mark-label {
+  @include typography.typography-level(caption);
+  font-size: 0.65rem;
+  font-weight: 700;
+}
+
+.slider-mark-dash {
+  width: 2px;
+  height: 24px;
+  background-color: var(--background-color-primary);
+}
+
+.slider-color-none {
+  background-color: var(--background-color-primary);
+}
+
+@each $name in theming.$variations {
+  .slider-color-#{$name} {
+    background-color: var(-- + $name + -color-default);
+  }
+
+  .slider-mark-color-#{$name} {
+    color: var(-- + $name + -color-default);
   }
 }

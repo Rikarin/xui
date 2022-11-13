@@ -22,7 +22,8 @@ import { delay, InputNumber } from '../utils';
 @Component({
   selector: 'xui-settings',
   exportAs: 'xuiSettings',
-  encapsulation: ViewEncapsulation.None,
+  styleUrls: ['settings.scss'],
+  encapsulation: ViewEncapsulation.ShadowDom,
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './settings.component.html',
   animations: [
@@ -163,8 +164,9 @@ export interface MenuItem {
 
 @Component({
   selector: 'xui-settings-save-reset-snackbar',
+  styleUrls: ['settings-snackbar.scss'],
+  encapsulation: ViewEncapsulation.ShadowDom,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
   template: `
     {{ 'xui.settings.save_changes_text' | translate }}
     <div>

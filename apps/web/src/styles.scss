@@ -18,7 +18,7 @@ $theme: xui.define-dark-theme(
 
 @include xui.core();
 @include xui.all-component-themes($theme);
-@include xui.all-component-typographies($theme);
+@include xui.default-typographies();
 @include xui.typography-hierarchy();
 @include xui.all-root-variables($theme);
 
