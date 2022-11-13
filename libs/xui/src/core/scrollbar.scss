@@ -44,3 +44,52 @@
     background-color: var(--background-color-tertiary);
   }
 }
+
+@mixin scrollbar() {
+  &::-webkit-scrollbar {
+    width: 16px;
+    height: 16px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--background-color-tertiary);
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: var(--background-color-secondary);
+  }
+
+  &::-webkit-scrollbar-button {
+    width: 0;
+    height: 0;
+    display: none;
+  }
+
+  &::-webkit-scrollbar-corner {
+    background-color: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb,
+  &::-webkit-scrollbar-track {
+    border: 4px solid transparent;
+    border-radius: 8px;
+    background-clip: padding-box;
+  }
+}
+
+@mixin scrollbar-thin() {
+  @include scrollbar();
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border: 2px solid transparent;
+    background-color: transparent;
+  }
+
+  &:hover::-webkit-scrollbar-thumb {
+    background-color: var(--background-color-tertiary);
+  }
+}

@@ -1,8 +1,10 @@
-<ng-content></ng-content>
+<div [ngClass]="style" [tabindex]="disabled ? -1 : 0">
+  <ng-content></ng-content>
 
-<div [class]="style">
-  <div class="xui-switch-handle">
-    <xui-icon>{{ value ? 'check-bold' : 'close-thick' }}</xui-icon>
+  <div [ngClass]="styleSwitch" (click)="_click()">
+    <div class="handle">
+      <xui-icon>{{ value ? 'check-bold' : 'close-thick' }}</xui-icon>
+    </div>
+    <input tabindex="-1" type="checkbox" [checked]="value" [disabled]="disabled" />
   </div>
-  <input tabindex="-1" type="checkbox" [checked]="value" [disabled]="disabled" />
 </div>

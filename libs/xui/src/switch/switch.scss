@@ -2,90 +2,78 @@
 @use '../core/core';
 @use '../theming/theming';
 
-@mixin theme($theme) {
-  xui-switch {
-    flex: 0 0 auto;
-    display: flex;
-    gap: 8px;
-    justify-content: space-between;
-    align-items: center;
+.content {
+  flex: 0 0 auto;
+  display: flex;
+  gap: 8px;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 4px;
+  padding: 4px;
+
+  input {
+    opacity: 0;
+    width: 100%;
+    height: 100%;
     cursor: pointer;
-    border-radius: 4px;
-    padding: 4px;
-
-    input {
-      opacity: 0;
-      width: 100%;
-      height: 100%;
-      cursor: pointer;
-    }
-
-    @include theming.focus-visible();
   }
 
-  .xui-switch-disabled {
-    @extend .xui-disabled-filter;
-    cursor: not-allowed;
-
-    input {
-      cursor: not-allowed;
-    }
-  }
-
-  .xui-switch {
-    position: relative;
-    width: 42px;
-    height: 24px;
-
-    background-color: gray;
-    border-radius: 100px;
-  }
-
-  .xui-switch-handle {
-    display: grid;
-    place-items: center;
-    background-color: white;
-    color: gray; // TODO: background modifier
-    border-radius: 50%;
-
-    position: absolute;
-    top: 3px;
-    left: 3px;
-    width: 18px;
-    height: 18px;
-    transition: all 0.4s ease-out;
-
-    xui-icon {
-      width: 16px;
-      height: 16px;
-      margin-bottom: auto;
-    }
-  }
-
-  .xui-switch-enabled {
-    .xui-switch-handle {
-      left: calc(100% - 21px);
-      transform: rotate(360deg);
-    }
-  }
-
-  @include generate-color-variations($theme);
+  @include theming.focus-visible();
 }
 
-@mixin generate-color-variations($theme) {
-  $colors: map.get($theme, color);
+.disabled {
+  @include core.disabled-filter();
+  cursor: not-allowed;
 
-  @each $key, $value in $colors {
-    @if map.has-key($value, default) {
-      $default: map.get($value, default);
+  input {
+    cursor: not-allowed;
+  }
+}
 
-      .xui-switch-#{$key} {
-        background-color: $default;
+.switch {
+  position: relative;
+  width: 42px;
+  height: 24px;
 
-        .xui-switch-handle {
-          color: $default;
-        }
-      }
+  background-color: gray;
+  border-radius: 100px;
+  cursor: pointer;
+}
+
+.handle {
+  display: grid;
+  place-items: center;
+  background-color: white;
+  color: gray; // TODO: background modifier
+  border-radius: 50%;
+
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  transition: all 0.4s ease-out;
+
+  xui-icon {
+    width: 16px;
+    height: 16px;
+    margin-bottom: auto;
+  }
+}
+
+.enabled {
+  .handle {
+    left: calc(100% - 21px);
+    transform: rotate(360deg);
+  }
+}
+
+@each $name in theming.$variations {
+  .color-#{$name} {
+    background-color: var(-- + $name + -color-default);
+
+    .handle {
+      color: var(-- + $name + -color-default);
     }
   }
 }

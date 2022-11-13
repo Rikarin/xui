@@ -11,11 +11,13 @@ import {
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { InputBoolean, InputNumber } from '../utils';
+import { TextareaColor, TextareaSize } from './textarea.types';
 
 @Component({
   selector: 'xui-textarea',
   exportAs: 'xuiTextarea',
-  encapsulation: ViewEncapsulation.None,
+  styleUrls: ['textarea.scss'],
+  encapsulation: ViewEncapsulation.ShadowDom,
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: 'textarea.component.html'
 })
@@ -27,8 +29,8 @@ export class XuiTextareaComponent implements ControlValueAccessor, OnInit {
 
   @Input() placeholder?: string;
   @Input() @InputBoolean() disabled: boolean = false;
-  @Input() color: 'light' | 'dark' = 'light';
-  @Input() size: 'normal' | 'small' = 'normal';
+  @Input() color: TextareaColor = 'light';
+  @Input() size: TextareaSize = 'normal';
   @Input() @InputNumber() rows = 3;
   @Input() @InputNumber() maxLength?: number;
 
@@ -50,7 +52,13 @@ export class XuiTextareaComponent implements ControlValueAccessor, OnInit {
   }
 
   get styles() {
-    return `xui-textarea xui-textarea-${this.color} ${this.disabled ? 'xui-textarea-disabled' : ''}`;
+    const ret: any = {
+      textarea: true,
+      disabled: this.disabled
+    };
+
+    ret[`color-${this.color}`] = true;
+    return ret;
   }
 
   get errorMessage() {

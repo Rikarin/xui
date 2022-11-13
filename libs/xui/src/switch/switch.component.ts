@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  HostListener,
   Input,
   OnInit,
   Optional,
@@ -11,18 +12,15 @@ import {
 import { InputBoolean } from '../utils';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { InputGroupService } from '../input/input-group.service';
+import { SwitchColor } from './switch.types';
 
 @Component({
   selector: 'xui-switch',
   exportAs: 'xuiSwitch',
-  encapsulation: ViewEncapsulation.None,
+  styleUrls: ['switch.scss'],
+  encapsulation: ViewEncapsulation.ShadowDom,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './switch.component.html',
-  host: {
-    '[class.xui-switch-disabled]': 'disabled',
-    '(click)': '_click()',
-    '[tabindex]': 'disabled ? -1 : 0'
-  }
+  templateUrl: './switch.component.html'
 })
 export class XuiSwitchComponent implements ControlValueAccessor, OnInit {
   _value = false;
@@ -31,7 +29,7 @@ export class XuiSwitchComponent implements ControlValueAccessor, OnInit {
   onTouched = () => {};
 
   @Input() @InputBoolean() disabled = false;
-  @Input() color: 'success' | 'info' | 'error' | string = 'success';
+  @Input() color: SwitchColor = 'success';
 
   @Input()
   get value() {
@@ -47,7 +45,20 @@ export class XuiSwitchComponent implements ControlValueAccessor, OnInit {
   }
 
   get style() {
-    return `xui-switch ${this.value ? 'xui-switch-enabled ' + 'xui-switch-' + this.color : ''}`;
+    return {
+      content: true,
+      disabled: this.disabled
+    };
+  }
+
+  get styleSwitch() {
+    const ret: any = {
+      switch: true,
+      enabled: this.value
+    };
+
+    ret[`color-${this.color}`] = this.value;
+    return ret;
   }
 
   constructor(
@@ -83,7 +94,11 @@ export class XuiSwitchComponent implements ControlValueAccessor, OnInit {
     }
   }
 
-  _click() {
+  @HostListener('keydown.enter', ['$event'])
+  @HostListener('keydown.space', ['$event'])
+  _click(event?: any) {
+    event?.preventDefault();
+
     if (!this.disabled) {
       this.value = !this.value;
     }
