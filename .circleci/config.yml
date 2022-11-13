@@ -108,9 +108,9 @@ workflows:
   build_deploy:
     jobs:
       - install:
-        filters:
-          tags:
-            only: /.*/
+          filters:
+            tags:
+              only: /.*/
       - check-formatting:
           requires:
             - install
