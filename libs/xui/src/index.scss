@@ -5,19 +5,16 @@
 @use 'core/typography';
 
 @use 'core/scrollbar';
-@use 'input/input';
 @use 'layout/layout';
 @use 'menu/menu';
 
 @use 'table/table';
 @use 'theming/theming';
 // title
-//@use 'tooltip/tooltip';
 
 @forward 'core/core';
 @forward 'core/typography';
 @forward 'core/scrollbar' as scrollbar-* show scrollbar-theme;
-@forward 'input/input' as input-* show input-theme;
 @forward 'layout/layout' as layout-* show layout-theme;
 @forward 'menu/menu' as menu-* show menu-theme;
 @forward 'table/table' as table-* show table-theme;
@@ -25,16 +22,13 @@
 @forward 'theming/theming' show define-palette, define-background-palette, define-dark-theme, define-light-theme,
   create-color-variables, create-elevation-variables, background-level, elevate;
 // title
-//@forward 'tooltip/tooltip' as tooltip-* show tooltip-theme;
 
 @mixin all-component-themes($theme) {
   @include scrollbar.theme($theme);
-  @include input.theme($theme);
   @include layout.theme($theme);
   @include menu.theme($theme);
-  @include table.theme($theme);
+  @include table.theme();
   // title
-  //@include tooltip.theme($theme);
 
   a {
     color: var(--info-color-default);

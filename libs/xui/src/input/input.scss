@@ -1,117 +1,86 @@
+@use '../core/core';
 @use '../theming/theming';
 @use '../core/typography';
 
-@mixin theme($theme) {
-  xui-input {
-    display: flex;
-    flex-direction: column;
+//xui-input {
+//  display: flex;
+//  flex-direction: column;
+//}
 
-    .xui-input {
-      max-height: 39px;
-      display: flex;
-      gap: 8px;
-      align-items: center;
-      border-radius: 3px;
+.input {
+  max-height: 39px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  border-radius: 3px;
 
-      @include theming.focus-visible();
-    }
+  @include theming.focus-visible();
+}
 
-    input {
-      flex: 100%;
-      background-color: transparent;
+input {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  //outline: 0;
 
-      @include typography.typography-level(body-1);
+  vertical-align: baseline;
+  flex: 100%;
+  background-color: transparent;
 
-      &:disabled {
-        @extend .xui-disabled-filter;
-        cursor: not-allowed;
-      }
+  @include typography.typography-level(body-1);
 
-      &::placeholder {
-        filter: brightness(0.8) opacity(0.5);
-      }
-    }
+  &:focus {
+    outline: none;
   }
 
-  .xui-input-light {
-    background-color: var(--background-color-secondary);
-
-    input {
-      -webkit-text-fill-color: var(--background-color-secondary-contrast);
-      caret-color: var(--background-color-secondary-contrast);
-    }
+  &:disabled {
+    @include core.disabled-filter();
+    cursor: not-allowed;
   }
 
-  .xui-input-dark {
-    background-color: var(--background-color-tertiary);
-
-    input {
-      -webkit-text-fill-color: var(--background-color-tertiary-contrast);
-      caret-color: var(--background-color-tertiary-contrast);
-    }
+  &::placeholder {
+    filter: brightness(0.8) opacity(0.5);
   }
+}
 
-  .xui-input-error {
-    outline: 2px solid var(--error-color-default);
+.input-color-light {
+  background-color: var(--background-color-secondary);
+
+  input {
+    -webkit-text-fill-color: var(--background-color-secondary-contrast);
+    caret-color: var(--background-color-secondary-contrast);
   }
+}
 
-  .xui-input-error-text {
-    color: var(--error-color-default);
-    font-size: 0.8rem;
-    margin-top: 4px;
-    margin-left: 8px;
+.input-color-dark {
+  background-color: var(--background-color-tertiary);
+
+  input {
+    -webkit-text-fill-color: var(--background-color-tertiary-contrast);
+    caret-color: var(--background-color-tertiary-contrast);
   }
+}
 
-  .xui-input-normal {
-    padding: 12px;
-  }
+.input-error {
+  outline: 2px solid var(--error-color-default);
+}
 
-  .xui-input-small {
-    padding: 4px 12px;
+.input-error-text {
+  color: var(--error-color-default);
+  font-size: 0.8rem;
+  margin-top: 4px;
+  margin-left: 8px;
+}
 
-    input {
-      font-size: 0.85rem;
-      font-weight: 500;
-    }
-  }
+.input-normal {
+  padding: 12px;
+}
 
-  xui-input-addon {
-    display: grid;
-    place-items: center;
-    padding: 0 12px;
+.input-small {
+  padding: 4px 12px;
 
-    border-radius: 3px;
-  }
-
-  xui-input-group {
-    display: flex;
-
-    > xui-input:not(:first-child) > .input {
-      border-top-left-radius: 0;
-      border-bottom-left-radius: 0;
-    }
-
-    > xui-input:not(:last-child) > .input {
-      border-top-right-radius: 0;
-      border-bottom-right-radius: 0;
-    }
-
-    > xui-input-addon:not(:first-child) {
-      border-top-left-radius: 0;
-      border-bottom-left-radius: 0;
-    }
-
-    > xui-input-addon:not(:last-child) {
-      border-top-right-radius: 0;
-      border-bottom-right-radius: 0;
-    }
-
-    > xui-input:not(:first-child) {
-      border-left: 1px solid var(--text-muted);
-    }
-
-    > xui-input-addon:not(:first-child) {
-      border-left: 1px solid var(--text-muted);
-    }
+  input {
+    font-size: 0.85rem;
+    font-weight: 500;
   }
 }

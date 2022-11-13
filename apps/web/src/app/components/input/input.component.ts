@@ -8,5 +8,6 @@ import { FormControl, Validators } from '@angular/forms';
 })
 export class InputComponent {
   errorControl = new FormControl(null, Validators.required);
+  errorInputControl = new FormControl(null, Validators.required);
   textAreaControl = new FormControl('Loaded text', Validators.required);
 }

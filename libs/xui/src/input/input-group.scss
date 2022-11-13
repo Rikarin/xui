@@ -1,0 +1,31 @@
+.input-group {
+  display: flex;
+
+  > xui-input:not(:first-child) > .input {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+  > xui-input:not(:last-child) > .input {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  > xui-input-addon:not(:first-child) {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+  > xui-input-addon:not(:last-child) {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  > xui-input:not(:first-child) {
+    border-left: 1px solid var(--text-muted);
+  }
+
+  > xui-input-addon:not(:first-child) {
+    border-left: 1px solid var(--text-muted);
+  }
+}

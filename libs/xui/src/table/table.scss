@@ -1,7 +1,7 @@
 @use '../theming/theming';
 @use '../core/typography';
 
-@mixin theme($theme) {
+@mixin theme() {
   table {
     border-collapse: collapse;
   }

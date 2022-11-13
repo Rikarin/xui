@@ -1,0 +1,16 @@
+.input-addon {
+  height: 100%;
+  display: grid;
+  place-items: center;
+  padding: 0 12px;
+
+  border-radius: 3px;
+}
+
+.input-addon-color-light {
+  background-color: var(--background-color-secondary);
+}
+
+.input-addon-color-dark {
+  background-color: var(--background-color-tertiary);
+}

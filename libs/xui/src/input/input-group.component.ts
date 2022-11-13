@@ -1,16 +1,18 @@
 import { ChangeDetectionStrategy, Component, Input, OnChanges, ViewEncapsulation } from '@angular/core';
 import { InputGroupService } from './input-group.service';
+import { InputSize } from './input.types';
 
 @Component({
   selector: 'xui-input-group',
   exportAs: 'xuiInputGroup',
-  encapsulation: ViewEncapsulation.None,
+  styleUrls: ['input-group.scss'],
+  encapsulation: ViewEncapsulation.ShadowDom,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: '<ng-content></ng-content>',
+  template: '<div class="input-group"><ng-content></ng-content></div>',
   providers: [InputGroupService]
 })
 export class XuiInputGroupComponent implements OnChanges {
-  @Input() xSize: 'normal' | 'small' = 'normal';
+  @Input() xSize: InputSize = 'normal';
 
   constructor(private groupService: InputGroupService) {}
 

@@ -1,7 +1,6 @@
 @use '../theming/theming';
 @use '../core/typography';
 
-//@mixin theme($theme) {
 xui-tooltip {
   font-size: 0.8rem;
   max-width: 500px;
@@ -93,4 +92,3 @@ xui-tooltip {
     transform: scale(0.8);
   }
 }
-//}

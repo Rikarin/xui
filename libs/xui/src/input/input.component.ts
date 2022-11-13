@@ -12,11 +12,13 @@ import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { InputGroupService } from './input-group.service';
 import { InputBoolean } from '../utils';
+import { InputColor, InputSize, InputType } from './input.types';
 
 @Component({
   selector: 'xui-input',
   exportAs: 'xuiInput',
-  encapsulation: ViewEncapsulation.None,
+  styleUrls: ['input.scss'],
+  encapsulation: ViewEncapsulation.ShadowDom,
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: 'input.component.html'
 })
@@ -28,10 +30,10 @@ export class XuiInputComponent implements ControlValueAccessor, OnInit {
 
   @Input() placeholder?: string;
   @Input() @InputBoolean() disabled: boolean = false;
-  @Input() color: 'light' | 'dark' = 'light';
-  @Input() size: 'normal' | 'small' = 'normal';
+  @Input() color: InputColor = 'light';
+  @Input() size: InputSize = 'normal';
+  @Input() type: InputType = 'text';
   @Input() dataList?: string[] | null;
-  @Input() type: 'text' | 'password' | 'color' | 'date' | 'email' | 'number' = 'text';
 
   @Input()
   get value() {
@@ -47,7 +49,14 @@ export class XuiInputComponent implements ControlValueAccessor, OnInit {
   }
 
   get styles() {
-    return `xui-input xui-input-${this.color} xui-input-${this.groupService?.size ?? this.size}`;
+    const ret: any = {
+      input: true,
+      'input-error': this.showError
+    };
+
+    ret[`input-color-${this.color}`] = true;
+    ret[`input-${this.groupService?.size ?? this.size}`] = true;
+    return ret;
   }
 
   get errorMessage() {

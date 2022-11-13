@@ -3,7 +3,7 @@
 
 @mixin theme($theme) {
   xui-menu {
-    @include scrollbar.scrollbar-thin;
+    @include scrollbar.scrollbar-thin();
 
     flex: auto;
     width: 100%;
