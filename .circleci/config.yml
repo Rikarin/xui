@@ -132,9 +132,9 @@ workflows:
       - build:
           requires:
             - install
-      #      - e2e:
-      #          requires:
-      #            - install
+          #      - e2e:
+          #          requires:
+          #            - install
           filters:
             tags:
               only: /^v.*$/

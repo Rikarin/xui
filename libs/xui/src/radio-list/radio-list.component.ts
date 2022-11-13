@@ -27,6 +27,7 @@ import { distinctUntilChanged } from 'rxjs';
   providers: [RadioListService]
 })
 export class XuiRadioListComponent implements ControlValueAccessor, OnInit {
+  _mouseDown = false;
   _value: string | null = null;
   touched = false;
   onChange = (source?: string | null) => {};
@@ -94,9 +95,21 @@ export class XuiRadioListComponent implements ControlValueAccessor, OnInit {
     this.radioListService.selectNext();
   }
 
-  @HostListener('focus')
+  @HostListener('mousedown')
+  private mouseDown() {
+    this._mouseDown = true;
+  }
+
+  @HostListener('mouseup')
+  private mouseUp() {
+    this._mouseDown = false;
+  }
+
+  @HostListener('focusin')
   private focus() {
-    this.radioListService.focusCurrent();
+    if (!this._mouseDown) {
+      this.radioListService.focusCurrent();
+    }
   }
 
   @HostListener('focusout')
