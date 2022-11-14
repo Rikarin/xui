@@ -4,10 +4,9 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### [1.28.11](https://github.com/Rikarin/xui/compare/v1.28.10...v1.28.11) (2022-11-13)
 
-
 ### Bug Fixes
 
-* focus ([63a2cb8](https://github.com/Rikarin/xui/commit/63a2cb88f6575e54e23a0f4d0cbdef63db248e94))
+- focus ([63a2cb8](https://github.com/Rikarin/xui/commit/63a2cb88f6575e54e23a0f4d0cbdef63db248e94))
 
 ### [1.28.10](https://github.com/Rikarin/xui/compare/v1.28.9...v1.28.10) (2022-11-13)
 

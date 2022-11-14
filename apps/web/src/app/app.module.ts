@@ -26,7 +26,8 @@ import {
   XuiSnackbarModule,
   XuiTextareaModule,
   XuiSelectModule,
-  XuiSliderModule
+  XuiSliderModule,
+  XuiSpinnerModule
 } from 'xui';
 import { RouterModule, Routes } from '@angular/router';
 import { CardComponent } from './components/card/card.component';
@@ -62,6 +63,7 @@ import { RadioListComponent } from './components/radio-list/radio-list.component
 import { DecagramComponent } from './components/decagram/decagram.component';
 import { TooltipComponent } from './components/tooltip/tooltip.component';
 import { SliderComponent } from './components/slider/slider.component';
+import { SpinnerComponent } from './components/spinner/spinner.component';
 
 const routes: Routes = [
   {
@@ -69,28 +71,29 @@ const routes: Routes = [
     component: OverviewComponent,
     pathMatch: 'full'
   },
-  { path: 'getting-started', component: GettingStartedComponent },
-  { path: 'theming', component: ThemingComponent },
-  { path: 'typography', component: TypographyComponent },
-  { path: 'card', component: CardComponent },
-  { path: 'button', component: ButtonComponent },
-  { path: 'input', component: InputComponent },
   { path: 'banner', component: BannerComponent },
   { path: 'breadcrumb', component: BreadcrumbComponent },
+  { path: 'button', component: ButtonComponent },
+  { path: 'card', component: CardComponent },
+  { path: 'checkbox', component: CheckboxComponent },
+  { path: 'context-menu', component: ContextMenuComponent },
+  { path: 'decagram', component: DecagramComponent },
+  { path: 'getting-started', component: GettingStartedComponent },
+  { path: 'image-upload', component: ImageUploadComponent },
+  { path: 'input', component: InputComponent },
   { path: 'layout', component: LayoutComponent },
+  { path: 'progress', component: ProgressComponent },
+  { path: 'radio-list', component: RadioListComponent },
   { path: 'select', component: SelectComponent },
   { path: 'settings', component: SettingsComponent },
-  { path: 'tabs', component: TabsComponent },
-  { path: 'context-menu', component: ContextMenuComponent },
-  { path: 'progress', component: ProgressComponent },
-  { path: 'checkbox', component: CheckboxComponent },
-  { path: 'image-upload', component: ImageUploadComponent },
-  { path: 'table', component: TableComponent },
-  { path: 'radio-list', component: RadioListComponent },
-  { path: 'decagram', component: DecagramComponent },
+  { path: 'slider', component: SliderComponent },
+  { path: 'spinner', component: SpinnerComponent },
   { path: 'switch', component: SwitchComponent },
+  { path: 'table', component: TableComponent },
+  { path: 'tabs', component: TabsComponent },
+  { path: 'theming', component: ThemingComponent },
   { path: 'tooltip', component: TooltipComponent },
-  { path: 'slider', component: SliderComponent }
+  { path: 'typography', component: TypographyComponent }
 ];
 
 @NgModule({
@@ -120,7 +123,8 @@ const routes: Routes = [
     RadioListComponent,
     DecagramComponent,
     TooltipComponent,
-    SliderComponent
+    SliderComponent,
+    SpinnerComponent
   ],
   imports: [
     RouterModule.forRoot(routes),
@@ -159,7 +163,8 @@ const routes: Routes = [
     XuiSnackbarModule,
     XuiTextareaModule,
     XuiSelectModule,
-    XuiSliderModule
+    XuiSliderModule,
+    XuiSpinnerModule
   ],
   providers: [
     {

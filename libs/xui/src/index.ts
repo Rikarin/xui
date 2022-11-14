@@ -16,6 +16,7 @@ export * from './select';
 export * from './settings';
 export * from './slider';
 export * from './snackbar';
+export * from './spinner';
 export * from './switch';
 export * from './tabs';
 export * from './textarea';

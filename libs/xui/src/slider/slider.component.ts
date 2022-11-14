@@ -34,8 +34,6 @@ export class XuiSliderComponent implements ControlValueAccessor, OnInit, AfterVi
   _posX = new BehaviorSubject<number>(0);
   _value?: number;
   touched = false;
-  onChange = (source?: number) => {};
-  onTouched = () => {};
 
   position$ = this._posX.pipe(map(x => ({ x, y: 0 })));
 
@@ -44,17 +42,17 @@ export class XuiSliderComponent implements ControlValueAccessor, OnInit, AfterVi
 
   // TODO: default and focus
   // @Input() @InputBoolean() disabled: boolean = false;
-  @Input() @InputBoolean() tooltipDisabled: boolean = false;
+  @Input() @InputBoolean() tooltipDisabled = false;
   @Input() color: SliderColor = 'primary';
   @Input() secondColor?: SliderColor;
   // @Input() size: 'normal' | 'small' = 'normal';
 
-  @Input() @InputNumber() min: number = 0;
-  @Input() @InputNumber() max: number = 100;
-  @Input() @InputNumber() step: number = 1;
+  @Input() @InputNumber() min = 0;
+  @Input() @InputNumber() max = 100;
+  @Input() @InputNumber() step = 1;
   @Input() tipFormatter?: (value: number) => string;
   @Input() marks?: SliderMark[];
-  @Input() @InputBoolean() range: boolean = false;
+  @Input() @InputBoolean() range = false;
 
   @Input()
   get value() {
@@ -109,7 +107,6 @@ export class XuiSliderComponent implements ControlValueAccessor, OnInit, AfterVi
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log('cha', changes);
     if (changes['value']) {
       this.setPositionByPercentage(this.percentage);
     }
@@ -158,6 +155,9 @@ export class XuiSliderComponent implements ControlValueAccessor, OnInit, AfterVi
     this._posX.next((value / 100) * this.hostRect.width - 5);
     this.changeDetectorRef.markForCheck();
   }
+
+  private onChange = (source?: number) => {};
+  private onTouched = () => {};
 }
 
 export interface SliderMark {

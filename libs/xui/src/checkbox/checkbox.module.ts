@@ -1,11 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { XuiCheckboxComponent } from './checkbox.component';
-import { XuiIconModule } from '../icon';
 
 @NgModule({
   declarations: [XuiCheckboxComponent],
-  imports: [CommonModule, XuiIconModule],
+  imports: [CommonModule],
   exports: [XuiCheckboxComponent]
 })
 export class XuiCheckboxModule {}

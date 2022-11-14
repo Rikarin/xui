@@ -25,8 +25,6 @@ import { InputColor, InputSize, InputType } from './input.types';
 export class XuiInputComponent implements ControlValueAccessor, OnInit {
   _value?: string;
   touched = false;
-  onChange = (source?: string) => {};
-  onTouched = () => {};
 
   @Input() placeholder?: string;
   @Input() @InputBoolean() disabled: boolean = false;
@@ -49,7 +47,7 @@ export class XuiInputComponent implements ControlValueAccessor, OnInit {
   }
 
   get styles() {
-    const ret: any = {
+    const ret: { [klass: string]: boolean } = {
       input: true,
       'input-error': this.showError
     };
@@ -110,4 +108,7 @@ export class XuiInputComponent implements ControlValueAccessor, OnInit {
       this.touched = true;
     }
   }
+
+  private onChange = (source?: string) => {};
+  private onTouched = () => {};
 }

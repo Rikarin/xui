@@ -14,7 +14,7 @@ import { DecagramColor, DecagramType } from './decagram.types';
   `
 })
 export class XuiDecagramComponent {
-  @Input() @InputNumber() iconSize: number = 65;
+  @Input() @InputNumber() iconSize = 65;
   @Input() type: DecagramType = 'decagram';
   @Input() color: DecagramColor = 'primary';
 

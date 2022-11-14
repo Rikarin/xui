@@ -16,6 +16,7 @@ import { Dialog, DialogRef } from '@angular/cdk/dialog';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { InputNumber } from '../utils';
 import { XuiImageUploadCropperComponent } from './image-upload-cropper';
+import { ImageUploadType } from './image-upload.types';
 
 @Component({
   selector: 'xui-image-upload',
@@ -26,22 +27,21 @@ import { XuiImageUploadCropperComponent } from './image-upload-cropper';
   templateUrl: './image-upload.component.html'
 })
 export class XuiImageUploadComponent implements ControlValueAccessor, OnInit {
+  private onChange?: (source?: string) => void;
+  private onTouched?: () => void;
   private _backgroundImage?: string;
-  private dialogRef?: DialogRef<any, XuiImageUploadCropperComponent>;
+  private dialogRef?: DialogRef<unknown, XuiImageUploadCropperComponent>;
 
   touched = false;
   croppedImage?: string = '';
 
-  onChange = (source?: string) => {};
-  onTouched = () => {};
-
-  @Input() hoverLabel: string = 'xui.image_upload.change_image';
-  @Input() type: 'square' | 'round' = 'square';
+  @Input() hoverLabel = 'xui.image_upload.change_image';
+  @Input() type: ImageUploadType = 'square';
   @Input() @InputNumber() aspectRatio = 1;
   @ViewChild('input') inputElm!: ElementRef;
 
   get classes() {
-    const ret: any = {
+    const ret: { [klass: string]: boolean } = {
       'image-upload': true,
       'upload-square': this.type === 'square'
     };
@@ -103,7 +103,7 @@ export class XuiImageUploadComponent implements ControlValueAccessor, OnInit {
   };
 
   save = () => {
-    this.onChange(this.croppedImage);
+    this.onChange?.(this.croppedImage);
     this._backgroundImage = this.croppedImage;
     this.dialogRef?.close();
     this.changeDetectorRef.markForCheck();
@@ -114,17 +114,17 @@ export class XuiImageUploadComponent implements ControlValueAccessor, OnInit {
     this._backgroundImage = source;
   }
 
-  registerOnChange(onChange: any) {
+  registerOnChange(onChange: (source?: string) => void) {
     this.onChange = onChange;
   }
 
-  registerOnTouched(onTouched: any) {
+  registerOnTouched(onTouched: () => void) {
     this.onTouched = onTouched;
   }
 
   markAsTouched() {
     if (!this.touched) {
-      this.onTouched();
+      this.onTouched?.();
       this.touched = true;
     }
   }

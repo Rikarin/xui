@@ -1,4 +1,4 @@
-import { Component, Input, ViewEncapsulation } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { InputBoolean } from 'xui';
 import sdk, { Project } from '@stackblitz/sdk';
 import packageInfo from '../../../../../../package.json';

@@ -7,7 +7,6 @@ import {
   HostListener,
   Inject,
   Input,
-  OnInit,
   Output,
   ViewEncapsulation
 } from '@angular/core';
@@ -47,7 +46,7 @@ import { delay, InputNumber } from '../utils';
     ])
   ]
 })
-export class XuiSettingsComponent implements OnInit {
+export class XuiSettingsComponent {
   @Input() @InputNumber() defaultPage = 1;
   @Input() items?: MenuItem[];
   @Output() onClosed = new EventEmitter<void>();
@@ -67,8 +66,6 @@ export class XuiSettingsComponent implements OnInit {
   }
 
   constructor(private snackBar: MatSnackBar, private changeDetectorRef: ChangeDetectorRef) {}
-
-  ngOnInit() {}
 
   stateChanged = (canExit: boolean) => {
     this.canExit = canExit;

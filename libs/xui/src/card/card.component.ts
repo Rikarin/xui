@@ -20,14 +20,14 @@ import { inNextTick } from '../utils';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class XuiCardComponent implements AfterViewInit {
-  titlePortal?: Portal<any>;
-  extraPortal?: Portal<any>;
-  actionsPortal?: Portal<any>;
+  titlePortal?: Portal<unknown>;
+  extraPortal?: Portal<unknown>;
+  actionsPortal?: Portal<unknown>;
 
   @Input() loading!: boolean;
-  @Input() title?: string | TemplateRef<any>;
-  @Input() extra?: TemplateRef<any>;
-  @Input() actions?: TemplateRef<any>;
+  @Input() title?: string | TemplateRef<unknown>;
+  @Input() extra?: TemplateRef<unknown>;
+  @Input() actions?: TemplateRef<unknown>;
 
   @ViewChild('titleText') titleText!: TemplateRef<unknown>;
 

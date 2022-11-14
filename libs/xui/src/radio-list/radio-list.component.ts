@@ -30,8 +30,6 @@ export class XuiRadioListComponent implements ControlValueAccessor, OnInit {
   _mouseDown = false;
   _value: string | null = null;
   touched = false;
-  onChange = (source?: string | null) => {};
-  onTouched = () => {};
 
   @Input()
   get value() {
@@ -116,4 +114,7 @@ export class XuiRadioListComponent implements ControlValueAccessor, OnInit {
   private focusout() {
     this.radioListService.clearAllFocus();
   }
+
+  private onChange = (source?: string | null) => {};
+  private onTouched = () => {};
 }

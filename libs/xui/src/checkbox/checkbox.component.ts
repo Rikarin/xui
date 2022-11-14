@@ -13,6 +13,7 @@ import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { InputBoolean } from '../utils';
 import { TranslateService } from '@ngx-translate/core';
 import { InputGroupService } from '../input/input-group.service';
+import { CheckboxColor } from './checkbox.types';
 
 @Component({
   selector: 'xui-checkbox',
@@ -20,22 +21,39 @@ import { InputGroupService } from '../input/input-group.service';
   styleUrls: ['checkbox.scss'],
   encapsulation: ViewEncapsulation.ShadowDom,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './checkbox.component.html'
+  template: ` <div [ngClass]="styles">
+    <div class="box" [class.checked]="value">
+      <svg
+        *ngIf="value"
+        viewBox="0 0 24 24"
+        height="100%"
+        width="100%"
+        preserveAspectRatio="xMidYMid meet"
+        focusable="false"
+      >
+        <path d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path>
+      </svg>
+    </div>
+    <ng-content></ng-content>
+  </div>`
 })
 export class XuiCheckboxComponent implements ControlValueAccessor, OnInit {
+  private onChange?: (source?: boolean) => void;
+  private onTouched?: () => void;
   _value = false;
   touched = false;
-  onChange = (_?: boolean) => {};
-  onTouched = () => {};
 
   @Input() @InputBoolean() disabled = false;
-  // @Input() color: 'success' | 'warning' | 'info' | 'primary' | 'error' = 'success';
+  @Input() color: CheckboxColor = 'primary';
 
   get styles() {
-    return {
+    const ret: { [klass: string]: boolean } = {
       checkbox: true,
       disabled: this.disabled
     };
+
+    ret[`checkbox-color-${this.color}`] = true;
+    return ret;
   }
 
   @Input()
@@ -47,7 +65,7 @@ export class XuiCheckboxComponent implements ControlValueAccessor, OnInit {
   set value(v) {
     if (this._value !== v) {
       this._value = v;
-      this.onChange(v);
+      this.onChange?.(v);
       this.changeDetectorRef.markForCheck();
     }
   }
@@ -71,17 +89,17 @@ export class XuiCheckboxComponent implements ControlValueAccessor, OnInit {
     this.value = source;
   }
 
-  registerOnChange(onChange: any) {
+  registerOnChange(onChange: (source?: boolean) => void) {
     this.onChange = onChange;
   }
 
-  registerOnTouched(onTouched: any) {
+  registerOnTouched(onTouched: () => void) {
     this.onTouched = onTouched;
   }
 
   markAsTouched() {
     if (!this.touched) {
-      this.onTouched();
+      this.onTouched?.();
       this.touched = true;
     }
   }

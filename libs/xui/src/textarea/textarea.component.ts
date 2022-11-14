@@ -24,8 +24,6 @@ import { TextareaColor, TextareaSize } from './textarea.types';
 export class XuiTextareaComponent implements ControlValueAccessor, OnInit {
   _value?: string;
   touched = false;
-  onChange = (source?: string) => {};
-  onTouched = () => {};
 
   @Input() placeholder?: string;
   @Input() @InputBoolean() disabled: boolean = false;
@@ -52,7 +50,7 @@ export class XuiTextareaComponent implements ControlValueAccessor, OnInit {
   }
 
   get styles() {
-    const ret: any = {
+    const ret: { [klass: string]: boolean } = {
       textarea: true,
       disabled: this.disabled
     };
@@ -111,4 +109,7 @@ export class XuiTextareaComponent implements ControlValueAccessor, OnInit {
       this.touched = true;
     }
   }
+
+  private onChange = (source?: string) => {};
+  private onTouched = () => {};
 }

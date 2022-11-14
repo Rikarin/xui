@@ -15,12 +15,9 @@
     overscroll-behavior: none;
   }
 
+  html,
   body {
     overflow: hidden;
-  }
-
-  .xui-no-user-select {
-    user-select: none;
   }
 
   a {
@@ -30,11 +27,6 @@
     &:hover {
       text-decoration: underline;
     }
-  }
-
-  .xui-disabled-filter {
-    opacity: 0.6;
-    //filter: grayscale(0.3) brightness(0.8) opacity(0.5);
   }
 
   a,

@@ -31,8 +31,6 @@ import { SelectColor } from './select.types';
 export class XuiSelectComponent implements ControlValueAccessor, OnInit, AfterViewInit {
   _value?: string;
   touched = false;
-  onChange = (source?: string) => {};
-  onTouched = () => {};
 
   isOpen = false;
   selectedOption: XuiOptionComponent | null = null;
@@ -65,7 +63,7 @@ export class XuiSelectComponent implements ControlValueAccessor, OnInit, AfterVi
   }
 
   get styles() {
-    const ret: any = {
+    const ret: { [klass: string]: boolean } = {
       select: true,
       'select-disabled': this.disabled
     };
@@ -134,6 +132,9 @@ export class XuiSelectComponent implements ControlValueAccessor, OnInit, AfterVi
       this.touched = true;
     }
   }
+
+  private onChange = (source?: string) => {};
+  private onTouched = () => {};
 }
 
 @Component({

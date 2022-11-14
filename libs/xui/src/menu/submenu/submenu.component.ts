@@ -1,12 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-  ViewEncapsulation
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
 import { XuiSubmenuService } from '../submenu.service';
 import { InputBoolean } from '../../utils';
 
@@ -16,12 +8,12 @@ import { InputBoolean } from '../../utils';
   providers: [XuiSubmenuService],
   templateUrl: './submenu.component.html',
   encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  host: {
-    // '[style.paddingLeft.px]': 'paddingLeft'
-  }
+  changeDetection: ChangeDetectionStrategy.OnPush
+  // host: {
+  // '[style.paddingLeft.px]': 'paddingLeft'
+  // }
 })
-export class XuiSubMenuComponent implements OnInit {
+export class XuiSubMenuComponent {
   @Input() title!: string;
   @Input() icon!: string;
   @Input() @InputBoolean() open = false;
@@ -30,8 +22,6 @@ export class XuiSubMenuComponent implements OnInit {
   paddingLeft = this.submenuService.level * 24;
 
   constructor(private submenuService: XuiSubmenuService) {}
-
-  ngOnInit() {}
 
   toggleSubmenu() {
     this.open = !this.open;

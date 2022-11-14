@@ -42,14 +42,14 @@ export class XuiRadioOptionComponent implements OnInit, OnDestroy {
   }
 
   get styles() {
-    const ret: any = {
+    const ret: { [klass: string]: boolean } = {
       'radio-option': true,
       'radio-option-focus': this.isFocused,
       'radio-option-active': this.isSelected,
       'radio-option-disabled': this.disabled
     };
 
-    ret[`radio-option-color-${this.color}`] = this.color;
+    ret[`radio-option-color-${this.color}`] = !!this.color;
     return ret;
   }
 

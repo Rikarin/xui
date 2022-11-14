@@ -2,10 +2,8 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  EventEmitter,
   HostListener,
   Input,
-  Output,
   ViewEncapsulation
 } from '@angular/core';
 import { WithConfig } from '../config';
@@ -19,7 +17,7 @@ import { ButtonColor, ButtonSize, ButtonType } from './button.types';
   encapsulation: ViewEncapsulation.ShadowDom,
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <div [ngClass]="styles" part="button" tabindex="0" (click)="_onAsync()">
+    <div [ngClass]="styles" [attr.disabled]="disabled || null" part="button" tabindex="0" (click)="_onAsync()">
       <div class="content" part="content">
         <ng-content></ng-content>
       </div>
@@ -30,10 +28,7 @@ import { ButtonColor, ButtonSize, ButtonType } from './button.types';
         </div>
       </div>
     </div>
-  `,
-  host: {
-    '[attr.disabled]': 'disabled || null'
-  }
+  `
 })
 export class XuiButtonComponent {
   state: 0 | 1 | 2 | 3 = 0;
@@ -46,12 +41,12 @@ export class XuiButtonComponent {
   @Input() onClick?: () => Promise<boolean>;
   @Input() @InputNumber() @WithConfig() stateDelay = 5000;
 
-  @Output() readonly click = new EventEmitter<any>();
+  // @Output() readonly click = new EventEmitter<any>();
 
   constructor(private changeDetectorRef: ChangeDetectorRef) {}
 
   get styles() {
-    const ret: any = {
+    const ret: { [klass: string]: boolean } = {
       button: true,
       'state--loading': this.state == 1,
       'state--succeeded': this.state == 2,
@@ -67,9 +62,9 @@ export class XuiButtonComponent {
 
   @HostListener('keydown.enter', ['$event'])
   @HostListener('keydown.space', ['$event'])
-  private _keyPress(event: any) {
+  private _keyPress(event: KeyboardEvent) {
     event?.preventDefault();
-    this.click.emit();
+    // this.click.emit();
 
     return this._onAsync();
   }

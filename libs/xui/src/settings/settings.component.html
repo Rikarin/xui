@@ -10,7 +10,7 @@
         <div
           *ngFor="let item of items; let i = index"
           [class.item]="item.type === 'item'"
-          [class.active]="i == defaultPage"
+          [class.active]="i === defaultPage"
           [class.category]="item.type === 'category'"
           [class.divider]="item.type === 'divider'"
           [class.red]="item.critical"

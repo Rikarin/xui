@@ -25,7 +25,7 @@ export class XuiBannerComponent {
   @Output() bannerClose = new EventEmitter();
 
   get styles() {
-    const ret: any = {
+    const ret: { [klass: string]: boolean } = {
       banner: true,
       dismissible: this.dismissible
     };

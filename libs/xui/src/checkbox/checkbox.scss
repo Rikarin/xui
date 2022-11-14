@@ -2,37 +2,37 @@
 @use '../theming/theming';
 
 .checkbox {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: 12px;
   cursor: pointer;
-
-  &:hover {
-    xui-icon {
-      color: var(--primary-color-default);
-    }
-
-    .checked {
-      color: var(--primary-color-darker);
-    }
-  }
+  user-select: none;
 }
 
-.checked {
-  color: var(--primary-color-default);
+.box {
+  width: 18px;
+  height: 18px;
+
+  box-sizing: border-box;
+  border: 1px solid white; // TODO
+  border-radius: 5px;
+
+  svg {
+    fill: white;
+    margin-bottom: 1px;
+  }
 }
 
 .disabled {
   @include core.disabled-filter();
   cursor: not-allowed;
+}
 
-  &:hover {
-    xui-icon {
-      color: inherit;
-    }
-
+@each $name in theming.$variations {
+  .checkbox-color-#{$name} {
     .checked {
-      color: var(--primary-color-default);
+      background-color: var(-- + $name + -color-default);
+      border-color: var(-- + $name + -color-400);
     }
   }
 }

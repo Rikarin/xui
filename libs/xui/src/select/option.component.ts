@@ -35,7 +35,7 @@ export class XuiOptionComponent implements OnInit, OnDestroy {
   @ViewChild('content') contentRef!: ElementRef;
 
   get styles() {
-    const ret: any = {
+    const ret: { [klass: string]: boolean } = {
       option: true,
       'option-selected': this.isSelected,
       'option-disabled': this.disabled

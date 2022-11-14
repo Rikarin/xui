@@ -25,8 +25,6 @@ import { SwitchColor } from './switch.types';
 export class XuiSwitchComponent implements ControlValueAccessor, OnInit {
   _value = false;
   touched = false;
-  onChange = (source?: boolean) => {};
-  onTouched = () => {};
 
   @Input() @InputBoolean() disabled = false;
   @Input() color: SwitchColor = 'success';
@@ -52,7 +50,7 @@ export class XuiSwitchComponent implements ControlValueAccessor, OnInit {
   }
 
   get styleSwitch() {
-    const ret: any = {
+    const ret: { [klass: string]: boolean } = {
       switch: true,
       enabled: this.value
     };
@@ -103,4 +101,7 @@ export class XuiSwitchComponent implements ControlValueAccessor, OnInit {
       this.value = !this.value;
     }
   }
+
+  private onChange = (source?: boolean) => {};
+  private onTouched = () => {};
 }

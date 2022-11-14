@@ -1,4 +1,5 @@
 @use '../theming/theming';
+@use '../core/scrollbar';
 @use '../core/typography';
 
 dialog {
@@ -98,6 +99,7 @@ dialog {
     overflow: hidden scroll;
 
     margin: 50px 40px 0 50px;
+    @include scrollbar.scrollbar();
   }
 
   .settings-close-anchor {

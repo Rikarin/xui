@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
 import { InputNumber } from '../utils';
 import { ProgressColor, ProgressStatus, ProgressType } from './progress.types';
 
@@ -17,7 +17,7 @@ export class XuiProgressComponent {
   @Input() status: ProgressStatus = null;
 
   get style() {
-    const ret: any = {
+    const ret: { [klass: string]: boolean } = {
       'indicator-status': true
     };
 
