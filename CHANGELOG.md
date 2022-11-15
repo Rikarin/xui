@@ -4,10 +4,9 @@ All notable changes to this project will be documented in this file. See [standa
 
 ## [1.29.0](https://github.com/Rikarin/xui/compare/v1.28.13...v1.29.0) (2022-11-15)
 
-
 ### Features
 
-* add radio-list color and size ([e4f99cd](https://github.com/Rikarin/xui/commit/e4f99cd2812555bfb2450fe031be192edc58d399))
+- add radio-list color and size ([e4f99cd](https://github.com/Rikarin/xui/commit/e4f99cd2812555bfb2450fe031be192edc58d399))
 
 ### [1.28.13](https://github.com/Rikarin/xui/compare/v1.28.12...v1.28.13) (2022-11-15)
 

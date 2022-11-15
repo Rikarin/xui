@@ -16,6 +16,7 @@ import { InputGroupService } from '../input/input-group.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { distinctUntilChanged } from 'rxjs';
 import { RadioListColor, RadioListSize } from './radio-list.types';
+import { filter } from 'rxjs/operators';
 
 @UntilDestroy()
 @Component({
@@ -65,9 +66,13 @@ export class XuiRadioListComponent implements ControlValueAccessor, OnInit {
   }
 
   ngOnInit() {
-    this.control?.statusChanges!.subscribe(() => this.changeDetectorRef.markForCheck());
+    this.control?.statusChanges?.subscribe(() => this.changeDetectorRef.markForCheck());
     this.radioListService.selected$
-      .pipe(distinctUntilChanged(), untilDestroyed(this))
+      .pipe(
+        distinctUntilChanged(),
+        filter(x => x !== undefined),
+        untilDestroyed(this)
+      )
       .subscribe(option => (this.value = option?.value ?? null));
   }
 
