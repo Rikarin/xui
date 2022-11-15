@@ -3,13 +3,13 @@
 
 @use 'core/core';
 @use 'core/typography';
+@use 'table/table';
+@use 'theming/theming';
 
+// Fix this
 @use 'core/scrollbar';
 @use 'layout/layout';
 @use 'menu/menu';
-
-@use 'table/table';
-@use 'theming/theming';
 // title
 
 @forward 'core/core';
@@ -24,7 +24,7 @@
 // title
 
 @mixin all-component-themes($theme) {
-  @include scrollbar.theme($theme);
+  @include scrollbar.theme();
   @include layout.theme($theme);
   @include menu.theme($theme);
   @include table.theme();
@@ -40,15 +40,18 @@
   @import url('https://fonts.googleapis.com/css?family=Bungee:400,500,600,700,800&display=swap');
 }
 
+@mixin all-variables($theme) {
+  @include theming.create-color-variables($theme);
+  @include theming.create-elevation-variables($theme);
+  @include typography.create-typography-variables($theme);
+
+  // TODO: move this to typography
+  --text-normal: #d7dee4;
+  --text-muted: #72787d;
+}
+
 @mixin all-root-variables($theme) {
   :root {
-    @include theming.create-color-variables($theme);
-    @include theming.create-elevation-variables($theme);
-    @include typography.create-typography-variables($theme);
-    // TODO: typography
-
-    // TODO: move this to typography
-    --text-normal: #d7dee4;
-    --text-muted: #72787d;
+    @include all-variables($theme);
   }
 }

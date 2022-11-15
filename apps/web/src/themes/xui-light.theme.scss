@@ -1,0 +1,16 @@
+@use 'sass:map';
+@use '../../../../libs/xui/src/index' as xui;
+@use '../../../../libs/xui/src/theming/xui.theme' as xui-theme;
+
+$theme: xui.define-light-theme(
+  (
+    color: (
+      primary: xui.define-palette(xui.generate-palette(#1f75cb)),
+      primary-alt: xui.define-palette(xui-theme.$purple-palette),
+      secondary: xui.define-palette(xui-theme.$orange-palette)
+    )
+  )
+);
+
+@include xui.all-component-themes($theme);
+@include xui.all-root-variables($theme);

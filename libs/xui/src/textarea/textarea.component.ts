@@ -17,16 +17,19 @@ import { TextareaColor, TextareaSize } from './textarea.types';
   selector: 'xui-textarea',
   exportAs: 'xuiTextarea',
   styleUrls: ['textarea.scss'],
-  encapsulation: ViewEncapsulation.ShadowDom,
+  encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: 'textarea.component.html'
 })
 export class XuiTextareaComponent implements ControlValueAccessor, OnInit {
+  private onChange?: (source?: string) => void;
+  private onTouched?: () => void;
+
   _value?: string;
   touched = false;
 
   @Input() placeholder?: string;
-  @Input() @InputBoolean() disabled: boolean = false;
+  @Input() @InputBoolean() disabled = false;
   @Input() color: TextareaColor = 'light';
   @Input() size: TextareaSize = 'normal';
   @Input() @InputNumber() rows = 3;
@@ -40,7 +43,7 @@ export class XuiTextareaComponent implements ControlValueAccessor, OnInit {
   set value(v) {
     if (this._value !== v) {
       this._value = v;
-      this.onChange(v);
+      this.onChange?.(v);
       this.changeDetectorRef.markForCheck();
     }
   }
@@ -75,7 +78,7 @@ export class XuiTextareaComponent implements ControlValueAccessor, OnInit {
   }
 
   ngOnInit() {
-    this.control?.statusChanges!.subscribe(() => this.changeDetectorRef.markForCheck());
+    this.control?.statusChanges?.subscribe(() => this.changeDetectorRef.markForCheck());
   }
 
   get invalid(): boolean {
@@ -95,21 +98,18 @@ export class XuiTextareaComponent implements ControlValueAccessor, OnInit {
     this.value = source;
   }
 
-  registerOnChange(onChange: any) {
+  registerOnChange(onChange: (source?: string) => void) {
     this.onChange = onChange;
   }
 
-  registerOnTouched(onTouched: any) {
+  registerOnTouched(onTouched: () => void) {
     this.onTouched = onTouched;
   }
 
   markAsTouched() {
     if (!this.touched) {
-      this.onTouched();
+      this.onTouched?.();
       this.touched = true;
     }
   }
-
-  private onChange = (source?: string) => {};
-  private onTouched = () => {};
 }

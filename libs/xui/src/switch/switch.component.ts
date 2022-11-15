@@ -18,11 +18,14 @@ import { SwitchColor } from './switch.types';
   selector: 'xui-switch',
   exportAs: 'xuiSwitch',
   styleUrls: ['switch.scss'],
-  encapsulation: ViewEncapsulation.ShadowDom,
+  encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './switch.component.html'
 })
 export class XuiSwitchComponent implements ControlValueAccessor, OnInit {
+  private onChange?: (source?: boolean) => void;
+  private onTouched?: () => void;
+
   _value = false;
   touched = false;
 
@@ -37,7 +40,7 @@ export class XuiSwitchComponent implements ControlValueAccessor, OnInit {
   set value(v) {
     if (this._value !== v) {
       this._value = v;
-      this.onChange(v);
+      this.onChange?.(v);
       this.changeDetectorRef.markForCheck();
     }
   }
@@ -70,38 +73,35 @@ export class XuiSwitchComponent implements ControlValueAccessor, OnInit {
   }
 
   ngOnInit() {
-    this.control?.statusChanges!.subscribe(() => this.changeDetectorRef.markForCheck());
+    this.control?.statusChanges?.subscribe(() => this.changeDetectorRef.markForCheck());
   }
 
   writeValue(source: boolean) {
     this.value = source;
   }
 
-  registerOnChange(onChange: any) {
+  registerOnChange(onChange: (source?: boolean) => void) {
     this.onChange = onChange;
   }
 
-  registerOnTouched(onTouched: any) {
+  registerOnTouched(onTouched: () => void) {
     this.onTouched = onTouched;
   }
 
   markAsTouched() {
     if (!this.touched) {
-      this.onTouched();
+      this.onTouched?.();
       this.touched = true;
     }
   }
 
   @HostListener('keydown.enter', ['$event'])
   @HostListener('keydown.space', ['$event'])
-  _click(event?: any) {
+  _click(event?: KeyboardEvent | MouseEvent) {
     event?.preventDefault();
 
     if (!this.disabled) {
       this.value = !this.value;
     }
   }
-
-  private onChange = (source?: boolean) => {};
-  private onTouched = () => {};
 }

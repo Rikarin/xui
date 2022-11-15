@@ -21,12 +21,15 @@ import { distinctUntilChanged } from 'rxjs';
   selector: 'xui-radio-list',
   exportAs: 'xuiRadioList',
   styleUrls: ['radio-list.scss'],
-  encapsulation: ViewEncapsulation.ShadowDom,
+  encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: '<div class="radio-list" tabindex="0"><ng-content></ng-content></div>',
   providers: [RadioListService]
 })
 export class XuiRadioListComponent implements ControlValueAccessor, OnInit {
+  private onChange?: (source?: string | null) => void;
+  private onTouched?: () => void;
+
   _mouseDown = false;
   _value: string | null = null;
   touched = false;
@@ -39,7 +42,7 @@ export class XuiRadioListComponent implements ControlValueAccessor, OnInit {
   set value(v) {
     if (this._value !== v) {
       this._value = v;
-      this.onChange(v);
+      this.onChange?.(v);
       this.radioListService.select(v!);
       this.changeDetectorRef.markForCheck();
     }
@@ -68,17 +71,17 @@ export class XuiRadioListComponent implements ControlValueAccessor, OnInit {
     this.value = source;
   }
 
-  registerOnChange(onChange: any) {
+  registerOnChange(onChange: (source?: string | null) => void) {
     this.onChange = onChange;
   }
 
-  registerOnTouched(onTouched: any) {
+  registerOnTouched(onTouched: () => void) {
     this.onTouched = onTouched;
   }
 
   markAsTouched() {
     if (!this.touched) {
-      this.onTouched();
+      this.onTouched?.();
       this.touched = true;
     }
   }
@@ -114,7 +117,4 @@ export class XuiRadioListComponent implements ControlValueAccessor, OnInit {
   private focusout() {
     this.radioListService.clearAllFocus();
   }
-
-  private onChange = (source?: string | null) => {};
-  private onTouched = () => {};
 }

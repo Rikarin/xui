@@ -12,6 +12,7 @@
   display: flex;
   gap: 8px;
   align-items: center;
+  box-sizing: border-box;
   border-radius: 3px;
 
   @include theming.focus-visible();

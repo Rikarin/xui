@@ -14,7 +14,7 @@ import { BannerType } from './banner.types';
   selector: 'xui-banner',
   exportAs: 'xuiBanner',
   styleUrls: ['banner.scss'],
-  encapsulation: ViewEncapsulation.ShadowDom,
+  encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './banner.component.html'
 })

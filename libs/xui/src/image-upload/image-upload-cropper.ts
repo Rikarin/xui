@@ -5,7 +5,7 @@ import { DIALOG_DATA } from '@angular/cdk/dialog';
   selector: 'xui-image-upload-cropper',
   exportAs: 'xuiImageUploadCropper',
   styleUrls: ['image-upload-cropper.scss'],
-  encapsulation: ViewEncapsulation.ShadowDom,
+  encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="cropper">

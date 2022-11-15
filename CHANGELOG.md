@@ -4,10 +4,9 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### [1.28.12](https://github.com/Rikarin/xui/compare/v1.28.11...v1.28.12) (2022-11-14)
 
-
 ### Bug Fixes
 
-* stuff ([98a7e7d](https://github.com/Rikarin/xui/commit/98a7e7d99a1442c0435ac0feebb80f14c13daeb6))
+- stuff ([98a7e7d](https://github.com/Rikarin/xui/commit/98a7e7d99a1442c0435ac0feebb80f14c13daeb6))
 
 ### [1.28.11](https://github.com/Rikarin/xui/compare/v1.28.10...v1.28.11) (2022-11-13)
 

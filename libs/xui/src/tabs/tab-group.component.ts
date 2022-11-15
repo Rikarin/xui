@@ -6,7 +6,7 @@ import { XuiTabComponent } from './tab.component';
   exportAs: 'xuiTabGroup',
   styleUrls: ['tabs.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.ShadowDom,
+  encapsulation: ViewEncapsulation.Emulated,
   template: `
     <div class="list">
       <div

@@ -23,3 +23,4 @@ export * from './textarea';
 export * from './title';
 export * from './tooltip';
 export * from './utils';
+export * from './theming';

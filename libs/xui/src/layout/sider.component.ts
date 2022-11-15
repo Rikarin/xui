@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, ViewEncapsulation } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  HostBinding,
+  Input,
+  OnChanges,
+  OnInit,
+  ViewEncapsulation
+} from '@angular/core';
 import { parseCss } from '../utils';
 
 @Component({
@@ -6,12 +14,10 @@ import { parseCss } from '../utils';
   exportAs: 'xuiSider',
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: '<ng-content></ng-content>',
-  host: {
-    '[style.width]': '_width'
-  }
+  template: '<ng-content></ng-content>'
 })
 export class XuiSiderComponent implements OnInit, OnChanges {
+  @HostBinding('style.width')
   private _width: string | null = null;
 
   @Input() width: string | number = 'inherit';

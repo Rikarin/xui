@@ -4,6 +4,7 @@ import {
   Component,
   ComponentRef,
   EventEmitter,
+  HostBinding,
   HostListener,
   Inject,
   Input,
@@ -22,7 +23,7 @@ import { delay, InputNumber } from '../utils';
   selector: 'xui-settings',
   exportAs: 'xuiSettings',
   styleUrls: ['settings.scss'],
-  encapsulation: ViewEncapsulation.ShadowDom,
+  encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './settings.component.html',
   animations: [
@@ -162,7 +163,7 @@ export interface MenuItem {
 @Component({
   selector: 'xui-settings-save-reset-snackbar',
   styleUrls: ['settings-snackbar.scss'],
-  encapsulation: ViewEncapsulation.ShadowDom,
+  encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     {{ 'xui.settings.save_changes_text' | translate }}
@@ -193,15 +194,13 @@ export interface MenuItem {
       transition('open => close', useAnimation(fadeOutBottom)),
       transition('void => open', useAnimation(fadeInBottom))
     ])
-  ],
-  host: {
-    '[@fade]': 'animation',
-    '(@fade.done)': '_animationDone($event)'
-  }
+  ]
 })
 export class SaveResetSnackbarComponent {
-  animation = 'open';
   _doneAnimating = new Subject();
+
+  @HostBinding('@fade')
+  animation = 'open';
 
   constructor(@Inject(MAT_SNACK_BAR_DATA) private data: any, private changeDetectorRef: ChangeDetectorRef) {}
 
@@ -225,6 +224,7 @@ export class SaveResetSnackbarComponent {
     return this.data.reset();
   };
 
+  @HostListener('@fade.done', ['$event'])
   _animationDone(event: AnimationEvent) {
     if (event.toState === 'close') {
       this._doneAnimating.next(undefined);

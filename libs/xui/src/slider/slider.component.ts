@@ -4,6 +4,7 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  HostListener,
   Input,
   OnChanges,
   OnInit,
@@ -23,14 +24,14 @@ import { SliderColor } from './slider.types';
   selector: 'xui-slider',
   exportAs: 'xuiSlider',
   styleUrls: ['slider.scss'],
-  encapsulation: ViewEncapsulation.ShadowDom,
+  encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: 'slider.component.html',
-  host: {
-    '(click)': 'move($event.x)'
-  }
+  templateUrl: 'slider.component.html'
 })
 export class XuiSliderComponent implements ControlValueAccessor, OnInit, AfterViewInit, OnChanges {
+  private onChange?: (source?: number) => void;
+  private onTouched?: () => void;
+
   _posX = new BehaviorSubject<number>(0);
   _value?: number;
   touched = false;
@@ -63,7 +64,7 @@ export class XuiSliderComponent implements ControlValueAccessor, OnInit, AfterVi
     if (this._value !== v) {
       this._value = v;
 
-      this.onChange(v);
+      this.onChange?.(v);
       this.changeDetectorRef.markForCheck();
     }
   }
@@ -95,7 +96,7 @@ export class XuiSliderComponent implements ControlValueAccessor, OnInit, AfterVi
   }
 
   ngOnInit() {
-    this.control?.statusChanges!.subscribe(() => {
+    this.control?.statusChanges?.subscribe(() => {
       this.setPositionByPercentage(this.percentage);
       this.changeDetectorRef.markForCheck();
     });
@@ -116,21 +117,22 @@ export class XuiSliderComponent implements ControlValueAccessor, OnInit, AfterVi
     this.value = source;
   }
 
-  registerOnChange(onChange: any) {
+  registerOnChange(onChange: (source?: number) => void) {
     this.onChange = onChange;
   }
 
-  registerOnTouched(onTouched: any) {
+  registerOnTouched(onTouched: () => void) {
     this.onTouched = onTouched;
   }
 
   markAsTouched() {
     if (!this.touched) {
-      this.onTouched();
+      this.onTouched?.();
       this.touched = true;
     }
   }
 
+  @HostListener('click', ['$event.x'])
   async move(screenX: number) {
     const cursorOffset = 5;
     const rect = this.hostRect;
@@ -155,9 +157,6 @@ export class XuiSliderComponent implements ControlValueAccessor, OnInit, AfterVi
     this._posX.next((value / 100) * this.hostRect.width - 5);
     this.changeDetectorRef.markForCheck();
   }
-
-  private onChange = (source?: number) => {};
-  private onTouched = () => {};
 }
 
 export interface SliderMark {

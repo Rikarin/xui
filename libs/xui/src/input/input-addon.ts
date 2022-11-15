@@ -6,7 +6,7 @@ import { InputColor } from './input.types';
   selector: 'xui-input-addon',
   exportAs: 'xuiInputAddon',
   styleUrls: ['input-addon.scss'],
-  encapsulation: ViewEncapsulation.ShadowDom,
+  encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: '<div [ngClass]="styles"><ng-content></ng-content></div>'
 })

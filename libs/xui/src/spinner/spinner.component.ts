@@ -5,7 +5,7 @@ import { SpinnerColor } from './spinner.types';
   selector: 'xui-spinner',
   exportAs: 'xuiSpinner',
   styleUrls: ['./spinner.scss'],
-  encapsulation: ViewEncapsulation.ShadowDom,
+  encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<div [ngClass]="styles"></div>`
 })

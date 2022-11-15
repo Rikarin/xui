@@ -23,12 +23,15 @@ import { SelectColor } from './select.types';
   selector: 'xui-select',
   exportAs: 'xuiSelect',
   styleUrls: ['select.scss'],
-  encapsulation: ViewEncapsulation.ShadowDom,
+  encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: 'select.component.html',
   providers: [SelectService]
 })
 export class XuiSelectComponent implements ControlValueAccessor, OnInit, AfterViewInit {
+  private onChange?: (source?: string) => void;
+  private onTouched?: () => void;
+
   _value?: string;
   touched = false;
 
@@ -38,6 +41,7 @@ export class XuiSelectComponent implements ControlValueAccessor, OnInit, AfterVi
   @Input() placeholder?: string;
   @Input() @InputBoolean() disabled: boolean = false;
   @Input() color: SelectColor = 'light';
+
   // @Input() size: 'normal' | 'small' = 'normal';
 
   @Input()
@@ -48,7 +52,7 @@ export class XuiSelectComponent implements ControlValueAccessor, OnInit, AfterVi
   set value(v) {
     if (this._value !== v) {
       this._value = v;
-      this.onChange(v);
+      this.onChange?.(v);
       this.selectService.select(v!);
       this.changeDetectorRef.markForCheck();
     }
@@ -97,7 +101,7 @@ export class XuiSelectComponent implements ControlValueAccessor, OnInit, AfterVi
   }
 
   ngOnInit() {
-    this.control?.statusChanges!.subscribe(() => {
+    this.control?.statusChanges?.subscribe(() => {
       this.selectService.select(this.value!);
       this.changeDetectorRef.markForCheck();
     });
@@ -118,30 +122,27 @@ export class XuiSelectComponent implements ControlValueAccessor, OnInit, AfterVi
     this.value = source;
   }
 
-  registerOnChange(onChange: any) {
+  registerOnChange(onChange: (source?: string) => void) {
     this.onChange = onChange;
   }
 
-  registerOnTouched(onTouched: any) {
+  registerOnTouched(onTouched: () => void) {
     this.onTouched = onTouched;
   }
 
   markAsTouched() {
     if (!this.touched) {
-      this.onTouched();
+      this.onTouched?.();
       this.touched = true;
     }
   }
-
-  private onChange = (source?: string) => {};
-  private onTouched = () => {};
 }
 
 @Component({
   selector: 'xui-select-options',
   exportAs: 'xuiSelectOptions',
   styleUrls: ['select-options.scss'],
-  encapsulation: ViewEncapsulation.ShadowDom,
+  encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<ng-content></ng-content>`
 })

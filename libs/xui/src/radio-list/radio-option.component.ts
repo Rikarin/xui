@@ -16,7 +16,7 @@ import { InputBoolean } from '../utils';
   selector: 'xui-radio-option',
   exportAs: 'xuiRadioOption',
   styleUrls: ['radio-list-options.scss'],
-  encapsulation: ViewEncapsulation.ShadowDom,
+  encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<div [ngClass]="styles">
     <xui-icon>{{ icon }}</xui-icon>

@@ -27,7 +27,19 @@
             "output": "./assets"
           }
         ],
-        "styles": ["apps/web/src/styles.scss"],
+        "styles": [
+          "apps/web/src/styles.scss",
+          {
+            "input": "apps/web/src/themes/xui-dark.theme.scss",
+            "inject": false,
+            "bundleName": "xui-dark.theme"
+          },
+          {
+            "input": "apps/web/src/themes/xui-light.theme.scss",
+            "inject": false,
+            "bundleName": "xui-light.theme"
+          }
+        ],
         "scripts": []
       },
       "configurations": {

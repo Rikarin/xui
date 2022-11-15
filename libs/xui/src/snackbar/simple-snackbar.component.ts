@@ -6,7 +6,7 @@ import { XUI_SNACK_BAR_DATA } from './snack-bar-config';
   selector: 'simple-snack-bar',
   exportAs: 'xuiSnackBar',
   styleUrls: ['snackbar.scss'],
-  encapsulation: ViewEncapsulation.ShadowDom,
+  encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<div class="snackbar">
     <div>{{ data.message | translate }}</div>

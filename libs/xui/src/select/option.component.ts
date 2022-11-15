@@ -19,7 +19,7 @@ import { XuiSelectComponent } from './select.component';
   selector: 'xui-option',
   exportAs: 'xuiOption',
   styleUrls: ['option.scss'],
-  encapsulation: ViewEncapsulation.ShadowDom,
+  encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<div [ngClass]="styles">
     <span #content><ng-content></ng-content></span>

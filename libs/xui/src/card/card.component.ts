@@ -16,7 +16,7 @@ import { inNextTick } from '../utils';
   exportAs: 'xuiCard',
   templateUrl: 'card.component.html',
   styleUrls: ['card.scss'],
-  encapsulation: ViewEncapsulation.ShadowDom,
+  encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class XuiCardComponent implements AfterViewInit {

@@ -14,7 +14,7 @@ import { ButtonColor, ButtonSize, ButtonType } from './button.types';
   selector: 'xui-button',
   exportAs: 'xuiButton',
   styleUrls: ['button.scss'],
-  encapsulation: ViewEncapsulation.ShadowDom,
+  encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div [ngClass]="styles" [attr.disabled]="disabled || null" part="button" tabindex="0" (click)="_onAsync()">

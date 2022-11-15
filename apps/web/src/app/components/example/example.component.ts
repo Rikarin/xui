@@ -7,7 +7,7 @@ import packageInfo from '../../../../../../package.json';
   selector: 'app-example',
   templateUrl: './example.component.html',
   styleUrls: ['./example.component.scss']
-  // encapsulation: ViewEncapsulation.ShadowDom
+  // encapsulation: ViewEncapsulation.Emulated
 })
 export class ExampleComponent {
   @Input() files: { [name: string]: string } = {};

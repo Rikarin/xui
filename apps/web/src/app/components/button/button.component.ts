@@ -6,7 +6,7 @@ import { Usage } from '../usage';
   selector: 'app-button',
   templateUrl: './button.component.html',
   styleUrls: ['./button.component.scss']
-  // encapsulation: ViewEncapsulation.ShadowDom
+  // encapsulation: ViewEncapsulation.Emulated
 })
 export class ButtonComponent {
   counter = 0;

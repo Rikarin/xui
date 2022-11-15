@@ -4,7 +4,6 @@
 @use '../../../libs/xui/src/theming/xui.theme' as xui-theme;
 
 $color: (
-  //primary: xui.define-palette(xui-theme.$blue-palette),
   primary: xui.define-palette(xui.generate-palette(#1f75cb)),
   primary-alt: xui.define-palette(xui-theme.$purple-palette),
   secondary: xui.define-palette(xui-theme.$orange-palette)
@@ -17,11 +16,15 @@ $theme: xui.define-dark-theme(
 );
 
 @include xui.core();
-@include xui.all-component-themes($theme);
 @include xui.default-typographies();
 @include xui.typography-hierarchy();
-@include xui.all-root-variables($theme);
 
+//
+//.dark-theme {
+//  @include xui.all-component-themes($theme);
+//  @include xui.all-variables($theme);
+//}
+//
 //.light-theme {
 //  $theme: xui.define-light-theme(
 //    (
@@ -30,8 +33,7 @@ $theme: xui.define-dark-theme(
 //  );
 //
 //  @include xui.all-component-themes($theme);
-//  @include xui.create-variables($theme);
-//  @include xui.typography-hierarchy($theme);
+//  @include xui.all-variables($theme);
 //}
 
 code {

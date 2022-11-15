@@ -5,7 +5,7 @@ import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/
   exportAs: 'xuiContextMenu',
   styleUrls: ['context-menu.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.ShadowDom,
+  encapsulation: ViewEncapsulation.Emulated,
   template: '<ng-content></ng-content>'
 })
 export class XuiContextMenuComponent {}

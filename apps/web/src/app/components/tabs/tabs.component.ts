@@ -4,6 +4,6 @@ import { Component } from '@angular/core';
   selector: 'app-tabs',
   templateUrl: './tabs.component.html',
   styleUrls: ['./tabs.component.scss']
-  // encapsulation: ViewEncapsulation.ShadowDom
+  // encapsulation: ViewEncapsulation.Emulated
 })
 export class TabsComponent {}

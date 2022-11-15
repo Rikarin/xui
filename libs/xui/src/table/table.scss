@@ -4,6 +4,14 @@
 @mixin theme() {
   table {
     border-collapse: collapse;
+
+    tbody {
+      @include typography.typography-level(body-1);
+
+      tr {
+        height: 48px;
+      }
+    }
   }
 
   th,
@@ -16,14 +24,6 @@
 
   tr {
     border-bottom: 1px solid var(--background-color-primary);
-  }
-
-  tbody {
-    @include typography.typography-level(body-1);
-
-    tr {
-      height: 48px;
-    }
   }
 
   thead {

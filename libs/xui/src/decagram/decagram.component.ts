@@ -6,7 +6,7 @@ import { DecagramColor, DecagramType } from './decagram.types';
   selector: 'xui-decagram',
   exportAs: 'xuiDecagram',
   styleUrls: ['decagram.scss'],
-  encapsulation: ViewEncapsulation.ShadowDom,
+  encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <xui-icon [class]="style">{{ this.type }}</xui-icon>

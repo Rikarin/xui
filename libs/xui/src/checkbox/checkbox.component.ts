@@ -19,7 +19,7 @@ import { CheckboxColor } from './checkbox.types';
   selector: 'xui-checkbox',
   exportAs: 'xuiCheckbox',
   styleUrls: ['checkbox.scss'],
-  encapsulation: ViewEncapsulation.ShadowDom,
+  encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: ` <div [ngClass]="styles">
     <div class="box" [class.checked]="value">
@@ -82,7 +82,7 @@ export class XuiCheckboxComponent implements ControlValueAccessor, OnInit {
   }
 
   ngOnInit() {
-    this.control?.statusChanges!.subscribe(() => this.changeDetectorRef.markForCheck());
+    this.control?.statusChanges?.subscribe(() => this.changeDetectorRef.markForCheck());
   }
 
   writeValue(source: boolean) {

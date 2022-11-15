@@ -22,7 +22,7 @@ import { ImageUploadType } from './image-upload.types';
   selector: 'xui-image-upload',
   exportAs: 'xuiImageUpload',
   styleUrls: ['image-upload.scss'],
-  encapsulation: ViewEncapsulation.ShadowDom,
+  encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './image-upload.component.html'
 })
@@ -79,7 +79,7 @@ export class XuiImageUploadComponent implements ControlValueAccessor, OnInit {
     this.control?.statusChanges!.subscribe(() => this.changeDetectorRef.markForCheck());
   }
 
-  handleFileInput(event: any) {
+  handleFileInput(event: unknown) {
     this.dialogRef = this.dialog.open(XuiImageUploadCropperComponent, {
       data: {
         type: this.type,
@@ -93,7 +93,7 @@ export class XuiImageUploadComponent implements ControlValueAccessor, OnInit {
 
   @HostListener('keydown.enter', ['$event'])
   @HostListener('keydown.space', ['$event'])
-  private _keyPress(event: any) {
+  private _keyPress(event: KeyboardEvent) {
     event?.preventDefault();
     this.inputElm.nativeElement.click();
   }

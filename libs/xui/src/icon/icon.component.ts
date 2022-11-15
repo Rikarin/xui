@@ -4,7 +4,7 @@ import { Component, ElementRef, ViewChild, ViewEncapsulation } from '@angular/co
   selector: 'xui-icon',
   exportAs: 'xuiIcon',
   styleUrls: ['icon.scss'],
-  encapsulation: ViewEncapsulation.ShadowDom,
+  encapsulation: ViewEncapsulation.Emulated,
   // changeDetection: ChangeDetectionStrategy.OnPush, not working with checkbox
   template: `<mat-icon [svgIcon]="icon"></mat-icon>
     <span style="display: none" #iconName><ng-content></ng-content></span>`

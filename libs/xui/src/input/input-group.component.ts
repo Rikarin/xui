@@ -6,7 +6,7 @@ import { InputSize } from './input.types';
   selector: 'xui-input-group',
   exportAs: 'xuiInputGroup',
   styleUrls: ['input-group.scss'],
-  encapsulation: ViewEncapsulation.ShadowDom,
+  encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: '<div class="input-group"><ng-content></ng-content></div>',
   providers: [InputGroupService]
