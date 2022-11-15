@@ -13,7 +13,7 @@ dialog {
   border: 0;
   user-select: none;
 
-  @include theming.background-level(secondary);
+  @include theming.background-level(primary);
 }
 
 .settings-dialog {
@@ -21,13 +21,13 @@ dialog {
   height: 100%;
   display: flex;
 
-  @include theming.background-level(secondary);
+  @include theming.background-level(primary);
 
   .settings-menu {
     flex: 1 0 220px;
     display: flex;
     justify-content: flex-end;
-    @include theming.background-level(secondary-alt);
+    @include theming.background-level(secondary);
 
     nav {
       width: 240px;
@@ -96,7 +96,7 @@ dialog {
     flex: 1 1 auto;
     display: flex;
     flex-direction: column;
-    overflow: hidden scroll;
+    overflow: hidden auto;
 
     margin: 50px 40px 0 50px;
     @include scrollbar.scrollbar();

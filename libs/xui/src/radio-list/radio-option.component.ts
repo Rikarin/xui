@@ -2,7 +2,6 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  ElementRef,
   HostListener,
   Input,
   OnDestroy,
@@ -11,6 +10,7 @@ import {
 } from '@angular/core';
 import { RadioListService } from './radio-list.service';
 import { InputBoolean } from '../utils';
+import { XuiRadioListComponent } from './radio-list.component';
 
 @Component({
   selector: 'xui-radio-option',
@@ -20,7 +20,7 @@ import { InputBoolean } from '../utils';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<div [ngClass]="styles">
     <xui-icon>{{ icon }}</xui-icon>
-    <div>
+    <div class="radio-option-content">
       <ng-content></ng-content>
       <div class="radio-option-description">
         <ng-content select="[xuiDescription]"></ng-content>
@@ -50,13 +50,15 @@ export class XuiRadioOptionComponent implements OnInit, OnDestroy {
     };
 
     ret[`radio-option-color-${this.color}`] = !!this.color;
+    ret[`radio-option-background-color-${this.radioList.color}`] = true;
+    ret[`radio-option-size-${this.radioList.size}`] = true;
     return ret;
   }
 
   constructor(
+    private radioList: XuiRadioListComponent,
     private radioListService: RadioListService,
-    private changeDetectorRef: ChangeDetectorRef,
-    private elmRef: ElementRef
+    private changeDetectorRef: ChangeDetectorRef
   ) {}
 
   ngOnInit() {

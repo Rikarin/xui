@@ -4,3 +4,14 @@
   grid-template-columns: 1fr 1fr;
   gap: 12px;
 }
+
+.desc {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+
+  img {
+    height: 18px;
+    border-radius: 4px;
+  }
+}

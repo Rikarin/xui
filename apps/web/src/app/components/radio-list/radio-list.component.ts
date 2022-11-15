@@ -8,4 +8,5 @@ import { FormControl } from '@angular/forms';
 })
 export class RadioListComponent {
   model = new FormControl('second');
+  langs = new FormControl('en_US');
 }

@@ -4,10 +4,9 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### [1.28.13](https://github.com/Rikarin/xui/compare/v1.28.12...v1.28.13) (2022-11-15)
 
-
 ### Bug Fixes
 
-* improve stuff, temporary disable ShadowDom and use Emulated ([e81ba64](https://github.com/Rikarin/xui/commit/e81ba64a2d5442ce57a2d539941c945c290e1418))
+- improve stuff, temporary disable ShadowDom and use Emulated ([e81ba64](https://github.com/Rikarin/xui/commit/e81ba64a2d5442ce57a2d539941c945c290e1418))
 
 ### [1.28.12](https://github.com/Rikarin/xui/compare/v1.28.11...v1.28.12) (2022-11-14)
 

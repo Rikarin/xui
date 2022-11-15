@@ -4,7 +4,6 @@
 @use '../core/typography';
 
 .radio-option {
-  height: 64px;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -14,8 +13,6 @@
   cursor: pointer;
   font-weight: 500;
   user-select: none;
-
-  @include theming.background-level(secondary);
 
   &:hover {
     @include theming.background-level(primary);
@@ -44,17 +41,27 @@
   @include typography.typography-level(body-2);
 }
 
-@mixin generate-color-variations($theme) {
-  $colors: map.get($theme, color);
+.radio-option-size-md {
+  height: 64px;
+}
 
-  @each $key, $value in $colors {
-    @if map.has-key($value, default) {
-      .xui-radio-option-border-#{$key} {
-        border-left: 3px solid map.get($value, default);
-        padding-left: 9px;
-      }
-    }
+.radio-option-size-sm {
+  height: 48px;
+
+  .radio-option-content {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
+}
+
+.radio-option-background-color-light {
+  @include theming.background-level(secondary);
+}
+
+.radio-option-background-color-dark {
+  @include theming.background-level(tertiary);
 }
 
 @each $name in theming.$variations {

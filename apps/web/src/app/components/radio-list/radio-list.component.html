@@ -1,5 +1,5 @@
 <app-example>
-  <xui-radio-list [formControl]="model">
+  <xui-radio-list [formControl]="model" color="dark">
     <xui-radio-option value="first">First</xui-radio-option>
     <xui-radio-option value="second">Second</xui-radio-option>
     <xui-radio-option color="success" value="third">Third</xui-radio-option>
@@ -12,5 +12,22 @@
     <p>
       Selected <strong>{{ model.value | json }}</strong>
     </p>
+  </xui-radio-list>
+</app-example>
+
+<app-example>
+  <xui-radio-list [formControl]="langs" size="sm">
+    <xui-radio-option value="sk">
+      Slovenčina
+      <div class="desc" xuiDescription>
+        Slovak <img alt="Slovakia" src="http://purecatamphetamine.github.io/country-flag-icons/3x2/SK.svg" />
+      </div>
+    </xui-radio-option>
+    <xui-radio-option value="en_US">
+      English
+      <div class="desc" xuiDescription>
+        English, US <img alt="United States" src="http://purecatamphetamine.github.io/country-flag-icons/3x2/US.svg" />
+      </div>
+    </xui-radio-option>
   </xui-radio-list>
 </app-example>

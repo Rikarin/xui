@@ -15,6 +15,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { InputGroupService } from '../input/input-group.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { distinctUntilChanged } from 'rxjs';
+import { RadioListColor, RadioListSize } from './radio-list.types';
 
 @UntilDestroy()
 @Component({
@@ -33,6 +34,9 @@ export class XuiRadioListComponent implements ControlValueAccessor, OnInit {
   _mouseDown = false;
   _value: string | null = null;
   touched = false;
+
+  @Input() size: RadioListSize = 'md';
+  @Input() color: RadioListColor = 'light';
 
   @Input()
   get value() {
