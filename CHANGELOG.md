@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.29.1](https://github.com/Rikarin/xui/compare/v1.29.0...v1.29.1) (2022-11-15)
+
+
+### Bug Fixes
+
+* xui-radio-list fix initial selection ([ab38e61](https://github.com/Rikarin/xui/commit/ab38e613809eecde6c2b066c534f33b81ef41b31))
+
 ## [1.29.0](https://github.com/Rikarin/xui/compare/v1.28.13...v1.29.0) (2022-11-15)
 
 ### Features
