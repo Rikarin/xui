@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.30.0](https://github.com/Rikarin/xui/compare/v1.29.2...v1.30.0) (2022-11-16)
+
+
+### Features
+
+* set default page in setting through the open() method instead of @Input. Improve documentation ([63c3ae8](https://github.com/Rikarin/xui/commit/63c3ae820ae0e673f733bd082a7f3a8be54278ff))
+
 ### [1.29.2](https://github.com/Rikarin/xui/compare/v1.29.1...v1.29.2) (2022-11-16)
 
 ### Bug Fixes
