@@ -12,6 +12,7 @@ xui-tab {
 
 .list {
   display: flex;
+  gap: 24px;
   margin: 15px;
 }
 
@@ -19,19 +20,20 @@ xui-tab {
   user-select: none;
   cursor: pointer;
   font-weight: 500;
-  margin-right: 20px;
+  opacity: 0.8;
 
   &.active {
     color: var(--primary-color-default);
     border-bottom: 2px solid var(--primary-color-default);
     padding-bottom: 4px;
+    opacity: 1;
   }
 
   &:hover {
-    opacity: 0.8;
+    opacity: 1;
   }
 
-  &.disabled {
+  &[disabled] {
     @include core.disabled-filter;
     cursor: not-allowed;
 

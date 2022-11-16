@@ -70,10 +70,10 @@
 
 @each $name in theming.$variations {
   .color-#{$name} {
-    background-color: var(-- + $name + -color-default);
+    background-color: var(--#{$name}-color-default);
 
     .handle {
-      color: var(-- + $name + -color-default);
+      color: var(--#{$name}-color-default);
     }
   }
 }

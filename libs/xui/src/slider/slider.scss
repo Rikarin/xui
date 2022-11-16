@@ -78,10 +78,10 @@
 
 @each $name in theming.$variations {
   .slider-color-#{$name} {
-    background-color: var(-- + $name + -color-default);
+    background-color: var(--#{$name}-color-default);
   }
 
   .slider-mark-color-#{$name} {
-    color: var(-- + $name + -color-default);
+    color: var(--#{$name}-color-default);
   }
 }

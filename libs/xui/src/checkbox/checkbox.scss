@@ -31,8 +31,8 @@
 @each $name in theming.$variations {
   .checkbox-color-#{$name} {
     .checked {
-      background-color: var(-- + $name + -color-default);
-      border-color: var(-- + $name + -color-400);
+      background-color: var(--#{$name}-color-default);
+      border-color: var(--#{$name}-color-400);
     }
   }
 }

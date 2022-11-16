@@ -5,6 +5,7 @@ import { XuiDecagramModule } from 'xui';
 
 @NgModule({
   declarations: [DecagramExample1Component],
+  exports: [DecagramExample1Component],
   imports: [CommonModule, XuiDecagramModule]
 })
 export class ExamplesModule {}

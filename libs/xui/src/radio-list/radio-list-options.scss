@@ -14,8 +14,8 @@
   font-weight: 500;
   user-select: none;
 
-  &:hover {
-    @include theming.background-level(primary);
+  &:not(.radio-option-disabled):hover {
+    background-color: theming.modifier-hover();
   }
 }
 
@@ -24,17 +24,13 @@
 }
 
 .radio-option-focus {
-  outline: 5px solid var(--info-color-300);
+  outline: 5px solid var(--focus-color);
   z-index: 1;
 }
 
 .radio-option-disabled {
   cursor: not-allowed;
   @include core.disabled-filter();
-
-  &:hover {
-    @include theming.background-level(secondary);
-  }
 }
 
 .radio-option-description {
@@ -66,7 +62,7 @@
 
 @each $name in theming.$variations {
   .radio-option-color-#{$name} {
-    border-left: 3px solid var(-- + $name + -color-default);
+    border-left: 3px solid var(--#{$name}-color-default);
     padding-left: 9px;
   }
 }

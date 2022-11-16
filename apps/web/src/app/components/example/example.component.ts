@@ -1,7 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { InputBoolean } from 'xui';
 import sdk, { Project } from '@stackblitz/sdk';
-import packageInfo from '../../../../../../package.json';
 import { HttpClient } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
 
@@ -11,45 +10,11 @@ import { lastValueFrom } from 'rxjs';
   styleUrls: ['./example.component.scss']
   // encapsulation: ViewEncapsulation.Emulated
 })
-export class ExampleComponent {
+export class ExampleComponent implements OnInit {
   allFiles: File[] = [];
 
   @Input() files: { [name: string]: FileType } = {};
   @Input() @InputBoolean() todo = false;
-
-  constructor(private http: HttpClient) {}
-
-  async ngOnInit() {
-    this.allFiles = await this.fetchFiles();
-  }
-
-  async fetchFiles() {
-    let ret: File[] = [];
-
-    // TODO: finish this
-    for (const file of Object.keys(this.files)) {
-      if (this.files[file] === FileType.Component) {
-        await this.fetchFile(file, 'component.ts', ret);
-        await this.fetchFile(file, 'component.scss', ret);
-        await this.fetchFile(file, 'component.html', ret, true);
-      }
-    }
-
-    return ret;
-  }
-
-  private async fetchFile(name: string, postfix: string, list: File[], sanitize = false) {
-    const content = await lastValueFrom(
-      this.http.get<string>(`/examples/${name}/${name}.${postfix}`, { responseType: 'text' as 'json' })
-    );
-
-    list.push(<File>{
-      name: `${postfix}`,
-      path: `/examples/${name}/${name}.${postfix}`,
-      fullPath: `${window.location.origin}/examples/${name}/${name}.${postfix}`,
-      content
-    });
-  }
 
   minimalFiles = {
     'src/main.ts': `import './polyfills';\n\nimport { enableProdMode } from '@angular/core';\nimport { platformBrowserDynamic } from '@angular/platform-browser-dynamic';\n\nimport { AppModule } from './app/app.module';\n\nplatformBrowserDynamic().bootstrapModule(AppModule).then(ref => {\n  // Ensure Angular destroys itself on hot reloads.\n  if (window['ngRef']) {\n    window['ngRef'].destroy();\n  }\n  window['ngRef'] = ref;\n\n  // Otherwise, log the boot error\n}).catch(err => console.error(err));`,
@@ -70,23 +35,61 @@ export class ExampleComponent {
 
   get project(): Project {
     return {
-      template: 'angular-cli',
       title: `xUI Components - Foo Bar`,
       description: `This is an example of xUI components usage!`,
+      template: 'angular-cli',
       dependencies: {
-        xui: packageInfo.version
+        xui: 'latest',
+        '@angular/cdk': 'latest'
       },
       files: {
         ...this.minimalFiles,
-        ...this.files
+        ...this.allFiles.reduce((obj, val) => {
+          obj[val.path] = val.content;
+          return obj;
+        }, <any>{})
       }
     };
+  }
+
+  constructor(private http: HttpClient) {}
+
+  async ngOnInit() {
+    this.allFiles = await this.fetchFiles();
+  }
+
+  async fetchFiles() {
+    const ret: File[] = [];
+
+    // TODO: finish this
+    for (const file of Object.keys(this.files)) {
+      if (this.files[file] === FileType.Component) {
+        await this.fetchFile(file, 'component.ts', ret);
+        await this.fetchFile(file, 'component.scss', ret);
+        await this.fetchFile(file, 'component.html', ret);
+      }
+    }
+
+    return ret;
+  }
+
+  private async fetchFile(name: string, postfix: string, list: File[]) {
+    const content = await lastValueFrom(
+      this.http.get<string>(`/examples/${name}/${name}.${postfix}`, { responseType: 'text' as 'json' })
+    );
+
+    list.push(<File>{
+      name: `${postfix}`,
+      path: `src/app/examples/${name}/${name}.${postfix}`,
+      fullPath: `${window.location.origin}/examples/${name}/${name}.${postfix}`,
+      content
+    });
   }
 
   openProject() {
     sdk.openProject(this.project, {
       newWindow: true,
-      openFile: this.allFiles.map(x => x.name).join(',')
+      openFile: this.allFiles.map(x => x.path).join(',')
     });
   }
 

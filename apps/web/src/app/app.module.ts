@@ -66,6 +66,8 @@ import { SliderComponent } from './components/slider/slider.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { ExamplesModule } from '../examples/examples.module';
 import { HighlightPlusModule } from 'ngx-highlightjs/plus';
+import { ComponentsOverviewComponent } from './components/components-overview/components-overview.component';
+import { IconComponent } from './components/icon/icon.component';
 
 const routes: Routes = [
   {
@@ -95,7 +97,10 @@ const routes: Routes = [
   { path: 'tabs', component: TabsComponent },
   { path: 'theming', component: ThemingComponent },
   { path: 'tooltip', component: TooltipComponent },
-  { path: 'typography', component: TypographyComponent }
+  { path: 'typography', component: TypographyComponent },
+
+  { path: 'icon', component: IconComponent },
+  { path: 'components-overview', component: ComponentsOverviewComponent }
 ];
 
 @NgModule({
@@ -126,7 +131,9 @@ const routes: Routes = [
     DecagramComponent,
     TooltipComponent,
     SliderComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    ComponentsOverviewComponent,
+    IconComponent
   ],
   imports: [
     RouterModule.forRoot(routes),
@@ -174,6 +181,7 @@ const routes: Routes = [
     {
       provide: HIGHLIGHT_OPTIONS,
       useValue: <HighlightOptions>{
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         lineNumbersLoader: () => import('highlightjs-line-numbers.js'),
         coreLibraryLoader: () => import('highlight.js/lib/core'),

@@ -24,6 +24,6 @@
 
 @each $name in theming.$variations {
   .progress-color-#{$name} {
-    background-color: var(-- + $name + -color-default);
+    background-color: var(--#{$name}-color-default);
   }
 }

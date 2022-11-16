@@ -43,8 +43,8 @@
     @include theming.background-level(default, $palette);
 
     .stamp {
-      color: var(-- + $palette + -color-default);
-      background-color: var(-- + $palette + -color-default-contrast);
+      color: var(--#{$palette}-color-default);
+      background-color: var(--#{$palette}-color-default-contrast);
     }
 
     &.dismissible:hover {

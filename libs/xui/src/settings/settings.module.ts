@@ -6,10 +6,19 @@ import { TranslateModule } from '@ngx-translate/core';
 import { XuiIconModule } from '../icon';
 import { PortalModule } from '@angular/cdk/portal';
 import { XuiButtonModule } from '../button';
+import { A11yModule } from '@angular/cdk/a11y';
 
 @NgModule({
   declarations: [XuiSettingsComponent, SaveResetSnackbarComponent],
-  imports: [CommonModule, MatSnackBarModule, XuiIconModule, XuiButtonModule, PortalModule, TranslateModule.forChild()],
+  imports: [
+    CommonModule,
+    MatSnackBarModule,
+    XuiIconModule,
+    XuiButtonModule,
+    PortalModule,
+    A11yModule,
+    TranslateModule.forChild()
+  ],
   exports: [XuiSettingsComponent]
 })
 export class XuiSettingsModule {}

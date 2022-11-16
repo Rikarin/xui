@@ -5,8 +5,8 @@
 @mixin button-colors() {
   @each $name in theming.$variations {
     &.color-#{$name} {
-      color: var(-- + $name + -color-default);
-      border-color: var(-- + $name + -color-default);
+      color: var(--#{$name}-color-default);
+      border-color: var(--#{$name}-color-default);
 
       &:hover {
         @include theming.background-level(default, $name);
@@ -21,7 +21,7 @@
       &[disabled]:active,
       &[disabled]:hover {
         @include core.disabled-filter();
-        color: var(-- + $name + -color-default);
+        color: var(--#{$name}-color-default);
         background: none;
       }
     }

@@ -13,7 +13,7 @@ import { XuiTabComponent } from './tab.component';
         class="entry"
         *ngFor="let tab of tabs"
         [class.active]="tab.isActive"
-        [class.disabled]="tab.disabled"
+        [attr.disabled]="tab.disabled || null"
         (click)="selectTab(tab)"
       >
         {{ tab.title | translate }}

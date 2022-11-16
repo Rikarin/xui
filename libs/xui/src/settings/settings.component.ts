@@ -52,6 +52,10 @@ export class XuiSettingsComponent {
   @Input() items?: MenuItem[];
   @Output() onClosed = new EventEmitter<void>();
 
+  mouseDown = false;
+  menuFocused = false;
+  focusedItem?: number;
+
   opened = false;
   openedAnimation: 'opened' | 'closed' = 'closed';
   animationState = false;
@@ -135,6 +139,7 @@ export class XuiSettingsComponent {
     const item = this.items?.[idx];
     if (item) {
       this.defaultPage = idx;
+      this.focusedItem = idx;
 
       if (item.action) {
         item.action();
@@ -142,6 +147,30 @@ export class XuiSettingsComponent {
         this.portal = new ComponentPortal(item.component);
       }
     }
+  }
+
+  focusPrev() {
+    let cur = this.focusedItem ?? this.items?.length ?? 0;
+
+    do {
+      cur--;
+      if (cur < 0) {
+        cur = (this.items?.length ?? 1) - 1;
+      }
+    } while (this.items?.[cur].type !== 'item');
+    this.focusedItem = cur;
+  }
+
+  focusNext() {
+    let cur = this.focusedItem ?? this.items?.length ?? 0;
+
+    do {
+      cur++;
+      if (cur >= (this.items?.length ?? 0)) {
+        cur = 0;
+      }
+    } while (this.items?.[cur].type !== 'item');
+    this.focusedItem = cur;
   }
 
   private async hideSnackbar() {

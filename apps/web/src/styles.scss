@@ -3,6 +3,8 @@
 @use '../../../libs/xui/src/index' as xui;
 @use '../../../libs/xui/src/theming/xui.theme' as xui-theme;
 
+@import url('https://fonts.googleapis.com/css?family=Consolas:400,500,600,700,800&display=swap');
+
 $color: (
   primary: xui.define-palette(xui.generate-palette(#1f75cb)),
   primary-alt: xui.define-palette(xui-theme.$purple-palette),
@@ -20,6 +22,14 @@ $theme: xui.define-dark-theme(
 @include xui.typography-hierarchy();
 
 code {
-  font-family: Consolas, sans-serif;
+  font-family: Consolas, Monospaced, sans-serif;
+  font-size: 10pt;
+  //font-weight: 500;
   user-select: text;
+
+  color: var(--primary-color-default);
+  background-color: var(--background-color-tertiary);
+  padding: 0.125em 0.5em;
+  margin: 0 0.25em;
+  border-radius: 3px;
 }

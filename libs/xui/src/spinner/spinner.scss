@@ -29,9 +29,6 @@
 
 @each $name in theming.$variations {
   .spinner-color-#{$name} {
-    border-color: var(-- + $name + -color-default)
-      transparent
-      var(-- + $name + -color-default)
-      var(-- + $name + -color-default);
+    border-color: var(--#{$name}-color-default) transparent var(--#{$name}-color-default) var(--#{$name}-color-default);
   }
 }

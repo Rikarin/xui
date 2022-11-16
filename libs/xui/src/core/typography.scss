@@ -82,11 +82,11 @@
 }
 
 @mixin typography-level($typography) {
-  font-family: var(--font- + $typography + -family);
-  font-size: var(--font- + $typography + -size);
-  font-weight: var(--font- + $typography + -weight);
-  line-height: var(--font- + $typography + -line-height);
-  letter-spacing: var(--font- + $typography + -letter-spacing);
+  font-family: var(--font-#{$typography}-family);
+  font-size: var(--font-#{$typography}-size);
+  font-weight: var(--font-#{$typography}-weight);
+  line-height: var(--font-#{$typography}-line-height);
+  letter-spacing: var(--font-#{$typography}-letter-spacing);
 }
 
 @mixin typography-hierarchy() {

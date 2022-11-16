@@ -20,10 +20,10 @@ xui-icon {
 
 @each $value in theming.$variations {
   .decagram-color-#{$value} {
-    color: var(-- + $value + -color-default);
+    color: var(--#{$value}-color-default);
   }
 
   .icon {
-    color: var(-- + $value + -color-default-contrast);
+    color: var(--#{$value}-color-default-contrast);
   }
 }

@@ -104,9 +104,21 @@ $variations: [primary, primary-alt, secondary, success, error, info, warning];
     @each $weight, $value in $palette {
       @if type-of($value) != map {
         --#{$name}-color-#{$weight}: #{$value};
+        --#{$name}-color-#{$weight}-rgb: #{red($value), green($value), blue($value)};
       }
     }
   }
+
+  --hover-opacity: 0.4;
+  --active-opacity: 0.48;
+  --selected-opacity: 0.6;
+  //--accent-opacity: 0.48;
+
+  --focus-color: var(--info-color-400);
+  //--background-modifier-hover: rgba(var(--background-color-accent-rgb), 0.4);
+  //--background-modifier-active: rgba(var(--background-color-accent-rgb), 0.48);
+  //--background-modifier-selected: rgba(var(--background-color-accent-rgb), 0.6);
+  //--background-modifier-accent: rgba(var(--background-color-accent-rgb), 0.48);
 }
 
 @mixin create-elevation-variables($theme) {
@@ -118,17 +130,29 @@ $variations: [primary, primary-alt, secondary, success, error, info, warning];
 }
 
 @mixin background-level($name, $palette: background) {
-  color: var(-- + $palette + -color- + $name + -contrast);
-  background-color: var(-- + $palette + -color- + $name);
+  color: var(--#{$palette}-color-#{$name}-contrast);
+  background-color: var(--#{$palette}-color-#{$name});
 }
 
 @mixin elevate($elevation) {
-  box-shadow: var(--elevation- + $elevation);
+  box-shadow: var(--elevation-#{$elevation});
 }
 
 @mixin focus-visible() {
   &:focus-visible {
-    outline: 5px solid var(--info-color-300);
+    outline: 5px solid var(--focus-color);
     z-index: 1;
   }
+}
+
+@function modifier-hover($color: accent, $palette: background) {
+  @return rgba(var(--#{$palette}-color-#{$color}-rgb), var(--hover-opacity));
+}
+
+@function modifier-active($color: accent, $palette: background) {
+  @return rgba(var(--#{$palette}-color-#{$color}-rgb), var(--active-opacity));
+}
+
+@function modifier-selected($color: accent, $palette: background) {
+  @return rgba(var(--#{$palette}-color-#{$color}-rgb), var(--selected-opacity));
 }

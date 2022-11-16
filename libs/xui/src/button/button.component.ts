@@ -2,8 +2,10 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  EventEmitter,
   HostListener,
   Input,
+  Output,
   ViewEncapsulation
 } from '@angular/core';
 import { WithConfig } from '../config';
@@ -41,7 +43,8 @@ export class XuiButtonComponent {
   @Input() onClick?: () => Promise<boolean>;
   @Input() @InputNumber() @WithConfig() stateDelay = 5000;
 
-  // @Output() readonly click = new EventEmitter<any>();
+  // Used to emit event when user interacts with button with spacebar or enter
+  @Output() readonly click = new EventEmitter<any>();
 
   constructor(private changeDetectorRef: ChangeDetectorRef) {}
 
@@ -63,8 +66,9 @@ export class XuiButtonComponent {
   @HostListener('keydown.enter', ['$event'])
   @HostListener('keydown.space', ['$event'])
   private _keyPress(event: KeyboardEvent) {
+    console.log('key press');
     event?.preventDefault();
-    // this.click.emit();
+    this.click.emit();
 
     return this._onAsync();
   }
