@@ -19,30 +19,7 @@ $theme: xui.define-dark-theme(
 @include xui.default-typographies();
 @include xui.typography-hierarchy();
 
-//
-//.dark-theme {
-//  @include xui.all-component-themes($theme);
-//  @include xui.all-variables($theme);
-//}
-//
-//.light-theme {
-//  $theme: xui.define-light-theme(
-//    (
-//      color: $color
-//    )
-//  );
-//
-//  @include xui.all-component-themes($theme);
-//  @include xui.all-variables($theme);
-//}
-
 code {
-  //background-color: xui.get-color($theme, background, secondary-alt) !important;
   font-family: Consolas, sans-serif;
-
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  border-radius: 5px;
-  padding: 20px !important;
-
   user-select: text;
 }

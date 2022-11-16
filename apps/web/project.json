@@ -25,6 +25,11 @@
             "glob": "mdi.svg",
             "input": "./node_modules/@mdi/angular-material",
             "output": "./assets"
+          },
+          {
+            "glob": "**/*",
+            "input": "./apps/web/src/examples",
+            "output": "./examples/"
           }
         ],
         "styles": [

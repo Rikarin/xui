@@ -8,19 +8,19 @@
 pre code.hljs {
   display: block;
   overflow-x: auto;
-  padding: 1em;
+  //padding: 1em;
 }
 code.hljs {
-  padding: 3px 5px;
+  //padding: 3px 5px;
 }
 .hljs {
-  color: #a8a19f;
-  background: #1b1918;
+  color: var(--background-color-tertiary-contrast);
+  background-color: var(--background-color-tertiary);
 }
 .hljs ::selection,
 .hljs::selection {
-  background-color: #68615e;
-  color: #a8a19f;
+  color: var(--background-color-tertiary-contrast);
+  background-color: var(--background-color-primary);
 }
 .hljs-comment {
   color: #766e6b;
@@ -99,4 +99,36 @@ code.hljs {
 .hljs-meta .hljs-keyword,
 .hljs-meta-keyword {
   font-weight: 700;
+}
+
+// Line number styles
+.hljs-ln {
+  padding: 8px 0;
+
+  tr {
+    &:first-child td {
+      padding-top: 8px !important;
+    }
+
+    &:last-child td {
+      padding-bottom: 8px !important;
+    }
+  }
+}
+
+/* for block of numbers */
+td.hljs-ln-numbers {
+  user-select: none;
+  text-align: center;
+  border-right: 1px solid gray;
+  vertical-align: top;
+  padding-right: 8px !important;
+  padding-left: 8px !important;
+
+  opacity: 0.4;
+}
+
+/* for block of code */
+td.hljs-ln-code {
+  padding-left: 8px !important;
 }

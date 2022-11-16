@@ -1,7 +1,7 @@
 import { BrowserModule, DomSanitizer } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HighlightModule, HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
+import { HighlightModule, HIGHLIGHT_OPTIONS, HighlightOptions } from 'ngx-highlightjs';
 
 import { AppComponent } from './app.component';
 import {
@@ -64,6 +64,8 @@ import { DecagramComponent } from './components/decagram/decagram.component';
 import { TooltipComponent } from './components/tooltip/tooltip.component';
 import { SliderComponent } from './components/slider/slider.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
+import { ExamplesModule } from '../examples/examples.module';
+import { HighlightPlusModule } from 'ngx-highlightjs/plus';
 
 const routes: Routes = [
   {
@@ -132,12 +134,14 @@ const routes: Routes = [
     BrowserAnimationsModule,
     ReactiveFormsModule,
     HighlightModule,
+    HighlightPlusModule,
     HttpClientModule,
 
     NgxGoogleAnalyticsModule.forRoot(environment.ga),
     NgxGoogleAnalyticsRouterModule,
 
     TranslateModule.forRoot(),
+    ExamplesModule,
 
     CdkMenuModule,
     CdkTableModule,
@@ -169,8 +173,15 @@ const routes: Routes = [
   providers: [
     {
       provide: HIGHLIGHT_OPTIONS,
-      useValue: {
-        fullLibraryLoader: () => import('highlight.js')
+      useValue: <HighlightOptions>{
+        // @ts-ignore
+        lineNumbersLoader: () => import('highlightjs-line-numbers.js'),
+        coreLibraryLoader: () => import('highlight.js/lib/core'),
+        languages: {
+          typescript: () => import('highlight.js/lib/languages/typescript'),
+          scss: () => import('highlight.js/lib/languages/scss'),
+          xml: () => import('highlight.js/lib/languages/xml')
+        }
       }
     }
   ],

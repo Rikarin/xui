@@ -2,6 +2,8 @@ import { Component, Input } from '@angular/core';
 import { InputBoolean } from 'xui';
 import sdk, { Project } from '@stackblitz/sdk';
 import packageInfo from '../../../../../../package.json';
+import { HttpClient } from '@angular/common/http';
+import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-example',
@@ -10,10 +12,44 @@ import packageInfo from '../../../../../../package.json';
   // encapsulation: ViewEncapsulation.Emulated
 })
 export class ExampleComponent {
-  @Input() files: { [name: string]: string } = {};
+  allFiles: File[] = [];
+
+  @Input() files: { [name: string]: FileType } = {};
   @Input() @InputBoolean() todo = false;
 
-  id = this.generateId();
+  constructor(private http: HttpClient) {}
+
+  async ngOnInit() {
+    this.allFiles = await this.fetchFiles();
+  }
+
+  async fetchFiles() {
+    let ret: File[] = [];
+
+    // TODO: finish this
+    for (const file of Object.keys(this.files)) {
+      if (this.files[file] === FileType.Component) {
+        await this.fetchFile(file, 'component.ts', ret);
+        await this.fetchFile(file, 'component.scss', ret);
+        await this.fetchFile(file, 'component.html', ret, true);
+      }
+    }
+
+    return ret;
+  }
+
+  private async fetchFile(name: string, postfix: string, list: File[], sanitize = false) {
+    const content = await lastValueFrom(
+      this.http.get<string>(`/examples/${name}/${name}.${postfix}`, { responseType: 'text' as 'json' })
+    );
+
+    list.push(<File>{
+      name: `${postfix}`,
+      path: `/examples/${name}/${name}.${postfix}`,
+      fullPath: `${window.location.origin}/examples/${name}/${name}.${postfix}`,
+      content
+    });
+  }
 
   minimalFiles = {
     'src/main.ts': `import './polyfills';\n\nimport { enableProdMode } from '@angular/core';\nimport { platformBrowserDynamic } from '@angular/platform-browser-dynamic';\n\nimport { AppModule } from './app/app.module';\n\nplatformBrowserDynamic().bootstrapModule(AppModule).then(ref => {\n  // Ensure Angular destroys itself on hot reloads.\n  if (window['ngRef']) {\n    window['ngRef'].destroy();\n  }\n  window['ngRef'] = ref;\n\n  // Otherwise, log the boot error\n}).catch(err => console.error(err));`,
@@ -50,31 +86,38 @@ export class ExampleComponent {
   openProject() {
     sdk.openProject(this.project, {
       newWindow: true,
-      openFile: this.getFileNames()
+      openFile: this.allFiles.map(x => x.name).join(',')
     });
   }
 
-  async embedProject() {
-    await sdk.embedProject(this.id, this.project, {
-      height: 600,
-      view: 'editor',
-      openFile: this.getFileNames(),
-      // openFile: 'index.js,index.html',
-      terminalHeight: 50
-    });
-  }
+  // async embedProject() {
+  //   await sdk.embedProject(this.id, this.project, {
+  //     height: 600,
+  //     view: 'editor',
+  //     openFile: this.getFileNames(),
+  //     // openFile: 'index.js,index.html',
+  //     terminalHeight: 50
+  //   });
+  // }
 
-  private getFileNames() {
-    return Object.keys(this.files ?? {}).join(',');
-  }
+  // private generateId() {
+  //   const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
+  //   let text = '';
+  //   for (let i = 0; i < 128; i++) {
+  //     text += possible.charAt(Math.floor(Math.random() * possible.length));
+  //   }
+  //
+  //   return text;
+  // }
+}
 
-  private generateId() {
-    const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
-    let text = '';
-    for (let i = 0; i < 128; i++) {
-      text += possible.charAt(Math.floor(Math.random() * possible.length));
-    }
+interface File {
+  name: string;
+  path: string;
+  content: string;
+}
 
-    return text;
-  }
+export enum FileType {
+  Source,
+  Component
 }

@@ -1,5 +1,5 @@
 <app-example>
-  <table cdk-table [dataSource]="dataSource">
+  <table cdk-table [dataSource]="dataSource" class="xui-table">
     <ng-container cdkColumnDef="param">
       <th cdk-header-cell *cdkHeaderCellDef>Param</th>
       <td cdk-cell *cdkCellDef="let element">{{ element.param }}</td>

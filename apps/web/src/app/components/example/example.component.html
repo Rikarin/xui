@@ -1,13 +1,14 @@
 <xui-card>
-  <div class="content">
-    <ng-content></ng-content>
-  </div>
-  <div *ngIf="files || todo" class="actions">
+  <xui-tab-group>
+    <xui-tab *ngFor="let file of allFiles" [title]="file.name">
+      <pre><code lineNumbers="true" [highlight]="file.content"></code></pre>
+    </xui-tab>
+    <xui-tab title="Preview"><ng-content></ng-content></xui-tab>
+  </xui-tab-group>
+  <div *ngIf="files || todo" class="menu">
     <div *ngIf="todo" class="todo">TODO</div>
     <ng-container *ngIf="files">
       <xui-icon (click)="openProject()">xml</xui-icon>
-      <xui-icon (click)="embedProject()">code-tags</xui-icon>
     </ng-container>
   </div>
 </xui-card>
-<div [id]="id"></div>

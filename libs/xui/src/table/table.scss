@@ -2,7 +2,8 @@
 @use '../core/typography';
 
 @mixin theme() {
-  table {
+  .xui-table {
+    width: 100%;
     border-collapse: collapse;
 
     tbody {
@@ -12,27 +13,27 @@
         height: 48px;
       }
     }
-  }
 
-  th,
-  td {
-    flex: 1 1 auto;
-    padding: 0 12px;
+    th,
+    td {
+      flex: 1 1 auto;
+      padding: 0 12px;
 
-    vertical-align: middle;
-  }
+      vertical-align: middle;
+    }
 
-  tr {
-    border-bottom: 1px solid var(--background-color-primary);
-  }
+    tr {
+      border-bottom: 1px solid var(--background-color-primary);
+    }
 
-  thead {
-    text-align: left;
-    text-transform: uppercase;
-    @include typography.typography-level(caption);
+    thead {
+      text-align: left;
+      text-transform: uppercase;
+      @include typography.typography-level(caption);
 
-    th {
-      padding-bottom: 8px;
+      th {
+        padding-bottom: 8px;
+      }
     }
   }
 }

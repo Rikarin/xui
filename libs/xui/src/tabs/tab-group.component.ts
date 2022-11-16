@@ -5,7 +5,7 @@ import { XuiTabComponent } from './tab.component';
   selector: 'xui-tab-group',
   exportAs: 'xuiTabGroup',
   styleUrls: ['tabs.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  // changeDetection: ChangeDetectionStrategy.OnPush, // dynamically loading tabs in example doesn't work
   encapsulation: ViewEncapsulation.Emulated,
   template: `
     <div class="list">
