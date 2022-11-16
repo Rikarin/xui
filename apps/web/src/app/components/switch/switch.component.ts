@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { Usage } from '../usage';
 
 @Component({
   selector: 'app-switch',
@@ -9,6 +10,20 @@ import { FormControl } from '@angular/forms';
 })
 export class SwitchComponent {
   asyncSwitch = new FormControl(false);
+
+  usage: Usage[] = [
+    {
+      param: '[color]',
+      description: 'Color of a checkbox',
+      type: "'primary' | 'primary-alt' | 'secondary' | 'success' | 'warning' | 'error' | 'info'",
+      default: 'primary'
+    },
+    {
+      param: '[disabled]',
+      description: 'Disable a checkbox',
+      type: 'boolean'
+    }
+  ];
 
   constructor() {
     setInterval(() => {

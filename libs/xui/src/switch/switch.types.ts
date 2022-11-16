@@ -1,1 +1,1 @@
-export type SwitchColor = 'success' | 'info' | 'error';
+export type SwitchColor = 'primary' | 'primary-alt' | 'secondary' | 'success' | 'warning' | 'error' | 'info';

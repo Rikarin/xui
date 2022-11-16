@@ -4,7 +4,7 @@ import { XuiRadioOptionComponent } from './radio-option.component';
 
 @Injectable()
 export class RadioListService {
-  private _initialValue?: string;
+  private _initialValue?: string | null;
   private _components = new BehaviorSubject<XuiRadioOptionComponent[]>([]);
   private _selected = new BehaviorSubject<XuiRadioOptionComponent | null | undefined>(undefined);
 
@@ -12,7 +12,7 @@ export class RadioListService {
     return this._selected.asObservable();
   }
 
-  select(value: string, focus = false) {
+  select(value: string | null, focus = false) {
     const option = this._components.value.find(x => x.value === value);
 
     if (option) {

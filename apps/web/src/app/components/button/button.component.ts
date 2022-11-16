@@ -12,41 +12,41 @@ export class ButtonComponent {
   counter = 0;
   usage: Usage[] = [
     {
-      param: 'xSize',
+      param: '[size]',
       description: 'Size of a button',
       type: "'sm' | 'md' | 'lg'",
       default: 'md'
     },
     {
-      param: 'xType',
+      param: '[type]',
       description: 'Type of a button',
       type: "'normal' | 'dashed' | 'stroked' | 'raised' | 'fab' | 'icon'",
       default: 'normal'
     },
     {
-      param: 'xColor',
+      param: '[color]',
       description: 'Color of a button',
-      type: "'primary' | 'primary-alt' | 'secondary' | 'error' | 'minimal'",
+      type: "'primary' | 'primary-alt' | 'secondary' | 'success' | 'warning' | 'error' | 'info' | 'minimal",
       default: 'primary'
     },
     {
-      param: 'disabled',
-      description: 'Disable button',
+      param: '[disabled]',
+      description: 'Disable a button',
       type: 'boolean'
     },
     {
-      param: 'xClick',
+      param: '(onClick)',
       description: 'Provides async way to execute an action and shows progress',
       type: '() => Promise<boolean>'
     },
     {
-      param: 'xStateDelay',
+      param: '[stateDelay]',
       description: 'Delay for how long is async state result shown',
       type: 'number',
       default: '5000'
     },
     {
-      param: 'xShine',
+      param: '[shine]',
       description: 'Add a nice shine to the button',
       type: 'boolean'
     }

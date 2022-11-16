@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { InputBoolean } from 'xui';
-import sdk, { Project } from '@stackblitz/sdk';
+import sdk, { Project, ProjectFiles } from '@stackblitz/sdk';
 import { HttpClient } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
 
@@ -47,7 +47,7 @@ export class ExampleComponent implements OnInit {
         ...this.allFiles.reduce((obj, val) => {
           obj[val.path] = val.content;
           return obj;
-        }, <any>{})
+        }, <ProjectFiles>{})
       }
     };
   }

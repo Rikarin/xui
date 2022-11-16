@@ -1,4 +1,4 @@
-<app-example>
+<xui-card>
   <table cdk-table [dataSource]="dataSource" class="xui-table">
     <ng-container cdkColumnDef="param">
       <th cdk-header-cell *cdkHeaderCellDef>Param</th>
@@ -20,7 +20,22 @@
       <td cdk-cell *cdkCellDef="let element">{{ element.default }}</td>
     </ng-container>
 
+    <ng-container cdkColumnDef="property">
+      <th cdk-header-cell *cdkHeaderCellDef>Property</th>
+      <td cdk-cell *cdkCellDef="let element">{{ element.property }}</td>
+    </ng-container>
+
+    <ng-container cdkColumnDef="params">
+      <th cdk-header-cell *cdkHeaderCellDef>Params</th>
+      <td cdk-cell *cdkCellDef="let element">{{ element.params }}</td>
+    </ng-container>
+
+    <ng-container cdkColumnDef="return">
+      <th cdk-header-cell *cdkHeaderCellDef>Return</th>
+      <td cdk-cell *cdkCellDef="let element">{{ element.return }}</td>
+    </ng-container>
+
     <tr cdk-header-row *cdkHeaderRowDef="displayedColumns"></tr>
     <tr cdk-row *cdkRowDef="let row; columns: displayedColumns"></tr>
   </table>
-</app-example>
+</xui-card>

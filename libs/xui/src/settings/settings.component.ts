@@ -17,7 +17,7 @@ import { SettingsPage } from './settings-page';
 import { animate, AnimationEvent, state, style, transition, trigger, useAnimation } from '@angular/animations';
 import { bounce, fadeInBottom, fadeOutBottom } from '../utils/animations';
 import { lastValueFrom, Subject } from 'rxjs';
-import { delay, InputNumber } from '../utils';
+import { delay } from '../utils';
 
 @Component({
   selector: 'xui-settings',
@@ -48,14 +48,11 @@ import { delay, InputNumber } from '../utils';
   ]
 })
 export class XuiSettingsComponent {
-  @Input() @InputNumber() defaultPage = 1;
-  @Input() items?: MenuItem[];
-  @Output() onClosed = new EventEmitter<void>();
-
   mouseDown = false;
   menuFocused = false;
   focusedItem?: number;
 
+  defaultPage = 1;
   opened = false;
   openedAnimation: 'opened' | 'closed' = 'closed';
   animationState = false;
@@ -65,6 +62,9 @@ export class XuiSettingsComponent {
 
   private snackbarRef?: MatSnackBarRef<SaveResetSnackbarComponent>;
   private canExit = true;
+
+  @Input() items?: MenuItem[];
+  @Output() onClosed = new EventEmitter<void>();
 
   @HostListener('document:keydown.escape') onKeydownHandler() {
     this.close();
@@ -103,7 +103,8 @@ export class XuiSettingsComponent {
     }
   };
 
-  open() {
+  open(page = 1) {
+    this.defaultPage = page;
     this.opened = true;
     this.openedAnimation = 'opened';
     this.navigate(this.defaultPage);

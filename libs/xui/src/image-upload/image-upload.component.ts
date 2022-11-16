@@ -76,7 +76,7 @@ export class XuiImageUploadComponent implements ControlValueAccessor, OnInit {
   }
 
   ngOnInit() {
-    this.control?.statusChanges!.subscribe(() => this.changeDetectorRef.markForCheck());
+    this.control?.statusChanges?.subscribe(() => this.changeDetectorRef.markForCheck());
   }
 
   handleFileInput(event: unknown) {

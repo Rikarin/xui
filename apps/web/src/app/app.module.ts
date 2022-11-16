@@ -68,6 +68,9 @@ import { ExamplesModule } from '../examples/examples.module';
 import { HighlightPlusModule } from 'ngx-highlightjs/plus';
 import { ComponentsOverviewComponent } from './components/components-overview/components-overview.component';
 import { IconComponent } from './components/icon/icon.component';
+import { InfomationComponent } from './components/infomation/infomation.component';
+import { TextareaComponent } from './components/textarea/textarea.component';
+import { SnackbarComponent } from './components/snackbar/snackbar.component';
 
 const routes: Routes = [
   {
@@ -100,6 +103,8 @@ const routes: Routes = [
   { path: 'typography', component: TypographyComponent },
 
   { path: 'icon', component: IconComponent },
+  { path: 'snackbar', component: SnackbarComponent },
+  { path: 'textarea', component: TextareaComponent },
   { path: 'components-overview', component: ComponentsOverviewComponent }
 ];
 
@@ -133,7 +138,10 @@ const routes: Routes = [
     SliderComponent,
     SpinnerComponent,
     ComponentsOverviewComponent,
-    IconComponent
+    IconComponent,
+    InfomationComponent,
+    TextareaComponent,
+    SnackbarComponent
   ],
   imports: [
     RouterModule.forRoot(routes),

@@ -1,1 +1,1 @@
-export type CheckboxColor = 'success' | 'warning' | 'info' | 'primary' | 'primary-alt' | 'secondary' | 'error';
+export type CheckboxColor = 'primary' | 'primary-alt' | 'secondary' | 'success' | 'warning' | 'error' | 'info';

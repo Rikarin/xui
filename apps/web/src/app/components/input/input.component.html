@@ -1,5 +1,8 @@
-<h4>Input</h4>
-<pre>Input can be used to input user's input</pre>
+<app-infomation title="Input">
+  <pre>Input is used to input user's input</pre>
+
+  <code apiReference highlight="import { XuiInputModule } from 'xui';"></code>
+</app-infomation>
 
 <app-example>
   <xui-input type="text"></xui-input>
@@ -55,11 +58,4 @@
     </xui-input-addon>
     <xui-input type="text" placeholder="First Input"></xui-input>
   </xui-input-group>
-</app-example>
-
-<app-example>
-  <xui-textarea></xui-textarea>
-  <xui-textarea color="dark" placeholder="Type some text here..."></xui-textarea>
-  <xui-textarea [formControl]="textAreaControl" maxLength="120"></xui-textarea>
-  <xui-textarea color="dark" disabled value="Disabled"></xui-textarea>
 </app-example>

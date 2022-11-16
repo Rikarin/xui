@@ -1,19 +1,18 @@
-<div class="info">
-  <h1>Card</h1>
-  <pre>Card is a component displaying stuff in cards.</pre>
-</div>
+<app-infomation title="Card">
+  <pre>Card components</pre>
 
-<xui-card title="foobar" [extra]="extra" [actions]="actions">Just like this</xui-card>
+  <code apiReference highlight="import { XuiCardModule } from 'xui';"></code>
+</app-infomation>
+
+<app-example>
+  <xui-card title="foobar" [extra]="extra" [actions]="actions">Just like this</xui-card>
+</app-example>
 
 <ng-template #extra>
-  <xui-button size="sm" xColor="primary">More</xui-button>
+  <xui-button size="sm" color="primary">More</xui-button>
 </ng-template>
 
 <ng-template #actions>
-  <xui-button type="raised" xColor="primary">Save</xui-button>
+  <xui-button type="raised" color="primary">Save</xui-button>
   <xui-button color="error">Discard</xui-button>
 </ng-template>
-
-<pre>
-  <code [highlight]="code" [languages]="['html']"></code>
-</pre>

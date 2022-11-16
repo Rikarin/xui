@@ -1,16 +1,12 @@
-<h4>Tooltip</h4>
+<app-infomation title="Tooltip">
+  <pre>Show information for user</pre>
+
+  <code apiReference highlight="import { XuiTooltipModule } from 'xui';"></code>
+</app-infomation>
 
 <app-example>
   <div class="background" xuiTooltip="examples.random_string">Element with a tooltip</div>
-  <br />
-  <xui-button
-    type="raised"
-    color="success"
-    shine
-    xuiTooltip="Such an awesome button!"
-    xuiTooltipPosition="left"
-    (click)="openSnackbar()"
-  >
+  <xui-button type="raised" color="success" shine xuiTooltip="Such an awesome button!" xuiTooltipPosition="left">
     Button with a tooltip
   </xui-button>
 </app-example>

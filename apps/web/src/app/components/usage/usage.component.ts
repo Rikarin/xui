@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Usage } from './usage';
+import { Method, Usage } from './usage';
 import { DataSource } from '@angular/cdk/collections';
 import { BehaviorSubject, Observable } from 'rxjs';
 
@@ -9,23 +9,34 @@ import { BehaviorSubject, Observable } from 'rxjs';
   styleUrls: ['./usage.component.scss']
 })
 export class UsageComponent {
-  displayedColumns: string[] = ['param', 'description', 'type', 'default'];
+  displayedColumns: string[] = [];
   dataSource = new UsageDataSource();
 
   @Input()
   get usage() {
-    return this.dataSource.data.value;
+    return this.dataSource.data.value as Usage[];
   }
 
   set usage(value: Usage[]) {
+    this.displayedColumns = ['param', 'description', 'type', 'default'];
+    this.dataSource.data.next(value);
+  }
+
+  @Input()
+  get methods() {
+    return this.dataSource.data.value as Method[];
+  }
+
+  set methods(value: Method[]) {
+    this.displayedColumns = ['property', 'description', 'params', 'return'];
     this.dataSource.data.next(value);
   }
 }
 
-export class UsageDataSource extends DataSource<Usage> {
-  data = new BehaviorSubject<Usage[]>([]);
+export class UsageDataSource extends DataSource<Usage | Method> {
+  data = new BehaviorSubject<Usage[] | Method[]>([]);
 
-  connect(): Observable<Usage[]> {
+  connect(): Observable<Usage[] | Method[]> {
     return this.data;
   }
 

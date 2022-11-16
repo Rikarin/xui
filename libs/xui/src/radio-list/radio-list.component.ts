@@ -48,7 +48,7 @@ export class XuiRadioListComponent implements ControlValueAccessor, OnInit {
     if (this._value !== v) {
       this._value = v;
       this.onChange?.(v);
-      this.radioListService.select(v!);
+      this.radioListService.select(v);
       this.changeDetectorRef.markForCheck();
     }
   }

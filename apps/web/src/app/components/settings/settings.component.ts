@@ -1,5 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { MenuItem, XuiSettingsComponent } from 'xui';
+import { Method, Usage } from '../usage';
 
 @Component({
   selector: 'app-settings',
@@ -36,6 +37,29 @@ export class SettingsComponent {
       name: 'Show snackbar',
       critical: true,
       action: () => this.settings.stateChanged(false)
+    }
+  ];
+
+  readonly usage: Usage[] = [
+    {
+      param: '[type]',
+      description: 'Type of a decagram',
+      type: "'decagram' | 'circle' | 'shield'",
+      default: 'decagram'
+    },
+    {
+      param: '[color]',
+      description: 'Color of a decagram',
+      type: "'primary' | 'primary-alt' | 'secondary' | 'success' | 'warning' | 'error' | 'info'",
+      default: 'primary'
+    }
+  ];
+
+  methods: Method[] = [
+    {
+      property: 'open',
+      description: 'Opens a settings dialog',
+      params: '(page: number = 1)'
     }
   ];
 

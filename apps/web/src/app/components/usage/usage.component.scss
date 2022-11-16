@@ -1,3 +1,8 @@
-//@use '../../../../../../libs/xui/src/index' as xui;
-//
-//@include xui.table-theme();
+:host {
+  grid-column: 1 / -1;
+}
+
+xui-card {
+  padding-top: 12px;
+  background-color: var(--background-color-floating);
+}

@@ -1,10 +1,14 @@
-<div class="info">
-  <h4>Settings</h4>
+<app-infomation title="Button">
   <pre>Settings components is used to show full screen dialog with settings</pre>
-</div>
+
+  <code apiReference highlight="import { XuiSettingsModule } from 'xui';"></code>
+</app-infomation>
 
 <app-example>
   <xui-button color="primary" type="raised" (click)="open()">Open Settings</xui-button>
 </app-example>
+
+<app-usage [usage]="usage"></app-usage>
+<app-usage [methods]="methods"></app-usage>
 
 <xui-settings #settings="xuiSettings" [items]="items"></xui-settings>
