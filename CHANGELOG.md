@@ -4,10 +4,9 @@ All notable changes to this project will be documented in this file. See [standa
 
 ## [1.31.0](https://github.com/Rikarin/xui/compare/v1.30.1...v1.31.0) (2022-11-17)
 
-
 ### Features
 
-* update to Angular 15 ([029892c](https://github.com/Rikarin/xui/commit/029892ce48a6c0dde480b014ca7417db6d99a499))
+- update to Angular 15 ([029892c](https://github.com/Rikarin/xui/commit/029892ce48a6c0dde480b014ca7417db6d99a499))
 
 ### [1.30.1](https://github.com/Rikarin/xui/compare/v1.30.0...v1.30.1) (2022-11-16)
 
