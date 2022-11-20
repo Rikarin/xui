@@ -4,10 +4,9 @@ All notable changes to this project will be documented in this file. See [standa
 
 ## [1.33.0](https://github.com/Rikarin/xui/compare/v1.32.0...v1.33.0) (2022-11-20)
 
-
 ### Features
 
-* add text-muted function ([48cedd5](https://github.com/Rikarin/xui/commit/48cedd5741b43938b454052dd27012b87fbb8836))
+- add text-muted function ([48cedd5](https://github.com/Rikarin/xui/commit/48cedd5741b43938b454052dd27012b87fbb8836))
 
 ## [1.32.0](https://github.com/Rikarin/xui/compare/v1.31.0...v1.32.0) (2022-11-20)
 

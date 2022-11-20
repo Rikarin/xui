@@ -20,7 +20,8 @@
 @forward 'table/table' as table-* show table-theme;
 @forward 'theming/palette';
 @forward 'theming/theming' show define-palette, define-background-palette, define-dark-theme, define-light-theme,
-  create-color-variables, create-elevation-variables, background-level, elevate;
+  create-color-variables, create-elevation-variables, background-level, elevate, focus-visible, modifier-hover,
+  modifier-active, modifier-selected, text-muted;
 // title
 
 @mixin all-component-themes($theme) {
