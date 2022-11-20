@@ -30,6 +30,10 @@
   @include table.theme();
   // title
 
+  .mdc-snackbar__surface {
+    box-shadow: none !important;
+  }
+
   a {
     color: var(--info-color-default);
   }

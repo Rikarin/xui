@@ -1,0 +1,6 @@
+@use '../theming/theming';
+
+:host {
+  flex: 1 1 100%;
+  border-top: 1px solid rgba(var(--background-color-accent-rgb), 0.3);
+}

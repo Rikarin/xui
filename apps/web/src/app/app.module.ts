@@ -27,7 +27,8 @@ import {
   XuiTextareaModule,
   XuiSelectModule,
   XuiSliderModule,
-  XuiSpinnerModule
+  XuiSpinnerModule,
+  XuiDividerModule
 } from 'xui';
 import { RouterModule, Routes } from '@angular/router';
 import { CardComponent } from './components/card/card.component';
@@ -71,6 +72,7 @@ import { IconComponent } from './components/icon/icon.component';
 import { InfomationComponent } from './components/infomation/infomation.component';
 import { TextareaComponent } from './components/textarea/textarea.component';
 import { SnackbarComponent } from './components/snackbar/snackbar.component';
+import { DividerComponent } from './components/divider/divider.component';
 
 const routes: Routes = [
   {
@@ -103,6 +105,7 @@ const routes: Routes = [
   { path: 'typography', component: TypographyComponent },
 
   { path: 'icon', component: IconComponent },
+  { path: 'divider', component: DividerComponent },
   { path: 'snackbar', component: SnackbarComponent },
   { path: 'textarea', component: TextareaComponent },
   { path: 'components-overview', component: ComponentsOverviewComponent }
@@ -141,7 +144,8 @@ const routes: Routes = [
     IconComponent,
     InfomationComponent,
     TextareaComponent,
-    SnackbarComponent
+    SnackbarComponent,
+    DividerComponent
   ],
   imports: [
     RouterModule.forRoot(routes),
@@ -183,7 +187,8 @@ const routes: Routes = [
     XuiTextareaModule,
     XuiSelectModule,
     XuiSliderModule,
-    XuiSpinnerModule
+    XuiSpinnerModule,
+    XuiDividerModule
   ],
   providers: [
     {

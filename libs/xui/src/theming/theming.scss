@@ -115,10 +115,6 @@ $variations: [primary, primary-alt, secondary, success, error, info, warning];
   //--accent-opacity: 0.48;
 
   --focus-color: var(--info-color-400);
-  //--background-modifier-hover: rgba(var(--background-color-accent-rgb), 0.4);
-  //--background-modifier-active: rgba(var(--background-color-accent-rgb), 0.48);
-  //--background-modifier-selected: rgba(var(--background-color-accent-rgb), 0.6);
-  //--background-modifier-accent: rgba(var(--background-color-accent-rgb), 0.48);
 }
 
 @mixin create-elevation-variables($theme) {
