@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.34.0](https://github.com/Rikarin/xui/compare/v1.33.1...v1.34.0) (2022-11-20)
+
+
+### Features
+
+* add --text-link-color ([16421ba](https://github.com/Rikarin/xui/commit/16421ba77996d9e1e4615386582354fc9075b5f4))
+
 ### [1.33.1](https://github.com/Rikarin/xui/compare/v1.33.0...v1.33.1) (2022-11-20)
 
 ### Bug Fixes
