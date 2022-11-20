@@ -21,7 +21,7 @@
 @forward 'theming/palette';
 @forward 'theming/theming' show define-palette, define-background-palette, define-dark-theme, define-light-theme,
   create-color-variables, create-elevation-variables, background-level, elevate, focus-visible, modifier-hover,
-  modifier-active, modifier-selected, text-muted;
+  modifier-active, modifier-selected, modifier-accent, text-muted;
 // title
 
 @mixin all-component-themes($theme) {
