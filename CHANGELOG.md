@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.32.0](https://github.com/Rikarin/xui/compare/v1.31.0...v1.32.0) (2022-11-20)
+
+
+### Features
+
+* add divider ([66258fa](https://github.com/Rikarin/xui/commit/66258faa00f104f3bc38d0a024a74aa66c1d06af))
+
+
+### Bug Fixes
+
+* snackbar in settings had wrong shadow ([eb5418e](https://github.com/Rikarin/xui/commit/eb5418e4473a75ea98b83b6e54fc65425ddbfba9))
+
 ## [1.31.0](https://github.com/Rikarin/xui/compare/v1.30.1...v1.31.0) (2022-11-17)
 
 ### Features
