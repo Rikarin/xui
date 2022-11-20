@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.36.1](https://github.com/Rikarin/xui/compare/v1.36.0...v1.36.1) (2022-11-20)
+
+
+### Bug Fixes
+
+* switch true/false values in toggle ([55e4e0e](https://github.com/Rikarin/xui/commit/55e4e0e1684226c239f9800bbb7a9f5365d5c511))
+
 ## [1.36.0](https://github.com/Rikarin/xui/compare/v1.35.1...v1.36.0) (2022-11-20)
 
 ### Features
