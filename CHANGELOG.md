@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.33.1](https://github.com/Rikarin/xui/compare/v1.33.0...v1.33.1) (2022-11-20)
+
+
+### Bug Fixes
+
+* function exposion ([72843c3](https://github.com/Rikarin/xui/commit/72843c3ac132ca9eb13305bcda9b1374a2d20b8d))
+
 ## [1.33.0](https://github.com/Rikarin/xui/compare/v1.32.0...v1.33.0) (2022-11-20)
 
 ### Features
