@@ -11,7 +11,7 @@
     <xui-toggle [formControl]="asyncToggle">headphones</xui-toggle>
 
     <xui-toggle disabled>bell</xui-toggle>
-    <xui-toggle value="true" disabled>bell</xui-toggle>
+    <xui-toggle [value]="false" disabled>bell</xui-toggle>
   </div>
 
   <div style="display: flex; gap: 4px">
@@ -20,7 +20,7 @@
     <xui-toggle color="success" [formControl]="asyncToggle">headphones</xui-toggle>
 
     <xui-toggle color="secondary" disabled>bell</xui-toggle>
-    <xui-toggle color="warning" value="true" disabled>bell</xui-toggle>
+    <xui-toggle color="warning" [value]="false" disabled>bell</xui-toggle>
   </div>
   Bell Toggled: {{ model.value | json }}
 </app-example>

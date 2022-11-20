@@ -21,12 +21,12 @@ import { ToggleColor } from './toggle.types';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div [ngClass]="style" [tabindex]="disabled ? -1 : 0">
-      <div [class.clip]="value">
+      <div [class.clip]="!value">
         <div class="content">
           <xui-icon><ng-content></ng-content></xui-icon>
         </div>
       </div>
-      <div [class.toggled]="value">
+      <div [class.toggled]="!value">
         <div class="line"></div>
       </div>
     </div>
@@ -36,7 +36,7 @@ export class XuiToggleComponent implements ControlValueAccessor, OnInit {
   private onChange?: (source?: boolean) => void;
   private onTouched?: () => void;
 
-  private _value = false;
+  private _value = true;
   touched = false;
 
   @Input() @InputBoolean() disabled = false;

@@ -8,7 +8,7 @@ import { FormControl } from '@angular/forms';
   styleUrls: ['./toggle.component.scss']
 })
 export class ToggleComponent {
-  model = new FormControl(false);
+  model = new FormControl(true);
   asyncToggle = new FormControl(false);
 
   usage: Usage[] = [
