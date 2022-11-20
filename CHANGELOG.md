@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.36.0](https://github.com/Rikarin/xui/compare/v1.35.1...v1.36.0) (2022-11-20)
+
+
+### Features
+
+* add xui-toggle ([6e56cd9](https://github.com/Rikarin/xui/commit/6e56cd95391a8411c84090a44fa739eea2295482))
+
 ### [1.35.1](https://github.com/Rikarin/xui/compare/v1.35.0...v1.35.1) (2022-11-20)
 
 ### Bug Fixes
