@@ -112,7 +112,7 @@ $variations: [primary, primary-alt, secondary, success, error, info, warning];
   --hover-opacity: 0.4;
   --active-opacity: 0.48;
   --selected-opacity: 0.6;
-  //--accent-opacity: 0.48;
+  --accent-opacity: 0.48;
   --text-muted-opacity: 0.5;
 
   --text-link-color: var(--info-color-default);
@@ -153,6 +153,10 @@ $variations: [primary, primary-alt, secondary, success, error, info, warning];
 
 @function modifier-selected($color: accent, $palette: background) {
   @return rgba(var(--#{$palette}-color-#{$color}-rgb), var(--selected-opacity));
+}
+
+@function modifier-accent($color: accent, $palette: background) {
+  @return rgba(var(--#{$palette}-color-#{$color}-rgb), var(--accent-opacity));
 }
 
 @function text-muted($color: accent, $palette: background) {
