@@ -4,17 +4,15 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### [1.35.1](https://github.com/Rikarin/xui/compare/v1.35.0...v1.35.1) (2022-11-20)
 
-
 ### Bug Fixes
 
-* exports ([526d029](https://github.com/Rikarin/xui/commit/526d029e5156307dae5876795497e47cfc8c3f79))
+- exports ([526d029](https://github.com/Rikarin/xui/commit/526d029e5156307dae5876795497e47cfc8c3f79))
 
 ## [1.35.0](https://github.com/Rikarin/xui/compare/v1.34.0...v1.35.0) (2022-11-20)
 
-
 ### Features
 
-* add modifier-accent ([22871c8](https://github.com/Rikarin/xui/commit/22871c87bcf04375a25b70d446d46697894b0df9))
+- add modifier-accent ([22871c8](https://github.com/Rikarin/xui/commit/22871c87bcf04375a25b70d446d46697894b0df9))
 
 ## [1.34.0](https://github.com/Rikarin/xui/compare/v1.33.1...v1.34.0) (2022-11-20)
 

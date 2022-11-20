@@ -1,0 +1,74 @@
+@use '../theming/theming';
+@use '../core/core';
+
+:host {
+  display: inline-flex;
+}
+
+.toggle {
+  width: fit-content;
+  display: inline-flex;
+  position: relative;
+  cursor: pointer;
+  opacity: 0.8;
+
+  border-radius: 4px;
+  @include theming.focus-visible();
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.clip {
+  clip-path: polygon(
+    0 0,
+    0 100%,
+    calc(50% - 3.5px) 100%,
+    calc(50% - 3.5px) 0,
+    calc(50% + 3.5px) 0,
+    calc(50% + 3.5px) 100%,
+    100% 100%,
+    100% 0,
+    0 0
+  );
+
+  transform: rotate(45deg);
+
+  .content {
+    transform: rotate(-45deg);
+  }
+}
+
+.toggled {
+  position: absolute;
+  inset: 0 0 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .line {
+    width: 100%;
+    height: 3px;
+
+    border-radius: 4px;
+    background-color: var(--error-color-default);
+    transform: rotate(-45deg);
+  }
+}
+
+@each $name in theming.$variations {
+  .toggle-color-#{$name} {
+    color: var(--#{$name}-color-default);
+  }
+}
+
+.disabled {
+  color: theming.text-muted();
+  cursor: not-allowed;
+  opacity: 1;
+
+  .line {
+    background-color: theming.text-muted();
+  }
+}

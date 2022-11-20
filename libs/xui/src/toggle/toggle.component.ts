@@ -9,27 +9,38 @@ import {
   Self,
   ViewEncapsulation
 } from '@angular/core';
-import { InputBoolean } from '../utils';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
-import { SwitchColor } from './switch.types';
+import { InputBoolean } from '../utils';
+import { ToggleColor } from './toggle.types';
 
 @Component({
-  selector: 'xui-switch',
-  exportAs: 'xuiSwitch',
-  styleUrls: ['switch.scss'],
+  selector: 'xui-toggle',
+  exportAs: 'xuiToggle',
+  styleUrls: ['./toggle.scss'],
   encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './switch.component.html'
+  template: `
+    <div [ngClass]="style" [tabindex]="disabled ? -1 : 0">
+      <div [class.clip]="value">
+        <div class="content">
+          <xui-icon><ng-content></ng-content></xui-icon>
+        </div>
+      </div>
+      <div [class.toggled]="value">
+        <div class="line"></div>
+      </div>
+    </div>
+  `
 })
-export class XuiSwitchComponent implements ControlValueAccessor, OnInit {
+export class XuiToggleComponent implements ControlValueAccessor, OnInit {
   private onChange?: (source?: boolean) => void;
   private onTouched?: () => void;
 
-  _value = false;
+  private _value = false;
   touched = false;
 
   @Input() @InputBoolean() disabled = false;
-  @Input() color: SwitchColor = 'success';
+  @Input() color: ToggleColor = 'none';
 
   @Input()
   get value() {
@@ -45,19 +56,12 @@ export class XuiSwitchComponent implements ControlValueAccessor, OnInit {
   }
 
   get style() {
-    return {
-      content: true,
+    const ret: { [klass: string]: boolean } = {
+      toggle: true,
       disabled: this.disabled
     };
-  }
 
-  get styleSwitch() {
-    const ret: { [klass: string]: boolean } = {
-      switch: true,
-      enabled: this.value
-    };
-
-    ret[`color-${this.color}`] = this.value;
+    ret[`toggle-color-${this.color}`] = this.color !== 'none';
     return ret;
   }
 
@@ -90,6 +94,7 @@ export class XuiSwitchComponent implements ControlValueAccessor, OnInit {
     }
   }
 
+  @HostListener('click', ['$event'])
   @HostListener('keydown.enter', ['$event'])
   @HostListener('keydown.space', ['$event'])
   _click(event?: KeyboardEvent | MouseEvent) {

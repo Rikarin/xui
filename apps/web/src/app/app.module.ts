@@ -28,7 +28,8 @@ import {
   XuiSelectModule,
   XuiSliderModule,
   XuiSpinnerModule,
-  XuiDividerModule
+  XuiDividerModule,
+  XuiToggleModule
 } from 'xui';
 import { RouterModule, Routes } from '@angular/router';
 import { CardComponent } from './components/card/card.component';
@@ -73,6 +74,7 @@ import { InfomationComponent } from './components/infomation/infomation.componen
 import { TextareaComponent } from './components/textarea/textarea.component';
 import { SnackbarComponent } from './components/snackbar/snackbar.component';
 import { DividerComponent } from './components/divider/divider.component';
+import { ToggleComponent } from './components/toggle/toggle.component';
 
 const routes: Routes = [
   {
@@ -85,9 +87,12 @@ const routes: Routes = [
   { path: 'button', component: ButtonComponent },
   { path: 'card', component: CardComponent },
   { path: 'checkbox', component: CheckboxComponent },
+  { path: 'components-overview', component: ComponentsOverviewComponent },
   { path: 'context-menu', component: ContextMenuComponent },
   { path: 'decagram', component: DecagramComponent },
+  { path: 'divider', component: DividerComponent },
   { path: 'getting-started', component: GettingStartedComponent },
+  { path: 'icon', component: IconComponent },
   { path: 'image-upload', component: ImageUploadComponent },
   { path: 'input', component: InputComponent },
   { path: 'layout', component: LayoutComponent },
@@ -96,19 +101,16 @@ const routes: Routes = [
   { path: 'select', component: SelectComponent },
   { path: 'settings', component: SettingsComponent },
   { path: 'slider', component: SliderComponent },
+  { path: 'snackbar', component: SnackbarComponent },
   { path: 'spinner', component: SpinnerComponent },
   { path: 'switch', component: SwitchComponent },
   { path: 'table', component: TableComponent },
   { path: 'tabs', component: TabsComponent },
-  { path: 'theming', component: ThemingComponent },
-  { path: 'tooltip', component: TooltipComponent },
-  { path: 'typography', component: TypographyComponent },
-
-  { path: 'icon', component: IconComponent },
-  { path: 'divider', component: DividerComponent },
-  { path: 'snackbar', component: SnackbarComponent },
   { path: 'textarea', component: TextareaComponent },
-  { path: 'components-overview', component: ComponentsOverviewComponent }
+  { path: 'theming', component: ThemingComponent },
+  { path: 'toggle', component: ToggleComponent },
+  { path: 'tooltip', component: TooltipComponent },
+  { path: 'typography', component: TypographyComponent }
 ];
 
 @NgModule({
@@ -145,7 +147,8 @@ const routes: Routes = [
     InfomationComponent,
     TextareaComponent,
     SnackbarComponent,
-    DividerComponent
+    DividerComponent,
+    ToggleComponent
   ],
   imports: [
     RouterModule.forRoot(routes),
@@ -188,7 +191,8 @@ const routes: Routes = [
     XuiSelectModule,
     XuiSliderModule,
     XuiSpinnerModule,
-    XuiDividerModule
+    XuiDividerModule,
+    XuiToggleModule
   ],
   providers: [
     {

@@ -51,15 +51,10 @@
 
 :host {
   display: inline-flex;
-
-  //&:focus-visible {
-  //  outline: none;
-  //}
 }
 
 .button {
   display: inline-flex;
-  gap: 4px;
   align-items: center;
   justify-content: center;
   position: relative;
@@ -104,11 +99,11 @@
 
 .content {
   display: inline-flex;
+}
 
-  xui-icon {
-    width: 18px;
-    margin-right: 4px;
-  }
+::ng-deep .button .content xui-icon {
+  width: 18px;
+  margin-right: 4px;
 }
 
 .type-normal {
