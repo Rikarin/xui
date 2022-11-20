@@ -1,3 +1,5 @@
+@use '../theming/theming';
+
 .input-group {
   display: flex;
 
@@ -22,10 +24,10 @@
   }
 
   > xui-input:not(:first-child) {
-    border-left: 1px solid var(--text-muted);
+    border-left: 1px solid theming.text-muted();
   }
 
   > xui-input-addon:not(:first-child) {
-    border-left: 1px solid var(--text-muted);
+    border-left: 1px solid theming.text-muted();
   }
 }

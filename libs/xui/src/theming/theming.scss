@@ -113,6 +113,7 @@ $variations: [primary, primary-alt, secondary, success, error, info, warning];
   --active-opacity: 0.48;
   --selected-opacity: 0.6;
   //--accent-opacity: 0.48;
+  --text-muted: 0.5;
 
   --focus-color: var(--info-color-400);
 }
@@ -151,4 +152,8 @@ $variations: [primary, primary-alt, secondary, success, error, info, warning];
 
 @function modifier-selected($color: accent, $palette: background) {
   @return rgba(var(--#{$palette}-color-#{$color}-rgb), var(--selected-opacity));
+}
+
+@function text-muted($color: accent, $palette: background) {
+  @return rgba(var(--#{$palette}-color-#{$color}-contrast-rgb), var(--text-muted));
 }

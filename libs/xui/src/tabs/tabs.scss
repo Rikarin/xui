@@ -1,4 +1,4 @@
-@use '../core/core';
+@use '../theming/theming';
 
 xui-tab {
   display: contents;
@@ -34,11 +34,13 @@ xui-tab {
   }
 
   &[disabled] {
-    @include core.disabled-filter;
+    color: theming.text-muted();
     cursor: not-allowed;
+    opacity: 1;
 
     &:hover {
-      @include core.disabled-filter;
+      color: theming.text-muted() !important;
+      opacity: 1;
     }
   }
 }

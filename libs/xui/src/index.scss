@@ -48,10 +48,6 @@
   @include theming.create-color-variables($theme);
   @include theming.create-elevation-variables($theme);
   @include typography.create-typography-variables($theme);
-
-  // TODO: move this to typography
-  --text-normal: #d7dee4;
-  --text-muted: #72787d;
 }
 
 @mixin all-root-variables($theme) {
