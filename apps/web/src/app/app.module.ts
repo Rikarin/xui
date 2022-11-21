@@ -29,7 +29,8 @@ import {
   XuiSliderModule,
   XuiSpinnerModule,
   XuiDividerModule,
-  XuiToggleModule
+  XuiToggleModule,
+  XuiStatusModule
 } from 'xui';
 import { RouterModule, Routes } from '@angular/router';
 import { CardComponent } from './components/card/card.component';
@@ -75,6 +76,7 @@ import { TextareaComponent } from './components/textarea/textarea.component';
 import { SnackbarComponent } from './components/snackbar/snackbar.component';
 import { DividerComponent } from './components/divider/divider.component';
 import { ToggleComponent } from './components/toggle/toggle.component';
+import { StatusComponent } from './components/status/status.component';
 
 const routes: Routes = [
   {
@@ -103,6 +105,7 @@ const routes: Routes = [
   { path: 'slider', component: SliderComponent },
   { path: 'snackbar', component: SnackbarComponent },
   { path: 'spinner', component: SpinnerComponent },
+  { path: 'status', component: StatusComponent },
   { path: 'switch', component: SwitchComponent },
   { path: 'table', component: TableComponent },
   { path: 'tabs', component: TabsComponent },
@@ -148,7 +151,8 @@ const routes: Routes = [
     TextareaComponent,
     SnackbarComponent,
     DividerComponent,
-    ToggleComponent
+    ToggleComponent,
+    StatusComponent
   ],
   imports: [
     RouterModule.forRoot(routes),
@@ -192,7 +196,8 @@ const routes: Routes = [
     XuiSliderModule,
     XuiSpinnerModule,
     XuiDividerModule,
-    XuiToggleModule
+    XuiToggleModule,
+    XuiStatusModule
   ],
   providers: [
     {
