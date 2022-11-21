@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.36.2](https://github.com/Rikarin/xui/compare/v1.36.1...v1.36.2) (2022-11-21)
+
+
+### Bug Fixes
+
+* improve icon type of button ([6628304](https://github.com/Rikarin/xui/commit/662830458b8e270ccafc604d0f6c09d62464b12e))
+
 ### [1.36.1](https://github.com/Rikarin/xui/compare/v1.36.0...v1.36.1) (2022-11-20)
 
 ### Bug Fixes
