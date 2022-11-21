@@ -101,7 +101,7 @@
   display: inline-flex;
 }
 
-::ng-deep .button .content xui-icon {
+::ng-deep .button:not(.type-icon) .content xui-icon {
   width: 18px;
   margin-right: 4px;
 }
@@ -145,6 +145,17 @@
   @include button-bg-colors();
   border-radius: 40px;
   min-width: 38px;
+}
+
+.type-icon {
+  min-width: 0;
+  aspect-ratio: 1;
+  opacity: 0.8;
+
+  &:hover {
+    opacity: 1;
+    background-color: theming.modifier-hover();
+  }
 }
 
 .state--non-idle {
