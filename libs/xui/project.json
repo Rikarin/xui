@@ -9,7 +9,8 @@
       "executor": "@nrwl/angular:package",
       "options": {
         "tsConfig": "libs/xui/tsconfig.lib.json",
-        "project": "libs/xui/ng-package.json"
+        "project": "libs/xui/ng-package.json",
+        "updateBuildableProjectDepsInPackageJson": false
       },
       "configurations": {
         "production": {

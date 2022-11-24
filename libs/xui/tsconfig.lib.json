@@ -7,6 +7,9 @@
     "inlineSources": true,
     "types": []
   },
+  "include": [
+    "**/*.ts"
+  ],
   "exclude": [
     "src/test-setup.ts",
     "**/*.spec.ts",
@@ -18,8 +21,5 @@
     "**/*.cy.js",
     "**/*.cy.tsx",
     "**/*.cy.jsx"
-  ],
-  "include": [
-    "**/*.ts"
   ]
 }

@@ -3,7 +3,32 @@
   "dest": "../../dist/libs/xui",
   "assets": [
     {
-      "glob": "**/*.scss",
+      "glob": "index.scss",
+      "input": "src",
+      "output": "."
+    },
+    {
+      "glob": "core/*.scss",
+      "input": "src",
+      "output": "."
+    },
+    {
+      "glob": "theming/*.scss",
+      "input": "src",
+      "output": "."
+    },
+    {
+      "glob": "table/*.scss",
+      "input": "src",
+      "output": "."
+    },
+    {
+      "glob": "menu/*.scss",
+      "input": "src",
+      "output": "."
+    },
+    {
+      "glob": "layout/*.scss",
       "input": "src",
       "output": "."
     }

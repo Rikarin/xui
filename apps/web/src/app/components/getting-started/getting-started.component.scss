@@ -1,4 +1,14 @@
 :host {
   display: flex;
   flex-direction: column;
+  gap: 12px;
+}
+
+xui-card {
+  padding: 24px 0;
+  background-color: var(--background-color-floating);
+
+  ul {
+    margin-left: 24px;
+  }
 }
