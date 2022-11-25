@@ -1,0 +1,57 @@
+<div class="header">
+  <p>New Analysis</p>
+  <div class="buttons">
+    <xui-button><xui-icon>plus-circle-outline</xui-icon> New</xui-button>
+    <xui-button><xui-icon>content-save</xui-icon> Save</xui-button>
+    <xui-button><xui-icon>open-in-app</xui-icon> Load</xui-button>
+
+    <xui-button><xui-icon>export</xui-icon> Export</xui-button>
+    <xui-button><xui-icon>share</xui-icon> Share</xui-button>
+
+    <xui-button [cdkMenuTriggerFor]="moreMenu">More <xui-icon>chevron-down</xui-icon></xui-button>
+
+    <ng-template #moreMenu>
+      <xui-context-menu cdkMenu>
+        <xui-button cdkMenuItem>Save as ...</xui-button>
+        <xui-button cdkMenuItem color="error">
+          Delete
+          <xui-icon>delete-outline</xui-icon>
+        </xui-button>
+      </xui-context-menu>
+    </ng-template>
+  </div>
+</div>
+
+<div class="content" cdkDropListGroup>
+  <div class="drawer" [class.closed]="closed">
+    <xui-tab-group>
+      <xui-tab title="Metrics">
+        <xui-metrics [entities]="entities"></xui-metrics>
+      </xui-tab>
+      <xui-tab title="Data">Data</xui-tab>
+    </xui-tab-group>
+
+    <xui-button class="toggle" type="icon" (click)="closed = !closed">
+      <xui-icon>{{ closed ? 'chevron-double-right' : 'chevron-double-left' }}</xui-icon>
+    </xui-button>
+  </div>
+
+  <div class="charts">
+    <div class="placeholder" cdkDropList (cdkDropListDropped)="dropped($event, 0)" *ngIf="isDragging">
+      Drop Here to Add Metric
+    </div>
+
+    <ng-container *ngFor="let chart of charts; let i = index">
+      <div class="placeholder-group">
+        <xui-analysis-chart [index]="i" cdkDropList></xui-analysis-chart>
+        <div class="placeholder" cdkDropList (cdkDropListDropped)="dropped($event, i, false)" *ngIf="isDragging">
+          Drop Here to Add Metric
+        </div>
+      </div>
+
+      <div class="placeholder" cdkDropList (cdkDropListDropped)="dropped($event, i + 1)" *ngIf="isDragging">
+        Drop Here to Add Metric
+      </div>
+    </ng-container>
+  </div>
+</div>

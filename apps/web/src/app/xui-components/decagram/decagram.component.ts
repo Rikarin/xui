@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { FileType } from '../example/example.component';
-import { Usage } from '../usage';
+import { FileType } from '../../components/example/example.component';
+import { Usage } from '../../components/usage';
 
 @Component({
   selector: 'app-decagram',

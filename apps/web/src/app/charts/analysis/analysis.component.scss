@@ -1,0 +1,10 @@
+:host {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+::ng-deep xui-card.analysis-card .xui-card-content {
+  padding: 0;
+}

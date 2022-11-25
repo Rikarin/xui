@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Usage } from '../usage';
+import { Usage } from '../../components/usage';
 
 @Component({
   selector: 'app-checkbox',

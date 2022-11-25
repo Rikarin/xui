@@ -22,7 +22,8 @@
     "baseUrl": ".",
     "paths": {
       "xui": [
-        "libs/xui/src/index.ts"
+        "libs/xui/src/index.ts",
+        "libs/xui-charts/src/index.ts"
       ]
     }
   },

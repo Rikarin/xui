@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { delay } from 'xui';
-import { Usage } from '../usage';
+import { Usage } from '../../components/usage';
 
 @Component({
   selector: 'app-button',

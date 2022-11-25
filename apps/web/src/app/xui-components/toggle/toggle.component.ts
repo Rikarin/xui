@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { Usage } from '../usage';
 import { FormControl } from '@angular/forms';
+import { Usage } from '../../components/usage';
 
 @Component({
   selector: 'app-toggle',

@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { MenuItem, XuiSettingsComponent } from 'xui';
-import { Method, Usage } from '../usage';
+import { Method, Usage } from '../../components/usage';
 
 @Component({
   selector: 'app-settings',

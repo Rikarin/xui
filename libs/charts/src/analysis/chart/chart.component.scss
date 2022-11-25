@@ -1,0 +1,83 @@
+:host {
+  width: 100%;
+  min-height: 200px;
+  display: flex;
+  gap: 4px;
+}
+
+.chart {
+  flex: 1;
+  background-color: white;
+}
+
+.legend {
+  width: 280px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  .trend {
+    height: 48px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    border-radius: 4px;
+
+    &:hover {
+      outline: 1px solid gray;
+      outline-offset: -1px;
+    }
+
+    .metric {
+      height: 100%;
+      flex: 0 0 48px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-end;
+
+      font-weight: 500;
+      line-height: 1.1em;
+      padding: 8px;
+      background-color: dodgerblue;
+      border-radius: 4px;
+
+      .type {
+        font-weight: initial;
+        font-size: 0.8em;
+      }
+    }
+
+    .labels {
+      flex: 1;
+      display: flex;
+      gap: 4px;
+      flex-direction: column;
+      justify-content: center;
+
+      .metric-name {
+        font-size: 12px;
+        font-weight: 500;
+        line-height: 1em;
+      }
+
+      .entity-name {
+        font-size: 11px;
+        line-height: 1em;
+        margin-left: 8px;
+      }
+    }
+
+    xui-button {
+      display: none;
+      margin-right: 4px;
+    }
+
+    &:hover {
+      xui-button {
+        display: flex;
+      }
+    }
+  }
+}

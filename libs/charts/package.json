@@ -1,0 +1,40 @@
+{
+  "name": "xui-charts",
+  "description": "xUI Charts for Angular",
+  "keywords": [
+    "xui",
+    "charts",
+    "angular",
+    "graph",
+    "ui",
+    "frontend"
+  ],
+  "license": "MIT",
+  "homepage": "https://xuijs.org/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rikarin/xui.git"
+  },
+  "bugs": {
+    "url": "https://github.com/rikarin/xui/issues"
+  },
+  "exports": {
+    ".": {
+      "sass": "./index.scss"
+    }
+  },
+  "version": "1.25.1",
+  "peerDependencies": {
+    "@angular/cdk": "^14.0.0",
+    "@angular/common": "^14.0.0",
+    "@angular/core": "^14.0.0",
+    "@ngneat/until-destroy": "^9.0.0",
+    "@ngx-translate/core": "^14.0.0",
+    "rxjs": "^7.5.0",
+    "echarts": "^5.4.0",
+    "xui": "^1.37.0"
+  },
+  "dependencies": {
+    "tslib": "^2.4.0"
+  }
+}

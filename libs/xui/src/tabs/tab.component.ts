@@ -6,7 +6,8 @@ import { InputBoolean } from '../utils';
   selector: 'xui-tab',
   exportAs: 'xuiTab',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
+  encapsulation: ViewEncapsulation.Emulated,
+  styles: [':host { display: contents; }'],
   template: '<ng-container *ngIf="isActive"><ng-content></ng-content></ng-container>'
 })
 export class XuiTabComponent implements OnInit {
