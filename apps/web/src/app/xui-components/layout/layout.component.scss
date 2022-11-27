@@ -4,3 +4,22 @@
   grid-template-columns: 1fr 1fr;
   gap: 12px;
 }
+
+xui-layout {
+  height: 350px;
+}
+
+xui-sider {
+  background-color: indianred;
+  padding: 8px;
+}
+
+xui-header {
+  background-color: yellowgreen;
+  padding: 8px;
+}
+
+xui-content {
+  background-color: mediumpurple;
+  padding: 12px;
+}
