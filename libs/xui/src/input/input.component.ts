@@ -23,14 +23,15 @@ import { InputColor, InputSize, InputType } from './input.types';
   templateUrl: 'input.component.html'
 })
 export class XuiInputComponent implements ControlValueAccessor, OnInit {
-  private onChange?: (source?: string) => void;
+  private onChange?: (source: string | null) => void;
   private onTouched?: () => void;
 
-  _value?: string;
+  _value: string | null = null;
   touched = false;
 
   @Input() placeholder?: string;
   @Input() @InputBoolean() disabled = false;
+  @Input() @InputBoolean() readOnly = false;
   @Input() color: InputColor = 'light';
   @Input() size: InputSize = 'normal';
   @Input() type: InputType = 'text';
@@ -97,7 +98,7 @@ export class XuiInputComponent implements ControlValueAccessor, OnInit {
     this.value = source;
   }
 
-  registerOnChange(onChange: (source?: string) => void) {
+  registerOnChange(onChange: (source: string | null) => void) {
     this.onChange = onChange;
   }
 
