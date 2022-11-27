@@ -35,6 +35,7 @@ import {
   XuiCardModule,
   XuiCheckboxModule,
   XuiContextMenuModule,
+  XuiDatePickerModule,
   XuiDecagramModule,
   XuiDividerModule,
   XuiIconModule,
@@ -42,6 +43,7 @@ import {
   XuiInputModule,
   XuiLayoutModule,
   XuiMenuModule,
+  XuiPopoverModule,
   XuiProgressModule,
   XuiRadioListModule,
   XuiSelectModule,
@@ -53,6 +55,7 @@ import {
   XuiSwitchModule,
   XuiTabModule,
   XuiTextareaModule,
+  XuiTimePickerModule,
   XuiTitleModule,
   XuiToggleModule,
   XuiTooltipModule
@@ -65,6 +68,9 @@ import { ComponentsOverviewComponent } from './components-overview/components-ov
 import { TypographyComponent } from './typography/typography.component';
 import { HighlightModule } from 'ngx-highlightjs';
 import { HighlightPlusModule } from 'ngx-highlightjs/plus';
+import { DatePickerComponent } from './date-picker/date-picker.component';
+import { TimePickerComponent } from './time-picker/time-picker.component';
+import { PopoverComponent } from './popover/popover.component';
 
 const routes: Routes = [
   { path: 'overview', component: ComponentsOverviewComponent },
@@ -75,12 +81,14 @@ const routes: Routes = [
   { path: 'card', component: CardComponent },
   { path: 'checkbox', component: CheckboxComponent },
   { path: 'context-menu', component: ContextMenuComponent },
+  { path: 'date-picker', component: DatePickerComponent },
   { path: 'decagram', component: DecagramComponent },
   { path: 'divider', component: DividerComponent },
   { path: 'icon', component: IconComponent },
   { path: 'image-upload', component: ImageUploadComponent },
   { path: 'input', component: InputComponent },
   { path: 'layout', component: LayoutComponent },
+  { path: 'popover', component: PopoverComponent },
   { path: 'progress', component: ProgressComponent },
   { path: 'radio-list', component: RadioListComponent },
   { path: 'select', component: SelectComponent },
@@ -93,6 +101,7 @@ const routes: Routes = [
   { path: 'table', component: TableComponent },
   { path: 'tabs', component: TabsComponent },
   { path: 'textarea', component: TextareaComponent },
+  { path: 'time-picker', component: TimePickerComponent },
   { path: 'toggle', component: ToggleComponent },
   { path: 'tooltip', component: TooltipComponent },
   { path: 'typography', component: TypographyComponent }
@@ -127,7 +136,10 @@ const routes: Routes = [
     TextareaComponent,
     ToggleComponent,
     TooltipComponent,
-    TypographyComponent
+    TypographyComponent,
+    DatePickerComponent,
+    TimePickerComponent,
+    PopoverComponent
   ],
   imports: [
     CommonModule,
@@ -167,7 +179,10 @@ const routes: Routes = [
     XuiSpinnerModule,
     XuiDividerModule,
     XuiToggleModule,
-    XuiStatusModule
+    XuiStatusModule,
+    XuiDatePickerModule,
+    XuiTimePickerModule,
+    XuiPopoverModule
   ]
 })
 export class XuiComponentsModule {}
