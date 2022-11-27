@@ -37,19 +37,24 @@
   </div>
 
   <div class="charts">
-    <div class="placeholder" cdkDropList (cdkDropListDropped)="dropped($event, 0)" *ngIf="isDragging">
+    <div class="placeholder" cdkDropList (cdkDropListDropped)="dropped($event, 0)" *ngIf="isDragging$ | async">
       Drop Here to Add Metric
     </div>
 
     <ng-container *ngFor="let chart of charts; let i = index">
       <div class="placeholder-group">
         <xui-analysis-chart [index]="i" cdkDropList></xui-analysis-chart>
-        <div class="placeholder" cdkDropList (cdkDropListDropped)="dropped($event, i, false)" *ngIf="isDragging">
+        <div
+          class="placeholder"
+          cdkDropList
+          (cdkDropListDropped)="dropped($event, i, false)"
+          *ngIf="isDragging$ | async"
+        >
           Drop Here to Add Metric
         </div>
       </div>
 
-      <div class="placeholder" cdkDropList (cdkDropListDropped)="dropped($event, i + 1)" *ngIf="isDragging">
+      <div class="placeholder" cdkDropList (cdkDropListDropped)="dropped($event, i + 1)" *ngIf="isDragging$ | async">
         Drop Here to Add Metric
       </div>
     </ng-container>

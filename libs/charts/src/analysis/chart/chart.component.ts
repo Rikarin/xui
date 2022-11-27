@@ -1,7 +1,6 @@
 import { Component, Input, OnDestroy } from '@angular/core';
 import { ECharts, EChartsOption } from 'echarts';
 import { AnalysisService } from '../analysis.service';
-import { XuiAnalysisComponent } from '../analysis.component';
 
 @Component({
   selector: 'xui-analysis-chart',
@@ -90,13 +89,13 @@ export class ChartComponent implements OnDestroy {
     return this.analysisService.getChart(this.index);
   }
 
-  constructor(private analysisService: AnalysisService, private analysisComponent: XuiAnalysisComponent) {}
+  constructor(private analysisService: AnalysisService) {}
 
   ngOnDestroy() {}
 
   onChartInit(chart: ECharts) {
     this.chart = chart;
-    this.analysisComponent.connectChart(chart);
+    this.analysisService.connectChart(chart);
 
     chart.on('highlight', (event: any) => {
       console.log('event', event);

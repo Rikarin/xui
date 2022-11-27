@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Entity, EntityGroup, EntityId, MetricGroup } from '../analysis.types';
-import { XuiAnalysisComponent } from '../analysis.component';
+import { AnalysisService } from '../analysis.service';
 
 @Component({
   selector: 'xui-metrics',
@@ -13,7 +13,7 @@ export class MetricsComponent {
 
   @Input() entities?: EntityGroup[];
 
-  constructor(public analysis: XuiAnalysisComponent) {}
+  constructor(public analysis: AnalysisService) {}
 
   ngOnInit() {
     // Testing
@@ -29,8 +29,8 @@ export class MetricsComponent {
   }
 
   isOpened(group: EntityGroup | MetricGroup) {
-    return true;
-    // return this.opened.includes(group.id);
+    // return true;
+    return this.opened.includes(group.id);
   }
 
   toggleGroup(group: EntityGroup | MetricGroup) {

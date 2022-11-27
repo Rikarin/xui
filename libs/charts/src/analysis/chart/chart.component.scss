@@ -70,13 +70,15 @@
     }
 
     xui-button {
-      display: none;
+      display: flex;
+      opacity: 0;
       margin-right: 4px;
+      transition: opacity ease-in-out 0.3s;
     }
 
     &:hover {
       xui-button {
-        display: flex;
+        opacity: 1;
       }
     }
   }

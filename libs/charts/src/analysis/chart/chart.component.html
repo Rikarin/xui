@@ -11,9 +11,16 @@
       <div class="entity-name">{{ trend.entity.name }}</div>
     </div>
 
-    <xui-button type="icon">
+    <xui-button type="icon" [cdkMenuTriggerFor]="menu">
       <xui-icon>dots-vertical</xui-icon>
     </xui-button>
-    <!--    {{ trend.metric | json }}-->
   </div>
 </div>
+
+<ng-template #menu>
+  <xui-context-menu cdkMenu>
+    <xui-button cdkMenuItem>Remove</xui-button>
+    <hr />
+    <xui-button cdkMenuItem>None</xui-button>
+  </xui-context-menu>
+</ng-template>
