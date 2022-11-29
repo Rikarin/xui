@@ -11,6 +11,7 @@ import {
 import { RadioListService } from './radio-list.service';
 import { InputBoolean } from '../utils';
 import { XuiRadioListComponent } from './radio-list.component';
+import { BooleanInput } from '@angular/cdk/coercion';
 
 @Component({
   selector: 'xui-radio-option',
@@ -29,6 +30,8 @@ import { XuiRadioListComponent } from './radio-list.component';
   </div>`
 })
 export class XuiRadioOptionComponent implements OnInit, OnDestroy {
+  static ngAcceptInputType_disabled: BooleanInput;
+
   @Input() color?: string;
   @Input() value!: string;
   @Input() description?: string;

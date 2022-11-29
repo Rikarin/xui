@@ -27,13 +27,13 @@ import { ImageUploadType } from './image-upload.types';
   templateUrl: './image-upload.component.html'
 })
 export class XuiImageUploadComponent implements ControlValueAccessor, OnInit {
-  private onChange?: (source?: string) => void;
+  private onChange?: (source: string | null) => void;
   private onTouched?: () => void;
-  private _backgroundImage?: string;
+  private _backgroundImage: string | null = null;
   private dialogRef?: DialogRef<unknown, XuiImageUploadCropperComponent>;
 
   touched = false;
-  croppedImage?: string = '';
+  croppedImage: string | null = null;
 
   @Input() hoverLabel = 'xui.image_upload.change_image';
   @Input() type: ImageUploadType = 'square';
@@ -99,7 +99,7 @@ export class XuiImageUploadComponent implements ControlValueAccessor, OnInit {
   }
 
   imageCropped = (event: ImageCroppedEvent) => {
-    this.croppedImage = event.base64 ?? undefined;
+    this.croppedImage = event.base64 ?? null;
   };
 
   save = () => {
@@ -114,7 +114,7 @@ export class XuiImageUploadComponent implements ControlValueAccessor, OnInit {
     this._backgroundImage = source;
   }
 
-  registerOnChange(onChange: (source?: string) => void) {
+  registerOnChange(onChange: (source: string | null) => void) {
     this.onChange = onChange;
   }
 

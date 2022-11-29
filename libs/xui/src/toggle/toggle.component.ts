@@ -1,3 +1,4 @@
+import { BooleanInput } from '@angular/cdk/coercion';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -33,7 +34,9 @@ import { ToggleColor } from './toggle.types';
   `
 })
 export class XuiToggleComponent implements ControlValueAccessor, OnInit {
-  private onChange?: (source?: boolean) => void;
+  static ngAcceptInputType_disabled: BooleanInput;
+
+  private onChange?: (source: boolean) => void;
   private onTouched?: () => void;
 
   private _value = true;
@@ -79,7 +82,7 @@ export class XuiToggleComponent implements ControlValueAccessor, OnInit {
     this.value = source;
   }
 
-  registerOnChange(onChange: (source?: boolean) => void) {
+  registerOnChange(onChange: (source: boolean) => void) {
     this.onChange = onChange;
   }
 

@@ -14,6 +14,7 @@ import { DateTime } from 'luxon';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { InputBoolean } from '../utils';
 import { InputColor, InputSize, XuiInputComponent } from '../input';
+import { BooleanInput } from '@angular/cdk/coercion';
 
 @Component({
   selector: 'xui-date-picker',
@@ -24,6 +25,9 @@ import { InputColor, InputSize, XuiInputComponent } from '../input';
   templateUrl: './date-picker.component.html'
 })
 export class XuiDatePickerComponent implements ControlValueAccessor, OnInit {
+  static ngAcceptInputType_disabled: BooleanInput;
+  static ngAcceptInputType_readOnly: BooleanInput;
+
   private onChange?: (source: string | null) => void;
   private onTouched?: () => void;
 

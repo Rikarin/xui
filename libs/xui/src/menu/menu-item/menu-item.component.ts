@@ -14,6 +14,7 @@ import { combineLatest, filter, map } from 'rxjs';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { NavigationEnd, Router } from '@angular/router';
 import { InputBoolean } from '../../utils';
+import { BooleanInput } from '@angular/cdk/coercion';
 
 @UntilDestroy()
 @Component({
@@ -28,6 +29,8 @@ import { InputBoolean } from '../../utils';
   }
 })
 export class XuiMenuItemComponent implements OnInit {
+  static ngAcceptInputType_disabled: BooleanInput;
+ 
   @Input() icon!: string;
   @Input() link!: string;
   @Input() @InputBoolean() disabled = false;

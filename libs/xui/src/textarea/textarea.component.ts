@@ -1,3 +1,4 @@
+import { BooleanInput } from '@angular/cdk/coercion';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -22,10 +23,12 @@ import { TextareaColor, TextareaSize } from './textarea.types';
   templateUrl: 'textarea.component.html'
 })
 export class XuiTextareaComponent implements ControlValueAccessor, OnInit {
-  private onChange?: (source?: string) => void;
+  static ngAcceptInputType_disabled: BooleanInput;
+
+  private onChange?: (source: string | null) => void;
   private onTouched?: () => void;
 
-  _value?: string;
+  _value: string | null = null;
   touched = false;
 
   @Input() placeholder?: string;
@@ -91,14 +94,14 @@ export class XuiTextareaComponent implements ControlValueAccessor, OnInit {
     }
 
     const { dirty, touched } = this.control;
-    return this.invalid ? dirty! || touched! : false;
+    return this.invalid ? (dirty ?? false) || (touched ?? false) : false;
   }
 
   writeValue(source: string) {
     this.value = source;
   }
 
-  registerOnChange(onChange: (source?: string) => void) {
+  registerOnChange(onChange: (source: string | null) => void) {
     this.onChange = onChange;
   }
 

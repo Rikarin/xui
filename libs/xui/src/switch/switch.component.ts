@@ -12,6 +12,7 @@ import {
 import { InputBoolean } from '../utils';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { SwitchColor } from './switch.types';
+import { BooleanInput } from '@angular/cdk/coercion';
 
 @Component({
   selector: 'xui-switch',
@@ -22,7 +23,9 @@ import { SwitchColor } from './switch.types';
   templateUrl: './switch.component.html'
 })
 export class XuiSwitchComponent implements ControlValueAccessor, OnInit {
-  private onChange?: (source?: boolean) => void;
+  static ngAcceptInputType_disabled: BooleanInput;
+
+  private onChange?: (source: boolean) => void;
   private onTouched?: () => void;
 
   _value = false;
@@ -75,7 +78,7 @@ export class XuiSwitchComponent implements ControlValueAccessor, OnInit {
     this.value = source;
   }
 
-  registerOnChange(onChange: (source?: boolean) => void) {
+  registerOnChange(onChange: (source: boolean) => void) {
     this.onChange = onChange;
   }
 

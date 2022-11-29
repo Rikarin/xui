@@ -13,6 +13,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { InputGroupService } from './input-group.service';
 import { InputBoolean } from '../utils';
 import { InputColor, InputSize, InputType } from './input.types';
+import {BooleanInput} from "@angular/cdk/coercion";
 
 @Component({
   selector: 'xui-input',
@@ -23,6 +24,9 @@ import { InputColor, InputSize, InputType } from './input.types';
   templateUrl: 'input.component.html'
 })
 export class XuiInputComponent implements ControlValueAccessor, OnInit {
+  static ngAcceptInputType_disabled: BooleanInput;
+  static ngAcceptInputType_readOnly: BooleanInput;
+
   private onChange?: (source: string | null) => void;
   private onTouched?: () => void;
 
@@ -91,7 +95,7 @@ export class XuiInputComponent implements ControlValueAccessor, OnInit {
     }
 
     const { dirty, touched } = this.control;
-    return this.invalid ? dirty! || touched! : false;
+    return this.invalid ? (dirty ?? false) || (touched ?? false) : false;
   }
 
   writeValue(source: string) {

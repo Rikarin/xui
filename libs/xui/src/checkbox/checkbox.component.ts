@@ -11,9 +11,8 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { InputBoolean } from '../utils';
-import { TranslateService } from '@ngx-translate/core';
-import { InputGroupService } from '../input/input-group.service';
 import { CheckboxColor } from './checkbox.types';
+import { BooleanInput } from '@angular/cdk/coercion';
 
 @Component({
   selector: 'xui-checkbox',
@@ -38,7 +37,10 @@ import { CheckboxColor } from './checkbox.types';
   </div>`
 })
 export class XuiCheckboxComponent implements ControlValueAccessor, OnInit {
-  private onChange?: (source?: boolean) => void;
+  static ngAcceptInputType_disabled: BooleanInput;
+  static ngAcceptInputType_value: BooleanInput;
+
+  private onChange?: (source: boolean) => void;
   private onTouched?: () => void;
   _value = false;
   touched = false;
@@ -72,8 +74,6 @@ export class XuiCheckboxComponent implements ControlValueAccessor, OnInit {
 
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
-    private translation: TranslateService,
-    @Optional() private groupService: InputGroupService,
     @Self() @Optional() public control?: NgControl
   ) {
     if (this.control) {
@@ -89,7 +89,7 @@ export class XuiCheckboxComponent implements ControlValueAccessor, OnInit {
     this.value = source;
   }
 
-  registerOnChange(onChange: (source?: boolean) => void) {
+  registerOnChange(onChange: (source: boolean) => void) {
     this.onChange = onChange;
   }
 

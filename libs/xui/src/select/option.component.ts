@@ -14,6 +14,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { SelectService } from './select.service';
 import { InputBoolean } from '../utils';
 import { XuiSelectComponent } from './select.component';
+import { BooleanInput } from '@angular/cdk/coercion';
 
 @Component({
   selector: 'xui-option',
@@ -27,10 +28,12 @@ import { XuiSelectComponent } from './select.component';
   </div>`
 })
 export class XuiOptionComponent implements OnInit, OnDestroy {
+  static ngAcceptInputType_disabled: BooleanInput;
+
   isSelected = false;
 
-  @Input() value!: string;
-  @Input() @InputBoolean() disabled: boolean = false;
+  @Input() value: string | null = null;
+  @Input() @InputBoolean() disabled = false;
 
   @ViewChild('content') contentRef!: ElementRef;
 

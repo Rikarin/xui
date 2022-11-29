@@ -29,7 +29,7 @@ import { filter } from 'rxjs/operators';
   providers: [RadioListService]
 })
 export class XuiRadioListComponent implements ControlValueAccessor, OnInit {
-  private onChange?: (source?: string | null) => void;
+  private onChange?: (source: string | null) => void;
   private onTouched?: () => void;
 
   _mouseDown = false;
@@ -80,7 +80,7 @@ export class XuiRadioListComponent implements ControlValueAccessor, OnInit {
     this.value = source;
   }
 
-  registerOnChange(onChange: (source?: string | null) => void) {
+  registerOnChange(onChange: (source: string | null) => void) {
     this.onChange = onChange;
   }
 

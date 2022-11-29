@@ -1,3 +1,4 @@
+import { BooleanInput } from '@angular/cdk/coercion';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -33,6 +34,9 @@ import { ButtonColor, ButtonSize, ButtonType } from './button.types';
   `
 })
 export class XuiButtonComponent {
+  static ngAcceptInputType_shine: BooleanInput;
+  static ngAcceptInputType_disabled: BooleanInput;
+
   state: 0 | 1 | 2 | 3 = 0;
 
   @Input() type: ButtonType = 'normal';
