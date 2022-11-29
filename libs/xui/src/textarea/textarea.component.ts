@@ -109,6 +109,10 @@ export class XuiTextareaComponent implements ControlValueAccessor, OnInit {
     this.onTouched = onTouched;
   }
 
+  setDisabledState(isDisabled: boolean): void {
+    this.disabled = isDisabled;
+  }
+
   markAsTouched() {
     if (!this.touched) {
       this.onTouched?.();

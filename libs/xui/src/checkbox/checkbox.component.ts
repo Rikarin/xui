@@ -72,10 +72,7 @@ export class XuiCheckboxComponent implements ControlValueAccessor, OnInit {
     }
   }
 
-  constructor(
-    private changeDetectorRef: ChangeDetectorRef,
-    @Self() @Optional() public control?: NgControl
-  ) {
+  constructor(private changeDetectorRef: ChangeDetectorRef, @Self() @Optional() public control?: NgControl) {
     if (this.control) {
       this.control.valueAccessor = this;
     }
@@ -95,6 +92,10 @@ export class XuiCheckboxComponent implements ControlValueAccessor, OnInit {
 
   registerOnTouched(onTouched: () => void) {
     this.onTouched = onTouched;
+  }
+
+  setDisabledState(isDisabled: boolean): void {
+    this.disabled = isDisabled;
   }
 
   markAsTouched() {

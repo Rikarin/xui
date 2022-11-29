@@ -13,7 +13,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { InputGroupService } from './input-group.service';
 import { InputBoolean } from '../utils';
 import { InputColor, InputSize, InputType } from './input.types';
-import {BooleanInput} from "@angular/cdk/coercion";
+import { BooleanInput } from '@angular/cdk/coercion';
 
 @Component({
   selector: 'xui-input',
@@ -108,6 +108,10 @@ export class XuiInputComponent implements ControlValueAccessor, OnInit {
 
   registerOnTouched(onTouched: () => void) {
     this.onTouched = onTouched;
+  }
+
+  setDisabledState(isDisabled: boolean): void {
+    this.disabled = isDisabled;
   }
 
   markAsTouched() {

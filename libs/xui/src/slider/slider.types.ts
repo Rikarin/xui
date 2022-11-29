@@ -5,4 +5,3 @@ export interface SliderMark {
   value: number;
   color?: SliderColor;
 }
-

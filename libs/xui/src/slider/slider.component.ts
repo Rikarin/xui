@@ -18,7 +18,7 @@ import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { XuiTooltipComponent } from '../tooltip/tooltip.component';
 import { inNextTick, InputBoolean, InputNumber } from '../utils';
 import { BehaviorSubject, map } from 'rxjs';
-import {SliderColor, SliderMark} from './slider.types';
+import { SliderColor, SliderMark } from './slider.types';
 import { BooleanInput } from '@angular/cdk/coercion';
 
 @Component({
@@ -127,6 +127,10 @@ export class XuiSliderComponent implements ControlValueAccessor, OnInit, AfterVi
 
   registerOnTouched(onTouched: () => void) {
     this.onTouched = onTouched;
+  }
+
+  setDisabledState(isDisabled: boolean): void {
+    // this.disabled = isDisabled;
   }
 
   markAsTouched() {

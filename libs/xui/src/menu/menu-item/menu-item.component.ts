@@ -30,7 +30,7 @@ import { BooleanInput } from '@angular/cdk/coercion';
 })
 export class XuiMenuItemComponent implements OnInit {
   static ngAcceptInputType_disabled: BooleanInput;
- 
+
   @Input() icon!: string;
   @Input() link!: string;
   @Input() @InputBoolean() disabled = false;

@@ -10,6 +10,7 @@ import { Usage } from '../../components/usage';
 })
 export class SwitchComponent {
   asyncSwitch = new FormControl(false);
+  disabledSwitch = new FormControl({ value: true, disabled: true });
 
   usage: Usage[] = [
     {

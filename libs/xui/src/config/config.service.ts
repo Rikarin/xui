@@ -14,7 +14,7 @@ const isDefined = function (value?: any): boolean {
 })
 export class XuiConfigService {
   private configUpdated$ = new Subject<XuiConfigKey>();
-  private config: XuiConfig;
+  private readonly config: XuiConfig;
 
   constructor(@Optional() @Inject(XUI_CONFIG) defaultConfig?: XuiConfig) {
     this.config = defaultConfig || {};
@@ -58,10 +58,10 @@ export function WithConfig<T>() {
 
         const componentConfig = this.nzConfigService.getConfigForComponent(this._nzModuleName) || {};
         const configValue = componentConfig[propName];
-        const ret = isDefined(configValue) ? configValue : originalValue;
 
-        return ret;
+        return isDefined(configValue) ? configValue : originalValue;
       },
+
       set(value?: T): void {
         // If the value is assigned, we consider the newly assigned value as 'assigned by user'.
         this.assignmentCount = this.assignmentCount || {};
