@@ -1,11 +1,11 @@
 <app-infomation title="Table">
-  <pre>Style HTML table by applying .xui-table class</pre>
+  <pre>Style HTML table by applying .x-table class</pre>
 
-  <code apiReference highlight='<table class="xui-table"></table>'></code>
+  <code apiReference highlight='<table class="x-table"></table>'></code>
 </app-infomation>
 
 <app-example>
-  <table cdk-table [dataSource]="dataSource" class="xui-table">
+  <table cdk-table [dataSource]="dataSource" class="x-table">
     <!-- Position Column -->
     <ng-container cdkColumnDef="position">
       <th cdk-header-cell *cdkHeaderCellDef>No.</th>
@@ -36,7 +36,7 @@
 </app-example>
 
 <app-example style="grid-column: 1 / -1">
-  <table cdk-table [dataSource]="dataSource" class="xui-table">
+  <table cdk-table [dataSource]="dataSource" class="x-table">
     <!-- Position Column -->
     <ng-container cdkColumnDef="position">
       <th cdk-header-cell *cdkHeaderCellDef>No.</th>

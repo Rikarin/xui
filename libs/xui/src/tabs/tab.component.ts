@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { XuiTabGroupComponent } from './tab-group.component';
 import { InputBoolean } from '../utils';
 import { BooleanInput } from '@angular/cdk/coercion';
@@ -7,8 +7,6 @@ import { BooleanInput } from '@angular/cdk/coercion';
   selector: 'xui-tab',
   exportAs: 'xuiTab',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.Emulated,
-  styles: [':host { display: contents; }'],
   template: '<ng-container *ngIf="isActive"><ng-content></ng-content></ng-container>'
 })
 export class XuiTabComponent implements OnInit {

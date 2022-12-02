@@ -6,8 +6,7 @@ import {
   Input,
   OnInit,
   Optional,
-  Self,
-  ViewEncapsulation
+  Self
 } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { InputBoolean } from '../utils';
@@ -17,11 +16,9 @@ import { BooleanInput } from '@angular/cdk/coercion';
 @Component({
   selector: 'xui-checkbox',
   exportAs: 'xuiCheckbox',
-  styleUrls: ['checkbox.scss'],
-  encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: ` <div [ngClass]="styles">
-    <div class="box" [class.checked]="value">
+    <div class="x-checkbox-box" [class.x-checkbox-checked]="value">
       <svg
         *ngIf="value"
         viewBox="0 0 24 24"
@@ -50,11 +47,11 @@ export class XuiCheckboxComponent implements ControlValueAccessor, OnInit {
 
   get styles() {
     const ret: { [klass: string]: boolean } = {
-      checkbox: true,
-      disabled: this.disabled
+      'x-checkbox': true,
+      'x-checkbox-disabled': this.disabled
     };
 
-    ret[`checkbox-color-${this.color}`] = true;
+    ret[`x-checkbox-${this.color}`] = true;
     return ret;
   }
 

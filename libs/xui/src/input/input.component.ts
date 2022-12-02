@@ -1,13 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  Input,
-  OnInit,
-  Optional,
-  Self,
-  ViewEncapsulation
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, Optional, Self } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { InputGroupService } from './input-group.service';
@@ -18,8 +9,6 @@ import { BooleanInput } from '@angular/cdk/coercion';
 @Component({
   selector: 'xui-input',
   exportAs: 'xuiInput',
-  styleUrls: ['input.scss'],
-  encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: 'input.component.html'
 })
@@ -56,12 +45,12 @@ export class XuiInputComponent implements ControlValueAccessor, OnInit {
 
   get styles() {
     const ret: { [klass: string]: boolean } = {
-      input: true,
-      'input-error': this.showError
+      'x-input': true,
+      'x-input-error': this.showError
     };
 
-    ret[`input-color-${this.color}`] = true;
-    ret[`input-${this.groupService?.size ?? this.size}`] = true;
+    ret[`x-input-${this.color}`] = true;
+    ret[`x-input-${this.groupService?.size ?? this.size}`] = true;
     return ret;
   }
 

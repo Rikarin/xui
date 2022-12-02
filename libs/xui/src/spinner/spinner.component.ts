@@ -1,11 +1,9 @@
-import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { SpinnerColor } from './spinner.types';
 
 @Component({
   selector: 'xui-spinner',
   exportAs: 'xuiSpinner',
-  styleUrls: ['./spinner.scss'],
-  encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<div [ngClass]="styles"></div>`
 })
@@ -14,10 +12,10 @@ export class XuiSpinnerComponent {
 
   get styles() {
     const ret: { [klass: string]: boolean } = {
-      spinner: true
+      'x-spinner': true
     };
 
-    ret[`spinner-color-${this.color}`] = true;
+    ret[`x-spinner-${this.color}`] = true;
     return ret;
   }
 }

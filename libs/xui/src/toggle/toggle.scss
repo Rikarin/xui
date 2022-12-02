@@ -1,11 +1,10 @@
-@use '../theming/theming';
-@use '../core/core';
+@use '../xui';
 
-:host {
+xui-toggle {
   display: inline-flex;
 }
 
-.toggle {
+.x-toggle {
   width: fit-content;
   display: inline-flex;
   position: relative;
@@ -13,62 +12,62 @@
   opacity: 0.8;
 
   border-radius: 4px;
-  @include theming.focus-visible();
+  @include xui.focus-visible();
 
   &:hover {
     opacity: 1;
   }
-}
 
-.clip {
-  clip-path: polygon(
-    0 0,
-    0 100%,
-    calc(50% - 3.5px) 100%,
-    calc(50% - 3.5px) 0,
-    calc(50% + 3.5px) 0,
-    calc(50% + 3.5px) 100%,
-    100% 100%,
-    100% 0,
-    0 0
-  );
+  &-clip {
+    clip-path: polygon(
+      0 0,
+      0 100%,
+      calc(50% - 3.5px) 100%,
+      calc(50% - 3.5px) 0,
+      calc(50% + 3.5px) 0,
+      calc(50% + 3.5px) 100%,
+      100% 100%,
+      100% 0,
+      0 0
+    );
 
-  transform: rotate(45deg);
+    transform: rotate(45deg);
 
-  .content {
-    transform: rotate(-45deg);
+    .x-toggle-content {
+      transform: rotate(-45deg);
+    }
   }
-}
 
-.toggled {
-  position: absolute;
-  inset: 0 0 0 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  &-toggled {
+    position: absolute;
+    inset: 0 0 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-  .line {
-    width: 100%;
-    height: 3px;
+    .x-toggle-line {
+      width: 100%;
+      height: 3px;
 
-    border-radius: 4px;
-    background-color: var(--error-color-default);
-    transform: rotate(-45deg);
+      border-radius: 4px;
+      background-color: var(--error-color-default);
+      transform: rotate(-45deg);
+    }
   }
-}
 
-@each $name in theming.$variations {
-  .toggle-color-#{$name} {
-    color: var(--#{$name}-color-default);
+  @each $name in xui.$variations {
+    &-#{$name} {
+      color: var(--#{$name}-color-default);
+    }
   }
-}
 
-.disabled {
-  color: theming.text-muted();
-  cursor: not-allowed;
-  opacity: 1;
+  &-disabled {
+    color: xui.text-muted();
+    cursor: not-allowed;
+    opacity: 1;
 
-  .line {
-    background-color: theming.text-muted();
+    .x-toggle-line {
+      background-color: xui.text-muted();
+    }
   }
 }

@@ -1,12 +1,10 @@
-import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { InputNumber } from '../utils';
 import { ProgressColor, ProgressStatus, ProgressType } from './progress.types';
 
 @Component({
   selector: 'xui-progress',
   exportAs: 'xuiProgress',
-  styleUrls: ['progress.scss'],
-  encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './progress.component.html'
 })
@@ -18,10 +16,10 @@ export class XuiProgressComponent {
 
   get style() {
     const ret: { [klass: string]: boolean } = {
-      'indicator-status': true
+      'x-progress-indicator-status': true
     };
 
-    ret[`progress-color-${this.getColor()}`] = true;
+    ret[`x-progress-${this.getColor()}`] = true;
     return ret;
   }
 

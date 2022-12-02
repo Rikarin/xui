@@ -1,4 +1,4 @@
-:host {
+xui-status {
   display: inline-flex;
   width: 12px;
 
@@ -6,36 +6,35 @@
   --online-color: #108548;
   --dnd-color: #dd2b0e;
   --offline-color: #88929c;
+
+  svg {
+    position: absolute;
+    width: 0;
+    height: 0;
+  }
 }
 
-.status {
+.x-status {
   width: 100%;
   aspect-ratio: 1;
-
   border-radius: 50%;
-}
 
-.type-online {
-  background-color: var(--online-color);
-}
+  &-online {
+    background-color: var(--online-color);
+  }
 
-.type-idle {
-  background-color: var(--idle-color);
-  clip-path: url(#xui-idle-clip-path);
-}
+  &-idle {
+    background-color: var(--idle-color);
+    clip-path: url(#x-status-idle-clip-path);
+  }
 
-.type-dnd {
-  background-color: var(--dnd-color);
-  clip-path: url(#xui-dnd-clip-path);
-}
+  &-dnd {
+    background-color: var(--dnd-color);
+    clip-path: url(#x-status-dnd-clip-path);
+  }
 
-.type-offline {
-  background-color: var(--offline-color);
-  clip-path: url(#xui-offline-clip-path);
-}
-
-.svg {
-  position: absolute;
-  width: 0;
-  height: 0;
+  &-offline {
+    background-color: var(--offline-color);
+    clip-path: url(#x-status-offline-clip-path);
+  }
 }

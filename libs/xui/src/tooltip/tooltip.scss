@@ -1,5 +1,4 @@
-@use '../theming/theming';
-@use '../core/typography';
+@use '../xui';
 
 xui-tooltip {
   font-size: 0.8rem;
@@ -7,9 +6,9 @@ xui-tooltip {
   border-radius: 4px;
   padding: 6px 12px;
 
-  @include theming.background-level(tertiary);
-  @include theming.elevate(medium);
-  @include typography.typography-level(body-2);
+  @include xui.background-level(tertiary);
+  @include xui.elevate(medium);
+  @include xui.typography-level(body-2);
 
   font-weight: 500;
 }

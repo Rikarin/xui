@@ -25,7 +25,6 @@ export * from './switch';
 export * from './tabs';
 export * from './textarea';
 export * from './time-picker';
-export * from './title';
 export * from './toggle';
 export * from './tooltip';
 export * from './utils';

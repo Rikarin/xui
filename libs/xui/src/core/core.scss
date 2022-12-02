@@ -98,4 +98,12 @@
   .cdk-overlay-container {
     z-index: 10000;
   }
+
+  .mdc-snackbar__surface {
+    box-shadow: none !important;
+  }
+
+  a {
+    color: var(--text-link-color);
+  }
 }

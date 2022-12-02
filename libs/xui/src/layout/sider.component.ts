@@ -12,7 +12,6 @@ import { parseCss } from '../utils';
 @Component({
   selector: 'xui-sider',
   exportAs: 'xuiSider',
-  encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: '<ng-content></ng-content>'
 })

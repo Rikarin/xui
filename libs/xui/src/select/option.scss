@@ -1,7 +1,6 @@
-@use '../core/core';
-@use '../theming/theming';
+@use '../xui';
 
-.option {
+.x-select-option {
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -9,33 +8,33 @@
   padding: 12px;
   cursor: pointer;
   user-select: none;
-}
 
-.option-light {
-  @include theming.background-level(primary);
+  &-light {
+    @include xui.background-level(primary);
 
-  &:hover {
-    @include theming.background-level(secondary);
+    &:hover {
+      @include xui.background-level(secondary);
+    }
   }
-}
 
-.option-dark {
-  @include theming.background-level(primary);
+  &-dark {
+    @include xui.background-level(primary);
 
-  &:hover {
-    @include theming.background-level(secondary);
+    &:hover {
+      @include xui.background-level(secondary);
+    }
   }
-}
 
-.option-disabled {
-  cursor: not-allowed;
-  @include core.disabled-filter();
+  &-disabled {
+    cursor: not-allowed;
+    @include xui.disabled-filter();
 
-  &:hover {
-    background-color: initial;
+    &:hover {
+      background-color: initial;
+    }
   }
-}
 
-.option-selected {
-  @include theming.background-level(secondary);
+  &-selected {
+    @include xui.background-level(secondary);
+  }
 }

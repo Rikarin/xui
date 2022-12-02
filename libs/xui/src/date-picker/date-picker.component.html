@@ -19,10 +19,10 @@
   [cdkConnectedOverlayOpen]="isOpen"
   (backdropClick)="isOpen = false"
 >
-  <div class="picker" cdkTrapFocus>
-    <div class="header">
+  <div class="x-datepicker" cdkTrapFocus>
+    <div class="x-datepicker-header">
       <div
-        class="button"
+        class="x-datepicker-button"
         tabindex="0"
         (click)="updateMonth(false)"
         (keydown.enter)="updateMonth(false)"
@@ -32,7 +32,7 @@
       </div>
       {{ focus.toFormat('MMMM yyyy') }}
       <div
-        class="button"
+        class="x-datepicker-button"
         tabindex="0"
         (click)="updateMonth(true)"
         (keydown.enter)="updateMonth(true)"
@@ -42,17 +42,17 @@
       </div>
     </div>
 
-    <div class="title">
-      <div class="column">SU</div>
-      <div class="column">MO</div>
-      <div class="column">TU</div>
-      <div class="column">WE</div>
-      <div class="column">TH</div>
-      <div class="column">FR</div>
-      <div class="column">SA</div>
+    <div class="x-datepicker-title">
+      <div>SU</div>
+      <div>MO</div>
+      <div>TU</div>
+      <div>WE</div>
+      <div>TH</div>
+      <div>FR</div>
+      <div>SA</div>
     </div>
     <div
-      class="calendar"
+      class="x-datepicker-calendar"
       tabindex="0"
       (mousedown)="mouseDown = true"
       (mouseup)="mouseDown = false"
@@ -67,11 +67,11 @@
     >
       <div
         *ngFor="let index of indices"
-        class="day"
-        [class.outside]="isOutsideOfMonth(index)"
-        [class.disabled]="disabledDate?.(getDay(index))"
-        [class.selected]="isSelected(index)"
-        [class.focused]="isFocused(index) && isFocus"
+        class="x-datepicker-day"
+        [class.x-datepicker--outside]="isOutsideOfMonth(index)"
+        [class.x-datepicker--disabled]="disabledDate?.(getDay(index))"
+        [class.x-datepicker--selected]="isSelected(index)"
+        [class.x-datepicker--focused]="isFocused(index) && isFocus"
         (click)="onClick(index)"
       >
         {{ getDay(index).day }}

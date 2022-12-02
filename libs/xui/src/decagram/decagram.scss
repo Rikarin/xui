@@ -1,17 +1,17 @@
 @use 'sass:map';
 @use '../theming/theming';
 
-:host {
+xui-decagram {
   display: inline-flex;
   width: fit-content;
   position: relative;
+
+  xui-icon {
+    width: 100%;
+  }
 }
 
-xui-icon {
-  width: 100%;
-}
-
-.icon {
+.x-decagram-icon {
   position: absolute;
   inset: 0 0 0 0;
   margin-left: auto;
@@ -19,11 +19,11 @@ xui-icon {
 }
 
 @each $value in theming.$variations {
-  .decagram-color-#{$value} {
+  .x-decagram-#{$value} {
     color: var(--#{$value}-color-default);
-  }
 
-  .icon {
-    color: var(--#{$value}-color-default-contrast);
+    .x-decagram-icon {
+      color: var(--#{$value}-color-default-contrast);
+    }
   }
 }

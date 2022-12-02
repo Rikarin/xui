@@ -1,8 +1,6 @@
-@use '../core/core';
-@use '../theming/theming';
-@use '../core/typography';
+@use '../xui';
 
-.select {
+.x-select {
   width: 100%;
   display: flex;
   gap: 12px;
@@ -17,18 +15,18 @@
   padding: 0 8px 0 12px;
   user-select: none;
 
-  @include typography.typography-level(body-1);
-}
+  @include xui.typography-level(body-1);
 
-.select-disabled {
-  cursor: not-allowed;
-  @include core.disabled-filter();
-}
+  &-disabled {
+    cursor: not-allowed;
+    @include xui.disabled-filter();
+  }
 
-.select-color-light {
-  @include theming.background-level(secondary);
-}
+  &-light {
+    @include xui.background-level(secondary);
+  }
 
-.select-color-dark {
-  @include theming.background-level(tertiary);
+  &-dark {
+    @include xui.background-level(tertiary);
+  }
 }

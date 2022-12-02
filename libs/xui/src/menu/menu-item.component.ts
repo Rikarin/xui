@@ -5,25 +5,29 @@ import {
   HostBinding,
   Input,
   OnInit,
-  Optional,
-  ViewEncapsulation
+  Optional
 } from '@angular/core';
-import { XuiSubmenuService } from '../submenu.service';
-import { XuiMenuService } from '../menu.service';
+import { XuiSubmenuService } from './submenu.service';
+import { XuiMenuService } from './menu.service';
 import { combineLatest, filter, map } from 'rxjs';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { NavigationEnd, Router } from '@angular/router';
-import { InputBoolean } from '../../utils';
+import { InputBoolean } from '../utils';
 import { BooleanInput } from '@angular/cdk/coercion';
 
 @UntilDestroy()
 @Component({
   selector: 'xui-menu-item',
   exportAs: 'xuiMemuItem',
-  templateUrl: './menu-item.component.html',
-  encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `
+    <ng-container *ngIf="icon">
+      <xui-icon>{{ icon }}</xui-icon>
+    </ng-container>
+    <ng-content *ngIf="showLabel$ | async"></ng-content>
+  `,
   host: {
+    class: 'x-menu-item x-menu-hover',
     '[style.paddingLeft.px]': 'paddingLeft',
     '(click)': 'clickMenuItem($event)'
   }
@@ -35,7 +39,7 @@ export class XuiMenuItemComponent implements OnInit {
   @Input() link!: string;
   @Input() @InputBoolean() disabled = false;
 
-  @HostBinding('class.xui-menu-item-selected') selected = false;
+  @HostBinding('class.x-menu-item-selected') selected = false;
 
   get showLabel$() {
     return this.menuService.mode$.pipe(map(x => x === 'default'));

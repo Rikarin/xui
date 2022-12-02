@@ -14,7 +14,7 @@ $variations: [primary, primary-alt, secondary, success, error, info, warning];
   @error 'Hue "' + $hue + '" does not exist in palette. Available hues are: ' + map.keys($palette);
 }
 
-@function get-contrast-color-from-palette($palette, $hue) {
+@function _get-contrast-color-from-palette($palette, $hue) {
   @return map.get(map.get($palette, contrast), $hue);
 }
 
@@ -26,9 +26,9 @@ $variations: [primary, primary-alt, secondary, success, error, info, warning];
       lighter: _get-color-from-palette($base-palette, $lighter),
       darker: _get-color-from-palette($base-palette, $darker),
       text: _get-color-from-palette($base-palette, $text),
-      default-contrast: get-contrast-color-from-palette($base-palette, $default),
-      lighter-contrast: get-contrast-color-from-palette($base-palette, $lighter),
-      darker-contrast: get-contrast-color-from-palette($base-palette, $darker)
+      default-contrast: _get-contrast-color-from-palette($base-palette, $default),
+      lighter-contrast: _get-contrast-color-from-palette($base-palette, $lighter),
+      darker-contrast: _get-contrast-color-from-palette($base-palette, $darker)
     )
   );
 
@@ -37,7 +37,7 @@ $variations: [primary, primary-alt, secondary, success, error, info, warning];
       $result: map.merge(
         $result,
         (
-          '#{$hue}-contrast': get-contrast-color-from-palette($base-palette, $hue)
+          '#{$hue}-contrast': _get-contrast-color-from-palette($base-palette, $hue)
         )
       );
     }
@@ -54,7 +54,7 @@ $variations: [primary, primary-alt, secondary, success, error, info, warning];
       $result: map.merge(
         $result,
         (
-          '#{$hue}-contrast': get-contrast-color-from-palette($base-palette, $hue)
+          '#{$hue}-contrast': _get-contrast-color-from-palette($base-palette, $hue)
         )
       );
     }

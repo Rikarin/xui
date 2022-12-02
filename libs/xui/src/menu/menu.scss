@@ -1,82 +1,25 @@
-@use '../core/scrollbar';
-@use '../theming/theming';
+@use '../xui';
 
-@mixin theme($theme) {
-  xui-menu {
-    @include scrollbar.scrollbar-thin();
-
-    flex: auto;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-
-    overflow-y: auto;
-    user-select: none;
-  }
-
-  xui-submenu {
-    display: flex;
-    flex-direction: column;
-
-    .xui-submenu-entry {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding-right: 8px;
-
-      @include xui-menu-hover();
-    }
-
-    .xui-submenu-title {
-      @include xui-menu-item();
-    }
-  }
-
-  xui-menu-group {
-    display: flex;
-    flex-direction: column;
-
-    padding: 8px 0; // TODO: delete this?
-
-    .xui-menu-group-title {
-      font-size: 0.85rem;
-      font-weight: 500;
-    }
-  }
-
-  xui-menu-item {
-    @include xui-menu-item();
-    @include xui-menu-hover();
-
-    border-left: 4px solid transparent;
-  }
-
-  .xui-menu-item-selected {
-    @include theming.background-level(default, primary);
-    border-left: 4px solid var(--primary-color-900);
-  }
-}
-
-@mixin xui-menu-item() {
+.x-menu-item {
   width: 100%;
   display: flex;
   align-items: center;
 
   padding: 8px 0;
 
-  mat-icon {
+  xui-icon {
     margin-right: 8px;
   }
 }
 
-@mixin xui-menu-hover() {
+.x-menu-hover {
   &:hover {
-    @include theming.background-level(default, primary);
+    @include xui.background-level(default, primary);
     cursor: pointer;
   }
 
   &:active {
-    @include theming.background-level(darker, primary);
+    @include xui.background-level(darker, primary);
   }
 
   &[disabled],
@@ -88,4 +31,49 @@
     background-color: transparent;
     opacity: 0.35;
   }
+}
+
+xui-menu {
+  @include xui.scrollbar-thin();
+
+  flex: auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+
+  overflow-y: auto;
+  user-select: none;
+}
+
+xui-submenu {
+  display: flex;
+  flex-direction: column;
+}
+
+.x-submenu-entry {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-right: 8px;
+}
+
+xui-menu-group {
+  display: flex;
+  flex-direction: column;
+
+  padding: 8px 0; // TODO: delete this?
+}
+
+.x-menu-group-title {
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+xui-menu-item {
+  border-left: 4px solid transparent;
+}
+
+.x-menu-item-selected {
+  @include xui.background-level(default, primary);
+  border-left: 4px solid var(--primary-color-900);
 }

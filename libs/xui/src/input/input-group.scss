@@ -1,14 +1,14 @@
 @use '../theming/theming';
 
-.input-group {
+.x-input-group {
   display: flex;
 
-  > xui-input:not(:first-child) > .input {
+  > xui-input:not(:first-child) > .x-input {
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
   }
 
-  > xui-input:not(:last-child) > .input {
+  > xui-input:not(:last-child) > .x-input {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
   }

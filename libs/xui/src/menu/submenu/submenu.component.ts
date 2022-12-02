@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { XuiSubmenuService } from '../submenu.service';
 import { InputBoolean } from '../../utils';
 import { BooleanInput } from '@angular/cdk/coercion';
@@ -8,7 +8,6 @@ import { BooleanInput } from '@angular/cdk/coercion';
   exportAs: 'xuiSubMenu',
   providers: [XuiSubmenuService],
   templateUrl: './submenu.component.html',
-  encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
   // host: {
   // '[style.paddingLeft.px]': 'paddingLeft'

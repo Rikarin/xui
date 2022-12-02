@@ -1,4 +1,4 @@
-<div [ngClass]="styles" [class.error]="showError" [tabindex]="disabled ? -1 : 0">
+<div [ngClass]="styles" [class.x-textarea-error]="showError" [tabindex]="disabled ? -1 : 0">
   <textarea
     [disabled]="disabled"
     [(ngModel)]="value"
@@ -7,10 +7,10 @@
     [maxLength]="maxLength ?? 524288"
   ></textarea>
 
-  <div *ngIf="maxLength" class="word-counter">{{ wordCount }}</div>
+  <div *ngIf="maxLength" class="x-textarea-word-counter">{{ wordCount }}</div>
 </div>
 
-<div class="error-text" *ngIf="showError">
+<div class="x-textarea-error-text" *ngIf="showError">
   <ng-container *ngIf="control?.hasError('message')">{{ errorMessage }}</ng-container>
   <ng-container *ngIf="control?.hasError('required')">This field is required!</ng-container>
   <ng-container *ngIf="control?.hasError('email')">Email expected</ng-container>

@@ -1,6 +1,7 @@
 @use 'sass:map';
 @use './highlightjs';
 @use '../../../libs/xui/src/index' as xui;
+@use '../../../libs/xui/src/theme';
 @use '../../../libs/xui/src/theming/xui.theme' as xui-theme;
 
 $color: (

@@ -7,8 +7,7 @@ import {
   Input,
   OnInit,
   Optional,
-  Self,
-  ViewEncapsulation
+  Self
 } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
@@ -23,8 +22,6 @@ import { BooleanInput } from '@angular/cdk/coercion';
 @Component({
   selector: 'xui-select',
   exportAs: 'xuiSelect',
-  styleUrls: ['select.scss'],
-  encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: 'select.component.html',
   providers: [SelectService]
@@ -71,11 +68,11 @@ export class XuiSelectComponent implements ControlValueAccessor, OnInit, AfterVi
 
   get styles() {
     const ret: { [klass: string]: boolean } = {
-      select: true,
-      'select-disabled': this.disabled
+      'x-select': true,
+      'x-select-disabled': this.disabled
     };
 
-    ret[`select-color-${this.color}`] = true;
+    ret[`x-select-${this.color}`] = true;
     return ret;
   }
 
@@ -148,8 +145,6 @@ export class XuiSelectComponent implements ControlValueAccessor, OnInit, AfterVi
 @Component({
   selector: 'xui-select-options',
   exportAs: 'xuiSelectOptions',
-  styleUrls: ['select-options.scss'],
-  encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<ng-content></ng-content>`
 })

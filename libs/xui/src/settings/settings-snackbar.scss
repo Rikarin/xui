@@ -1,6 +1,6 @@
-@use '../theming/theming';
+@use '../xui';
 
-:host {
+xui-settings-snackbar {
   width: 700px;
   display: flex;
   align-items: center;
@@ -8,11 +8,11 @@
   padding: 10px !important;
   border-radius: 4px;
 
-  @include theming.background-level(floating);
-  @include theming.elevate(high);
+  @include xui.background-level(floating);
+  @include xui.elevate(high);
 }
 
-::ng-deep .xui-settings-save-reset-snackbar {
+.x-settings-snackbar {
   width: 700px;
   max-width: 700px !important;
 }

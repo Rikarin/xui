@@ -1,18 +1,16 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component } from '@angular/core';
 import { XuiTabComponent } from './tab.component';
 
 @Component({
   selector: 'xui-tab-group',
   exportAs: 'xuiTabGroup',
-  styleUrls: ['tabs.scss'],
   // changeDetection: ChangeDetectionStrategy.OnPush, // dynamically loading tabs in example doesn't work
-  encapsulation: ViewEncapsulation.Emulated,
   template: `
-    <div class="list">
+    <div class="x-tabs-list">
       <div
-        class="entry"
+        class="x-tabs-entry"
         *ngFor="let tab of tabs"
-        [class.active]="tab.isActive"
+        [class.x-tabs-active]="tab.isActive"
         [attr.disabled]="tab.disabled || null"
         (click)="selectTab(tab)"
       >

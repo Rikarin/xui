@@ -1,14 +1,14 @@
-<div class="slider">
-  <div [class]="'slider-track ' + getColor(color)">
-    <div [style.width.%]="width" [class]="'slider-track-half ' + getColor(secondColor ?? 'none')"></div>
+<div class="x-slider">
+  <div [class]="'x-slider-track ' + getColor(color)">
+    <div [style.width.%]="width" [class]="'x-slider-track-half ' + getColor(secondColor ?? 'none')"></div>
   </div>
 
-  <div class="slider-container" #track>
+  <div class="x-slider-container" #track>
     <div
       cdkDrag
       [cdkDragFreeDragPosition]="(position$ | async) ?? { x: 0, y: 0 }"
       (cdkDragMoved)="move($event.pointerPosition.x)"
-      class="slider-thumb"
+      class="x-slider-thumb"
       xuiTooltipPosition="above"
       [xuiTooltip]="tooltip"
       [matTooltipDisabled]="tooltipDisabled"
@@ -18,11 +18,11 @@
     <div
       *ngFor="let mark of marks"
       [style.left.%]="getPercentage(mark.value)"
-      class="slider-mark"
-      [class]="mark.color ? 'slider-mark-color-' + mark.color : ''"
+      class="x-slider-mark"
+      [class]="mark.color ? 'x-slider-mark-' + mark.color : ''"
     >
-      <div class="slider-mark-label">{{ mark.label }}</div>
-      <div class="slider-mark-dash"></div>
+      <div class="x-slider-mark-label">{{ mark.label }}</div>
+      <div class="x-slider-mark-dash"></div>
     </div>
   </div>
 </div>

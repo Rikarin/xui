@@ -1,14 +1,12 @@
-import { ChangeDetectionStrategy, Component, Inject, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { MatSnackBarRef, TextOnlySnackBar } from '@angular/material/snack-bar';
 import { XUI_SNACK_BAR_DATA } from './snack-bar-config';
 
 @Component({
   selector: 'simple-snack-bar',
   exportAs: 'xuiSnackBar',
-  styleUrls: ['snackbar.scss'],
-  encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `<div class="snackbar">
+  template: `<div class="x-snackbar">
     <div>{{ data.message | translate }}</div>
     <div *ngIf="hasAction">
       <xui-button size="sm" type="raised" color="success" (click)="action()">{{ data.action | translate }}</xui-button>

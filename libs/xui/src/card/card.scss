@@ -1,15 +1,15 @@
-@use '../theming/theming';
+@use '../xui';
 
-:host {
+xui-card {
   display: flex;
   flex-direction: column;
   border-radius: 4px;
 
-  @include theming.background-level(secondary-alt);
-  @include theming.elevate(medium);
+  @include xui.background-level(secondary-alt);
+  @include xui.elevate(medium);
 }
 
-.xui-card-header {
+.x-card-header {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
@@ -19,14 +19,14 @@
   padding: 24px;
 }
 
-.xui-card-content {
+.x-card-content {
   flex: 1 1 auto;
   display: flex;
   flex-direction: column;
   padding: 0 24px;
 }
 
-.xui-card-actions {
+.x-card-actions {
   display: flex;
   gap: 8px;
   justify-content: flex-end;

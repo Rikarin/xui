@@ -11,8 +11,7 @@ import {
   Optional,
   Self,
   SimpleChanges,
-  ViewChild,
-  ViewEncapsulation
+  ViewChild
 } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { XuiTooltipComponent } from '../tooltip/tooltip.component';
@@ -24,8 +23,6 @@ import { BooleanInput } from '@angular/cdk/coercion';
 @Component({
   selector: 'xui-slider',
   exportAs: 'xuiSlider',
-  styleUrls: ['slider.scss'],
-  encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: 'slider.component.html'
 })
@@ -86,7 +83,7 @@ export class XuiSliderComponent implements ControlValueAccessor, OnInit, AfterVi
   }
 
   getColor(color: string) {
-    return `slider-color-${color}`;
+    return `x-slider-${color}`;
   }
 
   getPercentage(absolute: number) {

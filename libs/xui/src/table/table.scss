@@ -1,39 +1,36 @@
-@use '../theming/theming';
-@use '../core/typography';
+@use '../xui';
 
-@mixin theme() {
-  .xui-table {
-    width: 100%;
-    border-collapse: collapse;
+.x-table {
+  width: 100%;
+  border-collapse: collapse;
 
-    tbody {
-      @include typography.typography-level(body-1);
-
-      tr {
-        height: 48px;
-      }
-    }
-
-    th,
-    td {
-      flex: 1 1 auto;
-      padding: 0 12px;
-
-      vertical-align: middle;
-    }
+  tbody {
+    @include xui.typography-level(body-1);
 
     tr {
-      border-bottom: 1px solid var(--background-color-primary);
+      height: 48px;
     }
+  }
 
-    thead {
-      text-align: left;
-      text-transform: uppercase;
-      @include typography.typography-level(caption);
+  th,
+  td {
+    flex: 1 1 auto;
+    padding: 0 12px;
 
-      th {
-        padding-bottom: 8px;
-      }
+    vertical-align: middle;
+  }
+
+  tr {
+    border-bottom: 1px solid var(--background-color-primary);
+  }
+
+  thead {
+    text-align: left;
+    text-transform: uppercase;
+    @include xui.typography-level(caption);
+
+    th {
+      padding-bottom: 8px;
     }
   }
 }

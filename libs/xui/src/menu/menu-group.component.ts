@@ -1,14 +1,6 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  Input,
-  OnInit,
-  Optional,
-  ViewEncapsulation
-} from '@angular/core';
-import { XuiMenuService } from '../menu.service';
-import { XuiSubmenuService } from '../submenu.service';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, Optional } from '@angular/core';
+import { XuiMenuService } from './menu.service';
+import { XuiSubmenuService } from './submenu.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { combineLatest } from 'rxjs';
 
@@ -16,15 +8,16 @@ import { combineLatest } from 'rxjs';
 @Component({
   selector: 'xui-menu-group',
   exportAs: 'xuiMenuGroup',
-  templateUrl: './menu-group.component.html',
-  encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: ` <div class="x-menu-group-title" [style.paddingLeft.px]="paddingLeft">
+      {{ title }}
+    </div>
+    <ng-content></ng-content>`
 })
 export class XuiMenuGroupComponent implements OnInit {
   @Input() title!: string;
-
-  private level = (this.submenuService?.level ?? 0) + 0.5;
   paddingLeft: number | null = null;
+  private level = (this.submenuService?.level ?? 0) + 0.5;
 
   constructor(
     private cdr: ChangeDetectorRef,

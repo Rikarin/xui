@@ -6,8 +6,7 @@ import {
   EventEmitter,
   HostListener,
   Input,
-  Output,
-  ViewEncapsulation
+  Output
 } from '@angular/core';
 import { WithConfig } from '../config';
 import { delay, InputBoolean, InputNumber } from '../utils';
@@ -16,18 +15,16 @@ import { ButtonColor, ButtonSize, ButtonType } from './button.types';
 @Component({
   selector: 'xui-button',
   exportAs: 'xuiButton',
-  styleUrls: ['button.scss'],
-  encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <div [ngClass]="styles" [attr.disabled]="disabled || null" part="button" tabindex="0" (click)="_onAsync()">
-      <div class="content" part="content">
+    <div [ngClass]="styles" [attr.disabled]="disabled || null" tabindex="0" (click)="_onAsync()">
+      <div class="x-button-content">
         <ng-content></ng-content>
       </div>
-      <div class="state-image"></div>
-      <div class="shine" *ngIf="shine && !disabled">
-        <div class="inner">
-          <div class="element"></div>
+      <div class="x-button-state-image"></div>
+      <div class="x-button-shine" *ngIf="shine && !disabled">
+        <div class="x-button-shine-inner">
+          <div class="x-button-shine-element"></div>
         </div>
       </div>
     </div>
@@ -54,15 +51,16 @@ export class XuiButtonComponent {
 
   get styles() {
     const ret: { [klass: string]: boolean } = {
-      button: true,
-      'state--loading': this.state == 1,
-      'state--succeeded': this.state == 2,
-      'state--failed': this.state === 3
+      'x-button': true,
+      'x-button--non-idle': this.state != 0,
+      'x-button--loading': this.state == 1,
+      'x-button--succeeded': this.state == 2,
+      'x-button--failed': this.state === 3
     };
 
-    ret[`size-${this.size}`] = true;
-    ret[`type-${this.type}`] = true;
-    ret[`color-${this.color}`] = true;
+    ret[`x-button-${this.size}`] = true;
+    ret[`x-button-${this.type}`] = true;
+    ret[`x-button-${this.color}`] = true;
 
     return ret;
   }

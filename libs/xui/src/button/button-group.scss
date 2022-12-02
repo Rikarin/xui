@@ -1,23 +1,23 @@
-:host {
+xui-button-group {
   width: fit-content;
   display: flex;
-}
 
-xui-button::part(button) {
-  border-radius: 0 !important;
-  margin-right: 0;
-}
+  .x-button {
+    border-radius: 0;
+    margin-right: 0;
+  }
 
-xui-button:first-of-type::part(button) {
-  border-top-left-radius: 5px !important;
-  border-bottom-left-radius: 5px !important;
-}
+  > xui-button:first-child .x-button {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+  }
 
-xui-button:last-of-type::part(button) {
-  border-top-right-radius: 5px !important;
-  border-bottom-right-radius: 5px !important;
-}
+  > xui-button:last-child .x-button {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+  }
 
-xui-button:not(:first-of-type)::part(button) {
-  margin-left: -1px;
+  > xui-button:not(:first-child) .x-button {
+    margin-left: -1px;
+  }
 }

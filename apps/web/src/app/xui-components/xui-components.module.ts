@@ -56,7 +56,6 @@ import {
   XuiTabModule,
   XuiTextareaModule,
   XuiTimePickerModule,
-  XuiTitleModule,
   XuiToggleModule,
   XuiTooltipModule
 } from 'xui';
@@ -154,7 +153,6 @@ const routes: Routes = [
     CdkMenuModule,
     CdkTableModule,
 
-    XuiTitleModule,
     XuiLayoutModule,
     XuiCardModule,
     XuiMenuModule,

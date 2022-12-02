@@ -6,15 +6,12 @@ import {
   ElementRef,
   Inject,
   Optional,
-  ViewChild,
-  ViewEncapsulation
+  ViewChild
 } from '@angular/core';
 import { _TooltipComponentBase } from '@angular/material/tooltip';
 
 @Component({
   selector: 'xui-tooltip',
-  encapsulation: ViewEncapsulation.None, // TODO
-  styleUrls: ['tooltip.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: ` <div
     #tooltip

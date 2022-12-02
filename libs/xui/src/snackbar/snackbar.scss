@@ -1,6 +1,6 @@
-@use '../theming/theming';
+@use '../xui';
 
-.snackbar {
+.x-snackbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -8,6 +8,6 @@
   padding: 12px;
   border-radius: 4px;
 
-  @include theming.background-level(floating);
-  @include theming.elevate(high);
+  @include xui.background-level(floating);
+  @include xui.elevate(high);
 }

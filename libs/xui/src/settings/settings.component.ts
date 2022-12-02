@@ -8,8 +8,7 @@ import {
   HostListener,
   Inject,
   Input,
-  Output,
-  ViewEncapsulation
+  Output
 } from '@angular/core';
 import { MAT_SNACK_BAR_DATA, MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
 import { CdkPortalOutletAttachedRef, ComponentPortal } from '@angular/cdk/portal';
@@ -22,8 +21,6 @@ import { delay } from '../utils';
 @Component({
   selector: 'xui-settings',
   exportAs: 'xuiSettings',
-  styleUrls: ['settings.scss'],
-  encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './settings.component.html',
   animations: [
@@ -78,7 +75,7 @@ export class XuiSettingsComponent {
     if (!canExit) {
       if (!this.snackbarRef) {
         this.snackbarRef = this.snackBar.openFromComponent(SaveResetSnackbarComponent, {
-          panelClass: 'xui-settings-save-reset-snackbar',
+          panelClass: 'x-settings-snackbar',
           duration: undefined!,
           data: {
             save: async () => {
@@ -191,9 +188,7 @@ export interface MenuItem {
 }
 
 @Component({
-  selector: 'xui-settings-save-reset-snackbar',
-  styleUrls: ['settings-snackbar.scss'],
-  encapsulation: ViewEncapsulation.Emulated,
+  selector: 'xui-settings-snackbar',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     {{ 'xui.settings.save_changes_text' | translate }}

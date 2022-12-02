@@ -6,8 +6,7 @@ import {
   Input,
   OnInit,
   Optional,
-  Self,
-  ViewEncapsulation
+  Self
 } from '@angular/core';
 import { InputBoolean } from '../utils';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
@@ -17,8 +16,6 @@ import { BooleanInput } from '@angular/cdk/coercion';
 @Component({
   selector: 'xui-switch',
   exportAs: 'xuiSwitch',
-  styleUrls: ['switch.scss'],
-  encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './switch.component.html'
 })
@@ -49,18 +46,18 @@ export class XuiSwitchComponent implements ControlValueAccessor, OnInit {
 
   get style() {
     return {
-      content: true,
-      disabled: this.disabled
+      'x-switch': true,
+      'x-switch-disabled': this.disabled
     };
   }
 
   get styleSwitch() {
     const ret: { [klass: string]: boolean } = {
-      switch: true,
-      enabled: this.value
+      'x-switch-element': true,
+      'x-switch-toggled': this.value
     };
 
-    ret[`color-${this.color}`] = this.value;
+    ret[`x-switch-${this.color}`] = this.value;
     return ret;
   }
 

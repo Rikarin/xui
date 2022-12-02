@@ -1,14 +1,12 @@
-import { ChangeDetectionStrategy, Component, Inject, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { DIALOG_DATA } from '@angular/cdk/dialog';
 
 @Component({
   selector: 'xui-image-upload-cropper',
   exportAs: 'xuiImageUploadCropper',
-  styleUrls: ['image-upload-cropper.scss'],
-  encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <div class="cropper">
+    <div class="x-image-upload-cropper">
       <image-cropper
         [imageChangedEvent]="data.imageChangedEvent"
         [maintainAspectRatio]="true"
@@ -18,7 +16,7 @@ import { DIALOG_DATA } from '@angular/cdk/dialog';
         (imageCropped)="data.imageCropped($event)"
       ></image-cropper>
     </div>
-    <div class="actions">
+    <div class="x-image-upload-cropper-actions">
       <xui-button type="raised" (click)="data.save()">{{ 'xui.image_upload.save' | translate }}</xui-button>
     </div>
   `

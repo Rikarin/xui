@@ -7,8 +7,7 @@ import {
   OnInit,
   Optional,
   Self,
-  ViewChild,
-  ViewEncapsulation
+  ViewChild
 } from '@angular/core';
 import { DateTime } from 'luxon';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
@@ -19,8 +18,6 @@ import { BooleanInput } from '@angular/cdk/coercion';
 @Component({
   selector: 'xui-date-picker',
   exportAs: 'xuiDatePicker',
-  styleUrls: ['./date-picker.scss'],
-  encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './date-picker.component.html'
 })

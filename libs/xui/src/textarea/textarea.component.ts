@@ -1,14 +1,5 @@
 import { BooleanInput } from '@angular/cdk/coercion';
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  Input,
-  OnInit,
-  Optional,
-  Self,
-  ViewEncapsulation
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, Optional, Self } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { InputBoolean, InputNumber } from '../utils';
@@ -17,8 +8,6 @@ import { TextareaColor, TextareaSize } from './textarea.types';
 @Component({
   selector: 'xui-textarea',
   exportAs: 'xuiTextarea',
-  styleUrls: ['textarea.scss'],
-  encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: 'textarea.component.html'
 })
@@ -57,11 +46,11 @@ export class XuiTextareaComponent implements ControlValueAccessor, OnInit {
 
   get styles() {
     const ret: { [klass: string]: boolean } = {
-      textarea: true,
-      disabled: this.disabled
+      'x-textarea': true,
+      'x-textarea-disabled': this.disabled
     };
 
-    ret[`color-${this.color}`] = true;
+    ret[`x-textarea-${this.color}`] = true;
     return ret;
   }
 

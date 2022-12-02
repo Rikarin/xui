@@ -7,8 +7,7 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  ViewChild,
-  ViewEncapsulation
+  ViewChild
 } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { SelectService } from './select.service';
@@ -19,8 +18,6 @@ import { BooleanInput } from '@angular/cdk/coercion';
 @Component({
   selector: 'xui-option',
   exportAs: 'xuiOption',
-  styleUrls: ['option.scss'],
-  encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<div [ngClass]="styles">
     <span #content><ng-content></ng-content></span>
@@ -39,12 +36,12 @@ export class XuiOptionComponent implements OnInit, OnDestroy {
 
   get styles() {
     const ret: { [klass: string]: boolean } = {
-      option: true,
-      'option-selected': this.isSelected,
-      'option-disabled': this.disabled
+      'x-select-option': true,
+      'x-select-option-selected': this.isSelected,
+      'x-select-option-disabled': this.disabled
     };
 
-    ret[`option-${this.selectComponent.color}`] = true;
+    ret[`x-select-option-${this.selectComponent.color}`] = true;
     return ret;
   }
 

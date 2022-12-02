@@ -1,11 +1,10 @@
-@use '../theming/theming';
-@use '../core/typography';
+@use '../xui';
 
-:host {
+xui-image-upload {
   width: 100px;
 }
 
-.image-upload {
+.x-image-upload {
   width: inherit;
   position: relative;
   display: grid;
@@ -23,7 +22,7 @@
   line-height: 0.6rem;
   font-weight: 900;
 
-  @include theming.elevate(high);
+  @include xui.elevate(high);
 
   input {
     position: absolute;
@@ -33,47 +32,47 @@
   }
 
   &:hover {
-    .upload-hover {
+    .x-image-upload-hover {
       display: grid;
       background-color: rgba(0, 0, 0, 0.3);
       background-blend-mode: multiply;
     }
 
-    .no-image {
+    .x-image-upload-no-image {
       display: none;
     }
   }
 
-  @include theming.focus-visible();
-}
+  @include xui.focus-visible();
 
-.upload-hover {
-  display: none;
-  place-items: center;
-  width: 100%;
-  height: 100%;
-}
-
-.upload-icon {
-  width: 28px;
-  height: 28px;
-  display: grid;
-  place-items: center;
-
-  position: absolute;
-  right: 0;
-  top: 0;
-  border-radius: 50%;
-
-  color: black;
-  background-color: white;
-
-  xui-icon {
-    width: 16px;
+  &-hover {
+    display: none;
+    place-items: center;
+    width: 100%;
+    height: 100%;
   }
-}
 
-.upload-square .upload-icon {
-  right: -8px;
-  top: -8px;
+  &-icon {
+    width: 28px;
+    height: 28px;
+    display: grid;
+    place-items: center;
+
+    position: absolute;
+    right: 0;
+    top: 0;
+    border-radius: 50%;
+
+    color: black;
+    background-color: white;
+
+    xui-icon {
+      width: 16px;
+    }
+  }
+
+  &-square &-icon {
+    right: -8px;
+    top: -8px;
+  }
 }

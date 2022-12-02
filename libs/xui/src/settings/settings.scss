@@ -1,8 +1,6 @@
-@use '../theming/theming';
-@use '../core/scrollbar';
-@use '../core/typography';
+@use '../xui';
 
-dialog {
+xui-settings dialog {
   width: 100%;
   height: 100%;
   padding: 0;
@@ -13,21 +11,21 @@ dialog {
   border: 0;
   user-select: none;
 
-  @include theming.background-level(primary);
+  @include xui.background-level(primary);
 }
 
-.settings-dialog {
+.x-settings {
   width: 100%;
   height: 100%;
   display: flex;
 
-  @include theming.background-level(primary);
+  @include xui.background-level(primary);
 
-  .settings-menu {
+  &-menu {
     flex: 1 0 220px;
     display: flex;
     justify-content: flex-end;
-    @include theming.background-level(secondary);
+    @include xui.background-level(secondary);
 
     nav {
       width: 240px;
@@ -44,58 +42,58 @@ dialog {
       &:focus {
         outline: none;
       }
+    }
 
-      .item {
-        padding: 0 8px;
-        border-radius: 4px;
-        cursor: pointer;
+    &-item {
+      padding: 0 8px;
+      border-radius: 4px;
+      cursor: pointer;
 
-        overflow-x: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        line-height: 2rem;
+      overflow-x: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      line-height: 2rem;
 
-        &:hover {
-          background-color: theming.modifier-hover();
-        }
-
-        &.active {
-          background-color: theming.modifier-active();
-        }
-
-        &.focus {
-          outline: 5px solid var(--focus-color);
-          z-index: 1;
-        }
-
-        @include typography.typography-level(button);
+      &:hover {
+        background-color: xui.modifier-hover();
       }
 
-      .category {
-        font-family: var(--font-headline-1-family);
-        font-weight: 700;
-        font-size: 0.75rem;
-        padding-left: 8px;
+      &-active {
+        background-color: xui.modifier-active();
       }
 
-      .divider {
-        height: 1px;
-        margin: 12px;
-        background-color: var(--background-color-accent);
+      &-focus {
+        outline: 5px solid var(--focus-color);
+        z-index: 1;
       }
 
-      .red {
-        color: var(--error-color-default);
-      }
+      @include xui.typography-level(button);
+    }
+
+    &-category {
+      font-family: var(--font-headline-1-family);
+      font-weight: 700;
+      font-size: 0.75rem;
+      padding-left: 8px;
+    }
+
+    &-divider {
+      height: 1px;
+      margin: 12px;
+      background-color: var(--background-color-accent);
+    }
+
+    &-red {
+      color: var(--error-color-default);
     }
   }
 
-  .settings-right {
+  &-right {
     flex: 1 1 800px;
     display: flex;
   }
 
-  .settings-content {
+  &-content {
     min-width: 400px;
     max-width: 60%;
 
@@ -105,14 +103,14 @@ dialog {
     overflow: hidden auto;
 
     margin: 50px 40px 0 50px;
-    @include scrollbar.scrollbar();
+    @include xui.scrollbar();
   }
 
-  .settings-close-anchor {
+  &-close-anchor {
     flex: 0 0 40px;
   }
 
-  .settings-close {
+  &-close {
     display: flex;
     flex-direction: column;
     align-items: center;

@@ -1,6 +1,6 @@
 @use '../theming/theming';
 
-:host {
+xui-divider {
   width: 100%;
   border-top: 1px solid rgba(var(--background-color-accent-rgb), 0.3);
 }

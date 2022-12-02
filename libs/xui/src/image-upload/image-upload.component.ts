@@ -8,8 +8,7 @@ import {
   OnInit,
   Optional,
   Self,
-  ViewChild,
-  ViewEncapsulation
+  ViewChild
 } from '@angular/core';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { Dialog, DialogRef } from '@angular/cdk/dialog';
@@ -21,8 +20,6 @@ import { ImageUploadType } from './image-upload.types';
 @Component({
   selector: 'xui-image-upload',
   exportAs: 'xuiImageUpload',
-  styleUrls: ['image-upload.scss'],
-  encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './image-upload.component.html'
 })
@@ -42,8 +39,8 @@ export class XuiImageUploadComponent implements ControlValueAccessor, OnInit {
 
   get classes() {
     const ret: { [klass: string]: boolean } = {
-      'image-upload': true,
-      'upload-square': this.type === 'square'
+      'x-image-upload': true,
+      'x-image-upload-square': this.type === 'square'
     };
 
     return ret;

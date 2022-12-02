@@ -1,6 +1,6 @@
-@use '../theming/theming';
+@use '../xui';
 
-:host {
+xui-select-options {
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -10,5 +10,5 @@
   border: 1px solid var(--background-color-tertiary);
   border-top: none;
 
-  @include theming.background-level(primary);
+  @include xui.background-level(primary);
 }

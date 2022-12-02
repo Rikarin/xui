@@ -1,6 +1,4 @@
-@use '../theming/theming';
-
-:host {
+xui-context-menu {
   min-width: 200px;
   display: flex;
   flex-direction: column;
@@ -9,28 +7,25 @@
   padding: 8px;
   background-color: var(--background-color-floating);
   border-radius: 3px;
-}
 
-::ng-deep Xui-context-menu hr {
-  width: 95%;
-  margin: 4px;
+  hr {
+    width: 95%;
+    margin: 4px;
 
-  border: 0.5px solid var(--background-color-primary);
-}
-
-::ng-deep xui-context-menu xui-button {
-  width: 100%;
-
-  // These are !important because of emulated dom
-  .button, // Emulated DOM
-  &::part(button) {
-    width: 100% !important;
-    padding: 0 0.5em !important;
+    border: 0.5px solid var(--background-color-primary);
   }
 
-  .content, // Emulated DOM
-  &::part(content) {
-    width: 100% !important;
-    justify-content: space-between !important;
+  xui-button {
+    width: 100%;
+  }
+
+  .x-button {
+    width: 100%;
+    padding: 0 0.5em;
+
+    &-content {
+      width: 100%;
+      justify-content: space-between;
+    }
   }
 }

@@ -1,26 +1,24 @@
-@use '../core/core';
-@use '../theming/theming';
-@use '../core/typography';
+@use '../xui';
 
 @mixin button-colors() {
-  @each $name in theming.$variations {
-    &.color-#{$name} {
+  @each $name in xui.$variations {
+    &.x-button-#{$name} {
       color: var(--#{$name}-color-default);
       border-color: var(--#{$name}-color-default);
 
       &:hover {
-        @include theming.background-level(default, $name);
+        @include xui.background-level(default, $name);
       }
 
       &:active {
-        @include theming.background-level(darker, $name);
+        @include xui.background-level(darker, $name);
       }
 
       &[disabled],
       &[disabled]:focus,
       &[disabled]:active,
       &[disabled]:hover {
-        @include core.disabled-filter();
+        @include xui.disabled-filter();
         color: var(--#{$name}-color-default);
         background: none;
       }
@@ -29,31 +27,31 @@
 }
 
 @mixin button-bg-colors() {
-  @each $name in theming.$variations {
-    &.color-#{$name} {
-      @include theming.background-level(default, $name);
+  @each $name in xui.$variations {
+    &.x-button-#{$name} {
+      @include xui.background-level(default, $name);
 
       &:hover,
       &:active {
-        @include theming.background-level(darker, $name);
+        @include xui.background-level(darker, $name);
       }
 
       &[disabled],
       &[disabled]:focus,
       &[disabled]:active,
       &[disabled]:hover {
-        @include core.disabled-filter();
-        @include theming.background-level(default, $name);
+        @include xui.disabled-filter();
+        @include xui.background-level(default, $name);
       }
     }
   }
 }
 
-:host {
+xui-button {
   display: inline-flex;
 }
 
-.button {
+.x-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -81,171 +79,163 @@
     cursor: not-allowed;
   }
 
-  @include theming.focus-visible();
-  @include typography.typography-level(button);
-}
+  @include xui.focus-visible();
+  @include xui.typography-level(button);
 
-.size-md {
-  font-size: var(--font-button-size);
-}
+  &-md {
+    font-size: var(--font-button-size);
+  }
 
-.size-sm {
-  font-size: calc(var(--font-button-size) - 0.125rem);
-}
+  &-sm {
+    font-size: calc(var(--font-button-size) - 0.125rem);
+  }
 
-.size-lg {
-  font-size: 1rem;
-}
+  &-lg {
+    font-size: 1rem;
+  }
 
-.content {
-  display: inline-flex;
-}
+  &-content {
+    display: inline-flex;
+  }
 
-::ng-deep .button:not(.type-icon) .content xui-icon {
-  width: 18px;
-  margin-right: 4px;
-}
+  &:not(.type-icon) &-content xui-icon {
+    width: 18px;
+    margin-right: 4px;
+  }
 
-.type-normal {
-  @include button-colors();
+  &-normal {
+    @include button-colors();
 
-  &.color-minimal {
-    color: inherit;
+    &.x-button-minimal {
+      color: inherit;
+
+      &:hover {
+        text-decoration: underline;
+      }
+
+      &[disabled],
+      &[disabled]:focus,
+      &[disabled]:active,
+      &[disabled]:hover {
+        text-decoration: none;
+        @include xui.disabled-filter();
+      }
+    }
+  }
+
+  &-dashed {
+    @include button-colors();
+    border: 1px dashed;
+  }
+
+  &-stroked {
+    @include button-colors();
+    border: 1px solid;
+  }
+
+  &-raised {
+    @include button-bg-colors();
+    border: 1px solid transparent;
+  }
+
+  &-fab {
+    @include button-bg-colors();
+    border-radius: 40px;
+    min-width: 38px;
+  }
+
+  &-icon {
+    min-width: 0;
+    aspect-ratio: 1;
+    opacity: 0.8;
 
     &:hover {
-      text-decoration: underline;
-    }
-
-    &[disabled],
-    &[disabled]:focus,
-    &[disabled]:active,
-    &[disabled]:hover {
-      text-decoration: none;
-      @include core.disabled-filter();
+      opacity: 1;
+      background-color: xui.modifier-hover();
     }
   }
-}
 
-.type-dashed {
-  @include button-colors();
-  border: 1px dashed;
-}
-
-.type-stroked {
-  @include button-colors();
-  border: 1px solid;
-}
-
-.type-raised {
-  @include button-bg-colors();
-  border: 1px solid transparent;
-}
-
-.type-fab {
-  @include button-bg-colors();
-  border-radius: 40px;
-  min-width: 38px;
-}
-
-.type-icon {
-  min-width: 0;
-  aspect-ratio: 1;
-  opacity: 0.8;
-
-  &:hover {
-    opacity: 1;
-    background-color: theming.modifier-hover();
-  }
-}
-
-.state--non-idle {
-  cursor: not-allowed;
-
-  &:active {
+  &--non-idle {
+    cursor: not-allowed;
     pointer-events: none !important;
+
+    .x-button-state-image {
+      width: 1rem;
+      height: 1rem;
+      background: center no-repeat;
+      margin-left: 0.5em;
+    }
   }
 
-  .state-image {
-    width: 1rem;
-    height: 1rem;
-    background: center no-repeat;
-    margin-left: 0.5em;
-  }
-}
-
-.state--loading {
-  @extend .state--non-idle;
-  .state-image {
+  &--loading .x-button-state-image {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' style='width:24px;height:24px' viewBox='0 0 24 24'%3E%3Cpath fill='white' d='M12,4V2A10,10 0 0,0 2,12H4A8,8 0 0,1 12,4Z' /%3E%3C/svg%3E");
     animation: spin 1s infinite linear;
   }
-}
 
-.state--succeeded {
-  @extend .state--non-idle;
-  background-color: var(--success-color-default) !important;
-  color: var(--success-color-default-contrast) !important;
+  &--succeeded {
+    background-color: var(--success-color-default) !important;
+    color: var(--success-color-default-contrast) !important;
 
-  .state-image {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' style='width:24px;height:24px' viewBox='0 0 24 24'%3E%3Cpath fill='white' d='M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z' /%3E%3C/svg%3E");
-    margin-bottom: 2px;
+    .x-button-state-image {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' style='width:24px;height:24px' viewBox='0 0 24 24'%3E%3Cpath fill='white' d='M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z' /%3E%3C/svg%3E");
+      margin-bottom: 2px;
+    }
   }
-}
 
-.state--failed {
-  @extend .state--non-idle;
-  background-color: var(--error-color-default) !important;
-  color: var(--error-color-default-contrast) !important;
+  &--failed {
+    background-color: var(--error-color-default) !important;
+    color: var(--error-color-default-contrast) !important;
 
-  .state-image {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' style='width:24px;height:24px' viewBox='0 0 24 24'%3E%3Cpath fill='white' d='M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z' /%3E%3C/svg%3E");
+    .x-button-state-image {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' style='width:24px;height:24px' viewBox='0 0 24 24'%3E%3Cpath fill='white' d='M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z' /%3E%3C/svg%3E");
+    }
   }
-}
 
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
+  &-shine {
+    position: absolute;
+    top: -50%;
+    bottom: 0;
+    right: 0;
 
-.shine {
-  position: absolute;
-  top: -50%;
-  bottom: 0;
-  right: 0;
+    animation-duration: 2s;
+    animation-name: shine;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
+    color: hsla(0, 0%, 100%, 0.1);
 
-  animation-duration: 2s;
-  animation-name: shine;
-  animation-iteration-count: infinite;
-  animation-timing-function: ease-in-out;
-  color: hsla(0, 0%, 100%, 0.1);
+    &-inner {
+      display: flex;
+      justify-content: center;
+      background-color: currentColor;
+      height: 300%;
+      position: relative;
+      top: -100%;
+      transform: rotate(30deg);
+      width: 56px;
+    }
 
-  .inner {
-    display: flex;
-    justify-content: center;
-    background-color: currentColor;
-    height: 300%;
-    position: relative;
-    top: -100%;
-    transform: rotate(30deg);
-    width: 56px;
-
-    .element {
+    &-element {
       width: 16px;
       height: 100%;
       background-color: currentColor;
     }
   }
-}
 
-@keyframes shine {
-  0% {
-    transform: translate3d(-400%, 0, 0);
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
   }
-  to {
-    transform: translate3d(500%, 0, 0);
+
+  @keyframes shine {
+    0% {
+      transform: translate3d(-400%, 0, 0);
+    }
+    to {
+      transform: translate3d(500%, 0, 0);
+    }
   }
 }
