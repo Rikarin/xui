@@ -10,7 +10,7 @@ xui-textarea {
   position: relative;
   border-radius: 4px;
 
-  @include xui.focus-visible();
+  @include xui.focusable();
 
   textarea {
     width: 100%;
@@ -23,19 +23,19 @@ xui-textarea {
     border-radius: 4px;
 
     @include xui.typography-level(body-1);
-    @include xui.scrollbar();
+    @include xui.scrollbar-regular();
   }
 
   &-light textarea {
-    @include xui.background-level(secondary);
+    @include xui.fill(secondary);
   }
 
   &-dark textarea {
-    @include xui.background-level(tertiary);
+    @include xui.fill(tertiary);
   }
 
   &-disabled {
-    @include xui.disabled-filter();
+    @include xui.disabled();
 
     textarea {
       cursor: not-allowed;

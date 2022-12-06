@@ -11,7 +11,7 @@ xui-settings dialog {
   border: 0;
   user-select: none;
 
-  @include xui.background-level(primary);
+  @include xui.fill(primary);
 }
 
 .x-settings {
@@ -19,13 +19,13 @@ xui-settings dialog {
   height: 100%;
   display: flex;
 
-  @include xui.background-level(primary);
+  @include xui.fill(primary);
 
   &-menu {
     flex: 1 0 220px;
     display: flex;
     justify-content: flex-end;
-    @include xui.background-level(secondary);
+    @include xui.fill(secondary);
 
     nav {
       width: 240px;
@@ -103,7 +103,7 @@ xui-settings dialog {
     overflow: hidden auto;
 
     margin: 50px 40px 0 50px;
-    @include xui.scrollbar();
+    @include xui.scrollbar-regular();
   }
 
   &-close-anchor {
@@ -128,10 +128,9 @@ xui-settings dialog {
       height: 50px;
       border-radius: 50%;
 
+      @include xui.focusable();
       &:focus-visible {
-        outline: 5px solid var(--focus-color);
         outline-offset: -4px;
-        z-index: 1;
       }
     }
 

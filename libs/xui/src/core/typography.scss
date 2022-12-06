@@ -1,9 +1,6 @@
 @use 'sass:map';
 @use 'sass:math';
-
-@function strip-unit($number) {
-  @return $number / ($number * 0 + 1);
-}
+@use './units';
 
 @function define-typography-level(
   $font-size,
@@ -13,7 +10,7 @@
   $letter-spacing: normal
 ) {
   @if type-of($letter-spacing) == number {
-    $letter-spacing: math.div($letter-spacing, strip-unit($font-size) * 16) * 1em;
+    $letter-spacing: math.div($letter-spacing, units.strip-unit($font-size) * 16) * 1em;
   }
 
   @return (
@@ -87,69 +84,6 @@
   font-weight: var(--font-#{$typography}-weight);
   line-height: var(--font-#{$typography}-line-height);
   letter-spacing: var(--font-#{$typography}-letter-spacing);
-}
-
-@mixin typography-hierarchy() {
-  h1 {
-    @include typography-level(headline-1);
-    margin: 0 0 16px;
-  }
-
-  h2 {
-    @include typography-level(headline-2);
-    margin: 0 0 16px;
-  }
-
-  h3 {
-    @include typography-level(headline-3);
-    margin: 0 0 16px;
-  }
-
-  h4 {
-    @include typography-level(headline-4);
-    margin: 0 0 16px;
-  }
-
-  h5 {
-    @include typography-level(headline-5);
-    margin: 0 0 12px;
-  }
-
-  h6 {
-    @include typography-level(headline-6);
-    margin: 0 0 12px;
-  }
-
-  body,
-  pre,
-  .xui-body {
-    @include typography-level(body-1);
-
-    p {
-      //margin: 0 0 12px;
-    }
-  }
-
-  label {
-    @include typography-level(overline);
-    text-transform: uppercase;
-  }
-
-  body strong {
-    @include typography-level(body-2);
-  }
-
-  .xui-caption {
-    @include typography-level(caption);
-  }
-
-  .xui-subtitle-1 {
-    @include typography-level(subtitle-1);
-  }
-
-  .xui-subtitle-2 {
-    @include typography-level(subtitle-2);
-  }
 }
 
 @mixin create-typography-variables($theme) {

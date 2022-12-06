@@ -14,12 +14,12 @@
 
 .x-menu-hover {
   &:hover {
-    @include xui.background-level(default, primary);
+    @include xui.fill(default, primary);
     cursor: pointer;
   }
 
   &:active {
-    @include xui.background-level(darker, primary);
+    @include xui.fill(darker, primary);
   }
 
   &[disabled],
@@ -74,6 +74,6 @@ xui-menu-item {
 }
 
 .x-menu-item-selected {
-  @include xui.background-level(default, primary);
+  @include xui.fill(default, primary);
   border-left: 4px solid var(--primary-color-900);
 }

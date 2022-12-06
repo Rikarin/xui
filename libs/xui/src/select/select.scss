@@ -19,14 +19,14 @@
 
   &-disabled {
     cursor: not-allowed;
-    @include xui.disabled-filter();
+    @include xui.disabled();
   }
 
   &-light {
-    @include xui.background-level(secondary);
+    @include xui.fill(secondary);
   }
 
   &-dark {
-    @include xui.background-level(tertiary);
+    @include xui.fill(tertiary);
   }
 }

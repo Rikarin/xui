@@ -1,7 +1,5 @@
 @use 'sass:map';
 @use 'xui.theme' as theme;
-//@use 'a11y-color';
-@use '../core/core';
 @use '../core/typography';
 
 $variations: [primary, primary-alt, secondary, success, error, info, warning];
@@ -127,7 +125,7 @@ $variations: [primary, primary-alt, secondary, success, error, info, warning];
   }
 }
 
-@mixin background-level($name, $palette: background) {
+@mixin fill($name, $palette: background) {
   color: var(--#{$palette}-color-#{$name}-contrast);
   background-color: var(--#{$palette}-color-#{$name});
 }
@@ -136,7 +134,7 @@ $variations: [primary, primary-alt, secondary, success, error, info, warning];
   box-shadow: var(--elevation-#{$elevation});
 }
 
-@mixin focus-visible() {
+@mixin focusable() {
   &:focus-visible {
     outline: 5px solid var(--focus-color);
     z-index: 1;

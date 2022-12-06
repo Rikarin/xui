@@ -10,5 +10,5 @@ xui-select-options {
   border: 1px solid var(--background-color-tertiary);
   border-top: none;
 
-  @include xui.background-level(primary);
+  @include xui.fill(primary);
 }

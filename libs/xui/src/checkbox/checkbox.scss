@@ -22,7 +22,7 @@
   }
 
   &-disabled {
-    @include xui.disabled-filter();
+    @include xui.disabled();
     cursor: not-allowed;
   }
 

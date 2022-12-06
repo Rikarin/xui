@@ -1,11 +1,6 @@
 @use './xui';
 @forward 'xui';
 
-@mixin default-typographies() {
-  @import url('https://fonts.googleapis.com/css?family=Rubik:400,500,600,700,800&display=swap');
-  @import url('https://fonts.googleapis.com/css?family=Bungee:400,500,600,700,800&display=swap');
-}
-
 @mixin all-variables($theme) {
   @include xui.create-color-variables($theme);
   @include xui.create-elevation-variables($theme);

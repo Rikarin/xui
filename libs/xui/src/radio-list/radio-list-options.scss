@@ -17,7 +17,7 @@
   }
 
   &-active {
-    @include xui.background-level(primary);
+    @include xui.fill(primary);
   }
 
   &-focus {
@@ -27,7 +27,7 @@
 
   &-disabled {
     cursor: not-allowed;
-    @include xui.disabled-filter();
+    @include xui.disabled();
   }
 
   &-description {
@@ -50,11 +50,11 @@
   }
 
   &-background-light {
-    @include xui.background-level(secondary);
+    @include xui.fill(secondary);
   }
 
   &-background-dark {
-    @include xui.background-level(tertiary);
+    @include xui.fill(tertiary);
   }
 
   @each $name in xui.$variations {

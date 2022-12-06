@@ -1,9 +1,7 @@
+@use '../core/units';
+
 $white: white;
 $black: black;
-
-@function _strip-unit($value) {
-  @return ($value / ($value * 0 + 1));
-}
 
 @function pow($base, $exponents) {
   $raised: 1;
@@ -71,11 +69,11 @@ $black: black;
     // Check if a flexible unit
     @if unit($size) == 'em' or unit($size) == 'rem' {
       // Need to convert to a pixel value. Let's not overcomplicate it with possible EM inheritence scale factors
-      @return _strip-unit($size * 16);
+      @return units.strip-unit($size * 16);
     }
     @if unit($size) == 'px' {
       // We expect PX, so strip the value and return it
-      @return _strip-unit($size);
+      @return units.strip-unit($size);
     }
     @if unit($size) == '' {
       @return $size;

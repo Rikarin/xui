@@ -1,10 +1,5 @@
 @use '../xui';
 
-//xui-input {
-//  display: flex;
-//  flex-direction: column;
-//}
-
 .x-input {
   max-height: 39px;
   display: flex;
@@ -13,13 +8,12 @@
   box-sizing: border-box;
   border-radius: 3px;
 
-  @include xui.focus-visible();
+  @include xui.focusable();
 
   input {
     margin: 0;
     padding: 0;
     border: 0;
-    //outline: 0;
 
     vertical-align: baseline;
     flex: 100%;
@@ -32,7 +26,7 @@
     }
 
     &:disabled {
-      @include xui.disabled-filter();
+      @include xui.disabled();
       cursor: not-allowed;
     }
 

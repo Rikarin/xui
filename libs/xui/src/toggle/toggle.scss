@@ -12,7 +12,7 @@ xui-toggle {
   opacity: 0.8;
 
   border-radius: 4px;
-  @include xui.focus-visible();
+  @include xui.focusable();
 
   &:hover {
     opacity: 1;

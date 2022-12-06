@@ -7,5 +7,5 @@
   height: 100px;
 
   border-radius: 4px;
-  @include xui.background-level(default, primary);
+  @include xui.fill(default, primary);
 }

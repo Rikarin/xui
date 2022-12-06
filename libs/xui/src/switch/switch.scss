@@ -17,7 +17,7 @@
   }
 
   &-disabled {
-    @include xui.disabled-filter();
+    @include xui.disabled();
     cursor: not-allowed;
 
     input {
@@ -34,7 +34,7 @@
     border-radius: 100px;
     cursor: pointer;
 
-    @include xui.focus-visible();
+    @include xui.focusable();
   }
 
   &-handle {

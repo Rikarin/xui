@@ -2,7 +2,7 @@
 
 @mixin generate-banner($name, $palette: $name) {
   &-#{$name} {
-    @include xui.background-level(default, $palette);
+    @include xui.fill(default, $palette);
 
     .x-banner-stamp {
       color: var(--#{$palette}-color-default);
@@ -10,7 +10,7 @@
     }
 
     &.x-banner-dismissible:hover {
-      @include xui.background-level(darker, $palette);
+      @include xui.fill(darker, $palette);
     }
   }
 }
@@ -41,14 +41,14 @@
   }
 
   &-info {
-    @include xui.background-level(lighter, info);
+    @include xui.fill(lighter, info);
 
     border: 1px solid var(--info-color-50);
     border-left: none;
     border-right: none;
 
     .x-banner-stamp {
-      @include xui.background-level(default, info);
+      @include xui.fill(default, info);
     }
   }
 

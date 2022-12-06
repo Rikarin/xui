@@ -10,24 +10,24 @@
   user-select: none;
 
   &-light {
-    @include xui.background-level(primary);
+    @include xui.fill(primary);
 
     &:hover {
-      @include xui.background-level(secondary);
+      @include xui.fill(secondary);
     }
   }
 
   &-dark {
-    @include xui.background-level(primary);
+    @include xui.fill(primary);
 
     &:hover {
-      @include xui.background-level(secondary);
+      @include xui.fill(secondary);
     }
   }
 
   &-disabled {
     cursor: not-allowed;
-    @include xui.disabled-filter();
+    @include xui.disabled();
 
     &:hover {
       background-color: initial;
@@ -35,6 +35,6 @@
   }
 
   &-selected {
-    @include xui.background-level(secondary);
+    @include xui.fill(secondary);
   }
 }

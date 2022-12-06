@@ -43,7 +43,7 @@ xui-image-upload {
     }
   }
 
-  @include xui.focus-visible();
+  @include xui.focusable();
 
   &-hover {
     display: none;

@@ -6,7 +6,7 @@ xui-tooltip {
   border-radius: 4px;
   padding: 6px 12px;
 
-  @include xui.background-level(tertiary);
+  @include xui.fill(tertiary);
   @include xui.elevate(medium);
   @include xui.typography-level(body-2);
 

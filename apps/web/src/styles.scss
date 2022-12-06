@@ -1,24 +1,5 @@
-@use 'sass:map';
 @use './highlightjs';
-@use '../../../libs/xui/src/index' as xui;
 @use '../../../libs/xui/src/theme';
-@use '../../../libs/xui/src/theming/xui.theme' as xui-theme;
-
-$color: (
-  primary: xui.define-palette(xui.generate-palette(#1f75cb)),
-  primary-alt: xui.define-palette(xui-theme.$purple-palette),
-  secondary: xui.define-palette(xui-theme.$orange-palette)
-);
-
-$theme: xui.define-dark-theme(
-  (
-    color: $color
-  )
-);
-
-@include xui.core();
-@include xui.default-typographies();
-@include xui.typography-hierarchy();
 
 code {
   font-family: Consolas, Monospaced, sans-serif;

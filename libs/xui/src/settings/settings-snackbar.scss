@@ -8,7 +8,7 @@ xui-settings-snackbar {
   padding: 10px !important;
   border-radius: 4px;
 
-  @include xui.background-level(floating);
+  @include xui.fill(floating);
   @include xui.elevate(high);
 }
 

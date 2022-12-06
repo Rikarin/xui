@@ -17,7 +17,7 @@ import { ButtonColor, ButtonSize, ButtonType } from './button.types';
   exportAs: 'xuiButton',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <div [ngClass]="styles" [attr.disabled]="disabled || null" tabindex="0" (click)="_onAsync()">
+    <div [ngClass]="styles" [attr.disabled]="disabled || null" [tabindex]="disabled ? -1 : 0" (click)="_onAsync()">
       <div class="x-button-content">
         <ng-content></ng-content>
       </div>

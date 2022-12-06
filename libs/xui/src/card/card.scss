@@ -5,7 +5,7 @@ xui-card {
   flex-direction: column;
   border-radius: 4px;
 
-  @include xui.background-level(secondary-alt);
+  @include xui.fill(secondary-alt);
   @include xui.elevate(medium);
 }
 

@@ -8,6 +8,6 @@
   padding: 12px;
   border-radius: 4px;
 
-  @include xui.background-level(floating);
+  @include xui.fill(floating);
   @include xui.elevate(high);
 }
