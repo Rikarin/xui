@@ -1,0 +1,38 @@
+<app-infomation title="Switch">
+  <pre>Switch is used to toggle on/off value in realtime manner</pre>
+
+  <code apiReference highlight="import { XuiSwitchModule } from 'xui';"></code>
+</app-infomation>
+
+<app-example>
+  <xui-switch>Toggle</xui-switch>
+</app-example>
+
+<app-example>
+  <div style="font-weight: 700; color: mediumpurple">
+    <xui-switch>Toggle</xui-switch>
+  </div>
+</app-example>
+
+<app-example>
+  <xui-switch [formControl]="asyncSwitch">Asynchronously toggled switch</xui-switch>
+</app-example>
+
+<app-example>
+  <div style="display: flex; flex-direction: column; gap: 8px">
+    <xui-switch disabled>Disabled</xui-switch>
+    <xui-switch [formControl]="disabledSwitch">Disabled</xui-switch>
+  </div>
+</app-example>
+
+<app-example>
+  <div style="display: flex; flex-direction: column; gap: 8px">
+    <xui-switch color="success" [value]="true">Success</xui-switch>
+    <xui-switch color="information" [value]="true">Information</xui-switch>
+    <xui-switch color="warning" [value]="true">Warning</xui-switch>
+    <xui-switch color="error" [value]="true">Error</xui-switch>
+    <xui-switch color="primary" [value]="true">Primary</xui-switch>
+  </div>
+</app-example>
+
+<app-usage [usage]="usage"></app-usage>

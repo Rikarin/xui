@@ -11,29 +11,30 @@ import {
   Optional,
   Self,
   SimpleChanges,
-  ViewChild,
-  ViewEncapsulation
+  ViewChild
 } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { XuiTooltipComponent } from '../tooltip/tooltip.component';
 import { inNextTick, InputBoolean, InputNumber } from '../utils';
 import { BehaviorSubject, map } from 'rxjs';
-import { SliderColor } from './slider.types';
+import { SliderColor, SliderMark } from './slider.types';
+import { BooleanInput } from '@angular/cdk/coercion';
 
 @Component({
   selector: 'xui-slider',
   exportAs: 'xuiSlider',
-  styleUrls: ['slider.scss'],
-  encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: 'slider.component.html'
 })
 export class XuiSliderComponent implements ControlValueAccessor, OnInit, AfterViewInit, OnChanges {
-  private onChange?: (source?: number) => void;
+  static ngAcceptInputType_range: BooleanInput;
+  static ngAcceptInputType_tooltipDisabled: BooleanInput;
+
+  private onChange?: (source: number) => void;
   private onTouched?: () => void;
 
   _posX = new BehaviorSubject<number>(0);
-  _value?: number;
+  _value: number | null = null;
   touched = false;
 
   position$ = this._posX.pipe(map(x => ({ x, y: 0 })));
@@ -82,7 +83,7 @@ export class XuiSliderComponent implements ControlValueAccessor, OnInit, AfterVi
   }
 
   getColor(color: string) {
-    return `slider-color-${color}`;
+    return `x-slider-${color}`;
   }
 
   getPercentage(absolute: number) {
@@ -117,12 +118,16 @@ export class XuiSliderComponent implements ControlValueAccessor, OnInit, AfterVi
     this.value = source;
   }
 
-  registerOnChange(onChange: (source?: number) => void) {
+  registerOnChange(onChange: (source: number) => void) {
     this.onChange = onChange;
   }
 
   registerOnTouched(onTouched: () => void) {
     this.onTouched = onTouched;
+  }
+
+  setDisabledState(isDisabled: boolean): void {
+    // this.disabled = isDisabled;
   }
 
   markAsTouched() {
@@ -157,10 +162,4 @@ export class XuiSliderComponent implements ControlValueAccessor, OnInit, AfterVi
     this._posX.next((value / 100) * this.hostRect.width - 5);
     this.changeDetectorRef.markForCheck();
   }
-}
-
-export interface SliderMark {
-  label: string;
-  value: number;
-  color?: SliderColor;
 }

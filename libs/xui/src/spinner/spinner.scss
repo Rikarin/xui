@@ -1,34 +1,39 @@
-@use '../theming/theming';
+@use '../xui';
 
-:host {
-  width: 1em;
-  aspect-ratio: 1;
-}
-
-.spinner {
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-
-  box-sizing: border-box;
-  border-radius: 50%;
-  border-style: solid;
-  border-width: 0.125em;
-
-  animation: spin 0.8s infinite linear;
-}
-
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
+@mixin theme() {
+  xui-spinner {
+    width: 1em;
+    aspect-ratio: 1;
   }
-  to {
-    transform: rotate(360deg);
-  }
-}
 
-@each $name in theming.$variations {
-  .spinner-color-#{$name} {
-    border-color: var(--#{$name}-color-default) transparent var(--#{$name}-color-default) var(--#{$name}-color-default);
+  .x-spinner {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+
+    box-sizing: border-box;
+    border-radius: 50%;
+    border-style: solid;
+    border-width: 0.125em;
+
+    animation: x-spinner-spin 0.8s infinite linear;
+
+    @each $name in xui.$color-variations {
+      &-#{$name} {
+        border-color: var(--#{$name}-color-default)
+          transparent
+          var(--#{$name}-color-default)
+          var(--#{$name}-color-default);
+      }
+    }
+  }
+
+  @keyframes x-spinner-spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
   }
 }

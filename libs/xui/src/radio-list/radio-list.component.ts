@@ -6,8 +6,7 @@ import {
   Input,
   OnInit,
   Optional,
-  Self,
-  ViewEncapsulation
+  Self
 } from '@angular/core';
 import { RadioListService } from './radio-list.service';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
@@ -22,14 +21,12 @@ import { filter } from 'rxjs/operators';
 @Component({
   selector: 'xui-radio-list',
   exportAs: 'xuiRadioList',
-  styleUrls: ['radio-list.scss'],
-  encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: '<div class="radio-list" tabindex="0"><ng-content></ng-content></div>',
+  template: '<div class="x-radio-list" tabindex="0"><ng-content></ng-content></div>',
   providers: [RadioListService]
 })
 export class XuiRadioListComponent implements ControlValueAccessor, OnInit {
-  private onChange?: (source?: string | null) => void;
+  private onChange?: (source: string | null) => void;
   private onTouched?: () => void;
 
   _mouseDown = false;
@@ -80,12 +77,16 @@ export class XuiRadioListComponent implements ControlValueAccessor, OnInit {
     this.value = source;
   }
 
-  registerOnChange(onChange: (source?: string | null) => void) {
+  registerOnChange(onChange: (source: string | null) => void) {
     this.onChange = onChange;
   }
 
   registerOnTouched(onTouched: () => void) {
     this.onTouched = onTouched;
+  }
+
+  setDisabledState(isDisabled: boolean): void {
+    // this.disabled = isDisabled;
   }
 
   markAsTouched() {

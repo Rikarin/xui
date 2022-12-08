@@ -1,54 +1,12 @@
-@use 'sass:map';
-@use 'sass:color';
+@forward 'xui';
+@forward 'theme';
 
-@use 'core/core';
-@use 'core/typography';
-@use 'table/table';
-@use 'theming/theming';
-
-// Fix this
-@use 'core/scrollbar';
-@use 'layout/layout';
-@use 'menu/menu';
-// title
-
-@forward 'core/core';
-@forward 'core/typography';
-@forward 'core/scrollbar' as scrollbar-* show scrollbar-theme;
-@forward 'layout/layout' as layout-* show layout-theme;
-@forward 'menu/menu' as menu-* show menu-theme;
-@forward 'table/table' as table-* show table-theme;
-@forward 'theming/palette';
-@forward 'theming/theming' show define-palette, define-background-palette, define-dark-theme, define-light-theme,
-  create-color-variables, create-elevation-variables, background-level, elevate, focus-visible, modifier-hover,
-  modifier-active, modifier-selected, modifier-accent, text-muted;
-// title
-
-@mixin all-component-themes($theme) {
-  @include scrollbar.theme();
-  @include layout.theme($theme);
-  @include menu.theme($theme);
-  @include table.theme();
-  // title
-
-  .mdc-snackbar__surface {
-    box-shadow: none !important;
-  }
-
-  a {
-    color: var(--text-link-color);
-  }
-}
-
-@mixin default-typographies() {
-  @import url('https://fonts.googleapis.com/css?family=Rubik:400,500,600,700,800&display=swap');
-  @import url('https://fonts.googleapis.com/css?family=Bungee:400,500,600,700,800&display=swap');
-}
+@use 'xui';
 
 @mixin all-variables($theme) {
-  @include theming.create-color-variables($theme);
-  @include theming.create-elevation-variables($theme);
-  @include typography.create-typography-variables($theme);
+  @include xui.create-color-variables($theme);
+  @include xui.create-elevation-variables($theme);
+  @include xui.create-typography-variables($theme);
 }
 
 @mixin all-root-variables($theme) {

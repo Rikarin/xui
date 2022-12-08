@@ -1,0 +1,17 @@
+{
+  "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
+  "dest": "../../dist/libs/xui-charts",
+  "assets": [
+    {
+      "glob": "**/*.scss",
+      "input": "src",
+      "output": "."
+    }
+  ],
+  "allowedNonPeerDependencies": [
+
+  ],
+  "lib": {
+    "entryFile": "src/index.ts"
+  }
+}

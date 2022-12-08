@@ -1,34 +1,41 @@
-@use '../core/core';
-@use '../theming/theming';
-@use '../core/typography';
+@use 'variables' as *;
+@use '../xui';
 
-.select {
-  width: 100%;
-  display: flex;
-  gap: 12px;
-  justify-content: space-between;
-  align-items: center;
-  min-width: 50px;
-  height: 39px;
+@mixin theme() {
+  .x-select {
+    width: 100%;
+    display: flex;
+    gap: 12px;
+    justify-content: space-between;
+    align-items: center;
+    min-width: 50px;
 
-  cursor: pointer;
-  box-sizing: border-box;
-  border-radius: 4px;
-  padding: 0 8px 0 12px;
-  user-select: none;
+    cursor: pointer;
+    box-sizing: border-box;
+    user-select: none;
 
-  @include typography.typography-level(body-1);
-}
+    @include xui.border-radius($border-radius);
+    @include xui.typography-level(body-1);
 
-.select-disabled {
-  cursor: not-allowed;
-  @include core.disabled-filter();
-}
+    &-disabled {
+      cursor: not-allowed;
+      @include xui.disabled();
+    }
 
-.select-color-light {
-  @include theming.background-level(secondary);
-}
+    &-light {
+      @include xui.fill(secondary);
+    }
 
-.select-color-dark {
-  @include theming.background-level(tertiary);
+    &-dark {
+      @include xui.fill(tertiary);
+    }
+
+    &-large {
+      padding: 8px 8px 8px 12px;
+    }
+
+    &-small {
+      padding: 4px 4px 4px 12px;
+    }
+  }
 }

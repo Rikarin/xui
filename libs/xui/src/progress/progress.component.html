@@ -1,6 +1,6 @@
-<div class="progress">
+<div class="x-progress">
   <ng-container *ngIf="type === 'line'">
-    <div class="indicator">
+    <div class="x-progress-indicator">
       <div [ngClass]="style" [style.width.%]="progress"></div>
     </div>
 
@@ -16,7 +16,7 @@
   </ng-container>
 
   <ng-container *ngIf="type === 'circle'">
-    <div class="progress-indicator">
+    <div class="x-progress-indicator">
       <div [ngClass]="style" [style.width.%]="progress"></div>
     </div>
   </ng-container>

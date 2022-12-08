@@ -23,6 +23,9 @@
     "paths": {
       "xui": [
         "libs/xui/src/index.ts"
+      ],
+      "xui-charts": [
+        "libs/charts/src/index.ts"
       ]
     }
   },

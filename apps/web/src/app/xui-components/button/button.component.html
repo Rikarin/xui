@@ -1,0 +1,101 @@
+<app-infomation title="Button">
+  Button is a clickable component.
+
+  <code apiReference highlight="import { XuiButtonModule } from 'xui';"></code>
+</app-infomation>
+
+<app-example>
+  <div class="flex-container">
+    <xui-button color="primary" type="normal" [onClick]="work">Normal</xui-button>
+    <xui-button color="primary" type="raised" [onClick]="work">Raised</xui-button>
+    <xui-button color="primary" type="dashed" [onClick]="work">Dashed</xui-button>
+    <xui-button color="primary" type="stroked" [onClick]="work">Stroked</xui-button>
+    <xui-button color="primary" type="fab" [onClick]="work">Fab</xui-button>
+    <xui-button color="primary" type="icon"><xui-icon>menu</xui-icon></xui-button>
+    <xui-button color="success" type="raised" shine [onClick]="work">Raised Shine</xui-button>
+    <xui-button color="success" type="raised" shine (click)="counter = counter + 1">
+      <xui-icon>shield-crown</xui-icon>
+      Raised Shine
+    </xui-button>
+  </div>
+  Counter <strong>{{ counter }}</strong>
+</app-example>
+
+<app-example>
+  <div class="button-grid">
+    <xui-button color="primary" type="normal" size="small">Normal Small</xui-button>
+    <xui-button color="primary" type="normal" size="medium">Normal Medium</xui-button>
+    <xui-button color="primary" type="normal" size="large">Normal Large</xui-button>
+
+    <xui-button color="primary" type="raised" size="small">Raised Small</xui-button>
+    <xui-button color="primary" type="raised" size="medium">Raised Medium</xui-button>
+    <xui-button color="primary" type="raised" size="large">Raised Large</xui-button>
+
+    <xui-button color="primary" type="dashed" size="small">Dashed Small</xui-button>
+    <xui-button color="primary" type="dashed" size="medium">Dashed Medium</xui-button>
+    <xui-button color="primary" type="dashed" size="large">Dashed Large</xui-button>
+
+    <xui-button color="primary" type="fab" size="small">Fab Small</xui-button>
+    <xui-button color="primary" type="fab" size="medium">Fab Medium</xui-button>
+    <xui-button color="primary" type="fab" size="large">Fab Large</xui-button>
+
+    <xui-button color="minimal" size="small">Minimal Small</xui-button>
+    <xui-button color="minimal" size="medium">Minimal Medium</xui-button>
+    <xui-button color="minimal" size="large">Minimal Large</xui-button>
+  </div>
+</app-example>
+
+<app-example>
+  <div class="flex-container">
+    <xui-button color="primary" type="normal">Primary</xui-button>
+    <xui-button color="primary-alt" type="normal">Primary Alternative</xui-button>
+    <xui-button color="secondary" type="normal">Secondary</xui-button>
+    <xui-button color="error" type="normal">Error</xui-button>
+    <xui-button color="minimal" type="normal">Minimal</xui-button>
+  </div>
+  <div class="flex-container">
+    <xui-button color="primary" disabled>Primary</xui-button>
+    <xui-button color="primary-alt" disabled>Primary Alternative</xui-button>
+    <xui-button color="secondary" disabled>Secondary</xui-button>
+    <xui-button color="error" disabled>Error</xui-button>
+    <xui-button color="minimal" disabled>Minimal</xui-button>
+  </div>
+  <div class="flex-container">
+    <xui-button color="primary" type="raised">Primary</xui-button>
+    <xui-button color="primary-alt" type="raised">Primary Alternative</xui-button>
+    <xui-button color="secondary" type="raised">Secondary</xui-button>
+    <xui-button color="error" type="raised">Error</xui-button>
+  </div>
+  <div class="flex-container">
+    <xui-button color="primary" type="raised" disabled>Primary</xui-button>
+    <xui-button color="primary-alt" type="raised" disabled>Primary Alternative</xui-button>
+    <xui-button color="secondary" type="raised" disabled>Secondary</xui-button>
+    <xui-button color="error" type="raised" disabled>Error</xui-button>
+  </div>
+  <div class="flex-container">
+    <xui-button color="primary" type="dashed">Primary</xui-button>
+    <xui-button color="primary-alt" type="dashed">Primary Alternative</xui-button>
+    <xui-button color="secondary" type="dashed">Secondary</xui-button>
+    <xui-button color="error" type="dashed">Error</xui-button>
+  </div>
+</app-example>
+
+<app-example>
+  <xui-button-group>
+    <xui-button color="primary" type="raised" [onClick]="work">First</xui-button>
+    <xui-button color="primary" type="raised" [onClick]="work" disabled>Second</xui-button>
+    <xui-button color="primary" type="raised" [onClick]="work">Third</xui-button>
+  </xui-button-group>
+  <xui-button-group>
+    <xui-button color="primary" type="dashed" [onClick]="work">First</xui-button>
+    <xui-button color="primary" type="dashed" [onClick]="work">Second</xui-button>
+    <xui-button color="primary" type="dashed" [onClick]="work">Third</xui-button>
+  </xui-button-group>
+  <xui-button-group>
+    <xui-button color="primary" type="stroked" [onClick]="work">First</xui-button>
+    <xui-button color="primary" type="stroked" [onClick]="work">Second</xui-button>
+    <xui-button color="primary" type="stroked" [onClick]="work">Third</xui-button>
+  </xui-button-group>
+</app-example>
+
+<app-usage [usage]="usage"></app-usage>

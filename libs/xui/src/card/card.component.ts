@@ -6,8 +6,7 @@ import {
   Input,
   TemplateRef,
   ViewChild,
-  ViewContainerRef,
-  ViewEncapsulation
+  ViewContainerRef
 } from '@angular/core';
 import { inNextTick } from '../utils';
 
@@ -15,8 +14,6 @@ import { inNextTick } from '../utils';
   selector: 'xui-card',
   exportAs: 'xuiCard',
   templateUrl: 'card.component.html',
-  styleUrls: ['card.scss'],
-  encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class XuiCardComponent implements AfterViewInit {

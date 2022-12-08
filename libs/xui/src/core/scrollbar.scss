@@ -1,16 +1,16 @@
-@use '../theming/theming';
+@use 'border-radius' as *;
 
 @mixin theme() {
   * {
-    @include scrollbar();
+    @include regular();
   }
 
-  .thin-scrollbar {
-    @include scrollbar-thin();
+  .x-scrollbar-thin {
+    @include thin();
   }
 }
 
-@mixin scrollbar() {
+@mixin regular() {
   &::-webkit-scrollbar {
     width: 16px;
     height: 16px;
@@ -37,13 +37,17 @@
   &::-webkit-scrollbar-thumb,
   &::-webkit-scrollbar-track {
     border: 4px solid transparent;
-    border-radius: 8px;
     background-clip: padding-box;
+
+    @include border-radius(8px);
   }
+
+  // Firefox
+  scrollbar-color: var(--background-color-tertiary) var(--background-color-secondary);
 }
 
-@mixin scrollbar-thin() {
-  @include scrollbar();
+@mixin thin() {
+  @include regular();
 
   &::-webkit-scrollbar {
     width: 8px;
@@ -57,4 +61,7 @@
   &:hover::-webkit-scrollbar-thumb {
     background-color: var(--background-color-tertiary);
   }
+
+  // Firefox
+  scrollbar-width: thin;
 }

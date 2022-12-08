@@ -1,0 +1,26 @@
+<div echarts (chartInit)="onChartInit($event)" [options]="chartOptions" class="chart"></div>
+<div class="legend">
+  <div class="trend" *ngFor="let trend of trends$ | async">
+    <div class="metric">
+      42.0
+      <div class="type">%</div>
+    </div>
+
+    <div class="labels">
+      <div class="metric-name">{{ trend.metric.name }}</div>
+      <div class="entity-name">{{ trend.entity.name }}</div>
+    </div>
+
+    <xui-button type="icon" [cdkMenuTriggerFor]="menu">
+      <xui-icon>dots-vertical</xui-icon>
+    </xui-button>
+  </div>
+</div>
+
+<ng-template #menu>
+  <xui-context-menu cdkMenu>
+    <xui-button cdkMenuItem>Remove</xui-button>
+    <hr />
+    <xui-button cdkMenuItem>None</xui-button>
+  </xui-context-menu>
+</ng-template>

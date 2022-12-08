@@ -5,9 +5,12 @@
 
 <ng-template
   cdkConnectedOverlay
+  cdkConnectedOverlayHasBackdrop
+  [cdkConnectedOverlayBackdropClass]="'cdk-overlay-transparent'"
   [cdkConnectedOverlayOrigin]="trigger"
   [cdkConnectedOverlayOpen]="isOpen"
   [cdkConnectedOverlayWidth]="width"
+  (backdropClick)="isOpen = false"
 >
   <xui-select-options>
     <ng-content></ng-content>

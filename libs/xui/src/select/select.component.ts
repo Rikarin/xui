@@ -7,8 +7,7 @@ import {
   Input,
   OnInit,
   Optional,
-  Self,
-  ViewEncapsulation
+  Self
 } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
@@ -16,33 +15,33 @@ import { inNextTick, InputBoolean } from '../utils';
 import { SelectService } from './select.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { XuiOptionComponent } from './option.component';
-import { SelectColor } from './select.types';
+import { SelectColor, SelectSize } from './select.types';
+import { BooleanInput } from '@angular/cdk/coercion';
 
 @UntilDestroy()
 @Component({
   selector: 'xui-select',
   exportAs: 'xuiSelect',
-  styleUrls: ['select.scss'],
-  encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: 'select.component.html',
   providers: [SelectService]
 })
 export class XuiSelectComponent implements ControlValueAccessor, OnInit, AfterViewInit {
-  private onChange?: (source?: string) => void;
+  static ngAcceptInputType_disabled: BooleanInput;
+
+  private onChange?: (source: string | null) => void;
   private onTouched?: () => void;
 
-  _value?: string;
+  _value: string | null = null;
   touched = false;
 
   isOpen = false;
   selectedOption: XuiOptionComponent | null = null;
 
   @Input() placeholder?: string;
-  @Input() @InputBoolean() disabled: boolean = false;
+  @Input() @InputBoolean() disabled = false;
   @Input() color: SelectColor = 'light';
-
-  // @Input() size: 'normal' | 'small' = 'normal';
+  @Input() size: SelectSize = 'large';
 
   @Input()
   get value() {
@@ -53,7 +52,7 @@ export class XuiSelectComponent implements ControlValueAccessor, OnInit, AfterVi
     if (this._value !== v) {
       this._value = v;
       this.onChange?.(v);
-      this.selectService.select(v!);
+      this.selectService.select(v);
       this.changeDetectorRef.markForCheck();
     }
   }
@@ -68,11 +67,12 @@ export class XuiSelectComponent implements ControlValueAccessor, OnInit, AfterVi
 
   get styles() {
     const ret: { [klass: string]: boolean } = {
-      select: true,
-      'select-disabled': this.disabled
+      'x-select': true,
+      'x-select-disabled': this.disabled
     };
 
-    ret[`select-color-${this.color}`] = true;
+    ret[`x-select-${this.color}`] = true;
+    ret[`x-select-${this.size}`] = true;
     return ret;
   }
 
@@ -94,7 +94,7 @@ export class XuiSelectComponent implements ControlValueAccessor, OnInit, AfterVi
 
     selectService.selected$.pipe(untilDestroyed(this)).subscribe(option => {
       this.isOpen = false;
-      this.value = option?.value;
+      this.value = option?.value ?? null;
       this.selectedOption = option;
       this.changeDetectorRef.markForCheck();
     });
@@ -122,12 +122,16 @@ export class XuiSelectComponent implements ControlValueAccessor, OnInit, AfterVi
     this.value = source;
   }
 
-  registerOnChange(onChange: (source?: string) => void) {
+  registerOnChange(onChange: (source: string | null) => void) {
     this.onChange = onChange;
   }
 
   registerOnTouched(onTouched: () => void) {
     this.onTouched = onTouched;
+  }
+
+  setDisabledState(isDisabled: boolean): void {
+    this.disabled = isDisabled;
   }
 
   markAsTouched() {
@@ -141,8 +145,6 @@ export class XuiSelectComponent implements ControlValueAccessor, OnInit, AfterVi
 @Component({
   selector: 'xui-select-options',
   exportAs: 'xuiSelectOptions',
-  styleUrls: ['select-options.scss'],
-  encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<ng-content></ng-content>`
 })

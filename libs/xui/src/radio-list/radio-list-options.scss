@@ -1,68 +1,69 @@
-@use 'sass:map';
-@use '../core/core';
-@use '../theming/theming';
-@use '../core/typography';
+@use 'variables' as *;
+@use '../xui';
 
-.radio-option {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-
-  padding: 12px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-weight: 500;
-  user-select: none;
-
-  &:not(.radio-option-disabled):hover {
-    background-color: theming.modifier-hover();
-  }
-}
-
-.radio-option-active {
-  @include theming.background-level(primary);
-}
-
-.radio-option-focus {
-  outline: 5px solid var(--focus-color);
-  z-index: 1;
-}
-
-.radio-option-disabled {
-  cursor: not-allowed;
-  @include core.disabled-filter();
-}
-
-.radio-option-description {
-  @include typography.typography-level(body-2);
-}
-
-.radio-option-size-md {
-  height: 64px;
-}
-
-.radio-option-size-sm {
-  height: 48px;
-
-  .radio-option-content {
-    width: 100%;
+@mixin theme() {
+  .x-radio-option {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-  }
-}
+    gap: 8px;
 
-.radio-option-background-color-light {
-  @include theming.background-level(secondary);
-}
+    padding: 12px;
+    cursor: pointer;
+    font-weight: 500;
+    user-select: none;
 
-.radio-option-background-color-dark {
-  @include theming.background-level(tertiary);
-}
+    @include xui.border-radius($border-radius);
 
-@each $name in theming.$variations {
-  .radio-option-color-#{$name} {
-    border-left: 3px solid var(--#{$name}-color-default);
-    padding-left: 9px;
+    &:not(.x-radio-option-disabled):hover {
+      background-color: xui.modifier-hover();
+    }
+
+    &-active {
+      @include xui.fill(primary);
+    }
+
+    &-focus {
+      outline: 5px solid var(--focus-color);
+      z-index: 1;
+    }
+
+    &-disabled {
+      cursor: not-allowed;
+      @include xui.disabled();
+    }
+
+    &-description {
+      @include xui.typography-level(body-2);
+    }
+
+    &-md {
+      height: 64px;
+    }
+
+    &-sm {
+      height: 48px;
+
+      .x-radio-option-content {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+    }
+
+    &-background-light {
+      @include xui.fill(secondary);
+    }
+
+    &-background-dark {
+      @include xui.fill(tertiary);
+    }
+
+    @each $name in xui.$color-variations {
+      &-#{$name} {
+        border-left: 3px solid var(--#{$name}-color-default);
+        padding-left: 9px;
+      }
+    }
   }
 }

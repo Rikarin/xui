@@ -1,23 +1,17 @@
-@use 'sass:map';
 @use './highlightjs';
-@use '../../../libs/xui/src/index' as xui;
-@use '../../../libs/xui/src/theming/xui.theme' as xui-theme;
+@use '../../../libs/xui/src' as xui-theme;
+//  with (
+//  $enable-rounded: true,
+//  $banner-stamp-border-radius: 20px,
+//  $button-border-radius: 8px,
+//  $card-border-radius: 12px,
+//  $card-background-color: (default, success),
+//  $context-menu-border-radius: 12px
+//);
 
-$color: (
-  primary: xui.define-palette(xui.generate-palette(#1f75cb)),
-  primary-alt: xui.define-palette(xui-theme.$purple-palette),
-  secondary: xui.define-palette(xui-theme.$orange-palette)
-);
+@include xui-theme.theme();
 
-$theme: xui.define-dark-theme(
-  (
-    color: $color
-  )
-);
-
-@include xui.core();
-@include xui.default-typographies();
-@include xui.typography-hierarchy();
+// end user should be able to change swatches/colors but the overall theme such as border-radius should be compile time
 
 code {
   font-family: Consolas, Monospaced, sans-serif;

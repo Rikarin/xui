@@ -9,17 +9,6 @@ pre code.hljs {
   background-color: var(--background-color-floating);
 }
 
-//.hljs ::selection,
-//.hljs::selection {
-//  color: var(--background-color-tertiary-contrast);
-//  background-color: rgba(var(--background-color-accent-rgb), var(--selected-opacity));
-//}
-
-//.hljs {
-//  background: #1E1E1E;
-//  color: #DCDCDC;
-//}
-
 .hljs-keyword,
 .hljs-literal,
 .hljs-symbol,
@@ -97,10 +86,6 @@ pre code.hljs {
   font-weight: bold;
 }
 
-/*.hljs-code {
-  font-family:'Monospace';
-}*/
-
 .hljs-bullet,
 .hljs-selector-tag,
 .hljs-selector-id,
@@ -121,111 +106,6 @@ pre code.hljs {
   display: inline-block;
   width: 100%;
 }
-
-//
-//
-//
-//
-//pre code.hljs {
-//  display: block;
-//  overflow-x: auto;
-//  padding: 0 0.5em;
-//}
-//
-//.hljs {
-//  color: var(--background-color-tertiary-contrast);
-//  background-color: var(--background-color-floating);
-//}
-//
-//.hljs ::selection,
-//.hljs::selection {
-//  color: var(--background-color-tertiary-contrast);
-//  background-color: rgba(var(--background-color-accent-rgb), var(--selected-opacity));
-//}
-//
-//.hljs-comment {
-//  color: #766e6b;
-//}
-//
-//.hljs-tag {
-//  color: #9c9491;
-//}
-//
-//.hljs-operator,
-//.hljs-punctuation,
-//.hljs-subst {
-//  color: #a8a19f;
-//}
-//
-//.hljs-operator {
-//  opacity: 0.7;
-//}
-//
-//.hljs-bullet,
-//.hljs-deletion,
-//.hljs-name,
-//.hljs-selector-tag,
-//.hljs-template-variable,
-//.hljs-variable {
-//  color: #f22c40;
-//}
-//
-//.hljs-attr,
-//.hljs-link,
-//.hljs-literal,
-//.hljs-number,
-//.hljs-symbol,
-//.hljs-variable.constant_ {
-//  color: #df5320;
-//}
-//.hljs-class .hljs-title,
-//.hljs-title,
-//.hljs-title.class_ {
-//  color: #c38418;
-//}
-//.hljs-strong {
-//  font-weight: 700;
-//  color: #c38418;
-//}
-//.hljs-addition,
-//.hljs-code,
-//.hljs-string,
-//.hljs-title.class_.inherited__ {
-//  color: #7b9726;
-//}
-//.hljs-built_in,
-//.hljs-doctag,
-//.hljs-keyword.hljs-atrule,
-//.hljs-quote,
-//.hljs-regexp {
-//  color: #3d97b8;
-//}
-//.hljs-attribute,
-//.hljs-function .hljs-title,
-//.hljs-section,
-//.hljs-title.function_,
-//.ruby .hljs-property {
-//  color: #407ee7;
-//}
-//.diff .hljs-meta,
-//.hljs-keyword,
-//.hljs-template-tag,
-//.hljs-type {
-//  color: #6666ea;
-//}
-//.hljs-emphasis {
-//  color: #6666ea;
-//  font-style: italic;
-//}
-//.hljs-meta,
-//.hljs-meta .hljs-keyword,
-//.hljs-meta .hljs-string {
-//  color: #c33ff3;
-//}
-//.hljs-meta .hljs-keyword,
-//.hljs-meta-keyword {
-//  font-weight: 700;
-//}
 
 // Line number styles
 .hljs-ln {

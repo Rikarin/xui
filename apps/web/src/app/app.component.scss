@@ -5,11 +5,11 @@
   width: 100%;
   height: 100vh;
 
-  @include xui.background-level(primary);
+  @include xui.fill(primary);
 }
 
 xui-sider {
-  @include xui.background-level(secondary);
+  @include xui.fill(secondary);
 
   .logo {
     flex: 0 0 auto;
@@ -30,7 +30,7 @@ xui-sider {
 }
 
 xui-header {
-  @include xui.background-level(secondary-alt);
+  @include xui.fill(secondary-alt);
 
   justify-content: space-between;
   padding: 0 32px;
@@ -57,7 +57,7 @@ xui-content {
 }
 
 xui-footer {
-  @include xui.background-level(secondary-alt);
+  @include xui.fill(secondary-alt);
   justify-content: center;
 }
 

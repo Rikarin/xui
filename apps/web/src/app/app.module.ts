@@ -4,79 +4,21 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HighlightModule, HIGHLIGHT_OPTIONS, HighlightOptions } from 'ngx-highlightjs';
 
 import { AppComponent } from './app.component';
-import {
-  XuiLayoutModule,
-  XuiTitleModule,
-  XuiCardModule,
-  XuiMenuModule,
-  XuiButtonModule,
-  XuiBannerModule,
-  XuiInputModule,
-  XuiIconModule,
-  XuiSettingsModule,
-  XuiTabModule,
-  XuiContextMenuModule,
-  XuiProgressModule,
-  XuiCheckboxModule,
-  XuiSwitchModule,
-  XuiImageUploadModule,
-  XuiRadioListModule,
-  XuiDecagramModule,
-  XuiTooltipModule,
-  XuiSnackbarModule,
-  XuiTextareaModule,
-  XuiSelectModule,
-  XuiSliderModule,
-  XuiSpinnerModule,
-  XuiDividerModule,
-  XuiToggleModule,
-  XuiStatusModule
-} from 'xui';
+import { XuiLayoutModule, XuiCardModule, XuiMenuModule, XuiIconModule, XuiSwitchModule } from 'xui';
 import { RouterModule, Routes } from '@angular/router';
-import { CardComponent } from './components/card/card.component';
 import { OverviewComponent } from './components/overview/overview.component';
 import { GettingStartedComponent } from './components/getting-started/getting-started.component';
-import { ButtonComponent } from './components/button/button.component';
-import { BannerComponent } from './components/banner/banner.component';
-import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.component';
-import { LayoutComponent } from './components/layout/layout.component';
 import { NgxGoogleAnalyticsModule, NgxGoogleAnalyticsRouterModule } from 'ngx-google-analytics';
 import { environment } from '../environments/environment';
-import { SelectComponent } from './components/select/select.component';
 import { MatIconRegistry } from '@angular/material/icon';
 import { HttpClientModule } from '@angular/common/http';
 import { ThemingComponent } from './components/theming/theming.component';
-import { InputComponent } from './components/input/input.component';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { SettingsComponent } from './components/settings/settings.component';
-import { TabsComponent } from './components/tabs/tabs.component';
-import { ContextMenuComponent } from './components/context-menu/context-menu.component';
 import { CdkMenuModule } from '@angular/cdk/menu';
-import { ProgressComponent } from './components/progress/progress.component';
-import { ExampleComponent } from './components/example/example.component';
-import { CheckboxComponent } from './components/checkbox/checkbox.component';
-import { SwitchComponent } from './components/switch/switch.component';
-import { TypographyComponent } from './components/typography/typography.component';
-import { ImageUploadComponent } from './components/image-upload/image-upload.component';
-import { TableComponent } from './components/table/table.component';
-import { CdkTableModule } from '@angular/cdk/table';
-import { UsageComponent } from './components/usage/usage.component';
-import { RadioListComponent } from './components/radio-list/radio-list.component';
-import { DecagramComponent } from './components/decagram/decagram.component';
-import { TooltipComponent } from './components/tooltip/tooltip.component';
-import { SliderComponent } from './components/slider/slider.component';
-import { SpinnerComponent } from './components/spinner/spinner.component';
-import { ExamplesModule } from '../examples/examples.module';
 import { HighlightPlusModule } from 'ngx-highlightjs/plus';
-import { ComponentsOverviewComponent } from './components/components-overview/components-overview.component';
-import { IconComponent } from './components/icon/icon.component';
-import { InfomationComponent } from './components/infomation/infomation.component';
-import { TextareaComponent } from './components/textarea/textarea.component';
-import { SnackbarComponent } from './components/snackbar/snackbar.component';
-import { DividerComponent } from './components/divider/divider.component';
-import { ToggleComponent } from './components/toggle/toggle.component';
-import { StatusComponent } from './components/status/status.component';
+import { ComponentsModule } from './components/components.module';
+import { NgxEchartsModule } from 'ngx-echarts';
 
 const routes: Routes = [
   {
@@ -84,120 +26,39 @@ const routes: Routes = [
     component: OverviewComponent,
     pathMatch: 'full'
   },
-  { path: 'banner', component: BannerComponent },
-  { path: 'breadcrumb', component: BreadcrumbComponent },
-  { path: 'button', component: ButtonComponent },
-  { path: 'card', component: CardComponent },
-  { path: 'checkbox', component: CheckboxComponent },
-  { path: 'components-overview', component: ComponentsOverviewComponent },
-  { path: 'context-menu', component: ContextMenuComponent },
-  { path: 'decagram', component: DecagramComponent },
-  { path: 'divider', component: DividerComponent },
   { path: 'getting-started', component: GettingStartedComponent },
-  { path: 'icon', component: IconComponent },
-  { path: 'image-upload', component: ImageUploadComponent },
-  { path: 'input', component: InputComponent },
-  { path: 'layout', component: LayoutComponent },
-  { path: 'progress', component: ProgressComponent },
-  { path: 'radio-list', component: RadioListComponent },
-  { path: 'select', component: SelectComponent },
-  { path: 'settings', component: SettingsComponent },
-  { path: 'slider', component: SliderComponent },
-  { path: 'snackbar', component: SnackbarComponent },
-  { path: 'spinner', component: SpinnerComponent },
-  { path: 'status', component: StatusComponent },
-  { path: 'switch', component: SwitchComponent },
-  { path: 'table', component: TableComponent },
-  { path: 'tabs', component: TabsComponent },
-  { path: 'textarea', component: TextareaComponent },
   { path: 'theming', component: ThemingComponent },
-  { path: 'toggle', component: ToggleComponent },
-  { path: 'tooltip', component: TooltipComponent },
-  { path: 'typography', component: TypographyComponent }
+
+  { path: 'charts', loadChildren: () => import('./charts/charts.module').then(x => x.ChartsModule) },
+  { path: 'xui', loadChildren: () => import('./xui-components/xui-components.module').then(x => x.XuiComponentsModule) }
 ];
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    OverviewComponent,
-    GettingStartedComponent,
-    CardComponent,
-    ButtonComponent,
-    BannerComponent,
-    BreadcrumbComponent,
-    LayoutComponent,
-    SelectComponent,
-    ThemingComponent,
-    InputComponent,
-    SettingsComponent,
-    TabsComponent,
-    ContextMenuComponent,
-    ProgressComponent,
-    ExampleComponent,
-    CheckboxComponent,
-    SwitchComponent,
-    TypographyComponent,
-    ImageUploadComponent,
-    TableComponent,
-    UsageComponent,
-    RadioListComponent,
-    DecagramComponent,
-    TooltipComponent,
-    SliderComponent,
-    SpinnerComponent,
-    ComponentsOverviewComponent,
-    IconComponent,
-    InfomationComponent,
-    TextareaComponent,
-    SnackbarComponent,
-    DividerComponent,
-    ToggleComponent,
-    StatusComponent
-  ],
+  declarations: [AppComponent, OverviewComponent, GettingStartedComponent, ThemingComponent],
   imports: [
     RouterModule.forRoot(routes),
     BrowserModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
+    HttpClientModule,
     HighlightModule,
     HighlightPlusModule,
-    HttpClientModule,
 
     NgxGoogleAnalyticsModule.forRoot(environment.ga),
     NgxGoogleAnalyticsRouterModule,
 
+    NgxEchartsModule.forRoot({
+      echarts: () => import('echarts')
+    }),
+
     TranslateModule.forRoot(),
-    ExamplesModule,
-
+    ComponentsModule,
     CdkMenuModule,
-    CdkTableModule,
-
-    XuiTitleModule,
     XuiLayoutModule,
-    XuiCardModule,
     XuiMenuModule,
-    XuiButtonModule,
-    XuiBannerModule,
-    XuiInputModule,
     XuiIconModule,
-    XuiProgressModule,
-    XuiSettingsModule,
-    XuiTabModule,
-    XuiContextMenuModule,
-    XuiCheckboxModule,
-    XuiSwitchModule,
-    XuiImageUploadModule,
-    XuiRadioListModule,
-    XuiDecagramModule,
-    XuiTooltipModule,
-    XuiSnackbarModule,
-    XuiTextareaModule,
-    XuiSelectModule,
-    XuiSliderModule,
-    XuiSpinnerModule,
-    XuiDividerModule,
-    XuiToggleModule,
-    XuiStatusModule
+    XuiCardModule,
+    XuiSwitchModule
   ],
   providers: [
     {

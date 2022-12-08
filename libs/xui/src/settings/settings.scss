@@ -1,53 +1,53 @@
-@use '../theming/theming';
-@use '../core/scrollbar';
-@use '../core/typography';
+@use 'variables' as *;
+@use '../xui';
 
-dialog {
-  width: 100%;
-  height: 100%;
-  padding: 0;
+@mixin theme() {
+  xui-settings dialog {
+    width: 100%;
+    height: 100%;
+    padding: 0;
 
-  position: fixed;
-  inset: 0 0 0 0;
-  z-index: 10000;
-  border: 0;
-  user-select: none;
+    position: fixed;
+    inset: 0 0 0 0;
+    z-index: 10000;
+    border: 0;
+    user-select: none;
 
-  @include theming.background-level(primary);
-}
+    @include xui.fill(primary);
+  }
 
-.settings-dialog {
-  width: 100%;
-  height: 100%;
-  display: flex;
-
-  @include theming.background-level(primary);
-
-  .settings-menu {
-    flex: 1 0 220px;
+  .x-settings {
+    width: 100%;
+    height: 100%;
     display: flex;
-    justify-content: flex-end;
-    @include theming.background-level(secondary);
 
-    nav {
-      width: 240px;
+    @include xui.fill(primary);
+
+    &-menu {
+      flex: 1 0 220px;
       display: flex;
-      flex-direction: column;
-      padding: 50px 5px 50px 20px;
+      justify-content: flex-end;
+      @include xui.fill(secondary);
 
-      font-weight: 500;
+      nav {
+        width: 240px;
+        display: flex;
+        flex-direction: column;
+        padding: 50px 5px 50px 20px;
 
-      * {
-        margin: 2px 10px;
+        font-weight: 500;
+
+        * {
+          margin: 2px 10px;
+        }
+
+        &:focus {
+          outline: none;
+        }
       }
 
-      &:focus {
-        outline: none;
-      }
-
-      .item {
+      &-item {
         padding: 0 8px;
-        border-radius: 4px;
         cursor: pointer;
 
         overflow-x: hidden;
@@ -56,89 +56,91 @@ dialog {
         line-height: 2rem;
 
         &:hover {
-          background-color: theming.modifier-hover();
+          background-color: xui.modifier-hover();
         }
 
-        &.active {
-          background-color: theming.modifier-active();
+        &-active {
+          background-color: xui.modifier-active();
         }
 
-        &.focus {
+        &-focus {
           outline: 5px solid var(--focus-color);
           z-index: 1;
         }
 
-        @include typography.typography-level(button);
+        @include xui.border-radius($border-radius);
+        @include xui.typography-level(button);
       }
 
-      .category {
+      &-category {
         font-family: var(--font-headline-1-family);
         font-weight: 700;
         font-size: 0.75rem;
         padding-left: 8px;
+        pointer-events: none;
       }
 
-      .divider {
+      &-divider {
         height: 1px;
         margin: 12px;
         background-color: var(--background-color-accent);
       }
 
-      .red {
+      &-red {
         color: var(--error-color-default);
       }
     }
-  }
 
-  .settings-right {
-    flex: 1 1 800px;
-    display: flex;
-  }
-
-  .settings-content {
-    min-width: 400px;
-    max-width: 60%;
-
-    flex: 1 1 auto;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden auto;
-
-    margin: 50px 40px 0 50px;
-    @include scrollbar.scrollbar();
-  }
-
-  .settings-close-anchor {
-    flex: 0 0 40px;
-  }
-
-  .settings-close {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: fixed;
-    top: 50px;
-
-    cursor: pointer;
-    color: rgba(var(--background-color-primary-contrast-rgb), 0.4);
-
-    font-size: 0.8rem;
-    font-weight: 500;
-
-    xui-icon {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-
-      &:focus-visible {
-        outline: 5px solid var(--focus-color);
-        outline-offset: -4px;
-        z-index: 1;
-      }
+    &-right {
+      flex: 1 1 800px;
+      display: flex;
     }
 
-    &:hover {
-      color: var(--background-color-primary-contrast);
+    &-content {
+      min-width: 400px;
+      max-width: 60%;
+
+      flex: 1 1 auto;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden auto;
+
+      margin: 50px 40px 0 50px;
+      @include xui.scrollbar-regular();
+    }
+
+    &-close-anchor {
+      flex: 0 0 40px;
+    }
+
+    &-close {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: fixed;
+      top: 50px;
+
+      cursor: pointer;
+      color: rgba(var(--background-color-primary-contrast-rgb), 0.4);
+
+      font-size: 0.8rem;
+      font-weight: 500;
+
+      xui-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+
+        @include xui.focusable();
+
+        &:focus-visible {
+          outline-offset: -4px;
+        }
+      }
+
+      &:hover {
+        color: var(--background-color-primary-contrast);
+      }
     }
   }
 }

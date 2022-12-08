@@ -1,46 +1,48 @@
-@use '../theming/theming';
+@use '../xui';
 
-xui-tab {
-  display: contents;
-}
+@mixin theme() {
+  xui-tab {
+    display: contents;
+  }
 
-:host {
-  flex: 100%;
-  display: flex;
-  flex-direction: column;
-}
+  xui-tab-group {
+    flex: 100%;
+    display: flex;
+    flex-direction: column;
+  }
 
-.list {
-  display: flex;
-  gap: 24px;
-  margin: 15px;
-}
+  .x-tabs-list {
+    display: flex;
+    gap: 24px;
+    margin: 15px;
+  }
 
-.entry {
-  user-select: none;
-  cursor: pointer;
-  font-weight: 500;
-  opacity: 0.8;
-
-  &.active {
+  .x-tabs-active {
     color: var(--primary-color-default);
     border-bottom: 2px solid var(--primary-color-default);
     padding-bottom: 4px;
     opacity: 1;
   }
 
-  &:hover {
-    opacity: 1;
-  }
-
-  &[disabled] {
-    color: theming.text-muted();
-    cursor: not-allowed;
-    opacity: 1;
+  .x-tabs-entry {
+    user-select: none;
+    cursor: pointer;
+    font-weight: 500;
+    opacity: 0.8;
 
     &:hover {
-      color: theming.text-muted() !important;
       opacity: 1;
+    }
+
+    &[disabled] {
+      color: xui.text-muted();
+      cursor: not-allowed;
+      opacity: 1;
+
+      &:hover {
+        color: xui.text-muted() !important;
+        opacity: 1;
+      }
     }
   }
 }

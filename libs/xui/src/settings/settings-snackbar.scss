@@ -1,18 +1,21 @@
-@use '../theming/theming';
+@use 'variables' as *;
+@use '../xui';
 
-:host {
-  width: 700px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px !important;
-  border-radius: 4px;
+@mixin theme() {
+  xui-settings-snackbar {
+    width: 700px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px;
 
-  @include theming.background-level(floating);
-  @include theming.elevate(high);
-}
+    @include xui.border-radius($border-radius);
+    @include xui.fill(floating);
+    @include xui.elevate(high);
+  }
 
-::ng-deep .xui-settings-save-reset-snackbar {
-  width: 700px;
-  max-width: 700px !important;
+  .x-settings-snackbar {
+    width: 700px;
+    max-width: 700px !important;
+  }
 }

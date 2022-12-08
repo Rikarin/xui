@@ -6,23 +6,19 @@ import {
   Input,
   OnInit,
   Optional,
-  Self,
-  ViewEncapsulation
+  Self
 } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { InputBoolean } from '../utils';
-import { TranslateService } from '@ngx-translate/core';
-import { InputGroupService } from '../input/input-group.service';
 import { CheckboxColor } from './checkbox.types';
+import { BooleanInput } from '@angular/cdk/coercion';
 
 @Component({
   selector: 'xui-checkbox',
   exportAs: 'xuiCheckbox',
-  styleUrls: ['checkbox.scss'],
-  encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: ` <div [ngClass]="styles">
-    <div class="box" [class.checked]="value">
+    <div class="x-checkbox-box" tabindex="0" [class.x-checkbox-checked]="value">
       <svg
         *ngIf="value"
         viewBox="0 0 24 24"
@@ -38,7 +34,10 @@ import { CheckboxColor } from './checkbox.types';
   </div>`
 })
 export class XuiCheckboxComponent implements ControlValueAccessor, OnInit {
-  private onChange?: (source?: boolean) => void;
+  static ngAcceptInputType_disabled: BooleanInput;
+  static ngAcceptInputType_value: BooleanInput;
+
+  private onChange?: (source: boolean) => void;
   private onTouched?: () => void;
   _value = false;
   touched = false;
@@ -48,11 +47,11 @@ export class XuiCheckboxComponent implements ControlValueAccessor, OnInit {
 
   get styles() {
     const ret: { [klass: string]: boolean } = {
-      checkbox: true,
-      disabled: this.disabled
+      'x-checkbox': true,
+      'x-checkbox-disabled': this.disabled
     };
 
-    ret[`checkbox-color-${this.color}`] = true;
+    ret[`x-checkbox-${this.color}`] = true;
     return ret;
   }
 
@@ -70,12 +69,7 @@ export class XuiCheckboxComponent implements ControlValueAccessor, OnInit {
     }
   }
 
-  constructor(
-    private changeDetectorRef: ChangeDetectorRef,
-    private translation: TranslateService,
-    @Optional() private groupService: InputGroupService,
-    @Self() @Optional() public control?: NgControl
-  ) {
+  constructor(private changeDetectorRef: ChangeDetectorRef, @Self() @Optional() public control?: NgControl) {
     if (this.control) {
       this.control.valueAccessor = this;
     }
@@ -89,12 +83,16 @@ export class XuiCheckboxComponent implements ControlValueAccessor, OnInit {
     this.value = source;
   }
 
-  registerOnChange(onChange: (source?: boolean) => void) {
+  registerOnChange(onChange: (source: boolean) => void) {
     this.onChange = onChange;
   }
 
   registerOnTouched(onTouched: () => void) {
     this.onTouched = onTouched;
+  }
+
+  setDisabledState(isDisabled: boolean): void {
+    this.disabled = isDisabled;
   }
 
   markAsTouched() {
@@ -105,7 +103,11 @@ export class XuiCheckboxComponent implements ControlValueAccessor, OnInit {
   }
 
   @HostListener('click')
-  private _click() {
+  @HostListener('keydown.enter', ['$event'])
+  @HostListener('keydown.space', ['$event'])
+  private _click(event: KeyboardEvent) {
+    event?.preventDefault();
+
     if (!this.disabled) {
       this.value = !this.value;
     }

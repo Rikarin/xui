@@ -1,79 +1,78 @@
-@use 'sass:map';
-@use '../core/core';
-@use '../theming/theming';
+@use 'variables' as *;
+@use '../xui';
 
-.content {
-  flex: 0 0 auto;
-  display: flex;
-  gap: 8px;
-  justify-content: space-between;
-  align-items: center;
-  border-radius: 4px;
-  padding: 4px;
+@mixin theme() {
+  .x-switch {
+    flex: 0 0 auto;
+    display: flex;
+    gap: 8px;
+    justify-content: space-between;
+    align-items: center;
+    padding: 4px;
 
-  input {
-    opacity: 0;
-    width: 100%;
-    height: 100%;
-    cursor: pointer;
-  }
-}
+    input {
+      opacity: 0;
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+    }
 
-.disabled {
-  @include core.disabled-filter();
-  cursor: not-allowed;
+    &-disabled {
+      @include xui.disabled();
+      cursor: not-allowed;
 
-  input {
-    cursor: not-allowed;
-  }
-}
+      input {
+        cursor: not-allowed;
+      }
+    }
 
-.switch {
-  position: relative;
-  width: 42px;
-  height: 24px;
+    &-element {
+      position: relative;
+      width: 42px;
+      height: 24px;
 
-  background-color: theming.modifier-accent();
-  border-radius: 100px;
-  cursor: pointer;
+      background-color: xui.modifier-accent();
+      border-radius: 100px;
+      cursor: pointer;
 
-  @include theming.focus-visible();
-}
+      @include xui.focusable();
+    }
 
-.handle {
-  display: grid;
-  place-items: center;
-  background-color: white;
-  color: theming.modifier-accent();
-  border-radius: 50%;
+    &-handle {
+      display: grid;
+      place-items: center;
+      background-color: $handle-color;
+      color: xui.modifier-accent();
+      border-radius: 50%;
 
-  position: absolute;
-  top: 3px;
-  left: 3px;
-  width: 18px;
-  height: 18px;
-  transition: all 0.4s ease-out;
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 18px;
+      height: 18px;
+      transition: all 0.4s ease-out;
 
-  xui-icon {
-    width: 16px;
-    height: 16px;
-    margin-bottom: auto;
-  }
-}
+      xui-icon {
+        width: 16px;
+        height: 16px;
+      }
+    }
 
-.enabled {
-  .handle {
-    left: calc(100% - 21px);
-    transform: rotate(360deg);
-  }
-}
+    &-toggled {
+      .x-switch-handle {
+        left: calc(100% - 21px);
+        transform: rotate(360deg);
+      }
+    }
 
-@each $name in theming.$variations {
-  .color-#{$name} {
-    background-color: var(--#{$name}-color-default);
+    @each $name in xui.$color-variations {
+      &-#{$name} {
+        background-color: var(--#{$name}-color-default);
 
-    .handle {
-      color: var(--#{$name}-color-default);
+        .x-switch-handle {
+          color: var(--#{$name}-color-default);
+        }
+      }
     }
   }
 }

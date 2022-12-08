@@ -1,0 +1,20 @@
+@use 'sass:map';
+@use 'sass:color';
+
+//@forward 'banner/banner' as banner-* show banner-theme;
+
+@mixin all-component-themes($theme) {
+  //@include banner.theme($theme);
+}
+
+@mixin all-component-typographies($theme) {
+  //@include button.typography($theme);
+}
+
+@mixin all-root-variables($theme) {
+  :root {
+    //@include theming.create-color-variables($theme);
+    //@include theming.create-elevation-variables($theme);
+    //@include typography.create-typography-variables($theme);
+  }
+}

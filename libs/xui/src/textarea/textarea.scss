@@ -1,70 +1,66 @@
-@use '../core/core';
-@use '../core/scrollbar';
-@use '../theming/theming';
-@use '../core/typography';
+@use 'variables' as *;
+@use '../xui';
 
-:host {
-  display: flex;
-  flex-direction: column;
-}
-
-textarea {
-  width: 100%;
-  height: auto;
-  resize: none;
-  padding: 12px 32px 12px 12px;
-
-  border: none;
-  outline: none;
-  border-radius: 4px;
-
-  @include typography.typography-level(body-1);
-  @include scrollbar.scrollbar();
-}
-
-.textarea {
-  display: flex;
-  position: relative;
-  border-radius: 4px;
-
-  @include theming.focus-visible();
-}
-
-.color-light {
-  textarea {
-    @include theming.background-level(secondary);
+@mixin theme() {
+  xui-textarea {
+    display: flex;
+    flex-direction: column;
   }
-}
 
-.color-dark {
-  textarea {
-    @include theming.background-level(tertiary);
+  .x-textarea {
+    display: flex;
+    position: relative;
+
+    @include xui.border-radius($border-radius);
+    @include xui.focusable();
+
+    textarea {
+      width: 100%;
+      height: auto;
+      resize: none;
+      padding: 12px 32px 12px 12px;
+
+      border: none;
+      outline: none;
+
+      @include xui.border-radius($border-radius);
+      @include xui.typography-level(body-1);
+      @include xui.scrollbar-regular();
+    }
+
+    &-light textarea {
+      @include xui.fill(secondary);
+    }
+
+    &-dark textarea {
+      @include xui.fill(tertiary);
+    }
+
+    &-disabled {
+      @include xui.disabled();
+
+      textarea {
+        cursor: not-allowed;
+      }
+    }
+
+    &-word-counter {
+      position: absolute;
+      bottom: 4px;
+      right: 16px;
+
+      @include xui.typography-level(caption);
+    }
+
+    &-error {
+      outline: 2px solid var(--error-color-default);
+    }
+
+    &-error-text {
+      color: var(--error-color-default);
+      font-size: 0.8rem;
+      margin-top: 4px;
+      margin-left: 8px;
+    }
   }
-}
-
-.disabled {
-  @include core.disabled-filter();
-
-  textarea {
-    cursor: not-allowed;
-  }
-}
-
-.word-counter {
-  position: absolute;
-  bottom: 4px;
-  right: 16px;
-
-  @include typography.typography-level(caption);
-}
-
-.error {
-  outline: 2px solid var(--error-color-default);
-}
-
-.error-text {
-  color: var(--error-color-default);
-  font-size: 0.8rem;
-  margin-top: 4px;
-  margin-left: 8px;
 }

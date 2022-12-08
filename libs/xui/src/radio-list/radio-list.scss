@@ -1,10 +1,12 @@
-.radio-list {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  justify-content: space-between;
+@mixin theme() {
+  .x-radio-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    justify-content: space-between;
 
-  &:focus-visible {
-    outline: none;
+    &:focus-visible {
+      outline: none;
+    }
   }
 }

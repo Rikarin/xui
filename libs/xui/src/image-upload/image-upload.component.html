@@ -1,9 +1,9 @@
 <div [ngClass]="classes" [ngStyle]="styles" tabindex="0">
   <input #input type="file" (change)="handleFileInput($event)" accept="image/*" tabindex="-1" />
-  <div class="upload-hover" [style.border-radius.%]="borderRadius">{{ hoverLabel | translate }}</div>
-  <div *ngIf="!backgroundImage" class="no-image">{{ 'xui.image_upload.no_image' | translate }}</div>
+  <div class="x-image-upload-hover" [style.border-radius.%]="borderRadius">{{ hoverLabel | translate }}</div>
+  <div *ngIf="!backgroundImage" class="x-image-upload-no-image">{{ 'xui.image_upload.no_image' | translate }}</div>
 
-  <div class="upload-icon">
+  <div class="x-image-upload-icon">
     <xui-icon>image-plus-outline</xui-icon>
   </div>
 </div>

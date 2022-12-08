@@ -1,0 +1,14 @@
+<app-infomation title="Date Picker">
+  <pre>Used to pick a specific date</pre>
+
+  <code apiReference highlight="import { XuiDatePickerModule } from 'xui';"></code>
+</app-infomation>
+
+<app-example>
+  <xui-date-picker [formControl]="todayControl"></xui-date-picker>
+  {{ todayControl.value | json }}
+  <xui-date-picker [disabledDate]="disabledBeforeToday"></xui-date-picker>
+
+  <xui-date-picker readOnly placeholder="Read Only"></xui-date-picker>
+  <xui-date-picker disabled placeholder="Disabled"></xui-date-picker>
+</app-example>

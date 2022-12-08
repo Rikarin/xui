@@ -1,0 +1,76 @@
+<div class="entries">
+  <xui-input color="dark" size="small">
+    <xui-icon xuiPostfix>magnify</xui-icon>
+  </xui-input>
+
+  <div class="buttons">
+    <xui-button> <xui-icon>plus-circle-outline</xui-icon> Add Entities </xui-button>
+
+    <xui-button type="icon">
+      <xui-icon>refresh</xui-icon>
+    </xui-button>
+  </div>
+
+  <div class="group" *ngFor="let group of entities">
+    <div class="name" (click)="toggleGroup(group)">
+      <xui-icon class="menu-icon">{{ isOpened(group) ? 'menu-down' : 'menu-right' }}</xui-icon>
+      <div class="content">
+        <xui-icon>{{ group.icon }}</xui-icon>
+        {{ group.name }}
+      </div>
+    </div>
+
+    <div class="entities" *ngIf="isOpened(group)">
+      <div
+        class="entity"
+        [class.active]="isActive(entity)"
+        *ngFor="let entity of group.entities"
+        (click)="activate(entity)"
+      >
+        <xui-icon>{{ 'check' }}</xui-icon>
+        {{ entity.name }}
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="metrics">
+  <xui-input color="dark" size="small">
+    <xui-icon xuiPostfix>magnify</xui-icon>
+  </xui-input>
+
+  <div class="group" *ngFor="let group of active?.metrics">
+    <div class="name" (click)="toggleGroup(group)">
+      <xui-icon class="menu-icon">{{ isOpened(group) ? 'menu-down' : 'menu-right' }}</xui-icon>
+      <div class="content">
+        {{ group.name }}
+      </div>
+    </div>
+
+    <div class="entities" *ngIf="isOpened(group)" cdkDropList cdkDropListSortingDisabled>
+      <div
+        class="metric"
+        *ngFor="let metric of group.metrics"
+        cdkDrag
+        [cdkDragData]="{ metric, entity: active }"
+        (cdkDragStarted)="analysis.dragStarted()"
+        (cdkDragEnded)="analysis.dragEnded()"
+      >
+        <span style="display: none" *cdkDragPlaceholder></span>
+        <div class="drag-preview" *cdkDragPreview>
+          <xui-icon>drag-vertical</xui-icon>
+          <div>
+            {{ metric.name }}
+            <div class="description">{{ active!.name }}</div>
+          </div>
+        </div>
+
+        <xui-icon>drag-vertical</xui-icon>
+        <div>
+          {{ metric.name }}
+          <div class="description">{{ active!.name }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

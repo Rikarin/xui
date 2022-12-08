@@ -1,3 +1,4 @@
+import { BooleanInput } from '@angular/cdk/coercion';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -6,8 +7,7 @@ import {
   Input,
   OnInit,
   Optional,
-  Self,
-  ViewEncapsulation
+  Self
 } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { InputBoolean } from '../utils';
@@ -16,24 +16,24 @@ import { ToggleColor } from './toggle.types';
 @Component({
   selector: 'xui-toggle',
   exportAs: 'xuiToggle',
-  styleUrls: ['./toggle.scss'],
-  encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div [ngClass]="style" [tabindex]="disabled ? -1 : 0">
-      <div [class.clip]="!value">
-        <div class="content">
+      <div [class.x-toggle-clip]="!value">
+        <div class="x-toggle-content">
           <xui-icon><ng-content></ng-content></xui-icon>
         </div>
       </div>
-      <div [class.toggled]="!value">
-        <div class="line"></div>
+      <div [class.x-toggle-toggled]="!value">
+        <div class="x-toggle-line"></div>
       </div>
     </div>
   `
 })
 export class XuiToggleComponent implements ControlValueAccessor, OnInit {
-  private onChange?: (source?: boolean) => void;
+  static ngAcceptInputType_disabled: BooleanInput;
+
+  private onChange?: (source: boolean) => void;
   private onTouched?: () => void;
 
   private _value = true;
@@ -57,11 +57,11 @@ export class XuiToggleComponent implements ControlValueAccessor, OnInit {
 
   get style() {
     const ret: { [klass: string]: boolean } = {
-      toggle: true,
-      disabled: this.disabled
+      'x-toggle': true,
+      'x-toggle-disabled': this.disabled
     };
 
-    ret[`toggle-color-${this.color}`] = this.color !== 'none';
+    ret[`x-toggle-${this.color}`] = this.color !== 'none';
     return ret;
   }
 
@@ -79,12 +79,16 @@ export class XuiToggleComponent implements ControlValueAccessor, OnInit {
     this.value = source;
   }
 
-  registerOnChange(onChange: (source?: boolean) => void) {
+  registerOnChange(onChange: (source: boolean) => void) {
     this.onChange = onChange;
   }
 
   registerOnTouched(onTouched: () => void) {
     this.onTouched = onTouched;
+  }
+
+  setDisabledState(isDisabled: boolean): void {
+    this.disabled = isDisabled;
   }
 
   markAsTouched() {

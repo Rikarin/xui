@@ -1,29 +1,34 @@
-@use 'sass:map';
-@use '../theming/theming';
+@use '../xui';
 
-:host {
-  display: inline-flex;
-  width: fit-content;
-  position: relative;
-}
+@mixin theme() {
+  xui-decagram {
+    display: inline-flex;
+    width: fit-content;
+    position: relative;
 
-xui-icon {
-  width: 100%;
-}
-
-.icon {
-  position: absolute;
-  inset: 0 0 0 0;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-@each $value in theming.$variations {
-  .decagram-color-#{$value} {
-    color: var(--#{$value}-color-default);
+    xui-icon {
+      width: 100%;
+    }
   }
 
-  .icon {
-    color: var(--#{$value}-color-default-contrast);
+  .x-decagram-icon {
+    position: absolute;
+    inset: 0 0 0 0;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .x-decagram-triangle {
+    padding-top: 5px;
+  }
+
+  @each $value in xui.$color-variations {
+    .x-decagram-#{$value} {
+      color: var(--#{$value}-color-default);
+
+      .x-decagram-icon {
+        color: var(--#{$value}-color-default-contrast);
+      }
+    }
   }
 }

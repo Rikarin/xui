@@ -3,6 +3,7 @@ import { InputBoolean } from 'xui';
 import sdk, { Project, ProjectFiles } from '@stackblitz/sdk';
 import { HttpClient } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
+import { BooleanInput } from '@angular/cdk/coercion';
 
 @Component({
   selector: 'app-example',
@@ -11,6 +12,8 @@ import { lastValueFrom } from 'rxjs';
   // encapsulation: ViewEncapsulation.Emulated
 })
 export class ExampleComponent implements OnInit {
+  static ngAcceptInputType_todo: BooleanInput;
+
   allFiles: File[] = [];
 
   @Input() files: { [name: string]: FileType } = {};

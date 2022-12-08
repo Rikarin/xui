@@ -1,11 +1,6 @@
 <dialog [open]="opened" cdkTrapFocus>
-  <div
-    class="settings-dialog"
-    [@open]="openedAnimation"
-    [@bounce]="animationState"
-    (@bounce.done)="animationState = false"
-  >
-    <div class="settings-menu">
+  <div class="x-settings" [@open]="openedAnimation" [@bounce]="animationState" (@bounce.done)="animationState = false">
+    <div class="x-settings-menu">
       <nav
         tabindex="0"
         (keydown.enter)="navigate(focusedItem ?? 0)"
@@ -19,25 +14,25 @@
       >
         <div
           *ngFor="let item of items; let i = index"
-          [class.item]="item.type === 'item'"
-          [class.active]="i === defaultPage"
-          [class.focus]="i === focusedItem && menuFocused"
-          [class.category]="item.type === 'category'"
-          [class.divider]="item.type === 'divider'"
-          [class.red]="item.critical"
+          [class.x-settings-menu-item]="item.type === 'item'"
+          [class.x-settings-menu-item-active]="i === defaultPage"
+          [class.x-settings-menu-item-focus]="i === focusedItem && menuFocused"
+          [class.x-settings-menu-category]="item.type === 'category'"
+          [class.x-settings-menu-divider]="item.type === 'divider'"
+          [class.x-settings-menu-red]="item.critical"
           (click)="navigate(i); menuFocused = false"
         >
           {{ item.name ? (item.name | translate) : '' }}
         </div>
       </nav>
     </div>
-    <div class="settings-right">
-      <div class="settings-content">
+    <div class="x-settings-right">
+      <div class="x-settings-content">
         <ng-template [cdkPortalOutlet]="portal" (attached)="attached($event)"></ng-template>
       </div>
 
-      <div class="settings-close-anchor">
-        <div class="settings-close" (click)="close()">
+      <div class="x-settings-close-anchor">
+        <div class="x-settings-close" (click)="close()">
           <xui-icon tabindex="0" (keydown.space)="close()" (keydown.enter)="close()">close-circle-outline</xui-icon>
           ESC
         </div>

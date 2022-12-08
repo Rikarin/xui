@@ -1,0 +1,11 @@
+@forward 'variables';
+
+@use 'input-addon';
+@use 'input-group';
+@use 'input';
+
+@mixin theme() {
+  @include input.theme();
+  @include input-addon.theme();
+  @include input-group.theme();
+}

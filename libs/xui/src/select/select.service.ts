@@ -11,7 +11,7 @@ export class SelectService {
     return this._selected.asObservable();
   }
 
-  select(value: string) {
+  select(value: string | null) {
     const option = this._components.value.find(x => x.value === value);
 
     if (option) {

@@ -1,88 +1,82 @@
-@use '../core/core';
-@use '../theming/theming';
-@use '../core/typography';
+@use 'variables' as *;
+@use '../xui';
 
-//xui-input {
-//  display: flex;
-//  flex-direction: column;
-//}
+@mixin theme() {
+  .x-input {
+    max-height: 40px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    box-sizing: border-box;
 
-.input {
-  max-height: 39px;
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  box-sizing: border-box;
-  border-radius: 3px;
+    @include xui.border-radius($border-radius);
+    @include xui.focusable();
 
-  @include theming.focus-visible();
-}
+    input {
+      margin: 0;
+      padding: 0;
+      border: 0;
 
-input {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  //outline: 0;
+      vertical-align: baseline;
+      flex: 100%;
+      background-color: transparent;
 
-  vertical-align: baseline;
-  flex: 100%;
-  background-color: transparent;
+      @include xui.typography-level(body-1);
 
-  @include typography.typography-level(body-1);
+      &:focus {
+        outline: none;
+      }
 
-  &:focus {
-    outline: none;
-  }
+      &:disabled {
+        @include xui.disabled();
+        cursor: not-allowed;
+      }
 
-  &:disabled {
-    @include core.disabled-filter();
-    cursor: not-allowed;
-  }
+      &::placeholder {
+        filter: brightness(0.8) opacity(0.5);
+      }
+    }
 
-  &::placeholder {
-    filter: brightness(0.8) opacity(0.5);
-  }
-}
+    &-light {
+      background-color: var(--background-color-secondary);
 
-.input-color-light {
-  background-color: var(--background-color-secondary);
+      input {
+        -webkit-text-fill-color: var(--background-color-secondary-contrast);
+        caret-color: var(--background-color-secondary-contrast);
+      }
+    }
 
-  input {
-    -webkit-text-fill-color: var(--background-color-secondary-contrast);
-    caret-color: var(--background-color-secondary-contrast);
-  }
-}
+    &-dark {
+      background-color: var(--background-color-tertiary);
 
-.input-color-dark {
-  background-color: var(--background-color-tertiary);
+      input {
+        -webkit-text-fill-color: var(--background-color-tertiary-contrast);
+        caret-color: var(--background-color-tertiary-contrast);
+      }
+    }
 
-  input {
-    -webkit-text-fill-color: var(--background-color-tertiary-contrast);
-    caret-color: var(--background-color-tertiary-contrast);
-  }
-}
+    &-error {
+      outline: 2px solid var(--error-color-default);
+    }
 
-.input-error {
-  outline: 2px solid var(--error-color-default);
-}
+    &-error-text {
+      color: var(--error-color-default);
+      font-size: 0.8rem;
+      margin-top: 4px;
+      margin-left: 8px;
+    }
 
-.input-error-text {
-  color: var(--error-color-default);
-  font-size: 0.8rem;
-  margin-top: 4px;
-  margin-left: 8px;
-}
+    &-large {
+      padding: 8px;
+    }
 
-.input-normal {
-  //padding: 12px;
-  padding: 8px;
-}
+    &-small {
+      padding: 4px 12px;
 
-.input-small {
-  padding: 4px 12px;
-
-  input {
-    font-size: 0.85rem;
-    font-weight: 500;
+      input {
+        font-size: 0.85rem;
+        font-weight: 500;
+      }
+    }
   }
 }

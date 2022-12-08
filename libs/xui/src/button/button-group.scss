@@ -1,23 +1,26 @@
-:host {
-  width: fit-content;
-  display: flex;
-}
+@use 'variables' as *;
+@use '../xui';
 
-xui-button::part(button) {
-  border-radius: 0 !important;
-  margin-right: 0;
-}
+@mixin theme() {
+  xui-button-group {
+    width: fit-content;
+    display: flex;
 
-xui-button:first-of-type::part(button) {
-  border-top-left-radius: 5px !important;
-  border-bottom-left-radius: 5px !important;
-}
+    .x-button {
+      border-radius: 0;
+      margin-right: 0;
+    }
 
-xui-button:last-of-type::part(button) {
-  border-top-right-radius: 5px !important;
-  border-bottom-right-radius: 5px !important;
-}
+    > xui-button:first-child .x-button {
+      @include xui.border-left-radius-only($border-radius);
+    }
 
-xui-button:not(:first-of-type)::part(button) {
-  margin-left: -1px;
+    > xui-button:last-child .x-button {
+      @include xui.border-right-radius-only($border-radius);
+    }
+
+    > xui-button:not(:first-child) .x-button {
+      margin-left: -1px;
+    }
+  }
 }

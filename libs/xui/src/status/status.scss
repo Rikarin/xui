@@ -1,41 +1,40 @@
-:host {
-  display: inline-flex;
-  width: 12px;
+@use 'sass:map';
+@use 'variables' as *;
 
-  --idle-color: #efb50c;
-  --online-color: #108548;
-  --dnd-color: #dd2b0e;
-  --offline-color: #88929c;
-}
+@mixin theme() {
+  xui-status {
+    display: inline-flex;
+    width: 12px;
 
-.status {
-  width: 100%;
-  aspect-ratio: 1;
+    svg {
+      position: absolute;
+      width: 0;
+      height: 0;
+    }
+  }
 
-  border-radius: 50%;
-}
+  .x-status {
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: 50%;
 
-.type-online {
-  background-color: var(--online-color);
-}
+    &-online {
+      background-color: map.get($colors, online);
+    }
 
-.type-idle {
-  background-color: var(--idle-color);
-  clip-path: url(#xui-idle-clip-path);
-}
+    &-idle {
+      background-color: map.get($colors, idle);
+      clip-path: url(#x-status-idle-clip-path);
+    }
 
-.type-dnd {
-  background-color: var(--dnd-color);
-  clip-path: url(#xui-dnd-clip-path);
-}
+    &-dnd {
+      background-color: map.get($colors, dnd);
+      clip-path: url(#x-status-dnd-clip-path);
+    }
 
-.type-offline {
-  background-color: var(--offline-color);
-  clip-path: url(#xui-offline-clip-path);
-}
-
-.svg {
-  position: absolute;
-  width: 0;
-  height: 0;
+    &-offline {
+      background-color: map.get($colors, offline);
+      clip-path: url(#x-status-offline-clip-path);
+    }
+  }
 }

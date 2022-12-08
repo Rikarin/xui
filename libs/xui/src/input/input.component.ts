@@ -1,38 +1,32 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  Input,
-  OnInit,
-  Optional,
-  Self,
-  ViewEncapsulation
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, Optional, Self } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { InputGroupService } from './input-group.service';
 import { InputBoolean } from '../utils';
 import { InputColor, InputSize, InputType } from './input.types';
+import { BooleanInput } from '@angular/cdk/coercion';
 
 @Component({
   selector: 'xui-input',
   exportAs: 'xuiInput',
-  styleUrls: ['input.scss'],
-  encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: 'input.component.html'
 })
 export class XuiInputComponent implements ControlValueAccessor, OnInit {
-  private onChange?: (source?: string) => void;
+  static ngAcceptInputType_disabled: BooleanInput;
+  static ngAcceptInputType_readOnly: BooleanInput;
+
+  private onChange?: (source: string | null) => void;
   private onTouched?: () => void;
 
-  _value?: string;
+  _value: string | null = null;
   touched = false;
 
   @Input() placeholder?: string;
   @Input() @InputBoolean() disabled = false;
+  @Input() @InputBoolean() readOnly = false;
   @Input() color: InputColor = 'light';
-  @Input() size: InputSize = 'normal';
+  @Input() size: InputSize = 'large';
   @Input() type: InputType = 'text';
   @Input() dataList?: string[] | null;
 
@@ -51,12 +45,12 @@ export class XuiInputComponent implements ControlValueAccessor, OnInit {
 
   get styles() {
     const ret: { [klass: string]: boolean } = {
-      input: true,
-      'input-error': this.showError
+      'x-input': true,
+      'x-input-error': this.showError
     };
 
-    ret[`input-color-${this.color}`] = true;
-    ret[`input-${this.groupService?.size ?? this.size}`] = true;
+    ret[`x-input-${this.color}`] = true;
+    ret[`x-input-${this.groupService?.size ?? this.size}`] = true;
     return ret;
   }
 
@@ -90,19 +84,23 @@ export class XuiInputComponent implements ControlValueAccessor, OnInit {
     }
 
     const { dirty, touched } = this.control;
-    return this.invalid ? dirty! || touched! : false;
+    return this.invalid ? (dirty ?? false) || (touched ?? false) : false;
   }
 
   writeValue(source: string) {
     this.value = source;
   }
 
-  registerOnChange(onChange: (source?: string) => void) {
+  registerOnChange(onChange: (source: string | null) => void) {
     this.onChange = onChange;
   }
 
   registerOnTouched(onTouched: () => void) {
     this.onTouched = onTouched;
+  }
+
+  setDisabledState(isDisabled: boolean): void {
+    this.disabled = isDisabled;
   }
 
   markAsTouched() {

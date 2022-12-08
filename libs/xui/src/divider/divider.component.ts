@@ -1,11 +1,9 @@
-import { ChangeDetectionStrategy, Component, HostBinding, Input, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
 import { InputNumber } from '../utils';
 
 @Component({
   selector: 'xui-divider',
   exportAs: 'xuiDivider',
-  styleUrls: ['./divider.scss'],
-  encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: ''
 })

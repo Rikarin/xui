@@ -1,13 +1,12 @@
-@use '../theming/theming';
-@use '../core/typography';
+@use '../xui';
 
 @mixin theme() {
-  .xui-table {
+  .x-table {
     width: 100%;
     border-collapse: collapse;
 
     tbody {
-      @include typography.typography-level(body-1);
+      @include xui.typography-level(body-1);
 
       tr {
         height: 48px;
@@ -29,7 +28,7 @@
     thead {
       text-align: left;
       text-transform: uppercase;
-      @include typography.typography-level(caption);
+      @include xui.typography-level(caption);
 
       th {
         padding-bottom: 8px;

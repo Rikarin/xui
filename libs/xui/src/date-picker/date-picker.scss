@@ -1,0 +1,113 @@
+@use 'variables' as *;
+@use '../xui';
+
+@mixin theme() {
+  xui-date-picker {
+    display: flex;
+  }
+
+  .x-datepicker {
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+    user-select: none;
+
+    border: 1px solid var(--background-color-secondary-alt);
+    padding: 16px;
+
+    @include xui.border-radius($border-radius);
+    @include xui.fill(primary);
+    @include xui.elevate(medium);
+
+    &-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      margin: 4px 8px 16px 8px;
+      font-weight: 500;
+    }
+
+    &-button {
+      display: flex;
+      cursor: pointer;
+      border: 1px solid var(--background-color-tertiary);
+
+      @include xui.border-radius($border-radius);
+      @include xui.fill(secondary);
+      @include xui.focusable();
+
+      xui-icon {
+        width: 16px;
+        height: 16px;
+      }
+    }
+
+    &-title {
+      display: flex;
+
+      margin-bottom: 8px;
+      border-top: 1px solid var(--background-color-tertiary);
+
+      @include xui.typography-level(overline);
+
+      div {
+        width: 41px;
+        display: flex;
+        justify-content: center;
+      }
+    }
+
+    &-calendar {
+      display: grid;
+      grid-template-columns: repeat(7, 40px);
+      gap: 1px;
+
+      overflow: hidden;
+      border: 1px solid var(--background-color-tertiary);
+
+      @include xui.border-radius($border-radius);
+      @include xui.fill(tertiary);
+      @include xui.typography-level(overline);
+    }
+
+    &-day {
+      height: 40px;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+
+      @include xui.fill(primary);
+
+      &:hover:not(.x-datepicker--disabled) {
+        @include xui.fill(default, primary);
+      }
+
+      &.x-datepicker--selected {
+        border-bottom: 3px solid var(--primary-color-default);
+      }
+
+      &.x-datepicker--focused {
+        outline: 1px solid var(--primary-color-default);
+        outline-offset: -1px;
+
+        &:not(.x-datepicker--selected) {
+          @include xui.fill(default, primary);
+        }
+      }
+
+      &.x-datepicker--outside {
+        background-color: var(--background-color-secondary);
+        color: xui.text-muted();
+      }
+
+      &.x-datepicker--disabled {
+        cursor: not-allowed;
+        color: xui.text-muted();
+        background-color: var(--background-color-secondary);
+
+        @include xui.disabled();
+      }
+    }
+  }
+}

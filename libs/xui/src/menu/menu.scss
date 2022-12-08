@@ -1,9 +1,41 @@
-@use '../core/scrollbar';
-@use '../theming/theming';
+@use '../xui';
 
-@mixin theme($theme) {
+@mixin theme() {
+  .x-menu-item {
+    width: 100%;
+    display: flex;
+    align-items: center;
+
+    padding: 8px 0;
+
+    xui-icon {
+      margin-right: 8px;
+    }
+  }
+
+  .x-menu-hover {
+    &:hover {
+      @include xui.fill(default, primary);
+      cursor: pointer;
+    }
+
+    &:active {
+      @include xui.fill(darker, primary);
+    }
+
+    &[disabled],
+    &[disabled]:focus,
+    &[disabled]:active,
+    &[disabled]:hover {
+      cursor: not-allowed;
+      color: inherit;
+      background-color: transparent;
+      opacity: 0.35;
+    }
+  }
+
   xui-menu {
-    @include scrollbar.scrollbar-thin();
+    @include xui.scrollbar-thin();
 
     flex: auto;
     width: 100%;
@@ -17,19 +49,13 @@
   xui-submenu {
     display: flex;
     flex-direction: column;
+  }
 
-    .xui-submenu-entry {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding-right: 8px;
-
-      @include xui-menu-hover();
-    }
-
-    .xui-submenu-title {
-      @include xui-menu-item();
-    }
+  .x-submenu-entry {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-right: 8px;
   }
 
   xui-menu-group {
@@ -37,55 +63,19 @@
     flex-direction: column;
 
     padding: 8px 0; // TODO: delete this?
+  }
 
-    .xui-menu-group-title {
-      font-size: 0.85rem;
-      font-weight: 500;
-    }
+  .x-menu-group-title {
+    font-size: 0.85rem;
+    font-weight: 500;
   }
 
   xui-menu-item {
-    @include xui-menu-item();
-    @include xui-menu-hover();
-
     border-left: 4px solid transparent;
   }
 
-  .xui-menu-item-selected {
-    @include theming.background-level(default, primary);
+  .x-menu-item-selected {
+    @include xui.fill(default, primary);
     border-left: 4px solid var(--primary-color-900);
-  }
-}
-
-@mixin xui-menu-item() {
-  width: 100%;
-  display: flex;
-  align-items: center;
-
-  padding: 8px 0;
-
-  mat-icon {
-    margin-right: 8px;
-  }
-}
-
-@mixin xui-menu-hover() {
-  &:hover {
-    @include theming.background-level(default, primary);
-    cursor: pointer;
-  }
-
-  &:active {
-    @include theming.background-level(darker, primary);
-  }
-
-  &[disabled],
-  &[disabled]:focus,
-  &[disabled]:active,
-  &[disabled]:hover {
-    cursor: not-allowed;
-    color: inherit;
-    background-color: transparent;
-    opacity: 0.35;
   }
 }

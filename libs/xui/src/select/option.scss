@@ -1,41 +1,42 @@
-@use '../core/core';
-@use '../theming/theming';
+@use '../xui';
 
-.option {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px;
-  cursor: pointer;
-  user-select: none;
-}
+@mixin theme() {
+  .x-select-option {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    cursor: pointer;
+    user-select: none;
 
-.option-light {
-  @include theming.background-level(primary);
+    &-light {
+      @include xui.fill(primary);
 
-  &:hover {
-    @include theming.background-level(secondary);
+      &:hover {
+        @include xui.fill(secondary);
+      }
+    }
+
+    &-dark {
+      @include xui.fill(primary);
+
+      &:hover {
+        @include xui.fill(secondary);
+      }
+    }
+
+    &-disabled {
+      cursor: not-allowed;
+      @include xui.disabled();
+
+      &:hover {
+        background-color: initial;
+      }
+    }
+
+    &-selected {
+      @include xui.fill(secondary);
+    }
   }
-}
-
-.option-dark {
-  @include theming.background-level(primary);
-
-  &:hover {
-    @include theming.background-level(secondary);
-  }
-}
-
-.option-disabled {
-  cursor: not-allowed;
-  @include core.disabled-filter();
-
-  &:hover {
-    background-color: initial;
-  }
-}
-
-.option-selected {
-  @include theming.background-level(secondary);
 }

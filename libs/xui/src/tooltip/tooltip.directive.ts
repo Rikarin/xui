@@ -28,6 +28,7 @@ export class XuiTooltipDirective extends _MatTooltipBase<XuiTooltipComponent> {
   }
 
   override set message(value) {
+    super.message = value;
     super.message = this.translate.instant(value);
   }
 

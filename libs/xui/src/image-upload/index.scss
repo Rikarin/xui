@@ -1,0 +1,9 @@
+@forward 'variables';
+
+@use 'image-upload';
+@use 'image-upload-cropper';
+
+@mixin theme() {
+  @include image-upload.theme();
+  @include image-upload-cropper.theme();
+}

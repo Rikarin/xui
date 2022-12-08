@@ -1,13 +1,5 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  Input,
-  OnInit,
-  Optional,
-  Self,
-  ViewEncapsulation
-} from '@angular/core';
+import { BooleanInput } from '@angular/cdk/coercion';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, Optional, Self } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { InputBoolean, InputNumber } from '../utils';
@@ -16,16 +8,16 @@ import { TextareaColor, TextareaSize } from './textarea.types';
 @Component({
   selector: 'xui-textarea',
   exportAs: 'xuiTextarea',
-  styleUrls: ['textarea.scss'],
-  encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: 'textarea.component.html'
 })
 export class XuiTextareaComponent implements ControlValueAccessor, OnInit {
-  private onChange?: (source?: string) => void;
+  static ngAcceptInputType_disabled: BooleanInput;
+
+  private onChange?: (source: string | null) => void;
   private onTouched?: () => void;
 
-  _value?: string;
+  _value: string | null = null;
   touched = false;
 
   @Input() placeholder?: string;
@@ -54,11 +46,11 @@ export class XuiTextareaComponent implements ControlValueAccessor, OnInit {
 
   get styles() {
     const ret: { [klass: string]: boolean } = {
-      textarea: true,
-      disabled: this.disabled
+      'x-textarea': true,
+      'x-textarea-disabled': this.disabled
     };
 
-    ret[`color-${this.color}`] = true;
+    ret[`x-textarea-${this.color}`] = true;
     return ret;
   }
 
@@ -91,19 +83,23 @@ export class XuiTextareaComponent implements ControlValueAccessor, OnInit {
     }
 
     const { dirty, touched } = this.control;
-    return this.invalid ? dirty! || touched! : false;
+    return this.invalid ? (dirty ?? false) || (touched ?? false) : false;
   }
 
   writeValue(source: string) {
     this.value = source;
   }
 
-  registerOnChange(onChange: (source?: string) => void) {
+  registerOnChange(onChange: (source: string | null) => void) {
     this.onChange = onChange;
   }
 
   registerOnTouched(onTouched: () => void) {
     this.onTouched = onTouched;
+  }
+
+  setDisabledState(isDisabled: boolean): void {
+    this.disabled = isDisabled;
   }
 
   markAsTouched() {

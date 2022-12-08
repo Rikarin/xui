@@ -8,8 +8,7 @@ import {
   OnInit,
   Optional,
   Self,
-  ViewChild,
-  ViewEncapsulation
+  ViewChild
 } from '@angular/core';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { Dialog, DialogRef } from '@angular/cdk/dialog';
@@ -21,19 +20,17 @@ import { ImageUploadType } from './image-upload.types';
 @Component({
   selector: 'xui-image-upload',
   exportAs: 'xuiImageUpload',
-  styleUrls: ['image-upload.scss'],
-  encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './image-upload.component.html'
 })
 export class XuiImageUploadComponent implements ControlValueAccessor, OnInit {
-  private onChange?: (source?: string) => void;
+  private onChange?: (source: string | null) => void;
   private onTouched?: () => void;
-  private _backgroundImage?: string;
+  private _backgroundImage: string | null = null;
   private dialogRef?: DialogRef<unknown, XuiImageUploadCropperComponent>;
 
   touched = false;
-  croppedImage?: string = '';
+  croppedImage: string | null = null;
 
   @Input() hoverLabel = 'xui.image_upload.change_image';
   @Input() type: ImageUploadType = 'square';
@@ -42,8 +39,8 @@ export class XuiImageUploadComponent implements ControlValueAccessor, OnInit {
 
   get classes() {
     const ret: { [klass: string]: boolean } = {
-      'image-upload': true,
-      'upload-square': this.type === 'square'
+      'x-image-upload': true,
+      'x-image-upload-square': this.type === 'square'
     };
 
     return ret;
@@ -99,7 +96,7 @@ export class XuiImageUploadComponent implements ControlValueAccessor, OnInit {
   }
 
   imageCropped = (event: ImageCroppedEvent) => {
-    this.croppedImage = event.base64 ?? undefined;
+    this.croppedImage = event.base64 ?? null;
   };
 
   save = () => {
@@ -114,12 +111,16 @@ export class XuiImageUploadComponent implements ControlValueAccessor, OnInit {
     this._backgroundImage = source;
   }
 
-  registerOnChange(onChange: (source?: string) => void) {
+  registerOnChange(onChange: (source: string | null) => void) {
     this.onChange = onChange;
   }
 
   registerOnTouched(onTouched: () => void) {
     this.onTouched = onTouched;
+  }
+
+  setDisabledState(isDisabled: boolean): void {
+    // this.disabled = isDisabled;
   }
 
   markAsTouched() {

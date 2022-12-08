@@ -1,4 +1,4 @@
-@mixin theme($theme) {
+@mixin theme() {
   xui-content {
     flex: 1 1 auto;
     display: flex;
@@ -25,10 +25,10 @@
     flex: auto;
     display: flex;
     flex-direction: column;
+  }
 
-    &.sider {
-      flex-direction: row;
-    }
+  .x-layout-sider {
+    flex-direction: row;
   }
 
   xui-sider {

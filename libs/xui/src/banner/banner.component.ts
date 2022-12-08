@@ -1,3 +1,4 @@
+import { BooleanInput } from '@angular/cdk/coercion';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -13,12 +14,12 @@ import { BannerType } from './banner.types';
 @Component({
   selector: 'xui-banner',
   exportAs: 'xuiBanner',
-  styleUrls: ['banner.scss'],
-  encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './banner.component.html'
 })
 export class XuiBannerComponent {
+  static ngAcceptInputType_dismissible: BooleanInput;
+
   @Input() type: BannerType = 'info';
   @Input() stamp!: string;
   @Input() @InputBoolean() dismissible = false;
@@ -26,10 +27,10 @@ export class XuiBannerComponent {
 
   get styles() {
     const ret: { [klass: string]: boolean } = {
-      banner: true,
-      dismissible: this.dismissible
+      'x-banner': true,
+      'x-banner-dismissible': this.dismissible
     };
-    ret[`type-${this.type}`] = true;
+    ret[`x-banner-${this.type}`] = true;
 
     return ret;
   }

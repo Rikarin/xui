@@ -3,6 +3,7 @@
   <input
     tabindex="-1"
     [disabled]="disabled"
+    [readOnly]="readOnly"
     [type]="type"
     [placeholder]="placeholder ?? ''"
     [(ngModel)]="value"
@@ -11,7 +12,7 @@
   <ng-content select="[xuiPostfix]"></ng-content>
 </div>
 
-<div class="input-error-text" *ngIf="showError">
+<div class="x-input-error-text" *ngIf="showError">
   <ng-container *ngIf="control?.hasError('message')">{{ errorMessage }}</ng-container>
   <ng-container *ngIf="control?.hasError('required')">This field is required!</ng-container>
   <ng-container *ngIf="control?.hasError('email')">Email expected</ng-container>
