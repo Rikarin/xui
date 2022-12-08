@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.37.1](https://github.com/Rikarin/xui/compare/v1.37.0...v1.37.1) (2022-12-08)
+
 ## [1.37.0](https://github.com/Rikarin/xui/compare/v1.36.3...v1.37.0) (2022-11-21)
 
 ### Features
