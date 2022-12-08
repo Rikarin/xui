@@ -1,31 +1,37 @@
-xui-context-menu {
-  min-width: 200px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+@use 'variables' as *;
+@use '../xui';
 
-  padding: 8px;
-  background-color: var(--background-color-floating);
-  border-radius: 3px;
+@mixin theme() {
+  xui-context-menu {
+    min-width: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
-  hr {
-    width: 95%;
-    margin: 4px;
+    padding: 8px;
+    background-color: var(--background-color-floating);
 
-    border: 0.5px solid var(--background-color-primary);
-  }
+    @include xui.border-radius($border-radius);
 
-  xui-button {
-    width: 100%;
-  }
+    hr {
+      width: 95%;
+      margin: 4px;
 
-  .x-button {
-    width: 100%;
-    padding: 0 0.5em;
+      border: 0.5px solid var(--background-color-primary);
+    }
 
-    &-content {
+    xui-button {
       width: 100%;
-      justify-content: space-between;
+    }
+
+    .x-button {
+      width: 100%;
+      padding: 0 0.5em;
+
+      &-content {
+        width: 100%;
+        justify-content: space-between;
+      }
     }
   }
 }

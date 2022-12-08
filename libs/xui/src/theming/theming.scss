@@ -2,8 +2,6 @@
 @use 'xui.theme' as theme;
 @use '../core/typography';
 
-$variations: [primary, primary-alt, secondary, success, error, info, warning];
-
 @function _get-color-from-palette($palette, $hue) {
   @if map.has-key($palette, $hue) {
     @return map.get($palette, $hue);

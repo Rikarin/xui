@@ -9,7 +9,9 @@ import { XUI_SNACK_BAR_DATA } from './snack-bar-config';
   template: `<div class="x-snackbar">
     <div>{{ data.message | translate }}</div>
     <div *ngIf="hasAction">
-      <xui-button size="sm" type="raised" color="success" (click)="action()">{{ data.action | translate }}</xui-button>
+      <xui-button size="small" type="raised" color="success" (click)="action()">{{
+        data.action | translate
+      }}</xui-button>
     </div>
   </div>`
 })

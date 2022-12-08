@@ -1,40 +1,42 @@
 @use '../xui';
 
-.x-select-option {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px;
-  cursor: pointer;
-  user-select: none;
+@mixin theme() {
+  .x-select-option {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    cursor: pointer;
+    user-select: none;
 
-  &-light {
-    @include xui.fill(primary);
+    &-light {
+      @include xui.fill(primary);
 
-    &:hover {
+      &:hover {
+        @include xui.fill(secondary);
+      }
+    }
+
+    &-dark {
+      @include xui.fill(primary);
+
+      &:hover {
+        @include xui.fill(secondary);
+      }
+    }
+
+    &-disabled {
+      cursor: not-allowed;
+      @include xui.disabled();
+
+      &:hover {
+        background-color: initial;
+      }
+    }
+
+    &-selected {
       @include xui.fill(secondary);
     }
-  }
-
-  &-dark {
-    @include xui.fill(primary);
-
-    &:hover {
-      @include xui.fill(secondary);
-    }
-  }
-
-  &-disabled {
-    cursor: not-allowed;
-    @include xui.disabled();
-
-    &:hover {
-      background-color: initial;
-    }
-  }
-
-  &-selected {
-    @include xui.fill(secondary);
   }
 }

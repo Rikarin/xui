@@ -1,16 +1,21 @@
-.x-input-addon {
-  height: 100%;
-  display: grid;
-  place-items: center;
-  padding: 0 12px;
+@use 'variables' as *;
+@use '../xui';
 
-  border-radius: 3px;
+@mixin theme() {
+  .x-input-addon {
+    height: 100%;
+    display: grid;
+    place-items: center;
+    padding: 0 12px;
 
-  &-light {
-    background-color: var(--background-color-secondary);
-  }
+    @include xui.border-radius($border-radius);
 
-  &-dark {
-    background-color: var(--background-color-tertiary);
+    &-light {
+      background-color: var(--background-color-secondary);
+    }
+
+    &-dark {
+      background-color: var(--background-color-tertiary);
+    }
   }
 }

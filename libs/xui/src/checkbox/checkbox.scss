@@ -1,35 +1,47 @@
+@use 'variables' as *;
 @use '../xui';
 
-.x-checkbox {
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-  cursor: pointer;
-  user-select: none;
+@mixin theme() {
+  .x-checkbox {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    user-select: none;
 
-  &-box {
-    width: 18px;
-    height: 18px;
+    &-box {
+      width: 18px;
+      height: 18px;
+      line-height: 0;
 
-    box-sizing: border-box;
-    border: 1px solid white; // TODO
-    border-radius: 5px;
+      @include xui.border-radius($border-radius);
+      @include xui.focusable();
 
-    svg {
-      fill: white;
-      margin-bottom: 1px;
+      svg {
+        margin-bottom: 1px;
+      }
     }
-  }
 
-  &-disabled {
-    @include xui.disabled();
-    cursor: not-allowed;
-  }
+    &-disabled {
+      @include xui.disabled();
+      cursor: not-allowed;
+    }
 
-  @each $name in xui.$variations {
-    &-#{$name} .x-checkbox-checked {
-      background-color: var(--#{$name}-color-default);
-      border-color: var(--#{$name}-color-400);
+    @each $name in xui.$color-variations {
+      &-#{$name} {
+        .x-checkbox-box {
+          border: 1px solid var(--#{$name}-color-default-contrast);
+        }
+
+        .x-checkbox-checked {
+          background-color: var(--#{$name}-color-default);
+          border-color: var(--#{$name}-color-400);
+        }
+
+        svg {
+          fill: var(--#{$name}-color-default-contrast);
+        }
+      }
     }
   }
 }

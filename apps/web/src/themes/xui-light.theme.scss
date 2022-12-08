@@ -1,12 +1,11 @@
-@use '../../../../libs/xui/src/index' as xui;
-@use '../../../../libs/xui/src/theming/xui.theme' as xui-theme;
+@use '../../../../libs/xui/src' as xui;
 
 $theme: xui.define-light-theme(
   (
     color: (
       primary: xui.define-palette(xui.generate-palette(#1f75cb)),
-      primary-alt: xui.define-palette(xui-theme.$purple-palette),
-      secondary: xui.define-palette(xui-theme.$orange-palette)
+      primary-alt: xui.define-palette(xui.$purple-palette),
+      secondary: xui.define-palette(xui.$orange-palette)
     )
   )
 );

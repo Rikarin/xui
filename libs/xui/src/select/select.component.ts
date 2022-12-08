@@ -15,7 +15,7 @@ import { inNextTick, InputBoolean } from '../utils';
 import { SelectService } from './select.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { XuiOptionComponent } from './option.component';
-import { SelectColor } from './select.types';
+import { SelectColor, SelectSize } from './select.types';
 import { BooleanInput } from '@angular/cdk/coercion';
 
 @UntilDestroy()
@@ -41,8 +41,7 @@ export class XuiSelectComponent implements ControlValueAccessor, OnInit, AfterVi
   @Input() placeholder?: string;
   @Input() @InputBoolean() disabled = false;
   @Input() color: SelectColor = 'light';
-
-  // @Input() size: 'normal' | 'small' = 'normal';
+  @Input() size: SelectSize = 'large';
 
   @Input()
   get value() {
@@ -73,6 +72,7 @@ export class XuiSelectComponent implements ControlValueAccessor, OnInit, AfterVi
     };
 
     ret[`x-select-${this.color}`] = true;
+    ret[`x-select-${this.size}`] = true;
     return ret;
   }
 

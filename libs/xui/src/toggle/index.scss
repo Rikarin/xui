@@ -1,1 +1,2 @@
-@use './toggle';
+@forward 'variables';
+@forward 'toggle';

@@ -37,7 +37,7 @@ export class XuiButtonComponent {
   state: 0 | 1 | 2 | 3 = 0;
 
   @Input() type: ButtonType = 'normal';
-  @Input() size: ButtonSize = 'md';
+  @Input() size: ButtonSize = 'medium';
   @Input() color: ButtonColor = 'primary';
   @Input() @InputBoolean() shine = false;
   @Input() @InputBoolean() disabled = false;
@@ -68,7 +68,6 @@ export class XuiButtonComponent {
   @HostListener('keydown.enter', ['$event'])
   @HostListener('keydown.space', ['$event'])
   private _keyPress(event: KeyboardEvent) {
-    console.log('key press');
     event?.preventDefault();
     this.click.emit();
 

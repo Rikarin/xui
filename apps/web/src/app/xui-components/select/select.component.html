@@ -26,3 +26,26 @@
     <xui-option value="option2">Option 2</xui-option>
   </xui-select>
 </app-example>
+
+<app-example>
+  <xui-select size="small">
+    <xui-option value="option1" disabled>Option 1 Disabled</xui-option>
+    <xui-option value="option2">Option 2</xui-option>
+  </xui-select>
+
+  <xui-select color="dark" [formControl]="model" size="small">
+    <xui-option value="option1">Option 1</xui-option>
+    <xui-option value="option2">Option 2</xui-option>
+  </xui-select>
+  {{ model.value }}
+
+  <xui-select color="dark" disabled placeholder="Disabled" size="small">
+    <xui-option value="option1">Option 1</xui-option>
+    <xui-option value="option2">Option 2</xui-option>
+  </xui-select>
+
+  <xui-select disabled placeholder="Disabled" size="small">
+    <xui-option value="option1">Option 1</xui-option>
+    <xui-option value="option2">Option 2</xui-option>
+  </xui-select>
+</app-example>

@@ -1,2 +1,9 @@
-@use './radio-list';
-@use './radio-list-options';
+@forward 'variables';
+
+@use 'radio-list';
+@use 'radio-list-options';
+
+@mixin theme() {
+  @include radio-list.theme();
+  @include radio-list-options.theme();
+}

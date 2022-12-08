@@ -1,5 +1,17 @@
 @use './highlightjs';
-@use '../../../libs/xui/src/theme';
+@use '../../../libs/xui/src' as xui-theme;
+//  with (
+//  $enable-rounded: true,
+//  $banner-stamp-border-radius: 20px,
+//  $button-border-radius: 8px,
+//  $card-border-radius: 12px,
+//  $card-background-color: (default, success),
+//  $context-menu-border-radius: 12px
+//);
+
+@include xui-theme.theme();
+
+// end user should be able to change swatches/colors but the overall theme such as border-radius should be compile time
 
 code {
   font-family: Consolas, Monospaced, sans-serif;

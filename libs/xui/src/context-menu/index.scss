@@ -1,1 +1,2 @@
-@use './context-menu';
+@forward 'variables';
+@forward 'context-menu';

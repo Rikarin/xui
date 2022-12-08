@@ -8,27 +8,7 @@
       "output": "."
     },
     {
-      "glob": "core/*.scss",
-      "input": "src",
-      "output": "."
-    },
-    {
-      "glob": "theming/*.scss",
-      "input": "src",
-      "output": "."
-    },
-    {
-      "glob": "table/*.scss",
-      "input": "src",
-      "output": "."
-    },
-    {
-      "glob": "menu/*.scss",
-      "input": "src",
-      "output": "."
-    },
-    {
-      "glob": "layout/*.scss",
+      "glob": "**/*.scss",
       "input": "src",
       "output": "."
     }

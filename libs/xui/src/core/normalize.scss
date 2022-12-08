@@ -1,112 +1,118 @@
 @use 'sass:map';
-@use '@angular/cdk/overlay-prebuilt.css';
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-  text-rendering: optimizeLegibility;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  overscroll-behavior: none;
-}
-
-html,
-body {
-  overflow: hidden;
-}
-
-a {
-  text-decoration: none;
-  cursor: pointer;
-
-  &:hover {
-    text-decoration: underline;
+@mixin theme() {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    text-rendering: optimizeLegibility;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    overscroll-behavior: none;
   }
-}
 
-a,
-abbr,
-acronym,
-address,
-applet,
-big,
-blockquote,
-body,
-button,
-caption,
-cite,
-code,
-dd,
-del,
-dfn,
-div,
-dl,
-dt,
-em,
-fieldset,
-form,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-html,
-iframe,
-img,
-input,
-ins,
-kbd,
-label,
-legend,
-li,
-object,
-ol,
-p,
-pre,
-q,
-s,
-samp,
-small,
-span,
-strike,
-strong,
-sub,
-sup,
-table,
-tbody,
-td,
-tfoot,
-th,
-thead,
-tr,
-tt,
-ul,
-var {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  outline: 0;
-  vertical-align: baseline;
-}
+  *:focus-visible {
+    // TODO: check this
+    //outline: none;
+  }
 
-.cdk-overlay-container {
-  z-index: 10000;
-}
+  html,
+  body {
+    overflow: hidden;
+  }
 
-.mdc-snackbar__surface {
-  box-shadow: none !important;
-}
+  a {
+    text-decoration: none;
+    cursor: pointer;
 
-a {
-  color: var(--text-link-color);
-}
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 
-[hidden] {
-  display: none !important; // sass-lint:disable-line no-important
-}
+  a,
+  abbr,
+  acronym,
+  address,
+  applet,
+  big,
+  blockquote,
+  body,
+  button,
+  caption,
+  cite,
+  code,
+  dd,
+  del,
+  dfn,
+  div,
+  dl,
+  dt,
+  em,
+  fieldset,
+  form,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  html,
+  iframe,
+  img,
+  input,
+  ins,
+  kbd,
+  label,
+  legend,
+  li,
+  object,
+  ol,
+  p,
+  pre,
+  q,
+  s,
+  samp,
+  small,
+  span,
+  strike,
+  strong,
+  sub,
+  sup,
+  table,
+  tbody,
+  td,
+  tfoot,
+  th,
+  thead,
+  tr,
+  tt,
+  ul,
+  var {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    vertical-align: baseline;
+  }
 
-script {
-  display: none !important; // sass-lint:disable-line no-important
+  .cdk-overlay-container {
+    z-index: 10000;
+  }
+
+  .mdc-snackbar__surface {
+    box-shadow: none !important;
+  }
+
+  a {
+    color: var(--text-link-color);
+  }
+
+  [hidden] {
+    display: none !important; // sass-lint:disable-line no-important
+  }
+
+  script {
+    display: none !important; // sass-lint:disable-line no-important
+  }
 }

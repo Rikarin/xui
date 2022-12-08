@@ -1,5 +1,7 @@
-@use './xui';
 @forward 'xui';
+@forward 'theme';
+
+@use 'xui';
 
 @mixin all-variables($theme) {
   @include xui.create-color-variables($theme);

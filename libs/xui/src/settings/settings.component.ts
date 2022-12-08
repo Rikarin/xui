@@ -193,8 +193,8 @@ export interface MenuItem {
   template: `
     {{ 'xui.settings.save_changes_text' | translate }}
     <div>
-      <xui-button size="sm" color="minimal" [onClick]="reset">{{ 'xui.settings.reset' | translate }}</xui-button>
-      <xui-button size="sm" color="success" type="raised" [onClick]="save">
+      <xui-button size="small" color="minimal" [onClick]="reset">{{ 'xui.settings.reset' | translate }}</xui-button>
+      <xui-button size="small" color="success" type="raised" [onClick]="save">
         {{ 'xui.settings.save' | translate }}
       </xui-button>
     </div>

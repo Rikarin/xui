@@ -1,33 +1,31 @@
-@use '../theming/theming';
+@use '../xui';
 
-.x-input-group {
-  display: flex;
+@mixin theme() {
+  .x-input-group {
+    display: flex;
 
-  > xui-input:not(:first-child) > .x-input {
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-  }
+    > xui-input:not(:first-child) > .x-input {
+      @include xui.border-left-radius-only(0);
+    }
 
-  > xui-input:not(:last-child) > .x-input {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-  }
+    > xui-input:not(:last-child) > .x-input {
+      @include xui.border-right-radius-only(0);
+    }
 
-  > xui-input-addon:not(:first-child) {
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-  }
+    > xui-input-addon:not(:first-child) {
+      @include xui.border-left-radius-only(0);
+    }
 
-  > xui-input-addon:not(:last-child) {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-  }
+    > xui-input-addon:not(:last-child) {
+      @include xui.border-right-radius-only(0);
+    }
 
-  > xui-input:not(:first-child) {
-    border-left: 1px solid theming.text-muted();
-  }
+    > xui-input:not(:first-child) {
+      border-left: 1px solid xui.text-muted();
+    }
 
-  > xui-input-addon:not(:first-child) {
-    border-left: 1px solid theming.text-muted();
+    > xui-input-addon:not(:first-child) {
+      border-left: 1px solid xui.text-muted();
+    }
   }
 }

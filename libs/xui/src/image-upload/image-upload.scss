@@ -1,78 +1,80 @@
 @use '../xui';
 
-xui-image-upload {
-  width: 100px;
-}
-
-.x-image-upload {
-  width: inherit;
-  position: relative;
-  display: grid;
-  place-items: center;
-
-  background-color: var(--primary-color-default);
-  background-size: cover;
-  background-repeat: no-repeat;
-
-  text-align: center;
-  text-transform: uppercase;
-
-  font-family: var(--font-caption-family);
-  font-size: 0.6rem;
-  line-height: 0.6rem;
-  font-weight: 900;
-
-  @include xui.elevate(high);
-
-  input {
-    position: absolute;
-    inset: 0 0 0 0;
-    opacity: 0;
-    cursor: pointer;
+@mixin theme() {
+  xui-image-upload {
+    width: 100px;
   }
 
-  &:hover {
-    .x-image-upload-hover {
-      display: grid;
-      background-color: rgba(0, 0, 0, 0.3);
-      background-blend-mode: multiply;
-    }
-
-    .x-image-upload-no-image {
-      display: none;
-    }
-  }
-
-  @include xui.focusable();
-
-  &-hover {
-    display: none;
-    place-items: center;
-    width: 100%;
-    height: 100%;
-  }
-
-  &-icon {
-    width: 28px;
-    height: 28px;
+  .x-image-upload {
+    width: inherit;
+    position: relative;
     display: grid;
     place-items: center;
 
-    position: absolute;
-    right: 0;
-    top: 0;
-    border-radius: 50%;
+    background-color: var(--primary-color-default);
+    background-size: cover;
+    background-repeat: no-repeat;
 
-    color: black;
-    background-color: white;
+    text-align: center;
+    text-transform: uppercase;
 
-    xui-icon {
-      width: 16px;
+    font-family: var(--font-caption-family);
+    font-size: 0.6rem;
+    line-height: 0.6rem;
+    font-weight: 900;
+
+    @include xui.elevate(high);
+
+    input {
+      position: absolute;
+      inset: 0 0 0 0;
+      opacity: 0;
+      cursor: pointer;
     }
-  }
 
-  &-square &-icon {
-    right: -8px;
-    top: -8px;
+    &:hover {
+      .x-image-upload-hover {
+        display: grid;
+        background-color: xui.modifier-hover();
+        background-blend-mode: multiply;
+      }
+
+      .x-image-upload-no-image {
+        display: none;
+      }
+    }
+
+    @include xui.focusable();
+
+    &-hover {
+      display: none;
+      place-items: center;
+      width: 100%;
+      height: 100%;
+    }
+
+    &-icon {
+      width: 28px;
+      height: 28px;
+      display: grid;
+      place-items: center;
+
+      position: absolute;
+      right: 0;
+      top: 0;
+      border-radius: 50%;
+
+      color: black;
+      background-color: white;
+
+      xui-icon {
+        width: 16px;
+      }
+    }
+
+    &-square &-icon {
+      right: -8px;
+      top: -8px;
+    }
   }
 }

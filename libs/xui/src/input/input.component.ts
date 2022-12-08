@@ -26,7 +26,7 @@ export class XuiInputComponent implements ControlValueAccessor, OnInit {
   @Input() @InputBoolean() disabled = false;
   @Input() @InputBoolean() readOnly = false;
   @Input() color: InputColor = 'light';
-  @Input() size: InputSize = 'normal';
+  @Input() size: InputSize = 'large';
   @Input() type: InputType = 'text';
   @Input() dataList?: string[] | null;
 

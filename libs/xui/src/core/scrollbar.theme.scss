@@ -1,9 +1,0 @@
-@use './scrollbar';
-
-* {
-  @include scrollbar.regular();
-}
-
-.x-scrollbar-thin {
-  @include scrollbar.thin();
-}

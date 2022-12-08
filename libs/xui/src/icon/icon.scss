@@ -1,8 +1,11 @@
-xui-icon {
-  display: flex;
+@mixin theme() {
+  xui-icon {
+    display: inline-flex;
+    line-height: 0;
 
-  .mat-icon {
-    flex: 1 1 auto;
-    height: unset;
+    .mat-icon {
+      flex: 1 1 auto;
+      height: unset;
+    }
   }
 }

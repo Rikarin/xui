@@ -36,8 +36,8 @@ export class XuiTooltipComponent extends _TooltipComponentBase {
   /** Reference to the internal tooltip element. */
   @ViewChild('tooltip', { static: true }) _tooltip!: ElementRef<HTMLElement>;
 
-  _showAnimation = 'xui-tooltip-show';
-  _hideAnimation = 'xui-tooltip-hide';
+  _showAnimation = 'x-tooltip-show';
+  _hideAnimation = 'x-tooltip-hide';
 
   constructor(
     changeDetectorRef: ChangeDetectorRef,

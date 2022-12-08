@@ -1,86 +1,88 @@
-@use 'sass:map';
+@use 'variables' as *;
 @use '../xui';
 
-.x-slider {
-  position: relative;
-  display: flex;
-  align-items: center;
-  height: 40px;
-
-  user-select: none;
-
-  &-track {
-    width: 100%;
-    height: 8px;
+@mixin theme() {
+  .x-slider {
+    position: relative;
     display: flex;
-    justify-content: flex-end;
-    border-radius: 4px;
-
-    z-index: 1;
-  }
-
-  &-track-half {
-    border-top-right-radius: 4px;
-    border-bottom-right-radius: 4px;
-
-    z-index: 1;
-  }
-
-  &-thumb {
-    position: absolute;
-    left: 0;
-    top: 8px;
-    width: 10px;
-    height: 24px;
-
-    background-color: white;
-    border-radius: 4px;
-    cursor: ew-resize;
-    z-index: 1;
-
-    border: 1px solid rgba(0, 0, 0, 0.2);
-    @include xui.elevate(medium);
-  }
-
-  &-container {
-    position: absolute;
-    inset: 0 5px 0 5px;
-  }
-
-  &-mark {
-    position: absolute;
-    bottom: 8px;
-    display: flex;
-    flex-direction: column;
     align-items: center;
+    height: 40px;
 
-    width: 24px;
-    margin-left: -12px;
+    user-select: none;
 
-    &-label {
-      @include xui.typography-level(caption);
-      font-size: 0.65rem;
-      font-weight: 700;
+    &-track {
+      width: 100%;
+      height: 8px;
+      display: flex;
+      justify-content: flex-end;
+      z-index: 1;
+
+      @include xui.border-radius($border-radius);
     }
 
-    &-dash {
-      width: 2px;
+    &-track-half {
+      z-index: 1;
+
+      @include xui.border-right-radius-only($border-radius);
+    }
+
+    &-thumb {
+      position: absolute;
+      left: 0;
+      top: 8px;
+      width: 10px;
       height: 24px;
+
+      background-color: white;
+      cursor: ew-resize;
+      z-index: 1;
+
+      border: 1px solid rgba(0, 0, 0, 0.2);
+
+      @include xui.border-radius($border-radius);
+      @include xui.elevate(medium);
+    }
+
+    &-container {
+      position: absolute;
+      inset: 0 5px 0 5px;
+    }
+
+    &-mark {
+      position: absolute;
+      bottom: 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      width: 24px;
+      margin-left: -12px;
+
+      &-label {
+        @include xui.typography-level(caption);
+        font-size: 0.65rem;
+        font-weight: 700;
+      }
+
+      &-dash {
+        width: 2px;
+        height: 24px;
+        background-color: var(--background-color-primary);
+      }
+    }
+
+    &-none {
       background-color: var(--background-color-primary);
     }
-  }
 
-  &-none {
-    background-color: var(--background-color-primary);
-  }
+    @each $name in xui.$color-variations {
+      &-#{$name} {
+        background-color: var(--#{$name}-color-default);
+      }
 
-  @each $name in xui.$variations {
-    &-#{$name} {
-      background-color: var(--#{$name}-color-default);
-    }
-
-    &-mark-#{$name} {
-      color: var(--#{$name}-color-default);
+      &-mark-#{$name} {
+        color: var(--#{$name}-color-default);
+      }
     }
   }
 }

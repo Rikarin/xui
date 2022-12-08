@@ -1,63 +1,66 @@
+@use 'variables' as *;
 @use '../xui';
 
-xui-textarea {
-  display: flex;
-  flex-direction: column;
-}
-
-.x-textarea {
-  display: flex;
-  position: relative;
-  border-radius: 4px;
-
-  @include xui.focusable();
-
-  textarea {
-    width: 100%;
-    height: auto;
-    resize: none;
-    padding: 12px 32px 12px 12px;
-
-    border: none;
-    outline: none;
-    border-radius: 4px;
-
-    @include xui.typography-level(body-1);
-    @include xui.scrollbar-regular();
+@mixin theme() {
+  xui-textarea {
+    display: flex;
+    flex-direction: column;
   }
 
-  &-light textarea {
-    @include xui.fill(secondary);
-  }
+  .x-textarea {
+    display: flex;
+    position: relative;
 
-  &-dark textarea {
-    @include xui.fill(tertiary);
-  }
-
-  &-disabled {
-    @include xui.disabled();
+    @include xui.border-radius($border-radius);
+    @include xui.focusable();
 
     textarea {
-      cursor: not-allowed;
+      width: 100%;
+      height: auto;
+      resize: none;
+      padding: 12px 32px 12px 12px;
+
+      border: none;
+      outline: none;
+
+      @include xui.border-radius($border-radius);
+      @include xui.typography-level(body-1);
+      @include xui.scrollbar-regular();
     }
-  }
 
-  &-word-counter {
-    position: absolute;
-    bottom: 4px;
-    right: 16px;
+    &-light textarea {
+      @include xui.fill(secondary);
+    }
 
-    @include xui.typography-level(caption);
-  }
+    &-dark textarea {
+      @include xui.fill(tertiary);
+    }
 
-  &-error {
-    outline: 2px solid var(--error-color-default);
-  }
+    &-disabled {
+      @include xui.disabled();
 
-  &-error-text {
-    color: var(--error-color-default);
-    font-size: 0.8rem;
-    margin-top: 4px;
-    margin-left: 8px;
+      textarea {
+        cursor: not-allowed;
+      }
+    }
+
+    &-word-counter {
+      position: absolute;
+      bottom: 4px;
+      right: 16px;
+
+      @include xui.typography-level(caption);
+    }
+
+    &-error {
+      outline: 2px solid var(--error-color-default);
+    }
+
+    &-error-text {
+      color: var(--error-color-default);
+      font-size: 0.8rem;
+      margin-top: 4px;
+      margin-left: 8px;
+    }
   }
 }

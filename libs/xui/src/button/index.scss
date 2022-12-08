@@ -1,2 +1,9 @@
+@forward 'variables';
+
 @use 'button';
 @use 'button-group';
+
+@mixin theme() {
+  @include button.theme();
+  @include button-group.theme();
+}

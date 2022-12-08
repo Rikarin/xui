@@ -1,4 +1,5 @@
-@forward './theming';
-@forward './palette';
-@forward './a11y-color';
-@forward './xui.theme';
+@forward 'variables';
+@forward 'theming';
+@forward 'palette';
+@forward 'a11y-color';
+@forward 'xui.theme';

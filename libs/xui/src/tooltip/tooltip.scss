@@ -1,93 +1,95 @@
+@use 'variables' as *;
 @use '../xui';
 
-xui-tooltip {
-  font-size: 0.8rem;
-  max-width: 500px;
-  border-radius: 4px;
-  padding: 6px 12px;
+@mixin theme() {
+  xui-tooltip {
+    max-width: 500px;
+    padding: 6px 12px;
 
-  @include xui.fill(tertiary);
-  @include xui.elevate(medium);
-  @include xui.typography-level(body-2);
+    @include xui.border-radius($border-radius);
+    @include xui.fill(tertiary);
+    @include xui.elevate(medium);
+    @include xui.typography-level(body-2);
 
-  font-weight: 500;
-}
-
-.xui-tooltip-panel-above xui-tooltip::after {
-  content: '';
-  position: absolute;
-  top: 100%;
-  left: 50%;
-
-  margin-left: -5px;
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;
-  border-top: 7px solid var(--background-color-tertiary);
-}
-
-.xui-tooltip-panel-below xui-tooltip::after {
-  content: '';
-  position: absolute;
-  top: -7px;
-  left: 50%;
-
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;
-  border-bottom: 7px solid var(--background-color-tertiary);
-}
-
-.xui-tooltip-panel-right xui-tooltip::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: -7px;
-  margin-top: -4px;
-
-  border-top: 5px solid transparent;
-  border-right: 7px solid var(--background-color-tertiary);
-  border-bottom: 5px solid transparent;
-}
-
-.xui-tooltip-panel-left xui-tooltip::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  right: -7px;
-  margin-top: -4px;
-
-  border-top: 5px solid transparent;
-  border-left: 7px solid var(--background-color-tertiary);
-  border-bottom: 5px solid transparent;
-}
-
-.xui-tooltip-show {
-  animation: xui-tooltip-show 150ms cubic-bezier(0, 0, 0.2, 1) forwards;
-}
-
-.xui-tooltip-hide {
-  animation: xui-tooltip-hide 75ms cubic-bezier(0.4, 0, 1, 1) forwards;
-}
-
-@keyframes xui-tooltip-show {
-  0% {
-    opacity: 0;
-    transform: scale(0.8);
+    font-weight: 500;
   }
 
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
+  .xui-tooltip-panel-above xui-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
 
-@keyframes xui-tooltip-hide {
-  0% {
-    opacity: 1;
-    transform: scale(1);
+    margin-left: -5px;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 7px solid var(--background-color-tertiary);
   }
 
-  100% {
-    opacity: 0;
-    transform: scale(0.8);
+  .xui-tooltip-panel-below xui-tooltip::after {
+    content: '';
+    position: absolute;
+    top: -7px;
+    left: 50%;
+
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 7px solid var(--background-color-tertiary);
+  }
+
+  .xui-tooltip-panel-right xui-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: -7px;
+    margin-top: -4px;
+
+    border-top: 5px solid transparent;
+    border-right: 7px solid var(--background-color-tertiary);
+    border-bottom: 5px solid transparent;
+  }
+
+  .xui-tooltip-panel-left xui-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: -7px;
+    margin-top: -4px;
+
+    border-top: 5px solid transparent;
+    border-left: 7px solid var(--background-color-tertiary);
+    border-bottom: 5px solid transparent;
+  }
+
+  .x-tooltip-show {
+    animation: x-tooltip-show 150ms cubic-bezier(0, 0, 0.2, 1) forwards;
+  }
+
+  .x-tooltip-hide {
+    animation: x-tooltip-hide 75ms cubic-bezier(0.4, 0, 1, 1) forwards;
+  }
+
+  @keyframes x-tooltip-show {
+    0% {
+      opacity: 0;
+      transform: scale(0.8);
+    }
+
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes x-tooltip-hide {
+    0% {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    100% {
+      opacity: 0;
+      transform: scale(0.8);
+    }
   }
 }

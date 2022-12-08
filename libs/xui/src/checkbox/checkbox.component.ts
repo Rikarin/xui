@@ -18,7 +18,7 @@ import { BooleanInput } from '@angular/cdk/coercion';
   exportAs: 'xuiCheckbox',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: ` <div [ngClass]="styles">
-    <div class="x-checkbox-box" [class.x-checkbox-checked]="value">
+    <div class="x-checkbox-box" tabindex="0" [class.x-checkbox-checked]="value">
       <svg
         *ngIf="value"
         viewBox="0 0 24 24"
@@ -103,7 +103,11 @@ export class XuiCheckboxComponent implements ControlValueAccessor, OnInit {
   }
 
   @HostListener('click')
-  private _click() {
+  @HostListener('keydown.enter', ['$event'])
+  @HostListener('keydown.space', ['$event'])
+  private _click(event: KeyboardEvent) {
+    event?.preventDefault();
+
     if (!this.disabled) {
       this.value = !this.value;
     }

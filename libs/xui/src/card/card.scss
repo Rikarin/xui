@@ -1,36 +1,40 @@
+@use 'variables' as *;
 @use '../xui';
 
-xui-card {
-  display: flex;
-  flex-direction: column;
-  border-radius: 4px;
+@mixin theme() {
+  xui-card {
+    display: flex;
+    flex-direction: column;
+    border-radius: 4px;
 
-  @include xui.fill(secondary-alt);
-  @include xui.elevate(medium);
-}
+    @include xui.border-radius($border-radius);
+    @include xui.fill($background-color...);
+    @include xui.elevate(medium);
+  }
 
-.x-card-header {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
+  .x-card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
 
-  font-size: 1.5rem;
-  font-weight: 500;
-  padding: 24px;
-}
+    font-size: 1.5rem;
+    font-weight: 500;
+    padding: 24px;
+  }
 
-.x-card-content {
-  flex: 1 1 auto;
-  display: flex;
-  flex-direction: column;
-  padding: 0 24px;
-}
+  .x-card-content {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    padding: 0 24px;
+  }
 
-.x-card-actions {
-  display: flex;
-  gap: 8px;
-  justify-content: flex-end;
+  .x-card-actions {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
 
-  padding-bottom: 12px;
-  padding-right: 12px;
+    padding-bottom: 12px;
+    padding-right: 12px;
+  }
 }

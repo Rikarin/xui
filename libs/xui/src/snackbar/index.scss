@@ -1,1 +1,2 @@
-@use './snackbar';
+@forward 'variables';
+@forward 'snackbar';

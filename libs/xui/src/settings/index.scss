@@ -1,2 +1,9 @@
-@use './settings';
-@use './settings-snackbar';
+@forward 'variables';
+
+@use 'settings';
+@use 'settings-snackbar';
+
+@mixin theme() {
+  @include settings.theme();
+  @include settings-snackbar.theme();
+}

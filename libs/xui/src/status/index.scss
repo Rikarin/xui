@@ -1,1 +1,2 @@
-@use './status';
+@forward 'variables';
+@forward 'status';

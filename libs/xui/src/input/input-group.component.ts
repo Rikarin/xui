@@ -10,11 +10,11 @@ import { InputSize } from './input.types';
   providers: [InputGroupService]
 })
 export class XuiInputGroupComponent implements OnChanges {
-  @Input() xSize: InputSize = 'normal';
+  @Input() size: InputSize = 'large';
 
   constructor(private groupService: InputGroupService) {}
 
   ngOnChanges() {
-    this.groupService.size = this.xSize;
+    this.groupService.size = this.size;
   }
 }

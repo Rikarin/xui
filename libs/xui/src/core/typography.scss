@@ -1,6 +1,6 @@
 @use 'sass:map';
 @use 'sass:math';
-@use './units';
+@use 'units';
 
 @function define-typography-level(
   $font-size,
