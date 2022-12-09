@@ -4,7 +4,7 @@ import { ThemingService } from 'xui';
 import { startWith } from 'rxjs';
 
 @Component({
-  selector: 'app-root',
+  selector: 'app-docs',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
   // encapsulation: ViewEncapsulation.Emulated

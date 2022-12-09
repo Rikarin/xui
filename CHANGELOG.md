@@ -4,10 +4,9 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### [1.37.2](https://github.com/Rikarin/xui/compare/v1.37.1...v1.37.2) (2022-12-08)
 
-
 ### Bug Fixes
 
-* angular import ([c940faa](https://github.com/Rikarin/xui/commit/c940faa442b46ba2b629834724eb4f71d188539f))
+- angular import ([c940faa](https://github.com/Rikarin/xui/commit/c940faa442b46ba2b629834724eb4f71d188539f))
 
 ### [1.37.1](https://github.com/Rikarin/xui/compare/v1.37.0...v1.37.1) (2022-12-08)
 

@@ -1,0 +1,29 @@
+@use '../../../../../../libs/xui/src/index' as xui;
+
+:host {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+}
+
+.main-menu {
+  @include xui.fill(tertiary);
+}
+
+.sub-menu {
+  border-bottom: 1px solid xui.modifier-accent();
+}
+
+.content {
+  flex: 2;
+  @include xui.fill(accent);
+}
+
+.preview {
+  border-top: 1px solid xui.modifier-accent();
+}
+
+xui-sider {
+  border-left: 1px solid xui.modifier-accent();
+  border-right: 1px solid xui.modifier-accent();
+}
