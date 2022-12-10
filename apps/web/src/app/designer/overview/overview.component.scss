@@ -1,0 +1,15 @@
+:host {
+  padding: 24px;
+  overflow-y: auto;
+}
+
+::ng-deep app-overview .x-card-content {
+  padding: 24px;
+}
+
+.button-list {
+  display: grid;
+  gap: 20px;
+  grid-auto-flow: column;
+  grid-template-rows: repeat(7, 1fr);
+}

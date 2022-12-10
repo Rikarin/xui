@@ -12,6 +12,7 @@ export * from './image-upload';
 export * from './input';
 export * from './layout';
 export * from './menu';
+export * from './panelbar';
 export * from './popover';
 export * from './progress';
 export * from './radio-list';

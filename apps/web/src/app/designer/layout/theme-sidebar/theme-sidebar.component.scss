@@ -1,0 +1,61 @@
+@use '../../../../../../../libs/xui/src/index' as xui;
+
+:host {
+  width: 100%;
+  height: 100%;
+
+  @include xui.fill(primary);
+}
+
+::ng-deep .properties {
+  .x-panelbar-item-chevron {
+    order: -1;
+  }
+
+  .x-panelbar-item-title {
+    padding: 0;
+  }
+}
+
+.properties {
+  .main-title {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .subtitle {
+    margin-left: 32px;
+    text-transform: uppercase;
+
+    font-size: 0.7rem;
+    //font-weight: 700;
+  }
+
+  .color-item {
+    width: 100%;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+
+    font-weight: 700;
+
+    .color {
+      width: 24px;
+      height: 24px;
+      border-radius: 4px;
+    }
+
+    .color-label {
+      font-size: 0.8rem;
+      font-weight: 400;
+
+      color: xui.text-muted();
+    }
+
+    xui-button {
+      margin-left: auto;
+    }
+  }
+}

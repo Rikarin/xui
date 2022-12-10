@@ -4,20 +4,28 @@ import {
   ChangeDetectorRef,
   Component,
   EventEmitter,
+  Host,
   HostListener,
   Input,
+  Optional,
   Output
 } from '@angular/core';
 import { WithConfig } from '../config';
 import { delay, InputBoolean, InputNumber } from '../utils';
 import { ButtonColor, ButtonSize, ButtonType } from './button.types';
+import { XuiButtonGroupComponent } from './button-group.component';
 
 @Component({
   selector: 'xui-button',
   exportAs: 'xuiButton',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <div [ngClass]="styles" [attr.disabled]="disabled || null" [tabindex]="disabled ? -1 : 0" (click)="_onAsync()">
+    <div
+      [ngClass]="styles"
+      [attr.disabled]="disabled || null"
+      [tabindex]="disabled ? -1 : 0"
+      (click)="_onAsync($event)"
+    >
       <div class="x-button-content">
         <ng-content></ng-content>
       </div>
@@ -36,9 +44,9 @@ export class XuiButtonComponent {
 
   state: 0 | 1 | 2 | 3 = 0;
 
-  @Input() type: ButtonType = 'normal';
-  @Input() size: ButtonSize = 'medium';
-  @Input() color: ButtonColor = 'primary';
+  @Input() type?: ButtonType;
+  @Input() size?: ButtonSize;
+  @Input() color?: ButtonColor;
   @Input() @InputBoolean() shine = false;
   @Input() @InputBoolean() disabled = false;
   @Input() onClick?: () => Promise<boolean>;
@@ -47,7 +55,10 @@ export class XuiButtonComponent {
   // Used to emit event when user interacts with button with spacebar or enter
   @Output() readonly click = new EventEmitter<any>();
 
-  constructor(private changeDetectorRef: ChangeDetectorRef) {}
+  constructor(
+    @Optional() @Host() private group: XuiButtonGroupComponent,
+    private changeDetectorRef: ChangeDetectorRef
+  ) {}
 
   get styles() {
     const ret: { [klass: string]: boolean } = {
@@ -58,23 +69,20 @@ export class XuiButtonComponent {
       'x-button--failed': this.state === 3
     };
 
-    ret[`x-button-${this.size}`] = true;
-    ret[`x-button-${this.type}`] = true;
-    ret[`x-button-${this.color}`] = true;
+    ret[`x-button-${this.size ?? this.group?.size ?? 'medium'}`] = true;
+    ret[`x-button-${this.type ?? this.group?.type ?? 'normal'}`] = true;
+    ret[`x-button-${this.color ?? this.group?.color ?? 'primary'}`] = true;
 
     return ret;
   }
 
   @HostListener('keydown.enter', ['$event'])
   @HostListener('keydown.space', ['$event'])
-  private _keyPress(event: KeyboardEvent) {
+  async _onAsync(event?: MouseEvent | KeyboardEvent) {
     event?.preventDefault();
+    event?.stopPropagation();
     this.click.emit();
 
-    return this._onAsync();
-  }
-
-  async _onAsync() {
     if (!this.onClick) {
       return;
     }

@@ -43,6 +43,7 @@ import {
   XuiInputModule,
   XuiLayoutModule,
   XuiMenuModule,
+  XuiPanelBarModule,
   XuiPopoverModule,
   XuiProgressModule,
   XuiRadioListModule,
@@ -70,6 +71,7 @@ import { HighlightPlusModule } from 'ngx-highlightjs/plus';
 import { DatePickerComponent } from './date-picker/date-picker.component';
 import { TimePickerComponent } from './time-picker/time-picker.component';
 import { PopoverComponent } from './popover/popover.component';
+import { PanelbarComponent } from './panelbar/panelbar.component';
 
 const routes: Routes = [
   { path: 'overview', component: ComponentsOverviewComponent },
@@ -87,6 +89,7 @@ const routes: Routes = [
   { path: 'image-upload', component: ImageUploadComponent },
   { path: 'input', component: InputComponent },
   { path: 'layout', component: LayoutComponent },
+  { path: 'panelbar', component: PanelbarComponent },
   { path: 'popover', component: PopoverComponent },
   { path: 'progress', component: ProgressComponent },
   { path: 'radio-list', component: RadioListComponent },
@@ -138,7 +141,8 @@ const routes: Routes = [
     TypographyComponent,
     DatePickerComponent,
     TimePickerComponent,
-    PopoverComponent
+    PopoverComponent,
+    PanelbarComponent
   ],
   imports: [
     CommonModule,
@@ -180,7 +184,8 @@ const routes: Routes = [
     XuiStatusModule,
     XuiDatePickerModule,
     XuiTimePickerModule,
-    XuiPopoverModule
+    XuiPopoverModule,
+    XuiPanelBarModule
   ]
 })
 export class XuiComponentsModule {}

@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ButtonColor, ButtonSize, ButtonType } from './button.types';
 
 @Component({
   selector: 'xui-button-group',
@@ -6,4 +7,8 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: '<ng-content></ng-content>'
 })
-export class XuiButtonGroupComponent {}
+export class XuiButtonGroupComponent {
+  @Input() type?: ButtonType;
+  @Input() size?: ButtonSize;
+  @Input() color?: ButtonColor;
+}

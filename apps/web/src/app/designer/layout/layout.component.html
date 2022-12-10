@@ -1,11 +1,24 @@
 <xui-layout>
   <xui-header class="main-menu">Header</xui-header>
   <xui-layout>
-    <xui-sider [width]="300">Sider</xui-sider>
+    <xui-sider [width]="300">
+      <app-theme-sidebar></app-theme-sidebar>
+    </xui-sider>
     <xui-content>
       <xui-layout>
-        <xui-header class="sub-menu">Sub menu</xui-header>
-        <xui-content class="content">content</xui-content>
+        <xui-header class="sub-menu">
+          <div></div>
+
+          <xui-button-group size="small" type="raised">
+            <xui-button [color]="isPreview ? 'success' : 'primary'" (click)="changeMode(true)">Preview</xui-button>
+            <xui-button [color]="isPreview ? 'primary' : 'success'" (click)="changeMode(false)">Edit</xui-button>
+          </xui-button-group>
+
+          <div></div>
+        </xui-header>
+        <xui-content class="content">
+          <app-overview></app-overview>
+        </xui-content>
         <xui-content class="preview">preview</xui-content>
       </xui-layout>
     </xui-content>

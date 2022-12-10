@@ -1,0 +1,72 @@
+<app-infomation title="Panel Bar">
+  <pre>TODO</pre>
+
+  <code apiReference highlight="import { XuiPanelBarModule } from 'xui';"></code>
+</app-infomation>
+
+<app-example>
+  <xui-panelbar [items]="items"></xui-panelbar>
+  <xui-panelbar [items]="items">
+    <ng-template xuiPanelBarItemTemplate let-item>
+      <div class="custom-item-template">
+        {{ item.content }}
+      </div>
+    </ng-template>
+  </xui-panelbar>
+</app-example>
+
+<app-example>
+  <xui-panelbar>
+    <xui-panelbar-item title="foo">
+      <xui-panelbar-item title="bar 1" content="content bar 1"></xui-panelbar-item>
+      <xui-panelbar-item title="bar 2" content="content bar 2"></xui-panelbar-item>
+
+      <xui-panelbar-item title="Entry 1"></xui-panelbar-item>
+      <xui-panelbar-item title="Entry 2"></xui-panelbar-item>
+      <xui-panelbar-item title="Entry 3"></xui-panelbar-item>
+      <xui-panelbar-item title="Entry 4"></xui-panelbar-item>
+    </xui-panelbar-item>
+  </xui-panelbar>
+
+  <xui-panelbar>
+    <ng-template xuiPanelBarItemTemplate let-item>
+      <div class="custom-item-template">
+        {{ item.content }}
+      </div>
+    </ng-template>
+
+    <xui-panelbar-item content="content foo">
+      <ng-template xuiPanelBarItemTitle>
+        <div class="custom-title-container">
+          <xui-decagram color="success">check</xui-decagram>
+          <div class="title">Title</div>
+          <xui-button type="raised" size="small" color="success" shine>Button!</xui-button>
+        </div>
+      </ng-template>
+    </xui-panelbar-item>
+
+    <xui-panelbar-item title="Title" icon="menu">
+      <ng-template xuiPanelBarItemContent><div class="custom-item-content">user defined content</div></ng-template>
+    </xui-panelbar-item>
+  </xui-panelbar>
+</app-example>
+
+<app-example>
+  <xui-panelbar class="properties">
+    <xui-panelbar-item>
+      <div class="main-title" *xuiPanelBarItemTitle>
+        Colors
+        <xui-button type="icon"><xui-icon>plus</xui-icon></xui-button>
+      </div>
+      <div class="subtitle" *xuiPanelBarItemContent>Theme Colors</div>
+
+      <xui-panelbar-item>
+        <div class="color-item" *xuiPanelBarItemTitle>
+          <div class="color"></div>
+          primary
+          <xui-button type="icon"><xui-icon>dots-horizontal</xui-icon></xui-button>
+        </div>
+      </xui-panelbar-item>
+    </xui-panelbar-item>
+  </xui-panelbar>
+</app-example>

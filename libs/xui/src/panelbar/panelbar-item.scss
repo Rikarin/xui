@@ -1,0 +1,32 @@
+@use '../xui';
+
+@mixin theme() {
+  .x-panelbar-item {
+    display: flex;
+    flex-direction: column;
+
+    &-title {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+      padding: 4px;
+      cursor: pointer;
+
+      &:hover {
+        background-color: xui.modifier-hover();
+      }
+    }
+
+    //&-chevron {
+    //  order: 1;
+    //}
+
+    &-content {
+      padding: 4px 8px;
+    }
+
+    &-spacer {
+      flex: 1;
+    }
+  }
+}

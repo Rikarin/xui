@@ -1,0 +1,7 @@
+@use 'panelbar';
+@use 'panelbar-item';
+
+@mixin theme() {
+  @include panelbar.theme();
+  @include panelbar-item.theme();
+}

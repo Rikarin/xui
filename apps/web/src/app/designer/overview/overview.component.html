@@ -1,0 +1,25 @@
+<h6>Button</h6>
+<xui-card>
+  <div class="button-list">
+    <ng-container *ngFor="let type of buttonTypes">
+      <xui-button *ngFor="let color of buttonColors" [type]="type" [color]="color">Button</xui-button>
+    </ng-container>
+  </div>
+
+  <div class="button-list">
+    <xui-button color="minimal">Button</xui-button>
+    <xui-button type="icon">
+      <xui-icon>menu</xui-icon>
+    </xui-button>
+  </div>
+</xui-card>
+
+<h6>Button Group</h6>
+<xui-card>
+  <xui-button-group>
+    <xui-button type="raised"><xui-icon>format-align-left</xui-icon></xui-button>
+    <xui-button type="raised"><xui-icon>format-align-center</xui-icon></xui-button>
+    <xui-button type="raised"><xui-icon>format-align-right</xui-icon></xui-button>
+    <xui-button type="raised"><xui-icon>format-align-justify</xui-icon></xui-button>
+  </xui-button-group>
+</xui-card>
