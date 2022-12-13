@@ -2,21 +2,15 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  HostListener,
+  EventEmitter,
   Input,
   OnInit,
+  Output,
   TemplateRef,
   ViewChild,
   ViewContainerRef
 } from '@angular/core';
-import {
-  ConnectedPosition,
-  ConnectionPositionPair,
-  Overlay,
-  OverlayConfig,
-  OverlayRef,
-  PositionStrategy
-} from '@angular/cdk/overlay';
+import { ConnectionPositionPair, Overlay, OverlayConfig, OverlayRef } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
 import { PopoverPosition } from './popover.types';
 
@@ -40,6 +34,7 @@ export class XuiPopoverComponent implements OnInit {
     this.overlayRef?.updatePositionStrategy(this.calculatePositionStrategy());
   }
 
+  @Output() afterClosed = new EventEmitter();
   @ViewChild('popoverTemplate', { static: true }) popoverTemplate!: TemplateRef<unknown>;
 
   get styles() {
@@ -68,6 +63,7 @@ export class XuiPopoverComponent implements OnInit {
     this.overlayRef = this.overlay.create(config);
     this.overlayRef.backdropClick().subscribe(() => {
       this.overlayRef.detach();
+      this.afterClosed.emit();
     });
   }
 
