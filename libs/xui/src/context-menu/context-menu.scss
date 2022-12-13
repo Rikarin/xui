@@ -9,7 +9,7 @@
     align-items: center;
 
     padding: 8px;
-    background-color: var(--background-color-floating);
+    background-color: var(--color-bg-floating);
 
     @include xui.border-radius($border-radius);
 
@@ -17,7 +17,7 @@
       width: 95%;
       margin: 4px;
 
-      border: 0.5px solid var(--background-color-primary);
+      border: 0.5px solid var(--color-bg-primary);
     }
 
     xui-button {

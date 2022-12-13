@@ -210,7 +210,7 @@ export interface MenuItem {
       state(
         'alert',
         style({
-          backgroundColor: 'var(--error-color-darker)',
+          backgroundColor: 'var(--color-error-darker)',
           transform: 'scale(1.1)'
         })
       ),

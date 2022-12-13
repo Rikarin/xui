@@ -11,11 +11,11 @@
     @include xui.border-radius($border-radius);
 
     &-light {
-      background-color: var(--background-color-secondary);
+      background-color: var(--color-bg-secondary);
     }
 
     &-dark {
-      background-color: var(--background-color-tertiary);
+      background-color: var(--color-bg-tertiary);
     }
   }
 }

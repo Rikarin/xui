@@ -67,10 +67,10 @@
 
     @each $name in xui.$color-variations {
       &-#{$name} {
-        background-color: var(--#{$name}-color-default);
+        background-color: var(--color-#{$name}-default);
 
         .x-switch-handle {
-          color: var(--#{$name}-color-default);
+          color: var(--color-#{$name}-default);
         }
       }
     }

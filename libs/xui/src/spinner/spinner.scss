@@ -20,10 +20,10 @@
 
     @each $name in xui.$color-variations {
       &-#{$name} {
-        border-color: var(--#{$name}-color-default)
+        border-color: var(--color-#{$name}-default)
           transparent
-          var(--#{$name}-color-default)
-          var(--#{$name}-color-default);
+          var(--color-#{$name}-default)
+          var(--color-#{$name}-default);
       }
     }
   }

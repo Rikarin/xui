@@ -12,12 +12,12 @@ $theme: (
   primary: xui.define-palette(xui.$blue-palette),
   primary-alt: xui.define-palette(xui.$blue-palette, 800),
   secondary: xui.define-palette(xui.$blue-palette, 200),
-  information: xui.define-palette(xui.$blue-palette),
+  infor: xui.define-palette(xui.$blue-palette),
   success: xui.define-palette(xui.$green-palette),
   warning: xui.define-palette(xui.$orange-palette),
   error: xui.define-palette(xui.$red-palette),
 
-  background: xui.$background-palette,
+  bg: xui.$background-palette,
   elevation: xui.$default-elevation
 );
 

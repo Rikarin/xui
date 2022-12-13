@@ -21,7 +21,7 @@ export class ThemeSidebarComponent {
       color: '#ab6100'
     },
     {
-      name: 'information',
+      name: 'info',
       color: '#1f75cb'
     },
     {

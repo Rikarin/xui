@@ -61,7 +61,7 @@
 
     @each $name in xui.$color-variations {
       &-#{$name} {
-        border-left: 3px solid var(--#{$name}-color-default);
+        border-left: 3px solid var(--color-#{$name}-default);
         padding-left: 9px;
       }
     }

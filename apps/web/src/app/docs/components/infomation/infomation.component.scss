@@ -4,7 +4,7 @@
 
 xui-card {
   padding: 24px 0;
-  background-color: var(--background-color-floating);
+  background-color: var(--color-bg-floating);
 }
 
 h6 {
@@ -14,5 +14,5 @@ h6 {
 ::ng-deep app-infomation code {
   width: fit-content;
   padding: 12px 24px;
-  background-color: var(--background-color-tertiary) !important;
+  background-color: var(--color-bg-tertiary) !important;
 }

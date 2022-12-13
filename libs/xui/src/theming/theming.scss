@@ -82,7 +82,7 @@
       success: map.get($color, success) or define-palette(theme.$green-palette),
       warning: map.get($color, warning) or define-palette(theme.$orange-palette),
       error: map.get($color, error) or define-palette(theme.$red-palette),
-      background: map.get($color, background) or define-background-palette($default-background)
+      bg: map.get($color, bg) or define-background-palette($default-background)
     )
   );
 
@@ -99,8 +99,8 @@
   @each $name, $palette in $colors {
     @each $weight, $value in $palette {
       @if type-of($value) != map {
-        --#{$name}-color-#{$weight}: #{$value};
-        --#{$name}-color-#{$weight}-rgb: #{red($value), green($value), blue($value)};
+        --color-#{$name}-#{$weight}: #{$value};
+        --color-#{$name}-#{$weight}-rgb: #{red($value), green($value), blue($value)};
       }
     }
   }
@@ -111,8 +111,8 @@
   --accent-opacity: 0.48;
   --text-muted-opacity: 0.5;
 
-  --text-link-color: var(--info-color-default);
-  --focus-color: var(--info-color-400);
+  --text-link-color: var(--color-info-default);
+  --focus-color: var(--color-info-400);
 }
 
 @mixin create-elevation-variables($theme) {
@@ -123,9 +123,9 @@
   }
 }
 
-@mixin fill($name, $palette: background) {
-  color: var(--#{$palette}-color-#{$name}-contrast);
-  background-color: var(--#{$palette}-color-#{$name});
+@mixin fill($name, $palette: bg) {
+  color: var(--color-#{$palette}-#{$name}-contrast);
+  background-color: var(--color-#{$palette}-#{$name});
 }
 
 @mixin elevate($elevation) {
@@ -139,22 +139,22 @@
   }
 }
 
-@function modifier-hover($color: accent, $palette: background) {
-  @return rgba(var(--#{$palette}-color-#{$color}-rgb), var(--hover-opacity));
+@function modifier-hover($color: accent, $palette: bg) {
+  @return rgba(var(--color-#{$palette}-#{$color}-rgb), var(--hover-opacity));
 }
 
-@function modifier-active($color: accent, $palette: background) {
-  @return rgba(var(--#{$palette}-color-#{$color}-rgb), var(--active-opacity));
+@function modifier-active($color: accent, $palette: bg) {
+  @return rgba(var(--color-#{$palette}-#{$color}-rgb), var(--active-opacity));
 }
 
-@function modifier-selected($color: accent, $palette: background) {
-  @return rgba(var(--#{$palette}-color-#{$color}-rgb), var(--selected-opacity));
+@function modifier-selected($color: accent, $palette: bg) {
+  @return rgba(var(--color-#{$palette}-#{$color}-rgb), var(--selected-opacity));
 }
 
-@function modifier-accent($color: accent, $palette: background) {
-  @return rgba(var(--#{$palette}-color-#{$color}-rgb), var(--accent-opacity));
+@function modifier-accent($color: accent, $palette: bg) {
+  @return rgba(var(--color-#{$palette}-#{$color}-rgb), var(--accent-opacity));
 }
 
-@function text-muted($color: accent, $palette: background) {
-  @return rgba(var(--#{$palette}-color-#{$color}-contrast-rgb), var(--text-muted-opacity));
+@function text-muted($color: accent, $palette: bg) {
+  @return rgba(var(--color-#{$palette}-#{$color}-contrast-rgb), var(--text-muted-opacity));
 }

@@ -31,7 +31,7 @@
     cursor: pointer;
 
     .menu-icon {
-      color: var(--primary-color-default);
+      color: var(--color-primary-default);
     }
 
     .content {
@@ -107,8 +107,8 @@
   border-radius: 4px;
 
   // TODO: use XUI
-  color: var(--background-color-floating-contrast);
-  background-color: var(--background-color-floating);
+  color: var(--color-bg-floating-contrast);
+  background-color: var(--color-bg-floating);
 
   font-size: 12px;
   font-weight: 600;

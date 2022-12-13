@@ -3,13 +3,13 @@
 
 @mixin theme() {
   .x-image-upload-cropper {
-    --cropper-outline-color: var(--background-color-secondary);
-    --cropper-overlay-color: var(--background-color-secondary);
+    --cropper-outline-color: var(--color-bg-secondary);
+    --cropper-overlay-color: var(--color-bg-secondary);
 
     display: flex;
     padding: 12px;
 
-    background-color: var(--background-color-secondary);
+    background-color: var(--color-bg-secondary);
     @include xui.border-top-radius-only($border-radius);
 
     &-actions {
@@ -18,7 +18,7 @@
       display: flex;
       justify-content: flex-end;
       align-items: center;
-      background-color: var(--background-color-tertiary);
+      background-color: var(--color-bg-tertiary);
 
       @include xui.border-bottom-radius-only($border-radius);
     }

@@ -30,16 +30,16 @@
     @each $name in xui.$color-variations {
       &-#{$name} {
         .x-checkbox-box {
-          border: 1px solid var(--#{$name}-color-default-contrast);
+          border: 1px solid var(--color-#{$name}-default-contrast);
         }
 
         .x-checkbox-checked {
-          background-color: var(--#{$name}-color-default);
-          border-color: var(--#{$name}-color-400);
+          background-color: var(--color-#{$name}-default);
+          border-color: var(--color-#{$name}-400);
         }
 
         svg {
-          fill: var(--#{$name}-color-default-contrast);
+          fill: var(--color-#{$name}-default-contrast);
         }
       }
     }

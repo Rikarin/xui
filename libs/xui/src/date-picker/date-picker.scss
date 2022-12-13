@@ -12,7 +12,7 @@
     flex-direction: column;
     user-select: none;
 
-    border: 1px solid var(--background-color-secondary-alt);
+    border: 1px solid var(--color-bg-secondary-alt);
     padding: 16px;
 
     @include xui.border-radius($border-radius);
@@ -31,7 +31,7 @@
     &-button {
       display: flex;
       cursor: pointer;
-      border: 1px solid var(--background-color-tertiary);
+      border: 1px solid var(--color-bg-tertiary);
 
       @include xui.border-radius($border-radius);
       @include xui.fill(secondary);
@@ -47,7 +47,7 @@
       display: flex;
 
       margin-bottom: 8px;
-      border-top: 1px solid var(--background-color-tertiary);
+      border-top: 1px solid var(--color-bg-tertiary);
 
       @include xui.typography-level(overline);
 
@@ -64,7 +64,7 @@
       gap: 1px;
 
       overflow: hidden;
-      border: 1px solid var(--background-color-tertiary);
+      border: 1px solid var(--color-bg-tertiary);
 
       @include xui.border-radius($border-radius);
       @include xui.fill(tertiary);
@@ -84,11 +84,11 @@
       }
 
       &.x-datepicker--selected {
-        border-bottom: 3px solid var(--primary-color-default);
+        border-bottom: 3px solid var(--color-primary-default);
       }
 
       &.x-datepicker--focused {
-        outline: 1px solid var(--primary-color-default);
+        outline: 1px solid var(--color-primary-default);
         outline-offset: -1px;
 
         &:not(.x-datepicker--selected) {
@@ -97,14 +97,14 @@
       }
 
       &.x-datepicker--outside {
-        background-color: var(--background-color-secondary);
+        background-color: var(--color-bg-secondary);
         color: xui.text-muted();
       }
 
       &.x-datepicker--disabled {
         cursor: not-allowed;
         color: xui.text-muted();
-        background-color: var(--background-color-secondary);
+        background-color: var(--color-bg-secondary);
 
         @include xui.disabled();
       }

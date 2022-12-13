@@ -24,10 +24,10 @@
 
   @each $value in xui.$color-variations {
     .x-decagram-#{$value} {
-      color: var(--#{$value}-color-default);
+      color: var(--color-#{$value}-default);
 
       .x-decagram-icon {
-        color: var(--#{$value}-color-default-contrast);
+        color: var(--color-#{$value}-default-contrast);
       }
     }
   }

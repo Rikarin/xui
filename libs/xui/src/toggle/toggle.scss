@@ -53,14 +53,14 @@
         height: 3px;
 
         @include xui.border-radius($border-radius);
-        background-color: var(--error-color-default);
+        background-color: var(--color-error-default);
         transform: rotate(-45deg);
       }
     }
 
     @each $name in xui.$color-variations {
       &-#{$name} {
-        color: var(--#{$name}-color-default);
+        color: var(--color-#{$name}-default);
       }
     }
 

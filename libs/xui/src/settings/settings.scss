@@ -83,11 +83,11 @@
       &-divider {
         height: 1px;
         margin: 12px;
-        background-color: var(--background-color-accent);
+        background-color: var(--color-bg-accent);
       }
 
       &-red {
-        color: var(--error-color-default);
+        color: var(--color-error-default);
       }
     }
 
@@ -121,7 +121,7 @@
       top: 50px;
 
       cursor: pointer;
-      color: rgba(var(--background-color-primary-contrast-rgb), 0.4);
+      color: rgba(var(--color-bg-primary-contrast-rgb), 0.4);
 
       font-size: 0.8rem;
       font-weight: 500;
@@ -139,7 +139,7 @@
       }
 
       &:hover {
-        color: var(--background-color-primary-contrast);
+        color: var(--color-bg-primary-contrast);
       }
     }
   }

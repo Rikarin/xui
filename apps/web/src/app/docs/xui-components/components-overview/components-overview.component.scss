@@ -30,11 +30,11 @@ h6 {
 
   font-weight: 500;
 
-  background-color: var(--background-color-floating);
+  background-color: var(--color-bg-floating);
   border-radius: 5px;
 
   &:hover {
-    background-color: var(--background-color-tertiary);
+    background-color: var(--color-bg-tertiary);
   }
 
   xui-icon {

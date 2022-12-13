@@ -67,21 +67,21 @@
       &-dash {
         width: 2px;
         height: 24px;
-        background-color: var(--background-color-primary);
+        background-color: var(--color-bg-primary);
       }
     }
 
     &-none {
-      background-color: var(--background-color-primary);
+      background-color: var(--color-bg-primary);
     }
 
     @each $name in xui.$color-variations {
       &-#{$name} {
-        background-color: var(--#{$name}-color-default);
+        background-color: var(--color-#{$name}-default);
       }
 
       &-mark-#{$name} {
-        color: var(--#{$name}-color-default);
+        color: var(--color-#{$name}-default);
       }
     }
   }

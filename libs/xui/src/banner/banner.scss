@@ -31,7 +31,7 @@
     &-info {
       @include xui.fill(lighter, info);
 
-      border: 1px solid var(--info-color-50);
+      border: 1px solid var(--color-info-50);
       border-left: none;
       border-right: none;
 
@@ -52,7 +52,7 @@
 
     .x-banner-stamp {
       color: var(--#{$palette}-color-default);
-      background-color: var(--#{$palette}-color-default-contrast);
+      background-color: var(--color-#{$palette}-default-contrast);
     }
 
     &.x-banner-dismissible:hover {

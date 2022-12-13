@@ -38,29 +38,29 @@
     }
 
     &-light {
-      background-color: var(--background-color-secondary);
+      background-color: var(--color-bg-secondary);
 
       input {
-        -webkit-text-fill-color: var(--background-color-secondary-contrast);
-        caret-color: var(--background-color-secondary-contrast);
+        -webkit-text-fill-color: var(--color-bg-secondary-contrast);
+        caret-color: var(--color-bg-secondary-contrast);
       }
     }
 
     &-dark {
-      background-color: var(--background-color-tertiary);
+      background-color: var(--color-bg-tertiary);
 
       input {
-        -webkit-text-fill-color: var(--background-color-tertiary-contrast);
-        caret-color: var(--background-color-tertiary-contrast);
+        -webkit-text-fill-color: var(--color-bg-tertiary-contrast);
+        caret-color: var(--color-bg-tertiary-contrast);
       }
     }
 
     &-error {
-      outline: 2px solid var(--error-color-default);
+      outline: 2px solid var(--color-error-default);
     }
 
     &-error-text {
-      color: var(--error-color-default);
+      color: var(--color-error-default);
       font-size: 0.8rem;
       margin-top: 4px;
       margin-left: 8px;

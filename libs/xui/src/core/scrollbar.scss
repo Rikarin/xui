@@ -17,11 +17,11 @@
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: var(--background-color-tertiary);
+    background-color: var(--color-bg-tertiary);
   }
 
   &::-webkit-scrollbar-track {
-    background-color: var(--background-color-secondary);
+    background-color: var(--color-bg-secondary);
   }
 
   &::-webkit-scrollbar-button {
@@ -43,7 +43,7 @@
   }
 
   // Firefox
-  scrollbar-color: var(--background-color-tertiary) var(--background-color-secondary);
+  scrollbar-color: var(--color-bg-tertiary) var(--color-bg-secondary);
 }
 
 @mixin thin() {
@@ -59,7 +59,7 @@
   }
 
   &:hover::-webkit-scrollbar-thumb {
-    background-color: var(--background-color-tertiary);
+    background-color: var(--color-bg-tertiary);
   }
 
   // Firefox
