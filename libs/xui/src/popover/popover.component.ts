@@ -12,7 +12,7 @@ import {
 } from '@angular/core';
 import { ConnectionPositionPair, Overlay, OverlayConfig, OverlayRef } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
-import { PopoverPosition } from './popover.types';
+import { PopoverAnchor, PopoverPosition } from './popover.types';
 
 @Component({
   selector: 'xui-popover',
@@ -20,19 +20,11 @@ import { PopoverPosition } from './popover.types';
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './popover.component.html'
 })
-export class XuiPopoverComponent implements OnInit {
+export class XuiPopoverComponent {
   private overlayRef!: OverlayRef;
-  private _position: PopoverPosition = 'right';
 
-  @Input() anchor!: HTMLElement | { elementRef: ElementRef };
-
-  @Input() get position() {
-    return this._position;
-  }
-  set position(value: PopoverPosition) {
-    this._position = value;
-    this.overlayRef?.updatePositionStrategy(this.calculatePositionStrategy());
-  }
+  @Input() anchor!: PopoverAnchor;
+  @Input() position: PopoverPosition = 'right';
 
   @Output() afterClosed = new EventEmitter();
   @ViewChild('popoverTemplate', { static: true }) popoverTemplate!: TemplateRef<unknown>;
@@ -42,23 +34,16 @@ export class XuiPopoverComponent implements OnInit {
       'x-popover': true
     };
 
-    ret[`x-popover-${this._position}`] = true;
-
+    ret[`x-popover-${this.position}`] = true;
     return ret;
   }
 
-  constructor(private overlay: Overlay, private viewContainerRef: ViewContainerRef) {}
-
-  ngOnInit() {
+  constructor(private overlay: Overlay, private viewContainerRef: ViewContainerRef) {
     let config: OverlayConfig = {
       scrollStrategy: this.overlay.scrollStrategies.reposition(),
       hasBackdrop: true,
       backdropClass: 'x-popover-backdrop'
     };
-
-    if (this.anchor) {
-      config.positionStrategy = this.calculatePositionStrategy();
-    }
 
     this.overlayRef = this.overlay.create(config);
     this.overlayRef.backdropClick().subscribe(() => {
@@ -67,21 +52,23 @@ export class XuiPopoverComponent implements OnInit {
     });
   }
 
-  open() {
+  open(anchor?: PopoverAnchor) {
+    this.overlayRef.updatePositionStrategy(this.calculatePositionStrategy(anchor ?? this.anchor));
+
     const userProfilePortal = new TemplatePortal(this.popoverTemplate, this.viewContainerRef);
     this.overlayRef.attach(userProfilePortal);
   }
 
-  private calculatePositionStrategy() {
+  private calculatePositionStrategy(anchor: PopoverAnchor) {
     return this.overlay
       .position()
-      .flexibleConnectedTo((this.anchor as any).elementRef ?? this.anchor)
+      .flexibleConnectedTo((anchor as any)?.elementRef ?? anchor)
       .withPositions([this.getPositionStrategy()])
       .withPush(false);
   }
 
   private getPositionStrategy(): ConnectionPositionPair {
-    switch (this._position) {
+    switch (this.position) {
       case 'right':
         return new ConnectionPositionPair(
           { originX: 'end', originY: 'center' },

@@ -2,7 +2,7 @@
 @use '../xui';
 
 @mixin theme() {
-  xui-context-menu {
+  .x-context-menu {
     min-width: 200px;
     display: flex;
     flex-direction: column;

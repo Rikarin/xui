@@ -5,40 +5,16 @@
 </app-infomation>
 
 <app-example>
-  <xui-context-menu cdkMenu>
-    <xui-button cdkMenuItem>Profile <xui-icon>account</xui-icon></xui-button>
-    <hr />
-    <xui-button cdkMenuItem (click)="counter = counter + 1">Counter++</xui-button>
-    <xui-button cdkMenuGroup>ASDF</xui-button>
-    <xui-button color="error" cdkMenuItem>
-      Delete
-      <xui-icon>delete-outline</xui-icon>
-    </xui-button>
+  <xui-context-menu #menu2>
+    <xui-button>Foo</xui-button>
+    <xui-button>Bar <xui-icon>account</xui-icon></xui-button>
+    <xui-divider></xui-divider>
+    <xui-button>ASDF</xui-button>
+    <xui-button (click)="counter = counter + 1">Counter++</xui-button>
+    <xui-button *ngIf="counter" (click)="counter = counter - 1">Counter--</xui-button>
   </xui-context-menu>
 
-  <ng-template #menu>
-    <xui-context-menu cdkMenu>
-      <xui-button cdkMenuItem [onClick]="increase">Countter++</xui-button>
-      <xui-button cdkMenuItem>Bar <xui-icon>account</xui-icon></xui-button>
-      <hr />
-      <xui-button cdkMenuItem>ASDF</xui-button>
-      <xui-button cdkMenuItem [cdkMenuTriggerFor]="innerMenu">
-        Inner Menu
-        <xui-icon>chevron-right</xui-icon>
-      </xui-button>
-    </xui-context-menu>
-  </ng-template>
-
-  <ng-template #innerMenu>
-    <xui-context-menu cdkMenu>
-      <xui-button cdkMenuItem>Foo</xui-button>
-      <xui-button cdkMenuItem>Bar <xui-icon>account</xui-icon></xui-button>
-      <hr />
-      <xui-button cdkMenuItem>ASDF</xui-button>
-      <xui-button cdkMenuItem (click)="counter = counter + 1">Counter++</xui-button>
-    </xui-context-menu>
-  </ng-template>
-
-  <xui-button [cdkMenuTriggerFor]="menu">Open Menu</xui-button>
+  <xui-button [xuiMenuTriggerFor]="menu2">Open Menu</xui-button>
+  <xui-button [xuiContextMenuTriggerFor]="menu2">Context Menu</xui-button>
   {{ counter }}
 </app-example>

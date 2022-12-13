@@ -20,12 +20,14 @@
     </div>
   </xui-popover>
   <xui-button type="raised" #anchorButton (click)="popover.open()">Open Popover</xui-button>
+
+  <xui-button type="raised" [xuiPopoverTriggerFor]="popover">Open by Directive</xui-button>
 </app-example>
 
 <app-example>
   <div>
-    <xui-popover #popoverDiv position="left" [anchor]="anchor">Simple popover</xui-popover>
-    <div #anchor (click)="popoverDiv.open()">Left Popover</div>
+    <xui-popover #popoverDiv position="left">Simple popover</xui-popover>
+    <div [xuiPopoverTriggerFor]="popoverDiv">Left Popover</div>
 
     <xui-popover #popoverTop position="top" [anchor]="anchorTop">Simple popover</xui-popover>
     <span #anchorTop (click)="popoverTop.open()">Top Popover</span>

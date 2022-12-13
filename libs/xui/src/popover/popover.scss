@@ -11,7 +11,7 @@
     border-radius: $border-radius;
     border: 1px solid xui.modifier-accent();
 
-    @include xui.fill(tertiary);
+    @include xui.fill(floating);
     @include xui.elevate(high);
 
     &-content {
@@ -35,7 +35,7 @@
           top: -8px;
           left: 1.5px;
           border-top: 0.5rem solid transparent;
-          border-right: 0.5rem solid var(--color-bg-tertiary);
+          border-right: 0.5rem solid var(--color-bg-floating);
           border-bottom: 0.5rem solid transparent;
         }
       }

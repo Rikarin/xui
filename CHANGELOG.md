@@ -4,22 +4,20 @@ All notable changes to this project will be documented in this file. See [standa
 
 ## [1.38.0](https://github.com/Rikarin/xui/compare/v1.37.2...v1.38.0) (2022-12-13)
 
-
 ### Features
 
-* add (afterClosed) event to xui-popover ([030c19f](https://github.com/Rikarin/xui/commit/030c19f94eaa7e3f6f19d4b0e1c5b3c5916bd1a0))
-* add xui-popover ([ab8c0d5](https://github.com/Rikarin/xui/commit/ab8c0d596258b64d76cccae142a617cccf0864d9))
-* rename css color variables ([51b8dc6](https://github.com/Rikarin/xui/commit/51b8dc6cee27e02777aaa7be2c3055f33ebd63d9))
-* xui-panelbar ([9fbbf1f](https://github.com/Rikarin/xui/commit/9fbbf1fff151fad89c412bb5830f7539d26fad2f))
-
+- add (afterClosed) event to xui-popover ([030c19f](https://github.com/Rikarin/xui/commit/030c19f94eaa7e3f6f19d4b0e1c5b3c5916bd1a0))
+- add xui-popover ([ab8c0d5](https://github.com/Rikarin/xui/commit/ab8c0d596258b64d76cccae142a617cccf0864d9))
+- rename css color variables ([51b8dc6](https://github.com/Rikarin/xui/commit/51b8dc6cee27e02777aaa7be2c3055f33ebd63d9))
+- xui-panelbar ([9fbbf1f](https://github.com/Rikarin/xui/commit/9fbbf1fff151fad89c412bb5830f7539d26fad2f))
 
 ### Bug Fixes
 
-* circular dependency ([4892356](https://github.com/Rikarin/xui/commit/48923565651e57c6215518bba90ce826268bbaba))
-* don't emit click event when button is disabled ([de2966f](https://github.com/Rikarin/xui/commit/de2966ff593771e12ed26de07d7c6b3bce1e7aea))
-* fix xui-card title and actions ([a500ef0](https://github.com/Rikarin/xui/commit/a500ef011b551efdbd5602c34bf98a09d8867c85))
-* radio-list disabled state ([9e622e3](https://github.com/Rikarin/xui/commit/9e622e3720e0bff303081762fbbc278c6e621059))
-* xui-image-upload disabled state ([125ab1c](https://github.com/Rikarin/xui/commit/125ab1c21b95ce956150c34a458c8d29186d112c))
+- circular dependency ([4892356](https://github.com/Rikarin/xui/commit/48923565651e57c6215518bba90ce826268bbaba))
+- don't emit click event when button is disabled ([de2966f](https://github.com/Rikarin/xui/commit/de2966ff593771e12ed26de07d7c6b3bce1e7aea))
+- fix xui-card title and actions ([a500ef0](https://github.com/Rikarin/xui/commit/a500ef011b551efdbd5602c34bf98a09d8867c85))
+- radio-list disabled state ([9e622e3](https://github.com/Rikarin/xui/commit/9e622e3720e0bff303081762fbbc278c6e621059))
+- xui-image-upload disabled state ([125ab1c](https://github.com/Rikarin/xui/commit/125ab1c21b95ce956150c34a458c8d29186d112c))
 
 ### [1.37.2](https://github.com/Rikarin/xui/compare/v1.37.1...v1.37.2) (2022-12-08)
 
