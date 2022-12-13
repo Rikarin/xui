@@ -1,11 +1,11 @@
 import { Directive, TemplateRef } from '@angular/core';
-import { PanelBarComponent } from './panelbar.component';
+import { PanelBarService } from './panelbar.service';
 
 @Directive({
   selector: '[xuiPanelBarItemTemplate]'
 })
 export class PanelBarItemTemplateDirective {
-  constructor(panelBar: PanelBarComponent, templateRef: TemplateRef<any>) {
+  constructor(panelBar: PanelBarService, templateRef: TemplateRef<any>) {
     panelBar.itemTemplate = templateRef;
   }
 }

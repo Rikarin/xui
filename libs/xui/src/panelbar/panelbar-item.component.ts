@@ -10,9 +10,9 @@ import {
   ViewContainerRef
 } from '@angular/core';
 import { Portal, TemplatePortal } from '@angular/cdk/portal';
-import { PanelBarComponent } from './panelbar.component';
 import { PanelBarItem } from './panelbar.types';
 import { BooleanInput } from '@angular/cdk/coercion';
+import { PanelBarService } from './panelbar.service';
 
 @Component({
   selector: 'xui-panelbar-item',
@@ -62,7 +62,7 @@ export class PanelBarItemComponent {
   // }
 
   constructor(
-    private panelBar: PanelBarComponent,
+    private panelBar: PanelBarService,
     private viewContainerRef: ViewContainerRef,
     // private injector: Injector,
     // private changeDetectorRef: ChangeDetectorRef,
