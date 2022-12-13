@@ -1,19 +1,11 @@
-<div class="x-card-header" *ngIf="title || extra">
-  <div *ngIf="title">
-    <ng-container [cdkPortalOutlet]="titlePortal"></ng-container>
-  </div>
-
-  <div *ngIf="extra">
-    <ng-container [cdkPortalOutlet]="extraPortal"></ng-container>
-  </div>
+<div class="x-card-header" *ngIf="titleDirective">
+  <ng-template [cdkPortalOutlet]="titlePortal"></ng-template>
 </div>
 
 <div class="x-card-content">
   <ng-content></ng-content>
 </div>
 
-<div class="x-card-actions" *ngIf="actions">
-  <ng-container [cdkPortalOutlet]="actionsPortal"></ng-container>
+<div class="x-card-actions" *ngIf="actionsDirective">
+  <ng-template [cdkPortalOutlet]="actionsPortal"></ng-template>
 </div>
-
-<ng-template #titleText>{{ title }}</ng-template>

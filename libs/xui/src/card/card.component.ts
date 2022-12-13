@@ -1,14 +1,5 @@
+import { ChangeDetectionStrategy, Component, Input, TemplateRef, ViewContainerRef } from '@angular/core';
 import { Portal, TemplatePortal } from '@angular/cdk/portal';
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  TemplateRef,
-  ViewChild,
-  ViewContainerRef
-} from '@angular/core';
-import { inNextTick } from '../utils';
 
 @Component({
   selector: 'xui-card',
@@ -16,61 +7,24 @@ import { inNextTick } from '../utils';
   templateUrl: 'card.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class XuiCardComponent implements AfterViewInit {
+export class XuiCardComponent {
+  titleDirective?: TemplateRef<unknown>;
+  actionsDirective?: TemplateRef<unknown>;
+
   titlePortal?: Portal<unknown>;
-  extraPortal?: Portal<unknown>;
   actionsPortal?: Portal<unknown>;
 
-  @Input() loading!: boolean;
-  @Input() title?: string | TemplateRef<unknown>;
-  @Input() extra?: TemplateRef<unknown>;
-  @Input() actions?: TemplateRef<unknown>;
-
-  @ViewChild('titleText') titleText!: TemplateRef<unknown>;
+  // @Input() loading!: boolean;
 
   constructor(private viewContainerRef: ViewContainerRef) {}
 
-  async ngAfterViewInit() {
-    await inNextTick();
-
-    this.renderTitle();
-    this.renderExtra();
-    this.renderActions();
-  }
-
-  private renderTitle() {
-    if (!this.title) {
-      return;
+  ngOnInit() {
+    if (this.titleDirective) {
+      this.titlePortal = new TemplatePortal(this.titleDirective, this.viewContainerRef);
     }
 
-    if (this.title instanceof TemplateRef) {
-      this.titlePortal = new TemplatePortal(this.title, this.viewContainerRef);
-    } else {
-      this.titlePortal = new TemplatePortal(this.titleText, this.viewContainerRef);
+    if (this.actionsDirective) {
+      this.actionsPortal = new TemplatePortal(this.actionsDirective, this.viewContainerRef);
     }
-  }
-
-  private renderExtra() {
-    if (!this.extra) {
-      return;
-    }
-
-    if (!(this.extra instanceof TemplateRef)) {
-      throw new Error('extra is not a TemplateRef');
-    }
-
-    this.extraPortal = new TemplatePortal(this.extra, this.viewContainerRef);
-  }
-
-  private renderActions() {
-    if (!this.actions) {
-      return;
-    }
-
-    if (!(this.actions instanceof TemplateRef)) {
-      throw new Error('actions is not a TemplateRef');
-    }
-
-    this.actionsPortal = new TemplatePortal(this.actions, this.viewContainerRef);
   }
 }
