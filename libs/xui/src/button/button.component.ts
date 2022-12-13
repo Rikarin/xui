@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  ElementRef,
   EventEmitter,
   Host,
   HostListener,
@@ -56,6 +57,7 @@ export class XuiButtonComponent {
   @Output() readonly click = new EventEmitter<any>();
 
   constructor(
+    public elementRef: ElementRef,
     @Optional() @Host() private group: XuiButtonGroupComponent,
     private changeDetectorRef: ChangeDetectorRef
   ) {}

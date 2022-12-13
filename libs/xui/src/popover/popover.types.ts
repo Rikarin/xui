@@ -1,1 +1,1 @@
-export type PopoverPosition = 'above';
+export type PopoverPosition = 'left' | 'right' | 'top' | 'bottom';

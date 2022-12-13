@@ -5,5 +5,29 @@
 </app-infomation>
 
 <app-example>
-  <div class="box">TODO</div>
+  <xui-popover #popover [anchor]="anchorButton">
+    <div class="popover-container">
+      <div>
+        <label>Username:</label>
+        <xui-input placeholder="username"></xui-input>
+      </div>
+      <div>
+        <label>Password:</label>
+        <xui-input placeholder="password"></xui-input>
+      </div>
+      <xui-divider marginTop="10" marginBottom="10"></xui-divider>
+      <xui-button type="raised">Login</xui-button>
+    </div>
+  </xui-popover>
+  <xui-button type="raised" #anchorButton (click)="popover.open()">Open Popover</xui-button>
+</app-example>
+
+<app-example>
+  <div>
+    <xui-popover #popoverDiv position="left" [anchor]="anchor">Simple popover</xui-popover>
+    <div #anchor (click)="popoverDiv.open()">Left Popover</div>
+
+    <xui-popover #popoverTop position="top" [anchor]="anchorTop">Simple popover</xui-popover>
+    <span #anchorTop (click)="popoverTop.open()">Top Popover</span>
+  </div>
 </app-example>

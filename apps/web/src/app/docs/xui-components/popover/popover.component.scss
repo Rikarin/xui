@@ -4,3 +4,13 @@
   grid-template-columns: 1fr 1fr;
   gap: 12px;
 }
+
+.popover-container {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  xui-button {
+    align-self: flex-end;
+  }
+}

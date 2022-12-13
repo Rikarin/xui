@@ -1,1 +1,8 @@
-<p>popover works!</p>
+<ng-template #popoverTemplate>
+  <div [ngClass]="styles">
+    <div class="x-popover-arrow"></div>
+    <div class="x-popover-content">
+      <ng-content></ng-content>
+    </div>
+  </div>
+</ng-template>
