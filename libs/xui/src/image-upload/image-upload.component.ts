@@ -13,9 +13,10 @@ import {
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { Dialog, DialogRef } from '@angular/cdk/dialog';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
-import { InputNumber } from '../utils';
+import { InputBoolean, InputNumber } from '../utils';
 import { XuiImageUploadCropperComponent } from './image-upload-cropper';
 import { ImageUploadType } from './image-upload.types';
+import { BooleanInput } from '@angular/cdk/coercion';
 
 @Component({
   selector: 'xui-image-upload',
@@ -24,6 +25,8 @@ import { ImageUploadType } from './image-upload.types';
   templateUrl: './image-upload.component.html'
 })
 export class XuiImageUploadComponent implements ControlValueAccessor, OnInit {
+  static ngAcceptInputType_disabled: BooleanInput;
+
   private onChange?: (source: string | null) => void;
   private onTouched?: () => void;
   private _backgroundImage: string | null = null;
@@ -35,11 +38,13 @@ export class XuiImageUploadComponent implements ControlValueAccessor, OnInit {
   @Input() hoverLabel = 'xui.image_upload.change_image';
   @Input() type: ImageUploadType = 'square';
   @Input() @InputNumber() aspectRatio = 1;
+  @Input() @InputBoolean() disabled = false;
   @ViewChild('input') inputElm!: ElementRef;
 
   get classes() {
     const ret: { [klass: string]: boolean } = {
       'x-image-upload': true,
+      'x-image-upload-disabled': this.disabled,
       'x-image-upload-square': this.type === 'square'
     };
 
@@ -120,13 +125,6 @@ export class XuiImageUploadComponent implements ControlValueAccessor, OnInit {
   }
 
   setDisabledState(isDisabled: boolean): void {
-    // this.disabled = isDisabled;
-  }
-
-  markAsTouched() {
-    if (!this.touched) {
-      this.onTouched?.();
-      this.touched = true;
-    }
+    this.disabled = isDisabled;
   }
 }

@@ -1,5 +1,5 @@
 <div [ngClass]="classes" [ngStyle]="styles" tabindex="0">
-  <input #input type="file" (change)="handleFileInput($event)" accept="image/*" tabindex="-1" />
+  <input #input type="file" [disabled]="disabled" (change)="handleFileInput($event)" accept="image/*" tabindex="-1" />
   <div class="x-image-upload-hover" [style.border-radius.%]="borderRadius">{{ hoverLabel | translate }}</div>
   <div *ngIf="!backgroundImage" class="x-image-upload-no-image">{{ 'xui.image_upload.no_image' | translate }}</div>
 

@@ -26,13 +26,14 @@
     @include xui.elevate(high);
 
     input {
+      width: inherit;
       position: absolute;
       inset: 0 0 0 0;
       opacity: 0;
       cursor: pointer;
     }
 
-    &:hover {
+    &:not(.x-image-upload-disabled):hover {
       .x-image-upload-hover {
         display: grid;
         background-color: xui.modifier-hover();
@@ -75,6 +76,14 @@
     &-square &-icon {
       right: -8px;
       top: -8px;
+    }
+
+    &-disabled {
+      @include xui.disabled();
+
+      input {
+        cursor: not-allowed;
+      }
     }
   }
 }
