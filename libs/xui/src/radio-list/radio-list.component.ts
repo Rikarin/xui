@@ -16,6 +16,8 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { distinctUntilChanged } from 'rxjs';
 import { RadioListColor, RadioListSize } from './radio-list.types';
 import { filter } from 'rxjs/operators';
+import { BooleanInput } from '@angular/cdk/coercion';
+import { InputBoolean } from '../utils';
 
 @UntilDestroy()
 @Component({
@@ -26,6 +28,8 @@ import { filter } from 'rxjs/operators';
   providers: [RadioListService]
 })
 export class XuiRadioListComponent implements ControlValueAccessor, OnInit {
+  static ngAcceptInputType_disabled: BooleanInput;
+
   private onChange?: (source: string | null) => void;
   private onTouched?: () => void;
 
@@ -35,6 +39,7 @@ export class XuiRadioListComponent implements ControlValueAccessor, OnInit {
 
   @Input() size: RadioListSize = 'md';
   @Input() color: RadioListColor = 'light';
+  @Input() @InputBoolean() disabled = false;
 
   @Input()
   get value() {
@@ -86,23 +91,20 @@ export class XuiRadioListComponent implements ControlValueAccessor, OnInit {
   }
 
   setDisabledState(isDisabled: boolean): void {
-    // this.disabled = isDisabled;
+    this.disabled = isDisabled;
   }
 
-  markAsTouched() {
-    if (!this.touched) {
-      this.onTouched?.();
-      this.touched = true;
-    }
-  }
-
-  @HostListener('keydown.arrowup')
-  private prev() {
+  @HostListener('keydown.arrowup', ['$event'])
+  private prev(event: KeyboardEvent) {
+    event.preventDefault();
+    event.stopPropagation();
     this.radioListService.selectPrev();
   }
 
-  @HostListener('keydown.arrowdown')
-  private next() {
+  @HostListener('keydown.arrowdown', ['$event'])
+  private next(event: KeyboardEvent) {
+    event.preventDefault();
+    event.stopPropagation();
     this.radioListService.selectNext();
   }
 

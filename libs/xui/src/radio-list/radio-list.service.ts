@@ -43,13 +43,19 @@ export class RadioListService {
 
   selectPrev() {
     let next = this._components.value.findIndex(x => x.value === this._selected.value?.value);
+    let iteration = 0;
 
     do {
       next--;
       if (next < 0) {
         next = this._components.value.length - 1;
+        iteration++;
       }
-    } while (this._components.value[next].disabled);
+
+      if (iteration == 2) {
+        return;
+      }
+    } while (this._components.value[next].isDisabled);
 
     const component = this._components.value[next].value;
     this.select(component, true);
@@ -57,13 +63,19 @@ export class RadioListService {
 
   selectNext() {
     let next = this._components.value.findIndex(x => x.value === this._selected.value?.value);
+    let iteration = 0;
 
     do {
       next++;
       if (next >= this._components.value.length) {
         next = 0;
+        iteration++;
       }
-    } while (this._components.value[next].disabled);
+
+      if (iteration == 2) {
+        return;
+      }
+    } while (this._components.value[next].isDisabled);
 
     const component = this._components.value[next].value;
     this.select(component, true);

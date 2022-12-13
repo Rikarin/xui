@@ -37,16 +37,21 @@ export class XuiRadioOptionComponent implements OnInit, OnDestroy {
   private isSelected = false;
   private isFocused = false;
 
+  get isDisabled() {
+    return this.disabled || this.radioList.disabled;
+  }
+
   get icon() {
     return this.isSelected ? 'radiobox-marked' : 'radiobox-blank';
   }
 
   get styles() {
+    console.log('style', this.radioList.disabled);
     const ret: { [klass: string]: boolean } = {
       'x-radio-option': true,
       'x-radio-option-focus': this.isFocused,
       'x-radio-option-active': this.isSelected,
-      'x-radio-option-disabled': this.disabled
+      'x-radio-option-disabled': this.isDisabled
     };
 
     ret[`x-radio-option-${this.color}`] = !!this.color;
@@ -71,7 +76,7 @@ export class XuiRadioOptionComponent implements OnInit, OnDestroy {
 
   @HostListener('click')
   click() {
-    if (!this.disabled) {
+    if (!this.isDisabled) {
       this.radioListService.select(this.value);
     }
   }

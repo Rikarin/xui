@@ -8,5 +8,6 @@ import { FormControl } from '@angular/forms';
 })
 export class RadioListComponent {
   model = new FormControl('second');
+  disabledModel = new FormControl({ value: 'second', disabled: true });
   langs = new FormControl('en_US');
 }
