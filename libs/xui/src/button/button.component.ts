@@ -81,6 +81,11 @@ export class XuiButtonComponent {
   async _onAsync(event?: MouseEvent | KeyboardEvent) {
     event?.preventDefault();
     event?.stopPropagation();
+
+    if (this.disabled) {
+      return;
+    }
+
     this.click.emit();
 
     if (!this.onClick) {

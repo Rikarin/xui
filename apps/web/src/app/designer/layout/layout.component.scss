@@ -7,7 +7,19 @@
 }
 
 .main-menu {
+  display: flex;
+  gap: 12px;
+  padding: 0 12px;
+
   @include xui.fill(tertiary);
+
+  h6 {
+    margin: 0;
+  }
+
+  .spacer {
+    flex: 1;
+  }
 }
 
 .sub-menu {

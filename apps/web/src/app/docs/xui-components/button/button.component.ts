@@ -56,4 +56,8 @@ export class ButtonComponent {
     await delay(2000);
     return Math.random() >= 0.5;
   };
+
+  clickOnDisabled() {
+    alert('foo bar');
+  }
 }

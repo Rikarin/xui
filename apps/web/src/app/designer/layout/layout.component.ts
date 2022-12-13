@@ -8,6 +8,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 })
 export class LayoutComponent {
   isPreview = true;
+  isEditing = false;
 
   changeMode(preview: boolean) {
     this.isPreview = preview;

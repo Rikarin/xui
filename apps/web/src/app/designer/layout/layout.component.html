@@ -1,5 +1,13 @@
 <xui-layout>
-  <xui-header class="main-menu">Header</xui-header>
+  <xui-header class="main-menu">
+    <xui-icon>home-outline</xui-icon>
+    <h6>Theme Designer</h6>
+    <div class="spacer"></div>
+
+    <xui-button><xui-icon>content-save</xui-icon>Save</xui-button>
+    <xui-button>Load</xui-button>
+    <xui-button type="raised" shine><xui-icon>export</xui-icon>Export</xui-button>
+  </xui-header>
   <xui-layout>
     <xui-sider [width]="300">
       <app-theme-sidebar></app-theme-sidebar>
@@ -19,9 +27,9 @@
         <xui-content class="content">
           <app-overview></app-overview>
         </xui-content>
-        <xui-content class="preview">preview</xui-content>
+        <xui-content class="preview" *ngIf="isEditing">preview</xui-content>
       </xui-layout>
     </xui-content>
-    <xui-sider [width]="300">Sider</xui-sider>
+    <xui-sider [width]="300" *ngIf="isEditing">Sider</xui-sider>
   </xui-layout>
 </xui-layout>
