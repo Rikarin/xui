@@ -9,18 +9,18 @@
     <div class="popover-container">
       <div>
         <label>Username:</label>
-        <xui-input placeholder="username"></xui-input>
+        <xui-input color="dark" placeholder="username"></xui-input>
       </div>
       <div>
         <label>Password:</label>
-        <xui-input placeholder="password"></xui-input>
+        <xui-input color="dark" type="password" placeholder="password"></xui-input>
       </div>
       <xui-divider marginTop="10" marginBottom="10"></xui-divider>
       <xui-button type="raised">Login</xui-button>
     </div>
   </xui-popover>
-  <xui-button type="raised" #anchorButton (click)="popover.open()">Open Popover</xui-button>
 
+  <xui-button type="raised" #anchorButton (click)="popover.open()">Open Popover</xui-button>
   <xui-button type="raised" [xuiPopoverTriggerFor]="popover">Open by Directive</xui-button>
 </app-example>
 

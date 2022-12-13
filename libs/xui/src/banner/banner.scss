@@ -51,7 +51,7 @@
     @include xui.fill(default, $palette);
 
     .x-banner-stamp {
-      color: var(--#{$palette}-color-default);
+      color: var(--color-#{$palette}-default);
       background-color: var(--color-#{$palette}-default-contrast);
     }
 

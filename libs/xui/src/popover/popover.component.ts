@@ -3,6 +3,7 @@ import {
   Component,
   ElementRef,
   EventEmitter,
+  HostListener,
   Input,
   OnInit,
   Output,
@@ -47,8 +48,7 @@ export class XuiPopoverComponent {
 
     this.overlayRef = this.overlay.create(config);
     this.overlayRef.backdropClick().subscribe(() => {
-      this.overlayRef.detach();
-      this.afterClosed.emit();
+      this.close();
     });
   }
 
@@ -57,6 +57,12 @@ export class XuiPopoverComponent {
 
     const userProfilePortal = new TemplatePortal(this.popoverTemplate, this.viewContainerRef);
     this.overlayRef.attach(userProfilePortal);
+  }
+
+  @HostListener('document:keydown.esc')
+  close() {
+    this.overlayRef.detach();
+    this.afterClosed.emit();
   }
 
   private calculatePositionStrategy(anchor: PopoverAnchor) {
