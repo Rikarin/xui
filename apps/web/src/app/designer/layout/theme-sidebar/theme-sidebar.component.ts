@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { DesignerService } from '../../designer.service';
 
 @Component({
   selector: 'app-theme-sidebar',
@@ -37,4 +38,8 @@ export class ThemeSidebarComponent {
       color: '#dd2b0e'
     }
   ];
+
+  constructor(private designerService: DesignerService) {
+    designerService.set();
+  }
 }

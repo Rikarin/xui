@@ -11,6 +11,6 @@ import { XuiDecagramModule } from '../decagram';
 @NgModule({
   imports: [CommonModule, FormsModule, OverlayModule, XuiIconModule, XuiDecagramModule, TranslateModule.forChild()],
   declarations: [XuiSelectComponent, XuiOptionComponent, SelectOptionsComponent],
-  exports: [XuiSelectComponent, XuiOptionComponent]
+  exports: [XuiSelectComponent, XuiOptionComponent, SelectOptionsComponent]
 })
 export class XuiSelectModule {}

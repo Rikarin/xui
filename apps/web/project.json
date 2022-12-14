@@ -27,6 +27,11 @@
             "output": "./assets"
           },
           {
+            "glob": "sass.sync.js",
+            "input": "./node_modules/sass.js/dist",
+            "output": "./assets"
+          },
+          {
             "glob": "**/*",
             "input": "./apps/web/src/examples",
             "output": "./examples/"

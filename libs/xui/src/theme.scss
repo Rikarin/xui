@@ -34,8 +34,6 @@
 // this needs to be the last one
 @forward 'theming';
 
-@use '@angular/cdk/overlay-prebuilt.css';
-
 @use 'core';
 
 @use 'banner';
@@ -68,6 +66,8 @@
 @use 'time-picker';
 @use 'toggle';
 @use 'tooltip';
+
+@import '@angular/cdk/overlay-prebuilt.css';
 
 @mixin theme() {
   @import url('https://fonts.googleapis.com/css?family=Rubik:400,500,600,700,800&display=swap');

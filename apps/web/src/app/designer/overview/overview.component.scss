@@ -4,7 +4,13 @@
 }
 
 ::ng-deep app-overview .x-card-content {
+  flex-direction: row;
   padding: 24px;
+  gap: 24px;
+}
+
+h6:not(:first-child) {
+  margin-top: 48px;
 }
 
 .button-list {
@@ -12,4 +18,39 @@
   gap: 20px;
   grid-auto-flow: column;
   grid-template-rows: repeat(7, 1fr);
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  padding-top: 12px;
+}
+
+.container {
+  height: fit-content;
+  padding: 12px;
+}
+
+.overlay {
+  position: absolute;
+}
+
+:host.selectable {
+  .overlay {
+    inset: -12px;
+    cursor: pointer;
+  }
+
+  .container {
+    position: relative;
+
+    border-radius: 4px;
+    outline: 1px solid rgba(var(--color-primary-default-rgb), 0.4);
+    outline-offset: -1px;
+    background-color: rgba(var(--color-primary-default-rgb), 0.15);
+
+    &:hover {
+      background-color: rgba(var(--color-primary-default-rgb), 0.35);
+    }
+  }
 }

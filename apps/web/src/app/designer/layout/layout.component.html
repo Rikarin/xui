@@ -24,8 +24,8 @@
 
           <div></div>
         </xui-header>
-        <xui-content class="content">
-          <app-overview></app-overview>
+        <xui-content class="content theme-preview">
+          <app-overview [selectable]="!isPreview"></app-overview>
         </xui-content>
         <xui-content class="preview" *ngIf="isEditing">preview</xui-content>
       </xui-layout>

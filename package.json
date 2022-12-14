@@ -8,7 +8,7 @@
     "postinstall": "node ./decorate-angular-cli.js",
     "start": "nx serve --port 4800",
     "build": "nx build",
-    "build:theme": "sass --no-source-map ./libs/xui/src/theme.scss ./dist/libs/xui/all.css",
+    "build:theme": "sass --no-source-map ./libs/xui/src/themes/dark.theme.scss:./dist/libs/xui/dark.theme.css",
     "test": "nx test",
     "lint": "nx workspace-lint && nx lint",
     "e2e": "nx component-test xui",
@@ -52,6 +52,7 @@
     "postcss-preset-env": "^7.8.3",
     "postcss-url": "^10.1.3",
     "rxjs": "^7.5.0",
+    "sass.js": "^0.11.1",
     "tslib": "^2.4.0",
     "zone.js": "^0.12.0"
   },

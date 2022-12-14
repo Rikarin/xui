@@ -1,25 +1,94 @@
-<h6>Button</h6>
+<h6>Buttons</h6>
 <xui-card>
-  <div class="button-list">
-    <ng-container *ngFor="let type of buttonTypes">
-      <xui-button *ngFor="let color of buttonColors" [type]="type" [color]="color">Button</xui-button>
-    </ng-container>
+  <div class="container">
+    <label>Button</label>
+    <div class="button-list">
+      <ng-container *ngFor="let type of buttonTypes">
+        <xui-button *ngFor="let color of buttonColors" [type]="type" [color]="color">Button</xui-button>
+      </ng-container>
+    </div>
+
+    <div class="row">
+      <xui-button color="minimal">Button</xui-button>
+      <xui-button type="icon">
+        <xui-icon>menu</xui-icon>
+      </xui-button>
+    </div>
+    <div class="overlay" (click)="edit('button')"></div>
   </div>
 
-  <div class="button-list">
-    <xui-button color="minimal">Button</xui-button>
-    <xui-button type="icon">
-      <xui-icon>menu</xui-icon>
-    </xui-button>
+  <div class="container">
+    <label>Button Group</label>
+    <xui-button-group>
+      <xui-button type="raised"><xui-icon>format-align-left</xui-icon></xui-button>
+      <xui-button type="raised"><xui-icon>format-align-center</xui-icon></xui-button>
+      <xui-button type="raised"><xui-icon>format-align-right</xui-icon></xui-button>
+      <xui-button type="raised"><xui-icon>format-align-justify</xui-icon></xui-button>
+    </xui-button-group>
+    <div class="overlay" (click)="edit('buttonGroup')"></div>
   </div>
 </xui-card>
 
-<h6>Button Group</h6>
+<h6>Inputs</h6>
 <xui-card>
-  <xui-button-group>
-    <xui-button type="raised"><xui-icon>format-align-left</xui-icon></xui-button>
-    <xui-button type="raised"><xui-icon>format-align-center</xui-icon></xui-button>
-    <xui-button type="raised"><xui-icon>format-align-right</xui-icon></xui-button>
-    <xui-button type="raised"><xui-icon>format-align-justify</xui-icon></xui-button>
-  </xui-button-group>
+  <div class="container">
+    <label>Input</label>
+    <xui-input value="Value"></xui-input>
+    <br />
+    <xui-input color="dark" value="Value"></xui-input>
+    <div class="overlay" (click)="edit('input')"></div>
+  </div>
+
+  <div class="container">
+    <label>Textarea</label>
+    <xui-textarea value="Value"></xui-textarea>
+    <div class="overlay" (click)="edit('textarea')"></div>
+  </div>
+
+  <div class="container">
+    <label>Checkbox</label>
+    <div>
+      <xui-checkbox value="true">Checkbox</xui-checkbox>
+    </div>
+    <div>
+      <xui-checkbox>Checkbox</xui-checkbox>
+    </div>
+    <div class="overlay" (click)="edit('checkbox')"></div>
+  </div>
+
+  <div class="container" [style.width.px]="300">
+    <label>Slider</label>
+    <xui-slider value="50"></xui-slider>
+    <div class="overlay" (click)="edit('slider')"></div>
+  </div>
+
+  <div class="container">
+    <label>Switch</label>
+    <xui-switch></xui-switch>
+    <xui-switch value="true"></xui-switch>
+    <div class="overlay" (click)="edit('switch')"></div>
+  </div>
 </xui-card>
+
+<h6>Date Inputs</h6>
+<xui-card>
+  <div class="container">
+    <label>Date Picker</label>
+    <xui-date-picker></xui-date-picker>
+    <div class="overlay" (click)="edit('date-picker')"></div>
+  </div>
+</xui-card>
+
+<h6>Selects</h6>
+<xui-card>
+  <div class="container">
+    <label>Select</label>
+    <xui-select value="option1">
+      <xui-option value="option1">Option 1</xui-option>
+      <xui-option value="option2">Option 2</xui-option>
+    </xui-select>
+    <div class="overlay" (click)="edit('select')"></div>
+  </div>
+</xui-card>
+
+TODO

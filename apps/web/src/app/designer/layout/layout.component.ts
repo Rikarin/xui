@@ -7,11 +7,23 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LayoutComponent {
-  isPreview = true;
+  isPreview = false;
   isEditing = false;
+
+  ngOnInit() {
+    // var scss = '$someVar: 123px; .some-selector { width: $someVar; }';
+    //
+    // Sass.compile(scss, function(result: any) {
+    //   console.log(result);
+    // });
+  }
 
   changeMode(preview: boolean) {
     this.isPreview = preview;
     console.log('preview', preview);
   }
+}
+
+declare namespace Sass {
+  function compile(script: string, result: any): void;
 }

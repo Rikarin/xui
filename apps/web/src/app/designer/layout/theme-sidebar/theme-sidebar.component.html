@@ -7,7 +7,7 @@
     <div class="subtitle" *xuiPanelBarItemContent>Theme Colors</div>
 
     <xui-panelbar-item *ngFor="let item of colors">
-      <div class="color-item" *xuiPanelBarItemTitle>
+      <div class="color-item" *xuiPanelBarItemTitle [xuiPopoverTriggerFor]="colorPicker">
         <div class="color" [style.background-color]="item.color"></div>
         {{ item.name }}
         <div class="color-label">{{ item.color }}</div>
@@ -16,3 +16,5 @@
     </xui-panelbar-item>
   </xui-panelbar-item>
 </xui-panelbar>
+
+<xui-popover #colorPicker> color picker </xui-popover>
