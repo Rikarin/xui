@@ -5,6 +5,7 @@ import { InputGroupService } from './input-group.service';
 import { InputBoolean } from '../utils';
 import { InputColor, InputSize, InputType } from './input.types';
 import { BooleanInput } from '@angular/cdk/coercion';
+import { INPUT_MODULE, WithConfig, XuiConfigService } from '../config';
 
 @Component({
   selector: 'xui-input',
@@ -13,6 +14,7 @@ import { BooleanInput } from '@angular/cdk/coercion';
   templateUrl: 'input.component.html'
 })
 export class XuiInputComponent implements ControlValueAccessor, OnInit {
+  private readonly _moduleName = INPUT_MODULE;
   static ngAcceptInputType_disabled: BooleanInput;
   static ngAcceptInputType_readOnly: BooleanInput;
 
@@ -25,8 +27,8 @@ export class XuiInputComponent implements ControlValueAccessor, OnInit {
   @Input() placeholder?: string;
   @Input() @InputBoolean() disabled = false;
   @Input() @InputBoolean() readOnly = false;
-  @Input() color: InputColor = 'light';
-  @Input() size: InputSize = 'large';
+  @Input() @WithConfig() color: InputColor = 'light';
+  @Input() @WithConfig() size: InputSize = 'large';
   @Input() type: InputType = 'text';
   @Input() dataList?: string[] | null;
 
@@ -60,6 +62,7 @@ export class XuiInputComponent implements ControlValueAccessor, OnInit {
   }
 
   constructor(
+    private configService: XuiConfigService,
     private changeDetectorRef: ChangeDetectorRef,
     private translation: TranslateService,
     @Optional() private groupService: InputGroupService,

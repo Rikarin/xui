@@ -11,7 +11,7 @@ import {
   Optional,
   Output
 } from '@angular/core';
-import { WithConfig } from '../config';
+import { BUTTON_MODULE, WithConfig, XuiConfigService } from '../config';
 import { delay, InputBoolean, InputNumber } from '../utils';
 import { ButtonColor, ButtonSize, ButtonType } from './button.types';
 import { XuiButtonGroupComponent } from './button-group.component';
@@ -40,6 +40,7 @@ import { XuiButtonGroupComponent } from './button-group.component';
   `
 })
 export class XuiButtonComponent {
+  private readonly _moduleName = BUTTON_MODULE;
   static ngAcceptInputType_shine: BooleanInput;
   static ngAcceptInputType_disabled: BooleanInput;
 
@@ -58,11 +59,13 @@ export class XuiButtonComponent {
 
   constructor(
     public elementRef: ElementRef,
+    private configService: XuiConfigService,
     @Optional() @Host() private group: XuiButtonGroupComponent,
     private changeDetectorRef: ChangeDetectorRef
   ) {}
 
   get styles() {
+    const config = this.configService.getConfigForComponent(BUTTON_MODULE);
     const ret: { [klass: string]: boolean } = {
       'x-button': true,
       'x-button--non-idle': this.state != 0,
@@ -71,9 +74,9 @@ export class XuiButtonComponent {
       'x-button--failed': this.state === 3
     };
 
-    ret[`x-button-${this.size ?? this.group?.size ?? 'medium'}`] = true;
-    ret[`x-button-${this.type ?? this.group?.type ?? 'normal'}`] = true;
-    ret[`x-button-${this.color ?? this.group?.color ?? 'primary'}`] = true;
+    ret[`x-button-${this.size ?? this.group?.size ?? config?.size ?? 'medium'}`] = true;
+    ret[`x-button-${this.type ?? this.group?.type ?? config?.type ?? 'normal'}`] = true;
+    ret[`x-button-${this.color ?? this.group?.color ?? config?.color ?? 'primary'}`] = true;
 
     return ret;
   }

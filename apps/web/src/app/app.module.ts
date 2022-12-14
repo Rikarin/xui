@@ -9,6 +9,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { RootComponent } from './root.component';
+import { XUI_CONFIG } from 'xui';
 
 const routes: Routes = [
   { path: 'theme-designer', loadChildren: () => import('./designer/designer.module').then(x => x.DesignerModule) },
@@ -32,6 +33,17 @@ const routes: Routes = [
     }),
 
     TranslateModule.forRoot()
+  ],
+  providers: [
+    // Test global configuration and ensure that config is not leaked by directive usage
+    {
+      provide: XUI_CONFIG,
+      useValue: {
+        input: {
+          size: 'large'
+        }
+      }
+    }
   ],
   bootstrap: [RootComponent]
 })

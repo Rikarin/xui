@@ -58,7 +58,8 @@ import {
   XuiTextareaModule,
   XuiTimePickerModule,
   XuiToggleModule,
-  XuiTooltipModule
+  XuiTooltipModule,
+  XuiConfigModule
 } from 'xui';
 import { CdkTableModule } from '@angular/cdk/table';
 import { CdkMenuModule } from '@angular/cdk/menu';
@@ -185,7 +186,8 @@ const routes: Routes = [
     XuiDatePickerModule,
     XuiTimePickerModule,
     XuiPopoverModule,
-    XuiPanelBarModule
+    XuiPanelBarModule,
+    XuiConfigModule
   ]
 })
 export class XuiComponentsModule {}

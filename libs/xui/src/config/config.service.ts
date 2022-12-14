@@ -17,7 +17,7 @@ export class XuiConfigService {
   private readonly config: XuiConfig;
 
   constructor(@Optional() @Inject(XUI_CONFIG) defaultConfig?: XuiConfig) {
-    this.config = defaultConfig || {};
+    this.config = defaultConfig ? JSON.parse(JSON.stringify(defaultConfig)) : {};
   }
 
   getConfigForComponent<T extends XuiConfigKey>(componentName: T): XuiConfig[T] {
@@ -56,7 +56,7 @@ export function WithConfig<T>() {
           return originalValue;
         }
 
-        const componentConfig = this.nzConfigService.getConfigForComponent(this._nzModuleName) || {};
+        const componentConfig = this.configService.getConfigForComponent(this._moduleName) || {};
         const configValue = componentConfig[propName];
 
         return isDefined(configValue) ? configValue : originalValue;

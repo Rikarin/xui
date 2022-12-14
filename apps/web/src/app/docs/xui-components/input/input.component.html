@@ -65,3 +65,21 @@
     <xui-input type="text" placeholder="First Input"></xui-input>
   </xui-input-group>
 </app-example>
+
+<app-example
+  xuiConfigure
+  xuiInputColor="dark"
+  xuiInputSize="small"
+  xuiButtonColor="success"
+  xuiButtonSize="small"
+  xuiButtonType="raised"
+>
+  <xui-input></xui-input>
+  <xui-input placeholder="Placeholder"></xui-input>
+  <xui-input type="text" color="light" placeholder="Dark"></xui-input>
+  <xui-input type="text" placeholder="Required" [formControl]="errorControl"></xui-input>
+  <xui-input type="text" placeholder="Disabled" disabled></xui-input>
+  <xui-input type="password" [formControl]="errorInputControl" placeholder="Password"></xui-input>
+  <xui-button>Test Button</xui-button>
+  <xui-button type="normal">Test Button</xui-button>
+</app-example>
