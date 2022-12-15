@@ -1,0 +1,81 @@
+@use '../xui';
+
+@mixin input($border-radius) {
+  max-height: 40px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  box-sizing: border-box;
+
+  @include xui.border-radius($border-radius);
+  @include xui.focusable();
+
+  input {
+    margin: 0;
+    padding: 0;
+    border: 0;
+
+    vertical-align: baseline;
+    flex: 100%;
+    background-color: transparent;
+
+    @include xui.typography-level(body-1);
+
+    &:focus {
+      outline: none;
+    }
+
+    &:disabled {
+      @include xui.disabled();
+      cursor: not-allowed;
+    }
+
+    &::placeholder {
+      filter: brightness(0.8) opacity(0.5);
+    }
+  }
+
+  &-light {
+    background-color: var(--color-bg-secondary);
+
+    input {
+      -webkit-text-fill-color: var(--color-bg-secondary-contrast);
+      caret-color: var(--color-bg-secondary-contrast);
+    }
+  }
+
+  &-dark {
+    background-color: var(--color-bg-tertiary);
+
+    input {
+      -webkit-text-fill-color: var(--color-bg-tertiary-contrast);
+      caret-color: var(--color-bg-tertiary-contrast);
+    }
+  }
+
+  &-large {
+    padding: 8px;
+  }
+
+  &-small {
+    padding: 4px 12px;
+
+    input {
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+  }
+}
+
+@mixin error() {
+  &-error {
+    outline: 2px solid var(--color-error-default);
+  }
+
+  &-error-text {
+    color: var(--color-error-default);
+    font-size: 0.8rem;
+    margin-top: 4px;
+    margin-left: 8px;
+  }
+}

@@ -1,15 +1,15 @@
-<xui-input
-  [color]="color"
-  [disabled]="disabled"
-  [size]="size"
-  [placeholder]="placeholder"
-  cdkOverlayOrigin
-  #trigger="cdkOverlayOrigin"
-  (click)="open()"
-  readOnly
->
-  <xui-icon xuiPostfix>calendar</xui-icon>
-</xui-input>
+<div [ngClass]="styles" [tabindex]="disabled ? -1 : 0" cdkOverlayOrigin #trigger="cdkOverlayOrigin">
+  <input
+    tabindex="-1"
+    type="text"
+    readonly
+    [disabled]="disabled"
+    [placeholder]="placeholder ?? ''"
+    [value]="value"
+    (click)="open()"
+  />
+  <xui-icon>calendar</xui-icon>
+</div>
 
 <ng-template
   cdkConnectedOverlay
@@ -19,7 +19,7 @@
   [cdkConnectedOverlayOpen]="isOpen"
   (backdropClick)="isOpen = false"
 >
-  <div class="x-datepicker" cdkTrapFocus>
+  <div class="x-datepicker-popup" cdkTrapFocus>
     <div class="x-datepicker-header">
       <div
         class="x-datepicker-button"

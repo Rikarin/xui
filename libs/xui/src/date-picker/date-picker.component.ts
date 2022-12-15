@@ -71,6 +71,16 @@ export class XuiDatePickerComponent implements ControlValueAccessor, OnInit {
     }
   }
 
+  get styles() {
+    const ret: { [klass: string]: boolean } = {
+      'x-datepicker': true
+    };
+
+    ret[`x-datepicker-${this.color}`] = true;
+    ret[`x-datepicker-${this.size}`] = true;
+    return ret;
+  }
+
   constructor(private changeDetectorRef: ChangeDetectorRef, @Self() @Optional() public control?: NgControl) {
     if (this.control) {
       this.control.valueAccessor = this;

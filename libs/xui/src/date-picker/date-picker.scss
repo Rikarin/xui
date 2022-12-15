@@ -1,5 +1,6 @@
 @use 'variables' as *;
 @use '../xui';
+@use '../mixins/input-base';
 
 @mixin theme() {
   xui-date-picker {
@@ -7,17 +8,21 @@
   }
 
   .x-datepicker {
-    width: fit-content;
-    display: flex;
-    flex-direction: column;
-    user-select: none;
+    @include input-base.input($border-radius);
 
-    border: 1px solid var(--color-bg-secondary-alt);
-    padding: 16px;
+    &-popup {
+      width: fit-content;
+      display: flex;
+      flex-direction: column;
+      user-select: none;
 
-    @include xui.border-radius($border-radius);
-    @include xui.fill(primary);
-    @include xui.elevate(medium);
+      border: 1px solid var(--color-bg-secondary-alt);
+      padding: 16px;
+
+      @include xui.border-radius($border-radius);
+      @include xui.fill(primary);
+      @include xui.elevate(medium);
+    }
 
     &-header {
       display: flex;
