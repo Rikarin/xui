@@ -2,10 +2,8 @@
 
 @use 'option';
 @use 'select';
-@use 'select-options';
 
 @mixin theme() {
   @include option.theme();
   @include select.theme();
-  @include select-options.theme();
 }

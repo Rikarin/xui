@@ -61,7 +61,7 @@ export class XuiSettingsComponent {
   private canExit = true;
 
   @Input() items?: MenuItem[];
-  @Output() onClosed = new EventEmitter<void>();
+  @Output() afterClosed = new EventEmitter<void>();
 
   @HostListener('document:keydown.escape') onKeydownHandler() {
     this.close();
@@ -118,7 +118,7 @@ export class XuiSettingsComponent {
     this.openedAnimation = 'closed';
     await delay(100);
     this.opened = false;
-    this.onClosed.emit();
+    this.afterClosed.emit();
     this.changeDetectorRef.markForCheck();
   }
 

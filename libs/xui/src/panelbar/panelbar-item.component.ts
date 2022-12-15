@@ -3,6 +3,7 @@ import {
   Component,
   ElementRef,
   Input,
+  OnInit,
   Optional,
   SkipSelf,
   TemplateRef,
@@ -16,10 +17,11 @@ import { PanelBarService } from './panelbar.service';
 
 @Component({
   selector: 'xui-panelbar-item',
+  exportAs: 'xuiPanelBarItem',
   templateUrl: './panelbar-item.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PanelBarItemComponent {
+export class PanelBarItemComponent implements OnInit {
   static ngAcceptInputType_expanded: BooleanInput;
   contentPortal?: Portal<unknown>;
   titlePortal?: Portal<unknown>;

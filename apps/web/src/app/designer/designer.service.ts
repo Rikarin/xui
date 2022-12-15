@@ -34,7 +34,9 @@ export class DesignerService {
   }
 }
 
-export interface Palette {}
+export interface Palette {
+  default: string;
+}
 
 // TODO: better name
 export interface ButtonStyles {

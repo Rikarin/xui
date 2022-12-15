@@ -39,7 +39,7 @@ export class XuiContextMenuComponent {
   @ContentChildren(XuiButtonComponent) buttons!: QueryList<XuiButtonComponent>;
 
   constructor(private overlay: Overlay, private viewContainerRef: ViewContainerRef) {
-    let config: OverlayConfig = {
+    const config: OverlayConfig = {
       scrollStrategy: this.overlay.scrollStrategies.reposition(),
       hasBackdrop: true,
       backdropClass: 'x-context-menu-backdrop'

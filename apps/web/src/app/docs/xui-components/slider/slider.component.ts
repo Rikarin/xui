@@ -9,6 +9,7 @@ import { FormControl } from '@angular/forms';
 })
 export class SliderComponent {
   model = new FormControl(50);
+  modelDisabled = new FormControl({ value: 0, disabled: true });
 
   marks: SliderMark[] = [
     {

@@ -10,6 +10,15 @@
 
     user-select: none;
 
+    &-disabled {
+      @include xui.disabled();
+
+      .x-slider-track,
+      .x-slider-thumb {
+        cursor: not-allowed;
+      }
+    }
+
     &-track {
       width: 100%;
       height: 8px;
@@ -39,6 +48,7 @@
 
       border: 1px solid rgba(0, 0, 0, 0.2);
 
+      @include xui.focusable();
       @include xui.border-radius($border-radius);
       @include xui.elevate(medium);
     }

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, TemplateRef, ViewContainerRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, TemplateRef, ViewContainerRef } from '@angular/core';
 import { Portal, TemplatePortal } from '@angular/cdk/portal';
 
 @Component({
@@ -7,7 +7,7 @@ import { Portal, TemplatePortal } from '@angular/cdk/portal';
   templateUrl: 'card.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class XuiCardComponent {
+export class XuiCardComponent implements OnInit {
   titleDirective?: TemplateRef<unknown>;
   actionsDirective?: TemplateRef<unknown>;
 

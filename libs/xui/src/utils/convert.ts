@@ -19,7 +19,7 @@ function propDecoratorFactory<T, D>(name: string, fallback: (v: T) => D): (targe
     const privatePropName = `$$__${propName}`;
 
     if (Object.prototype.hasOwnProperty.call(target, privatePropName)) {
-      console.warn(`The prop "${privatePropName}" is already exist, it will be overrided by ${name} decorator.`);
+      console.warn(`The prop "${privatePropName}" already exists and it will be overridden by ${name} decorator.`);
     }
 
     Object.defineProperty(target, privatePropName, {

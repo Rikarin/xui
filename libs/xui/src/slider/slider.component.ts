@@ -18,7 +18,7 @@ import { XuiTooltipComponent } from '../tooltip/tooltip.component';
 import { inNextTick, InputBoolean, InputNumber } from '../utils';
 import { BehaviorSubject, map } from 'rxjs';
 import { SliderColor, SliderMark } from './slider.types';
-import { BooleanInput } from '@angular/cdk/coercion';
+import { BooleanInput, NumberInput } from '@angular/cdk/coercion';
 
 @Component({
   selector: 'xui-slider',
@@ -27,27 +27,25 @@ import { BooleanInput } from '@angular/cdk/coercion';
   templateUrl: 'slider.component.html'
 })
 export class XuiSliderComponent implements ControlValueAccessor, OnInit, AfterViewInit, OnChanges {
+  static ngAcceptInputType_value: NumberInput;
   static ngAcceptInputType_range: BooleanInput;
   static ngAcceptInputType_tooltipDisabled: BooleanInput;
 
   private onChange?: (source: number) => void;
   private onTouched?: () => void;
 
-  _posX = new BehaviorSubject<number>(0);
-  _value: number | null = null;
-  touched = false;
+  private _posX = new BehaviorSubject<number>(0);
+  private _value: number | null = null;
 
   position$ = this._posX.pipe(map(x => ({ x, y: 0 })));
 
   @ViewChild('track', { static: true }) trackElm!: ElementRef;
   @ViewChild('tooltipRef') tooltipRef!: XuiTooltipComponent;
 
-  // TODO: default and focus
-  // @Input() @InputBoolean() disabled: boolean = false;
+  @Input() @InputBoolean() disabled = false;
   @Input() @InputBoolean() tooltipDisabled = false;
   @Input() color: SliderColor = 'primary';
   @Input() secondColor?: SliderColor;
-  // @Input() size: 'normal' | 'small' = 'normal';
 
   @Input() @InputNumber() min = 0;
   @Input() @InputNumber() max = 100;
@@ -57,6 +55,7 @@ export class XuiSliderComponent implements ControlValueAccessor, OnInit, AfterVi
   @Input() @InputBoolean() range = false;
 
   @Input()
+  @InputNumber()
   get value() {
     return this._value ?? this.min;
   }
@@ -66,7 +65,6 @@ export class XuiSliderComponent implements ControlValueAccessor, OnInit, AfterVi
       this._value = v;
 
       this.onChange?.(v);
-      this.changeDetectorRef.markForCheck();
     }
   }
 
@@ -127,18 +125,32 @@ export class XuiSliderComponent implements ControlValueAccessor, OnInit, AfterVi
   }
 
   setDisabledState(isDisabled: boolean): void {
-    // this.disabled = isDisabled;
+    this.disabled = isDisabled;
   }
 
-  markAsTouched() {
-    if (!this.touched) {
-      this.onTouched?.();
-      this.touched = true;
-    }
+  @HostListener('focusout')
+  private _focusOut() {
+    this.onTouched?.();
+  }
+
+  @HostListener('keydown.arrowLeft')
+  private _decreaseKey() {
+    this.value = Math.min(Math.max(this.value - this.step, this.min), this.max);
+    this.setPositionByPercentage(this.percentage);
+  }
+
+  @HostListener('keydown.arrowRight')
+  private _increaseKey() {
+    this.value = Math.min(Math.max(this.value + this.step, this.min), this.max);
+    this.setPositionByPercentage(this.percentage);
   }
 
   @HostListener('click', ['$event.x'])
   async move(screenX: number) {
+    if (this.disabled) {
+      return;
+    }
+
     const cursorOffset = 5;
     const rect = this.hostRect;
     const width = rect.width - 10;

@@ -31,9 +31,7 @@ export class XuiImageUploadComponent implements ControlValueAccessor, OnInit {
   private onTouched?: () => void;
   private _backgroundImage: string | null = null;
   private dialogRef?: DialogRef<unknown, XuiImageUploadCropperComponent>;
-
-  touched = false;
-  croppedImage: string | null = null;
+  private croppedImage: string | null = null;
 
   @Input() hoverLabel = 'xui.image_upload.change_image';
   @Input() type: ImageUploadType = 'square';
@@ -126,5 +124,10 @@ export class XuiImageUploadComponent implements ControlValueAccessor, OnInit {
 
   setDisabledState(isDisabled: boolean): void {
     this.disabled = isDisabled;
+  }
+
+  @HostListener('focusout')
+  private _focusOut() {
+    this.onTouched?.();
   }
 }

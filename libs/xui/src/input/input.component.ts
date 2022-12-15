@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, Optional, Self } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  HostListener,
+  Input,
+  OnInit,
+  Optional,
+  Self
+} from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { InputGroupService } from './input-group.service';
@@ -14,15 +23,13 @@ import { INPUT_MODULE, WithConfig, XuiConfigService } from '../config';
   templateUrl: 'input.component.html'
 })
 export class XuiInputComponent implements ControlValueAccessor, OnInit {
-  private readonly _moduleName = INPUT_MODULE;
   static ngAcceptInputType_disabled: BooleanInput;
   static ngAcceptInputType_readOnly: BooleanInput;
+  private readonly _moduleName = INPUT_MODULE;
 
   private onChange?: (source: string | null) => void;
   private onTouched?: () => void;
-
-  _value: string | null = null;
-  touched = false;
+  private _value: string | null = null;
 
   @Input() placeholder?: string;
   @Input() @InputBoolean() disabled = false;
@@ -106,10 +113,8 @@ export class XuiInputComponent implements ControlValueAccessor, OnInit {
     this.disabled = isDisabled;
   }
 
-  markAsTouched() {
-    if (!this.touched) {
-      this.onTouched?.();
-      this.touched = true;
-    }
+  @HostListener('focusout')
+  private _focusOut() {
+    this.onTouched?.();
   }
 }

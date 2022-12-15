@@ -32,17 +32,17 @@ import { ToggleColor } from './toggle.types';
 })
 export class XuiToggleComponent implements ControlValueAccessor, OnInit {
   static ngAcceptInputType_disabled: BooleanInput;
+  static ngAcceptInputType_value: BooleanInput;
 
   private onChange?: (source: boolean) => void;
   private onTouched?: () => void;
-
   private _value = true;
-  touched = false;
 
   @Input() @InputBoolean() disabled = false;
   @Input() color: ToggleColor = 'none';
 
   @Input()
+  @InputBoolean()
   get value() {
     return this._value;
   }
@@ -51,7 +51,6 @@ export class XuiToggleComponent implements ControlValueAccessor, OnInit {
     if (this._value !== v) {
       this._value = v;
       this.onChange?.(v);
-      this.changeDetectorRef.markForCheck();
     }
   }
 
@@ -91,11 +90,9 @@ export class XuiToggleComponent implements ControlValueAccessor, OnInit {
     this.disabled = isDisabled;
   }
 
-  markAsTouched() {
-    if (!this.touched) {
-      this.onTouched?.();
-      this.touched = true;
-    }
+  @HostListener('focusout')
+  private _focusOut() {
+    this.onTouched?.();
   }
 
   @HostListener('click', ['$event'])

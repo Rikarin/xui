@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Injectable, Input, TemplateRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { PanelBarItem } from './panelbar.types';
 import { PanelBarService } from './panelbar.service';
 

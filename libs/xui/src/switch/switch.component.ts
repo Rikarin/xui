@@ -21,17 +21,17 @@ import { BooleanInput } from '@angular/cdk/coercion';
 })
 export class XuiSwitchComponent implements ControlValueAccessor, OnInit {
   static ngAcceptInputType_disabled: BooleanInput;
+  static ngAcceptInputType_value: BooleanInput;
 
   private onChange?: (source: boolean) => void;
   private onTouched?: () => void;
-
-  _value = false;
-  touched = false;
+  private _value = false;
 
   @Input() @InputBoolean() disabled = false;
   @Input() color: SwitchColor = 'success';
 
   @Input()
+  @InputBoolean()
   get value() {
     return this._value;
   }
@@ -40,7 +40,6 @@ export class XuiSwitchComponent implements ControlValueAccessor, OnInit {
     if (this._value !== v) {
       this._value = v;
       this.onChange?.(v);
-      this.changeDetectorRef.markForCheck();
     }
   }
 
@@ -87,11 +86,9 @@ export class XuiSwitchComponent implements ControlValueAccessor, OnInit {
     this.disabled = isDisabled;
   }
 
-  markAsTouched() {
-    if (!this.touched) {
-      this.onTouched?.();
-      this.touched = true;
-    }
+  @HostListener('focusout')
+  private _focusOut() {
+    this.onTouched?.();
   }
 
   @HostListener('keydown.enter', ['$event'])

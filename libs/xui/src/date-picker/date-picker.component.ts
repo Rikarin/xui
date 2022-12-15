@@ -28,9 +28,7 @@ export class XuiDatePickerComponent implements ControlValueAccessor, OnInit {
 
   private onChange?: (source: string | null) => void;
   private onTouched?: () => void;
-
-  _value: DateTime | null = null;
-  private touched = false;
+  private _value: DateTime | null = null;
 
   focus!: DateTime;
   indices = Array.from(Array(7 * 6)).map((x, i) => i);
@@ -129,11 +127,9 @@ export class XuiDatePickerComponent implements ControlValueAccessor, OnInit {
     this.disabled = isDisabled;
   }
 
-  markAsTouched() {
-    if (!this.touched) {
-      this.onTouched?.();
-      this.touched = true;
-    }
+  @HostListener('focusout')
+  private _focusOut() {
+    this.onTouched?.();
   }
 
   @HostListener('keydown.enter', ['$event'])

@@ -5,7 +5,7 @@ import { PanelBarService } from './panelbar.service';
   selector: '[xuiPanelBarItemTemplate]'
 })
 export class PanelBarItemTemplateDirective {
-  constructor(panelBar: PanelBarService, templateRef: TemplateRef<any>) {
+  constructor(panelBar: PanelBarService, templateRef: TemplateRef<unknown>) {
     panelBar.itemTemplate = templateRef;
   }
 }

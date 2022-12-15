@@ -40,9 +40,9 @@ import { XuiButtonGroupComponent } from './button-group.component';
   `
 })
 export class XuiButtonComponent {
-  private readonly _moduleName = BUTTON_MODULE;
   static ngAcceptInputType_shine: BooleanInput;
   static ngAcceptInputType_disabled: BooleanInput;
+  private readonly _moduleName = BUTTON_MODULE;
 
   state: 0 | 1 | 2 | 3 = 0;
 
@@ -55,7 +55,8 @@ export class XuiButtonComponent {
   @Input() @InputNumber() @WithConfig() stateDelay = 5000;
 
   // Used to emit event when user interacts with button with spacebar or enter
-  @Output() readonly click = new EventEmitter<any>();
+  // eslint-disable-next-line @angular-eslint/no-output-native
+  @Output() readonly click = new EventEmitter<unknown>();
 
   constructor(
     public elementRef: ElementRef,

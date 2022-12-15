@@ -16,3 +16,19 @@
   {{ model.value }}
   <xui-button type="raised" (click)="toggle()">Toggle</xui-button>
 </app-example>
+
+<app-example>
+  <xui-slider value="40" tooltipDisabled disabled></xui-slider>
+  <xui-slider color="warning" secondColor="success" disabled></xui-slider>
+
+  <xui-slider color="error" secondColor="success" min="5" max="200" disabled></xui-slider>
+  <xui-slider color="error" secondColor="success" value="150" min="5" max="200" disabled></xui-slider>
+
+  <xui-slider min="10" max="30" step="5" value="20" [marks]="marks" disabled></xui-slider>
+  <xui-slider
+    step="5"
+    [formControl]="modelDisabled"
+    [tipFormatter]="percentageFormatter"
+    [marks]="percentages"
+  ></xui-slider>
+</app-example>

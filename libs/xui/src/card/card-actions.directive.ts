@@ -5,7 +5,7 @@ import { XuiCardComponent } from './card.component';
   selector: '[xuiCardActions]'
 })
 export class CardActionsDirective {
-  constructor(card: XuiCardComponent, templateRef: TemplateRef<any>) {
+  constructor(card: XuiCardComponent, templateRef: TemplateRef<unknown>) {
     card.actionsDirective = templateRef;
   }
 }

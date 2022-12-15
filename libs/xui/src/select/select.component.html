@@ -12,7 +12,8 @@
   [cdkConnectedOverlayWidth]="width"
   (backdropClick)="isOpen = false"
 >
-  <xui-select-options>
+  <div class="x-select-options">
+    <xui-option *ngFor="let item of items" [value]="item.value">{{ item.label | translate }}</xui-option>
     <ng-content></ng-content>
-  </xui-select-options>
+  </div>
 </ng-template>

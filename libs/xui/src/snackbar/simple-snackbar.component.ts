@@ -3,7 +3,7 @@ import { MatSnackBarRef, TextOnlySnackBar } from '@angular/material/snack-bar';
 import { XUI_SNACK_BAR_DATA } from './snack-bar-config';
 
 @Component({
-  selector: 'simple-snack-bar',
+  selector: 'xui-simple-snack-bar',
   exportAs: 'xuiSnackBar',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<div class="x-snackbar">

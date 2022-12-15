@@ -1,47 +1,43 @@
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ElementRef,
+  HostListener,
   Input,
   OnInit,
   Optional,
   Self
 } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
-import { TranslateService } from '@ngx-translate/core';
-import { inNextTick, InputBoolean } from '../utils';
-import { SelectService } from './select.service';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { XuiOptionComponent } from './option.component';
-import { SelectColor, SelectSize } from './select.types';
+import { InputBoolean } from '../utils';
+import { UntilDestroy } from '@ngneat/until-destroy';
+import { SelectColor, SelectItem, SelectSize } from './select.types';
 import { BooleanInput } from '@angular/cdk/coercion';
+import { Subject } from 'rxjs';
 
 @UntilDestroy()
 @Component({
   selector: 'xui-select',
   exportAs: 'xuiSelect',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: 'select.component.html',
-  providers: [SelectService]
+  templateUrl: 'select.component.html'
 })
-export class XuiSelectComponent implements ControlValueAccessor, OnInit, AfterViewInit {
+export class XuiSelectComponent implements ControlValueAccessor, OnInit {
   static ngAcceptInputType_disabled: BooleanInput;
 
-  private onChange?: (source: string | null) => void;
+  private onChange?: (source: string | number | null) => void;
   private onTouched?: () => void;
-
-  _value: string | null = null;
-  touched = false;
-
+  private _value: string | number | null = null;
+  private _viewValue?: string;
   isOpen = false;
-  selectedOption: XuiOptionComponent | null = null;
+  onChange$ = new Subject();
 
   @Input() placeholder?: string;
   @Input() @InputBoolean() disabled = false;
   @Input() color: SelectColor = 'light';
   @Input() size: SelectSize = 'large';
+  @Input() items?: SelectItem[];
 
   @Input()
   get value() {
@@ -52,8 +48,7 @@ export class XuiSelectComponent implements ControlValueAccessor, OnInit, AfterVi
     if (this._value !== v) {
       this._value = v;
       this.onChange?.(v);
-      this.selectService.select(v);
-      this.changeDetectorRef.markForCheck();
+      this.onChange$.next(null);
     }
   }
 
@@ -62,7 +57,13 @@ export class XuiSelectComponent implements ControlValueAccessor, OnInit, AfterVi
   }
 
   get viewValue() {
-    return this.selectedOption?.viewValue;
+    const item = this.items?.find(x => x.value === this.value);
+    return item?.label ?? this._viewValue;
+  }
+
+  set viewValue(value: string | undefined) {
+    this._viewValue = value;
+    this.changeDetectorRef.detectChanges();
   }
 
   get styles() {
@@ -76,53 +77,37 @@ export class XuiSelectComponent implements ControlValueAccessor, OnInit, AfterVi
     return ret;
   }
 
-  get errorMessage() {
-    const msg = this.control?.getError('message');
-    return this.translation.instant(msg);
-  }
-
   constructor(
     private elementRef: ElementRef,
     private changeDetectorRef: ChangeDetectorRef,
-    private translation: TranslateService,
-    private selectService: SelectService,
     @Self() @Optional() public control?: NgControl
   ) {
     if (this.control) {
       this.control.valueAccessor = this;
     }
-
-    selectService.selected$.pipe(untilDestroyed(this)).subscribe(option => {
-      this.isOpen = false;
-      this.value = option?.value ?? null;
-      this.selectedOption = option;
-      this.changeDetectorRef.markForCheck();
-    });
   }
 
   ngOnInit() {
     this.control?.statusChanges?.subscribe(() => {
-      this.selectService.select(this.value!);
       this.changeDetectorRef.markForCheck();
     });
   }
 
-  async ngAfterViewInit() {
-    await inNextTick();
-    this.selectService.select(this.value!);
+  open() {
+    this.isOpen = !this.disabled;
+    this.changeDetectorRef.markForCheck();
   }
 
-  open() {
-    if (!this.disabled) {
-      this.isOpen = !this.isOpen;
-    }
+  close() {
+    this.isOpen = false;
+    this.changeDetectorRef.markForCheck();
   }
 
   writeValue(source: string) {
     this.value = source;
   }
 
-  registerOnChange(onChange: (source: string | null) => void) {
+  registerOnChange(onChange: (source: string | number | null) => void) {
     this.onChange = onChange;
   }
 
@@ -134,18 +119,8 @@ export class XuiSelectComponent implements ControlValueAccessor, OnInit, AfterVi
     this.disabled = isDisabled;
   }
 
-  markAsTouched() {
-    if (!this.touched) {
-      this.onTouched?.();
-      this.touched = true;
-    }
+  @HostListener('focusout')
+  private _focusOut() {
+    this.onTouched?.();
   }
 }
-
-@Component({
-  selector: 'xui-select-options',
-  exportAs: 'xuiSelectOptions',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `<ng-content></ng-content>`
-})
-export class SelectOptionsComponent {}

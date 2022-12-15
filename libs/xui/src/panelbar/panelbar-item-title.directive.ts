@@ -5,7 +5,7 @@ import { PanelBarItemComponent } from './panelbar-item.component';
   selector: '[xuiPanelBarItemTitle]'
 })
 export class PanelBarItemTitleDirective {
-  constructor(panelBarItem: PanelBarItemComponent, templateRef: TemplateRef<any>) {
+  constructor(panelBarItem: PanelBarItemComponent, templateRef: TemplateRef<unknown>) {
     panelBarItem.titleDirective = templateRef;
   }
 }

@@ -9,8 +9,8 @@ export class PopoverTriggerForDirective {
 
   constructor(private elementRef: ElementRef) {}
 
-  @HostListener('click', ['$event'])
-  private _click(event: MouseEvent) {
+  @HostListener('click')
+  private _click() {
     this.popover.open(this.elementRef);
   }
 }

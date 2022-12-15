@@ -9,23 +9,23 @@ import { XuiConfigService } from './config.service';
   providers: [XuiConfigService]
 })
 export class ConfigureDirective {
-  @Input('xuiInputColor') set inputColor(color: InputColor) {
+  @Input() set xuiInputColor(color: InputColor) {
     this.configService.set(INPUT_MODULE, { color });
   }
 
-  @Input('xuiInputSize') set inputSize(size: InputSize) {
+  @Input() set xuiInputSize(size: InputSize) {
     this.configService.set(INPUT_MODULE, { size });
   }
 
-  @Input('xuiButtonType') set buttonType(type: ButtonType) {
+  @Input() set xuiButtonType(type: ButtonType) {
     this.configService.set(BUTTON_MODULE, { type });
   }
 
-  @Input('xuiButtonColor') set buttonColor(color: ButtonColor) {
+  @Input() set xuiButtonColor(color: ButtonColor) {
     this.configService.set(BUTTON_MODULE, { color });
   }
 
-  @Input('xuiButtonSize') set buttonSize(size: ButtonSize) {
+  @Input() set xuiButtonSize(size: ButtonSize) {
     this.configService.set(BUTTON_MODULE, { size });
   }
 

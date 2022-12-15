@@ -1,11 +1,9 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  ElementRef,
   EventEmitter,
   HostListener,
   Input,
-  OnInit,
   Output,
   TemplateRef,
   ViewChild,
@@ -40,7 +38,7 @@ export class XuiPopoverComponent {
   }
 
   constructor(private overlay: Overlay, private viewContainerRef: ViewContainerRef) {
-    let config: OverlayConfig = {
+    const config: OverlayConfig = {
       scrollStrategy: this.overlay.scrollStrategies.reposition(),
       hasBackdrop: true,
       backdropClass: 'x-popover-backdrop'

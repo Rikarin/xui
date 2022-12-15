@@ -1,16 +1,14 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ElementRef,
   HostListener,
   Input,
-  OnDestroy,
   OnInit,
   ViewChild
 } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
-import { SelectService } from './select.service';
 import { InputBoolean } from '../utils';
 import { XuiSelectComponent } from './select.component';
 import { BooleanInput } from '@angular/cdk/coercion';
@@ -24,15 +22,17 @@ import { BooleanInput } from '@angular/cdk/coercion';
     <xui-decagram *ngIf="isSelected" type="circle">check</xui-decagram>
   </div>`
 })
-export class XuiOptionComponent implements OnInit, OnDestroy {
+export class XuiOptionComponent implements OnInit, AfterViewInit {
   static ngAcceptInputType_disabled: BooleanInput;
 
-  isSelected = false;
-
-  @Input() value: string | null = null;
+  @Input() value: string | number | null = null;
   @Input() @InputBoolean() disabled = false;
 
   @ViewChild('content') contentRef!: ElementRef;
+
+  get isSelected() {
+    return this.selectComponent.value == this.value;
+  }
 
   get styles() {
     const ret: { [klass: string]: boolean } = {
@@ -49,31 +49,24 @@ export class XuiOptionComponent implements OnInit, OnDestroy {
     return (this.contentRef.nativeElement.textContent || '').trim();
   }
 
-  constructor(
-    private selectComponent: XuiSelectComponent,
-    private elementRef: ElementRef,
-    private changeDetectorRef: ChangeDetectorRef,
-    private translation: TranslateService,
-    private selectService: SelectService
-  ) {}
+  constructor(private selectComponent: XuiSelectComponent, private changeDetectorRef: ChangeDetectorRef) {}
 
   ngOnInit() {
-    this.selectService.addOption(this);
+    this.selectComponent.onChange$.subscribe(() => this.changeDetectorRef.markForCheck());
   }
 
-  ngOnDestroy() {
-    this.selectService.removeOption(this);
+  ngAfterViewInit() {
+    if (this.isSelected) {
+      this.selectComponent.viewValue = this.viewValue;
+    }
   }
 
   @HostListener('click')
   click() {
     if (!this.disabled) {
-      this.selectService.select(this.value);
+      this.selectComponent.value = this.value;
+      this.selectComponent.viewValue = this.viewValue;
+      this.selectComponent.close();
     }
-  }
-
-  select(value: boolean) {
-    this.isSelected = value;
-    this.changeDetectorRef.markForCheck();
   }
 }

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { SelectItem } from 'xui';
 
 @Component({
   selector: 'app-select',
@@ -8,4 +9,20 @@ import { FormControl } from '@angular/forms';
 })
 export class SelectComponent {
   model = new FormControl('option1');
+  model2 = new FormControl(2);
+
+  items: SelectItem[] = [
+    {
+      label: 'First Item',
+      value: 1
+    },
+    {
+      label: 'Second Item',
+      value: 2
+    },
+    {
+      label: 'Third Item',
+      value: 3
+    }
+  ];
 }

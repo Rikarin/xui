@@ -46,7 +46,6 @@ export class XuiRadioOptionComponent implements OnInit, OnDestroy {
   }
 
   get styles() {
-    console.log('style', this.radioList.disabled);
     const ret: { [klass: string]: boolean } = {
       'x-radio-option': true,
       'x-radio-option-focus': this.isFocused,
