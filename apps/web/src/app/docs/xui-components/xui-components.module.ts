@@ -59,7 +59,8 @@ import {
   XuiTimePickerModule,
   XuiToggleModule,
   XuiTooltipModule,
-  XuiConfigModule
+  XuiConfigModule,
+  XuiRadioModule
 } from 'xui';
 import { CdkTableModule } from '@angular/cdk/table';
 import { CdkMenuModule } from '@angular/cdk/menu';
@@ -73,6 +74,7 @@ import { DatePickerComponent } from './date-picker/date-picker.component';
 import { TimePickerComponent } from './time-picker/time-picker.component';
 import { PopoverComponent } from './popover/popover.component';
 import { PanelbarComponent } from './panelbar/panelbar.component';
+import { RadioComponent } from './radio/radio.component';
 
 const routes: Routes = [
   { path: 'overview', component: ComponentsOverviewComponent },
@@ -93,6 +95,7 @@ const routes: Routes = [
   { path: 'panelbar', component: PanelbarComponent },
   { path: 'popover', component: PopoverComponent },
   { path: 'progress', component: ProgressComponent },
+  { path: 'radio', component: RadioComponent },
   { path: 'radio-list', component: RadioListComponent },
   { path: 'select', component: SelectComponent },
   { path: 'settings', component: SettingsComponent },
@@ -143,7 +146,8 @@ const routes: Routes = [
     DatePickerComponent,
     TimePickerComponent,
     PopoverComponent,
-    PanelbarComponent
+    PanelbarComponent,
+    RadioComponent
   ],
   imports: [
     CommonModule,
@@ -187,7 +191,8 @@ const routes: Routes = [
     XuiTimePickerModule,
     XuiPopoverModule,
     XuiPanelBarModule,
-    XuiConfigModule
+    XuiConfigModule,
+    XuiRadioModule
   ]
 })
 export class XuiComponentsModule {}

@@ -12,6 +12,7 @@ import {
 import { InputBoolean } from '../utils';
 import { XuiSelectComponent } from './select.component';
 import { BooleanInput } from '@angular/cdk/coercion';
+import { SelectValue } from './select.types';
 
 @Component({
   selector: 'xui-option',
@@ -25,7 +26,7 @@ import { BooleanInput } from '@angular/cdk/coercion';
 export class XuiOptionComponent implements OnInit, AfterViewInit {
   static ngAcceptInputType_disabled: BooleanInput;
 
-  @Input() value: string | number | null = null;
+  @Input() value: SelectValue = null;
   @Input() @InputBoolean() disabled = false;
 
   @ViewChild('content') contentRef!: ElementRef;

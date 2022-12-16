@@ -1,0 +1,9 @@
+@forward 'variables';
+
+@use 'radio';
+@use 'radio-group';
+
+@mixin theme() {
+  @include radio.theme();
+  @include radio-group.theme();
+}

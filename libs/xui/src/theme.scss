@@ -16,6 +16,7 @@
 @forward 'panelbar' as panelbar-*;
 @forward 'popover' as popover-*;
 @forward 'progress' as progress-*;
+@forward 'radio' as radio-*;
 @forward 'radio-list' as radio-list-*;
 @forward 'select' as select-*;
 @forward 'settings' as settings-*;
@@ -52,6 +53,7 @@
 @use 'panelbar';
 @use 'popover';
 @use 'progress';
+@use 'radio';
 @use 'radio-list';
 @use 'select';
 @use 'settings';
@@ -92,6 +94,7 @@
   @include panelbar.theme();
   @include popover.theme();
   @include progress.theme();
+  @include radio.theme();
   @include radio-list.theme();
   @include select.theme();
   @include settings.theme();

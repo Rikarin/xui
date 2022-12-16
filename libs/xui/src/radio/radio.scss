@@ -1,0 +1,20 @@
+@use 'variables' as *;
+@use '../xui';
+
+@mixin theme() {
+  .x-radio {
+    display: inline-flex;
+    gap: 4px;
+    align-items: center;
+
+    cursor: pointer;
+
+    @each $name in xui.$color-variations {
+      &-#{$name} {
+        xui-icon {
+          color: var(--color-#{$name}-default);
+        }
+      }
+    }
+  }
+}

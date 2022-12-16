@@ -12,7 +12,7 @@ import {
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { InputBoolean } from '../utils';
 import { UntilDestroy } from '@ngneat/until-destroy';
-import { SelectColor, SelectItem, SelectSize } from './select.types';
+import { SelectColor, SelectItem, SelectSize, SelectValue } from './select.types';
 import { BooleanInput } from '@angular/cdk/coercion';
 import { Subject } from 'rxjs';
 
@@ -26,9 +26,9 @@ import { Subject } from 'rxjs';
 export class XuiSelectComponent implements ControlValueAccessor, OnInit {
   static ngAcceptInputType_disabled: BooleanInput;
 
-  private onChange?: (source: string | number | null) => void;
+  private onChange?: (source: SelectValue) => void;
   private onTouched?: () => void;
-  private _value: string | number | null = null;
+  private _value: SelectValue = null;
   private _viewValue?: string;
   isOpen = false;
   onChange$ = new Subject();
@@ -107,7 +107,7 @@ export class XuiSelectComponent implements ControlValueAccessor, OnInit {
     this.value = source;
   }
 
-  registerOnChange(onChange: (source: string | number | null) => void) {
+  registerOnChange(onChange: (source: SelectValue) => void) {
     this.onChange = onChange;
   }
 

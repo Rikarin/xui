@@ -1,0 +1,4 @@
+<div class="x-radio-group">
+  <ng-content></ng-content>
+  <xui-radio *ngFor="let item of items" [value]="item.value">{{ item.label | translate }}</xui-radio>
+</div>

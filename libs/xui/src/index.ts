@@ -15,6 +15,7 @@ export * from './menu';
 export * from './panelbar';
 export * from './popover';
 export * from './progress';
+export * from './radio';
 export * from './radio-list';
 export * from './select';
 export * from './settings';

@@ -10,8 +10,9 @@ New-Item $name/index.ts
 New-Item $name/index.scss
 New-Item $name/variables.scss
 
-Add-Content $name/index.ts "export * from './$name.types.ts';"
-Add-Content $name/index.ts "export * from './$name.module.ts';"
+Add-Content $name/index.ts "export * from './$name.types';"
+Add-Content $name/index.ts "export * from './$name.module';"
+Add-Content $name/$name.types.ts "export const _PLACEHOLDER = 'PLACEHOLDER';"
 
 # Generate Component
 $args | ForEach-Object {
@@ -22,7 +23,7 @@ $args | ForEach-Object {
   Get-Content $component | Select-String -Pattern 'styles:' -NotMatch | Set-Content $component
 
   New-Item $name/$_.scss
-  Add-Content $name/index.ts "export * from './$_.component.ts';"
+  Add-Content $name/index.ts "export * from './$_.component';"
   Add-Content $name/$_.scss @"
 @use 'variables' as *;
 @use '../xui';
