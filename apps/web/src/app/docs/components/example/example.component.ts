@@ -1,20 +1,19 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { InputBoolean } from 'xui';
 import sdk, { Project, ProjectFiles } from '@stackblitz/sdk';
 import { HttpClient } from '@angular/common/http';
-import { lastValueFrom } from 'rxjs';
+import { BehaviorSubject, lastValueFrom } from 'rxjs';
 import { BooleanInput } from '@angular/cdk/coercion';
 
 @Component({
   selector: 'app-example',
   templateUrl: './example.component.html',
-  styleUrls: ['./example.component.scss']
-  // encapsulation: ViewEncapsulation.Emulated
+  styleUrls: ['./example.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ExampleComponent implements OnInit {
   static ngAcceptInputType_todo: BooleanInput;
-
-  allFiles: File[] = [];
+  allFiles$ = new BehaviorSubject<File[]>([]);
 
   @Input() files: { [name: string]: FileType } = {};
   @Input() @InputBoolean() todo = false;
@@ -47,7 +46,7 @@ export class ExampleComponent implements OnInit {
       },
       files: {
         ...this.minimalFiles,
-        ...this.allFiles.reduce((obj, val) => {
+        ...this.allFiles$.value.reduce((obj, val) => {
           obj[val.path] = val.content;
           return obj;
         }, <ProjectFiles>{})
@@ -58,7 +57,7 @@ export class ExampleComponent implements OnInit {
   constructor(private http: HttpClient) {}
 
   async ngOnInit() {
-    this.allFiles = await this.fetchFiles();
+    this.allFiles$.next(await this.fetchFiles());
   }
 
   async fetchFiles() {
@@ -92,7 +91,7 @@ export class ExampleComponent implements OnInit {
   openProject() {
     sdk.openProject(this.project, {
       newWindow: true,
-      openFile: this.allFiles.map(x => x.path).join(',')
+      openFile: this.allFiles$.value.map(x => x.path).join(',')
     });
   }
 

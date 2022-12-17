@@ -1,14 +1,16 @@
 <xui-card>
   <xui-tab-group>
-    <xui-tab *ngFor="let file of allFiles" [title]="file.name">
-      <pre><code lineNumbers="true" [highlight]="file.content"></code></pre>
-    </xui-tab>
     <xui-tab title="Preview">
       <div class="content">
         <ng-content></ng-content>
       </div>
     </xui-tab>
+
+    <xui-tab *ngFor="let file of allFiles$ | async" [title]="file.name">
+      <pre><code lineNumbers="true" [highlight]="file.content"></code></pre>
+    </xui-tab>
   </xui-tab-group>
+
   <div *ngIf="files || todo" class="menu">
     <div *ngIf="todo" class="todo">TODO</div>
     <ng-container *ngIf="files">

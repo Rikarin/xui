@@ -1,14 +1,22 @@
-import { Component } from '@angular/core';
+import {
+  AfterContentInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ContentChildren,
+  QueryList
+} from '@angular/core';
 import { TabComponent } from './tab.component';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'xui-tab-group',
-  // changeDetection: ChangeDetectionStrategy.OnPush, // dynamically loading tabs in example doesn't work
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="x-tabs-list">
       <div
         class="x-tabs-entry"
-        *ngFor="let tab of tabs"
+        *ngFor="let tab of _tabs"
         [class.x-tabs-active]="tab.isActive"
         [attr.disabled]="tab.disabled || null"
         (click)="selectTab(tab)"
@@ -17,21 +25,31 @@ import { TabComponent } from './tab.component';
       </div>
     </div>
 
-    <ng-content></ng-content>
+    <ng-content select="xui-tab"></ng-content>
   `
 })
-export class TabGroupComponent {
-  tabs: TabComponent[] = [];
+export class TabGroupComponent implements AfterContentInit {
+  _active?: TabComponent;
+  _tabs: TabComponent[] = [];
+  onChange$ = new Subject();
+
+  @ContentChildren(TabComponent) set tabRef(value: QueryList<TabComponent>) {
+    this._tabs = value.toArray();
+    this.cdr.markForCheck();
+  }
 
   // Not used
   // @Input() canNavigate?: (tab: XuiTabComponent) => boolean;
 
-  addTab(tab: TabComponent) {
-    if (!this.isSelected() && !tab.disabled) {
-      tab.isActive = true;
-    }
+  constructor(private cdr: ChangeDetectorRef) {}
 
-    this.tabs.push(tab);
+  ngAfterContentInit() {
+    for (const tab of this._tabs) {
+      if (!tab.disabled) {
+        this._active = tab;
+        break;
+      }
+    }
   }
 
   selectTab(tab: TabComponent) {
@@ -43,20 +61,7 @@ export class TabGroupComponent {
     //   return;
     // }
 
-    for (const x of this.tabs) {
-      x.isActive = false;
-    }
-
-    tab.isActive = true;
-  }
-
-  private isSelected() {
-    for (const x of this.tabs) {
-      if (x.isActive) {
-        return true;
-      }
-    }
-
-    return false;
+    this._active = tab;
+    this.onChange$.next(null);
   }
 }

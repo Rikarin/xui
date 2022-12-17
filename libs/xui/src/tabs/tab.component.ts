@@ -11,22 +11,16 @@ import { BooleanInput } from '@angular/cdk/coercion';
 export class TabComponent implements OnInit {
   static ngAcceptInputType_disabled: BooleanInput;
 
-  _isActive = false;
   @Input() title!: string;
   @Input() @InputBoolean() disabled = false;
 
   get isActive() {
-    return this._isActive;
-  }
-
-  set isActive(value: boolean) {
-    this._isActive = value;
-    this.cdr.markForCheck();
+    return this.tabGroup._active === this;
   }
 
   constructor(private tabGroup: TabGroupComponent, private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
-    this.tabGroup.addTab(this);
+    this.tabGroup.onChange$.subscribe(() => this.cdr.markForCheck());
   }
 }
