@@ -21,7 +21,7 @@ Which can be also switch on runtime.
 ## What you'll get
 
 - **Light and Dark** default themes easily customizable
-- **27+ Angular UI Components** ready to be used
+- **33+ Angular UI Components** ready to be used
 - **Great Theming Engine** - creating new components just in few steps
 - **Configurable Options** - tweaking the components in various ways
 - **Material Design Icons** - ready to be used https://mdisearch.com/
