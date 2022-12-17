@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
-import { XuiTabComponent } from './tab.component';
+import { TabComponent } from './tab.component';
 
 @Component({
   selector: 'xui-tab-group',
-  exportAs: 'xuiTabGroup',
   // changeDetection: ChangeDetectionStrategy.OnPush, // dynamically loading tabs in example doesn't work
   template: `
     <div class="x-tabs-list">
@@ -21,13 +20,13 @@ import { XuiTabComponent } from './tab.component';
     <ng-content></ng-content>
   `
 })
-export class XuiTabGroupComponent {
-  tabs: XuiTabComponent[] = [];
+export class TabGroupComponent {
+  tabs: TabComponent[] = [];
 
   // Not used
   // @Input() canNavigate?: (tab: XuiTabComponent) => boolean;
 
-  addTab(tab: XuiTabComponent) {
+  addTab(tab: TabComponent) {
     if (!this.isSelected() && !tab.disabled) {
       tab.isActive = true;
     }
@@ -35,7 +34,7 @@ export class XuiTabGroupComponent {
     this.tabs.push(tab);
   }
 
-  selectTab(tab: XuiTabComponent) {
+  selectTab(tab: TabComponent) {
     if (tab.disabled) {
       return;
     }

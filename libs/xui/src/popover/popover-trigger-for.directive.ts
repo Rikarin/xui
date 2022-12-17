@@ -1,11 +1,12 @@
 import { Directive, ElementRef, HostListener, Input } from '@angular/core';
-import { XuiPopoverComponent } from './popover.component';
+import { PopoverComponent } from './popover.component';
 
 @Directive({
-  selector: '[xuiPopoverTriggerFor]'
+  selector: '[xuiPopoverTriggerFor]',
+  exportAs: 'xuiPopoverTriggerFor'
 })
 export class PopoverTriggerForDirective {
-  @Input('xuiPopoverTriggerFor') popover!: XuiPopoverComponent;
+  @Input('xuiPopoverTriggerFor') popover!: PopoverComponent;
 
   constructor(private elementRef: ElementRef) {}
 

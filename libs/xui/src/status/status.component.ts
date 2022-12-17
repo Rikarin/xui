@@ -3,7 +3,6 @@ import { StatusType } from './status.types';
 
 @Component({
   selector: 'xui-status',
-  exportAs: 'xuiStatus',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<div [ngClass]="styles"></div>
     <svg>
@@ -26,7 +25,7 @@ import { StatusType } from './status.types';
       </clipPath>
     </svg>`
 })
-export class XuiStatusComponent {
+export class StatusComponent {
   @Input() type?: StatusType;
 
   get styles() {

@@ -7,11 +7,10 @@ import { TextareaColor, TextareaSize } from './textarea.types';
 
 @Component({
   selector: 'xui-textarea',
-  exportAs: 'xuiTextarea',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: 'textarea.component.html'
 })
-export class XuiTextareaComponent implements ControlValueAccessor, OnInit {
+export class TextareaComponent implements ControlValueAccessor, OnInit {
   static ngAcceptInputType_disabled: BooleanInput;
 
   private onChange?: (source: string | null) => void;

@@ -15,11 +15,10 @@ import { PopoverAnchor, PopoverPosition } from './popover.types';
 
 @Component({
   selector: 'xui-popover',
-  exportAs: 'xuiPopover',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './popover.component.html'
 })
-export class XuiPopoverComponent {
+export class PopoverComponent {
   private overlayRef!: OverlayRef;
 
   @Input() anchor!: PopoverAnchor;

@@ -14,11 +14,10 @@ import {
 import { BUTTON_MODULE, WithConfig, XuiConfigService } from '../config';
 import { delay, InputBoolean, InputNumber } from '../utils';
 import { ButtonColor, ButtonSize, ButtonType } from './button.types';
-import { XuiButtonGroupComponent } from './button-group.component';
+import { ButtonGroupComponent } from './button-group.component';
 
 @Component({
   selector: 'xui-button',
-  exportAs: 'xuiButton',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div
@@ -39,7 +38,7 @@ import { XuiButtonGroupComponent } from './button-group.component';
     </div>
   `
 })
-export class XuiButtonComponent {
+export class ButtonComponent {
   static ngAcceptInputType_shine: BooleanInput;
   static ngAcceptInputType_disabled: BooleanInput;
   private readonly _moduleName = BUTTON_MODULE;
@@ -61,7 +60,7 @@ export class XuiButtonComponent {
   constructor(
     public elementRef: ElementRef,
     private configService: XuiConfigService,
-    @Optional() @Host() private group: XuiButtonGroupComponent,
+    @Optional() @Host() private group: ButtonGroupComponent,
     private changeDetectorRef: ChangeDetectorRef
   ) {}
 

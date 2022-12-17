@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { MenuItem, XuiSettingsComponent } from 'xui';
+import { MenuItem, SettingsComponent } from 'xui';
 import { Method, Usage } from '../../components/usage';
 
 @Component({
@@ -7,8 +7,8 @@ import { Method, Usage } from '../../components/usage';
   templateUrl: './settings.component.html',
   styleUrls: ['./settings.component.scss']
 })
-export class SettingsComponent {
-  @ViewChild('settings') settings!: XuiSettingsComponent;
+export class DocSettingsComponent {
+  @ViewChild('settings') settings!: SettingsComponent;
 
   items: MenuItem[] = [
     {

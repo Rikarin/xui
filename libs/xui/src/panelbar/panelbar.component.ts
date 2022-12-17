@@ -1,14 +1,14 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { PanelBarItem } from './panelbar.types';
-import { PanelBarService } from './panelbar.service';
+import { ChangeDetectionStrategy, Component, Input, TemplateRef } from '@angular/core';
+import { PANEL_BAR_ACCESSOR, PanelBarAccessor, PanelBarItem } from './panelbar.types';
 
 @Component({
   selector: 'xui-panelbar',
-  exportAs: 'xuiPanelBar',
   templateUrl: './panelbar.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [PanelBarService]
+  providers: [{ provide: PANEL_BAR_ACCESSOR, useExisting: PanelBarComponent }]
 })
-export class PanelBarComponent {
+export class PanelBarComponent implements PanelBarAccessor {
+  itemTemplate?: TemplateRef<unknown>;
+
   @Input() items?: PanelBarItem[];
 }

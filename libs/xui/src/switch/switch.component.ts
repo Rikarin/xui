@@ -15,11 +15,10 @@ import { BooleanInput } from '@angular/cdk/coercion';
 
 @Component({
   selector: 'xui-switch',
-  exportAs: 'xuiSwitch',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './switch.component.html'
 })
-export class XuiSwitchComponent implements ControlValueAccessor, OnInit {
+export class SwitchComponent implements ControlValueAccessor, OnInit {
   static ngAcceptInputType_disabled: BooleanInput;
   static ngAcceptInputType_value: BooleanInput;
 

@@ -11,11 +11,10 @@ import { parseCss } from '../utils';
 
 @Component({
   selector: 'xui-sider',
-  exportAs: 'xuiSider',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: '<ng-content></ng-content>'
 })
-export class XuiSiderComponent implements OnInit, OnChanges {
+export class SiderComponent implements OnInit, OnChanges {
   @HostBinding('style.width')
   private _width: string | null = null;
 

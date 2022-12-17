@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { XuiRadioListComponent } from './radio-list.component';
+import { RadioListComponent } from './radio-list.component';
 import { XuiIconModule } from '../icon';
-import { XuiRadioOptionComponent } from './radio-option.component';
+import { RadioOptionComponent } from './radio-option.component';
 
 @NgModule({
-  declarations: [XuiRadioListComponent, XuiRadioOptionComponent],
+  declarations: [RadioListComponent, RadioOptionComponent],
   imports: [CommonModule, XuiIconModule],
-  exports: [XuiRadioListComponent, XuiRadioOptionComponent]
+  exports: [RadioListComponent, RadioOptionComponent]
 })
 export class XuiRadioListModule {}

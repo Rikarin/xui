@@ -2,12 +2,12 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { XuiTooltipDirective } from './tooltip.directive';
-import { XuiTooltipComponent } from './tooltip.component';
+import { TooltipDirective } from './tooltip.directive';
+import { TooltipComponent } from './tooltip.component';
 
 @NgModule({
-  declarations: [XuiTooltipDirective, XuiTooltipComponent],
+  declarations: [TooltipDirective, TooltipComponent],
   imports: [CommonModule, MatTooltipModule, TranslateModule.forChild()],
-  exports: [XuiTooltipDirective]
+  exports: [TooltipDirective]
 })
 export class XuiTooltipModule {}

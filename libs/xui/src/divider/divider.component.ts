@@ -3,11 +3,10 @@ import { InputNumber } from '../utils';
 
 @Component({
   selector: 'xui-divider',
-  exportAs: 'xuiDivider',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: ''
 })
-export class XuiDividerComponent {
+export class DividerComponent {
   @Input()
   @InputNumber()
   get marginTop() {

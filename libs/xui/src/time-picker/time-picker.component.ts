@@ -2,8 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
   selector: 'xui-time-picker',
-  exportAs: 'xuiTimePicker',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './time-picker.component.html'
+  templateUrl: './time-picker.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class XuiTimePickerComponent {}
+export class TimePickerComponent {}

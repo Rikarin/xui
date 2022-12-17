@@ -14,23 +14,22 @@ import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { Dialog, DialogRef } from '@angular/cdk/dialog';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { InputBoolean, InputNumber } from '../utils';
-import { XuiImageUploadCropperComponent } from './image-upload-cropper';
+import { ImageUploadCropperComponent } from './image-upload-cropper';
 import { ImageUploadType } from './image-upload.types';
 import { BooleanInput } from '@angular/cdk/coercion';
 
 @Component({
   selector: 'xui-image-upload',
-  exportAs: 'xuiImageUpload',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './image-upload.component.html'
 })
-export class XuiImageUploadComponent implements ControlValueAccessor, OnInit {
+export class ImageUploadComponent implements ControlValueAccessor, OnInit {
   static ngAcceptInputType_disabled: BooleanInput;
 
   private onChange?: (source: string | null) => void;
   private onTouched?: () => void;
   private _backgroundImage: string | null = null;
-  private dialogRef?: DialogRef<unknown, XuiImageUploadCropperComponent>;
+  private dialogRef?: DialogRef<unknown, ImageUploadCropperComponent>;
   private croppedImage: string | null = null;
 
   @Input() hoverLabel = 'xui.image_upload.change_image';
@@ -80,7 +79,7 @@ export class XuiImageUploadComponent implements ControlValueAccessor, OnInit {
   }
 
   handleFileInput(event: unknown) {
-    this.dialogRef = this.dialog.open(XuiImageUploadCropperComponent, {
+    this.dialogRef = this.dialog.open(ImageUploadCropperComponent, {
       data: {
         type: this.type,
         aspectRatio: this.aspectRatio,

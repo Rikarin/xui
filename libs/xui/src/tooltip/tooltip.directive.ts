@@ -12,14 +12,14 @@ import { AriaDescriber, FocusMonitor } from '@angular/cdk/a11y';
 import { Directionality } from '@angular/cdk/bidi';
 import { DOCUMENT } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
-import { XuiTooltipComponent } from './tooltip.component';
+import { TooltipComponent } from './tooltip.component';
 
 @Directive({
   selector: '[xuiTooltip]',
   exportAs: 'xuiTooltip'
 })
-export class XuiTooltipDirective extends _MatTooltipBase<XuiTooltipComponent> {
-  protected override readonly _tooltipComponent = XuiTooltipComponent;
+export class TooltipDirective extends _MatTooltipBase<TooltipComponent> {
+  protected override readonly _tooltipComponent = TooltipComponent;
   protected override readonly _cssClassPrefix = 'xui';
 
   @Input('xuiTooltip')

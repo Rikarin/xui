@@ -15,7 +15,6 @@ import { ToggleColor } from './toggle.types';
 
 @Component({
   selector: 'xui-toggle',
-  exportAs: 'xuiToggle',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div [ngClass]="style" [tabindex]="disabled ? -1 : 0">
@@ -30,7 +29,7 @@ import { ToggleColor } from './toggle.types';
     </div>
   `
 })
-export class XuiToggleComponent implements ControlValueAccessor, OnInit {
+export class ToggleComponent implements ControlValueAccessor, OnInit {
   static ngAcceptInputType_disabled: BooleanInput;
   static ngAcceptInputType_value: BooleanInput;
 

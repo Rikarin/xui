@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { XuiSpinnerComponent } from './spinner.component';
+import { SpinnerComponent } from './spinner.component';
 
 @NgModule({
-  declarations: [XuiSpinnerComponent],
+  declarations: [SpinnerComponent],
   imports: [CommonModule],
-  exports: [XuiSpinnerComponent]
+  exports: [SpinnerComponent]
 })
 export class XuiSpinnerModule {}

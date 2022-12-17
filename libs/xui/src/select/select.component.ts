@@ -19,12 +19,11 @@ import { Subject } from 'rxjs';
 @UntilDestroy()
 @Component({
   selector: 'xui-select',
-  exportAs: 'xuiSelect',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: 'select.component.html',
-  providers: [{ provide: SELECT_ACCESSOR, useExisting: XuiSelectComponent }]
+  providers: [{ provide: SELECT_ACCESSOR, useExisting: SelectComponent }]
 })
-export class XuiSelectComponent implements SelectAccessor, ControlValueAccessor, OnInit {
+export class SelectComponent implements SelectAccessor, ControlValueAccessor, OnInit {
   static ngAcceptInputType_disabled: BooleanInput;
 
   private onChange?: (source: SelectValue) => void;

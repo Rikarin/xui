@@ -3,12 +3,11 @@ import { INPUT_GROUP_ACCESSOR, InputGroupAccessor, InputSize } from './input.typ
 
 @Component({
   selector: 'xui-input-group',
-  exportAs: 'xuiInputGroup',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: '<div class="x-input-group"><ng-content></ng-content></div>',
-  providers: [{ provide: INPUT_GROUP_ACCESSOR, useExisting: XuiInputGroupComponent }]
+  providers: [{ provide: INPUT_GROUP_ACCESSOR, useExisting: InputGroupComponent }]
 })
-export class XuiInputGroupComponent implements InputGroupAccessor {
+export class InputGroupComponent implements InputGroupAccessor {
   @Input() size?: InputSize;
 
   constructor() {}

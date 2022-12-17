@@ -18,11 +18,10 @@ import { INPUT_MODULE, WithConfig, XuiConfigService } from '../config';
 
 @Component({
   selector: 'xui-input',
-  exportAs: 'xuiInput',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: 'input.component.html'
 })
-export class XuiInputComponent implements ControlValueAccessor, OnInit {
+export class InputComponent implements ControlValueAccessor, OnInit {
   static ngAcceptInputType_disabled: BooleanInput;
   static ngAcceptInputType_readOnly: BooleanInput;
   private readonly _moduleName = INPUT_MODULE;

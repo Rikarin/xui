@@ -5,11 +5,10 @@ import { BannerType } from './banner.types';
 
 @Component({
   selector: 'xui-banner',
-  exportAs: 'xuiBanner',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './banner.component.html'
 })
-export class XuiBannerComponent {
+export class BannerComponent {
   static ngAcceptInputType_dismissible: BooleanInput;
 
   @Input() type: BannerType = 'info';

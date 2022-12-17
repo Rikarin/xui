@@ -1,14 +1,13 @@
 import { ChangeDetectionStrategy, Component, ContentChildren, HostBinding, QueryList } from '@angular/core';
-import { XuiSiderComponent } from './sider.component';
+import { SiderComponent } from './sider.component';
 
 @Component({
   selector: 'xui-layout',
-  exportAs: 'xuiLayout',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: '<ng-content></ng-content>'
 })
-export class XuiLayoutComponent {
-  @ContentChildren(XuiSiderComponent) set siders(value: QueryList<XuiSiderComponent>) {
+export class LayoutComponent {
+  @ContentChildren(SiderComponent) set siders(value: QueryList<SiderComponent>) {
     this.hasSider = value.length > 0;
   }
 

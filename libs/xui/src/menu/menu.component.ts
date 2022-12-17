@@ -1,20 +1,18 @@
 import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges, ViewEncapsulation } from '@angular/core';
-import { XuiMenuService } from './menu.service';
+import { MenuService } from './menu.service';
 import { XuiMenuType } from './menu.types';
 
 @Component({
   selector: 'xui-menu',
-  exportAs: 'xuiMemu',
-  providers: [XuiMenuService],
+  providers: [MenuService],
   templateUrl: './menu.component.html',
-  encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class XuiMenuComponent implements OnChanges {
+export class MenuComponent implements OnChanges {
   @Input() inlineIndent = 24;
   @Input() mode: XuiMenuType = 'default';
 
-  constructor(private menuService: XuiMenuService) {}
+  constructor(private menuService: MenuService) {}
 
   ngOnChanges(changes: SimpleChanges) {
     const { inlineIndent, mode } = changes;

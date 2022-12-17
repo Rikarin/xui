@@ -21,17 +21,16 @@ import {
 } from './radio-list.types';
 import { BooleanInput } from '@angular/cdk/coercion';
 import { InputBoolean } from '../utils';
-import { XuiRadioOptionComponent } from './radio-option.component';
-import { XuiOptionComponent } from '../select';
+import { RadioOptionComponent } from './radio-option.component';
+import { OptionComponent } from '../select';
 
 @Component({
   selector: 'xui-radio-list',
-  exportAs: 'xuiRadioList',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: '<div class="x-radio-list" tabindex="0"><ng-content></ng-content></div>',
-  providers: [{ provide: RADIO_LIST_ACCESSOR, useExisting: XuiRadioListComponent }]
+  providers: [{ provide: RADIO_LIST_ACCESSOR, useExisting: RadioListComponent }]
 })
-export class XuiRadioListComponent implements RadioListAccessor, ControlValueAccessor, OnInit {
+export class RadioListComponent implements RadioListAccessor, ControlValueAccessor, OnInit {
   static ngAcceptInputType_disabled: BooleanInput;
 
   private onChange?: (source: RadioListValue) => void;
@@ -43,7 +42,7 @@ export class XuiRadioListComponent implements RadioListAccessor, ControlValueAcc
   @Input() color: RadioListColor = 'light';
   @Input() @InputBoolean() disabled = false;
 
-  @ContentChildren(XuiRadioOptionComponent) optionsRef!: QueryList<XuiOptionComponent>;
+  @ContentChildren(RadioOptionComponent) optionsRef!: QueryList<OptionComponent>;
 
   focusedValue?: RadioListValue;
   onChange$ = new Subject();

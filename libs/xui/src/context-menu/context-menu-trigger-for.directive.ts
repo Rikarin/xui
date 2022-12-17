@@ -1,11 +1,12 @@
 import { Directive, ElementRef, HostListener, Input } from '@angular/core';
-import { XuiContextMenuComponent } from './context-menu.component';
+import { ContextMenuComponent } from './context-menu.component';
 
 @Directive({
-  selector: '[xuiContextMenuTriggerFor]'
+  selector: '[xuiContextMenuTriggerFor]',
+  exportAs: 'xuiContextMenuTriggerFor'
 })
 export class ContextMenuTriggerForDirective {
-  @Input('xuiContextMenuTriggerFor') menu!: XuiContextMenuComponent;
+  @Input('xuiContextMenuTriggerFor') menu!: ContextMenuComponent;
 
   constructor(private elementRef: ElementRef) {}
 

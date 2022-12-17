@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { XuiToggleComponent } from './toggle.component';
+import { ToggleComponent } from './toggle.component';
 import { XuiIconModule } from '../icon';
 
 @NgModule({
-  declarations: [XuiToggleComponent],
+  declarations: [ToggleComponent],
 
-  exports: [XuiToggleComponent],
+  exports: [ToggleComponent],
   imports: [CommonModule, XuiIconModule]
 })
 export class XuiToggleModule {}

@@ -13,7 +13,6 @@ import { RADIO_LIST_ACCESSOR, RadioListAccessor } from './radio-list.types';
 
 @Component({
   selector: 'xui-radio-option',
-  exportAs: 'xuiRadioOption',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<div [ngClass]="styles">
     <xui-icon>{{ icon }}</xui-icon>
@@ -25,7 +24,7 @@ import { RADIO_LIST_ACCESSOR, RadioListAccessor } from './radio-list.types';
     </div>
   </div>`
 })
-export class XuiRadioOptionComponent implements OnInit {
+export class RadioOptionComponent implements OnInit {
   static ngAcceptInputType_disabled: BooleanInput;
 
   @Input() color?: string;

@@ -14,7 +14,7 @@ import {
   ViewChild
 } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
-import { XuiTooltipComponent } from '../tooltip/tooltip.component';
+import { TooltipComponent } from '../tooltip/tooltip.component';
 import { inNextTick, InputBoolean, InputNumber } from '../utils';
 import { BehaviorSubject, map } from 'rxjs';
 import { SliderColor, SliderMark } from './slider.types';
@@ -22,11 +22,10 @@ import { BooleanInput, NumberInput } from '@angular/cdk/coercion';
 
 @Component({
   selector: 'xui-slider',
-  exportAs: 'xuiSlider',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: 'slider.component.html'
 })
-export class XuiSliderComponent implements ControlValueAccessor, OnInit, AfterViewInit, OnChanges {
+export class SliderComponent implements ControlValueAccessor, OnInit, AfterViewInit, OnChanges {
   static ngAcceptInputType_value: NumberInput;
   static ngAcceptInputType_range: BooleanInput;
   static ngAcceptInputType_tooltipDisabled: BooleanInput;
@@ -40,7 +39,7 @@ export class XuiSliderComponent implements ControlValueAccessor, OnInit, AfterVi
   position$ = this._posX.pipe(map(x => ({ x, y: 0 })));
 
   @ViewChild('track', { static: true }) trackElm!: ElementRef;
-  @ViewChild('tooltipRef') tooltipRef!: XuiTooltipComponent;
+  @ViewChild('tooltipRef') tooltipRef!: TooltipComponent;
 
   @Input() @InputBoolean() disabled = false;
   @Input() @InputBoolean() tooltipDisabled = false;

@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { XuiTimePickerComponent } from './time-picker.component';
+import { TimePickerComponent } from './time-picker.component';
 
 @NgModule({
-  declarations: [XuiTimePickerComponent],
-  exports: [XuiTimePickerComponent],
-  imports: [CommonModule]
+  declarations: [TimePickerComponent],
+  imports: [CommonModule],
+  exports: [TimePickerComponent]
 })
 export class XuiTimePickerModule {}

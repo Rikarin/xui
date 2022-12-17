@@ -1,3 +1,5 @@
+import { InjectionToken, TemplateRef } from '@angular/core';
+
 export interface PanelBarItem {
   title: string;
   content?: any;
@@ -13,4 +15,9 @@ export interface PanelBarItem {
   // selected: boolean;
 
   children?: PanelBarItem[];
+}
+
+export const PANEL_BAR_ACCESSOR = new InjectionToken<PanelBarAccessor>('xui-panelbar');
+export interface PanelBarAccessor {
+  itemTemplate?: TemplateRef<unknown>;
 }

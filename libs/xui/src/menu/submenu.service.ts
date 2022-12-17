@@ -1,10 +1,10 @@
 import { Injectable, Optional, SkipSelf } from '@angular/core';
 
 @Injectable()
-export class XuiSubmenuService {
+export class SubmenuService {
   level = 1;
 
-  constructor(@SkipSelf() @Optional() submenuService: XuiSubmenuService) {
+  constructor(@SkipSelf() @Optional() submenuService: SubmenuService) {
     this.level = (submenuService?.level ?? 0) + 1;
   }
 }

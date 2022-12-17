@@ -3,11 +3,10 @@ import { Portal, TemplatePortal } from '@angular/cdk/portal';
 
 @Component({
   selector: 'xui-card',
-  exportAs: 'xuiCard',
   templateUrl: 'card.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class XuiCardComponent implements OnInit {
+export class CardComponent implements OnInit {
   titleDirective?: TemplateRef<unknown>;
   actionsDirective?: TemplateRef<unknown>;
 

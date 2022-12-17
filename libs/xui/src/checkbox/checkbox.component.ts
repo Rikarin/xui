@@ -15,7 +15,6 @@ import { BooleanInput } from '@angular/cdk/coercion';
 
 @Component({
   selector: 'xui-checkbox',
-  exportAs: 'xuiCheckbox',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: ` <div [ngClass]="styles">
     <div class="x-checkbox-box" tabindex="0" [class.x-checkbox-checked]="value">
@@ -33,7 +32,7 @@ import { BooleanInput } from '@angular/cdk/coercion';
     <ng-content></ng-content>
   </div>`
 })
-export class XuiCheckboxComponent implements ControlValueAccessor, OnInit {
+export class CheckboxComponent implements ControlValueAccessor, OnInit {
   static ngAcceptInputType_disabled: BooleanInput;
   static ngAcceptInputType_value: BooleanInput;
 

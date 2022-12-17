@@ -3,11 +3,10 @@ import { SpinnerColor } from './spinner.types';
 
 @Component({
   selector: 'xui-spinner',
-  exportAs: 'xuiSpinner',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<div [ngClass]="styles"></div>`
 })
-export class XuiSpinnerComponent {
+export class SpinnerComponent {
   @Input() color: SpinnerColor = 'primary';
 
   get styles() {

@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { XuiButtonComponent } from './button.component';
-import { XuiButtonGroupComponent } from './button-group.component';
+import { ButtonComponent } from './button.component';
+import { ButtonGroupComponent } from './button-group.component';
 
 @NgModule({
   imports: [CommonModule],
-  declarations: [XuiButtonComponent, XuiButtonGroupComponent],
-  exports: [XuiButtonComponent, XuiButtonGroupComponent]
+  declarations: [ButtonComponent, ButtonGroupComponent],
+  exports: [ButtonComponent, ButtonGroupComponent]
 })
 export class XuiButtonModule {}

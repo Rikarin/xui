@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { XuiSwitchComponent } from './switch.component';
+import { SwitchComponent } from './switch.component';
 import { XuiIconModule } from '../icon';
 
 @NgModule({
-  declarations: [XuiSwitchComponent],
+  declarations: [SwitchComponent],
   imports: [CommonModule, XuiIconModule],
-  exports: [XuiSwitchComponent]
+  exports: [SwitchComponent]
 })
 export class XuiSwitchModule {}

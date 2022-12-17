@@ -1,11 +1,12 @@
 import { Directive, TemplateRef } from '@angular/core';
-import { XuiCardComponent } from './card.component';
+import { CardComponent } from './card.component';
 
 @Directive({
-  selector: '[xuiCardTitle]'
+  selector: '[xuiCardTitle]',
+  exportAs: 'xuiCardTitle'
 })
 export class CardTitleDirective {
-  constructor(card: XuiCardComponent, templateRef: TemplateRef<unknown>) {
+  constructor(card: CardComponent, templateRef: TemplateRef<unknown>) {
     card.titleDirective = templateRef;
   }
 }

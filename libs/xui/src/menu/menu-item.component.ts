@@ -7,8 +7,8 @@ import {
   OnInit,
   Optional
 } from '@angular/core';
-import { XuiSubmenuService } from './submenu.service';
-import { XuiMenuService } from './menu.service';
+import { SubmenuService } from './submenu.service';
+import { MenuService } from './menu.service';
 import { combineLatest, filter, map } from 'rxjs';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { NavigationEnd, Router } from '@angular/router';
@@ -18,7 +18,6 @@ import { BooleanInput } from '@angular/cdk/coercion';
 @UntilDestroy()
 @Component({
   selector: 'xui-menu-item',
-  exportAs: 'xuiMemuItem',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <ng-container *ngIf="icon">
@@ -32,7 +31,7 @@ import { BooleanInput } from '@angular/cdk/coercion';
     '(click)': 'clickMenuItem($event)'
   }
 })
-export class XuiMenuItemComponent implements OnInit {
+export class MenuItemComponent implements OnInit {
   static ngAcceptInputType_disabled: BooleanInput;
 
   @Input() icon!: string;
@@ -51,8 +50,8 @@ export class XuiMenuItemComponent implements OnInit {
   constructor(
     private router: Router,
     private cdr: ChangeDetectorRef,
-    private menuService: XuiMenuService,
-    @Optional() private submenuService: XuiSubmenuService
+    private menuService: MenuService,
+    @Optional() private submenuService: SubmenuService
   ) {}
 
   ngOnInit() {

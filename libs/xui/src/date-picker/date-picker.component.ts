@@ -12,17 +12,16 @@ import {
 import { DateTime } from 'luxon';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { InputBoolean } from '../utils';
-import { XuiInputComponent } from '../input';
+import { InputComponent } from '../input';
 import { BooleanInput } from '@angular/cdk/coercion';
 import { DatePickerColor, DatePickerSize } from './date-picker.types';
 
 @Component({
   selector: 'xui-date-picker',
-  exportAs: 'xuiDatePicker',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './date-picker.component.html'
 })
-export class XuiDatePickerComponent implements ControlValueAccessor, OnInit {
+export class DatePickerComponent implements ControlValueAccessor, OnInit {
   static ngAcceptInputType_disabled: BooleanInput;
   static ngAcceptInputType_readOnly: BooleanInput;
 
@@ -44,7 +43,7 @@ export class XuiDatePickerComponent implements ControlValueAccessor, OnInit {
   @Input() color: DatePickerColor = 'light';
   @Input() size: DatePickerSize = 'large';
 
-  @ViewChild(XuiInputComponent, { static: true }) input!: XuiInputComponent;
+  @ViewChild(InputComponent, { static: true }) input!: InputComponent;
 
   @Input()
   get value() {

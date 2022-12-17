@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SaveResetSnackbarComponent, XuiSettingsComponent } from './settings.component';
+import { SaveResetSnackbarComponent, SettingsComponent } from './settings.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { TranslateModule } from '@ngx-translate/core';
 import { XuiIconModule } from '../icon';
@@ -9,7 +9,7 @@ import { XuiButtonModule } from '../button';
 import { A11yModule } from '@angular/cdk/a11y';
 
 @NgModule({
-  declarations: [XuiSettingsComponent, SaveResetSnackbarComponent],
+  declarations: [SettingsComponent, SaveResetSnackbarComponent],
   imports: [
     CommonModule,
     MatSnackBarModule,
@@ -19,6 +19,6 @@ import { A11yModule } from '@angular/cdk/a11y';
     A11yModule,
     TranslateModule.forChild()
   ],
-  exports: [XuiSettingsComponent]
+  exports: [SettingsComponent]
 })
 export class XuiSettingsModule {}

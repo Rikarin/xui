@@ -4,11 +4,10 @@ import { ProgressColor, ProgressStatus, ProgressType } from './progress.types';
 
 @Component({
   selector: 'xui-progress',
-  exportAs: 'xuiProgress',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './progress.component.html'
 })
-export class XuiProgressComponent {
+export class ProgressComponent {
   @Input() @InputNumber() progress!: number;
   @Input() type: ProgressType = 'line';
   @Input() color: ProgressColor = 'primary';

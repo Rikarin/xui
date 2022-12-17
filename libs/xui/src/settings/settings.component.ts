@@ -12,7 +12,7 @@ import {
 } from '@angular/core';
 import { MAT_SNACK_BAR_DATA, MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
 import { CdkPortalOutletAttachedRef, ComponentPortal } from '@angular/cdk/portal';
-import { SettingsPage } from './settings-page';
+import { SettingsPage } from './settings.types';
 import { animate, AnimationEvent, state, style, transition, trigger, useAnimation } from '@angular/animations';
 import { bounce, fadeInBottom, fadeOutBottom } from '../utils/animations';
 import { lastValueFrom, Subject } from 'rxjs';
@@ -20,7 +20,6 @@ import { delay } from '../utils';
 
 @Component({
   selector: 'xui-settings',
-  exportAs: 'xuiSettings',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './settings.component.html',
   animations: [
@@ -44,7 +43,7 @@ import { delay } from '../utils';
     ])
   ]
 })
-export class XuiSettingsComponent {
+export class SettingsComponent {
   mouseDown = false;
   menuFocused = false;
   focusedItem?: number;

@@ -16,14 +16,13 @@ import { SELECT_ACCESSOR, SelectAccessor, SelectValue } from './select.types';
 
 @Component({
   selector: 'xui-option',
-  exportAs: 'xuiOption',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<div [ngClass]="styles">
     <span #content><ng-content></ng-content></span>
     <xui-decagram *ngIf="isSelected" type="circle">check</xui-decagram>
   </div>`
 })
-export class XuiOptionComponent implements OnInit, AfterViewInit {
+export class OptionComponent implements OnInit, AfterViewInit {
   static ngAcceptInputType_disabled: BooleanInput;
 
   @Input() value: SelectValue = null;

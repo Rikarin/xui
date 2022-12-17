@@ -3,7 +3,7 @@ import { BehaviorSubject } from 'rxjs';
 import { XuiMenuType } from './menu.types';
 
 @Injectable()
-export class XuiMenuService {
+export class MenuService {
   _inlineIndent$ = new BehaviorSubject<number>(24);
   _mode$ = new BehaviorSubject<XuiMenuType>('default');
 

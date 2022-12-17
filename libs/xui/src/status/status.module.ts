@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { XuiStatusComponent } from './status.component';
+import { StatusComponent } from './status.component';
 
 @NgModule({
-  declarations: [XuiStatusComponent],
+  declarations: [StatusComponent],
   imports: [CommonModule],
-  exports: [XuiStatusComponent]
+  exports: [StatusComponent]
 })
 export class XuiStatusModule {}

@@ -1,19 +1,18 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
-import { XuiSubmenuService } from '../submenu.service';
+import { SubmenuService } from '../submenu.service';
 import { InputBoolean } from '../../utils';
 import { BooleanInput } from '@angular/cdk/coercion';
 
 @Component({
   selector: 'xui-submenu',
-  exportAs: 'xuiSubMenu',
-  providers: [XuiSubmenuService],
+  providers: [SubmenuService],
   templateUrl: './submenu.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
   // host: {
   // '[style.paddingLeft.px]': 'paddingLeft'
   // }
 })
-export class XuiSubMenuComponent {
+export class SubMenuComponent {
   static ngAcceptInputType_open: BooleanInput;
 
   @Input() title!: string;
@@ -23,7 +22,7 @@ export class XuiSubMenuComponent {
 
   paddingLeft = this.submenuService.level * 24;
 
-  constructor(private submenuService: XuiSubmenuService) {}
+  constructor(private submenuService: SubmenuService) {}
 
   toggleSubmenu() {
     this.open = !this.open;

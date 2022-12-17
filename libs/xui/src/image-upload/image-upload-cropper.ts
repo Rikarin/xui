@@ -3,7 +3,6 @@ import { DIALOG_DATA } from '@angular/cdk/dialog';
 
 @Component({
   selector: 'xui-image-upload-cropper',
-  exportAs: 'xuiImageUploadCropper',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="x-image-upload-cropper">
@@ -21,6 +20,6 @@ import { DIALOG_DATA } from '@angular/cdk/dialog';
     </div>
   `
 })
-export class XuiImageUploadCropperComponent {
+export class ImageUploadCropperComponent {
   constructor(@Inject(DIALOG_DATA) public data: any) {}
 }

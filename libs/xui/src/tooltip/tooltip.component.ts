@@ -29,7 +29,7 @@ import { _TooltipComponentBase } from '@angular/material/tooltip';
     'aria-hidden': 'true'
   }
 })
-export class XuiTooltipComponent extends _TooltipComponentBase {
+export class TooltipComponent extends _TooltipComponentBase {
   /* Whether the tooltip text overflows to multiple lines */
   _isMultiline = false;
 

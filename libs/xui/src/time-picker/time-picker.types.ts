@@ -1,1 +1,1 @@
-export type TimePickerSize = 'medium';
+export const _PLACEHOLDER = 'PLACEHOLDER';

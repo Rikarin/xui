@@ -13,13 +13,12 @@ import {
 } from '@angular/core';
 import { ConnectionPositionPair, Overlay, OverlayConfig, OverlayRef } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
-import { XuiButtonComponent } from '../button';
+import { ButtonComponent } from '../button';
 import { first } from 'rxjs';
 import { ContextMenuAnchor } from './context-menu.types';
 
 @Component({
   selector: 'xui-context-menu',
-  exportAs: 'xuiContextMenu',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <ng-template #templateRef>
@@ -29,14 +28,14 @@ import { ContextMenuAnchor } from './context-menu.types';
     </ng-template>
   `
 })
-export class XuiContextMenuComponent {
+export class ContextMenuComponent {
   private overlayRef!: OverlayRef;
 
   @Input() anchor!: ContextMenuAnchor;
   @Output() afterClosed = new EventEmitter();
 
   @ViewChild('templateRef', { static: true }) templateRef!: TemplateRef<unknown>;
-  @ContentChildren(XuiButtonComponent) buttons!: QueryList<XuiButtonComponent>;
+  @ContentChildren(ButtonComponent) buttons!: QueryList<ButtonComponent>;
 
   constructor(private overlay: Overlay, private viewContainerRef: ViewContainerRef) {
     const config: OverlayConfig = {

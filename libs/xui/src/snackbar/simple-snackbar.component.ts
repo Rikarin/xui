@@ -4,7 +4,6 @@ import { XUI_SNACK_BAR_DATA } from './snack-bar-config';
 
 @Component({
   selector: 'xui-simple-snack-bar',
-  exportAs: 'xuiSnackBar',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<div class="x-snackbar">
     <div>{{ data.message | translate }}</div>

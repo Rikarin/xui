@@ -15,7 +15,7 @@ import { LayoutComponent } from './layout/layout.component';
 import { ProgressComponent } from './progress/progress.component';
 import { RadioListComponent } from './radio-list/radio-list.component';
 import { SelectComponent } from './select/select.component';
-import { SettingsComponent } from './settings/settings.component';
+import { DocSettingsComponent } from './settings/settings.component';
 import { SliderComponent } from './slider/slider.component';
 import { SnackbarComponent } from './snackbar/snackbar.component';
 import { SpinnerComponent } from './spinner/spinner.component';
@@ -98,7 +98,7 @@ const routes: Routes = [
   { path: 'radio', component: RadioComponent },
   { path: 'radio-list', component: RadioListComponent },
   { path: 'select', component: SelectComponent },
-  { path: 'settings', component: SettingsComponent },
+  { path: 'settings', component: DocSettingsComponent },
   { path: 'slider', component: SliderComponent },
   { path: 'snackbar', component: SnackbarComponent },
   { path: 'spinner', component: SpinnerComponent },
@@ -131,7 +131,7 @@ const routes: Routes = [
     ProgressComponent,
     RadioListComponent,
     SelectComponent,
-    SettingsComponent,
+    DocSettingsComponent,
     SliderComponent,
     SnackbarComponent,
     SpinnerComponent,
