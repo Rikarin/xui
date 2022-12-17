@@ -64,11 +64,11 @@ export class RadioOptionComponent implements OnInit {
 
   constructor(
     @Inject(RADIO_LIST_ACCESSOR) private list: RadioListAccessor,
-    private changeDetectorRef: ChangeDetectorRef
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
-    this.list.onChange$.subscribe(() => this.changeDetectorRef.markForCheck());
+    this.list.onChange$.subscribe(() => this.cdr.markForCheck());
   }
 
   @HostListener('click')

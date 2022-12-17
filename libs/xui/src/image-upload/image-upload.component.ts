@@ -65,7 +65,7 @@ export class ImageUploadComponent implements ControlValueAccessor, OnInit {
   }
 
   constructor(
-    private changeDetectorRef: ChangeDetectorRef,
+    private cdr: ChangeDetectorRef,
     private dialog: Dialog,
     @Self() @Optional() public control?: NgControl
   ) {
@@ -75,7 +75,7 @@ export class ImageUploadComponent implements ControlValueAccessor, OnInit {
   }
 
   ngOnInit() {
-    this.control?.statusChanges?.subscribe(() => this.changeDetectorRef.markForCheck());
+    this.control?.statusChanges?.subscribe(() => this.cdr.markForCheck());
   }
 
   handleFileInput(event: unknown) {
@@ -105,7 +105,7 @@ export class ImageUploadComponent implements ControlValueAccessor, OnInit {
     this.onChange?.(this.croppedImage);
     this._backgroundImage = this.croppedImage;
     this.dialogRef?.close();
-    this.changeDetectorRef.markForCheck();
+    this.cdr.markForCheck();
   };
 
   writeValue(source: string) {

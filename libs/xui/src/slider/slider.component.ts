@@ -87,7 +87,7 @@ export class SliderComponent implements ControlValueAccessor, OnInit, AfterViewI
     return ((absolute - this.min) / (this.max - this.min)) * 100;
   }
 
-  constructor(private changeDetectorRef: ChangeDetectorRef, @Self() @Optional() public control?: NgControl) {
+  constructor(private cdr: ChangeDetectorRef, @Self() @Optional() public control?: NgControl) {
     if (this.control) {
       this.control.valueAccessor = this;
     }
@@ -96,7 +96,7 @@ export class SliderComponent implements ControlValueAccessor, OnInit, AfterViewI
   ngOnInit() {
     this.control?.statusChanges?.subscribe(() => {
       this.setPositionByPercentage(this.percentage);
-      this.changeDetectorRef.markForCheck();
+      this.cdr.markForCheck();
     });
   }
 
@@ -171,6 +171,6 @@ export class SliderComponent implements ControlValueAccessor, OnInit, AfterViewI
 
   private setPositionByPercentage(value: number) {
     this._posX.next((value / 100) * this.hostRect.width - 5);
-    this.changeDetectorRef.markForCheck();
+    this.cdr.markForCheck();
   }
 }

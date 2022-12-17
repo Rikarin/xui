@@ -63,14 +63,14 @@ export class ToggleComponent implements ControlValueAccessor, OnInit {
     return ret;
   }
 
-  constructor(private changeDetectorRef: ChangeDetectorRef, @Self() @Optional() public control?: NgControl) {
+  constructor(private cdr: ChangeDetectorRef, @Self() @Optional() public control?: NgControl) {
     if (this.control) {
       this.control.valueAccessor = this;
     }
   }
 
   ngOnInit() {
-    this.control?.statusChanges?.subscribe(() => this.changeDetectorRef.markForCheck());
+    this.control?.statusChanges?.subscribe(() => this.cdr.markForCheck());
   }
 
   writeValue(source: boolean) {

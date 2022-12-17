@@ -40,11 +40,11 @@ export class TooltipComponent extends _TooltipComponentBase {
   _hideAnimation = 'x-tooltip-hide';
 
   constructor(
-    changeDetectorRef: ChangeDetectorRef,
+    cdr: ChangeDetectorRef,
     private _elementRef: ElementRef<HTMLElement>,
     @Optional() @Inject(ANIMATION_MODULE_TYPE) animationMode?: string
   ) {
-    super(changeDetectorRef, animationMode);
+    super(cdr, animationMode);
   }
 
   protected override _onShow(): void {

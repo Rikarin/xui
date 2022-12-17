@@ -55,7 +55,7 @@ export class DatePickerComponent implements ControlValueAccessor, OnInit {
       this._value = null;
       this.input.value = null;
       this.onChange?.(v);
-      this.changeDetectorRef.markForCheck();
+      this.cdr.markForCheck();
 
       return;
     }
@@ -66,7 +66,7 @@ export class DatePickerComponent implements ControlValueAccessor, OnInit {
       this.focus = date;
       this.input.value = date.setLocale('en-us').toLocaleString(DateTime.DATE_MED); // TODO: use globally defined locale
       this.onChange?.(v);
-      this.changeDetectorRef.markForCheck();
+      this.cdr.markForCheck();
     }
   }
 
@@ -80,14 +80,14 @@ export class DatePickerComponent implements ControlValueAccessor, OnInit {
     return ret;
   }
 
-  constructor(private changeDetectorRef: ChangeDetectorRef, @Self() @Optional() public control?: NgControl) {
+  constructor(private cdr: ChangeDetectorRef, @Self() @Optional() public control?: NgControl) {
     if (this.control) {
       this.control.valueAccessor = this;
     }
   }
 
   ngOnInit() {
-    this.control?.statusChanges?.subscribe(() => this.changeDetectorRef.markForCheck());
+    this.control?.statusChanges?.subscribe(() => this.cdr.markForCheck());
   }
 
   getDay(index: number) {

@@ -63,7 +63,7 @@ export class SelectComponent implements SelectAccessor, ControlValueAccessor, On
 
   set viewValue(value: string | undefined) {
     this._viewValue = value;
-    this.changeDetectorRef.detectChanges();
+    this.cdr.detectChanges();
   }
 
   get styles() {
@@ -79,7 +79,7 @@ export class SelectComponent implements SelectAccessor, ControlValueAccessor, On
 
   constructor(
     private elementRef: ElementRef,
-    private changeDetectorRef: ChangeDetectorRef,
+    private cdr: ChangeDetectorRef,
     @Self() @Optional() public control?: NgControl
   ) {
     if (this.control) {
@@ -89,18 +89,18 @@ export class SelectComponent implements SelectAccessor, ControlValueAccessor, On
 
   ngOnInit() {
     this.control?.statusChanges?.subscribe(() => {
-      this.changeDetectorRef.markForCheck();
+      this.cdr.markForCheck();
     });
   }
 
   open() {
     this.isOpen = !this.disabled;
-    this.changeDetectorRef.markForCheck();
+    this.cdr.markForCheck();
   }
 
   close() {
     this.isOpen = false;
-    this.changeDetectorRef.markForCheck();
+    this.cdr.markForCheck();
   }
 
   writeValue(source: SelectValue) {

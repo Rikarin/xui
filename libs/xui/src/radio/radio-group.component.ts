@@ -40,7 +40,7 @@ export class RadioGroupComponent implements RadioGroupAccessor, ControlValueAcce
     }
   }
 
-  constructor(private changeDetectorRef: ChangeDetectorRef, @Self() @Optional() public control?: NgControl) {
+  constructor(private cdr: ChangeDetectorRef, @Self() @Optional() public control?: NgControl) {
     if (this.control) {
       this.control.valueAccessor = this;
     }
@@ -48,7 +48,7 @@ export class RadioGroupComponent implements RadioGroupAccessor, ControlValueAcce
 
   ngOnInit() {
     this.control?.statusChanges?.subscribe(() => {
-      this.changeDetectorRef.markForCheck();
+      this.cdr.markForCheck();
     });
   }
 

@@ -21,10 +21,10 @@ export class TabComponent implements OnInit {
 
   set isActive(value: boolean) {
     this._isActive = value;
-    this.changeDetectorRef.markForCheck();
+    this.cdr.markForCheck();
   }
 
-  constructor(private tabGroup: TabGroupComponent, private changeDetectorRef: ChangeDetectorRef) {}
+  constructor(private tabGroup: TabGroupComponent, private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
     this.tabGroup.addTab(this);

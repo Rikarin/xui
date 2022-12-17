@@ -49,10 +49,10 @@ export class OptionComponent implements OnInit, AfterViewInit {
     return (this.contentRef.nativeElement.textContent || '').trim();
   }
 
-  constructor(@Inject(SELECT_ACCESSOR) private select: SelectAccessor, private changeDetectorRef: ChangeDetectorRef) {}
+  constructor(@Inject(SELECT_ACCESSOR) private select: SelectAccessor, private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
-    this.select.onChange$.subscribe(() => this.changeDetectorRef.markForCheck());
+    this.select.onChange$.subscribe(() => this.cdr.markForCheck());
   }
 
   ngAfterViewInit() {

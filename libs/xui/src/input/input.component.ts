@@ -47,7 +47,7 @@ export class InputComponent implements ControlValueAccessor, OnInit {
     if (this._value !== v) {
       this._value = v;
       this.onChange?.(v);
-      this.changeDetectorRef.markForCheck();
+      this.cdr.markForCheck();
     }
   }
 
@@ -69,7 +69,7 @@ export class InputComponent implements ControlValueAccessor, OnInit {
 
   constructor(
     private configService: XuiConfigService,
-    private changeDetectorRef: ChangeDetectorRef,
+    private cdr: ChangeDetectorRef,
     private translation: TranslateService,
     @Inject(INPUT_GROUP_ACCESSOR) @Optional() private group: InputGroupAccessor,
     @Self() @Optional() public control?: NgControl
@@ -80,7 +80,7 @@ export class InputComponent implements ControlValueAccessor, OnInit {
   }
 
   ngOnInit() {
-    this.control?.statusChanges?.subscribe(() => this.changeDetectorRef.markForCheck());
+    this.control?.statusChanges?.subscribe(() => this.cdr.markForCheck());
   }
 
   get invalid(): boolean {

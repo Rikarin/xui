@@ -61,7 +61,7 @@ export class ButtonComponent {
     public elementRef: ElementRef,
     private configService: XuiConfigService,
     @Optional() @Host() private group: ButtonGroupComponent,
-    private changeDetectorRef: ChangeDetectorRef
+    private cdr: ChangeDetectorRef
   ) {}
 
   get styles() {
@@ -105,9 +105,9 @@ export class ButtonComponent {
       this.state = 2;
     }
 
-    this.changeDetectorRef.markForCheck();
+    this.cdr.markForCheck();
     await delay(5000);
     this.state = 0;
-    this.changeDetectorRef.markForCheck();
+    this.cdr.markForCheck();
   }
 }

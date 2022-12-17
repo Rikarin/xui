@@ -66,7 +66,7 @@ export class SettingsComponent {
     this.close();
   }
 
-  constructor(private snackBar: MatSnackBar, private changeDetectorRef: ChangeDetectorRef) {}
+  constructor(private snackBar: MatSnackBar, private cdr: ChangeDetectorRef) {}
 
   stateChanged = (canExit: boolean) => {
     this.canExit = canExit;
@@ -81,7 +81,7 @@ export class SettingsComponent {
               try {
                 await this.instance?.save();
                 await this.hideSnackbar();
-                this.changeDetectorRef.markForCheck();
+                this.cdr.markForCheck();
               } catch (e) {
                 // TODO: show error snackbar
               }
@@ -89,7 +89,7 @@ export class SettingsComponent {
             reset: async () => {
               await this.instance?.reset();
               await this.hideSnackbar();
-              this.changeDetectorRef.markForCheck();
+              this.cdr.markForCheck();
             }
           }
         });
@@ -104,7 +104,7 @@ export class SettingsComponent {
     this.opened = true;
     this.openedAnimation = 'opened';
     this.navigate(this.defaultPage);
-    this.changeDetectorRef.markForCheck();
+    this.cdr.markForCheck();
   }
 
   async close() {
@@ -118,7 +118,7 @@ export class SettingsComponent {
     await delay(100);
     this.opened = false;
     this.afterClosed.emit();
-    this.changeDetectorRef.markForCheck();
+    this.cdr.markForCheck();
   }
 
   attached(ref: CdkPortalOutletAttachedRef) {
@@ -226,7 +226,7 @@ export class SaveResetSnackbarComponent {
   @HostBinding('@fade')
   animation = 'open';
 
-  constructor(@Inject(MAT_SNACK_BAR_DATA) private data: any, private changeDetectorRef: ChangeDetectorRef) {}
+  constructor(@Inject(MAT_SNACK_BAR_DATA) private data: any, private cdr: ChangeDetectorRef) {}
 
   async close() {
     this.animation = 'close';
@@ -237,7 +237,7 @@ export class SaveResetSnackbarComponent {
     this.animation = 'alert';
     await delay(1000);
     this.animation = 'open';
-    this.changeDetectorRef.markForCheck();
+    this.cdr.markForCheck();
   }
 
   save = () => {

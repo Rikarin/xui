@@ -35,7 +35,7 @@ export class TextareaComponent implements ControlValueAccessor, OnInit {
     if (this._value !== v) {
       this._value = v;
       this.onChange?.(v);
-      this.changeDetectorRef.markForCheck();
+      this.cdr.markForCheck();
     }
   }
 
@@ -59,7 +59,7 @@ export class TextareaComponent implements ControlValueAccessor, OnInit {
   }
 
   constructor(
-    private changeDetectorRef: ChangeDetectorRef,
+    private cdr: ChangeDetectorRef,
     private translation: TranslateService,
     @Self() @Optional() public control?: NgControl
   ) {
@@ -69,7 +69,7 @@ export class TextareaComponent implements ControlValueAccessor, OnInit {
   }
 
   ngOnInit() {
-    this.control?.statusChanges?.subscribe(() => this.changeDetectorRef.markForCheck());
+    this.control?.statusChanges?.subscribe(() => this.cdr.markForCheck());
   }
 
   get invalid(): boolean {

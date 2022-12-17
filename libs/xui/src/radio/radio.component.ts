@@ -46,11 +46,11 @@ export class RadioComponent implements OnInit {
 
   constructor(
     @Inject(RADIO_GROUP_ACCESSOR) private group: RadioGroupAccessor,
-    private changeDetectorRef: ChangeDetectorRef
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
-    this.group.onChange$.subscribe(() => this.changeDetectorRef.markForCheck());
+    this.group.onChange$.subscribe(() => this.cdr.markForCheck());
   }
 
   @HostListener('click')
