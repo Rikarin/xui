@@ -13,8 +13,11 @@ import { InputBoolean } from '../utils';
 
 @Component({
   selector: 'xui-radio',
-  templateUrl: './radio.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `<div [ngClass]="styles">
+    <xui-icon>{{ selected ? 'radiobox-marked' : 'radiobox-blank' }}</xui-icon>
+    <ng-content></ng-content>
+  </div>`
 })
 export class RadioComponent implements OnInit {
   static ngAcceptInputType_disabled: BooleanInput;
@@ -27,11 +30,14 @@ export class RadioComponent implements OnInit {
     return this.group.value === this.value;
   }
 
+  get isDisabled() {
+    return this.disabled || this.group.disabled;
+  }
+
   get styles() {
     const ret: { [klass: string]: boolean } = {
       'x-radio': true,
-      // 'x-select-option-selected': this.isSelected,
-      'x-radio-disabled': this.disabled
+      'x-radio-disabled': this.isDisabled
     };
 
     ret[`x-radio-${this.color ?? this.group.color}`] = true;
@@ -49,7 +55,7 @@ export class RadioComponent implements OnInit {
 
   @HostListener('click')
   private _click() {
-    if (!this.disabled) {
+    if (!this.isDisabled) {
       this.group.value = this.value;
     }
   }

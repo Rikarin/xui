@@ -3,6 +3,7 @@ import {
   ChangeDetectorRef,
   Component,
   HostListener,
+  Inject,
   Input,
   OnInit,
   Optional,
@@ -10,9 +11,8 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
-import { InputGroupService } from './input-group.service';
 import { InputBoolean } from '../utils';
-import { InputColor, InputSize, InputType } from './input.types';
+import { INPUT_GROUP_ACCESSOR, InputColor, InputGroupAccessor, InputSize, InputType } from './input.types';
 import { BooleanInput } from '@angular/cdk/coercion';
 import { INPUT_MODULE, WithConfig, XuiConfigService } from '../config';
 
@@ -59,7 +59,7 @@ export class XuiInputComponent implements ControlValueAccessor, OnInit {
     };
 
     ret[`x-input-${this.color}`] = true;
-    ret[`x-input-${this.groupService?.size ?? this.size}`] = true;
+    ret[`x-input-${this.group?.size ?? this.size}`] = true;
     return ret;
   }
 
@@ -72,7 +72,7 @@ export class XuiInputComponent implements ControlValueAccessor, OnInit {
     private configService: XuiConfigService,
     private changeDetectorRef: ChangeDetectorRef,
     private translation: TranslateService,
-    @Optional() private groupService: InputGroupService,
+    @Inject(INPUT_GROUP_ACCESSOR) @Optional() private group: InputGroupAccessor,
     @Self() @Optional() public control?: NgControl
   ) {
     if (this.control) {

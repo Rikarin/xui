@@ -3,14 +3,13 @@ import {
   ChangeDetectorRef,
   Component,
   HostListener,
+  Inject,
   Input,
-  OnDestroy,
   OnInit
 } from '@angular/core';
-import { RadioListService } from './radio-list.service';
 import { InputBoolean } from '../utils';
-import { XuiRadioListComponent } from './radio-list.component';
 import { BooleanInput } from '@angular/cdk/coercion';
+import { RADIO_LIST_ACCESSOR, RadioListAccessor } from './radio-list.types';
 
 @Component({
   selector: 'xui-radio-option',
@@ -26,7 +25,7 @@ import { BooleanInput } from '@angular/cdk/coercion';
     </div>
   </div>`
 })
-export class XuiRadioOptionComponent implements OnInit, OnDestroy {
+export class XuiRadioOptionComponent implements OnInit {
   static ngAcceptInputType_disabled: BooleanInput;
 
   @Input() color?: string;
@@ -34,11 +33,16 @@ export class XuiRadioOptionComponent implements OnInit, OnDestroy {
   @Input() description?: string;
   @Input() @InputBoolean() disabled = false;
 
-  private isSelected = false;
-  private isFocused = false;
+  get isSelected() {
+    return this.value === this.list.value;
+  }
+
+  get isFocused() {
+    return this.value === this.list.focusedValue;
+  }
 
   get isDisabled() {
-    return this.disabled || this.radioList.disabled;
+    return this.disabled || this.list.disabled;
   }
 
   get icon() {
@@ -54,39 +58,24 @@ export class XuiRadioOptionComponent implements OnInit, OnDestroy {
     };
 
     ret[`x-radio-option-${this.color}`] = !!this.color;
-    ret[`x-radio-option-background-${this.radioList.color}`] = true;
-    ret[`x-radio-option-${this.radioList.size}`] = true;
+    ret[`x-radio-option-background-${this.list.color}`] = true;
+    ret[`x-radio-option-${this.list.size}`] = true;
     return ret;
   }
 
   constructor(
-    private radioList: XuiRadioListComponent,
-    private radioListService: RadioListService,
+    @Inject(RADIO_LIST_ACCESSOR) private list: RadioListAccessor,
     private changeDetectorRef: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
-    this.radioListService.addOption(this);
-  }
-
-  ngOnDestroy() {
-    this.radioListService.removeOption(this);
+    this.list.onChange$.subscribe(() => this.changeDetectorRef.markForCheck());
   }
 
   @HostListener('click')
   click() {
     if (!this.isDisabled) {
-      this.radioListService.select(this.value);
+      this.list.value = this.value;
     }
-  }
-
-  focus(value: boolean) {
-    this.isFocused = value;
-    this.changeDetectorRef.markForCheck();
-  }
-
-  select(value: boolean) {
-    this.isSelected = value;
-    this.changeDetectorRef.markForCheck();
   }
 }

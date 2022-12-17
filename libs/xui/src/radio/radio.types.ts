@@ -14,5 +14,6 @@ export const RADIO_GROUP_ACCESSOR = new InjectionToken<RadioGroupAccessor>('xui-
 export interface RadioGroupAccessor {
   color: RadioColor;
   value: RadioValue;
+  disabled: boolean;
   onChange$: Observable<unknown>;
 }

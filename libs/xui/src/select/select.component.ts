@@ -104,7 +104,7 @@ export class XuiSelectComponent implements SelectAccessor, ControlValueAccessor,
     this.changeDetectorRef.markForCheck();
   }
 
-  writeValue(source: string) {
+  writeValue(source: SelectValue) {
     this.value = source;
   }
 

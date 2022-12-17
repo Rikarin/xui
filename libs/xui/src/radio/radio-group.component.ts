@@ -7,9 +7,12 @@ import { ControlValueAccessor, NgControl } from '@angular/forms';
 
 @Component({
   selector: 'xui-radio-group',
-  templateUrl: './radio-group.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [{ provide: RADIO_GROUP_ACCESSOR, useExisting: RadioGroupComponent }]
+  providers: [{ provide: RADIO_GROUP_ACCESSOR, useExisting: RadioGroupComponent }],
+  template: `<div class="x-radio-group">
+    <ng-content select="xui-radio"></ng-content>
+    <xui-radio *ngFor="let item of items" [value]="item.value">{{ item.label | translate }}</xui-radio>
+  </div>`
 })
 export class RadioGroupComponent implements RadioGroupAccessor, ControlValueAccessor {
   static ngAcceptInputType_disabled: BooleanInput;
@@ -49,7 +52,7 @@ export class RadioGroupComponent implements RadioGroupAccessor, ControlValueAcce
     });
   }
 
-  writeValue(source: string) {
+  writeValue(source: RadioValue) {
     this.value = source;
   }
 

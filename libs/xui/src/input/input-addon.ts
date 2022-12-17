@@ -1,5 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, Optional } from '@angular/core';
-import { InputGroupService } from './input-group.service';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { InputColor } from './input.types';
 
 @Component({
@@ -14,6 +13,4 @@ export class XuiInputAddonComponent {
   get styles() {
     return `x-input-addon x-input-addon-${this.color}`;
   }
-
-  constructor(@Optional() private groupService: InputGroupService) {}
 }

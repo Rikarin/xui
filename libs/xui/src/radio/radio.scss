@@ -9,6 +9,11 @@
 
     cursor: pointer;
 
+    &-disabled {
+      cursor: not-allowed;
+      @include xui.disabled();
+    }
+
     @each $name in xui.$color-variations {
       &-#{$name} {
         xui-icon {
