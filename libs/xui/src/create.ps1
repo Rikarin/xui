@@ -19,7 +19,7 @@ $args | ForEach-Object {
   nx g c $name/$_ --inline-style --skip-tests=true --change-detection=OnPush --flat --export
 
   # Remove empty styles: []
-  $component = "$($name)/$($name).component.ts"
+  $component = "$($name)/$($_).component.ts"
   Get-Content $component | Select-String -Pattern 'styles:' -NotMatch | Set-Content $component
 
   New-Item $name/$_.scss

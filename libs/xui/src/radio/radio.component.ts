@@ -1,6 +1,13 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostListener, Input, OnInit } from '@angular/core';
-import { RadioGroupComponent } from './radio-group.component';
-import { RadioColor, RadioValue } from './radio.types';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  HostListener,
+  Inject,
+  Input,
+  OnInit
+} from '@angular/core';
+import { RADIO_GROUP_ACCESSOR, RadioColor, RadioGroupAccessor, RadioValue } from './radio.types';
 import { BooleanInput } from '@angular/cdk/coercion';
 import { InputBoolean } from '../utils';
 
@@ -31,7 +38,10 @@ export class RadioComponent implements OnInit {
     return ret;
   }
 
-  constructor(private group: RadioGroupComponent, private changeDetectorRef: ChangeDetectorRef) {}
+  constructor(
+    @Inject(RADIO_GROUP_ACCESSOR) private group: RadioGroupAccessor,
+    private changeDetectorRef: ChangeDetectorRef
+  ) {}
 
   ngOnInit() {
     this.group.onChange$.subscribe(() => this.changeDetectorRef.markForCheck());

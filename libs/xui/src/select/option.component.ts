@@ -5,14 +5,14 @@ import {
   Component,
   ElementRef,
   HostListener,
+  Inject,
   Input,
   OnInit,
   ViewChild
 } from '@angular/core';
 import { InputBoolean } from '../utils';
-import { XuiSelectComponent } from './select.component';
 import { BooleanInput } from '@angular/cdk/coercion';
-import { SelectValue } from './select.types';
+import { SELECT_ACCESSOR, SelectAccessor, SelectValue } from './select.types';
 
 @Component({
   selector: 'xui-option',
@@ -32,7 +32,7 @@ export class XuiOptionComponent implements OnInit, AfterViewInit {
   @ViewChild('content') contentRef!: ElementRef;
 
   get isSelected() {
-    return this.selectComponent.value == this.value;
+    return this.select.value == this.value;
   }
 
   get styles() {
@@ -42,7 +42,7 @@ export class XuiOptionComponent implements OnInit, AfterViewInit {
       'x-select-option-disabled': this.disabled
     };
 
-    ret[`x-select-option-${this.selectComponent.color}`] = true;
+    ret[`x-select-option-${this.select.color}`] = true;
     return ret;
   }
 
@@ -50,24 +50,24 @@ export class XuiOptionComponent implements OnInit, AfterViewInit {
     return (this.contentRef.nativeElement.textContent || '').trim();
   }
 
-  constructor(private selectComponent: XuiSelectComponent, private changeDetectorRef: ChangeDetectorRef) {}
+  constructor(@Inject(SELECT_ACCESSOR) private select: SelectAccessor, private changeDetectorRef: ChangeDetectorRef) {}
 
   ngOnInit() {
-    this.selectComponent.onChange$.subscribe(() => this.changeDetectorRef.markForCheck());
+    this.select.onChange$.subscribe(() => this.changeDetectorRef.markForCheck());
   }
 
   ngAfterViewInit() {
     if (this.isSelected) {
-      this.selectComponent.viewValue = this.viewValue;
+      this.select.viewValue = this.viewValue;
     }
   }
 
   @HostListener('click')
   click() {
     if (!this.disabled) {
-      this.selectComponent.value = this.value;
-      this.selectComponent.viewValue = this.viewValue;
-      this.selectComponent.close();
+      this.select.value = this.value;
+      this.select.viewValue = this.viewValue;
+      this.select.close();
     }
   }
 }

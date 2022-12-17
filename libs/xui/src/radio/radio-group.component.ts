@@ -1,17 +1,17 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, Optional, Self } from '@angular/core';
-import { RadioColor, RadioItem, RadioValue } from './radio.types';
+import { RADIO_GROUP_ACCESSOR, RadioColor, RadioGroupAccessor, RadioItem, RadioValue } from './radio.types';
 import { Subject } from 'rxjs';
 import { InputBoolean } from '../utils';
 import { BooleanInput } from '@angular/cdk/coercion';
-import { NgControl } from '@angular/forms';
+import { ControlValueAccessor, NgControl } from '@angular/forms';
 
 @Component({
   selector: 'xui-radio-group',
   templateUrl: './radio-group.component.html',
-  styles: [],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [{ provide: RADIO_GROUP_ACCESSOR, useExisting: RadioGroupComponent }]
 })
-export class RadioGroupComponent {
+export class RadioGroupComponent implements RadioGroupAccessor, ControlValueAccessor {
   static ngAcceptInputType_disabled: BooleanInput;
 
   private onChange?: (source: RadioValue) => void;
