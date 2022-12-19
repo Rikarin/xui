@@ -12,6 +12,7 @@ import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { InputBoolean } from '../utils';
 import { CheckboxColor } from './checkbox.types';
 import { BooleanInput } from '@angular/cdk/coercion';
+import { CHECKBOX_MODULE, WithConfig, XuiConfigService } from '../config';
 
 @Component({
   selector: 'xui-checkbox',
@@ -35,13 +36,14 @@ import { BooleanInput } from '@angular/cdk/coercion';
 export class CheckboxComponent implements ControlValueAccessor, OnInit {
   static ngAcceptInputType_disabled: BooleanInput;
   static ngAcceptInputType_value: BooleanInput;
+  private readonly _moduleName = CHECKBOX_MODULE;
 
   private onChange?: (source: boolean) => void;
   private onTouched?: () => void;
   private _value = false;
 
-  @Input() @InputBoolean() disabled = false;
-  @Input() color: CheckboxColor = 'primary';
+  @Input() @InputBoolean() @WithConfig() disabled = false;
+  @Input() @WithConfig() color: CheckboxColor = 'primary';
 
   get styles() {
     const ret: { [klass: string]: boolean } = {
@@ -66,7 +68,11 @@ export class CheckboxComponent implements ControlValueAccessor, OnInit {
     }
   }
 
-  constructor(private cdr: ChangeDetectorRef, @Self() @Optional() public control?: NgControl) {
+  constructor(
+    private configService: XuiConfigService,
+    private cdr: ChangeDetectorRef,
+    @Self() @Optional() public control?: NgControl
+  ) {
     if (this.control) {
       this.control.valueAccessor = this;
     }

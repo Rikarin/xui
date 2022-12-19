@@ -12,7 +12,7 @@ New-Item $name/variables.scss
 
 Add-Content $name/index.ts "export * from './$name.types';"
 Add-Content $name/index.ts "export * from './$name.module';"
-Add-Content $name/$name.types.ts "export const _PLACEHOLDER = 'PLACEHOLDER';"
+Add-Content $name/$name.types.ts "export const _$NAME_PLACEHOLDER = 'PLACEHOLDER';"
 
 # Generate Component
 $args | ForEach-Object {

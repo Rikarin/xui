@@ -61,7 +61,8 @@ import {
   XuiTooltipModule,
   XuiConfigModule,
   XuiRadioModule,
-  XuiBadgeModule
+  XuiBadgeModule,
+  XuiDrawerModule
 } from 'xui';
 import { CdkTableModule } from '@angular/cdk/table';
 import { CdkMenuModule } from '@angular/cdk/menu';
@@ -77,6 +78,7 @@ import { PopoverComponent } from './popover/popover.component';
 import { PanelbarComponent } from './panelbar/panelbar.component';
 import { RadioComponent } from './radio/radio.component';
 import { BadgeComponent } from './badge/badge.component';
+import { DrawerComponent } from './drawer/drawer.component';
 
 const routes: Routes = [
   { path: 'overview', component: ComponentsOverviewComponent },
@@ -91,6 +93,7 @@ const routes: Routes = [
   { path: 'date-picker', component: DatePickerComponent },
   { path: 'decagram', component: DecagramComponent },
   { path: 'divider', component: DividerComponent },
+  { path: 'drawer', component: DrawerComponent },
   { path: 'icon', component: IconComponent },
   { path: 'image-upload', component: ImageUploadComponent },
   { path: 'input', component: InputComponent },
@@ -151,7 +154,8 @@ const routes: Routes = [
     PopoverComponent,
     PanelbarComponent,
     RadioComponent,
-    BadgeComponent
+    BadgeComponent,
+    DrawerComponent
   ],
   imports: [
     CommonModule,
@@ -197,7 +201,8 @@ const routes: Routes = [
     XuiPanelBarModule,
     XuiConfigModule,
     XuiRadioModule,
-    XuiBadgeModule
+    XuiBadgeModule,
+    XuiDrawerModule
   ]
 })
 export class XuiComponentsModule {}

@@ -1,0 +1,7 @@
+@forward 'variables';
+
+@use 'drawer';
+
+@mixin theme() {
+  @include drawer.theme();
+}

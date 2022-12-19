@@ -58,6 +58,7 @@ export class ButtonComponent {
   @Output() readonly click = new EventEmitter<unknown>();
 
   constructor(
+    // TODO: Anchor for popover; consider removing it and refactoring
     public elementRef: ElementRef,
     private configService: XuiConfigService,
     @Optional() @Host() private group: ButtonGroupComponent,

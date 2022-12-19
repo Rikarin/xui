@@ -9,6 +9,7 @@
 @forward 'date-picker' as date-picker-*;
 @forward 'decagram' as decagram-*;
 @forward 'divider' as divider-*;
+@forward 'drawer' as drawer-*;
 @forward 'icon' as icon-*;
 @forward 'image-upload' as image-upload-*;
 @forward 'input' as input-*;
@@ -47,6 +48,7 @@
 @use 'date-picker';
 @use 'decagram';
 @use 'divider';
+@use 'drawer';
 @use 'icon';
 @use 'image-upload';
 @use 'input';
@@ -89,6 +91,7 @@
   @include date-picker.theme();
   @include decagram.theme();
   @include divider.theme();
+  @include drawer.theme();
   @include icon.theme();
   @include image-upload.theme();
   @include input.theme();

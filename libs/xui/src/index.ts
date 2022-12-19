@@ -8,6 +8,7 @@ export * from './context-menu';
 export * from './date-picker';
 export * from './decagram';
 export * from './divider';
+export * from './drawer';
 export * from './icon';
 export * from './image-upload';
 export * from './input';

@@ -15,6 +15,7 @@ import { InputBoolean } from '../utils';
 import { InputComponent } from '../input';
 import { BooleanInput } from '@angular/cdk/coercion';
 import { DatePickerColor, DatePickerSize } from './date-picker.types';
+import { DATE_PICKER_MODULE, WithConfig, XuiConfigService } from '../config';
 
 @Component({
   selector: 'xui-date-picker',
@@ -24,6 +25,7 @@ import { DatePickerColor, DatePickerSize } from './date-picker.types';
 export class DatePickerComponent implements ControlValueAccessor, OnInit {
   static ngAcceptInputType_disabled: BooleanInput;
   static ngAcceptInputType_readOnly: BooleanInput;
+  private readonly _moduleName = DATE_PICKER_MODULE;
 
   private onChange?: (source: string | null) => void;
   private onTouched?: () => void;
@@ -40,8 +42,8 @@ export class DatePickerComponent implements ControlValueAccessor, OnInit {
   @Input() placeholder?: string;
   @Input() @InputBoolean() disabled = false;
   @Input() @InputBoolean() readOnly = false;
-  @Input() color: DatePickerColor = 'light';
-  @Input() size: DatePickerSize = 'large';
+  @Input() @WithConfig() color: DatePickerColor = 'light';
+  @Input() @WithConfig() size: DatePickerSize = 'large';
 
   @ViewChild(InputComponent, { static: true }) input!: InputComponent;
 
@@ -80,7 +82,11 @@ export class DatePickerComponent implements ControlValueAccessor, OnInit {
     return ret;
   }
 
-  constructor(private cdr: ChangeDetectorRef, @Self() @Optional() public control?: NgControl) {
+  constructor(
+    private configService: XuiConfigService,
+    private cdr: ChangeDetectorRef,
+    @Self() @Optional() public control?: NgControl
+  ) {
     if (this.control) {
       this.control.valueAccessor = this;
     }
