@@ -60,7 +60,8 @@ import {
   XuiToggleModule,
   XuiTooltipModule,
   XuiConfigModule,
-  XuiRadioModule
+  XuiRadioModule,
+  XuiBadgeModule
 } from 'xui';
 import { CdkTableModule } from '@angular/cdk/table';
 import { CdkMenuModule } from '@angular/cdk/menu';
@@ -75,10 +76,12 @@ import { TimePickerComponent } from './time-picker/time-picker.component';
 import { PopoverComponent } from './popover/popover.component';
 import { PanelbarComponent } from './panelbar/panelbar.component';
 import { RadioComponent } from './radio/radio.component';
+import { BadgeComponent } from './badge/badge.component';
 
 const routes: Routes = [
   { path: 'overview', component: ComponentsOverviewComponent },
 
+  { path: 'badge', component: BadgeComponent },
   { path: 'banner', component: BannerComponent },
   { path: 'breadcrumb', component: BreadcrumbComponent },
   { path: 'button', component: ButtonComponent },
@@ -147,7 +150,8 @@ const routes: Routes = [
     TimePickerComponent,
     PopoverComponent,
     PanelbarComponent,
-    RadioComponent
+    RadioComponent,
+    BadgeComponent
   ],
   imports: [
     CommonModule,
@@ -192,7 +196,8 @@ const routes: Routes = [
     XuiPopoverModule,
     XuiPanelBarModule,
     XuiConfigModule,
-    XuiRadioModule
+    XuiRadioModule,
+    XuiBadgeModule
   ]
 })
 export class XuiComponentsModule {}

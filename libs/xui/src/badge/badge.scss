@@ -1,0 +1,23 @@
+@use 'variables' as *;
+@use '../xui';
+
+@mixin theme() {
+  xui-badge {
+    display: inline-flex;
+  }
+
+  .x-badge {
+    display: inline-flex;
+
+    border-radius: $border-radius;
+    padding: 0 4px;
+
+    @include xui.typography-level(caption);
+
+    @each $name in xui.$color-variations {
+      &-#{$name} {
+        @include xui.fill(default, $name);
+      }
+    }
+  }
+}

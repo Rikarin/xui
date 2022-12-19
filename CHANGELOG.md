@@ -4,20 +4,18 @@ All notable changes to this project will be documented in this file. See [standa
 
 ## [1.39.0](https://github.com/Rikarin/xui/compare/v1.38.0...v1.39.0) (2022-12-17)
 
-
 ### Features
 
-* add xuiConfigure directive to allow group configuration of components ([bc16715](https://github.com/Rikarin/xui/commit/bc1671589d552fb2be67a13aba6135c71367df21))
-* create SCSS color variables for popover background ([363ef97](https://github.com/Rikarin/xui/commit/363ef978afba34996a95e3aac161d00f7bd3c03a))
-* xui-radio and xui-radio-group ([1d33a9a](https://github.com/Rikarin/xui/commit/1d33a9ab72a0e298796f71afe002e7cc0a24dae5))
-
+- add xuiConfigure directive to allow group configuration of components ([bc16715](https://github.com/Rikarin/xui/commit/bc1671589d552fb2be67a13aba6135c71367df21))
+- create SCSS color variables for popover background ([363ef97](https://github.com/Rikarin/xui/commit/363ef978afba34996a95e3aac161d00f7bd3c03a))
+- xui-radio and xui-radio-group ([1d33a9a](https://github.com/Rikarin/xui/commit/1d33a9ab72a0e298796f71afe002e7cc0a24dae5))
 
 ### Bug Fixes
 
-* cyclic dependency between components ([c1b059b](https://github.com/Rikarin/xui/commit/c1b059b8a98d15f73ffc0c3e0f41d4c9e751bfc7))
-* improve context-menu and popover ([5648fe8](https://github.com/Rikarin/xui/commit/5648fe8003cc7a8c7e8485c45a5229a0faaac554))
-* improve stuff ([57263cb](https://github.com/Rikarin/xui/commit/57263cb7bbb509276bd840025b7e2125e0611544))
-* popover trap focus ([a0a0923](https://github.com/Rikarin/xui/commit/a0a0923b1ec319482d56894b3c40700aa4f3b9dc))
+- cyclic dependency between components ([c1b059b](https://github.com/Rikarin/xui/commit/c1b059b8a98d15f73ffc0c3e0f41d4c9e751bfc7))
+- improve context-menu and popover ([5648fe8](https://github.com/Rikarin/xui/commit/5648fe8003cc7a8c7e8485c45a5229a0faaac554))
+- improve stuff ([57263cb](https://github.com/Rikarin/xui/commit/57263cb7bbb509276bd840025b7e2125e0611544))
+- popover trap focus ([a0a0923](https://github.com/Rikarin/xui/commit/a0a0923b1ec319482d56894b3c40700aa4f3b9dc))
 
 ## [1.38.0](https://github.com/Rikarin/xui/compare/v1.37.2...v1.38.0) (2022-12-13)
 

@@ -1,6 +1,7 @@
 @forward 'core';
 
 @forward 'banner' as banner-*;
+@forward 'badge' as badge-*;
 @forward 'button' as button-*;
 @forward 'card' as card-*;
 @forward 'checkbox' as checkbox-*;
@@ -37,6 +38,7 @@
 
 @use 'core';
 
+@use 'badge';
 @use 'banner';
 @use 'button';
 @use 'card';
@@ -75,6 +77,7 @@
   @import url('https://fonts.googleapis.com/css?family=Rubik:400,500,600,700,800&display=swap');
   @import url('https://fonts.googleapis.com/css?family=Bungee:400,500,600,700,800&display=swap');
 
+  @include badge.theme();
   @include banner.theme();
   @include button.theme();
   @include card.theme();
