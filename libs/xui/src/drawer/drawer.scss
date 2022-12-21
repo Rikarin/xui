@@ -2,6 +2,71 @@
 @use '../xui';
 
 @mixin theme() {
+  xui-drawer {
+    display: flex;
+    height: fit-content;
+  }
   .x-drawer {
+    width: 48px;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+
+    @include xui.fill(primary);
+
+    &-expanded {
+      width: 260px;
+    }
+
+    &-item {
+      height: 40px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+
+      cursor: pointer;
+      padding-left: 12px;
+
+      &:hover {
+        background-color: xui.modifier-hover();
+      }
+    }
+
+    &-group {
+      height: 48px;
+
+      xui-icon {
+        color: var(--color-primary-default);
+      }
+    }
+
+    &-active {
+      padding-left: 9px;
+      border-left: 3px solid xui.modifier-selected();
+
+      background-color: rgba(var(--color-bg-accent-rgb), 0.20);
+    }
+
+    &-selected {
+      padding-left: 9px;
+      border-left: 3px solid var(--color-primary-default);
+
+      background-color: rgba(var(--color-bg-accent-rgb), 0.40);
+    }
+
+    &-divider {
+      width: 80%;
+      margin: 8px 0;
+      border-bottom: 2px solid xui.modifier-accent();
+    }
+
+    &-header,
+    &-footer {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 8px 0;
+    }
   }
 }
