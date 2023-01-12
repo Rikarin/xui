@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.40.1](https://github.com/Rikarin/xui/compare/v1.40.0...v1.40.1) (2023-01-12)
+
+
+### Bug Fixes
+
+* provide $event in button's click emitter which fixes routerLink ([82ce453](https://github.com/Rikarin/xui/commit/82ce45319976676aba7dd3a530f4c55d13d33d7b))
+
 ## [1.40.0](https://github.com/Rikarin/xui/compare/v1.39.0...v1.40.0) (2023-01-12)
 
 
