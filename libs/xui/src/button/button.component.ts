@@ -92,7 +92,7 @@ export class ButtonComponent {
       return;
     }
 
-    this.click.emit();
+    this.click.emit(event);
 
     if (!this.onClick) {
       return;
