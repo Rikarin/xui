@@ -4,8 +4,8 @@ import { DrawerComponent } from './drawer.component';
 import { DrawerItemTemplateDirective } from './drawer-item-template.directive';
 import { DrawerHeaderTemplateDirective } from './drawer-header-template.directive';
 import { DrawerFooterTemplateDirective } from './drawer-footer-template.directive';
-import {XuiIconModule} from "../icon";
-import {PortalModule} from "@angular/cdk/portal";
+import { XuiIconModule } from '../icon';
+import { PortalModule } from '@angular/cdk/portal';
 
 @NgModule({
   declarations: [
