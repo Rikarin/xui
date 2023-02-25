@@ -4,24 +4,21 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### [1.40.1](https://github.com/Rikarin/xui/compare/v1.40.0...v1.40.1) (2023-01-12)
 
-
 ### Bug Fixes
 
-* provide $event in button's click emitter which fixes routerLink ([82ce453](https://github.com/Rikarin/xui/commit/82ce45319976676aba7dd3a530f4c55d13d33d7b))
+- provide $event in button's click emitter which fixes routerLink ([82ce453](https://github.com/Rikarin/xui/commit/82ce45319976676aba7dd3a530f4c55d13d33d7b))
 
 ## [1.40.0](https://github.com/Rikarin/xui/compare/v1.39.0...v1.40.0) (2023-01-12)
 
-
 ### Features
 
-* add badge ([7e20409](https://github.com/Rikarin/xui/commit/7e20409cf5246855f38842ce79c7318d17e791ed))
-* drawer ([663c992](https://github.com/Rikarin/xui/commit/663c9924afced953e1f82538e3903e8aac3027e9))
-* implement xuiConfigure for more components ([753add7](https://github.com/Rikarin/xui/commit/753add7f33deac22746e6e311c44a0f04365d7c2))
-
+- add badge ([7e20409](https://github.com/Rikarin/xui/commit/7e20409cf5246855f38842ce79c7318d17e791ed))
+- drawer ([663c992](https://github.com/Rikarin/xui/commit/663c9924afced953e1f82538e3903e8aac3027e9))
+- implement xuiConfigure for more components ([753add7](https://github.com/Rikarin/xui/commit/753add7f33deac22746e6e311c44a0f04365d7c2))
 
 ### Bug Fixes
 
-* update Angular ([62c9cc1](https://github.com/Rikarin/xui/commit/62c9cc17c03487b2096afebf17e0a2e64efb6e51))
+- update Angular ([62c9cc1](https://github.com/Rikarin/xui/commit/62c9cc17c03487b2096afebf17e0a2e64efb6e51))
 
 ## [1.39.0](https://github.com/Rikarin/xui/compare/v1.38.0...v1.39.0) (2022-12-17)
 

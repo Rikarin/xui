@@ -1,7 +1,7 @@
-import {ChangeDetectionStrategy, Component, Input, TemplateRef, ViewContainerRef} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, TemplateRef, ViewContainerRef } from '@angular/core';
 import { DrawerItem, DrawerMode } from './drawer.types';
-import {Portal, TemplatePortal} from "@angular/cdk/portal";
-import {InputBoolean} from "../utils";
+import { Portal, TemplatePortal } from '@angular/cdk/portal';
+import { InputBoolean } from '../utils';
 
 @Component({
   selector: 'xui-drawer',
@@ -20,9 +20,7 @@ export class DrawerComponent {
   @Input() @InputBoolean() expanded = true;
   @Input() items!: DrawerItem[];
 
-
-  constructor(private viewContainerRef: ViewContainerRef) {
-  }
+  constructor(private viewContainerRef: ViewContainerRef) {}
 
   ngOnInit() {
     if (this.footerTemplate) {

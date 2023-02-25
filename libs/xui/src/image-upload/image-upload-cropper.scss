@@ -6,8 +6,11 @@
     --cropper-outline-color: var(--color-bg-secondary);
     --cropper-overlay-color: var(--color-bg-secondary);
 
+    width: 40vw;
+    height: 70vh;
     display: flex;
     padding: 12px;
+    z-index: 10010;
 
     background-color: var(--color-bg-secondary);
     @include xui.border-top-radius-only($border-radius);
