@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.41.0](https://github.com/Rikarin/xui/compare/v1.40.2...v1.41.0) (2023-06-15)
+
+
+### Features
+
+* update to Angular 16 ([7e9edb4](https://github.com/Rikarin/xui/commit/7e9edb40cc8fc54caf3125645cbaf3a80b5f2ddf))
+
+
+### Bug Fixes
+
+* nx build ([8db4c8a](https://github.com/Rikarin/xui/commit/8db4c8aa4523fe98a7ef63fcab4fcea659b0c90a))
+
 ### [1.40.2](https://github.com/Rikarin/xui/compare/v1.40.1...v1.40.2) (2023-02-25)
 
 ### Bug Fixes

@@ -26,7 +26,7 @@
       "sass": "./src/theming/xui.theme.scss"
     }
   },
-  "version": "1.40.2",
+  "version": "1.41.0",
   "peerDependencies": {
     "@angular/animations": "15 - 16",
     "@angular/cdk": "15 - 16",
