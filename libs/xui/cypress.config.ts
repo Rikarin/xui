@@ -1,6 +1,6 @@
 import { defineConfig } from 'cypress';
-import { nxComponentTestingPreset } from '@nrwl/angular/plugins/component-testing';
+import { nxE2EPreset } from '@nx/cypress/plugins/cypress-preset';
 
 export default defineConfig({
-  component: nxComponentTestingPreset(__filename)
+  e2e: nxE2EPreset(__dirname)
 });

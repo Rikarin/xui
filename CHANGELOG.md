@@ -4,10 +4,9 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### [1.40.2](https://github.com/Rikarin/xui/compare/v1.40.1...v1.40.2) (2023-02-25)
 
-
 ### Bug Fixes
 
-* image-upload ([d42cdf6](https://github.com/Rikarin/xui/commit/d42cdf6c5c10b8c2773a5fdc07dc91718e1d5742))
+- image-upload ([d42cdf6](https://github.com/Rikarin/xui/commit/d42cdf6c5c10b8c2773a5fdc07dc91718e1d5742))
 
 ### [1.40.1](https://github.com/Rikarin/xui/compare/v1.40.0...v1.40.1) (2023-01-12)
 

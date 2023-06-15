@@ -35,13 +35,13 @@
     "@angular/forms": "15 - 16",
     "@angular/material": "15 - 16",
     "@angular/router": "15 - 16",
-    "@ngneat/until-destroy": "^9.0.0",
     "@ngx-translate/core": "^14.0.0",
     "rxjs": "^7.8.0",
     "luxon": "^3.3.0"
   },
   "dependencies": {
     "tslib": "^2.5.3",
-    "ngx-image-cropper": "^7.0.1"
+    "ngx-image-cropper": "^7.0.1",
+    "@ngneat/until-destroy": "^10.0.0-beta.0"
   }
 }
