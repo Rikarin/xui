@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.41.1](https://github.com/Rikarin/xui/compare/v1.41.0...v1.41.1) (2023-06-15)
+
+
+### Bug Fixes
+
+* ci build ([4db7f09](https://github.com/Rikarin/xui/commit/4db7f09e0e73f37357761f0b11cc714574b687dd))
+
 ## [1.41.0](https://github.com/Rikarin/xui/compare/v1.40.2...v1.41.0) (2023-06-15)
 
 
