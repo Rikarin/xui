@@ -14,7 +14,8 @@
     }
   ],
   "allowedNonPeerDependencies": [
-    "ngx-image-cropper"
+    "ngx-image-cropper",
+    "@ngneat/until-destroy"
   ],
   "lib": {
     "entryFile": "src/index.ts"

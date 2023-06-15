@@ -5,7 +5,7 @@
   "scripts": {
     "ng": "nx",
     "nx": "nx",
-    "start": "nx serve --port 4800",
+    "start": "nx serve --port=4800",
     "build": "nx build",
     "build:theme": "sass --no-source-map ./libs/xui/src/themes/dark.theme.scss:./dist/libs/xui/dark.theme.css",
     "test": "nx test",

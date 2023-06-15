@@ -64,7 +64,7 @@ jobs:
       - checkout
       - restore_cache:
           <<: *yarn_cache
-      - run: yarn build --parallel --configuration production
+      - run: yarn build --parallel --configuration=production
       - save_cache:
           key: build-{{ .Environment.CIRCLE_WORKFLOW_ID }}
           paths:
@@ -85,7 +85,7 @@ jobs:
       - checkout
       - restore_cache:
           <<: *yarn_cache
-      - run: yarn e2e --configuration production
+      - run: yarn e2e --configuration=production
       - store_artifacts:
           path: dist/cypress
 
