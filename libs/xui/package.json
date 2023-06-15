@@ -28,20 +28,20 @@
   },
   "version": "1.40.2",
   "peerDependencies": {
-    "@angular/animations": "^15.0.0",
-    "@angular/cdk": "^15.0.0",
-    "@angular/common": "^15.0.0",
-    "@angular/core": "^15.0.0",
-    "@angular/forms": "^15.0.0",
-    "@angular/material": "^15.0.0",
-    "@angular/router": "^15.0.0",
+    "@angular/animations": "15 - 16",
+    "@angular/cdk": "15 - 16",
+    "@angular/common": "15 - 16",
+    "@angular/core": "15 - 16",
+    "@angular/forms": "15 - 16",
+    "@angular/material": "15 - 16",
+    "@angular/router": "15 - 16",
     "@ngneat/until-destroy": "^9.0.0",
     "@ngx-translate/core": "^14.0.0",
-    "rxjs": "^7.5.0",
-    "luxon": "^3.1.0"
+    "rxjs": "^7.8.0",
+    "luxon": "^3.3.0"
   },
   "dependencies": {
-    "tslib": "^2.4.0",
-    "ngx-image-cropper": "^6.3.1"
+    "tslib": "^2.5.3",
+    "ngx-image-cropper": "^7.0.1"
   }
 }
