@@ -1,8 +1,12 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { InputNumber } from '../utils';
 import { DecagramColor, DecagramType } from './decagram.types';
+import { CommonModule } from '@angular/common';
+import { XuiIconComponent } from '../icon';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule, XuiIconComponent],
   selector: 'xui-decagram',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
@@ -10,7 +14,7 @@ import { DecagramColor, DecagramType } from './decagram.types';
     <xui-icon [style.width.%]="iconSize" [ngClass]="iconStyle"><ng-content></ng-content></xui-icon>
   `
 })
-export class DecagramComponent {
+export class XuiDecagramComponent {
   @Input() @InputNumber() iconSize = 65;
   @Input() type: DecagramType = 'decagram';
   @Input() color: DecagramColor = 'primary';

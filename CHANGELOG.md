@@ -4,22 +4,19 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### [1.41.1](https://github.com/Rikarin/xui/compare/v1.41.0...v1.41.1) (2023-06-15)
 
-
 ### Bug Fixes
 
-* ci build ([4db7f09](https://github.com/Rikarin/xui/commit/4db7f09e0e73f37357761f0b11cc714574b687dd))
+- ci build ([4db7f09](https://github.com/Rikarin/xui/commit/4db7f09e0e73f37357761f0b11cc714574b687dd))
 
 ## [1.41.0](https://github.com/Rikarin/xui/compare/v1.40.2...v1.41.0) (2023-06-15)
 
-
 ### Features
 
-* update to Angular 16 ([7e9edb4](https://github.com/Rikarin/xui/commit/7e9edb40cc8fc54caf3125645cbaf3a80b5f2ddf))
-
+- update to Angular 16 ([7e9edb4](https://github.com/Rikarin/xui/commit/7e9edb40cc8fc54caf3125645cbaf3a80b5f2ddf))
 
 ### Bug Fixes
 
-* nx build ([8db4c8a](https://github.com/Rikarin/xui/commit/8db4c8aa4523fe98a7ef63fcab4fcea659b0c90a))
+- nx build ([8db4c8a](https://github.com/Rikarin/xui/commit/8db4c8aa4523fe98a7ef63fcab4fcea659b0c90a))
 
 ### [1.40.2](https://github.com/Rikarin/xui/compare/v1.40.1...v1.40.2) (2023-02-25)
 

@@ -1,13 +1,17 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { InputNumber } from '../utils';
 import { ProgressColor, ProgressStatus, ProgressType } from './progress.types';
+import { CommonModule } from '@angular/common';
+import { XuiDecagramComponent } from '../decagram';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule, XuiDecagramComponent],
   selector: 'xui-progress',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './progress.component.html'
 })
-export class ProgressComponent {
+export class XuiProgressComponent {
   @Input() @InputNumber() progress!: number;
   @Input() type: ProgressType = 'line';
   @Input() color: ProgressColor = 'primary';

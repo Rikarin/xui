@@ -1,12 +1,15 @@
 import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
 import { InputNumber } from '../utils';
+import { CommonModule } from '@angular/common';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule],
   selector: 'xui-divider',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: ''
 })
-export class DividerComponent {
+export class XuiDividerComponent {
   @Input()
   @InputNumber()
   get marginTop() {

@@ -3,13 +3,17 @@ import { ChangeDetectionStrategy, Component, EventEmitter, HostListener, Input, 
 import { InputBoolean } from '../utils';
 import { BannerType } from './banner.types';
 import { BANNER_MODULE, WithConfig, XuiConfigService } from '../config';
+import { CommonModule } from '@angular/common';
+import { XuiIconComponent } from '../icon';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule, XuiIconComponent],
   selector: 'xui-banner',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './banner.component.html'
 })
-export class BannerComponent {
+export class XuiBannerComponent {
   static ngAcceptInputType_dismissible: BooleanInput;
   private readonly _moduleName = BANNER_MODULE;
 

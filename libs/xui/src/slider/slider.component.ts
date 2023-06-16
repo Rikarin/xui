@@ -13,19 +13,24 @@ import {
   SimpleChanges,
   ViewChild
 } from '@angular/core';
-import { ControlValueAccessor, NgControl } from '@angular/forms';
+import { ControlValueAccessor, FormsModule, NgControl } from '@angular/forms';
 import { TooltipComponent } from '../tooltip/tooltip.component';
 import { inNextTick, InputBoolean, InputNumber } from '../utils';
 import { BehaviorSubject, map } from 'rxjs';
 import { SliderColor, SliderMark } from './slider.types';
 import { BooleanInput, NumberInput } from '@angular/cdk/coercion';
+import { CommonModule } from '@angular/common';
+import { XuiTooltipModule } from '../tooltip';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule, FormsModule, XuiTooltipModule, DragDropModule],
   selector: 'xui-slider',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: 'slider.component.html'
 })
-export class SliderComponent implements ControlValueAccessor, OnInit, AfterViewInit, OnChanges {
+export class XuiSliderComponent implements ControlValueAccessor, OnInit, AfterViewInit, OnChanges {
   static ngAcceptInputType_value: NumberInput;
   static ngAcceptInputType_range: BooleanInput;
   static ngAcceptInputType_tooltipDisabled: BooleanInput;

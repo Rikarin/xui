@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { UsageComponent } from './usage/usage.component';
 import { InfomationComponent } from './infomation/infomation.component';
 import { ExampleComponent } from './example/example.component';
-import { XuiCardModule, XuiIconModule, XuiTabModule, XuiTooltipModule } from 'xui';
+import { XuiCardModule, XuiIconComponent, XuiTabModule, XuiTooltipModule } from 'xui';
 import { CdkTableModule } from '@angular/cdk/table';
 import { HighlightModule } from 'ngx-highlightjs';
 import { HighlightPlusModule } from 'ngx-highlightjs/plus';
@@ -14,7 +14,7 @@ import { HighlightPlusModule } from 'ngx-highlightjs/plus';
     CommonModule,
     XuiCardModule,
     XuiTabModule,
-    XuiIconModule,
+    XuiIconComponent,
     XuiTooltipModule,
     CdkTableModule,
     HighlightModule,

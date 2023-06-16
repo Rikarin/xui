@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { XuiAnalysisComponent } from './analysis.component';
-import { XuiButtonModule, XuiContextMenuModule, XuiIconModule, XuiInputModule, XuiTabModule } from 'xui';
+import { XuiButtonModule, XuiContextMenuModule, XuiIconComponent, XuiInputModule, XuiTabModule } from 'xui';
 import { CdkMenuModule } from '@angular/cdk/menu';
 import { MetricsComponent } from './metrics/metrics.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
@@ -13,7 +13,7 @@ import { NgxEchartsModule } from 'ngx-echarts';
   imports: [
     CommonModule,
     XuiButtonModule,
-    XuiIconModule,
+    XuiIconComponent,
     XuiContextMenuModule,
     XuiTabModule,
     XuiInputModule,

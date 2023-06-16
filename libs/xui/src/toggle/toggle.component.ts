@@ -12,8 +12,12 @@ import {
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { InputBoolean } from '../utils';
 import { ToggleColor } from './toggle.types';
+import { CommonModule } from '@angular/common';
+import { XuiIconComponent } from '../icon';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule, XuiIconComponent],
   selector: 'xui-toggle',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
@@ -29,7 +33,7 @@ import { ToggleColor } from './toggle.types';
     </div>
   `
 })
-export class ToggleComponent implements ControlValueAccessor, OnInit {
+export class XuiToggleComponent implements ControlValueAccessor, OnInit {
   static ngAcceptInputType_disabled: BooleanInput;
   static ngAcceptInputType_value: BooleanInput;
 

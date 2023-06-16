@@ -1,13 +1,16 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { BadgeColor } from './badge.types';
 import { BADGE_MODULE, WithConfig, XuiConfigService } from '../config';
+import { CommonModule } from '@angular/common';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule],
   selector: 'xui-badge',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<div [ngClass]="styles"><ng-content></ng-content></div>`
 })
-export class BadgeComponent {
+export class XuiBadgeComponent {
   private readonly _moduleName = BADGE_MODULE;
 
   @Input() @WithConfig() color: BadgeColor = 'primary';

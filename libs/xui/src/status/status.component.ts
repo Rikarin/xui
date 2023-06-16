@@ -1,7 +1,10 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { StatusType } from './status.types';
+import { CommonModule } from '@angular/common';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule],
   selector: 'xui-status',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<div [ngClass]="styles"></div>
@@ -25,7 +28,7 @@ import { StatusType } from './status.types';
       </clipPath>
     </svg>`
 })
-export class StatusComponent {
+export class XuiStatusComponent {
   @Input() type?: StatusType;
 
   get styles() {

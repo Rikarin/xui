@@ -10,19 +10,25 @@ import {
   ViewChild
 } from '@angular/core';
 import { DateTime } from 'luxon';
-import { ControlValueAccessor, NgControl } from '@angular/forms';
+import { ControlValueAccessor, NgControl, ReactiveFormsModule } from '@angular/forms';
 import { InputBoolean } from '../utils';
-import { InputComponent } from '../input';
+import { InputComponent, XuiInputModule } from '../input';
 import { BooleanInput } from '@angular/cdk/coercion';
 import { DatePickerColor, DatePickerSize } from './date-picker.types';
 import { DATE_PICKER_MODULE, WithConfig, XuiConfigService } from '../config';
+import { CommonModule } from '@angular/common';
+import { XuiIconComponent } from '../icon';
+import { OverlayModule } from '@angular/cdk/overlay';
+import { A11yModule } from '@angular/cdk/a11y';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule, XuiIconComponent, XuiInputModule, OverlayModule, A11yModule, ReactiveFormsModule],
   selector: 'xui-date-picker',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './date-picker.component.html'
 })
-export class DatePickerComponent implements ControlValueAccessor, OnInit {
+export class XuiDatePickerComponent implements ControlValueAccessor, OnInit {
   static ngAcceptInputType_disabled: BooleanInput;
   static ngAcceptInputType_readOnly: BooleanInput;
   private readonly _moduleName = DATE_PICKER_MODULE;

@@ -12,13 +12,17 @@ import { InputBoolean } from '../utils';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { SwitchColor } from './switch.types';
 import { BooleanInput } from '@angular/cdk/coercion';
+import { CommonModule } from '@angular/common';
+import { XuiIconComponent } from '../icon';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule, XuiIconComponent],
   selector: 'xui-switch',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './switch.component.html'
 })
-export class SwitchComponent implements ControlValueAccessor, OnInit {
+export class XuiSwitchComponent implements ControlValueAccessor, OnInit {
   static ngAcceptInputType_disabled: BooleanInput;
   static ngAcceptInputType_value: BooleanInput;
 

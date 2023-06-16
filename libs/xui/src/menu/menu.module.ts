@@ -5,10 +5,10 @@ import { SubMenuComponent } from './submenu/submenu.component';
 import { MenuGroupComponent } from './menu-group.component';
 import { MenuItemComponent } from './menu-item.component';
 import { RouterModule } from '@angular/router';
-import { XuiIconModule } from '../icon';
+import { XuiIconComponent } from '../icon';
 
 @NgModule({
-  imports: [CommonModule, RouterModule, XuiIconModule],
+  imports: [CommonModule, RouterModule, XuiIconComponent],
   declarations: [MenuComponent, SubMenuComponent, MenuGroupComponent, MenuItemComponent],
   exports: [MenuComponent, SubMenuComponent, MenuGroupComponent, MenuItemComponent]
 })

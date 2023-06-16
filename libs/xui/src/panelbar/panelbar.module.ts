@@ -6,7 +6,7 @@ import { PanelBarItemTemplateDirective } from './panelbar-item-template.directiv
 import { PortalModule } from '@angular/cdk/portal';
 import { PanelBarItemTitleDirective } from './panelbar-item-title.directive';
 import { PanelBarItemContentDirective } from './panelbar-item-content.directive';
-import { XuiIconModule } from '../icon';
+import { XuiIconComponent } from '../icon';
 
 @NgModule({
   declarations: [
@@ -23,6 +23,6 @@ import { XuiIconModule } from '../icon';
     PanelBarItemContentDirective,
     PanelBarItemTitleDirective
   ],
-  imports: [CommonModule, PortalModule, XuiIconModule]
+  imports: [CommonModule, PortalModule, XuiIconComponent]
 })
 export class XuiPanelBarModule {}

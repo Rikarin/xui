@@ -13,8 +13,11 @@ import { InputBoolean } from '../utils';
 import { CheckboxColor } from './checkbox.types';
 import { BooleanInput } from '@angular/cdk/coercion';
 import { CHECKBOX_MODULE, WithConfig, XuiConfigService } from '../config';
+import { CommonModule } from '@angular/common';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule],
   selector: 'xui-checkbox',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: ` <div [ngClass]="styles">
@@ -33,7 +36,7 @@ import { CHECKBOX_MODULE, WithConfig, XuiConfigService } from '../config';
     <ng-content></ng-content>
   </div>`
 })
-export class CheckboxComponent implements ControlValueAccessor, OnInit {
+export class XuiCheckboxComponent implements ControlValueAccessor, OnInit {
   static ngAcceptInputType_disabled: BooleanInput;
   static ngAcceptInputType_value: BooleanInput;
   private readonly _moduleName = CHECKBOX_MODULE;
