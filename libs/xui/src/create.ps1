@@ -16,11 +16,11 @@ Add-Content $name/$name.types.ts "export const _$NAME_PLACEHOLDER = 'PLACEHOLDER
 
 # Generate Component
 $args | ForEach-Object {
-  nx g c $name/$_ --inline-style --skip-tests=true --change-detection=OnPush --flat --export
+  nx g @schematics/angular:component $name/$_ --inline-style --skip-tests=true --change-detection=OnPush --flat --export
 
   # Remove empty styles: []
-  $component = "$($name)/$($_).component.ts"
-  Get-Content $component | Select-String -Pattern 'styles:' -NotMatch | Set-Content $component
+#  $component = "$($name)/$($_).component.ts"
+#  Get-Content $component | Select-String -Pattern 'styles:' -NotMatch | Set-Content $component
 
   New-Item $name/$_.scss
   Add-Content $name/index.ts "export * from './$_.component';"

@@ -62,7 +62,8 @@ import {
   XuiToggleComponent,
   XuiStatusComponent,
   XuiDatePickerComponent,
-  XuiTimePickerComponent
+  XuiTimePickerComponent,
+  XuiGraphViewModule
 } from 'xui';
 import { CdkTableModule } from '@angular/cdk/table';
 import { CdkMenuModule } from '@angular/cdk/menu';
@@ -79,6 +80,7 @@ import { PanelbarComponent } from './panelbar/panelbar.component';
 import { RadioComponent } from './radio/radio.component';
 import { BadgeComponent } from './badge/badge.component';
 import { DrawerComponent } from './drawer/drawer.component';
+import { GraphViewComponent } from './graph-view/graph-view.component';
 
 const routes: Routes = [
   { path: 'overview', component: ComponentsOverviewComponent },
@@ -94,6 +96,7 @@ const routes: Routes = [
   { path: 'decagram', component: DecagramComponent },
   { path: 'divider', component: DividerComponent },
   { path: 'drawer', component: DrawerComponent },
+  { path: 'graph-view', component: GraphViewComponent },
   { path: 'icon', component: IconComponent },
   { path: 'image-upload', component: ImageUploadComponent },
   { path: 'input', component: InputComponent },
@@ -155,7 +158,8 @@ const routes: Routes = [
     PanelbarComponent,
     RadioComponent,
     BadgeComponent,
-    DrawerComponent
+    DrawerComponent,
+    GraphViewComponent
   ],
   imports: [
     CommonModule,
@@ -202,7 +206,8 @@ const routes: Routes = [
     XuiRadioModule,
     XuiDrawerModule,
     XuiBadgeComponent,
-    XuiBannerComponent
+    XuiBannerComponent,
+    XuiGraphViewModule
   ]
 })
 export class XuiComponentsModule {}

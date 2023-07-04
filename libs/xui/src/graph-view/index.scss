@@ -1,0 +1,9 @@
+@forward 'variables';
+
+@use 'graph-view';
+@use 'node';
+
+@mixin theme() {
+  @include graph-view.theme();
+  @include node.theme();
+}

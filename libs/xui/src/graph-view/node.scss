@@ -1,0 +1,70 @@
+@use 'variables' as *;
+@use '../xui';
+
+@mixin theme() {
+  xui-node {
+    position: relative;
+    display: block;
+    height: 0;
+  }
+
+  .x-node {
+    width: fit-content;
+    display: grid;
+    grid-template-columns: auto auto;
+    user-select: none;
+
+    &-header {
+      grid-column: span 2;
+      padding: 12px;
+      border: 1px solid var(--color-bg-tertiary);
+
+      @include xui.border-top-radius(5px);
+      @include xui.fill(primary);
+    }
+
+    &-inputs {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+
+      padding: 8px 12px 8px 8px;
+      border: 1px solid var(--color-bg-tertiary);
+
+      @include xui.fill(primary);
+    }
+
+    &-outputs {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+
+      padding: 8px 8px 8px 12px;
+      border: 1px solid var(--color-bg-tertiary);
+
+      @include xui.fill(secondary-alt);
+    }
+
+    &-extensions {
+      min-width: 4px;
+      grid-column: span 2;
+      border: 1px solid var(--color-bg-tertiary);
+
+      @include xui.border-bottom-radius(5px);
+      @include xui.fill(primary);
+    }
+
+    &-value {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      padding: 4px 0;
+
+      xui-icon {
+        width: 0.9rem;
+        cursor: pointer;
+        color: #1f75cb;
+      }
+    }
+  }
+}
