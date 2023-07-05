@@ -1,5 +1,5 @@
 {
-  "name": "xui",
+  "name": "@xui/core",
   "description": "xUI Components for Angular",
   "keywords": [
     "xui",
