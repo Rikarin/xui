@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.42.0](https://github.com/Rikarin/xui/compare/v1.41.1...v1.42.0) (2023-07-05)
+
+
+### Features
+
+* change package name from xui to @xui/core ([ba30afe](https://github.com/Rikarin/xui/commit/ba30afeb263d0c4d8b68681e4b2fca6ab318decc))
+* graph-view ([e64321d](https://github.com/Rikarin/xui/commit/e64321d4ed248ecde27acc45663580be13f913f3))
+* move towards standalone components ([9174a05](https://github.com/Rikarin/xui/commit/9174a051cbbffc08f11886fcecb23f4336256c9d))
+
 ### [1.41.1](https://github.com/Rikarin/xui/compare/v1.41.0...v1.41.1) (2023-06-15)
 
 ### Bug Fixes
