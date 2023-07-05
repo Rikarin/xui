@@ -101,8 +101,11 @@ jobs:
           name: Authenticate with npm registry
           command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/repo/.npmrc
       - run:
-          name: Publish library to npm
-          command: npm publish ./dist/libs/xui
+          name: Publish component library to npm
+          command: npm publish ./dist/libs/xui --access public
+      - run:
+          name: Publish charts library to npm
+          command: npm publish ./dist/libs/xui-charts --access public
 
 workflows:
   build_deploy:
