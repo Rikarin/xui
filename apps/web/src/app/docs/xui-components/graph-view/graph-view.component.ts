@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { GraphViewData } from 'xui';
+import { GraphViewData } from '@xui/components';
 
 @Component({
   selector: 'app-graph-view',

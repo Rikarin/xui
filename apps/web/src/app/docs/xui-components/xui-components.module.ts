@@ -64,7 +64,7 @@ import {
   XuiDatePickerComponent,
   XuiTimePickerComponent,
   XuiGraphViewModule
-} from 'xui';
+} from '@xui/components';
 import { CdkTableModule } from '@angular/cdk/table';
 import { CdkMenuModule } from '@angular/cdk/menu';
 import { ReactiveFormsModule } from '@angular/forms';

@@ -9,7 +9,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { RootComponent } from './root.component';
-import { XUI_CONFIG } from 'xui';
+import { XUI_CONFIG } from '@xui/components';
 
 const routes: Routes = [
   { path: 'theme-designer', loadChildren: () => import('./designer/designer.module').then(x => x.DesignerModule) },

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { DrawerItem } from 'xui';
+import { DrawerItem } from '@xui/components';
 
 @Component({
   selector: 'app-drawer',

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { delay } from 'xui';
+import { delay } from '@xui/components';
 import { Usage } from '../../components/usage';
 
 @Component({

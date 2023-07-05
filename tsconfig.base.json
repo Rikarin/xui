@@ -10,22 +10,22 @@
     "useDefineForClassFields": false,
     "importHelpers": true,
     "module": "esnext",
-    "target": "ES2022",
+    "target": "ES2021",
     "typeRoots": [
       "node_modules/@types"
     ],
     "lib": [
-      "ES2021",
+      "ES2022",
       "dom"
     ],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "xui": [
+      "@xui/components": [
         "libs/xui/src/index.ts"
       ],
-      "xui-charts": [
+      "@xui/charts": [
         "libs/charts/src/index.ts"
       ]
     }

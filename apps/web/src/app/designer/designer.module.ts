@@ -16,7 +16,7 @@ import {
   XuiSliderComponent,
   XuiSwitchComponent,
   XuiTextareaModule
-} from 'xui';
+} from '@xui/components';
 import { OverviewComponent } from './overview/overview.component';
 import { ThemeSidebarComponent } from './layout/theme-sidebar/theme-sidebar.component';
 import { DesignerService } from './designer.service';

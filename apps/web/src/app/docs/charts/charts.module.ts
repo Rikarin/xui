@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { AnalysisComponent } from './analysis/analysis.component';
 import { ComponentsModule } from '../components/components.module';
-import { XuiAnalysisModule } from 'xui-charts';
-import { XuiCardModule } from 'xui';
+import { XuiAnalysisModule } from '@xui/charts';
+import { XuiCardModule } from '@xui/components';
 import { HighlightModule } from 'ngx-highlightjs';
 import { HighlightPlusModule } from 'ngx-highlightjs/plus';
 

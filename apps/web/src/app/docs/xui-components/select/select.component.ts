@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { SelectItem } from 'xui';
+import { SelectItem } from '@xui/components';
 
 @Component({
   selector: 'app-select',

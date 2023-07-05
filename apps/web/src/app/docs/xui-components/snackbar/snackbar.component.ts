@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { XuiSnackBar } from 'xui';
+import { XuiSnackBar } from '@xui/components';
 
 @Component({
   selector: 'app-snackbar',

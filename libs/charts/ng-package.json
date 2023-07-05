@@ -3,13 +3,18 @@
   "dest": "../../dist/libs/xui-charts",
   "assets": [
     {
+      "glob": "index.scss",
+      "input": "src",
+      "output": "."
+    },
+    {
       "glob": "**/*.scss",
       "input": "src",
       "output": "."
     }
   ],
   "allowedNonPeerDependencies": [
-
+    "@ngneat/until-destroy"
   ],
   "lib": {
     "entryFile": "src/index.ts"

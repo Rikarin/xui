@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { ThemingService } from 'xui';
+import { ThemingService } from '@xui/components';
 import { startWith } from 'rxjs';
 
 @Component({

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { InputBoolean } from 'xui';
+import { InputBoolean } from '@xui/components';
 import sdk, { Project, ProjectFiles } from '@stackblitz/sdk';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, lastValueFrom } from 'rxjs';

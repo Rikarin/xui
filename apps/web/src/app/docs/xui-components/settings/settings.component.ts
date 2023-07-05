@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { MenuItem, SettingsComponent } from 'xui';
+import { MenuItem, SettingsComponent } from '@xui/components';
 import { Method, Usage } from '../../components/usage';
 
 @Component({

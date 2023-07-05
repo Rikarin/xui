@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { SliderMark } from 'xui';
+import { SliderMark } from '@xui/components';
 import { FormControl } from '@angular/forms';
 
 @Component({

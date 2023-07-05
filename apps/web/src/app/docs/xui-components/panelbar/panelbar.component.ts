@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { PanelBarItem } from 'xui';
+import { PanelBarItem } from '@xui/components';
 
 @Component({
   selector: 'app-panelbar',

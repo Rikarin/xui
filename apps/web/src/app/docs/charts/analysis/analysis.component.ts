@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { EntityGroup, EntityId, MetricGroup } from 'xui-charts';
+import { EntityGroup, EntityId, MetricGroup } from '@xui/charts';
 
 @Component({
   selector: 'app-analysis',
