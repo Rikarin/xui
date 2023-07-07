@@ -7,19 +7,20 @@
     "default": {
       "runner": "nx/tasks-runners/default",
       "options": {
-        "cacheableOperations": ["build", "test", "lint", "e2e", "component-test"]
+        "cacheableOperations": ["build-internal", "build", "test", "lint", "e2e"]
       }
     }
   },
   "cli": {
-    "packageManager": "yarn"
+    "packageManager": "yarn",
+    "defaultCollection": "@nx/angular"
   },
   "generators": {
     "@nx/angular:application": {
       "style": "scss",
       "linter": "eslint",
       "unitTestRunner": "jest",
-      "e2eTestRunner": "cypress"
+      "e2eTestRunner": "none"
     },
     "@nx/angular:library": {
       "linter": "eslint",
@@ -59,9 +60,6 @@
     },
     "test": {
       "inputs": ["default", "^production", "{workspaceRoot}/jest.preset.js"]
-    },
-    "component-test": {
-      "inputs": ["default", "^production"]
     }
   }
 }

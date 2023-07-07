@@ -31,8 +31,8 @@
         }
       ],
       "options": {
-        "command": "gulp postbuild",
-        "cwd": "{projectRoot}",
+        "command": "gulp post-build",
+        "cwd": "libs/xui",
         "project": "ng-package.json"
       }
     },
