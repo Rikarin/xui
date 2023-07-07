@@ -105,6 +105,9 @@
     "yargs": "^17.7.2",
     "zone.js": "0.13.1"
   },
+  "publishConfig": {
+    "provenance": true
+  },
   "release": {
     "branches": [
       {
@@ -131,7 +134,12 @@
           "publishCmd": "npx nx run-many --target=patch-dist --all --version ${nextRelease.version}"
         }
       ],
-      "@semantic-release/npm",
+      [
+        "@semantic-release/npm",
+        {
+          "pkgRoot": "dist/libs"
+        }
+      ],
       "@semantic-release/github"
     ]
   }

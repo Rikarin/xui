@@ -15,9 +15,10 @@ jobs:
     runs-on: ubuntu-latest
 
     permissions:
-      packages: read
       id-token: write
       contents: write
+      issues: write
+      pull-requests: write
 
     steps:
       - name: Check out branch
@@ -34,4 +35,5 @@ jobs:
       - name: Release
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: yarn semantic-release
