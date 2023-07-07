@@ -23,6 +23,4 @@ module.exports = {
   transform: {
     '^.+\\.(ts|js|mjs|html|svg)$': 'jest-preset-angular'
   }
-
-
 };

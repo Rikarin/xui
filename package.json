@@ -6,6 +6,7 @@
   "license": "MIT",
   "scripts": {
     "ng": "nx",
+    "semantic-release": "semantic-release",
     "start": "nx serve --port=4800",
     "build": "nx run-many -t build -c production --all",
     "build:ci": "nx affected -t build -c production",
@@ -17,11 +18,8 @@
     "e2e": "nx component-test xui",
     "format": "nx format:write --all",
     "format:check": "nx format:check",
-    "copy-readme": "cp README.md libs/xui/README.md && git add libs/xui/README.md",
-    "copy-version": "VERSION=$npm_package_version && cd libs/xui && npm version $VERSION && cd ../.. && git add libs/xui/package.json",
-    "release": "yarn format:check && yarn lint && yarn test && git pull origin master && standard-version -a",
-    "postrelease": "git push --follow-tags origin master",
-    "clean": "nx reset && rm -rf dist"
+    "clean": "nx reset && rm -rf dist",
+    "prepare": "husky install"
   },
   "dependencies": {
     "tslib": "^2.5.3"
@@ -106,5 +104,35 @@
     "wait-on": "^7.0.1",
     "yargs": "^17.7.2",
     "zone.js": "0.13.1"
+  },
+  "release": {
+    "branches": [
+      {
+        "name": "master",
+        "channel": "latest"
+      },
+      {
+        "name": "develop",
+        "prerelease": true
+      }
+    ],
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      [
+        "@semantic-release/release-notes-generator",
+        {
+          "linkCompare": false,
+          "linkReferences": false
+        }
+      ],
+      [
+        "@semantic-release/exec",
+        {
+          "publishCmd": "npx nx run-many --target=patch-dist --all --version ${nextRelease.version}"
+        }
+      ],
+      "@semantic-release/npm",
+      "@semantic-release/github"
+    ]
   }
 }

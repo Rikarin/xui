@@ -1,3 +1,3 @@
-import {projectTasks} from "../@local/gulp/index.mjs";
+import { projectTasks } from '../@local/gulp/index.mjs';
 
-projectTasks();
+projectTasks('xui');
