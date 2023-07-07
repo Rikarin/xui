@@ -1,7 +1,7 @@
 {
   "root": true,
   "ignorePatterns": ["**/*"],
-  "plugins": ["@nx"],
+  "plugins": ["@nx", "@angular-eslint"],
   "overrides": [
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
@@ -37,6 +37,13 @@
         "jest": true
       },
       "rules": {}
+    },
+    {
+      "files": ["*.mjs"],
+      "parserOptions": {
+        "ecmaVersion": 11,
+        "sourceType": "module"
+      }
     }
   ]
 }

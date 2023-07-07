@@ -9,11 +9,18 @@
     "experimentalDecorators": true,
     "useDefineForClassFields": false,
     "importHelpers": true,
+    "resolveJsonModule": true,
+    "forceConsistentCasingInFileNames": true,
+
+    // TODO: verify this
+    "strict": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true
+
     "module": "esnext",
     "target": "ES2021",
-    "typeRoots": [
-      "node_modules/@types"
-    ],
     "lib": [
       "ES2022",
       "dom"
@@ -22,16 +29,18 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@xui/components": [
-        "libs/xui/src/index.ts"
-      ],
-      "@xui/charts": [
-        "libs/charts/src/index.ts"
-      ]
+      "@local/test": ["libs/@local/test/src/index.ts"],
+      "@xui/charts": ["libs/charts/src/index.ts"],
+      "@xui/components": ["libs/xui/src/index.ts"]
     }
   },
   "exclude": [
     "node_modules",
     "tmp"
-  ]
+  ],
+  "angularCompilerOptions": {
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "strictTemplates": true,
+  }
 }

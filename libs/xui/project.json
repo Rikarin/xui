@@ -1,21 +1,39 @@
 {
-  "name": "@xui/components",
-  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
+  "root": "libs/xui",
   "sourceRoot": "libs/xui/src",
   "prefix": "xui",
   "targets": {
-    "build": {
+    "build-internal": {
       "executor": "@nx/angular:package",
       "options": {
         "tsConfig": "libs/xui/tsconfig.lib.json",
-        "project": "libs/xui/ng-package.json",
-        "updateBuildableProjectDepsInPackageJson": false
+        "project": "libs/xui/ng-package.json"
       },
+      "dependsOn": [
+        {
+          "target": "build",
+          "projects": "dependencies"
+        }
+      ],
       "configurations": {
         "production": {
           "tsConfig": "libs/xui/tsconfig.lib.prod.json"
         }
+      }
+    },
+    "build": {
+      "executor": "nx:run-commands",
+      "dependsOn": [
+        {
+          "target": "build-internal",
+          "projects": "self"
+        }
+      ],
+      "options": {
+        "command": "gulp postbuild",
+        "cwd": "{projectRoot}",
+        "project": "ng-package.json"
       }
     },
     "test": {
@@ -37,13 +55,11 @@
         ]
       }
     },
-    "component-test": {
-      "executor": "@nx/cypress:cypress",
+    "patch-dist": {
+      "executor": "@nrwl/workspace:run-commands",
       "options": {
-        "cypressConfig": "libs/xui/cypress.config.ts",
-        "testingType": "component",
-        "skipServe": true,
-        "devServerTarget": "web:build"
+        "command": "gulp patch-dist --version={args.version}",
+        "cwd": "libs/xui"
       }
     }
   },

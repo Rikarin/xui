@@ -1,5 +1,6 @@
 {
   "name": "@xui/components",
+  "version": "<PLACEHOLDER>",
   "description": "xUI Components for Angular",
   "keywords": [
     "xui",
@@ -10,6 +11,7 @@
     "frontend"
   ],
   "license": "MIT",
+  "author": "Rikarin",
   "homepage": "https://xuijs.org/",
   "repository": {
     "type": "git",
@@ -26,7 +28,6 @@
       "sass": "./src/theming/xui.theme.scss"
     }
   },
-  "version": "1.42.2",
   "peerDependencies": {
     "@angular/animations": "15 - 16",
     "@angular/cdk": "15 - 16",

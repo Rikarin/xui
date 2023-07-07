@@ -31,7 +31,7 @@
     "@ngx-translate/core": "^14.0.0",
     "rxjs": "^7.8.0",
     "echarts": "5",
-    "@xui/components": "1"
+    "@xui/components": "PLACEHOLDER"
   },
   "dependencies": {
     "tslib": "^2.5.3",
