@@ -1,0 +1,41 @@
+name: Continuous Delivery
+
+on:
+  push:
+    branches:
+      - master
+      - develop
+
+env:
+  HUSKY: 0
+
+jobs:
+  delivery:
+    name: Delivery
+    runs-on: ubuntu-latest
+
+    permissions:
+      id-token: write
+      contents: write
+      issues: write
+      pull-requests: write
+
+    steps:
+      - name: Check out branch
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Install
+        run: yarn install --frozen-lockfile
+
+      - name: Build
+        run: yarn build
+
+      - name: Release
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          echo '//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}' > ./.npmrc
+          npm whoami
+          npx semantic-release

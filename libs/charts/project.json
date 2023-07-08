@@ -1,21 +1,43 @@
 {
-  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "charts",
+  "root": "libs/charts",
   "projectType": "library",
   "sourceRoot": "libs/charts/src",
   "prefix": "xui",
   "targets": {
-    "build": {
+    "build-internal": {
       "executor": "@nx/angular:package",
+      "outputs": ["dist/libs/charts"],
       "options": {
         "tsConfig": "libs/charts/tsconfig.lib.json",
-        "project": "libs/charts/ng-package.json",
-        "updateBuildableProjectDepsInPackageJson": false
+        "project": "libs/charts/ng-package.json"
       },
+      "dependsOn": [
+        {
+          "target": "build",
+          "projects": "dependencies"
+        }
+      ],
       "configurations": {
         "production": {
           "tsConfig": "libs/charts/tsconfig.lib.prod.json"
         }
       }
+    },
+    "build": {
+      "executor": "nx:run-commands",
+      "outputs": ["dist/libs/charts"],
+      "options": {
+        "command": "gulp post-build",
+        "cwd": "libs/charts",
+        "project": "libs/charts/ng-package.json"
+      },
+      "dependsOn": [
+        {
+          "target": "build-internal",
+          "projects": "self"
+        }
+      ]
     },
     "test": {
       "executor": "@nx/jest:jest",
@@ -29,6 +51,20 @@
       "executor": "@nx/linter:eslint",
       "options": {
         "lintFilePatterns": ["libs/charts/**/*.ts", "libs/charts/**/*.html"]
+      }
+    },
+    "patch-dist": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "gulp patch-dist --new-version={args.new-version}",
+        "cwd": "libs/charts"
+      }
+    },
+    "deploy": {
+      "executor": "ngx-deploy-npm:deploy",
+      "options": {
+        "noBuild": true,
+        "access": "public"
       }
     }
   },

@@ -13,7 +13,7 @@
       "path": "./tsconfig.spec.json"
     }
   ],
-//  TODO: verify this
+  //  TODO: verify this
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
     "compileNonExportedClasses": false,

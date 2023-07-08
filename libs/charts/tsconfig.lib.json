@@ -11,15 +11,9 @@
     "**/*.ts"
   ],
   "exclude": [
-    "src/test-setup.ts",
     "**/*.spec.ts",
-    "jest.config.ts",
     "**/*.test.ts",
-    "cypress/**/*",
-    "cypress.config.ts",
-    "**/*.cy.ts",
-    "**/*.cy.js",
-    "**/*.cy.tsx",
-    "**/*.cy.jsx"
+    "test",
+    "e2e"
   ]
 }
