@@ -1,10 +1,11 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 
 @Injectable()
 export class DesignerService {
   private readonly _styleElm: HTMLStyleElement;
 
-  constructor() {
+  constructor(@Inject(DOCUMENT) document: Document) {
     this._styleElm = document.createElement('style');
     document.head.appendChild(this._styleElm);
   }

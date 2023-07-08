@@ -6,10 +6,12 @@
   "license": "MIT",
   "scripts": {
     "ng": "nx",
-    "start": "nx serve --port=4800",
+    "start": "nx serve",
+    "start:ssr": "nx serve-ssr",
     "build": "nx run-many -t build -c production --exclude=web --all",
     "build:ci": "nx affected -t build -c production",
     "build:theme": "sass --no-source-map ./libs/xui/src/themes/dark.theme.scss:./dist/libs/xui/dark.theme.css",
+    "build:ssr": "nx server",
     "test": "nx run-many -t test --all -i",
     "test:ci": "nx affected -t test -i",
     "lint": "nx run-many -t lint --all --quiet",
@@ -18,9 +20,12 @@
     "format": "nx format:write --all",
     "format:check": "nx format:check",
     "clean": "nx reset && rm -rf dist",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "prerender": "nx prerender"
   },
   "dependencies": {
+    "@angular/platform-server": "~16.1.0",
+    "@nguniversal/express-engine": "~16.1.0",
     "tslib": "^2.5.3"
   },
   "devDependencies": {
@@ -48,6 +53,7 @@
     "@cypress/webpack-dev-server": "^3.4.1",
     "@mdi/angular-material": "^7.2.96",
     "@ngneat/until-destroy": "^10.0.0-beta.0",
+    "@nguniversal/builders": "~16.1.0",
     "@ngx-translate/core": "^15.0.0",
     "@nrwl/cli": "^15.9.3",
     "@nx/angular": "16.5.0",
@@ -67,6 +73,7 @@
     "@typescript-eslint/eslint-plugin": "5.61.0",
     "@typescript-eslint/parser": "5.61.0",
     "cypress": "12.16.0",
+    "domino": "^2.1.6",
     "echarts": "^5.4.2",
     "eslint": "8.42.0",
     "eslint-config-prettier": "8.8.0",

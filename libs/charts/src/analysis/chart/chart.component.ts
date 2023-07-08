@@ -1,6 +1,7 @@
-import { Component, Input, OnDestroy } from '@angular/core';
+import { Component, Inject, Input, OnDestroy } from '@angular/core';
 import { ECharts, EChartsOption } from 'echarts';
 import { AnalysisService } from '../analysis.service';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'xui-analysis-chart',
@@ -89,7 +90,7 @@ export class ChartComponent implements OnDestroy {
     return this.analysisService.getChart(this.index);
   }
 
-  constructor(private analysisService: AnalysisService) {}
+  constructor(private analysisService: AnalysisService, @Inject(DOCUMENT) private document: Document) {}
 
   ngOnDestroy() {}
 
@@ -107,7 +108,7 @@ export class ChartComponent implements OnDestroy {
 
       console.log('series', series);
 
-      window.addEventListener('resize', () => {
+      this.document.addEventListener('resize', () => {
         console.log('resize');
         chart.resize();
       });
