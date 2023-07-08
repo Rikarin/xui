@@ -13,12 +13,12 @@
   "license": "MIT",
   "author": "Rikarin",
   "homepage": "https://xuijs.org/",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/rikarin/xui.git"
-  },
+  "repository": "https://github.com/Rikarin/xui",
   "bugs": {
     "url": "https://github.com/rikarin/xui/issues"
+  },
+  "publishConfig": {
+    "provenance": true
   },
   "exports": {
     ".": {
