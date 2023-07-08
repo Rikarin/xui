@@ -1,6 +1,7 @@
 {
-  "projectType": "library",
+  "name": "xui",
   "root": "libs/xui",
+  "projectType": "library",
   "sourceRoot": "libs/xui/src",
   "prefix": "xui",
   "targets": {
@@ -24,23 +25,21 @@
     },
     "build": {
       "executor": "nx:run-commands",
+      "options": {
+        "command": "gulp post-build",
+        "cwd": "libs/xui",
+        "project": "libs/xui/ng-package.json"
+      },
       "dependsOn": [
         {
           "target": "build-internal",
           "projects": "self"
         }
-      ],
-      "options": {
-        "command": "gulp post-build",
-        "cwd": "libs/xui",
-        "project": "ng-package.json"
-      }
+      ]
     },
     "test": {
       "executor": "@nx/jest:jest",
-      "outputs": [
-        "{workspaceRoot}/coverage/{projectRoot}"
-      ],
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
         "jestConfig": "libs/xui/jest.config.ts",
         "passWithNoTests": true
@@ -49,16 +48,13 @@
     "lint": {
       "executor": "@nx/linter:eslint",
       "options": {
-        "lintFilePatterns": [
-          "libs/xui/**/*.ts",
-          "libs/xui/**/*.html"
-        ]
+        "lintFilePatterns": ["libs/xui/**/*.ts", "libs/xui/**/*.html"]
       }
     },
     "patch-dist": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "nx:run-commands",
       "options": {
-        "command": "gulp patch-dist --version={args.version}",
+        "command": "gulp patch-dist --new-version={args.new-version}",
         "cwd": "libs/xui"
       }
     },

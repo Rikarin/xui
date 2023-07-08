@@ -1,4 +1,5 @@
 {
+  "name": "charts",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/charts/src",
@@ -29,6 +30,13 @@
       "executor": "@nx/linter:eslint",
       "options": {
         "lintFilePatterns": ["libs/charts/**/*.ts", "libs/charts/**/*.html"]
+      }
+    },
+    "deploy": {
+      "executor": "ngx-deploy-npm:deploy",
+      "options": {
+        "access": "public",
+        "buildTarget": "production"
       }
     }
   },

@@ -8,7 +8,7 @@ export function setVersion(project) {
 
   gulp.task('patch-dist', done => {
     const argv = yargs(hideBin(process.argv)).argv;
-    const version = argv['version'];
+    const version = argv['newVersion'];
     if (!version) {
       done(new Error('Missing version'));
     }

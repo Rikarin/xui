@@ -1,12 +1,11 @@
 {
-  "name": "xui",
+  "name": "xui-library",
   "version": "development",
   "private": false,
   "repository": "github:rikarin/xui",
   "license": "MIT",
   "scripts": {
     "ng": "nx",
-    "semantic-release": "semantic-release",
     "start": "nx serve --port=4800",
     "build": "nx run-many -t build -c production --exclude=web --all",
     "build:ci": "nx affected -t build -c production",
@@ -19,7 +18,8 @@
     "format": "nx format:write --all",
     "format:check": "nx format:check",
     "clean": "nx reset && rm -rf dist",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "foo": "nx run-many -t deploy --all --tag develop"
   },
   "dependencies": {
     "tslib": "^2.5.3"
@@ -132,7 +132,7 @@
       [
         "@semantic-release/exec",
         {
-          "publishCmd": "nx run-many -t patch-dist --all --version ${nextRelease.version} && nx run-many -t deploy --all --tag ${branch.channel}"
+          "publishCmd": "nx run-many -t patch-dist --all --new-version ${nextRelease.version} && nx run-many -t deploy --all --tag ${branch.channel}"
         }
       ],
       "@semantic-release/github"

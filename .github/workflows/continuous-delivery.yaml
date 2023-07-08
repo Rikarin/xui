@@ -37,4 +37,5 @@ jobs:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           echo '//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}' > ./.npmrc
-          yarn semantic-release
+          npm whoami
+          npx semantic-release
