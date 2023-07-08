@@ -1,5 +1,6 @@
 {
   "name": "@xui/charts",
+  "version": "<PLACEHOLDER>",
   "description": "xUI Charts for Angular",
   "keywords": [
     "xui",
@@ -10,6 +11,7 @@
     "frontend"
   ],
   "license": "MIT",
+  "author": "Rikarin",
   "homepage": "https://xuijs.org/",
   "repository": {
     "type": "git",
@@ -23,7 +25,6 @@
       "sass": "./index.scss"
     }
   },
-  "version": "1.25.1",
   "peerDependencies": {
     "@angular/cdk": "15 - 16",
     "@angular/common": "15 - 16",

@@ -7,6 +7,7 @@
   "targets": {
     "build-internal": {
       "executor": "@nx/angular:package",
+      "outputs": ["dist/libs/xui"],
       "options": {
         "tsConfig": "libs/xui/tsconfig.lib.json",
         "project": "libs/xui/ng-package.json"
@@ -25,6 +26,7 @@
     },
     "build": {
       "executor": "nx:run-commands",
+      "outputs": ["dist/libs/xui"],
       "options": {
         "command": "gulp post-build",
         "cwd": "libs/xui",

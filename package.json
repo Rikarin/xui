@@ -1,5 +1,5 @@
 {
-  "name": "xui-library",
+  "name": "xui",
   "version": "development",
   "private": false,
   "repository": "github:rikarin/xui",
@@ -18,8 +18,7 @@
     "format": "nx format:write --all",
     "format:check": "nx format:check",
     "clean": "nx reset && rm -rf dist",
-    "prepare": "husky install",
-    "foo": "nx run-many -t deploy --all --tag develop"
+    "prepare": "husky install"
   },
   "dependencies": {
     "tslib": "^2.5.3"
