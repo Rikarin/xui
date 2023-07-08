@@ -20,6 +20,9 @@
   "bugs": {
     "url": "https://github.com/rikarin/xui/issues"
   },
+  "publishConfig": {
+    "provenance": true
+  },
   "exports": {
     ".": {
       "sass": "./index.scss"
