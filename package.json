@@ -12,6 +12,7 @@
     "build:ci": "nx affected -t build -c production",
     "build:theme": "sass --no-source-map ./libs/xui/src/themes/dark.theme.scss:./dist/libs/xui/dark.theme.css",
     "build:ssr": "nx server",
+    "build:web": "nx build web",
     "test": "nx run-many -t test --all -i",
     "test:ci": "nx affected -t test -i",
     "lint": "nx run-many -t lint --all --quiet",
