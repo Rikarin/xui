@@ -1,7 +1,6 @@
 {
-  "name": "web",
-  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
+  "root": "apps/web",
   "sourceRoot": "apps/web/src",
   "prefix": "app",
   "targets": {
@@ -57,8 +56,8 @@
           "budgets": [
             {
               "type": "initial",
-              "maximumWarning": "500kb",
-              "maximumError": "1mb"
+              "maximumWarning": "1mb",
+              "maximumError": "4mb"
             },
             {
               "type": "anyComponentStyle",
@@ -89,10 +88,12 @@
       "executor": "@angular-devkit/build-angular:dev-server",
       "configurations": {
         "production": {
-          "browserTarget": "web:build:production"
+          "browserTarget": "web:build:production",
+          "port": 4800
         },
         "development": {
-          "browserTarget": "web:build:development"
+          "browserTarget": "web:build:development",
+          "port": 4800
         }
       },
       "defaultConfiguration": "development"

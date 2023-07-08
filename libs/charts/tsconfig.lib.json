@@ -7,13 +7,6 @@
     "inlineSources": true,
     "types": []
   },
-  "include": [
-    "**/*.ts"
-  ],
-  "exclude": [
-    "**/*.spec.ts",
-    "**/*.test.ts",
-    "test",
-    "e2e"
-  ]
+  "include": ["**/*.ts"],
+  "exclude": ["**/*.spec.ts", "**/*.test.ts", "test", "e2e"]
 }

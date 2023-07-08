@@ -1,7 +1,7 @@
 {
   "npmScope": "xui",
   "affected": {
-    "defaultBase": "master"
+    "defaultBase": "develop"
   },
   "tasksRunnerOptions": {
     "default": {
