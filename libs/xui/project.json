@@ -61,6 +61,13 @@
         "command": "gulp patch-dist --version={args.version}",
         "cwd": "libs/xui"
       }
+    },
+    "deploy": {
+      "executor": "ngx-deploy-npm:deploy",
+      "options": {
+        "noBuild": true,
+        "access": "public"
+      }
     }
   },
   "tags": []

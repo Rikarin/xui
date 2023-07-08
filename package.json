@@ -8,7 +8,7 @@
     "ng": "nx",
     "semantic-release": "semantic-release",
     "start": "nx serve --port=4800",
-    "build": "nx run-many -t build -c production --all",
+    "build": "nx run-many -t build -c production --exclude=web --all",
     "build:ci": "nx affected -t build -c production",
     "build:theme": "sass --no-source-map ./libs/xui/src/themes/dark.theme.scss:./dist/libs/xui/dark.theme.css",
     "test": "nx run-many -t test --all -i",
@@ -81,6 +81,7 @@
     "jest-preset-angular": "13.1.1",
     "luxon": "^3.3.0",
     "ng-packagr": "16.1.0",
+    "ngx-deploy-npm": "^6.0.0",
     "ngx-echarts": "^16.0.0",
     "ngx-google-analytics": "^14.0.1",
     "ngx-highlightjs": "^9.0.0",
@@ -131,13 +132,7 @@
       [
         "@semantic-release/exec",
         {
-          "publishCmd": "npx nx run-many --target=patch-dist --all --version ${nextRelease.version}"
-        }
-      ],
-      [
-        "@semantic-release/npm",
-        {
-          "pkgRoot": "dist/libs"
+          "publishCmd": "nx run-many -t patch-dist --all --version ${nextRelease.version} && nx run-many -t deploy --all --tag ${branch.channel}"
         }
       ],
       "@semantic-release/github"
