@@ -1,23 +1,21 @@
-<div class="x-progress">
-  <ng-container *ngIf="type === 'line'">
-    <div class="x-progress-indicator">
-      <div [ngClass]="style" [style.width.%]="progress"></div>
-    </div>
+<ng-container *ngIf="type === 'line'">
+  <div class="x-progress-indicator">
+    <div [ngClass]="style" [style.width.%]="progress"></div>
+  </div>
 
-    <ng-container [ngSwitch]="getIndicator()">
-      <ng-container *ngSwitchCase="1">
-        <xui-decagram color="success" type="circle">check-bold</xui-decagram>
-      </ng-container>
-      <ng-container *ngSwitchCase="0"> {{ progress }}% </ng-container>
-      <ng-container *ngSwitchCase="-1">
-        <xui-decagram color="error" type="circle">close-thick</xui-decagram>
-      </ng-container>
+  <ng-container [ngSwitch]="getIndicator()">
+    <ng-container *ngSwitchCase="1">
+      <xui-decagram color="success" type="circle">check-bold</xui-decagram>
+    </ng-container>
+    <ng-container *ngSwitchCase="0"> {{ progress }}% </ng-container>
+    <ng-container *ngSwitchCase="-1">
+      <xui-decagram color="error" type="circle">close-thick</xui-decagram>
     </ng-container>
   </ng-container>
+</ng-container>
 
-  <ng-container *ngIf="type === 'circle'">
-    <div class="x-progress-indicator">
-      <div [ngClass]="style" [style.width.%]="progress"></div>
-    </div>
-  </ng-container>
-</div>
+<ng-container *ngIf="type === 'circle'">
+  <div class="x-progress-indicator">
+    <div [ngClass]="style" [style.width.%]="progress"></div>
+  </div>
+</ng-container>

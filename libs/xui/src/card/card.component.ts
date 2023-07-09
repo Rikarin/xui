@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit, TemplateRef, ViewContainerRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, OnInit, TemplateRef, ViewContainerRef } from '@angular/core';
 import { Portal, TemplatePortal } from '@angular/cdk/portal';
 
 @Component({
@@ -14,6 +14,11 @@ export class CardComponent implements OnInit {
   actionsPortal?: Portal<unknown>;
 
   // @Input() loading!: boolean;
+
+  @HostBinding('class.x-card')
+  get hostMainClass(): boolean {
+    return true;
+  }
 
   constructor(private viewContainerRef: ViewContainerRef) {}
 

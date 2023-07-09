@@ -9,6 +9,4 @@ import { INPUT_GROUP_ACCESSOR, InputGroupAccessor, InputSize } from './input.typ
 })
 export class InputGroupComponent implements InputGroupAccessor {
   @Input() size?: InputSize;
-
-  constructor() {}
 }

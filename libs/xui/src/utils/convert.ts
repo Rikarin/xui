@@ -6,7 +6,7 @@ export function toBoolean(value: boolean | string): boolean {
 
 export function toNumber(value: number | string): number;
 export function toNumber<D>(value: number | string, fallback: D): number | D;
-export function toNumber(value: number | string, fallbackValue: number = 0): number {
+export function toNumber(value: number | string, fallbackValue = 0): number {
   return _isNumberValue(value) ? Number(value) : fallbackValue;
 }
 

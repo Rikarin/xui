@@ -4,6 +4,8 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  Host,
+  HostBinding,
   Inject,
   Optional,
   ViewChild
@@ -13,7 +15,7 @@ import { _TooltipComponentBase } from '@angular/material/tooltip';
 @Component({
   selector: 'xui-tooltip',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: ` <div
+  template: `<div
     #tooltip
     [ngClass]="tooltipClass"
     (animationend)="_handleAnimationEnd($event)"
@@ -24,6 +26,7 @@ import { _TooltipComponentBase } from '@angular/material/tooltip';
   host: {
     // Forces the element to have a layout in IE and Edge. This fixes issues where the element
     // won't be rendered if the animations are disabled or there is no web animations polyfill.
+    // TODO: rework these as host bindings
     '[style.zoom]': 'isVisible() ? 1 : null',
     '(mouseleave)': '_handleMouseLeave($event)',
     'aria-hidden': 'true'
@@ -32,6 +35,16 @@ import { _TooltipComponentBase } from '@angular/material/tooltip';
 export class TooltipComponent extends _TooltipComponentBase {
   /* Whether the tooltip text overflows to multiple lines */
   _isMultiline = false;
+
+  @HostBinding('class.x-tooltip')
+  get hostMainClass(): boolean {
+    return true;
+  }
+
+  @HostBinding('class.mdc-tooltip--multilin')
+  get isMultiline(): boolean {
+    return this._isMultiline;
+  }
 
   /** Reference to the internal tooltip element. */
   @ViewChild('tooltip', { static: true }) _tooltip!: ElementRef<HTMLElement>;

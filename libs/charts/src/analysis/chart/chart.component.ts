@@ -8,7 +8,7 @@ import { DOCUMENT } from '@angular/common';
   templateUrl: './chart.component.html',
   styleUrls: ['./chart.component.scss']
 })
-export class ChartComponent implements OnDestroy {
+export class ChartComponent {
   private chart!: ECharts;
   @Input() index!: number;
 
@@ -91,8 +91,6 @@ export class ChartComponent implements OnDestroy {
   }
 
   constructor(private analysisService: AnalysisService, @Inject(DOCUMENT) private document: Document) {}
-
-  ngOnDestroy() {}
 
   onChartInit(chart: ECharts) {
     this.chart = chart;

@@ -10,8 +10,6 @@ export class GraphViewService {
   paths = signal<string[]>([]);
   wireToolPath = signal<string | null>(null);
 
-  constructor() {}
-
   dragMove() {
     this.paths.set([]);
     for (const connection of this.data.connections) {
