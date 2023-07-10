@@ -13,10 +13,7 @@
       "output": "."
     }
   ],
-  "allowedNonPeerDependencies": [
-    "ngx-image-cropper",
-    "@ngneat/until-destroy"
-  ],
+  "allowedNonPeerDependencies": ["ngx-image-cropper", "@ngneat/until-destroy"],
   "lib": {
     "entryFile": "src/index.ts"
   }

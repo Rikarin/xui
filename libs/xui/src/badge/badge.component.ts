@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
 import { BadgeColor } from './badge.types';
 import { BADGE_MODULE, WithConfig, XuiConfigService } from '../config';
 import { CommonModule } from '@angular/common';
@@ -8,21 +8,21 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule],
   selector: 'xui-badge',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `<div [ngClass]="styles"><ng-content></ng-content></div>`
+  template: `<ng-content></ng-content>`
 })
 export class XuiBadgeComponent {
   private readonly _moduleName = BADGE_MODULE;
 
   @Input() @WithConfig() color: BadgeColor = 'primary';
 
-  get styles() {
-    const ret: { [klass: string]: boolean } = {
-      'x-badge': true
-    };
+  @HostBinding('class.x-badge')
+  get hostMainClass(): boolean {
+    return true;
+  }
 
-    ret[`x-badge-${this.color}`] = true;
-
-    return ret;
+  @HostBinding('class')
+  get hostClass(): string {
+    return `x-badge-${this.color}`;
   }
 
   constructor(private configService: XuiConfigService) {}

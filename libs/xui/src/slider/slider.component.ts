@@ -4,6 +4,7 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  HostBinding,
   HostListener,
   Input,
   OnChanges,
@@ -70,6 +71,16 @@ export class XuiSliderComponent implements ControlValueAccessor, OnInit, AfterVi
 
       this.onChange?.(v);
     }
+  }
+
+  @HostBinding('class.x-slider')
+  get hostMainClass(): boolean {
+    return true;
+  }
+
+  @HostBinding('class.x-slider-disabled')
+  get hostDisabledClass(): boolean {
+    return this.disabled;
   }
 
   private get percentage() {

@@ -1,33 +1,33 @@
 @use '../xui';
 
 @mixin theme() {
-  xui-decagram {
+  .x-decagram {
     display: inline-flex;
     width: fit-content;
     position: relative;
 
-    xui-icon {
+    .x-icon {
       width: 100%;
     }
-  }
 
-  .x-decagram-icon {
-    position: absolute;
-    inset: 0 0 0 0;
-    margin-left: auto;
-    margin-right: auto;
-  }
+    &-icon {
+      position: absolute;
+      inset: 0 0 0 0;
+      margin-left: auto;
+      margin-right: auto;
+    }
 
-  .x-decagram-triangle {
-    padding-top: 5px;
-  }
+    &-triangle {
+      padding-top: 5px;
+    }
 
-  @each $value in xui.$color-variations {
-    .x-decagram-#{$value} {
-      color: var(--color-#{$value}-default);
+    @each $value in xui.$color-variations {
+      &-#{$value} {
+        color: var(--color-#{$value}-default);
 
-      .x-decagram-icon {
-        color: var(--color-#{$value}-default-contrast);
+        .x-decagram-icon {
+          color: var(--color-#{$value}-default-contrast);
+        }
       }
     }
   }

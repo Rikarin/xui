@@ -2,7 +2,7 @@
 @use '../xui';
 
 @mixin theme() {
-  xui-settings dialog {
+  .x-settings-dialog {
     width: 100%;
     height: 100%;
     padding: 0;

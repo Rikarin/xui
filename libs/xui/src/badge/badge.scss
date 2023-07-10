@@ -2,11 +2,8 @@
 @use '../xui';
 
 @mixin theme() {
-  xui-badge {
-    display: inline-flex;
-  }
-
   .x-badge {
+    width: fit-content;
     display: inline-flex;
 
     border-radius: $border-radius;

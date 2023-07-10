@@ -2,11 +2,6 @@
 @use '../xui';
 
 @mixin theme() {
-  xui-textarea {
-    display: flex;
-    flex-direction: column;
-  }
-
   .x-textarea {
     display: flex;
     position: relative;

@@ -4,6 +4,7 @@ import {
   ChangeDetectorRef,
   Component,
   ContentChildren,
+  HostBinding,
   QueryList
 } from '@angular/core';
 import { TabComponent } from './tab.component';
@@ -13,11 +14,11 @@ import { Subject } from 'rxjs';
   selector: 'xui-tab-group',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <div class="x-tabs-list">
+    <div class="x-tab-group-list">
       <div
-        class="x-tabs-entry"
+        class="x-tab-group-entry"
         *ngFor="let tab of _tabs"
-        [class.x-tabs-active]="tab.isActive"
+        [class.x-tab-group-active]="tab.isActive"
         [attr.disabled]="tab.disabled || null"
         (click)="selectTab(tab)"
       >
@@ -36,6 +37,11 @@ export class TabGroupComponent implements AfterContentInit {
   @ContentChildren(TabComponent) set tabRef(value: QueryList<TabComponent>) {
     this._tabs = value.toArray();
     this.cdr.markForCheck();
+  }
+
+  @HostBinding('class.x-tab-group')
+  get hostMainClass(): boolean {
+    return true;
   }
 
   // Not used

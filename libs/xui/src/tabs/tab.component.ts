@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostBinding, Input, OnInit } from '@angular/core';
 import { TabGroupComponent } from './tab-group.component';
 import { InputBoolean } from '../utils';
 import { BooleanInput } from '@angular/cdk/coercion';
@@ -13,6 +13,11 @@ export class TabComponent implements OnInit {
 
   @Input() title!: string;
   @Input() @InputBoolean() disabled = false;
+
+  @HostBinding('class.x-tab')
+  get mainHostClass(): boolean {
+    return true;
+  }
 
   get isActive() {
     return this.tabGroup._active === this;

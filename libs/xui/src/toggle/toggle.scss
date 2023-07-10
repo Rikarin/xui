@@ -2,17 +2,13 @@
 @use '../xui';
 
 @mixin theme() {
-  xui-toggle {
-    width: fit-content;
-    line-height: 0;
-  }
-
   .x-toggle {
     width: fit-content;
     display: inline-flex;
     position: relative;
     cursor: pointer;
     opacity: 0.8;
+    line-height: 0;
 
     @include xui.border-radius($border-radius);
     @include xui.focusable();

@@ -16,7 +16,7 @@
 
     @each $name in xui.$color-variations {
       &-#{$name} {
-        xui-icon {
+        .x-icon {
           color: var(--color-#{$name}-default);
         }
       }

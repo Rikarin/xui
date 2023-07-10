@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  HostBinding,
   HostListener,
   Input,
   OnInit,
@@ -46,11 +47,14 @@ export class XuiSwitchComponent implements ControlValueAccessor, OnInit {
     }
   }
 
-  get style() {
-    return {
-      'x-switch': true,
-      'x-switch-disabled': this.disabled
-    };
+  @HostBinding('class.x-switch')
+  get hostMainClass(): boolean {
+    return true;
+  }
+
+  @HostBinding('class.x-switch-disabled')
+  get hostDisabledClass(): boolean {
+    return this.disabled;
   }
 
   get styleSwitch() {

@@ -1,9 +1,10 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, Input, OnInit } from '@angular/core';
 import { InputBoolean } from '@xui/components';
 import sdk, { Project, ProjectFiles } from '@stackblitz/sdk';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, lastValueFrom } from 'rxjs';
 import { BooleanInput } from '@angular/cdk/coercion';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'app-example',
@@ -54,7 +55,7 @@ export class ExampleComponent implements OnInit {
     };
   }
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, @Inject(DOCUMENT) private document: Document) {}
 
   async ngOnInit() {
     this.allFiles$.next(await this.fetchFiles());
@@ -83,7 +84,7 @@ export class ExampleComponent implements OnInit {
     list.push(<File>{
       name: `${postfix}`,
       path: `src/app/examples/${name}/${name}.${postfix}`,
-      fullPath: `${window.location.origin}/examples/${name}/${name}.${postfix}`,
+      fullPath: `${this.document.location.origin}/examples/${name}/${name}.${postfix}`,
       content
     });
   }

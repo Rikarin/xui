@@ -3,6 +3,7 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  HostBinding,
   HostListener,
   Input,
   OnInit,
@@ -38,22 +39,39 @@ export class ImageUploadComponent implements ControlValueAccessor, OnInit {
   @Input() @InputBoolean() disabled = false;
   @ViewChild('input') inputElm!: ElementRef;
 
-  get classes() {
-    const ret: { [klass: string]: boolean } = {
-      'x-image-upload': true,
-      'x-image-upload-disabled': this.disabled,
-      'x-image-upload-square': this.type === 'square'
-    };
-
-    return ret;
+  @HostBinding('class.x-image-upload')
+  get hostMainClass(): boolean {
+    return true;
   }
 
-  get styles() {
-    return {
-      'border-radius.%': this.borderRadius,
-      'aspect-ratio': this.aspectRatio,
-      'background-image': this.backgroundImage
-    };
+  @HostBinding('class.x-image-upload-disabled')
+  get hostDisabledClass(): boolean {
+    return this.disabled;
+  }
+
+  @HostBinding('class.x-image-upload-square')
+  get hostSquareClass(): boolean {
+    return this.type === 'square';
+  }
+
+  @HostBinding('tabindex')
+  get hostTabIndex(): number {
+    return 0;
+  }
+
+  @HostBinding('style.border-radius.%')
+  get hostBorderRadiusStyle(): number {
+    return this.borderRadius;
+  }
+
+  @HostBinding('style.aspect-ratio')
+  get hostAspectRatioStyle(): number {
+    return this.aspectRatio;
+  }
+
+  @HostBinding('style.background-image')
+  get hostBackgroundImageStyle(): string | null {
+    return this.backgroundImage;
   }
 
   get backgroundImage() {

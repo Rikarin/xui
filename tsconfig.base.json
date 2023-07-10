@@ -18,32 +18,20 @@
     "noFallthroughCasesInSwitch": true,
     "module": "esnext",
     "target": "ES2021",
-    "lib": [
-      "ES2022",
-      "dom"
-    ],
+    "lib": ["ES2022", "dom"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@local/test": [
-        "libs/@local/test/src/index.ts"
-      ],
-      "@xui/charts": [
-        "libs/charts/src/index.ts"
-      ],
-      "@xui/components": [
-        "libs/xui/src/index.ts"
-      ]
+      "@local/test": ["libs/@local/test/src/index.ts"],
+      "@xui/charts": ["libs/charts/src/index.ts"],
+      "@xui/components": ["libs/xui/src/index.ts"]
     }
   },
-  "exclude": [
-    "node_modules",
-    "tmp"
-  ],
+  "exclude": ["node_modules", "tmp"],
   "angularCompilerOptions": {
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
-    "strictTemplates": true
+    "strictTemplates": false
   }
 }

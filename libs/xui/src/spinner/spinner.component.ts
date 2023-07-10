@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
 import { SpinnerColor } from './spinner.types';
 import { CommonModule } from '@angular/common';
 
@@ -7,17 +7,18 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule],
   selector: 'xui-spinner',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `<div [ngClass]="styles"></div>`
+  template: ''
 })
 export class XuiSpinnerComponent {
   @Input() color: SpinnerColor = 'primary';
 
-  get styles() {
-    const ret: { [klass: string]: boolean } = {
-      'x-spinner': true
-    };
+  @HostBinding('class.x-spinner')
+  get hostMainClass(): boolean {
+    return true;
+  }
 
-    ret[`x-spinner-${this.color}`] = true;
-    return ret;
+  @HostBinding('class')
+  get hostClass(): string {
+    return `x-spinner-${this.color}`;
   }
 }

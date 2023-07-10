@@ -1,5 +1,13 @@
 import { BooleanInput } from '@angular/cdk/coercion';
-import { ChangeDetectionStrategy, Component, EventEmitter, HostListener, Input, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  HostBinding,
+  HostListener,
+  Input,
+  Output
+} from '@angular/core';
 import { InputBoolean } from '../utils';
 import { BannerType } from './banner.types';
 import { BANNER_MODULE, WithConfig, XuiConfigService } from '../config';
@@ -22,14 +30,19 @@ export class XuiBannerComponent {
   @Input() @InputBoolean() @WithConfig() dismissible = false;
   @Output() bannerClose = new EventEmitter();
 
-  get styles() {
-    const ret: { [klass: string]: boolean } = {
-      'x-banner': true,
-      'x-banner-dismissible': this.dismissible
-    };
-    ret[`x-banner-${this.type}`] = true;
+  @HostBinding('class.x-banner')
+  get hostMainClass(): boolean {
+    return true;
+  }
 
-    return ret;
+  @HostBinding('class.x-banner-dismissible')
+  get hostDismissibleClass(): boolean {
+    return this.dismissible;
+  }
+
+  @HostBinding('class')
+  get hostClass(): string {
+    return `x-banner-${this.type}`;
   }
 
   constructor(private configService: XuiConfigService) {}

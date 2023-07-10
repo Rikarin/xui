@@ -1,12 +1,8 @@
 @use '../xui';
 
 @mixin theme() {
-  xui-image-upload {
-    width: 100px;
-  }
-
   .x-image-upload {
-    width: inherit;
+    width: 100px;
     position: relative;
     display: grid;
     place-items: center;

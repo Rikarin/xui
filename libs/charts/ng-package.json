@@ -13,9 +13,7 @@
       "output": "."
     }
   ],
-  "allowedNonPeerDependencies": [
-    "@ngneat/until-destroy"
-  ],
+  "allowedNonPeerDependencies": ["@ngneat/until-destroy"],
   "lib": {
     "entryFile": "src/index.ts"
   }

@@ -2,7 +2,7 @@
 @use '../xui';
 
 @mixin theme() {
-  xui-settings-snackbar {
+  .x-settings-snackbar {
     width: 700px;
     display: flex;
     align-items: center;
@@ -12,10 +12,10 @@
     @include xui.border-radius($border-radius);
     @include xui.fill(floating);
     @include xui.elevate(high);
-  }
 
-  .x-settings-snackbar {
-    width: 700px;
-    max-width: 700px !important;
+    &-panel {
+      width: 700px;
+      max-width: 700px !important;
+    }
   }
 }

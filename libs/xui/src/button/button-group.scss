@@ -2,7 +2,7 @@
 @use '../xui';
 
 @mixin theme() {
-  xui-button-group {
+  .x-button-group {
     width: fit-content;
     display: flex;
 
@@ -11,15 +11,15 @@
       margin-right: 0;
     }
 
-    > xui-button:first-child .x-button {
-      @include xui.border-left-radius-only($border-radius);
+    > .x-button:first-child {
+      @include xui.border-left-radius($border-radius);
     }
 
-    > xui-button:last-child .x-button {
-      @include xui.border-right-radius-only($border-radius);
+    > .x-button:last-child {
+      @include xui.border-right-radius($border-radius);
     }
 
-    > xui-button:not(:first-child) .x-button {
+    > .x-button:not(:first-child) {
       margin-left: -1px;
     }
   }

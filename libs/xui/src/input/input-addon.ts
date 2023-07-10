@@ -1,15 +1,21 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
 import { InputColor } from './input.types';
 
 @Component({
   selector: 'xui-input-addon',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: '<div [ngClass]="styles"><ng-content></ng-content></div>'
+  template: '<ng-content></ng-content>'
 })
 export class InputAddonComponent {
   @Input() color: InputColor = 'dark';
 
-  get styles() {
-    return `x-input-addon x-input-addon-${this.color}`;
+  @HostBinding('class.x-input-addon')
+  get hostMainClass(): boolean {
+    return true;
+  }
+
+  @HostBinding('class')
+  get hostClass(): string {
+    return `x-input-addon-${this.color}`;
   }
 }
