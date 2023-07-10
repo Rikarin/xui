@@ -6,6 +6,7 @@ import {
   ElementRef,
   EventEmitter,
   Host,
+  HostBinding,
   HostListener,
   Input,
   Optional,
@@ -19,24 +20,15 @@ import { ButtonGroupComponent } from './button-group.component';
 @Component({
   selector: 'xui-button',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
-    <div
-      [ngClass]="styles"
-      [attr.disabled]="disabled || null"
-      [tabindex]="disabled ? -1 : 0"
-      (click)="_onAsync($event)"
-    >
-      <div class="x-button-content">
-        <ng-content></ng-content>
-      </div>
-      <div class="x-button-state-image"></div>
-      <div class="x-button-shine" *ngIf="shine && !disabled">
-        <div class="x-button-shine-inner">
-          <div class="x-button-shine-element"></div>
-        </div>
-      </div>
+  template: `<div class="x-button-content">
+      <ng-content></ng-content>
     </div>
-  `
+    <div class="x-button-state-image"></div>
+    <div class="x-button-shine" *ngIf="shine && !disabled">
+      <div class="x-button-shine-inner">
+        <div class="x-button-shine-element"></div>
+      </div>
+    </div>`
 })
 export class ButtonComponent {
   static ngAcceptInputType_shine: BooleanInput;
@@ -57,6 +49,52 @@ export class ButtonComponent {
   // eslint-disable-next-line @angular-eslint/no-output-native
   @Output() readonly click = new EventEmitter<unknown>();
 
+  @HostBinding('class.x-button')
+  get hostMainClass(): boolean {
+    return true;
+  }
+
+  @HostBinding('class.x-button--non-idle')
+  get hostNonIdleClass(): boolean {
+    return this.state != 0;
+  }
+
+  @HostBinding('class.x-button--loading')
+  get hostLoadingClass(): boolean {
+    return this.state == 1;
+  }
+
+  @HostBinding('class.x-button--succeeded')
+  get hostSucceededClass(): boolean {
+    return this.state == 2;
+  }
+
+  @HostBinding('class.x-button--failed')
+  get hostFailedClass(): boolean {
+    return this.state == 3;
+  }
+
+  @HostBinding('class')
+  get hostClass(): string {
+    const config = this.configService.getConfigForComponent(BUTTON_MODULE);
+
+    return (
+      `x-button-${this.size ?? this.group?.size ?? config?.size ?? 'medium'} ` +
+      `x-button-${this.type ?? this.group?.type ?? config?.type ?? 'normal'} ` +
+      `x-button-${this.color ?? this.group?.color ?? config?.color ?? 'primary'}`
+    );
+  }
+
+  @HostBinding('tabindex')
+  get hostTabIndex(): number {
+    return this.disabled ? -1 : 0;
+  }
+
+  @HostBinding('attr.disabled')
+  get hostAttributeDisabled(): boolean | null {
+    return this.disabled || null;
+  }
+
   constructor(
     // TODO: Anchor for popover; consider removing it and refactoring
     public elementRef: ElementRef,
@@ -65,40 +103,33 @@ export class ButtonComponent {
     private cdr: ChangeDetectorRef
   ) {}
 
-  get styles() {
-    const config = this.configService.getConfigForComponent(BUTTON_MODULE);
-    const ret: { [klass: string]: boolean } = {
-      'x-button': true,
-      'x-button--non-idle': this.state != 0,
-      'x-button--loading': this.state == 1,
-      'x-button--succeeded': this.state == 2,
-      'x-button--failed': this.state === 3
-    };
-
-    ret[`x-button-${this.size ?? this.group?.size ?? config?.size ?? 'medium'}`] = true;
-    ret[`x-button-${this.type ?? this.group?.type ?? config?.type ?? 'normal'}`] = true;
-    ret[`x-button-${this.color ?? this.group?.color ?? config?.color ?? 'primary'}`] = true;
-
-    return ret;
-  }
-
   @HostListener('keydown.enter', ['$event'])
   @HostListener('keydown.space', ['$event'])
-  async _onAsync(event?: MouseEvent | KeyboardEvent) {
-    event?.preventDefault();
-    event?.stopPropagation();
-
+  async keyboardInteraction(event?: MouseEvent | KeyboardEvent) {
     if (this.disabled) {
       return;
     }
 
     this.click.emit(event);
+    await this._onAsync(event);
+  }
+
+  @HostListener('click', ['$event'])
+  async _onAsync(event?: MouseEvent | KeyboardEvent | Event) {
+    if (this.disabled) {
+      return;
+    }
+
+    // Do not prevent events when button is disabled
+    event?.preventDefault();
+    event?.stopPropagation();
 
     if (!this.onClick) {
       return;
     }
 
     this.state = 1;
+    this.cdr.markForCheck();
 
     try {
       this.state = (await this.onClick()) ? 2 : 3;

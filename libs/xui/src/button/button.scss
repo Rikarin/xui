@@ -2,11 +2,6 @@
 @use '../xui';
 
 @mixin theme() {
-  xui-button {
-    width: fit-content;
-    display: inline-flex;
-  }
-
   .x-button {
     display: inline-flex;
     align-items: center;
@@ -55,7 +50,7 @@
       gap: 4px;
     }
 
-    &:not(.x-button-icon) &-content xui-icon {
+    &:not(.x-button-icon) &-content .x-icon {
       width: 1.3em;
     }
 
