@@ -2,10 +2,6 @@
 @use '../xui';
 
 @mixin theme() {
-  xui-drawer {
-    display: flex;
-    height: fit-content;
-  }
   .x-drawer {
     width: 48px;
     height: fit-content;

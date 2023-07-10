@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, Optional, Self } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  HostBinding,
+  Input,
+  Optional,
+  Self
+} from '@angular/core';
 import { RADIO_GROUP_ACCESSOR, RadioColor, RadioGroupAccessor, RadioItem, RadioValue } from './radio.types';
 import { Subject } from 'rxjs';
 import { InputBoolean } from '../utils';
@@ -9,10 +17,8 @@ import { ControlValueAccessor, NgControl } from '@angular/forms';
   selector: 'xui-radio-group',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [{ provide: RADIO_GROUP_ACCESSOR, useExisting: RadioGroupComponent }],
-  template: `<div class="x-radio-group">
-    <ng-content select="xui-radio"></ng-content>
-    <xui-radio *ngFor="let item of items" [value]="item.value">{{ item.label | translate }}</xui-radio>
-  </div>`
+  template: `<ng-content select="xui-radio"></ng-content>
+    <xui-radio *ngFor="let item of items" [value]="item.value">{{ item.label | translate }}</xui-radio>`
 })
 export class RadioGroupComponent implements RadioGroupAccessor, ControlValueAccessor {
   static ngAcceptInputType_disabled: BooleanInput;
@@ -38,6 +44,11 @@ export class RadioGroupComponent implements RadioGroupAccessor, ControlValueAcce
       this.onChange?.(v);
       this.onChange$.next(null);
     }
+  }
+
+  @HostBinding('class.x-radio-group')
+  get hostMainClass(): boolean {
+    return true;
   }
 
   constructor(private cdr: ChangeDetectorRef, @Self() @Optional() public control?: NgControl) {

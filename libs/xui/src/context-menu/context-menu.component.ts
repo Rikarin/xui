@@ -20,13 +20,11 @@ import { ContextMenuAnchor } from './context-menu.types';
 @Component({
   selector: 'xui-context-menu',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
-    <ng-template #templateRef>
-      <div class="x-context-menu" cdkTrapFocus (click)="close()">
-        <ng-content></ng-content>
-      </div>
-    </ng-template>
-  `
+  template: `<ng-template #templateRef>
+    <div class="x-context-menu" cdkTrapFocus (click)="close()">
+      <ng-content></ng-content>
+    </div>
+  </ng-template>`
 })
 export class ContextMenuComponent {
   private overlayRef!: OverlayRef;

@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  HostBinding,
   HostListener,
   Input,
   OnInit,
@@ -20,18 +21,14 @@ import { XuiIconComponent } from '../icon';
   imports: [CommonModule, XuiIconComponent],
   selector: 'xui-toggle',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
-    <div [ngClass]="style" [tabindex]="disabled ? -1 : 0">
-      <div [class.x-toggle-clip]="!value">
-        <div class="x-toggle-content">
-          <xui-icon><ng-content></ng-content></xui-icon>
-        </div>
-      </div>
-      <div [class.x-toggle-toggled]="!value">
-        <div class="x-toggle-line"></div>
+  template: `<div [class.x-toggle-clip]="!value">
+      <div class="x-toggle-content">
+        <xui-icon><ng-content></ng-content></xui-icon>
       </div>
     </div>
-  `
+    <div [class.x-toggle-toggled]="!value">
+      <div class="x-toggle-line"></div>
+    </div>`
 })
 export class XuiToggleComponent implements ControlValueAccessor, OnInit {
   static ngAcceptInputType_disabled: BooleanInput;
@@ -57,14 +54,24 @@ export class XuiToggleComponent implements ControlValueAccessor, OnInit {
     }
   }
 
-  get style() {
-    const ret: { [klass: string]: boolean } = {
-      'x-toggle': true,
-      'x-toggle-disabled': this.disabled
-    };
+  @HostBinding('class.x-toggle')
+  get hostMainClass(): boolean {
+    return true;
+  }
 
-    ret[`x-toggle-${this.color}`] = this.color !== 'none';
-    return ret;
+  @HostBinding('class.x-toggle-disabled')
+  get hostDisabledClass(): boolean {
+    return this.disabled;
+  }
+
+  @HostBinding('class')
+  get hostClass(): string {
+    return this.color !== 'none' ? `x-toggle-${this.color}` : '';
+  }
+
+  @HostBinding('tabindex')
+  get hostTabIndex(): number {
+    return this.disabled ? -1 : 0;
   }
 
   constructor(private cdr: ChangeDetectorRef, @Self() @Optional() public control?: NgControl) {

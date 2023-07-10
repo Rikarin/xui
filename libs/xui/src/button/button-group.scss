@@ -2,7 +2,7 @@
 @use '../xui';
 
 @mixin theme() {
-  xui-button-group {
+  .x-button-group {
     width: fit-content;
     display: flex;
 

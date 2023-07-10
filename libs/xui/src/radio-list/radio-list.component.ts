@@ -3,6 +3,7 @@ import {
   ChangeDetectorRef,
   Component,
   ContentChildren,
+  HostBinding,
   HostListener,
   Input,
   OnInit,
@@ -27,7 +28,7 @@ import { OptionComponent } from '../select';
 @Component({
   selector: 'xui-radio-list',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: '<div class="x-radio-list" tabindex="0"><ng-content></ng-content></div>',
+  template: '<ng-content></ng-content>',
   providers: [{ provide: RADIO_LIST_ACCESSOR, useExisting: RadioListComponent }]
 })
 export class RadioListComponent implements RadioListAccessor, ControlValueAccessor, OnInit {
@@ -58,6 +59,16 @@ export class RadioListComponent implements RadioListAccessor, ControlValueAccess
       this.onChange?.(v);
       this.onChange$.next(null);
     }
+  }
+
+  @HostBinding('class.x-radio-list')
+  get hostMainClass(): boolean {
+    return true;
+  }
+
+  @HostBinding('tabindex')
+  get hostTabIndex(): number {
+    return 0;
   }
 
   constructor(private cdr: ChangeDetectorRef, @Self() @Optional() public control?: NgControl) {

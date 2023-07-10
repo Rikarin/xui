@@ -11,5 +11,10 @@ export class LayoutComponent {
     this.hasSider = value.length > 0;
   }
 
-  @HostBinding('class.x-layout-sider') hasSider = false;
+  @HostBinding('class.x-layout')
+  get hostMainClass(): boolean {
+    return true;
+  }
+
+  @HostBinding('class.x-layout-has-sider') hasSider = false;
 }

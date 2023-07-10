@@ -30,6 +30,11 @@ export class XuiDividerComponent {
     this._marginBottom = value;
   }
 
+  @HostBinding('class.x-divider')
+  get hostMainClass(): boolean {
+    return true;
+  }
+
   @HostBinding('style.margin-top.px')
   private _marginTop?: number;
 

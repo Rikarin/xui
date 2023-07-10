@@ -15,10 +15,15 @@ import { parseCss } from '../utils';
   template: '<ng-content></ng-content>'
 })
 export class SiderComponent implements OnInit, OnChanges {
+  @Input() width: string | number = 'inherit';
+
+  @HostBinding('class.x-layout-sider')
+  get hostMainClass(): boolean {
+    return true;
+  }
+
   @HostBinding('style.width')
   private _width: string | null = null;
-
-  @Input() width: string | number = 'inherit';
 
   ngOnInit() {
     this.updateStyles();

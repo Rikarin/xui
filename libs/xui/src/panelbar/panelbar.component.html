@@ -1,17 +1,15 @@
-<div class="x-panelbar">
-  <!--  <ng-container *ngTemplateOutlet="itemsTemplate; context: { items }"></ng-container>-->
+<!--  <ng-container *ngTemplateOutlet="itemsTemplate; context: { items }"></ng-container>-->
 
-  <xui-panelbar-item
-    *ngFor="let item of items"
-    [title]="item.title"
-    [content]="item.content"
-    [icon]="item.icon"
-    [iconClass]="item.iconClass"
-    [_children]="item.children"
-  >
-  </xui-panelbar-item>
-  <ng-content select="xui-panelbar-item"></ng-content>
-</div>
+<xui-panelbar-item
+  *ngFor="let item of items"
+  [title]="item.title"
+  [content]="item.content"
+  [icon]="item.icon"
+  [iconClass]="item.iconClass"
+  [_children]="item.children"
+>
+</xui-panelbar-item>
+<ng-content select="xui-panelbar-item"></ng-content>
 
 <!--<ng-template #itemsTemplate let-data="items">-->
 <!--  <xui-panelbar-item-->

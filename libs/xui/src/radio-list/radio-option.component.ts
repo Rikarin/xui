@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  HostBinding,
   HostListener,
   Inject,
   Input,
@@ -14,15 +15,13 @@ import { RADIO_LIST_ACCESSOR, RadioListAccessor } from './radio-list.types';
 @Component({
   selector: 'xui-radio-option',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `<div [ngClass]="styles">
-    <xui-icon>{{ icon }}</xui-icon>
+  template: `<xui-icon>{{ icon }}</xui-icon>
     <div class="x-radio-option-content">
       <ng-content></ng-content>
       <div class="x-radio-option-description">
         <ng-content select="[xuiDescription]"></ng-content>
       </div>
-    </div>
-  </div>`
+    </div>`
 })
 export class RadioOptionComponent implements OnInit {
   static ngAcceptInputType_disabled: BooleanInput;
@@ -31,6 +30,33 @@ export class RadioOptionComponent implements OnInit {
   @Input() value!: string;
   @Input() description?: string;
   @Input() @InputBoolean() disabled = false;
+
+  @HostBinding('class.x-radio-option')
+  get hostMainClass(): boolean {
+    return true;
+  }
+
+  @HostBinding('class.x-radio-option-focus')
+  get hostFocusClass(): boolean {
+    return this.isFocused;
+  }
+
+  @HostBinding('class.x-radio-option-active')
+  get hostActiveClass(): boolean {
+    return this.isSelected;
+  }
+
+  @HostBinding('class.x-radio-option-disabled')
+  get hostDisabledClass(): boolean {
+    return this.isDisabled;
+  }
+
+  @HostBinding('class')
+  get hostClass(): string {
+    return `${this.color ? 'x-radio-option-' + this.color : ''} x-radio-option-background-${
+      this.list.color
+    } x-radio-option-${this.list.size}`;
+  }
 
   get isSelected() {
     return this.value === this.list.value;
@@ -46,20 +72,6 @@ export class RadioOptionComponent implements OnInit {
 
   get icon() {
     return this.isSelected ? 'radiobox-marked' : 'radiobox-blank';
-  }
-
-  get styles() {
-    const ret: { [klass: string]: boolean } = {
-      'x-radio-option': true,
-      'x-radio-option-focus': this.isFocused,
-      'x-radio-option-active': this.isSelected,
-      'x-radio-option-disabled': this.isDisabled
-    };
-
-    ret[`x-radio-option-${this.color}`] = !!this.color;
-    ret[`x-radio-option-background-${this.list.color}`] = true;
-    ret[`x-radio-option-${this.list.size}`] = true;
-    return ret;
   }
 
   constructor(@Inject(RADIO_LIST_ACCESSOR) private list: RadioListAccessor, private cdr: ChangeDetectorRef) {}

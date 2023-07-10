@@ -74,7 +74,7 @@ export class SettingsComponent {
     if (!canExit) {
       if (!this.snackbarRef) {
         this.snackbarRef = this.snackBar.openFromComponent(SaveResetSnackbarComponent, {
-          panelClass: 'x-settings-snackbar',
+          panelClass: 'x-settings-snackbar-panel',
           duration: undefined!,
           data: {
             save: async () => {
@@ -222,6 +222,11 @@ export interface MenuItem {
 })
 export class SaveResetSnackbarComponent {
   _doneAnimating = new Subject();
+
+  @HostBinding('class.x-settings-snackbar')
+  get hostMainClass(): boolean {
+    return true;
+  }
 
   @HostBinding('@fade')
   animation = 'open';

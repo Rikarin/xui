@@ -5,26 +5,26 @@
     display: flex;
 
     > xui-input:not(:first-child) > .x-input {
-      @include xui.border-left-radius-only(0);
+      @include xui.border-left-radius(0);
     }
 
     > xui-input:not(:last-child) > .x-input {
-      @include xui.border-right-radius-only(0);
+      @include xui.border-right-radius(0);
     }
 
-    > xui-input-addon:not(:first-child) {
-      @include xui.border-left-radius-only(0);
+    > .x-input-addon:not(:first-child) {
+      @include xui.border-left-radius(0);
     }
 
-    > xui-input-addon:not(:last-child) {
-      @include xui.border-right-radius-only(0);
+    > .x-input-addon:not(:last-child) {
+      @include xui.border-right-radius(0);
     }
 
     > xui-input:not(:first-child) {
       border-left: 1px solid xui.text-muted();
     }
 
-    > xui-input-addon:not(:first-child) {
+    > .x-input-addon:not(:first-child) {
       border-left: 1px solid xui.text-muted();
     }
   }

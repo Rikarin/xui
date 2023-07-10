@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostBinding, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 
@@ -12,6 +12,11 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class XuiIconComponent {
   @ViewChild('iconName', { static: true }) input!: ElementRef;
+
+  @HostBinding('class.x-icon')
+  get hostMainClass(): boolean {
+    return true;
+  }
 
   get icon() {
     return this.input.nativeElement.innerHTML;

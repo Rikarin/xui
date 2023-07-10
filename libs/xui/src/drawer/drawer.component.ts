@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, TemplateRef, ViewContainerRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, Input, TemplateRef, ViewContainerRef } from '@angular/core';
 import { DrawerItem, DrawerMode } from './drawer.types';
 import { Portal, TemplatePortal } from '@angular/cdk/portal';
 import { InputBoolean } from '../utils';
@@ -19,6 +19,16 @@ export class DrawerComponent {
   @Input() mode: DrawerMode = 'push';
   @Input() @InputBoolean() expanded = true;
   @Input() items!: DrawerItem[];
+
+  @HostBinding('class.x-drawer')
+  get hostMainClass(): boolean {
+    return true;
+  }
+
+  @HostBinding('class.x-drawer-expanded')
+  get hostExpandedClass(): boolean {
+    return this.expanded;
+  }
 
   constructor(private viewContainerRef: ViewContainerRef) {}
 

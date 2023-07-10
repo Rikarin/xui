@@ -1,21 +1,17 @@
-<div class="x-panelbar-item">
-  <div (click)="clickItem()" class="x-panelbar-item-title" [style.padding-left.px]="paddingLeft">
-    <ng-template [cdkPortalOutlet]="titlePortal"></ng-template>
-    <div class="x-panelbar-item-spacer"></div>
-    <xui-icon class="x-panelbar-item-chevron" *ngIf="hasContent">{{
-      expanded ? 'chevron-down' : 'chevron-up'
-    }}</xui-icon>
-  </div>
+<div (click)="clickItem()" class="x-panelbar-item-title" [style.padding-left.px]="paddingLeft">
+  <ng-template [cdkPortalOutlet]="titlePortal"></ng-template>
+  <div class="x-panelbar-item-spacer"></div>
+  <xui-icon class="x-panelbar-item-chevron" *ngIf="hasContent">{{ expanded ? 'chevron-down' : 'chevron-up' }}</xui-icon>
+</div>
 
-  <div [style.display]="expanded ? 'block' : 'none'" #contentRef>
-    <ng-container *ngIf="contentDirective || content">
-      <ng-template [cdkPortalOutlet]="contentPortal"></ng-template>
-    </ng-container>
-    <ng-content select="xui-panelbar-item"></ng-content>
+<div [style.display]="expanded ? 'block' : 'none'" #contentRef>
+  <ng-container *ngIf="contentDirective || content">
+    <ng-template [cdkPortalOutlet]="contentPortal"></ng-template>
+  </ng-container>
+  <ng-content select="xui-panelbar-item"></ng-content>
 
-    <xui-panelbar-item *ngFor="let child of _children" [title]="child.title" [_children]="child.children">
-    </xui-panelbar-item>
-  </div>
+  <xui-panelbar-item *ngFor="let child of _children" [title]="child.title" [_children]="child.children">
+  </xui-panelbar-item>
 </div>
 
 <ng-template #contentTemplate>

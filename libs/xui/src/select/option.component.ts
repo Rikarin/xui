@@ -4,6 +4,7 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  HostBinding,
   HostListener,
   Inject,
   Input,
@@ -17,10 +18,8 @@ import { SELECT_ACCESSOR, SelectAccessor, SelectValue } from './select.types';
 @Component({
   selector: 'xui-option',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `<div [ngClass]="styles">
-    <span #content><ng-content></ng-content></span>
-    <xui-decagram *ngIf="isSelected" type="circle">check</xui-decagram>
-  </div>`
+  template: `<span #content><ng-content></ng-content></span>
+    <xui-decagram *ngIf="isSelected" type="circle">check</xui-decagram>`
 })
 export class OptionComponent implements OnInit, AfterViewInit {
   static ngAcceptInputType_disabled: BooleanInput;
@@ -30,19 +29,28 @@ export class OptionComponent implements OnInit, AfterViewInit {
 
   @ViewChild('content') contentRef!: ElementRef;
 
-  get isSelected() {
-    return this.select.value == this.value;
+  @HostBinding('class.x-select-option')
+  get hostMainClass(): boolean {
+    return true;
   }
 
-  get styles() {
-    const ret: { [klass: string]: boolean } = {
-      'x-select-option': true,
-      'x-select-option-selected': this.isSelected,
-      'x-select-option-disabled': this.disabled
-    };
+  @HostBinding('class.x-select-option-selected')
+  get hostSelectedClass(): boolean {
+    return this.isSelected;
+  }
 
-    ret[`x-select-option-${this.select.color}`] = true;
-    return ret;
+  @HostBinding('class.x-select-option-disabled')
+  get hostDisabledClass(): boolean {
+    return this.disabled;
+  }
+
+  @HostBinding('class')
+  get hostClass(): string {
+    return `x-select-option-${this.select.color}`;
+  }
+
+  get isSelected() {
+    return this.select.value == this.value;
   }
 
   get viewValue(): string {

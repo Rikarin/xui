@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  HostBinding,
   HostListener,
   Input,
   OnInit,
@@ -20,8 +21,7 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule],
   selector: 'xui-checkbox',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: ` <div [ngClass]="styles">
-    <div class="x-checkbox-box" tabindex="0" [class.x-checkbox-checked]="value">
+  template: `<div class="x-checkbox-box" [tabindex]="disabled ? -1 : 0" [class.x-checkbox-checked]="value">
       <svg
         *ngIf="value"
         viewBox="0 0 24 24"
@@ -33,8 +33,7 @@ import { CommonModule } from '@angular/common';
         <path d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path>
       </svg>
     </div>
-    <ng-content></ng-content>
-  </div>`
+    <ng-content></ng-content>`
 })
 export class XuiCheckboxComponent implements ControlValueAccessor, OnInit {
   static ngAcceptInputType_disabled: BooleanInput;
@@ -48,16 +47,6 @@ export class XuiCheckboxComponent implements ControlValueAccessor, OnInit {
   @Input() @InputBoolean() @WithConfig() disabled = false;
   @Input() @WithConfig() color: CheckboxColor = 'primary';
 
-  get styles() {
-    const ret: { [klass: string]: boolean } = {
-      'x-checkbox': true,
-      'x-checkbox-disabled': this.disabled
-    };
-
-    ret[`x-checkbox-${this.color}`] = true;
-    return ret;
-  }
-
   @Input()
   @InputBoolean()
   get value() {
@@ -69,6 +58,21 @@ export class XuiCheckboxComponent implements ControlValueAccessor, OnInit {
       this._value = v;
       this.onChange?.(v);
     }
+  }
+
+  @HostBinding('class.x-checkbox')
+  get hostMainClass(): boolean {
+    return true;
+  }
+
+  @HostBinding('class.x-checkbox-disabled')
+  get hostDisabledClass(): boolean {
+    return this.disabled;
+  }
+
+  @HostBinding('class')
+  get hostClass(): string {
+    return `x-checkbox-${this.color}`;
   }
 
   constructor(

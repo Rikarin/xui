@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  HostBinding,
   Inject,
   Input,
   OnInit,
@@ -39,6 +40,11 @@ export class PanelBarItemComponent implements OnInit {
   @ViewChild('contentTemplate', { static: true }) contentTemplate!: TemplateRef<unknown>;
   @ViewChild('titleTemplate', { static: true }) titleTemplate!: TemplateRef<unknown>;
   @ViewChild('contentRef', { static: true }) contentRef!: ElementRef;
+
+  @HostBinding('class.x-panelbar-item')
+  get hostMainClass(): boolean {
+    return true;
+  }
 
   get offset(): number {
     return this.parentItem ? this.parentItem.offset + 1 : 0;

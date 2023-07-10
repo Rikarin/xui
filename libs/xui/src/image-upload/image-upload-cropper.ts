@@ -11,6 +11,7 @@ import { DIALOG_DATA } from '@angular/cdk/dialog';
         [maintainAspectRatio]="true"
         [aspectRatio]="data.aspectRatio"
         format="webp"
+        output="base64"
         [roundCropper]="data.type === 'round'"
         (imageCropped)="data.imageCropped($event)"
       ></image-cropper>

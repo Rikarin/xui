@@ -1,42 +1,42 @@
 @use 'variables' as *;
 
 @mixin theme() {
-  xui-content {
-    flex: 1 1 auto;
-    display: flex;
-    flex-direction: column;
-  }
-
-  xui-footer {
-    flex: 0 0 auto;
-    display: flex;
-    height: 53px;
-
-    align-items: center;
-  }
-
-  xui-header {
-    flex: 0 0 auto;
-    display: flex;
-    height: $height;
-
-    align-items: center;
-  }
-
-  xui-layout {
+  .x-layout {
     flex: auto;
     display: flex;
     flex-direction: column;
-  }
 
-  .x-layout-sider {
-    flex-direction: row;
-  }
+    &-content {
+      flex: 1 1 auto;
+      display: flex;
+      flex-direction: column;
+    }
 
-  xui-sider {
-    flex: 0 0 auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    &-footer {
+      flex: 0 0 auto;
+      display: flex;
+      height: 53px;
+
+      align-items: center;
+    }
+
+    &-header {
+      flex: 0 0 auto;
+      display: flex;
+      height: $height;
+
+      align-items: center;
+    }
+
+    &-has-sider {
+      flex-direction: row;
+    }
+
+    &-sider {
+      flex: 0 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
   }
 }

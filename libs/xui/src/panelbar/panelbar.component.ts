@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, TemplateRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, Input, TemplateRef } from '@angular/core';
 import { PANEL_BAR_ACCESSOR, PanelBarAccessor, PanelBarItem } from './panelbar.types';
 
 @Component({
@@ -11,4 +11,9 @@ export class PanelBarComponent implements PanelBarAccessor {
   itemTemplate?: TemplateRef<unknown>;
 
   @Input() items?: PanelBarItem[];
+
+  @HostBinding('class.x-panelbar')
+  get hostMainClass(): boolean {
+    return true;
+  }
 }

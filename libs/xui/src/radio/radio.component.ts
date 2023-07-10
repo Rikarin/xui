@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  HostBinding,
   HostListener,
   Inject,
   Input,
@@ -14,10 +15,7 @@ import { InputBoolean } from '../utils';
 @Component({
   selector: 'xui-radio',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `<div [ngClass]="styles">
-    <xui-icon>{{ selected ? 'radiobox-marked' : 'radiobox-blank' }}</xui-icon>
-    <ng-content></ng-content>
-  </div>`
+  template: `<xui-icon>{{ selected ? 'radiobox-marked' : 'radiobox-blank' }}</xui-icon> <ng-content></ng-content>`
 })
 export class RadioComponent implements OnInit {
   static ngAcceptInputType_disabled: BooleanInput;
@@ -34,14 +32,19 @@ export class RadioComponent implements OnInit {
     return this.disabled || this.group.disabled;
   }
 
-  get styles() {
-    const ret: { [klass: string]: boolean } = {
-      'x-radio': true,
-      'x-radio-disabled': this.isDisabled
-    };
+  @HostBinding('class.x-radio')
+  get hostMainClass(): boolean {
+    return true;
+  }
 
-    ret[`x-radio-${this.color ?? this.group.color}`] = true;
-    return ret;
+  @HostBinding('class.x-radio-disabled')
+  get hostDisabledClass(): boolean {
+    return this.disabled;
+  }
+
+  @HostBinding('class')
+  get hostClass(): string {
+    return `x-radio-${this.color ?? this.group.color}`;
   }
 
   constructor(@Inject(RADIO_GROUP_ACCESSOR) private group: RadioGroupAccessor, private cdr: ChangeDetectorRef) {}
