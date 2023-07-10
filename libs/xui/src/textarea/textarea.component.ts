@@ -1,4 +1,4 @@
-import { BooleanInput } from '@angular/cdk/coercion';
+import { BooleanInput, NumberInput } from '@angular/cdk/coercion';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, Optional, Self } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
@@ -23,8 +23,8 @@ export class TextareaComponent implements ControlValueAccessor, OnInit {
   @Input() @InputBoolean() disabled = false;
   @Input() color: TextareaColor = 'light';
   @Input() size: TextareaSize = 'normal';
-  @Input() @InputNumber() rows = 3;
-  @Input() @InputNumber() maxLength?: number;
+  @Input() @InputNumber() rows: NumberInput = 3;
+  @Input() @InputNumber() maxLength?: NumberInput;
 
   @Input()
   get value() {
@@ -40,7 +40,7 @@ export class TextareaComponent implements ControlValueAccessor, OnInit {
   }
 
   get wordCount() {
-    return (this.maxLength ?? 0) - (this.value?.length ?? 0);
+    return ((this.maxLength as number) ?? 0) - (this.value?.length ?? 0);
   }
 
   get styles() {

@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, HostBinding, Input} from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
 import { BadgeColor } from './badge.types';
 import { BADGE_MODULE, WithConfig, XuiConfigService } from '../config';
 import { CommonModule } from '@angular/common';
