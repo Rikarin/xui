@@ -1,0 +1,43 @@
+@use 'sass:map';
+
+@function generate-palette($base, $dark-text: rgba(black, 0.87), $light-text: #d7dee4) {
+  $colors: (
+    50: mix($base, white, 12%),
+    100: mix($base, white, 30%),
+    200: mix($base, white, 50%),
+    300: mix($base, white, 70%),
+    400: mix($base, white, 85%),
+    500: mix($base, white, 100%),
+    600: mix($base, black, 87%),
+    700: mix($base, black, 70%),
+    800: mix($base, black, 54%),
+    900: mix($base, black, 25%)
+  );
+
+  @return map.merge(
+    $colors,
+    (
+      contrast: (
+        50: $dark-text,
+        100: $dark-text,
+        200: $dark-text,
+        300: $dark-text,
+        400: $dark-text,
+        500: $light-text,
+        600: $light-text,
+        700: $light-text,
+        800: $light-text,
+        900: $light-text //50: a11y-color.a11y-color(black, map.get($colors, 50), 'AAA'),
+        //100: a11y-color.a11y-color(black, map.get($colors, 100), 'AAA'),
+        //200: a11y-color.a11y-color(black, map.get($colors, 200), 'AAA'),
+        //300: a11y-color.a11y-color(black, map.get($colors, 300), 'AAA'),
+        //400: a11y-color.a11y-color(black, map.get($colors, 400), 'AAA'),
+        //500: a11y-color.a11y-color(white, map.get($colors, 500), 'AAA'),
+        //600: a11y-color.a11y-color(white, map.get($colors, 600), 'AAA'),
+        //700: a11y-color.a11y-color(white, map.get($colors, 700), 'AAA'),
+        //800: a11y-color.a11y-color(white, map.get($colors, 800), 'AAA'),
+        //900: a11y-color.a11y-color(white, map.get($colors, 900), 'AAA')
+      )
+    )
+  );
+}

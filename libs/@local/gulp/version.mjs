@@ -33,7 +33,7 @@ export function setVersion(project) {
 
   gulp.task('update-package-version', done => {
     const data = JSON.parse(readFileSync(packagePath));
-    const version = data.peerDependencies['@angular/core'];
+    const version = data.peerDependencies?.['@angular/core'];
     if (version) {
       for (const x in data.peerDependencies) {
         if (x.startsWith('@angular/')) {

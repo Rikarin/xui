@@ -1,0 +1,56 @@
+@use 'palette';
+
+$dark-primary-text: rgba(black, 0.87);
+$light-primary-text: #d7dee4;
+
+$background-dark-palette: (
+  primary: #32383c,
+  secondary: #2c3136,
+  secondary-alt: #262b2f,
+  tertiary: #1f2429,
+  accent: #4e5358,
+  floating: #13181c,
+
+  contrast: (
+    primary: $light-primary-text,
+    secondary: $light-primary-text,
+    secondary-alt: $light-primary-text,
+    tertiary: $light-primary-text,
+    accent: $light-primary-text,
+    floating: $light-primary-text
+  )
+);
+
+$background-light-palette: (
+  primary: hsl(0, 0%, 100%),
+  secondary: hsl(220, 13%, 95.5%),
+  secondary-alt: hsl(210, 11.1%, 92.9%),
+  tertiary: hsl(216, 9.8%, 90%),
+  accent: hsl(213, 9.4%, 45.9%),
+  floating: hsl(0, 0%, 100%),
+  contrast: (
+    primary: $dark-primary-text,
+    secondary: $dark-primary-text,
+    secondary-alt: $dark-primary-text,
+    tertiary: $dark-primary-text,
+    accent: $dark-primary-text,
+    floating: $dark-primary-text
+  )
+);
+
+$default-elevation: (
+  stroke: 0 0 0 1px rgba(4, 4, 5, 0.15),
+  low: (
+    0 1px 0 rgba(4, 4, 5, 0.2),
+    0 1.5px 0 rgba(6, 6, 7, 0.05),
+    0 2px 0 rgba(4, 4, 5, 0.05)
+  ),
+  medium: 0 4px 4px rgba(0, 0, 0, 0.16),
+  high: 0 8px 16px rgba(0, 0, 0, 0.24)
+);
+
+$blue-palette: palette.generate-palette(#1f75cb);
+$red-palette: palette.generate-palette(#dd2b0e);
+$green-palette: palette.generate-palette(#108548);
+$orange-palette: palette.generate-palette(#ab6100);
+$purple-palette: palette.generate-palette(#7b58cf);
