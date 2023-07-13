@@ -1,0 +1,12 @@
+@use '@xui/theme-core' as core;
+
+@mixin theme() {
+  .x-panelbar {
+    display: flex;
+    gap: 4px;
+    flex-direction: column;
+    user-select: none;
+
+    @include core.fill(primary);
+  }
+}

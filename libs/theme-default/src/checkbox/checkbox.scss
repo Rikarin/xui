@@ -1,0 +1,47 @@
+@use 'variables' as *;
+@use '@xui/theme-core' as core;
+
+@mixin theme() {
+  .x-checkbox {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    user-select: none;
+
+    &-box {
+      width: 18px;
+      height: 18px;
+      line-height: 0;
+
+      @include core.border-radius($border-radius);
+      @include core.focusable();
+
+      svg {
+        margin-bottom: 1px;
+      }
+    }
+
+    &-disabled {
+      @include core.disabled();
+      cursor: not-allowed;
+    }
+
+    @each $name in core.$color-variations {
+      &-#{$name} {
+        .x-checkbox-box {
+          border: 1px solid var(--color-#{$name}-default-contrast);
+        }
+
+        .x-checkbox-checked {
+          background-color: var(--color-#{$name}-default);
+          border-color: var(--color-#{$name}-400);
+        }
+
+        svg {
+          fill: var(--color-#{$name}-default-contrast);
+        }
+      }
+    }
+  }
+}

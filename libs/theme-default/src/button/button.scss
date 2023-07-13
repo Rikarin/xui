@@ -1,0 +1,232 @@
+@use 'variables' as *;
+@use '@xui/theme-core' as core;
+
+@mixin theme() {
+  .x-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+
+    border: none;
+    @include core.border-radius($border-radius);
+    box-sizing: border-box;
+
+    touch-action: manipulation;
+    user-select: none;
+    cursor: pointer;
+    overflow: hidden;
+
+    transition: 0.3s;
+    outline: none;
+    background: none;
+
+    padding: 0 1em;
+    min-width: 4.57em;
+    width: fit-content;
+    height: 2.57em;
+
+    &[disabled] {
+      cursor: not-allowed;
+    }
+
+    @include core.focusable();
+    @include core.typography-level(button);
+
+    &-small {
+      font-size: calc(var(--font-button-size) - 0.125rem);
+    }
+
+    &-medium {
+      font-size: var(--font-button-size);
+    }
+
+    &-large {
+      font-size: calc(var(--font-button-size) + 0.125rem);
+    }
+
+    &-content {
+      display: inline-flex;
+      gap: 4px;
+    }
+
+    &:not(.x-button-icon) &-content .x-icon {
+      width: 1.3em;
+    }
+
+    &-normal {
+      @include button-colors();
+
+      &.x-button-minimal {
+        color: inherit;
+
+        &:hover {
+          text-decoration: underline;
+        }
+
+        &[disabled] {
+          text-decoration: none;
+          @include core.disabled();
+        }
+      }
+    }
+
+    &-dashed {
+      @include button-colors();
+      border: 1px dashed;
+    }
+
+    &-stroked {
+      @include button-colors();
+      border: 1px solid;
+    }
+
+    &-raised {
+      @include button-bg-colors();
+      border: 1px solid transparent;
+    }
+
+    &-fab {
+      @include button-bg-colors();
+      border-radius: 40px;
+      min-width: 38px;
+    }
+
+    &-icon {
+      min-width: 0;
+      aspect-ratio: 1;
+      opacity: 0.8;
+      padding: 0;
+
+      &:hover {
+        opacity: 1;
+        background-color: core.modifier-hover();
+      }
+    }
+
+    &--non-idle {
+      cursor: not-allowed;
+      pointer-events: none !important;
+
+      .x-button-state-image {
+        width: 1rem;
+        height: 1rem;
+        background: center no-repeat;
+        margin-left: 0.5em;
+      }
+    }
+
+    &--loading .x-button-state-image {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' style='width:24px;height:24px' viewBox='0 0 24 24'%3E%3Cpath fill='white' d='M12,4V2A10,10 0 0,0 2,12H4A8,8 0 0,1 12,4Z' /%3E%3C/svg%3E");
+      animation: spin 1s infinite linear;
+    }
+
+    &--succeeded {
+      background-color: var(--color-success-default) !important;
+      color: var(--color-success-default-contrast) !important;
+
+      .x-button-state-image {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' style='width:24px;height:24px' viewBox='0 0 24 24'%3E%3Cpath fill='white' d='M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z' /%3E%3C/svg%3E");
+        margin-bottom: 2px;
+      }
+    }
+
+    &--failed {
+      background-color: var(--color-error-default) !important;
+      color: var(--color-error-default-contrast) !important;
+
+      .x-button-state-image {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' style='width:24px;height:24px' viewBox='0 0 24 24'%3E%3Cpath fill='white' d='M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z' /%3E%3C/svg%3E");
+      }
+    }
+
+    &-shine {
+      position: absolute;
+      top: -50%;
+      bottom: 0;
+      right: 0;
+
+      animation-duration: 2s;
+      animation-name: shine;
+      animation-iteration-count: infinite;
+      animation-timing-function: ease-in-out;
+      color: hsla(0, 0%, 100%, 0.1);
+
+      &-inner {
+        display: flex;
+        justify-content: center;
+        background-color: currentColor;
+        height: 300%;
+        position: relative;
+        top: -100%;
+        transform: rotate(30deg);
+        width: 56px;
+      }
+
+      &-element {
+        width: 16px;
+        height: 100%;
+        background-color: currentColor;
+      }
+    }
+
+    @keyframes spin {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes shine {
+      0% {
+        transform: translate3d(-400%, 0, 0);
+      }
+      to {
+        transform: translate3d(500%, 0, 0);
+      }
+    }
+  }
+}
+
+@mixin button-colors() {
+  @each $name in core.$color-variations {
+    &.x-button-#{$name} {
+      color: var(--color-#{$name}-default);
+      border-color: var(--color-#{$name}-default);
+
+      &:hover {
+        @include core.fill(default, $name);
+      }
+
+      &:active {
+        @include core.fill(darker, $name);
+      }
+
+      &[disabled] {
+        @include core.disabled();
+        color: var(--color-#{$name}-default);
+        background: none;
+      }
+    }
+  }
+}
+
+@mixin button-bg-colors() {
+  @each $name in core.$color-variations {
+    &.x-button-#{$name} {
+      @include core.fill(default, $name);
+
+      &:hover,
+      &:active {
+        @include core.fill(darker, $name);
+      }
+
+      &[disabled] {
+        @include core.disabled();
+        @include core.fill(default, $name);
+      }
+    }
+  }
+}

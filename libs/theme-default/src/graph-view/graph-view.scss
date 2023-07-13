@@ -1,0 +1,38 @@
+@use 'variables' as *;
+@use '@xui/theme-core' as core;
+
+@mixin theme() {
+  .x-graph-view {
+    width: 800px;
+    height: 800px;
+    overflow: auto;
+
+    &-canvas {
+      position: relative;
+      width: 10000px;
+      height: 10000px;
+    }
+
+    &-grid {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    &-connection {
+      fill: transparent;
+      stroke: var(--color-primary-default);
+      stroke-width: 3px;
+      cursor: pointer;
+
+      &:hover {
+        stroke: var(--color-primary-300);
+      }
+
+      &-selected {
+        //stroke: var(--color-secondary-800);
+        stroke: red;
+      }
+    }
+  }
+}

@@ -1,0 +1,9 @@
+@use 'variables' as *;
+@use '../mixins/input-base';
+
+@mixin theme() {
+  .x-input {
+    @include input-base.input($border-radius);
+    @include input-base.error();
+  }
+}

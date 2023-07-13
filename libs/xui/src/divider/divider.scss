@@ -1,8 +1,0 @@
-@use '../theming/theming';
-
-@mixin theme() {
-  .x-divider {
-    width: 100%;
-    border-top: 1px solid rgba(var(--color-bg-accent-rgb), 0.3);
-  }
-}

@@ -1,0 +1,8 @@
+@use 'variables' as *;
+
+@mixin theme() {
+  .x-radio-group {
+    display: flex;
+    gap: 8px;
+  }
+}

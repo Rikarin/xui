@@ -1,4 +1,4 @@
-@use '../../../../../../libs/xui/src/index' as xui;
+@use '@xui/theme-core';
 
 :host {
   display: flex;
@@ -11,7 +11,7 @@
   gap: 12px;
   padding: 0 12px;
 
-  @include xui.fill(tertiary);
+  @include theme-core.fill(tertiary);
 
   h6 {
     margin: 0;
@@ -25,20 +25,20 @@
 .sub-menu {
   display: flex;
   justify-content: space-between;
-  border-bottom: 1px solid xui.modifier-accent();
+  border-bottom: 1px solid theme-core.modifier-accent();
 }
 
 .content {
   flex: 2 0 0;
   min-height: 0;
-  @include xui.fill(accent);
+  @include theme-core.fill(accent);
 }
 
 .preview {
-  border-top: 1px solid xui.modifier-accent();
+  border-top: 1px solid theme-core.modifier-accent();
 }
 
 xui-sider {
-  border-left: 1px solid xui.modifier-accent();
-  border-right: 1px solid xui.modifier-accent();
+  border-left: 1px solid theme-core.modifier-accent();
+  border-right: 1px solid theme-core.modifier-accent();
 }

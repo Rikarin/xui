@@ -1,6 +1,6 @@
 {
   "name": "@xui/theme-core",
-  "version": "<PLACEHOLDER>",
+  "version": "0.0.0-PLACEHOLDER",
   "description": "xUI Theme Core",
   "keywords": [
     "xui",
@@ -22,6 +22,9 @@
   "exports": {
     ".": {
       "sass": "./index.scss"
+    },
+    "./theming/xui.theme": {
+      "sass": "./src/theming/xui.theme.scss"
     }
   },
   "peerDependencies": {

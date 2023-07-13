@@ -1,0 +1,98 @@
+@use 'variables' as *;
+@use '@xui/theme-core' as core;
+
+@mixin theme() {
+  .x-slider {
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 40px;
+
+    user-select: none;
+
+    &-disabled {
+      @include core.disabled();
+
+      .x-slider-track,
+      .x-slider-thumb {
+        cursor: not-allowed;
+      }
+    }
+
+    &-track {
+      width: 100%;
+      height: 8px;
+      display: flex;
+      justify-content: flex-end;
+      z-index: 1;
+
+      @include core.border-radius($border-radius);
+    }
+
+    &-track-half {
+      z-index: 1;
+
+      @include core.border-right-radius-only($border-radius);
+    }
+
+    &-thumb {
+      position: absolute;
+      left: 0;
+      top: 8px;
+      width: 10px;
+      height: 24px;
+
+      background-color: white;
+      cursor: ew-resize;
+      z-index: 1;
+
+      border: 1px solid rgba(0, 0, 0, 0.2);
+
+      @include core.focusable();
+      @include core.border-radius($border-radius);
+      @include core.elevate(medium);
+    }
+
+    &-container {
+      position: absolute;
+      inset: 0 5px 0 5px;
+    }
+
+    &-mark {
+      position: absolute;
+      bottom: 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      width: 24px;
+      margin-left: -12px;
+
+      &-label {
+        @include core.typography-level(caption);
+        font-size: 0.65rem;
+        font-weight: 700;
+      }
+
+      &-dash {
+        width: 2px;
+        height: 24px;
+        background-color: var(--color-bg-primary);
+      }
+    }
+
+    &-none {
+      background-color: var(--color-bg-primary);
+    }
+
+    @each $name in core.$color-variations {
+      &-#{$name} {
+        background-color: var(--color-#{$name}-default);
+      }
+
+      &-mark-#{$name} {
+        color: var(--color-#{$name}-default);
+      }
+    }
+  }
+}

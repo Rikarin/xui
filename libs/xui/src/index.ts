@@ -34,4 +34,3 @@ export * from './time-picker';
 export * from './toggle';
 export * from './tooltip';
 export * from './utils';
-export * from './theming';

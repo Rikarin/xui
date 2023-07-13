@@ -1,0 +1,26 @@
+@use 'variables' as *;
+@use '@xui/theme-core' as core;
+
+@mixin theme() {
+  .x-button-group {
+    width: fit-content;
+    display: flex;
+
+    .x-button {
+      border-radius: 0;
+      margin-right: 0;
+    }
+
+    > .x-button:first-child {
+      @include core.border-left-radius($border-radius);
+    }
+
+    > .x-button:last-child {
+      @include core.border-right-radius($border-radius);
+    }
+
+    > .x-button:not(:first-child) {
+      margin-left: -1px;
+    }
+  }
+}

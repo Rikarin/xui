@@ -1,4 +1,4 @@
-@use '../../../../libs/xui/src' as xui;
+@use '@xui/theme-core' as xui;
 
 $theme: xui.define-dark-theme(
   (

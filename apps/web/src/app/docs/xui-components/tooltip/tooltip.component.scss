@@ -1,4 +1,4 @@
-@use '../../../../../../../libs/xui/src/index' as xui;
+@use '@xui/theme-core';
 
 :host {
   width: 100%;
@@ -14,5 +14,5 @@
   height: 100px;
 
   border-radius: 4px;
-  @include xui.fill(default, primary);
+  @include theme-core.fill(default, primary);
 }

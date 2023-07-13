@@ -1,0 +1,62 @@
+@use 'variables' as *;
+@use '@xui/theme-core' as core;
+
+@mixin theme() {
+  .x-banner {
+    width: 100%;
+    flex: 0 1 auto;
+    display: flex;
+    align-items: center;
+    padding: 8px;
+
+    &-stamp {
+      font-size: 0.78571rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin: 0 10px;
+      padding: 0 8px;
+
+      @include core.border-radius($stamp-border-radius);
+    }
+
+    &-dismissible {
+      cursor: pointer;
+      pointer-events: all;
+    }
+
+    &-close {
+      margin-left: auto;
+    }
+
+    &-info {
+      @include core.fill(lighter, info);
+
+      border: 1px solid var(--color-info-50);
+      border-left: none;
+      border-right: none;
+
+      .x-banner-stamp {
+        @include core.fill(default, info);
+      }
+    }
+
+    @include generate-banner(success);
+    @include generate-banner(warning);
+    @include generate-banner(alert, error);
+  }
+}
+
+@mixin generate-banner($name, $palette: $name) {
+  &-#{$name} {
+    @include core.fill(default, $palette);
+
+    .x-banner-stamp {
+      color: var(--color-#{$palette}-default);
+      background-color: var(--color-#{$palette}-default-contrast);
+    }
+
+    &.x-banner-dismissible:hover {
+      @include core.fill(darker, $palette);
+    }
+  }
+}

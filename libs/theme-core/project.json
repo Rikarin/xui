@@ -20,7 +20,7 @@
       ],
       "configurations": {
         "production": {
-          "tsConfig": "libs/charts/tsconfig.lib.prod.json"
+          "tsConfig": "libs/theme-core/tsconfig.lib.prod.json"
         }
       }
     },

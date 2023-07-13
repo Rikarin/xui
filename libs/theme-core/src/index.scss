@@ -1,0 +1,17 @@
+@forward 'theming';
+@forward 'core';
+
+@use 'core';
+@use 'theming';
+
+@mixin all-variables($theme) {
+  @include theming.create-color-variables($theme);
+  @include theming.create-elevation-variables($theme);
+  @include core.create-typography-variables($theme);
+}
+
+@mixin all-root-variables($theme) {
+  :root {
+    @include all-variables($theme);
+  }
+}

@@ -1,0 +1,42 @@
+@use '@xui/theme-core' as core;
+
+@mixin theme() {
+  .x-select-option {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    cursor: pointer;
+    user-select: none;
+
+    &-light {
+      @include core.fill(primary);
+
+      &:hover {
+        @include core.fill(secondary);
+      }
+    }
+
+    &-dark {
+      @include core.fill(primary);
+
+      &:hover {
+        @include core.fill(secondary);
+      }
+    }
+
+    &-disabled {
+      cursor: not-allowed;
+      @include core.disabled();
+
+      &:hover {
+        background-color: initial;
+      }
+    }
+
+    &-selected {
+      @include core.fill(secondary);
+    }
+  }
+}

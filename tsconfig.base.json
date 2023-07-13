@@ -25,7 +25,8 @@
     "paths": {
       "@local/test": ["libs/@local/test/src/index.ts"],
       "@xui/charts": ["libs/charts/src/index.ts"],
-      "@xui/components": ["libs/xui/src/index.ts"]
+      "@xui/components": ["libs/xui/src/index.ts"],
+      "@xui/theme-core": ["libs/theme-core/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"],
