@@ -1,0 +1,31 @@
+@use '@xui/theme-core' as core;
+
+@mixin theme() {
+  .x-input-group {
+    display: flex;
+
+    > xui-input:not(:first-child) > .x-input {
+      @include core.border-left-radius(0);
+    }
+
+    > xui-input:not(:last-child) > .x-input {
+      @include core.border-right-radius(0);
+    }
+
+    > .x-input-addon:not(:first-child) {
+      @include core.border-left-radius(0);
+    }
+
+    > .x-input-addon:not(:last-child) {
+      @include core.border-right-radius(0);
+    }
+
+    > xui-input:not(:first-child) {
+      border-left: 1px solid core.text-muted();
+    }
+
+    > .x-input-addon:not(:first-child) {
+      border-left: 1px solid core.text-muted();
+    }
+  }
+}

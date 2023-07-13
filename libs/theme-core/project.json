@@ -1,0 +1,58 @@
+{
+  "name": "theme-core",
+  "root": "libs/theme-core",
+  "projectType": "library",
+  "sourceRoot": "libs/theme-core/src",
+  "prefix": "xui",
+  "targets": {
+    "build-internal": {
+      "executor": "@nx/angular:package",
+      "outputs": ["dist/libs/theme-core"],
+      "options": {
+        "tsConfig": "libs/theme-core/tsconfig.lib.json",
+        "project": "libs/theme-core/ng-package.json"
+      },
+      "dependsOn": [
+        {
+          "target": "build",
+          "projects": "dependencies"
+        }
+      ],
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/theme-core/tsconfig.lib.prod.json"
+        }
+      }
+    },
+    "build": {
+      "executor": "nx:run-commands",
+      "outputs": ["dist/libs/theme-core"],
+      "options": {
+        "command": "gulp post-build",
+        "cwd": "libs/theme-core",
+        "project": "libs/theme-core/ng-package.json"
+      },
+      "dependsOn": [
+        {
+          "target": "build-internal",
+          "projects": "self"
+        }
+      ]
+    },
+    "patch-dist": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "gulp patch-dist --new-version={args.new-version}",
+        "cwd": "libs/theme-core"
+      }
+    },
+    "deploy": {
+      "executor": "ngx-deploy-npm:deploy",
+      "options": {
+        "noBuild": true,
+        "access": "public"
+      }
+    }
+  },
+  "tags": []
+}

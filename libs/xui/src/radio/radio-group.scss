@@ -1,9 +1,0 @@
-@use 'variables' as *;
-@use '../xui';
-
-@mixin theme() {
-  .x-radio-group {
-    display: flex;
-    gap: 8px;
-  }
-}

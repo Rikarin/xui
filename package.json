@@ -27,6 +27,8 @@
   "dependencies": {
     "@angular/platform-server": "~16.1.0",
     "@nguniversal/express-engine": "~16.1.0",
+    "@xui/theme-core": "link:libs/theme-core/src",
+    "@xui/theme-default": "link:libs/theme-default/src",
     "tslib": "^2.5.3"
   },
   "devDependencies": {

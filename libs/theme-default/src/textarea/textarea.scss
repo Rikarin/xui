@@ -1,0 +1,62 @@
+@use 'variables' as *;
+@use '@xui/theme-core' as core;
+@use '../core/scrollbar';
+
+@mixin theme() {
+  .x-textarea {
+    display: flex;
+    position: relative;
+
+    @include core.border-radius($border-radius);
+    @include core.focusable();
+
+    textarea {
+      width: 100%;
+      height: auto;
+      resize: none;
+      padding: 12px 32px 12px 12px;
+
+      border: none;
+      outline: none;
+
+      @include core.border-radius($border-radius);
+      @include core.typography-level(body-1);
+      @include scrollbar.regular();
+    }
+
+    &-light textarea {
+      @include core.fill(secondary);
+    }
+
+    &-dark textarea {
+      @include core.fill(tertiary);
+    }
+
+    &-disabled {
+      @include core.disabled();
+
+      textarea {
+        cursor: not-allowed;
+      }
+    }
+
+    &-word-counter {
+      position: absolute;
+      bottom: 4px;
+      right: 16px;
+
+      @include core.typography-level(caption);
+    }
+
+    &-error {
+      outline: 2px solid var(--color-error-default);
+    }
+
+    &-error-text {
+      color: var(--color-error-default);
+      font-size: 0.8rem;
+      margin-top: 4px;
+      margin-left: 8px;
+    }
+  }
+}

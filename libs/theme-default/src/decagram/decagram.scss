@@ -1,0 +1,34 @@
+@use '@xui/theme-core' as core;
+
+@mixin theme() {
+  .x-decagram {
+    display: inline-flex;
+    width: fit-content;
+    position: relative;
+
+    .x-icon {
+      width: 100%;
+    }
+
+    &-icon {
+      position: absolute;
+      inset: 0 0 0 0;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    &-triangle {
+      padding-top: 5px;
+    }
+
+    @each $value in core.$color-variations {
+      &-#{$value} {
+        color: var(--color-#{$value}-default);
+
+        .x-decagram-icon {
+          color: var(--color-#{$value}-default-contrast);
+        }
+      }
+    }
+  }
+}

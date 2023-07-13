@@ -1,0 +1,37 @@
+{
+  "name": "@xui/theme-core",
+  "version": "0.0.0-PLACEHOLDER",
+  "description": "xUI Theme Core",
+  "keywords": [
+    "xui",
+    "theme",
+    "core",
+    "ui",
+    "frontend"
+  ],
+  "license": "MIT",
+  "author": "Rikarin",
+  "homepage": "https://xuijs.org/",
+  "repository": "https://github.com/Rikarin/xui",
+  "bugs": {
+    "url": "https://github.com/rikarin/xui/issues"
+  },
+  "publishConfig": {
+    "provenance": true
+  },
+  "exports": {
+    ".": {
+      "sass": "./index.scss"
+    },
+    "./theming/xui.theme": {
+      "sass": "./src/theming/xui.theme.scss"
+    }
+  },
+  "peerDependencies": {
+    "@angular/core": "15 - 16",
+    "rxjs": "^7.8.0"
+  },
+  "dependencies": {
+    "tslib": "^2.5.3"
+  }
+}

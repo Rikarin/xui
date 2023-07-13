@@ -1,0 +1,15 @@
+@use '..' as default;
+@use '@xui/theme-core' as core;
+
+$theme: core.define-dark-theme(
+  (
+    color: (
+      primary: core.define-palette(core.generate-palette(#1f75cb)),
+      primary-alt: core.define-palette(core.$purple-palette),
+      secondary: core.define-palette(core.$orange-palette)
+    )
+  )
+);
+
+@include core.all-root-variables($theme);
+@include default.theme();

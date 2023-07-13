@@ -1,0 +1,32 @@
+@use 'variables' as *;
+@use '@xui/theme-core' as core;
+
+@mixin theme() {
+  .x-progress {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    height: 24px;
+
+    &-indicator {
+      flex: 1 1 auto;
+      min-width: 200px;
+      height: 8px;
+      display: flex;
+
+      background-color: var(--color-bg-primary);
+
+      @include core.border-radius($border-radius);
+    }
+
+    &-indicator-status {
+      @include core.border-radius($border-radius);
+    }
+
+    @each $name in core.$color-variations {
+      &-#{$name} {
+        background-color: var(--color-#{$name}-default);
+      }
+    }
+  }
+}

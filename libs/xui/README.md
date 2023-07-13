@@ -4,19 +4,18 @@
 
 ---
 
-[![Build status](https://circleci.com/gh/Rikarin/xui.svg?style=svg)](https://circleci.com/gh/Rikarin/xui)
-[![Demo](https://img.shields.io/badge/demo-online-ed1c46.svg)](https://xuijs.org/)
-[![npm](https://img.shields.io/npm/v/xui.svg?maxAge=2592000?style=plastic)](https://www.npmjs.com/package/xui)
-[![Downloads](https://img.shields.io/npm/dt/xui.svg?maxAge=2592000?style=plastic)](https://www.npmjs.com/package/xui)
-[![Monthly Downloads](https://img.shields.io/npm/dm/xui.svg)](https://www.npmjs.com/package/xui)
-[![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/xui.svg)](https://bundlephobia.com/result?p=xui)
+![Build Status](https://github.com/rikarin/xui/actions/workflows/continuous-delivery.yaml/badge.svg?branch=master)
+[![Demo](https://img.shields.io/badge/demo-online-ed1c46)](https://xuijs.org/)
+[![npm](https://img.shields.io/npm/v/%40xui/components.svg?maxAge=2592000?style=plastic)](https://www.npmjs.com/org/xui)
+[![Downloads](https://img.shields.io/npm/dt/%40xui/components.svg)](https://www.npmjs.com/org/xui)
+[![Monthly Downloads](https://img.shields.io/npm/dm/%40xui/components.svg)](https://www.npmjs.com/org/xui)
+[![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/%40xui/components)](https://bundlephobia.com/result?p=xui)
 [![License](https://img.shields.io/npm/l/express.svg?maxAge=2592000)](/LICENSE)
 [![Discord](https://img.shields.io/discord/776258487307075594.svg?label=&logo=discord&logoColor=ffffff&color=7389D8&labelColor=6A7EC2)](https://discord.gg/aPkZsFcu)
 [![Netlify Status](https://api.netlify.com/api/v1/badges/fa0cfd14-97df-47fa-8a7c-152e6d4cfda2/deploy-status)](https://app.netlify.com/sites/xui/deploys)
 
-xUI is a customizable Angular 15 UI Library with gaming look which can be easily adapted to your brand.
-Contains default dark and light theme and also SCSS functions to generate your own theme in few steps.
-Which can be also switch on runtime.
+xUI is a customizable Angular 15 - 16 UI Library with gaming look which can be easily adapted to your brand.
+Contains default dark and light theme with SCSS functions to generate your own themes in a few steps.
 
 ## What you'll get
 
@@ -39,13 +38,13 @@ Which can be also switch on runtime.
 Install package with **YARN**
 
 ```bash
-yarn add xui
+yarn add @xui/components
 ```
 
 or **NPM**
 
 ```bash
-npm install xui
+npm install @xui/components
 ```
 
 ## Browser Support

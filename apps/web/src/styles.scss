@@ -1,5 +1,6 @@
 @use './highlightjs';
-@use '../../../libs/xui/src' as xui-theme;
+@use '@xui/theme-default';
+
 //  with (
 //  $enable-rounded: true,
 //  $banner-stamp-border-radius: 20px,
@@ -9,7 +10,7 @@
 //  $context-menu-border-radius: 12px
 //);
 
-@include xui-theme.theme();
+@include theme-default.theme();
 
 // end user should be able to change swatches/colors but the overall theme such as border-radius should be compile time
 

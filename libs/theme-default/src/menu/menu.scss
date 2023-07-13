@@ -1,0 +1,82 @@
+@use '@xui/theme-core' as core;
+@use '../core/scrollbar';
+
+@mixin theme() {
+  .x-menu-item {
+    width: 100%;
+    display: flex;
+    align-items: center;
+
+    padding: 8px 0;
+
+    .x-icon {
+      margin-right: 8px;
+    }
+  }
+
+  .x-menu-hover {
+    &:hover {
+      @include core.fill(default, primary);
+      cursor: pointer;
+    }
+
+    &:active {
+      @include core.fill(darker, primary);
+    }
+
+    &[disabled],
+    &[disabled]:focus,
+    &[disabled]:active,
+    &[disabled]:hover {
+      cursor: not-allowed;
+      color: inherit;
+      background-color: transparent;
+      opacity: 0.35;
+    }
+  }
+
+  xui-menu {
+    @include scrollbar.thin();
+
+    flex: auto;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+
+    overflow-y: auto;
+    user-select: none;
+  }
+
+  xui-submenu {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .x-submenu-entry {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-right: 8px;
+  }
+
+  xui-menu-group {
+    display: flex;
+    flex-direction: column;
+
+    padding: 8px 0; // TODO: delete this?
+  }
+
+  .x-menu-group-title {
+    font-size: 0.85rem;
+    font-weight: 500;
+  }
+
+  xui-menu-item {
+    border-left: 4px solid transparent;
+  }
+
+  .x-menu-item-selected {
+    @include core.fill(default, primary);
+    border-left: 4px solid var(--color-primary-900);
+  }
+}

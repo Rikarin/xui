@@ -10,6 +10,7 @@ import { NgxGoogleAnalyticsModule, NgxGoogleAnalyticsRouterModule } from 'ngx-go
 import { environment } from '../environments/environment';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { ServerModule } from '@angular/platform-server';
+import { ThemingService } from '@xui/theme-core';
 
 // TODO: fix this
 const routes: Routes = [
@@ -36,6 +37,7 @@ const routes: Routes = [
     TranslateModule.forRoot(),
     ServerModule
   ],
+  providers: [ThemingService],
   bootstrap: [RootComponent]
 })
 export class AppServerModule {

@@ -1,0 +1,16 @@
+@use 'variables' as *;
+@use '@xui/theme-core' as core;
+
+@mixin theme() {
+  .x-snackbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 12px;
+
+    @include core.border-radius($border-radius);
+    @include core.fill(floating);
+    @include core.elevate(high);
+  }
+}

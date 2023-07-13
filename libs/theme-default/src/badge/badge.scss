@@ -1,0 +1,20 @@
+@use 'variables' as *;
+@use '@xui/theme-core' as core;
+
+@mixin theme() {
+  .x-badge {
+    width: fit-content;
+    display: inline-flex;
+
+    border-radius: $border-radius;
+    padding: 0 4px;
+
+    @include core.typography-level(caption);
+
+    @each $name in core.$color-variations {
+      &-#{$name} {
+        @include core.fill(default, $name);
+      }
+    }
+  }
+}
