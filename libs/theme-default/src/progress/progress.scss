@@ -13,8 +13,7 @@
       min-width: 200px;
       height: 8px;
       display: flex;
-
-      background-color: var(--color-bg-primary);
+      background-color: core.color(background, primary);
 
       @include core.border-radius($border-radius);
     }
@@ -25,7 +24,7 @@
 
     @each $name in core.$color-variations {
       &-#{$name} {
-        background-color: var(--color-#{$name}-default);
+        background-color: core.color($name);
       }
     }
   }

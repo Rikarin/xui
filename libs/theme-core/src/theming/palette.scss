@@ -2,16 +2,16 @@
 
 @function generate-palette($base, $dark-text: rgba(black, 0.87), $light-text: #d7dee4) {
   $colors: (
-    50: mix($base, white, 12%),
-    100: mix($base, white, 30%),
-    200: mix($base, white, 50%),
-    300: mix($base, white, 70%),
-    400: mix($base, white, 85%),
-    500: mix($base, white, 100%),
-    600: mix($base, black, 87%),
-    700: mix($base, black, 70%),
-    800: mix($base, black, 54%),
-    900: mix($base, black, 25%)
+    50: oklch(98% $base),
+    100: oklch(92% $base),
+    200: oklch(81% $base),
+    300: oklch(69% $base),
+    400: oklch(60% $base),
+    500: oklch(48% $base),
+    600: oklch(36% $base),
+    700: oklch(28% $base),
+    800: oklch(20% $base),
+    900: oklch(12% $base)
   );
 
   @return map.merge(

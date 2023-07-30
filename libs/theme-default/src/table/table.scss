@@ -22,7 +22,7 @@
     }
 
     tr {
-      border-bottom: 1px solid var(--color-bg-primary);
+      border-bottom: 1px solid core.color(background, primary);
     }
 
     thead {

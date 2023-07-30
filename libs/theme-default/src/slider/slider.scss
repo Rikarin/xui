@@ -77,21 +77,21 @@
       &-dash {
         width: 2px;
         height: 24px;
-        background-color: var(--color-bg-primary);
+        background-color: core.color(background, primary);
       }
     }
 
     &-none {
-      background-color: var(--color-bg-primary);
+      background-color: core.color(background, primary);
     }
 
     @each $name in core.$color-variations {
       &-#{$name} {
-        background-color: var(--color-#{$name}-default);
+        background-color: core.color($name);
       }
 
       &-mark-#{$name} {
-        color: var(--color-#{$name}-default);
+        color: core.color($name);
       }
     }
   }

@@ -5,7 +5,63 @@
 @use 'theming';
 
 @mixin all-variables($theme) {
-  @include theming.create-color-variables($theme);
+  --lightness-50: 98%;
+  --lightness-100: 92%;
+  --lightness-200: 81%;
+  --lightness-300: 69%;
+  --lightness-400: 60%;
+  --lightness-500: 48%;
+  --lightness-600: 36%;
+  --lightness-700: 28%;
+  --lightness-800: 20%;
+  --lightness-900: 12%;
+
+  --lightness-lighter: var(--lightness-400);
+  --lightness-default: var(--lightness-500);
+  --lightness-darker: var(--lightness-600);
+
+
+  --color-red: 0.141 28;
+  --color-orange: 0.141 54;
+  --color-yellow: 0.141 106;
+  --color-green: 0.141 163;
+  --color-cyan: 0.141 190;
+  --color-blue: 0.141 258;
+  --color-purple: 0.141 290;
+  --color-pink: 0.141 338;
+
+  --color-primary: var(--color-blue);
+  --color-primary-alt: var(--color-pink);
+  --color-secondary: var(--color-orange);
+  --color-tertiary: var(--color-orange);
+  --color-success: var(--color-green);
+  //--color-error: var(--color-red);
+  --color-error: 0.300 28;
+  --color-warning: var(--color-orange);
+  --color-info: var(--color-blue);
+
+  --color-background: 0.010 232;
+
+  --lightness-primary: 33%;
+  --lightness-secondary: 31%;
+  --lightness-secondary-alt: 28%;
+  --lightness-tertiary: 25%;
+  --lightness-accent: 44%;
+  --lightness-floating: 20%;
+
+
+
+  --hover-opacity: 0.4;
+  --active-opacity: 0.48;
+  --selected-opacity: 0.6;
+  --accent-opacity: 0.48;
+  --text-muted-opacity: 0.5;
+
+  --text-link-color: #{theming.color(info)};
+  --focus-color: #{theming.color(info, 400)};
+
+
+  //@include theming.create-color-variables($theme);
   @include theming.create-elevation-variables($theme);
   @include core.create-typography-variables($theme);
 }

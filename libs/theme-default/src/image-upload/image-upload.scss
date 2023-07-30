@@ -7,7 +7,7 @@
     display: grid;
     place-items: center;
 
-    background-color: var(--color-primary-default);
+    background-color: core.color(primary);
     background-size: cover;
     background-repeat: no-repeat;
 

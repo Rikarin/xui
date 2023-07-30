@@ -17,8 +17,8 @@
     }
 
     &-active {
-      color: var(--color-primary-default);
-      border-bottom: 2px solid var(--color-primary-default);
+      color: core.color(primary);
+      border-bottom: 2px solid core.color(primary);
       padding-bottom: 4px;
       opacity: 1;
     }

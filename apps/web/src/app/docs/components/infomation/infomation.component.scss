@@ -1,10 +1,12 @@
+@use '@xui/theme-core';
+
 :host {
   grid-column: 1 / -1;
 }
 
 xui-card {
   padding: 24px 0;
-  background-color: var(--color-bg-floating);
+  @include theme-core.fill(floating);
 }
 
 h6 {
@@ -14,5 +16,4 @@ h6 {
 ::ng-deep app-infomation code {
   width: fit-content;
   padding: 12px 24px;
-  background-color: var(--color-bg-tertiary) !important;
 }

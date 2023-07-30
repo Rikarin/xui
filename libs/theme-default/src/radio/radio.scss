@@ -17,7 +17,7 @@
     @each $name in core.$color-variations {
       &-#{$name} {
         .x-icon {
-          color: var(--color-#{$name}-default);
+          color: core.color($name);
         }
       }
     }

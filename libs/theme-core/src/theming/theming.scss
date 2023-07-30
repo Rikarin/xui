@@ -15,6 +15,8 @@
 }
 
 @function define-palette($base-palette, $default: 500, $lighter: 100, $darker: 700, $text: $default) {
+
+  //--lightness-default: var(--lightness-50);
   $result: map.merge(
     $base-palette,
     (
@@ -71,6 +73,7 @@
   $color: map.get($theme, color);
   $typography: map.get($theme, typography);
   $elevation: map.get($theme, elevation);
+  $lightness: map.get($theme, lightness);
 
   $primary: map.get($color, primary);
 
@@ -99,8 +102,9 @@
   @each $name, $palette in $colors {
     @each $weight, $value in $palette {
       @if type-of($value) != map {
-        --color-#{$name}-#{$weight}: #{$value};
-        --color-#{$name}-#{$weight}-rgb: #{red($value), green($value), blue($value)};
+        //--color-#{$name}-#{$weight}: #{$value};
+        --color-#{$name}: #{$value};
+        //--color-#{$name}-#{$weight}-rgb: #{red($value), green($value), blue($value)};
       }
     }
   }
@@ -112,7 +116,7 @@
   --text-muted-opacity: 0.5;
 
   --text-link-color: var(--color-info-default);
-  --focus-color: var(--color-info-400);
+  --focus-color: color(info, 400);
 }
 
 @mixin create-elevation-variables($theme) {
@@ -123,9 +127,15 @@
   }
 }
 
-@mixin fill($name, $palette: bg) {
-  color: var(--color-#{$palette}-#{$name}-contrast);
-  background-color: var(--color-#{$palette}-#{$name});
+@mixin fill($lightness, $name: background) {
+  //color: var(--color-#{$palette}-#{$name}-contrast);
+  //background-color: var(--color-#{$palette}-#{$name});
+  color: white; // TODO: implement this based on W3C
+  background-color: oklch(var(--lightness-#{$lightness}) var(--color-#{$name}));
+}
+
+@function color($name, $lightness: default) {
+  @return oklch(var(--lightness-#{$lightness}) var(--color-#{$name}));
 }
 
 @mixin elevate($elevation) {

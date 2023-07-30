@@ -84,11 +84,11 @@
       &-divider {
         height: 1px;
         margin: 12px;
-        background-color: var(--color-bg-accent);
+        background-color: core.color(background, accent);
       }
 
       &-red {
-        color: var(--color-error-default);
+        color: core.color(error);
       }
     }
 
@@ -122,7 +122,7 @@
       top: 50px;
 
       cursor: pointer;
-      color: rgba(var(--color-bg-primary-contrast-rgb), 0.4);
+      color: rgba(var(--color-bg-primary-contrast-rgb), 0.4); // TODO
 
       font-size: 0.8rem;
       font-weight: 500;
@@ -140,7 +140,7 @@
       }
 
       &:hover {
-        color: var(--color-bg-primary-contrast);
+        color: var(--color-bg-primary-contrast); // TODO
       }
     }
   }

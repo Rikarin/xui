@@ -11,11 +11,8 @@
     border-radius: $border-radius;
     border: 1px solid core.modifier-accent();
 
-    @include core.fill(floating);
+    @include core.fill($background-color);
     @include core.elevate(high);
-
-    color: $color;
-    background-color: $background-color;
 
     &-content {
       overflow-y: auto;
@@ -38,7 +35,7 @@
           top: -8px;
           left: 1.5px;
           border-top: 0.5rem solid transparent;
-          border-right: 0.5rem solid $background-color;
+          border-right: 0.5rem solid core.color(background, $background-color);
           border-bottom: 0.5rem solid transparent;
         }
       }
@@ -60,7 +57,7 @@
           top: -8px;
           right: 1.5px;
           border-top: 0.5rem solid transparent;
-          border-left: 0.5rem solid $background-color;
+          border-left: 0.5rem solid core.color(background, $background-color);
           border-bottom: 0.5rem solid transparent;
         }
       }
@@ -81,7 +78,7 @@
           bottom: 1.5px;
           left: -8px;
           border-right: 0.5rem solid transparent;
-          border-top: 0.5rem solid $background-color;
+          border-top: 0.5rem solid core.color(background, $background-color);
           border-left: 0.5rem solid transparent;
         }
       }
@@ -102,7 +99,7 @@
           top: 1.5px;
           left: -8px;
           border-right: 0.5rem solid transparent;
-          border-bottom: 0.5rem solid $background-color;
+          border-bottom: 0.5rem solid core.color(background, $background-color);
           border-left: 0.5rem solid transparent;
         }
       }

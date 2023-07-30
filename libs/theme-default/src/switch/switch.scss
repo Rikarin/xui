@@ -67,10 +67,10 @@
 
     @each $name in core.$color-variations {
       &-#{$name} {
-        background-color: var(--color-#{$name}-default);
+        background-color: core.color($name);
 
         .x-switch-handle {
-          color: var(--color-#{$name}-default);
+          color: core.color($name);
         }
       }
     }

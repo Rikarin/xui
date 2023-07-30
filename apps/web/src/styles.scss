@@ -1,5 +1,6 @@
 @use './highlightjs';
 @use '@xui/theme-default';
+@use '@xui/theme-core';
 
 //  with (
 //  $enable-rounded: true,
@@ -15,13 +16,15 @@
 // end user should be able to change swatches/colors but the overall theme such as border-radius should be compile time
 
 code {
+  width: fit-content;
+
   font-family: Consolas, Monospaced, sans-serif;
   font-size: 10pt;
   user-select: text;
 
-  color: var(--color-primary-default);
-  background-color: var(--color-bg-tertiary);
-  padding: 0.125em 0.5em;
+  padding: 12px 24px;
   margin: 0 0.25em;
   border-radius: 3px;
+
+  @include theme-core.fill(tertiary);
 }

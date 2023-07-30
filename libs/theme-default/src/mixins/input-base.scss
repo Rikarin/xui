@@ -36,18 +36,20 @@
   }
 
   &-light {
-    background-color: var(--color-bg-secondary);
+    background-color: core.color(background, secondary);
 
     input {
+      // TODO
       -webkit-text-fill-color: var(--color-bg-secondary-contrast);
       caret-color: var(--color-bg-secondary-contrast);
     }
   }
 
   &-dark {
-    background-color: var(--color-bg-tertiary);
+    background-color: core.color(background, tertiary);
 
     input {
+      // TODO
       -webkit-text-fill-color: var(--color-bg-tertiary-contrast);
       caret-color: var(--color-bg-tertiary-contrast);
     }
@@ -69,11 +71,11 @@
 
 @mixin error() {
   &-error {
-    outline: 2px solid var(--color-error-default);
+    outline: 2px solid core.color(error);
   }
 
   &-error-text {
-    color: var(--color-error-default);
+    color: core.color(error);
     font-size: 0.8rem;
     margin-top: 4px;
     margin-left: 8px;

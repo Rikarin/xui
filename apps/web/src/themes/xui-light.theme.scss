@@ -3,7 +3,8 @@
 $theme: xui.define-light-theme(
   (
     color: (
-      primary: xui.define-palette(xui.generate-palette(#1f75cb)),
+      //primary: xui.define-palette(xui.generate-palette(#1f75cb)),
+      primary: xui.define-palette(xui.generate-palette(0.141 258)),
       primary-alt: xui.define-palette(xui.$purple-palette),
       secondary: xui.define-palette(xui.$orange-palette)
     )

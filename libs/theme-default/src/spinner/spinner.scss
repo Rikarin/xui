@@ -15,10 +15,10 @@
 
     @each $name in core.$color-variations {
       &-#{$name} {
-        border-color: var(--color-#{$name}-default)
+        border-color: core.color($name)
           transparent
-          var(--color-#{$name}-default)
-          var(--color-#{$name}-default);
+          core.color($name)
+          core.color($name);
       }
     }
   }

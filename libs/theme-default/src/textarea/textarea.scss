@@ -49,11 +49,11 @@
     }
 
     &-error {
-      outline: 2px solid var(--color-error-default);
+      outline: 2px solid core.color(error);
     }
 
     &-error-text {
-      color: var(--color-error-default);
+      color: core.color(error);
       font-size: 0.8rem;
       margin-top: 4px;
       margin-left: 8px;

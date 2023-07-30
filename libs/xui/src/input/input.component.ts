@@ -36,6 +36,7 @@ export class InputComponent implements ControlValueAccessor, OnInit {
   @Input() @WithConfig() color: InputColor = 'light';
   @Input() @WithConfig() size: InputSize = 'large';
   @Input() type: InputType = 'text';
+  @Input() autocomplete?: string;
   @Input() dataList?: string[] | null;
 
   @Input()

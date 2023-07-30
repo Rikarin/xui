@@ -61,7 +61,7 @@
 
     @each $name in core.$color-variations {
       &-#{$name} {
-        border-left: 3px solid var(--color-#{$name}-default);
+        border-left: 3px solid core.color($name);
         padding-left: 9px;
       }
     }

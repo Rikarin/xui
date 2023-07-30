@@ -21,12 +21,12 @@
 
     &-connection {
       fill: transparent;
-      stroke: var(--color-primary-default);
+      stroke: core.color(primary);
       stroke-width: 3px;
       cursor: pointer;
 
       &:hover {
-        stroke: var(--color-primary-300);
+        stroke: core.color(primary, 300);
       }
 
       &-selected {

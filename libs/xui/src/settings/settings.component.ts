@@ -209,7 +209,7 @@ export interface MenuItem {
       state(
         'alert',
         style({
-          backgroundColor: 'var(--color-error-darker)',
+          backgroundColor: 'oklch(var(--lightness-darker) var(--color-error))',
           transform: 'scale(1.1)'
         })
       ),

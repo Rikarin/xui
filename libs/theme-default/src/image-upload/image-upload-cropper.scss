@@ -3,8 +3,8 @@
 
 @mixin theme() {
   .x-image-upload-cropper {
-    --cropper-outline-color: var(--color-bg-secondary);
-    --cropper-overlay-color: var(--color-bg-secondary);
+    --cropper-outline-color: core.color(background, secondary);
+    --cropper-overlay-color: core.color(background, secondary);
 
     width: 40vw;
     height: 70vh;
@@ -12,7 +12,7 @@
     padding: 12px;
     z-index: 10010;
 
-    background-color: var(--color-bg-secondary);
+    background-color: core.color(background, secondary);
     @include core.border-top-radius-only($border-radius);
 
     &-actions {
@@ -21,8 +21,8 @@
       display: flex;
       justify-content: flex-end;
       align-items: center;
-      background-color: var(--color-bg-tertiary);
 
+      background-color: core.color(background, tertiary);
       @include core.border-bottom-radius-only($border-radius);
     }
   }

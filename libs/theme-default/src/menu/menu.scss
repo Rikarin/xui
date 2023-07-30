@@ -77,6 +77,6 @@
 
   .x-menu-item-selected {
     @include core.fill(default, primary);
-    border-left: 4px solid var(--color-primary-900);
+    border-left: 4px solid core.color(primary, 900);
   }
 }
