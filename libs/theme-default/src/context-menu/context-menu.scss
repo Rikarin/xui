@@ -13,7 +13,7 @@
     align-items: center;
 
     padding: 8px;
-    background-color: var(--color-bg-floating);
+    background-color: core.color(background, floating);
 
     @include core.border-radius($border-radius);
 
@@ -21,7 +21,7 @@
       width: 95%;
       margin: 4px;
 
-      border: 0.5px solid var(--color-bg-primary);
+      border: 0.5px solid core.color(primary);
     }
 
     xui-button {

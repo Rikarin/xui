@@ -1,4 +1,4 @@
-@use '@xui/theme-core';
+@use '@xui/theme-core' as core;
 
 @mixin theme() {
   * {
@@ -17,11 +17,11 @@
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: var(--color-bg-tertiary);
+    background-color: core.color(background, tertiary);
   }
 
   &::-webkit-scrollbar-track {
-    background-color: var(--color-bg-secondary);
+    background-color: core.color(background, secondary);
   }
 
   &::-webkit-scrollbar-button {
@@ -39,11 +39,11 @@
     border: 4px solid transparent;
     background-clip: padding-box;
 
-    @include theme-core.border-radius(8px);
+    @include core.border-radius(8px);
   }
 
   // Firefox
-  scrollbar-color: var(--color-bg-tertiary) var(--color-bg-secondary);
+  scroll-color: core.color(background, tertiary) core.color(background, secondary);
 }
 
 @mixin thin() {
@@ -59,7 +59,7 @@
   }
 
   &:hover::-webkit-scrollbar-thumb {
-    background-color: var(--color-bg-tertiary);
+    background-color: core.color(background, tertiary);
   }
 
   // Firefox

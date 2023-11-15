@@ -17,7 +17,7 @@
     &-header {
       grid-column: span 2;
       padding: 12px;
-      border: 1px solid var(--color-bg-tertiary);
+      border: 1px solid core.color(background, tertiary);
 
       @include core.border-top-radius(5px);
       @include core.fill(primary);
@@ -29,7 +29,7 @@
       align-items: flex-start;
 
       padding: 8px 12px 8px 8px;
-      border: 1px solid var(--color-bg-tertiary);
+      border: 1px solid core.color(background, tertiary);
 
       @include core.fill(primary);
     }
@@ -40,7 +40,7 @@
       align-items: flex-end;
 
       padding: 8px 8px 8px 12px;
-      border: 1px solid var(--color-bg-tertiary);
+      border: 1px solid core.color(background, tertiary);
 
       @include core.fill(secondary-alt);
     }
@@ -48,7 +48,7 @@
     &-extensions {
       min-width: 4px;
       grid-column: span 2;
-      border: 1px solid var(--color-bg-tertiary);
+      border: 1px solid core.color(background, tertiary);
 
       @include core.border-bottom-radius(5px);
       @include core.fill(primary);

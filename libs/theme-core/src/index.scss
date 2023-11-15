@@ -16,10 +16,12 @@
   --lightness-800: 20%;
   --lightness-900: 12%;
 
-  --lightness-lighter: var(--lightness-400);
+  --lightness-lighter: var(--lightness-200);
   --lightness-default: var(--lightness-500);
   --lightness-darker: var(--lightness-600);
 
+  --color-contrast-light: #d7dee4;
+  --color-contrast-dark: rgba(0, 0, 0, .87);
 
   --color-red: 0.141 28;
   --color-orange: 0.141 54;
@@ -35,8 +37,8 @@
   --color-secondary: var(--color-orange);
   --color-tertiary: var(--color-orange);
   --color-success: var(--color-green);
-  //--color-error: var(--color-red);
-  --color-error: 0.300 28;
+  --color-error: var(--color-red);
+  //--color-error: 0.300 28;
   --color-warning: var(--color-orange);
   --color-info: var(--color-blue);
 

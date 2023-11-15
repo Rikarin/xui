@@ -30,16 +30,16 @@
     @each $name in core.$color-variations {
       &-#{$name} {
         .x-checkbox-box {
-          border: 1px solid var(--color-#{$name}-default-contrast);
+          border: 1px solid core.contrast-color(default);
         }
 
         .x-checkbox-checked {
-          background-color: var(--color-#{$name}-default);
-          border-color: var(--color-#{$name}-400);
+          background-color: core.color($name);
+          border-color: core.color($name, 400);
         }
 
         svg {
-          fill: var(--color-#{$name}-default-contrast);
+          fill: core.contrast-color(default);
         }
       }
     }

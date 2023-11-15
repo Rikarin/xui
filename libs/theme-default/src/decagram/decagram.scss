@@ -23,10 +23,10 @@
 
     @each $value in core.$color-variations {
       &-#{$value} {
-        color: var(--color-#{$value}-default);
+        color: core.color($value);
 
         .x-decagram-icon {
-          color: var(--color-#{$value}-default-contrast);
+          color: var(--color-#{$value}-default-contrast); // TODO
         }
       }
     }

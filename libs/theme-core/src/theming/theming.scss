@@ -138,6 +138,18 @@
   @return oklch(var(--lightness-#{$lightness}) var(--color-#{$name}));
 }
 
+@function contrast-color($lightness: default) {
+  @if $lightness == lighter or type-of($lightness) == number and $lightness < 500 {
+    @return var(--color-contrast-dark);
+  }
+
+  @return var(--color-contrast-light);
+}
+
+@function colora($name, $lightness: default, $alpha) {
+  @return oklch(var(--lightness-#{$lightness}) var(--color-#{$name}) / #{$alpha});
+}
+
 @mixin elevate($elevation) {
   box-shadow: var(--elevation-#{$elevation});
 }
