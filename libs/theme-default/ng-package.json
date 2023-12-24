@@ -15,9 +15,7 @@
   ],
   "allowedNonPeerDependencies": ["@xui/theme-core"],
   "lib": {
-    "styleIncludePaths": [
-      "../theme-core/src"
-    ],
+    "styleIncludePaths": ["../theme-core/src"],
     "entryFile": "src/index.ts"
   }
 }

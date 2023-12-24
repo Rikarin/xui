@@ -1,15 +1,15 @@
 <xui-layout class="dark-theme">
   <xui-sider width="280px">
-    <div class="logo"><span class="x-logo">x</span>UI</div>
+    <div class="logo" routerLink="/"><span class="x-logo">x</span>UI</div>
     <xui-menu mode="default">
       <xui-menu-item link="/docs">Overview</xui-menu-item>
       <xui-menu-item link="/docs/getting-started">Getting Started</xui-menu-item>
       <xui-menu-item link="/docs/theming">Theming</xui-menu-item>
-      <xui-menu-item link="/theme-designer">Theme Designer</xui-menu-item>
+      <!--      <xui-menu-item link="/theme-designer">Theme Designer</xui-menu-item>-->
 
       <xui-submenu title="Components" open>
         <xui-menu-item link="/docs/xui/overview">Components Overview</xui-menu-item>
-        <xui-menu-item link="/docs/xui/configure">Configuring Components</xui-menu-item>
+        <!--        <xui-menu-item link="/docs/xui/configure">Configuring Components</xui-menu-item>-->
         <xui-menu-group title="General">
           <xui-menu-item icon="gesture-tap-button" link="/docs/xui/button">Button</xui-menu-item>
           <xui-menu-item icon="bell-off" link="/docs/xui/toggle">Toggle</xui-menu-item>
@@ -94,9 +94,9 @@
       <span>Documentation</span>
 
       <div class="theme-picker">
-        <xui-icon>weather-sunny</xui-icon>
-        <xui-switch [formControl]="themePicker"></xui-switch>
         <xui-icon>moon-waning-crescent</xui-icon>
+        <xui-switch [formControl]="themePicker"></xui-switch>
+        <xui-icon>weather-sunny</xui-icon>
       </div>
       <a href="https://github.com/Rikarin/xui" target="_blank">
         <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
