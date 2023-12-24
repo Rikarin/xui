@@ -186,6 +186,7 @@ const TSCONFIG_SPEC_JSON = {
 };
 
 const files: any = {
+  'src/main.ts': `import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';\n\nimport { AppModule } from './app/app.module';\n\nplatformBrowserDynamic().bootstrapModule(AppModule).then(ref => {\n // Ensure Angular destroys itself on hot reloads.\n if ((window as any)['ngRef']) {\n (window as any)['ngRef'].destroy();\n }\n (window as any)['ngRef'] = ref;\n\n // Otherwise, log the boot error\n}).catch(err => console.error(err));`,
   'src/index.html': '<my-app>loading</my-app>',
   'src/app/app.module.ts':
     "import { NgModule } from '@angular/core';\nimport { BrowserModule } from '@angular/platform-browser';\nimport { FormsModule } from '@angular/forms';\n\nimport { AppComponent } from './app.component';\n\n@NgModule({\n  imports:      [ BrowserModule, FormsModule ],\n  declarations: [ AppComponent ],\n  bootstrap:    [ AppComponent ]\n})\nexport class AppModule { }\n",
@@ -200,13 +201,6 @@ files['angular.json'] = JSON.stringify(ANGULAR_JSON, null, 2);
 files['tsconfig.json'] = JSON.stringify(TSCONFIG_JSON, null, 2);
 files['tsconfig.app.json'] = JSON.stringify(TSCONFIG_APP_JSON, null, 2);
 files['tsconfig.spec.json'] = JSON.stringify(TSCONFIG_SPEC_JSON, null, 2);
-
-files['src/main.ts'] = `import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-import { AppModule } from './app/app.module';
-
-platformBrowserDynamic().bootstrapModule(AppModule)
-  .catch(err => console.error(err));
-`;
 
 files['src/styles.scss'] = `@use '@xui/theme-default' as xui;
 @use '@xui/theme-core' as core;
@@ -252,7 +246,7 @@ $theme: core.define-dark-theme(
 export const angularProject: Project = {
   title: 'xUI Components',
   description: 'This is an example of xUI components usage!',
-  template: 'angular-cli',
+  template: 'node',
   files,
   dependencies: PACKAGE_JSON.dependencies
 };
