@@ -40,3 +40,5 @@ testem.log
 Thumbs.db
 
 libs/xui-charts
+
+.nx/cache

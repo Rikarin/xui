@@ -4,14 +4,14 @@ import { RouterModule, Routes } from '@angular/router';
 import { OverviewComponent } from './components/overview/overview.component';
 import { GettingStartedComponent } from './components/getting-started/getting-started.component';
 import { ThemingComponent } from './components/theming/theming.component';
-import { HIGHLIGHT_OPTIONS, HighlightModule, HighlightOptions } from 'ngx-highlightjs';
-import { HighlightPlusModule } from 'ngx-highlightjs/plus';
 import { ComponentsModule } from './components/components.module';
 import { TranslateService } from '@ngx-translate/core';
 import { CdkMenuModule } from '@angular/cdk/menu';
 import { XuiCardModule, XuiIconComponent, XuiLayoutModule, XuiMenuModule, XuiSwitchComponent } from '@xui/components';
 import { AppComponent } from './app.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { HighlightModule } from 'ngx-highlightjs';
+import { HighlightPlusModule } from 'ngx-highlightjs/plus';
 
 const routes: Routes = [
   {
@@ -48,22 +48,6 @@ const routes: Routes = [
     XuiSwitchComponent,
     XuiLayoutModule,
     XuiMenuModule
-  ],
-  providers: [
-    {
-      provide: HIGHLIGHT_OPTIONS,
-      useValue: <HighlightOptions>{
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        lineNumbersLoader: () => import('highlightjs-line-numbers.js'),
-        coreLibraryLoader: () => import('highlight.js/lib/core'),
-        languages: {
-          typescript: () => import('highlight.js/lib/languages/typescript'),
-          scss: () => import('highlight.js/lib/languages/scss'),
-          xml: () => import('highlight.js/lib/languages/xml')
-        }
-      }
-    }
   ]
 })
 export class DocsModule {
