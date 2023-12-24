@@ -1,4 +1,15 @@
 :host {
+  max-width: 1024px;
   display: flex;
   flex-direction: column;
+  gap: 12px;
+}
+
+xui-card {
+  padding: 24px 0;
+  background-color: var(--color-bg-floating);
+
+  ul {
+    margin-left: 24px;
+  }
 }

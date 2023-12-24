@@ -32,7 +32,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [AppComponent, ThemingComponent, GettingStartedComponent],
+  declarations: [AppComponent, ThemingComponent, OverviewComponent, GettingStartedComponent],
   imports: [
     CommonModule,
     ComponentsModule,
