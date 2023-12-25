@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Usage } from '../../components/usage';
+import { FileType } from '../../components/example/example.component';
 
 @Component({
   selector: 'app-checkbox',
@@ -8,7 +9,13 @@ import { Usage } from '../../components/usage';
   styleUrls: ['./checkbox.component.scss']
 })
 export class CheckboxComponent {
-  checkbox = new FormControl(false);
+  readonly example1 = {
+    'checkbox-example1': FileType.Component
+  };
+
+  readonly example2 = {
+    'checkbox-example2': FileType.Component
+  };
 
   usage: Usage[] = [
     {
@@ -23,10 +30,4 @@ export class CheckboxComponent {
       type: 'boolean'
     }
   ];
-
-  constructor() {
-    setInterval(() => {
-      this.checkbox.setValue(!this.checkbox.value);
-    }, 1000);
-  }
 }

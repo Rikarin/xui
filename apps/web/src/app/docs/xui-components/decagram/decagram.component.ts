@@ -12,6 +12,10 @@ export class DecagramComponent {
     'decagram-example1': FileType.Component
   };
 
+  readonly example2 = {
+    'decagram-example2': FileType.Component
+  };
+
   readonly usage: Usage[] = [
     {
       param: '[iconSize]',

@@ -6,7 +6,7 @@
       </div>
     </xui-tab>
 
-    <xui-tab *ngFor="let file of allFiles$ | async" [title]="file.name">
+    <xui-tab *ngFor="let file of content$ | async" [title]="file.name">
       <pre><code lineNumbers="true" [highlight]="file.content"></code></pre>
     </xui-tab>
   </xui-tab-group>

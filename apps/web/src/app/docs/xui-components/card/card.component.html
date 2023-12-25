@@ -4,14 +4,6 @@
   <code apiReference highlight="import { XuiCardModule } from '@xui/components';"></code>
 </app-infomation>
 
-<app-example>
-  <xui-card title="foobar">
-    <ng-template xuiCardTitle>Title</ng-template>
-    Card content
-
-    <ng-template xuiCardActions>
-      <xui-button color="minimal">Cancel</xui-button>
-      <xui-button type="raised">Submit</xui-button>
-    </ng-template>
-  </xui-card>
+<app-example [files]="example1">
+  <app-card-example1></app-card-example1>
 </app-example>

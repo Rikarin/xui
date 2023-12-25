@@ -229,12 +229,10 @@ $theme: core.define-dark-theme(
 const files: any = {
   'src/main.ts': `import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';\n\nimport { AppModule } from './app/app.module';\n\nplatformBrowserDynamic().bootstrapModule(AppModule).then(ref => {\n // Ensure Angular destroys itself on hot reloads.\n if ((window as any)['ngRef']) {\n (window as any)['ngRef'].destroy();\n }\n (window as any)['ngRef'] = ref;\n\n // Otherwise, log the boot error\n}).catch(err => console.error(err));`,
   'src/index.html': '<my-app>loading</my-app>',
-  'src/app/app.module.ts':
-    "import { NgModule } from '@angular/core';\nimport { BrowserModule } from '@angular/platform-browser';\nimport { FormsModule } from '@angular/forms';\n\nimport { AppComponent } from './app.component';\n\n@NgModule({\n  imports:      [ BrowserModule, FormsModule ],\n  declarations: [ AppComponent ],\n  bootstrap:    [ AppComponent ]\n})\nexport class AppModule { }\n",
   'src/app/app.component.ts':
     "import { Component } from '@angular/core';\n\n@Component({\n  selector: 'my-app',\n  templateUrl: './app.component.html',\n  styleUrls: [ './app.component.scss' ]\n})\nexport class AppComponent  {\n  name = 'Angular';\n}\n",
   'src/app/app.component.scss': 'p {\n  font-family: Lato;\n}',
-  'src/app/app.component.html': '<p>\n  Start editing to see some magic happen :)\n</p>'
+  'src/app/app.component.html': '{{SELECTORS}}'
 };
 
 files['package.json'] = JSON.stringify(PACKAGE_JSON, null, 2);
@@ -243,6 +241,95 @@ files['tsconfig.json'] = JSON.stringify(TSCONFIG_JSON, null, 2);
 files['tsconfig.app.json'] = JSON.stringify(TSCONFIG_APP_JSON, null, 2);
 files['tsconfig.spec.json'] = JSON.stringify(TSCONFIG_SPEC_JSON, null, 2);
 files['src/styles.scss'] = STYLE_SCSS;
+
+files['src/app/app.module.ts'] = `import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { ReactiveFormsModule } from '@angular/forms';
+import { AppComponent } from './app.component';
+import {
+  XuiButtonModule,
+  XuiCardModule,
+  XuiContextMenuModule,
+  XuiImageUploadModule,
+  XuiInputModule,
+  XuiLayoutModule,
+  XuiMenuModule,
+  XuiPanelBarModule,
+  XuiPopoverModule,
+  XuiRadioListModule,
+  XuiSelectModule,
+  XuiSettingsModule,
+  XuiSnackbarModule,
+  XuiTabModule,
+  XuiTextareaModule,
+  XuiTooltipModule,
+  XuiConfigModule,
+  XuiRadioModule,
+  XuiDrawerModule,
+  XuiBadgeComponent,
+  XuiBannerComponent,
+  XuiIconComponent,
+  XuiProgressComponent,
+  XuiCheckboxComponent,
+  XuiSwitchComponent,
+  XuiDecagramComponent,
+  XuiSliderComponent,
+  XuiSpinnerComponent,
+  XuiDividerComponent,
+  XuiToggleComponent,
+  XuiStatusComponent,
+  XuiDatePickerComponent,
+  XuiTimePickerComponent,
+  XuiGraphViewModule
+} from '@xui/components';
+
+{{IMPORTS}}
+
+@NgModule({
+  imports: [
+    BrowserModule,
+    ReactiveFormsModule,
+
+    XuiLayoutModule,
+    XuiCardModule,
+    XuiMenuModule,
+    XuiButtonModule,
+    XuiInputModule,
+    XuiIconComponent,
+    XuiProgressComponent,
+    XuiSettingsModule,
+    XuiTabModule,
+    XuiContextMenuModule,
+    XuiCheckboxComponent,
+    XuiSwitchComponent,
+    XuiImageUploadModule,
+    XuiRadioListModule,
+    XuiDecagramComponent,
+    XuiTooltipModule,
+    XuiSnackbarModule,
+    XuiTextareaModule,
+    XuiSelectModule,
+    XuiSliderComponent,
+    XuiSpinnerComponent,
+    XuiDividerComponent,
+    XuiToggleComponent,
+    XuiStatusComponent,
+    XuiDatePickerComponent,
+    XuiTimePickerComponent,
+    XuiPopoverModule,
+    XuiPanelBarModule,
+    XuiConfigModule,
+    XuiRadioModule,
+    XuiDrawerModule,
+    XuiBadgeComponent,
+    XuiBannerComponent,
+    XuiGraphViewModule
+  ],
+  declarations: [ AppComponent, {{DECLARATIONS}} ],
+  bootstrap:    [ AppComponent ]
+})
+export class AppModule { }
+`;
 
 export const angularProject: Project = {
   title: 'xUI Components',
