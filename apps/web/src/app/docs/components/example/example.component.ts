@@ -15,7 +15,7 @@ import { angularProject } from '../../../../templates/angular';
 })
 export class ExampleComponent implements OnInit {
   static ngAcceptInputType_todo: BooleanInput;
-  allFiles$ = new BehaviorSubject<File[]>([]);
+  content$ = new BehaviorSubject<File[]>([]);
 
   @Input() files: { [name: string]: FileType } = {};
   @Input() @InputBoolean() todo = false;
@@ -24,8 +24,8 @@ export class ExampleComponent implements OnInit {
     return <Project>{
       ...angularProject,
       files: {
-        ...angularProject.files,
-        ...this.allFiles$.value.reduce((obj, val) => {
+        ...this.injectedAngularFiles(this.content$.value),
+        ...this.content$.value.reduce((obj, val) => {
           obj[val.path] = val.content;
           return obj;
         }, <ProjectFiles>{})
@@ -36,41 +36,86 @@ export class ExampleComponent implements OnInit {
   constructor(private http: HttpClient, @Inject(DOCUMENT) private document: Document) {}
 
   async ngOnInit() {
-    this.allFiles$.next(await this.fetchFiles());
+    this.content$.next(await this.fetchFiles());
   }
 
   async fetchFiles() {
-    const ret: File[] = [];
+    const files: File[] = [];
 
     // TODO: finish this
     for (const file of Object.keys(this.files)) {
       if (this.files[file] === FileType.Component) {
-        await this.fetchFile(file, 'component.ts', ret);
-        await this.fetchFile(file, 'component.scss', ret);
-        await this.fetchFile(file, 'component.html', ret);
+        const ts = await this.fetchFile(file, 'component.ts');
+        const scss = await this.fetchFile(file, 'component.scss');
+        const html = await this.fetchFile(file, 'component.html');
+
+        const [className, selectorName] = this.extractNames(ts);
+        ts.className = className;
+        ts.selectorName = selectorName;
+
+        files.push(ts);
+        files.push(scss);
+        files.push(html);
       }
     }
+
+    return files;
+  }
+
+  private injectedAngularFiles(files: File[]) {
+    const imports: string[] = [];
+    const selectors: string[] = [];
+
+    for (const file of files) {
+      if (file.className) {
+        const path = file.path.replace('src/app/', '').replace('.ts', '');
+        imports.push(`import { ${file.className} } from './${path}';`);
+      }
+
+      if (file.selectorName) {
+        selectors.push(`<${file.selectorName}></${file.selectorName}>`);
+      }
+    }
+
+    const declarations = files
+      .filter(x => x.className)
+      .map(x => x.className)
+      .join(', ');
+    const ret = angularProject.files;
+    ret['src/app/app.module.ts'] = ret['src/app/app.module.ts']
+      .replace('{{IMPORTS}}', imports.join('\n'))
+      .replace('{{DECLARATIONS}}', declarations);
+
+    ret['src/app/app.component.html'] = ret['src/app/app.component.html']
+      .replace('{{SELECTORS}}', selectors.join('\n'));
 
     return ret;
   }
 
-  private async fetchFile(name: string, postfix: string, list: File[]) {
+  private extractNames(file: File) {
+    const className = file.content.match(/export class (\w+)/);
+    const selectorName = file.content.match(/selector: '([\w-]+)'/);
+
+    return [className![1], selectorName![1]];
+  }
+
+  private async fetchFile(name: string, postfix: string): Promise<File> {
     const content = await lastValueFrom(
       this.http.get<string>(`/examples/${name}/${name}.${postfix}`, { responseType: 'text' as 'json' })
     );
 
-    list.push(<File>{
+    return <File>{
       name: `${postfix}`,
       path: `src/app/examples/${name}/${name}.${postfix}`,
       fullPath: `${this.document.location.origin}/examples/${name}/${name}.${postfix}`,
       content
-    });
+    };
   }
 
   openProject() {
     sdk.openProject(this.project, {
       newWindow: true,
-      openFile: this.allFiles$.value.map(x => x.path).join(',')
+      openFile: this.content$.value.map(x => x.path).join(',')
     });
   }
 
@@ -99,6 +144,9 @@ interface File {
   name: string;
   path: string;
   content: string;
+
+  className?: string;
+  selectorName?: string;
 }
 
 export enum FileType {
