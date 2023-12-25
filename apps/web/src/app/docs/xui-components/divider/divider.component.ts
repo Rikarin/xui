@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Usage } from '../../components/usage';
+import { FileType } from '../../components/example/example.component';
 
 @Component({
   selector: 'app-divider',
@@ -7,6 +8,10 @@ import { Usage } from '../../components/usage';
   styleUrls: ['./divider.component.scss']
 })
 export class DividerComponent {
+  readonly example1 = {
+    'divider-example1': FileType.Component
+  };
+
   readonly usage: Usage[] = [
     {
       param: '[marginTop]',

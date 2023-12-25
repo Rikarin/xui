@@ -1,0 +1,10 @@
+<xui-drawer [items]="items" [expanded]="expanded">
+  <ng-template xuiDrawerHeaderTemplate>
+    <xui-button type="icon">
+      <xui-icon>plus</xui-icon>
+    </xui-button>
+  </ng-template>
+  <ng-template xuiDrawerFooterTemplate>
+    <xui-button type="icon" (click)="expanded = !expanded"><xui-icon>arrow-left</xui-icon></xui-button>
+  </ng-template>
+</xui-drawer>

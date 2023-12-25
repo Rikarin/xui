@@ -12,6 +12,7 @@ import {
   XuiDatePickerComponent,
   XuiDecagramComponent,
   XuiDividerComponent,
+  XuiDrawerModule,
   XuiIconComponent
 } from '@xui/components';
 import { DecagramExample2Component } from './decagram-example2/decagram-example2.component';
@@ -30,6 +31,8 @@ import { CheckboxExample2Component } from './checkbox-example2/checkbox-example2
 import { ReactiveFormsModule } from '@angular/forms';
 import { ContextMenuExample1Component } from './context-menu-example1/context-menu-example1.component';
 import { DatePickerExample1Component } from './date-picker-example1/date-picker-example1.component';
+import { DividerExample1Component } from './divider-example1/divider-example1.component';
+import { DrawerExample1Component } from './drawer-example1/drawer-example1.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +50,9 @@ import { DatePickerExample1Component } from './date-picker-example1/date-picker-
     CheckboxExample1Component,
     CheckboxExample2Component,
     ContextMenuExample1Component,
-    DatePickerExample1Component
+    DatePickerExample1Component,
+    DividerExample1Component,
+    DrawerExample1Component
   ],
   exports: [
     DecagramExample1Component,
@@ -64,7 +69,9 @@ import { DatePickerExample1Component } from './date-picker-example1/date-picker-
     CheckboxExample1Component,
     CheckboxExample2Component,
     ContextMenuExample1Component,
-    DatePickerExample1Component
+    DatePickerExample1Component,
+    DividerExample1Component,
+    DrawerExample1Component
   ],
   imports: [
     CommonModule,
@@ -80,7 +87,8 @@ import { DatePickerExample1Component } from './date-picker-example1/date-picker-
     ReactiveFormsModule,
     XuiContextMenuModule,
     XuiDividerComponent,
-    XuiDatePickerComponent
+    XuiDatePickerComponent,
+    XuiDrawerModule
   ]
 })
 export class ExamplesModule {}

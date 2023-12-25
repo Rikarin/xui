@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { DrawerItem } from '@xui/components';
+import { FileType } from '../../components/example/example.component';
 
 @Component({
   selector: 'app-drawer',
@@ -7,29 +8,7 @@ import { DrawerItem } from '@xui/components';
   styleUrls: ['./drawer.component.scss']
 })
 export class DrawerComponent {
-  expanded = false;
-  items: DrawerItem[] = [
-    {
-      label: 'Foo',
-      icon: 'car'
-    },
-    {
-      label: 'Bar',
-      icon: 'decagram',
-      children: [
-        {
-          label: 'child 1',
-          icon: 'bell'
-        },
-        {
-          label: 'child 2',
-          icon: 'bell'
-        },
-        {
-          label: 'child 3',
-          icon: 'bell'
-        }
-      ]
-    }
-  ];
+  readonly example1 = {
+    'drawer-example1': FileType.Component
+  };
 }
