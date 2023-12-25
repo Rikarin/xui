@@ -1,0 +1,13 @@
+<xui-context-menu #menu2>
+  <xui-button>Foo</xui-button>
+  <xui-button>Bar <xui-icon>account</xui-icon></xui-button>
+  <xui-divider></xui-divider>
+  <xui-button>ASDF</xui-button>
+  <xui-button (click)="counter = counter + 1">Counter++</xui-button>
+  <xui-button *ngIf="counter" (click)="counter = counter - 1">Counter--</xui-button>
+</xui-context-menu>
+
+<xui-button [xuiMenuTriggerFor]="menu2">Open Menu</xui-button>
+<xui-button [xuiContextMenuTriggerFor]="menu2">Context Menu</xui-button>
+
+Counter: {{ counter }}

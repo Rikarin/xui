@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { FileType } from '../../components/example/example.component';
 
 @Component({
   selector: 'app-context-menu',
@@ -6,11 +7,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./context-menu.component.scss']
 })
 export class ContextMenuComponent {
-  counter = 0;
-
-  increase = () => {
-    console.log('increase');
-    this.counter = this.counter + 1;
-    return true;
+  readonly example1 = {
+    'context-menu-example1': FileType.Component
   };
 }

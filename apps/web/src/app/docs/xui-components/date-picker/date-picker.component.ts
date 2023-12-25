@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { DateTime } from 'luxon';
 import { FormControl } from '@angular/forms';
+import { FileType } from '../../components/example/example.component';
 
 @Component({
   selector: 'app-date-picker',
@@ -8,9 +9,7 @@ import { FormControl } from '@angular/forms';
   styleUrls: ['./date-picker.component.scss']
 })
 export class DatePickerComponent {
-  todayControl = new FormControl(DateTime.now().toISO());
-
-  disabledBeforeToday = (current: DateTime) => {
-    return current < DateTime.now();
+  readonly example1 = {
+    'date-picker-example1': FileType.Component
   };
 }

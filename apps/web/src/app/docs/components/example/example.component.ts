@@ -86,8 +86,10 @@ export class ExampleComponent implements OnInit {
       .replace('{{IMPORTS}}', imports.join('\n'))
       .replace('{{DECLARATIONS}}', declarations);
 
-    ret['src/app/app.component.html'] = ret['src/app/app.component.html']
-      .replace('{{SELECTORS}}', selectors.join('\n'));
+    ret['src/app/app.component.html'] = ret['src/app/app.component.html'].replace(
+      '{{SELECTORS}}',
+      selectors.join('\n')
+    );
 
     return ret;
   }

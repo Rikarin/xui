@@ -1,15 +1,34 @@
 import { Component } from '@angular/core';
 import { delay } from '@xui/components';
 import { Usage } from '../../components/usage';
+import { FileType } from '../../components/example/example.component';
 
 @Component({
   selector: 'app-button',
   templateUrl: './button.component.html',
   styleUrls: ['./button.component.scss']
-  // encapsulation: ViewEncapsulation.Emulated
 })
 export class ButtonComponent {
-  counter = 0;
+  readonly example1 = {
+    'button-example1': FileType.Component
+  };
+
+  readonly example2 = {
+    'button-example2': FileType.Component
+  };
+
+  readonly example3 = {
+    'button-example3': FileType.Component
+  };
+
+  readonly example4 = {
+    'button-example4': FileType.Component
+  };
+
+  readonly example5 = {
+    'button-example5': FileType.Component
+  };
+
   usage: Usage[] = [
     {
       param: '[size]',
@@ -51,13 +70,4 @@ export class ButtonComponent {
       type: 'boolean'
     }
   ];
-
-  work = async () => {
-    await delay(2000);
-    return Math.random() >= 0.5;
-  };
-
-  clickOnDisabled() {
-    alert('foo bar');
-  }
 }

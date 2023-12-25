@@ -244,7 +244,7 @@ files['src/styles.scss'] = STYLE_SCSS;
 
 files['src/app/app.module.ts'] = `import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import {
   XuiButtonModule,
@@ -288,7 +288,7 @@ import {
 @NgModule({
   imports: [
     BrowserModule,
-    FormsModule,
+    ReactiveFormsModule,
 
     XuiLayoutModule,
     XuiCardModule,
@@ -330,7 +330,6 @@ import {
 })
 export class AppModule { }
 `;
-
 
 export const angularProject: Project = {
   title: 'xUI Components',

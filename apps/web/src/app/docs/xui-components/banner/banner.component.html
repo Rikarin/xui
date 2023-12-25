@@ -4,9 +4,6 @@
   <code apiReference highlight="import { XuiBannerComponent } from '@xui/components';"></code>
 </app-infomation>
 
-<app-example>
-  <xui-banner stamp="BETA" type="info">This is banner</xui-banner>
-  <xui-banner stamp="NEW" type="success" dismissible>This banner is dismissable</xui-banner>
-  <xui-banner stamp="ATTENTION" type="warning">Your server will expire in 3 days</xui-banner>
-  <xui-banner stamp="ERROR" type="alert">Something went wrong</xui-banner>
+<app-example [files]="example1">
+  <app-banner-example1></app-banner-example1>
 </app-example>
