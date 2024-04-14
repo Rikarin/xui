@@ -1,8 +1,8 @@
 <div [ngClass]="styles" [tabindex]="disabled ? -1 : 0" cdkOverlayOrigin #trigger="cdkOverlayOrigin">
-  <input
+  <xui-input
     tabindex="-1"
     type="text"
-    readonly
+    readOnly
     [disabled]="disabled"
     [placeholder]="placeholder ?? ''"
     [value]="value"
@@ -65,17 +65,18 @@
       (focusin)="isFocus = !mouseDown"
       (focusout)="isFocus = false"
     >
-      <div
-        *ngFor="let index of indices"
-        class="x-datepicker-day"
-        [class.x-datepicker--outside]="isOutsideOfMonth(index)"
-        [class.x-datepicker--disabled]="disabledDate?.(getDay(index))"
-        [class.x-datepicker--selected]="isSelected(index)"
-        [class.x-datepicker--focused]="isFocused(index) && isFocus"
-        (click)="onClick(index)"
-      >
-        {{ getDay(index).day }}
-      </div>
+      @for (index of indices; track index) {
+        <div
+          class="x-datepicker-day"
+          [class.x-datepicker--outside]="isOutsideOfMonth(index)"
+          [class.x-datepicker--disabled]="disabledDate?.(getDay(index))"
+          [class.x-datepicker--selected]="isSelected(index)"
+          [class.x-datepicker--focused]="isFocused(index) && isFocus"
+          (click)="onClick(index)"
+        >
+          {{ getDay(index).day }}
+        </div>
+      }
     </div>
   </div>
 </ng-template>

@@ -25,15 +25,21 @@ export class ExampleComponent implements OnInit {
       ...angularProject,
       files: {
         ...this.injectedAngularFiles(this.content$.value),
-        ...this.content$.value.reduce((obj, val) => {
-          obj[val.path] = val.content;
-          return obj;
-        }, <ProjectFiles>{})
+        ...this.content$.value.reduce(
+          (obj, val) => {
+            obj[val.path] = val.content;
+            return obj;
+          },
+          <ProjectFiles>{}
+        )
       }
     };
   }
 
-  constructor(private http: HttpClient, @Inject(DOCUMENT) private document: Document) {}
+  constructor(
+    private http: HttpClient,
+    @Inject(DOCUMENT) private document: Document
+  ) {}
 
   async ngOnInit() {
     this.content$.next(await this.fetchFiles());
@@ -140,6 +146,18 @@ export class ExampleComponent implements OnInit {
   //
   //   return text;
   // }
+
+  getFileType(file: File): string {
+    if (file.path.endsWith('html')) {
+      return 'html';
+    }
+
+    if (file.path.endsWith('scss')) {
+      return 'scss';
+    }
+
+    return 'typescript';
+  }
 }
 
 interface File {

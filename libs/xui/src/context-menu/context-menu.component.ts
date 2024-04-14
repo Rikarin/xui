@@ -35,7 +35,10 @@ export class ContextMenuComponent {
   @ViewChild('templateRef', { static: true }) templateRef!: TemplateRef<unknown>;
   @ContentChildren(ButtonComponent) buttons!: QueryList<ButtonComponent>;
 
-  constructor(private overlay: Overlay, private viewContainerRef: ViewContainerRef) {
+  constructor(
+    private overlay: Overlay,
+    private viewContainerRef: ViewContainerRef
+  ) {
     const config: OverlayConfig = {
       scrollStrategy: this.overlay.scrollStrategies.reposition(),
       hasBackdrop: true,

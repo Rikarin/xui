@@ -47,7 +47,10 @@ export class RadioComponent implements OnInit {
     return `x-radio-${this.color ?? this.group.color}`;
   }
 
-  constructor(@Inject(RADIO_GROUP_ACCESSOR) private group: RadioGroupAccessor, private cdr: ChangeDetectorRef) {}
+  constructor(
+    @Inject(RADIO_GROUP_ACCESSOR) private group: RadioGroupAccessor,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit() {
     this.group.onChange$.subscribe(() => this.cdr.markForCheck());

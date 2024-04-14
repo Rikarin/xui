@@ -82,7 +82,11 @@ export class ImageUploadComponent implements ControlValueAccessor, OnInit {
     return this.type === 'round' ? 50 : 4;
   }
 
-  constructor(private cdr: ChangeDetectorRef, private dialog: Dialog, @Self() @Optional() public control?: NgControl) {
+  constructor(
+    private cdr: ChangeDetectorRef,
+    private dialog: Dialog,
+    @Self() @Optional() public control?: NgControl
+  ) {
     if (this.control) {
       this.control.valueAccessor = this;
     }

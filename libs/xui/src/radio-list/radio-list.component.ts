@@ -71,7 +71,10 @@ export class RadioListComponent implements RadioListAccessor, ControlValueAccess
     return 0;
   }
 
-  constructor(private cdr: ChangeDetectorRef, @Self() @Optional() public control?: NgControl) {
+  constructor(
+    private cdr: ChangeDetectorRef,
+    @Self() @Optional() public control?: NgControl
+  ) {
     if (this.control) {
       this.control.valueAccessor = this;
     }

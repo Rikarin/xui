@@ -66,7 +66,10 @@ export class SettingsComponent {
     this.close();
   }
 
-  constructor(private snackBar: MatSnackBar, private cdr: ChangeDetectorRef) {}
+  constructor(
+    private snackBar: MatSnackBar,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   stateChanged = (canExit: boolean) => {
     this.canExit = canExit;
@@ -231,7 +234,10 @@ export class SaveResetSnackbarComponent {
   @HostBinding('@fade')
   animation = 'open';
 
-  constructor(@Inject(MAT_SNACK_BAR_DATA) private data: any, private cdr: ChangeDetectorRef) {}
+  constructor(
+    @Inject(MAT_SNACK_BAR_DATA) private data: any,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   async close() {
     this.animation = 'close';

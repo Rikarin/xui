@@ -74,7 +74,10 @@ export class XuiToggleComponent implements ControlValueAccessor, OnInit {
     return this.disabled ? -1 : 0;
   }
 
-  constructor(private cdr: ChangeDetectorRef, @Self() @Optional() public control?: NgControl) {
+  constructor(
+    private cdr: ChangeDetectorRef,
+    @Self() @Optional() public control?: NgControl
+  ) {
     if (this.control) {
       this.control.valueAccessor = this;
     }

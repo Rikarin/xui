@@ -25,7 +25,7 @@ export class TooltipDirective /*extends _MatTooltipBase<TooltipComponent>*/ {
   @Input('xuiTooltip')
   get message() {
     // return super.message;
-    throw "TODO";
+    throw 'TODO';
   }
 
   set message(value) {
@@ -35,7 +35,7 @@ export class TooltipDirective /*extends _MatTooltipBase<TooltipComponent>*/ {
 
   @Input('xuiTooltipPosition')
   get position(): TooltipPosition {
-    throw "TODO";
+    throw 'TODO';
     // return super.position;
   }
 
@@ -45,7 +45,7 @@ export class TooltipDirective /*extends _MatTooltipBase<TooltipComponent>*/ {
 
   @Input('xuiTooltipDisabled')
   get disabled(): boolean {
-    throw "TODO";
+    throw 'TODO';
     // return super.position;
   }
 

@@ -30,8 +30,9 @@ export class XuiSnackBar /* extends _MatSnackBarBase */ {
   //   super(overlay, live, injector, breakpointObserver, parentSnackBar, defaultConfig as MatSnackBarConfig);
   // }
   //
-  open(message: string, action?: string, config?: XuiSnackBarConfig): any { // MatSnackBarRef<TextOnlySnackBar> {
-  //   return super.open(message, action!, config as MatSnackBarConfig);
+  open(message: string, action?: string, config?: XuiSnackBarConfig): any {
+    // MatSnackBarRef<TextOnlySnackBar> {
+    //   return super.open(message, action!, config as MatSnackBarConfig);
   }
 }
 

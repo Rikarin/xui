@@ -19,5 +19,7 @@
 </div>
 
 <datalist id="list" *ngIf="dataList">
-  <option *ngFor="let item of dataList" [value]="item"></option>
+  @for (item of dataList; track item) {
+    <option [value]="item"></option>
+  }
 </datalist>

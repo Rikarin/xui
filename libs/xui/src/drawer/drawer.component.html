@@ -30,19 +30,21 @@
 <ng-container *ngTemplateOutlet="menuRef; context: { items }"></ng-container>
 
 <ng-template #menuRef let-items="items">
-  <ng-container *ngFor="let item of items">
-    <div
-      class="x-drawer-item"
-      [class.x-drawer-active]="item.children && item.expanded"
-      [class.x-drawer-group]="item.children"
-      (click)="clickGroup(item)"
-    >
-      <xui-icon>{{ item.icon }}</xui-icon>
-      {{ item.label }}
-    </div>
+  @for (item of items; track item) {
+    <ng-container>
+      <div
+        class="x-drawer-item"
+        [class.x-drawer-active]="item.children && item.expanded"
+        [class.x-drawer-group]="item.children"
+        (click)="clickGroup(item)"
+      >
+        <xui-icon>{{ item.icon }}</xui-icon>
+        {{ item.label }}
+      </div>
 
-    <ng-container *ngTemplateOutlet="menuRef; context: { items: item.children }"></ng-container>
-  </ng-container>
+      <ng-container *ngTemplateOutlet="menuRef; context: { items: item.children }"></ng-container>
+    </ng-container>
+  }
 </ng-template>
 
 <div class="x-drawer-footer" *ngIf="footerTemplate">

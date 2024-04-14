@@ -6,9 +6,11 @@
       </div>
     </xui-tab>
 
-    <xui-tab *ngFor="let file of content$ | async" [title]="file.name">
-      <pre><code lineNumbers="true" [highlight]="file.content"></code></pre>
-    </xui-tab>
+    @for (file of content$ | async; track file.name) {
+      <xui-tab [title]="file.name">
+        <pre><code lineNumbers="true" [language]="getFileType(file)" [highlight]="file.content"></code></pre>
+      </xui-tab>
+    }
   </xui-tab-group>
 
   <div *ngIf="files || todo" class="menu">

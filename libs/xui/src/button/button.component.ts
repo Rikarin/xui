@@ -24,11 +24,14 @@ import { ButtonGroupComponent } from './button-group.component';
       <ng-content></ng-content>
     </div>
     <div class="x-button-state-image"></div>
-    <div class="x-button-shine" *ngIf="shine && !disabled">
-      <div class="x-button-shine-inner">
-        <div class="x-button-shine-element"></div>
+
+    @if (shine && !disabled) {
+      <div class="x-button-shine">
+        <div class="x-button-shine-inner">
+          <div class="x-button-shine-element"></div>
+        </div>
       </div>
-    </div>`
+    }`
 })
 export class ButtonComponent {
   static ngAcceptInputType_shine: BooleanInput;

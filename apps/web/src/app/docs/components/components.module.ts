@@ -7,6 +7,7 @@ import { XuiCardModule, XuiIconComponent, XuiTabModule, XuiTooltipModule } from 
 import { CdkTableModule } from '@angular/cdk/table';
 import { HighlightModule } from 'ngx-highlightjs';
 import { HighlightPlusModule } from 'ngx-highlightjs/plus';
+import { HighlightLineNumbers } from 'ngx-highlightjs/line-numbers';
 
 @NgModule({
   declarations: [UsageComponent, InfomationComponent, ExampleComponent],
@@ -18,7 +19,8 @@ import { HighlightPlusModule } from 'ngx-highlightjs/plus';
     XuiTooltipModule,
     CdkTableModule,
     HighlightModule,
-    HighlightPlusModule
+    HighlightPlusModule,
+    HighlightLineNumbers
   ],
   exports: [UsageComponent, InfomationComponent, ExampleComponent]
 })

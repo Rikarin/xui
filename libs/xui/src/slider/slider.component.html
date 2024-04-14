@@ -16,13 +16,14 @@
     #tooltipRef="xuiTooltip"
   ></div>
 
-  <div
-    *ngFor="let mark of marks"
-    [style.left.%]="getPercentage(mark.value)"
-    class="x-slider-mark"
-    [class]="mark.color ? 'x-slider-mark-' + mark.color : ''"
-  >
-    <div class="x-slider-mark-label">{{ mark.label }}</div>
-    <div class="x-slider-mark-dash"></div>
-  </div>
+  @for (mark of marks; track mark.value) {
+    <div
+      [style.left.%]="getPercentage(mark.value)"
+      class="x-slider-mark"
+      [class]="mark.color ? 'x-slider-mark-' + mark.color : ''"
+    >
+      <div class="x-slider-mark-label">{{ mark.label }}</div>
+      <div class="x-slider-mark-dash"></div>
+    </div>
+  }
 </div>

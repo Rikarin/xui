@@ -23,7 +23,10 @@ export class TabComponent implements OnInit {
     return this.tabGroup._active === this;
   }
 
-  constructor(private tabGroup: TabGroupComponent, private cdr: ChangeDetectorRef) {}
+  constructor(
+    private tabGroup: TabGroupComponent,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit() {
     this.tabGroup.onChange$.subscribe(() => this.cdr.markForCheck());

@@ -15,15 +15,16 @@ import { Subject } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="x-tab-group-list">
-      <div
-        class="x-tab-group-entry"
-        *ngFor="let tab of _tabs"
-        [class.x-tab-group-active]="tab.isActive"
-        [attr.disabled]="tab.disabled || null"
-        (click)="selectTab(tab)"
-      >
-        {{ tab.title | translate }}
-      </div>
+      @for (tab of _tabs; track tab) {
+        <div
+          class="x-tab-group-entry"
+          [class.x-tab-group-active]="tab.isActive"
+          [attr.disabled]="tab.disabled || null"
+          (click)="selectTab(tab)"
+        >
+          {{ tab.title | translate }}
+        </div>
+      }
     </div>
 
     <ng-content select="xui-tab"></ng-content>

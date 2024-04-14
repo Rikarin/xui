@@ -103,7 +103,10 @@ export class XuiSliderComponent implements ControlValueAccessor, OnInit, AfterVi
     return ((absolute - this.min) / (this.max - this.min)) * 100;
   }
 
-  constructor(private cdr: ChangeDetectorRef, @Self() @Optional() public control?: NgControl) {
+  constructor(
+    private cdr: ChangeDetectorRef,
+    @Self() @Optional() public control?: NgControl
+  ) {
     if (this.control) {
       this.control.valueAccessor = this;
     }

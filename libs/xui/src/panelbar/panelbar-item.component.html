@@ -6,12 +6,13 @@
 
 <div [style.display]="expanded ? 'block' : 'none'" #contentRef>
   <ng-container *ngIf="contentDirective || content">
-    <ng-template [cdkPortalOutlet]="contentPortal"></ng-template>
+    <ng-template [cdkPortalOutlet]="contentPortal" />
   </ng-container>
   <ng-content select="xui-panelbar-item"></ng-content>
 
-  <xui-panelbar-item *ngFor="let child of _children" [title]="child.title" [_children]="child.children">
-  </xui-panelbar-item>
+  @for (child of _children; track child.title) {
+    <xui-panelbar-item [title]="child.title" [_children]="child.children" />
+  }
 </div>
 
 <ng-template #contentTemplate>

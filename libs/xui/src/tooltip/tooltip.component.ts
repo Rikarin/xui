@@ -72,5 +72,5 @@ export class TooltipComponent /*extends _TooltipComponentBase*/ {
   //   return rect.height > 24 && rect.width >= 200;
   // }
 
-  show(todo: any) { }
+  show(todo: any) {}
 }

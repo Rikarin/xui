@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
+import { ButtonColor, ButtonType } from '@xui/components';
 
 @Component({
   selector: 'app-overview',
@@ -7,8 +8,8 @@ import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OverviewComponent {
-  buttonColors = ['primary', 'primary-alt', 'secondary', 'info', 'success', 'warning', 'error'];
-  buttonTypes = ['normal', 'raised', 'dashed', 'stroked', 'fab'];
+  buttonColors: ButtonColor[] = ['primary', 'primary-alt', 'secondary', 'info', 'success', 'warning', 'error'];
+  buttonTypes: ButtonType[] = ['normal', 'raised', 'dashed', 'stroked', 'fab'];
 
   @Input() set selectable(value: boolean) {
     this._selectable = value;
