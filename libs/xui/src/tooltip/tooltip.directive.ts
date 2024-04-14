@@ -1,6 +1,6 @@
 import { Directive, ElementRef, Inject, Input, NgZone, Optional, ViewContainerRef } from '@angular/core';
 import {
-  _MatTooltipBase,
+  // _MatTooltipBase,
   MAT_TOOLTIP_DEFAULT_OPTIONS,
   MAT_TOOLTIP_SCROLL_STRATEGY,
   MatTooltipDefaultOptions,
@@ -18,75 +18,87 @@ import { TooltipComponent } from './tooltip.component';
   selector: '[xuiTooltip]',
   exportAs: 'xuiTooltip'
 })
-export class TooltipDirective extends _MatTooltipBase<TooltipComponent> {
-  protected override readonly _tooltipComponent = TooltipComponent;
-  protected override readonly _cssClassPrefix = 'xui';
+export class TooltipDirective /*extends _MatTooltipBase<TooltipComponent>*/ {
+  // protected readonly _tooltipComponent = TooltipComponent;
+  // protected readonly _cssClassPrefix = 'xui';
 
   @Input('xuiTooltip')
-  override get message() {
-    return super.message;
+  get message() {
+    // return super.message;
+    throw "TODO";
   }
 
-  override set message(value) {
-    super.message = value;
-    super.message = this.translate.instant(value);
+  set message(value) {
+    // super.message = value;
+    // super.message = this.translate.instant(value);
   }
 
   @Input('xuiTooltipPosition')
-  override get position(): TooltipPosition {
-    return super.position;
+  get position(): TooltipPosition {
+    throw "TODO";
+    // return super.position;
   }
 
-  override set position(value: TooltipPosition) {
-    super.position = value;
+  set position(value: TooltipPosition) {
+    // super.position = value;
   }
 
-  constructor(
-    private translate: TranslateService,
-    overlay: Overlay,
-    elementRef: ElementRef<HTMLElement>,
-    scrollDispatcher: ScrollDispatcher,
-    viewContainerRef: ViewContainerRef,
-    ngZone: NgZone,
-    platform: Platform,
-    ariaDescriber: AriaDescriber,
-    focusMonitor: FocusMonitor,
-    @Inject(MAT_TOOLTIP_SCROLL_STRATEGY) scrollStrategy: any,
-    @Optional() dir: Directionality,
-    @Optional() @Inject(MAT_TOOLTIP_DEFAULT_OPTIONS) defaultOptions: MatTooltipDefaultOptions,
-    @Inject(DOCUMENT) _document: any
-  ) {
-    super(
-      overlay,
-      elementRef,
-      scrollDispatcher,
-      viewContainerRef,
-      ngZone,
-      platform,
-      ariaDescriber,
-      focusMonitor,
-      scrollStrategy,
-      dir,
-      defaultOptions,
-      _document
-    );
-    this._viewportMargin = 8; // this.MIN_VIEWPORT_TOOLTIP_THRESHOLD;
+  @Input('xuiTooltipDisabled')
+  get disabled(): boolean {
+    throw "TODO";
+    // return super.position;
   }
 
-  protected override _addOffset(position: ConnectedPosition): ConnectedPosition {
-    const offset = 8; //UNBOUNDED_ANCHOR_GAP;
-    const isLtr = !this._dir || this._dir.value == 'ltr';
-
-    if (position.originY === 'top') {
-      position.offsetY = -offset;
-    } else if (position.originY === 'bottom') {
-      position.offsetY = offset;
-    } else if (position.originX === 'start') {
-      position.offsetX = isLtr ? -offset : offset;
-    } else if (position.originX === 'end') {
-      position.offsetX = isLtr ? offset : -offset;
-    }
-
-    return position;
+  set disabled(value: boolean) {
+    // super.position = value;
   }
+
+  // constructor(
+  //   private translate: TranslateService,
+  //   overlay: Overlay,
+  //   elementRef: ElementRef<HTMLElement>,
+  //   scrollDispatcher: ScrollDispatcher,
+  //   viewContainerRef: ViewContainerRef,
+  //   ngZone: NgZone,
+  //   platform: Platform,
+  //   ariaDescriber: AriaDescriber,
+  //   focusMonitor: FocusMonitor,
+  //   @Inject(MAT_TOOLTIP_SCROLL_STRATEGY) scrollStrategy: any,
+  //   @Optional() dir: Directionality,
+  //   @Optional() @Inject(MAT_TOOLTIP_DEFAULT_OPTIONS) defaultOptions: MatTooltipDefaultOptions,
+  //   @Inject(DOCUMENT) _document: any
+  // ) {
+  //   super(
+  //     overlay,
+  //     elementRef,
+  //     scrollDispatcher,
+  //     viewContainerRef,
+  //     ngZone,
+  //     platform,
+  //     ariaDescriber,
+  //     focusMonitor,
+  //     scrollStrategy,
+  //     dir,
+  //     defaultOptions,
+  //     _document
+  //   );
+  //   this._viewportMargin = 8; // this.MIN_VIEWPORT_TOOLTIP_THRESHOLD;
+  // }
+  //
+  // protected override _addOffset(position: ConnectedPosition): ConnectedPosition {
+  //   const offset = 8; //UNBOUNDED_ANCHOR_GAP;
+  //   const isLtr = !this._dir || this._dir.value == 'ltr';
+  //
+  //   if (position.originY === 'top') {
+  //     position.offsetY = -offset;
+  //   } else if (position.originY === 'bottom') {
+  //     position.offsetY = offset;
+  //   } else if (position.originX === 'start') {
+  //     position.offsetX = isLtr ? -offset : offset;
+  //   } else if (position.originX === 'end') {
+  //     position.offsetX = isLtr ? offset : -offset;
+  //   }
+  //
+  //   return position;
+  // }
 }

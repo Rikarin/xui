@@ -1,13 +1,14 @@
 {
   "name": "theme-default",
-  "root": "libs/theme-default",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/theme-default/src",
   "prefix": "xui",
+  "tags": [],
   "targets": {
     "build-internal": {
       "executor": "@nx/angular:package",
-      "outputs": ["dist/libs/theme-default"],
+      "outputs": ["{workspaceRoot}/dist/libs/theme-default"],
       "options": {
         "tsConfig": "libs/theme-default/tsconfig.lib.json",
         "project": "libs/theme-default/ng-package.json"
@@ -26,7 +27,7 @@
     },
     "build": {
       "executor": "nx:run-commands",
-      "outputs": ["dist/libs/theme-default"],
+      "outputs": ["{workspaceRoot}/dist/libs/theme-default"],
       "options": {
         "command": "gulp post-build",
         "cwd": "libs/theme-default",
@@ -53,6 +54,5 @@
         "access": "public"
       }
     }
-  },
-  "tags": []
+  }
 }

@@ -54,7 +54,8 @@ export class GraphViewService {
       x3 = x4 - dx;
     }
 
-    this.paths.mutate(x => x.push(`M${x1} ${y1} C ${x2} ${y1} ${x3} ${y4} ${x4} ${y4}`));
+    // TODO
+    // this.paths.mutate(x => x.push(`M${x1} ${y1} C ${x2} ${y1} ${x3} ${y4} ${x4} ${y4}`));
   }
 
   wireTool(node: string, port: string, xCursor: number, yCursor: number) {

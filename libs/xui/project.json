@@ -1,13 +1,14 @@
 {
   "name": "xui",
-  "root": "libs/xui",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/xui/src",
   "prefix": "xui",
+  "tags": [],
   "targets": {
     "build-internal": {
       "executor": "@nx/angular:package",
-      "outputs": ["dist/libs/xui"],
+      "outputs": ["{workspaceRoot}/dist/libs/xui"],
       "options": {
         "tsConfig": "libs/xui/tsconfig.lib.json",
         "project": "libs/xui/ng-package.json"
@@ -26,7 +27,7 @@
     },
     "build": {
       "executor": "nx:run-commands",
-      "outputs": ["dist/libs/xui"],
+      "outputs": ["{workspaceRoot}/dist/libs/xui"],
       "options": {
         "command": "gulp post-build",
         "cwd": "libs/xui",
@@ -43,15 +44,11 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "libs/xui/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "libs/xui/jest.config.ts"
       }
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
-      "options": {
-        "lintFilePatterns": ["libs/xui/**/*.ts", "libs/xui/**/*.html"]
-      }
+      "executor": "@nx/eslint:lint"
     },
     "patch-dist": {
       "executor": "nx:run-commands",
@@ -67,6 +64,5 @@
         "access": "public"
       }
     }
-  },
-  "tags": []
+  }
 }

@@ -1,6 +1,6 @@
 import { Inject, Injectable, InjectionToken, Injector, Optional, SkipSelf } from '@angular/core';
 import {
-  _MatSnackBarBase,
+  // _MatSnackBarBase,
   MatSnackBarConfig,
   MatSnackBarContainer,
   MatSnackBarRef,
@@ -14,24 +14,24 @@ import { XuiSnackBarConfig } from './snack-bar-config';
 import { SimpleSnackBar } from './simple-snackbar.component';
 
 @Injectable({ providedIn: XuiSnackbarModule })
-export class XuiSnackBar extends _MatSnackBarBase {
-  protected override simpleSnackBarComponent = SimpleSnackBar;
-  protected override snackBarContainerComponent = MatSnackBarContainer;
-  protected override handsetCssClass = 'mat-mdc-snack-bar-handset';
+export class XuiSnackBar /* extends _MatSnackBarBase */ {
+  // protected override simpleSnackBarComponent = SimpleSnackBar;
+  // protected override snackBarContainerComponent = MatSnackBarContainer;
+  // protected override handsetCssClass = 'mat-mdc-snack-bar-handset';
 
-  constructor(
-    overlay: Overlay,
-    live: LiveAnnouncer,
-    injector: Injector,
-    breakpointObserver: BreakpointObserver,
-    @Optional() @SkipSelf() parentSnackBar: XuiSnackBar,
-    @Inject(XUI_SNACK_BAR_DEFAULT_OPTIONS) defaultConfig: XuiSnackBarConfig
-  ) {
-    super(overlay, live, injector, breakpointObserver, parentSnackBar, defaultConfig as MatSnackBarConfig);
-  }
-
-  override open(message: string, action?: string, config?: XuiSnackBarConfig): MatSnackBarRef<TextOnlySnackBar> {
-    return super.open(message, action!, config as MatSnackBarConfig);
+  // constructor(
+  //   overlay: Overlay,
+  //   live: LiveAnnouncer,
+  //   injector: Injector,
+  //   breakpointObserver: BreakpointObserver,
+  //   @Optional() @SkipSelf() parentSnackBar: XuiSnackBar,
+  //   @Inject(XUI_SNACK_BAR_DEFAULT_OPTIONS) defaultConfig: XuiSnackBarConfig
+  // ) {
+  //   super(overlay, live, injector, breakpointObserver, parentSnackBar, defaultConfig as MatSnackBarConfig);
+  // }
+  //
+  open(message: string, action?: string, config?: XuiSnackBarConfig): any { // MatSnackBarRef<TextOnlySnackBar> {
+  //   return super.open(message, action!, config as MatSnackBarConfig);
   }
 }
 
