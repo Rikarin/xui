@@ -20,10 +20,10 @@ import { BooleanInput } from '@angular/cdk/coercion';
   selector: 'xui-menu-item',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <ng-container *ngIf="icon">
+    @if (icon) {
       <xui-icon>{{ icon }}</xui-icon>
-    </ng-container>
-    <ng-content *ngIf="showLabel$ | async"></ng-content>
+    }
+    <ng-content *ngIf="showLabel$ | async" />
   `,
   host: {
     class: 'x-menu-item x-menu-hover',

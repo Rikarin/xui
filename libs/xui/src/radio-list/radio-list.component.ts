@@ -28,7 +28,7 @@ import { OptionComponent } from '../select';
 @Component({
   selector: 'xui-radio-list',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: '<ng-content></ng-content>',
+  template: '<ng-content />',
   providers: [{ provide: RADIO_LIST_ACCESSOR, useExisting: RadioListComponent }]
 })
 export class RadioListComponent implements RadioListAccessor, ControlValueAccessor, OnInit {

@@ -7,8 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
   imports: [CommonModule, MatIconModule],
   selector: 'xui-icon',
   // changeDetection: ChangeDetectionStrategy.OnPush, not working with checkbox
-  template: `<mat-icon [svgIcon]="icon"></mat-icon>
-    <span style="display: none" #iconName><ng-content></ng-content></span>`
+  template: `<mat-icon [svgIcon]="icon"></mat-icon> <span style="display: none" #iconName><ng-content /></span>`
 })
 export class XuiIconComponent {
   @ViewChild('iconName', { static: true }) input!: ElementRef;

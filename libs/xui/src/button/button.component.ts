@@ -21,7 +21,7 @@ import { ButtonGroupComponent } from './button-group.component';
   selector: 'xui-button',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<div class="x-button-content">
-      <ng-content></ng-content>
+      <ng-content />
     </div>
     <div class="x-button-state-image"></div>
 

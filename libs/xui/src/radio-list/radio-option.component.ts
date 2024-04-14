@@ -17,9 +17,10 @@ import { RADIO_LIST_ACCESSOR, RadioListAccessor } from './radio-list.types';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<xui-icon>{{ icon }}</xui-icon>
     <div class="x-radio-option-content">
-      <ng-content></ng-content>
+      <ng-content />
+
       <div class="x-radio-option-description">
-        <ng-content select="[xuiDescription]"></ng-content>
+        <ng-content select="[xuiDescription]" />
       </div>
     </div>`
 })

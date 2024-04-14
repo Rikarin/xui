@@ -4,7 +4,7 @@ import { SiderComponent } from './sider.component';
 @Component({
   selector: 'xui-layout',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: '<ng-content></ng-content>'
+  template: '<ng-content />'
 })
 export class LayoutComponent {
   @ContentChildren(SiderComponent) set siders(value: QueryList<SiderComponent>) {

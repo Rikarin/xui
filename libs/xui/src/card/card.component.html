@@ -1,11 +1,11 @@
 <div class="x-card-header" *ngIf="titleDirective">
-  <ng-template [cdkPortalOutlet]="titlePortal"></ng-template>
+  <ng-template [cdkPortalOutlet]="titlePortal" />
 </div>
 
 <div class="x-card-content">
-  <ng-content></ng-content>
+  <ng-content />
 </div>
 
 <div class="x-card-actions" *ngIf="actionsDirective">
-  <ng-template [cdkPortalOutlet]="actionsPortal"></ng-template>
+  <ng-template [cdkPortalOutlet]="actionsPortal" />
 </div>

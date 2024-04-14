@@ -14,7 +14,7 @@ import { DIALOG_DATA } from '@angular/cdk/dialog';
         output="base64"
         [roundCropper]="data.type === 'round'"
         (imageCropped)="data.imageCropped($event)"
-      ></image-cropper>
+      />
     </div>
     <div class="x-image-upload-cropper-actions">
       <xui-button type="raised" (click)="data.save()">{{ 'xui.image_upload.save' | translate }}</xui-button>

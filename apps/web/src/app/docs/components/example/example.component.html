@@ -15,8 +15,8 @@
 
   <div *ngIf="files || todo" class="menu">
     <div *ngIf="todo" class="todo">TODO</div>
-    <ng-container *ngIf="files">
+    @if (files) {
       <xui-icon (click)="openProject()" xuiTooltip="Edit in StackBlitz">open-in-new</xui-icon>
-    </ng-container>
+    }
   </div>
 </xui-card>

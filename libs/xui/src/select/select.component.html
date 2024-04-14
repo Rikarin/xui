@@ -16,6 +16,6 @@
     @for (item of items; track item.value) {
       <xui-option [value]="item.value">{{ item.label | translate }}</xui-option>
     }
-    <ng-content select="xui-option"></ng-content>
+    <ng-content select="xui-option" />
   </div>
 </ng-template>

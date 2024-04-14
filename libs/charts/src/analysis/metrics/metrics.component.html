@@ -23,11 +23,7 @@
 
       <div class="entities" *ngIf="isOpened(group)">
         @for (entity of group.entities; track entity.id) {
-          <div
-            class="entity"
-            [class.active]="isActive(entity)"
-            (click)="activate(entity)"
-          >
+          <div class="entity" [class.active]="isActive(entity)" (click)="activate(entity)">
             <xui-icon>{{ 'check' }}</xui-icon>
             {{ entity.name }}
           </div>

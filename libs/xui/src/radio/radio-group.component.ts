@@ -18,7 +18,7 @@ import { ControlValueAccessor, NgControl } from '@angular/forms';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [{ provide: RADIO_GROUP_ACCESSOR, useExisting: RadioGroupComponent }],
   template: `
-    <ng-content select="xui-radio"></ng-content>
+    <ng-content select="xui-radio" />
     @for (item of items; track item.value) {
       <xui-radio [value]="item.value">{{ item.label | translate }}</xui-radio>
     }

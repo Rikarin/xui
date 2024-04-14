@@ -23,7 +23,7 @@ import { XuiIconComponent } from '../icon';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<div [class.x-toggle-clip]="!value">
       <div class="x-toggle-content">
-        <xui-icon><ng-content></ng-content></xui-icon>
+        <xui-icon><ng-content /></xui-icon>
       </div>
     </div>
     <div [class.x-toggle-toggled]="!value">

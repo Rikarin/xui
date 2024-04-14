@@ -22,7 +22,7 @@ import { ContextMenuAnchor } from './context-menu.types';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<ng-template #templateRef>
     <div class="x-context-menu" cdkTrapFocus (click)="close()">
-      <ng-content></ng-content>
+      <ng-content />
     </div>
   </ng-template>`
 })

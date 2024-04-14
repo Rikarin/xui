@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule],
   selector: 'xui-badge',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `<ng-content></ng-content>`
+  template: `<ng-content />`
 })
 export class XuiBadgeComponent {
   private readonly _moduleName = BADGE_MODULE;

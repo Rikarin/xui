@@ -1,5 +1,5 @@
 <div (click)="clickItem()" class="x-panelbar-item-title" [style.padding-left.px]="paddingLeft">
-  <ng-template [cdkPortalOutlet]="titlePortal"></ng-template>
+  <ng-template [cdkPortalOutlet]="titlePortal" />
   <div class="x-panelbar-item-spacer"></div>
   <xui-icon class="x-panelbar-item-chevron" *ngIf="hasContent">{{ expanded ? 'chevron-down' : 'chevron-up' }}</xui-icon>
 </div>

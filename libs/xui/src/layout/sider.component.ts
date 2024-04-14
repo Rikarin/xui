@@ -12,7 +12,7 @@ import { parseCss } from '../utils';
 @Component({
   selector: 'xui-sider',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: '<ng-content></ng-content>'
+  template: '<ng-content />'
 })
 export class SiderComponent implements OnInit, OnChanges {
   @Input() width: string | number = 'inherit';

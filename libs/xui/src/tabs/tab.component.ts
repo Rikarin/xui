@@ -6,7 +6,7 @@ import { BooleanInput } from '@angular/cdk/coercion';
 @Component({
   selector: 'xui-tab',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: '<ng-container *ngIf="isActive"><ng-content></ng-content></ng-container>'
+  template: '<ng-container *ngIf="isActive"><ng-content /></ng-container>'
 })
 export class TabComponent implements OnInit {
   static ngAcceptInputType_disabled: BooleanInput;

@@ -15,7 +15,7 @@ import { InputBoolean } from '../utils';
 @Component({
   selector: 'xui-radio',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `<xui-icon>{{ selected ? 'radiobox-marked' : 'radiobox-blank' }}</xui-icon> <ng-content></ng-content>`
+  template: `<xui-icon>{{ selected ? 'radiobox-marked' : 'radiobox-blank' }}</xui-icon> <ng-content />`
 })
 export class RadioComponent implements OnInit {
   static ngAcceptInputType_disabled: BooleanInput;

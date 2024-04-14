@@ -1,4 +1,4 @@
-<ng-container *ngIf="type === 'line'">
+@if (type === 'line') {
   <div class="x-progress-indicator">
     <div [ngClass]="style" [style.width.%]="progress"></div>
   </div>
@@ -14,10 +14,8 @@
       <xui-decagram color="error" type="circle">close-thick</xui-decagram>
     }
   }
-</ng-container>
-
-<ng-container *ngIf="type === 'circle'">
+} @else if (type === 'circle') {
   <div class="x-progress-indicator">
     <div [ngClass]="style" [style.width.%]="progress"></div>
   </div>
-</ng-container>
+}

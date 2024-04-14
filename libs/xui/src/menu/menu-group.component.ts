@@ -11,7 +11,7 @@ import { combineLatest } from 'rxjs';
   template: `<div class="x-menu-group-title" [style.paddingLeft.px]="paddingLeft">
       {{ title }}
     </div>
-    <ng-content></ng-content>`
+    <ng-content />`
 })
 export class MenuGroupComponent implements OnInit {
   @Input() title!: string;

@@ -1,5 +1,5 @@
 <div class="x-drawer-header" *ngIf="headerTemplate">
-  <ng-template [cdkPortalOutlet]="headerPortal"></ng-template>
+  <ng-template [cdkPortalOutlet]="headerPortal" />
   <div class="x-drawer-divider"></div>
 </div>
 
@@ -27,7 +27,7 @@
 <!--    Menu-->
 <!--  </div>-->
 
-<ng-container *ngTemplateOutlet="menuRef; context: { items }"></ng-container>
+<ng-container *ngTemplateOutlet="menuRef; context: { items }" />
 
 <ng-template #menuRef let-items="items">
   @for (item of items; track item) {
@@ -42,12 +42,12 @@
         {{ item.label }}
       </div>
 
-      <ng-container *ngTemplateOutlet="menuRef; context: { items: item.children }"></ng-container>
+      <ng-container *ngTemplateOutlet="menuRef; context: { items: item.children }" />
     </ng-container>
   }
 </ng-template>
 
 <div class="x-drawer-footer" *ngIf="footerTemplate">
   <div class="x-drawer-divider"></div>
-  <ng-template [cdkPortalOutlet]="footerPortal"></ng-template>
+  <ng-template [cdkPortalOutlet]="footerPortal" />
 </div>

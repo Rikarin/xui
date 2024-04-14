@@ -12,7 +12,7 @@ import { NumberInput } from '@angular/cdk/coercion';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <xui-icon [ngClass]="style">{{ this.type }}</xui-icon>
-    <xui-icon [style.width.%]="iconSize" [ngClass]="iconStyle"><ng-content></ng-content></xui-icon>
+    <xui-icon [style.width.%]="iconSize" [ngClass]="iconStyle"><ng-content /></xui-icon>
   `
 })
 export class XuiDecagramComponent {
