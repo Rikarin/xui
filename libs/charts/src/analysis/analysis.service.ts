@@ -1,5 +1,4 @@
 import { ApplicationRef, Injectable, Signal, signal, WritableSignal } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
 import { Entity, Metric } from './analysis.types';
 import { connect, ECharts } from 'echarts';
 
