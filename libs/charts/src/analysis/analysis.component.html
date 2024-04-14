@@ -37,7 +37,7 @@
   </div>
 
   <div class="charts">
-    <div class="placeholder" cdkDropList (cdkDropListDropped)="dropped($event, 0)" *ngIf="isDragging$ | async">
+    <div class="placeholder" cdkDropList (cdkDropListDropped)="dropped($event, 0)" *ngIf="isDragging()">
       Drop Here to Add Metric
     </div>
 
@@ -45,17 +45,12 @@
       <ng-container>
         <div class="placeholder-group">
           <xui-analysis-chart [index]="i" cdkDropList />
-          <div
-            class="placeholder"
-            cdkDropList
-            (cdkDropListDropped)="dropped($event, i, false)"
-            *ngIf="isDragging$ | async"
-          >
+          <div class="placeholder" cdkDropList (cdkDropListDropped)="dropped($event, i, false)" *ngIf="isDragging()">
             Drop Here to Add Metric
           </div>
         </div>
 
-        <div class="placeholder" cdkDropList (cdkDropListDropped)="dropped($event, i + 1)" *ngIf="isDragging$ | async">
+        <div class="placeholder" cdkDropList (cdkDropListDropped)="dropped($event, i + 1)" *ngIf="isDragging()">
           Drop Here to Add Metric
         </div>
       </ng-container>

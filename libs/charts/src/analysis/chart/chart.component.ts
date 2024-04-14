@@ -86,7 +86,7 @@ export class ChartComponent {
     ]
   };
 
-  get trends$() {
+  get trends() {
     return this.analysisService.getChart(this.index);
   }
 

@@ -1,6 +1,6 @@
 <div echarts (chartInit)="onChartInit($event)" [options]="chartOptions" class="chart"></div>
 <div class="legend">
-  @for (trend of trends$ | async; track trend) {
+  @for (trend of trends(); track trend) {
     <div class="trend">
       <div class="metric">
         42.0
