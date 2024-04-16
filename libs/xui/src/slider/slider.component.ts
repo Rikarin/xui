@@ -15,13 +15,12 @@ import {
   ViewChild
 } from '@angular/core';
 import { ControlValueAccessor, FormsModule, NgControl } from '@angular/forms';
-import { TooltipComponent } from '../tooltip/tooltip.component';
 import { inNextTick, InputBoolean, InputNumber } from '../utils';
 import { BehaviorSubject, map } from 'rxjs';
 import { SliderColor, SliderMark } from './slider.types';
 import { BooleanInput, NumberInput } from '@angular/cdk/coercion';
 import { CommonModule } from '@angular/common';
-import { XuiTooltipModule } from '../tooltip';
+import { TooltipDirective, XuiTooltipModule } from '../tooltip';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @Component({
@@ -45,7 +44,7 @@ export class XuiSliderComponent implements ControlValueAccessor, OnInit, AfterVi
   position$ = this._posX.pipe(map(x => ({ x, y: 0 })));
 
   @ViewChild('track', { static: true }) trackElm!: ElementRef;
-  @ViewChild('tooltipRef') tooltipRef!: TooltipComponent;
+  @ViewChild('tooltipRef') tooltipRef!: TooltipDirective;
 
   @Input() @InputBoolean() disabled = false;
   @Input() @InputBoolean() tooltipDisabled = false;
@@ -181,7 +180,7 @@ export class XuiSliderComponent implements ControlValueAccessor, OnInit, AfterVi
     this.setPositionByPercentage(this.percentage);
     await inNextTick();
 
-    this.tooltipRef.show(0);
+    this.tooltipRef.show();
   }
 
   private get hostRect() {

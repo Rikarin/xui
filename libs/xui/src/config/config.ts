@@ -12,6 +12,8 @@ export const BUTTON_MODULE = 'button';
 export const CHECKBOX_MODULE = 'checkbox';
 export const DATE_PICKER_MODULE = 'datePicker';
 
+export const TOOLTIP_MODULE = 'tooltip';
+
 // TODO: finish these
 export const DECAGRAM_MODULE = 'decagram';
 export const DIVIDER_MODULE = 'divider';
@@ -27,6 +29,8 @@ export interface XuiConfig {
   input?: InputConfig;
   checkbox?: CheckboxConfig;
   datePicker?: DatePickerConfig;
+
+  tooltip?: TooltipConfig;
 }
 
 export interface BadgeConfig {
@@ -59,6 +63,10 @@ export interface DatePickerConfig {
 export interface InputConfig {
   color?: InputColor;
   size?: InputSize;
+}
+
+export interface TooltipConfig {
+  disabled?: boolean;
 }
 
 export const XUI_CONFIG = new InjectionToken<XuiConfig>('xui-config');

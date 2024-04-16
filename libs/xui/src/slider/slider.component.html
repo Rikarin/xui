@@ -10,7 +10,7 @@
     [cdkDragFreeDragPosition]="(position$ | async) ?? { x: 0, y: 0 }"
     (cdkDragMoved)="move($event.pointerPosition.x)"
     class="x-slider-thumb"
-    xuiTooltipPosition="above"
+    xuiTooltipPosition="top"
     [xuiTooltip]="tooltip"
     [xuiTooltipDisabled]="tooltipDisabled"
     #tooltipRef="xuiTooltip"
