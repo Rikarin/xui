@@ -1,20 +1,9 @@
-import { Inject, Injectable, InjectionToken, Injector, Optional, SkipSelf } from '@angular/core';
-import {
-  // _MatSnackBarBase,
-  MatSnackBarConfig,
-  MatSnackBarContainer,
-  MatSnackBarRef,
-  TextOnlySnackBar
-} from '@angular/material/snack-bar';
-import { Overlay } from '@angular/cdk/overlay';
-import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { BreakpointObserver } from '@angular/cdk/layout';
+import { Injectable } from '@angular/core';
 import { XuiSnackbarModule } from './snackbar.module';
-import { XuiSnackBarConfig } from './snack-bar-config';
-import { SimpleSnackBar } from './simple-snackbar.component';
+import { SnackbarConfig } from '../config';
 
 @Injectable({ providedIn: XuiSnackbarModule })
-export class XuiSnackBar /* extends _MatSnackBarBase */ {
+export class XuiSnackBar {
   // protected override simpleSnackBarComponent = SimpleSnackBar;
   // protected override snackBarContainerComponent = MatSnackBarContainer;
   // protected override handsetCssClass = 'mat-mdc-snack-bar-handset';
@@ -30,17 +19,8 @@ export class XuiSnackBar /* extends _MatSnackBarBase */ {
   //   super(overlay, live, injector, breakpointObserver, parentSnackBar, defaultConfig as MatSnackBarConfig);
   // }
   //
-  open(message: string, action?: string, config?: XuiSnackBarConfig): any {
+  open(message: string, action?: string, config?: SnackbarConfig): any {
     // MatSnackBarRef<TextOnlySnackBar> {
     //   return super.open(message, action!, config as MatSnackBarConfig);
   }
 }
-
-export function XUI_SNACK_BAR_DEFAULT_OPTIONS_FACTORY(): XuiSnackBarConfig {
-  return new XuiSnackBarConfig();
-}
-
-export const XUI_SNACK_BAR_DEFAULT_OPTIONS = new InjectionToken<XuiSnackBarConfig>('xui-snack-bar-default-options', {
-  providedIn: 'root',
-  factory: XUI_SNACK_BAR_DEFAULT_OPTIONS_FACTORY
-});

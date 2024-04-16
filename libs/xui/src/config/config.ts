@@ -5,14 +5,15 @@ import { BadgeColor } from '../badge';
 import { BannerType } from '../banner';
 import { CheckboxColor } from '../checkbox/checkbox.types';
 import { DatePickerColor, DatePickerSize } from '../date-picker';
+import { SnackBarHorizontalPosition, SnackBarVerticalPosition } from '../snackbar/snackbar.types';
 
 export const BADGE_MODULE = 'badge';
 export const BANNER_MODULE = 'banner';
 export const BUTTON_MODULE = 'button';
 export const CHECKBOX_MODULE = 'checkbox';
 export const DATE_PICKER_MODULE = 'datePicker';
-
 export const TOOLTIP_MODULE = 'tooltip';
+export const SNACKBAR_MODULE = 'snackbar';
 
 // TODO: finish these
 export const DECAGRAM_MODULE = 'decagram';
@@ -31,6 +32,7 @@ export interface XuiConfig {
   datePicker?: DatePickerConfig;
 
   tooltip?: TooltipConfig;
+  snackbar?: SnackbarConfig;
 }
 
 export interface BadgeConfig {
@@ -67,6 +69,14 @@ export interface InputConfig {
 
 export interface TooltipConfig {
   disabled?: boolean;
+}
+
+export class SnackbarConfig<D = any> {
+  duration?: number = 5000;
+  data?: D | null = null;
+
+  horizontalPosition?: SnackBarHorizontalPosition = 'center';
+  verticalPosition?: SnackBarVerticalPosition = 'bottom';
 }
 
 export const XUI_CONFIG = new InjectionToken<XuiConfig>('xui-config');

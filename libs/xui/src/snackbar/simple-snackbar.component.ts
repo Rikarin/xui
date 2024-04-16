@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, Component, HostBinding, Inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
 import { MatSnackBarRef, TextOnlySnackBar } from '@angular/material/snack-bar';
-import { XUI_SNACK_BAR_DATA } from './snack-bar-config';
+import { XuiConfigService, WithConfig } from '@xui/components';
 
 @Component({
   selector: 'xui-simple-snack-bar',
@@ -13,13 +13,16 @@ import { XUI_SNACK_BAR_DATA } from './snack-bar-config';
     </div>`
 })
 export class SimpleSnackBar implements TextOnlySnackBar {
+  @Input() @WithConfig() data!: { message: string; action: string };
+
   @HostBinding('class.x-snackbar')
   get hostMainClass(): boolean {
     return true;
   }
+
   constructor(
     public snackBarRef: MatSnackBarRef<SimpleSnackBar>,
-    @Inject(XUI_SNACK_BAR_DATA) public data: { message: string; action: string }
+    private configService: XuiConfigService
   ) {}
 
   action(): void {
