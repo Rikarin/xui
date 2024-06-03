@@ -21,13 +21,13 @@
     "provenance": true
   },
   "peerDependencies": {
-    "@angular/animations": "15 - 17",
-    "@angular/cdk": "15 - 17",
-    "@angular/common": "15 - 17",
-    "@angular/core": "15 - 17",
-    "@angular/forms": "15 - 17",
-    "@angular/material": "15 - 17",
-    "@angular/router": "15 - 17",
+    "@angular/animations": "15 - 18",
+    "@angular/cdk": "15 - 18",
+    "@angular/common": "15 - 18",
+    "@angular/core": "15 - 18",
+    "@angular/forms": "15 - 18",
+    "@angular/material": "15 - 18",
+    "@angular/router": "15 - 18",
     "@ngx-translate/core": "^15.0.0",
     "rxjs": "^7.8.0",
     "luxon": "^3.4.0",
@@ -35,7 +35,7 @@
   },
   "dependencies": {
     "tslib": "^2.6.0",
-    "ngx-image-cropper": "^7.2.0",
+    "ngx-image-cropper": "^8.0.0",
     "@ngneat/until-destroy": "^10.0.0"
   }
 }
