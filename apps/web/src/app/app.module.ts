@@ -5,7 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { NgxGoogleAnalyticsModule, NgxGoogleAnalyticsRouterModule } from 'ngx-google-analytics';
 import { environment } from '../environments/environment';
 import { MatIconRegistry } from '@angular/material/icon';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { RootComponent } from './root.component';
@@ -21,19 +21,16 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [RootComponent],
+  bootstrap: [RootComponent],
   imports: [
     RouterModule.forRoot(routes),
     BrowserModule,
     BrowserAnimationsModule,
-    HttpClientModule,
-
     NgxGoogleAnalyticsModule.forRoot(environment.ga),
     NgxGoogleAnalyticsRouterModule,
-
     NgxEchartsModule.forRoot({
       echarts: () => import('echarts')
     }),
-
     TranslateModule.forRoot()
   ],
   providers: [
@@ -55,9 +52,9 @@ const routes: Routes = [
         scss: () => import('highlight.js/lib/languages/scss'),
         xml: () => import('highlight.js/lib/languages/xml')
       }
-    })
-  ],
-  bootstrap: [RootComponent]
+    }),
+    provideHttpClient(withInterceptorsFromDi())
+  ]
 })
 export class AppModule {
   constructor(matIconRegistry: MatIconRegistry, domSanitizer: DomSanitizer, translations: TranslateService) {
