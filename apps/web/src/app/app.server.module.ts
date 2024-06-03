@@ -5,7 +5,7 @@ import { BrowserModule, DomSanitizer } from '@angular/platform-browser';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { RouterModule, Routes } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { NgxGoogleAnalyticsModule, NgxGoogleAnalyticsRouterModule } from 'ngx-google-analytics';
 import { environment } from '../environments/environment';
 import { NgxEchartsModule } from 'ngx-echarts';
@@ -21,11 +21,11 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [RootComponent],
+  bootstrap: [RootComponent],
   imports: [
     RouterModule.forRoot(routes),
     BrowserModule,
     BrowserAnimationsModule,
-    HttpClientModule,
 
     NgxGoogleAnalyticsModule.forRoot(environment.ga),
     NgxGoogleAnalyticsRouterModule,
@@ -37,8 +37,7 @@ const routes: Routes = [
     TranslateModule.forRoot(),
     ServerModule
   ],
-  providers: [ThemingService],
-  bootstrap: [RootComponent]
+  providers: [ThemingService, provideHttpClient(withInterceptorsFromDi())]
 })
 export class AppServerModule {
   constructor(matIconRegistry: MatIconRegistry, domSanitizer: DomSanitizer, translations: TranslateService) {
