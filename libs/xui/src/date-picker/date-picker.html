@@ -1,0 +1,82 @@
+<div [ngClass]="styles" [tabindex]="disabled ? -1 : 0" cdkOverlayOrigin #trigger="cdkOverlayOrigin">
+  <xui-input
+    tabindex="-1"
+    type="text"
+    readOnly
+    [disabled]="disabled"
+    [placeholder]="placeholder ?? ''"
+    [value]="value"
+    (click)="open()"
+  />
+  <xui-icon>calendar</xui-icon>
+</div>
+
+<ng-template
+  cdkConnectedOverlay
+  cdkConnectedOverlayHasBackdrop
+  [cdkConnectedOverlayBackdropClass]="'cdk-overlay-transparent'"
+  [cdkConnectedOverlayOrigin]="trigger"
+  [cdkConnectedOverlayOpen]="isOpen"
+  (backdropClick)="isOpen = false"
+>
+  <div class="x-datepicker-popup" cdkTrapFocus>
+    <div class="x-datepicker-header">
+      <div
+        class="x-datepicker-button"
+        tabindex="0"
+        (click)="updateMonth(false)"
+        (keydown.enter)="updateMonth(false)"
+        (keydown.space)="updateMonth(false)"
+      >
+        <xui-icon>chevron-left</xui-icon>
+      </div>
+      {{ focus.toFormat('MMMM yyyy') }}
+      <div
+        class="x-datepicker-button"
+        tabindex="0"
+        (click)="updateMonth(true)"
+        (keydown.enter)="updateMonth(true)"
+        (keydown.space)="updateMonth(true)"
+      >
+        <xui-icon>chevron-right</xui-icon>
+      </div>
+    </div>
+
+    <div class="x-datepicker-title">
+      <div>SU</div>
+      <div>MO</div>
+      <div>TU</div>
+      <div>WE</div>
+      <div>TH</div>
+      <div>FR</div>
+      <div>SA</div>
+    </div>
+    <div
+      class="x-datepicker-calendar"
+      tabindex="0"
+      (mousedown)="mouseDown = true"
+      (mouseup)="mouseDown = false"
+      (keydown.enter)="applyFocused()"
+      (keydown.space)="applyFocused()"
+      (keydown.arrowUp)="focusMove(-7)"
+      (keydown.arrowDown)="focusMove(7)"
+      (keydown.arrowLeft)="focusMove(-1)"
+      (keydown.arrowRight)="focusMove(1)"
+      (focusin)="isFocus = !mouseDown"
+      (focusout)="isFocus = false"
+    >
+      @for (index of indices; track index) {
+      <div
+        class="x-datepicker-day"
+        [class.x-datepicker--outside]="isOutsideOfMonth(index)"
+        [class.x-datepicker--disabled]="disabledDate?.(getDay(index))"
+        [class.x-datepicker--selected]="isSelected(index)"
+        [class.x-datepicker--focused]="isFocused(index) && isFocus"
+        (click)="onClick(index)"
+      >
+        {{ getDay(index).day }}
+      </div>
+      }
+    </div>
+  </div>
+</ng-template>

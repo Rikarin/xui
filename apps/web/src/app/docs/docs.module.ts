@@ -7,7 +7,7 @@ import { ThemingComponent } from './components/theming/theming.component';
 import { ComponentsModule } from './components/components.module';
 import { TranslateService } from '@ngx-translate/core';
 import { CdkMenuModule } from '@angular/cdk/menu';
-import { XuiCardModule, XuiIconComponent, XuiLayoutModule, XuiMenuModule, XuiSwitchComponent } from '@xui/components';
+import { XuiCardModule, XuiIcon, XuiLayoutModule, XuiMenuModule, XuiSwitch } from '@xui/components';
 import { AppComponent } from './app.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HighlightModule } from 'ngx-highlightjs';
@@ -43,9 +43,9 @@ const routes: Routes = [
     HighlightPlusModule,
 
     CdkMenuModule,
-    XuiIconComponent,
+    XuiIcon,
     XuiCardModule,
-    XuiSwitchComponent,
+    XuiSwitch,
     XuiLayoutModule,
     XuiMenuModule
   ]

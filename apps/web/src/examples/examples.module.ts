@@ -2,18 +2,18 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DecagramExample1Component } from './decagram-example1/decagram-example1.component';
 import {
-  XuiBadgeComponent,
-  XuiBannerComponent,
+  XuiBadge,
+  XuiBanner,
   XuiButtonModule,
   XuiCardModule,
-  XuiCheckboxComponent,
+  XuiCheckbox,
   XuiConfigModule,
   XuiContextMenuModule,
-  XuiDatePickerComponent,
-  XuiDecagramComponent,
-  XuiDividerComponent,
+  XuiDatePicker,
+  XuiDecagram,
+  XuiDivider,
   XuiDrawerModule,
-  XuiIconComponent
+  XuiIcon
 } from '@xui/components';
 import { DecagramExample2Component } from './decagram-example2/decagram-example2.component';
 import { BadgeExample1Component } from './badge-example1/badge-example1.component';
@@ -75,19 +75,19 @@ import { DrawerExample1Component } from './drawer-example1/drawer-example1.compo
   ],
   imports: [
     CommonModule,
-    XuiDecagramComponent,
-    XuiBadgeComponent,
+    XuiDecagram,
+    XuiBadge,
     XuiConfigModule,
-    XuiBannerComponent,
+    XuiBanner,
     XuiButtonModule,
-    XuiIconComponent,
+    XuiIcon,
     RouterLink,
     XuiCardModule,
-    XuiCheckboxComponent,
+    XuiCheckbox,
     ReactiveFormsModule,
     XuiContextMenuModule,
-    XuiDividerComponent,
-    XuiDatePickerComponent,
+    XuiDivider,
+    XuiDatePicker,
     XuiDrawerModule
   ]
 })

@@ -6,7 +6,7 @@ import { InputColor } from './input.types';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: '<ng-content />'
 })
-export class InputAddonComponent {
+export class XuiInputAddon {
   @Input() color: InputColor = 'dark';
 
   @HostBinding('class.x-input-addon')

@@ -1,28 +1,16 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PanelBarComponent } from './panelbar.component';
-import { PanelBarItemComponent } from './panelbar-item.component';
-import { PanelBarItemTemplateDirective } from './panelbar-item-template.directive';
+import { XuiPanelBar } from './panelbar';
+import { XuiPanelBarItem } from './panelbar-item';
+import { XuiPanelBarItemTemplate } from './panelbar-item-template';
 import { PortalModule } from '@angular/cdk/portal';
-import { PanelBarItemTitleDirective } from './panelbar-item-title.directive';
-import { PanelBarItemContentDirective } from './panelbar-item-content.directive';
-import { XuiIconComponent } from '../icon';
+import { XuiPanelBarItemTitle } from './panelbar-item-title';
+import { XuiPanelBarItemContent } from './panelbar-item-content';
+import { XuiIcon } from '../icon';
 
 @NgModule({
-  declarations: [
-    PanelBarComponent,
-    PanelBarItemComponent,
-    PanelBarItemTemplateDirective,
-    PanelBarItemTitleDirective,
-    PanelBarItemContentDirective
-  ],
-  exports: [
-    PanelBarComponent,
-    PanelBarItemComponent,
-    PanelBarItemTemplateDirective,
-    PanelBarItemContentDirective,
-    PanelBarItemTitleDirective
-  ],
-  imports: [CommonModule, PortalModule, XuiIconComponent]
+  declarations: [XuiPanelBar, XuiPanelBarItem, XuiPanelBarItemTemplate, XuiPanelBarItemTitle, XuiPanelBarItemContent],
+  exports: [XuiPanelBar, XuiPanelBarItem, XuiPanelBarItemTemplate, XuiPanelBarItemTitle, XuiPanelBarItemContent],
+  imports: [CommonModule, PortalModule, XuiIcon]
 })
 export class XuiPanelBarModule {}

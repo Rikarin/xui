@@ -11,6 +11,7 @@ export interface RadioItem {
 
 // This is needed to break the injection dependency between parent <-> child elements
 export const RADIO_GROUP_ACCESSOR = new InjectionToken<RadioGroupAccessor>('xui-radio-group');
+
 export interface RadioGroupAccessor {
   color: RadioColor;
   value: RadioValue;

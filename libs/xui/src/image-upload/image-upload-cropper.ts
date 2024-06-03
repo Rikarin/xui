@@ -21,6 +21,6 @@ import { DIALOG_DATA } from '@angular/cdk/dialog';
     </div>
   `
 })
-export class ImageUploadCropperComponent {
+export class XuiImageUploadCropper {
   constructor(@Inject(DIALOG_DATA) public data: any) {}
 }

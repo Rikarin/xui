@@ -1,3 +1,3 @@
 export * from './settings.types';
-export * from './settings.component';
+export * from './settings';
 export * from './settings.module';

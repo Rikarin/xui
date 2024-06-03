@@ -1,20 +1,15 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DrawerComponent } from './drawer.component';
-import { DrawerItemTemplateDirective } from './drawer-item-template.directive';
-import { DrawerHeaderTemplateDirective } from './drawer-header-template.directive';
-import { DrawerFooterTemplateDirective } from './drawer-footer-template.directive';
+import { XuiDrawer } from './drawer';
+import { XuiDrawerItemTemplate } from './drawer-item-template';
+import { XuiDrawerHeaderTemplate } from './drawer-header-template';
+import { XuiDrawerFooterTemplate } from './drawer-footer-template';
 import { PortalModule } from '@angular/cdk/portal';
-import { XuiIconComponent } from '../icon';
+import { XuiIcon } from '../icon';
 
 @NgModule({
-  declarations: [
-    DrawerComponent,
-    DrawerItemTemplateDirective,
-    DrawerHeaderTemplateDirective,
-    DrawerFooterTemplateDirective
-  ],
-  imports: [CommonModule, PortalModule, XuiIconComponent],
-  exports: [DrawerComponent, DrawerFooterTemplateDirective, DrawerHeaderTemplateDirective]
+  declarations: [XuiDrawer, XuiDrawerItemTemplate, XuiDrawerHeaderTemplate, XuiDrawerFooterTemplate],
+  imports: [CommonModule, PortalModule, XuiIcon],
+  exports: [XuiDrawer, XuiDrawerItemTemplate, XuiDrawerHeaderTemplate, XuiDrawerFooterTemplate]
 })
 export class XuiDrawerModule {}

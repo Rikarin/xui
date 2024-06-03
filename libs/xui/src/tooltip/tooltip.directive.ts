@@ -1,6 +1,6 @@
 import { Directive, ElementRef, HostListener, Input } from '@angular/core';
 import { ConnectionPositionPair, Overlay, OverlayRef } from '@angular/cdk/overlay';
-import { TooltipComponent } from './tooltip.component';
+import { Tooltip } from './tooltip';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { PopoverAnchor } from '../popover';
 import { TooltipAnchor, TooltipPosition } from './tooltip.types';
@@ -13,12 +13,12 @@ import { TranslateService } from '@ngx-translate/core';
   selector: '[xuiTooltip]',
   exportAs: 'xuiTooltip'
 })
-export class TooltipDirective {
+export class XuiTooltip {
   static ngAcceptInputType_disabled: BooleanInput;
   private readonly _moduleName = TOOLTIP_MODULE;
 
   private readonly overlayRef: OverlayRef;
-  private readonly portal: ComponentPortal<TooltipComponent>;
+  private readonly portal: ComponentPortal<Tooltip>;
 
   @Input('xuiTooltip') message!: string;
   @Input('xuiTooltipPosition') position: TooltipPosition = 'right';
@@ -31,7 +31,7 @@ export class TooltipDirective {
     private translate: TranslateService
   ) {
     this.overlayRef = overlay.create();
-    this.portal = new ComponentPortal(TooltipComponent);
+    this.portal = new ComponentPortal(Tooltip);
   }
 
   @HostListener('mouseenter')

@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RadioComponent } from './radio.component';
-import { RadioGroupComponent } from './radio-group.component';
+import { XuiRadio } from './radio';
+import { XuiRadioGroup } from './radio-group';
 import { TranslateModule } from '@ngx-translate/core';
-import { XuiIconComponent } from '../icon';
+import { XuiIcon } from '../icon';
 
 @NgModule({
-  declarations: [RadioComponent, RadioGroupComponent],
-  imports: [CommonModule, XuiIconComponent, TranslateModule.forChild()],
-  exports: [RadioComponent, RadioGroupComponent]
+  declarations: [XuiRadio, XuiRadioGroup],
+  imports: [CommonModule, XuiIcon, TranslateModule.forChild()],
+  exports: [XuiRadio, XuiRadioGroup]
 })
 export class XuiRadioModule {}
