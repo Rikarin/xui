@@ -3,7 +3,7 @@ import { ConnectionPositionPair, Overlay, OverlayRef } from '@angular/cdk/overla
 import { TooltipComponent } from './tooltip.component';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { PopoverAnchor } from '../popover';
-import { TooltipPosition } from './tooltip.types';
+import { TooltipAnchor, TooltipPosition } from './tooltip.types';
 import { InputBoolean } from '../utils';
 import { BooleanInput } from '@angular/cdk/coercion';
 import { TOOLTIP_MODULE, WithConfig, XuiConfigService } from '../config';
@@ -58,7 +58,7 @@ export class TooltipDirective {
     }
   }
 
-  private calculatePositionStrategy(anchor: PopoverAnchor) {
+  private calculatePositionStrategy(anchor: TooltipAnchor) {
     return this.overlay
       .position()
       .flexibleConnectedTo((anchor as any)?.elementRef ?? anchor)

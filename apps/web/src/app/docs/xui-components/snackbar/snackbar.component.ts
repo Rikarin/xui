@@ -10,6 +10,9 @@ export class SnackbarComponent {
   constructor(private snackbar: XuiSnackBar) {}
 
   openSnackbar() {
-    this.snackbar.open('examples.hello_world', 'foobar');
+    const snackbar = this.snackbar.open('examples.hello_world', 'foobar');
+    snackbar.onAction().subscribe(() => {
+      console.log('Action clicked');
+    });
   }
 }

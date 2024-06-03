@@ -1,11 +1,13 @@
-import { InjectionToken } from '@angular/core';
+import { InjectionToken, ViewContainerRef } from '@angular/core';
 import { InputColor, InputSize } from '../input';
 import { ButtonColor, ButtonSize, ButtonType } from '../button';
 import { BadgeColor } from '../badge';
 import { BannerType } from '../banner';
 import { CheckboxColor } from '../checkbox/checkbox.types';
 import { DatePickerColor, DatePickerSize } from '../date-picker';
-import { SnackBarHorizontalPosition, SnackBarVerticalPosition } from '../snackbar/snackbar.types';
+import { SnackBarHorizontalPosition, SnackBarVerticalPosition } from '../snack-bar/snack-bar.types';
+import { Direction, Directionality } from '@angular/cdk/bidi';
+import { AriaLivePoliteness } from '@angular/cdk/a11y';
 
 export const BADGE_MODULE = 'badge';
 export const BANNER_MODULE = 'banner';
@@ -32,7 +34,7 @@ export interface XuiConfig {
   datePicker?: DatePickerConfig;
 
   tooltip?: TooltipConfig;
-  snackbar?: SnackbarConfig;
+  snackbar?: SnackBarConfig;
 }
 
 export interface BadgeConfig {
@@ -71,9 +73,30 @@ export interface TooltipConfig {
   disabled?: boolean;
 }
 
-export class SnackbarConfig<D = any> {
+export class SnackBarConfig<D = any> {
   duration?: number = 5000;
   data?: D | null = null;
+
+  /**
+   * The view container that serves as the parent for the snackbar for the purposes of dependency
+   * injection. Note: this does not affect where the snackbar is inserted in the DOM.
+   */
+  viewContainerRef?: ViewContainerRef | null;
+
+  /** The politeness level for the LiveAnnouncer announcement. */
+  politeness?: AriaLivePoliteness = 'assertive';
+
+  /**
+   * Message to be announced by the LiveAnnouncer. When opening a snackbar without a custom
+   * component or template, the announcement message will default to the specified message.
+   */
+  announcementMessage?: string = '';
+
+  /** Text layout direction for the snack bar. */
+  direction?: Direction | Directionality;
+
+  /** Extra CSS classes to be added to the snack bar container. */
+  panelClass?: string | string[];
 
   horizontalPosition?: SnackBarHorizontalPosition = 'center';
   verticalPosition?: SnackBarVerticalPosition = 'bottom';

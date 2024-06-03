@@ -10,13 +10,14 @@ import {
   Input,
   Output
 } from '@angular/core';
-import { MAT_SNACK_BAR_DATA, MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
 import { CdkPortalOutletAttachedRef, ComponentPortal } from '@angular/cdk/portal';
 import { SettingsPage } from './settings.types';
 import { animate, AnimationEvent, state, style, transition, trigger, useAnimation } from '@angular/animations';
 import { bounce, fadeInBottom, fadeOutBottom } from '../utils/animations';
 import { lastValueFrom, Subject } from 'rxjs';
 import { delay } from '../utils';
+import { XUI_SNACK_BAR_DATA } from '../snack-bar/snack-bar.types';
+import { SnackBarRef, XuiSnackBar } from '../snack-bar';
 
 @Component({
   selector: 'xui-settings',
@@ -56,7 +57,7 @@ export class SettingsComponent {
   portal?: ComponentPortal<SettingsPage>;
   instance?: SettingsPage;
 
-  private snackbarRef?: MatSnackBarRef<SaveResetSnackbarComponent>;
+  private snackbarRef?: SnackBarRef<SaveResetSnackbarComponent>;
   private canExit = true;
 
   @Input() items?: MenuItem[];
@@ -67,7 +68,7 @@ export class SettingsComponent {
   }
 
   constructor(
-    private snackBar: MatSnackBar,
+    private snackBar: XuiSnackBar,
     private cdr: ChangeDetectorRef
   ) {}
 
@@ -113,6 +114,7 @@ export class SettingsComponent {
   async close() {
     if (!this.canExit) {
       this.animationState = true;
+      console.log('alert');
       this.snackbarRef?.instance.alert();
       return;
     }
@@ -235,7 +237,7 @@ export class SaveResetSnackbarComponent {
   animation = 'open';
 
   constructor(
-    @Inject(MAT_SNACK_BAR_DATA) private data: any,
+    @Inject(XUI_SNACK_BAR_DATA) private data: any,
     private cdr: ChangeDetectorRef
   ) {}
 
@@ -246,7 +248,9 @@ export class SaveResetSnackbarComponent {
 
   async alert() {
     this.animation = 'alert';
+    this.cdr.markForCheck();
     await delay(1000);
+
     this.animation = 'open';
     this.cdr.markForCheck();
   }
