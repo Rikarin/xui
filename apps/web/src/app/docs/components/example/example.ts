@@ -1,19 +1,32 @@
 import { ChangeDetectionStrategy, Component, Inject, Input, OnInit } from '@angular/core';
-import { InputBoolean } from '@xui/components';
+import { InputBoolean, XuiCard, XuiCardModule, XuiIcon, XuiTabModule } from '@xui/components';
 import sdk, { Project, ProjectFiles } from '@stackblitz/sdk';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, lastValueFrom } from 'rxjs';
 import { BooleanInput } from '@angular/cdk/coercion';
-import { DOCUMENT } from '@angular/common';
+import { CommonModule, DOCUMENT } from '@angular/common';
 import { angularProject } from '../../../../templates/angular';
+import { HighlightModule } from 'ngx-highlightjs';
+import { HighlightPlusModule } from 'ngx-highlightjs/plus';
+import { HighlightLineNumbers } from 'ngx-highlightjs/line-numbers';
 
 @Component({
+  standalone: true,
+  imports: [
+    CommonModule,
+    XuiCardModule,
+    XuiTabModule,
+    XuiIcon,
+    HighlightModule,
+    HighlightPlusModule,
+    HighlightLineNumbers
+  ],
   selector: 'app-example',
-  templateUrl: './example.component.html',
-  styleUrls: ['./example.component.scss'],
+  templateUrl: 'example.html',
+  styleUrls: ['example.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ExampleComponent implements OnInit {
+export class Example implements OnInit {
   static ngAcceptInputType_todo: BooleanInput;
   content$ = new BehaviorSubject<File[]>([]);
 

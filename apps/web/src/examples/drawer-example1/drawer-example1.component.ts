@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
-import { DrawerItem } from '@xui/components';
+import { DrawerItem, XuiButtonModule, XuiDrawerModule, XuiIcon } from '@xui/components';
 
 @Component({
+  standalone: true,
+  imports: [XuiDrawerModule, XuiButtonModule, XuiIcon],
   selector: 'app-drawer-example1',
   templateUrl: './drawer-example1.component.html',
   styleUrls: ['./drawer-example1.component.scss']

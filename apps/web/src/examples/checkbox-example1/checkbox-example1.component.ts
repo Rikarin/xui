@@ -1,7 +1,10 @@
 import { Component } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { XuiCheckbox } from '@xui/components';
 
 @Component({
+  standalone: true,
+  imports: [XuiCheckbox, ReactiveFormsModule],
   selector: 'app-checkbox-example1',
   templateUrl: './checkbox-example1.component.html',
   styleUrls: ['./checkbox-example1.component.scss']

@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
-import { delay } from '@xui/components';
+import { delay, XuiButtonModule, XuiIcon } from '@xui/components';
 
 @Component({
+  standalone: true,
+  imports: [XuiButtonModule, XuiIcon],
   selector: 'app-button-example1',
   templateUrl: './button-example1.component.html',
   styleUrls: ['./button-example1.component.scss']

@@ -4,7 +4,10 @@
   <xui-divider></xui-divider>
   <xui-button>ASDF</xui-button>
   <xui-button (click)="counter = counter + 1">Counter++</xui-button>
-  <xui-button *ngIf="counter" (click)="counter = counter - 1">Counter--</xui-button>
+
+  @if (counter) {
+    <xui-button (click)="counter = counter - 1">Counter--</xui-button>
+  }
 </xui-context-menu>
 
 <xui-button [xuiMenuTriggerFor]="menu2">Open Menu</xui-button>

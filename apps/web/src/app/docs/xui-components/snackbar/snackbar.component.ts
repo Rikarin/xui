@@ -1,7 +1,12 @@
 import { Component } from '@angular/core';
-import { XuiSnackBar } from '@xui/components';
+import { XuiButtonModule, XuiSnackBar, XuiSnackbarModule } from '@xui/components';
+import { Information } from '../../components/information';
+import { Example } from '../../components/example';
+import { HighlightModule } from 'ngx-highlightjs';
 
 @Component({
+  standalone: true,
+  imports: [Information, Example, HighlightModule, XuiSnackbarModule, XuiButtonModule],
   selector: 'app-snackbar',
   templateUrl: './snackbar.component.html',
   styleUrls: ['./snackbar.component.scss']

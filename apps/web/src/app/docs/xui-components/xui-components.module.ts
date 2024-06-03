@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { BannerComponent } from './banner/banner.component';
 import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
 import { ButtonComponent } from './button/button.component';
@@ -27,52 +26,8 @@ import { ToggleComponent } from './toggle/toggle.component';
 import { TooltipComponent } from './tooltip/tooltip.component';
 import { SwitchComponent } from './switch/switch.component';
 import { RouterModule, Routes } from '@angular/router';
-import { ComponentsModule } from '../components/components.module';
-
-import {
-  XuiButtonModule,
-  XuiCardModule,
-  XuiContextMenuModule,
-  XuiImageUploadModule,
-  XuiInputModule,
-  XuiLayoutModule,
-  XuiMenuModule,
-  XuiPanelBarModule,
-  XuiPopoverModule,
-  XuiRadioListModule,
-  XuiSelectModule,
-  XuiSettingsModule,
-  XuiSnackbarModule,
-  XuiTabModule,
-  XuiTextarea,
-  XuiTooltipModule,
-  XuiConfigModule,
-  XuiRadioModule,
-  XuiDrawerModule,
-  XuiBadge,
-  XuiBanner,
-  XuiIcon,
-  XuiProgress,
-  XuiCheckbox,
-  XuiSwitch,
-  XuiDecagram,
-  XuiSlider,
-  XuiSpinner,
-  XuiDivider,
-  XuiToggle,
-  XuiStatus,
-  XuiDatePicker,
-  XuiTimePicker,
-  XuiGraphViewModule
-} from '@xui/components';
-import { CdkTableModule } from '@angular/cdk/table';
-import { CdkMenuModule } from '@angular/cdk/menu';
-import { ReactiveFormsModule } from '@angular/forms';
-import { ExamplesModule } from '../../../examples/examples.module';
 import { ComponentsOverviewComponent } from './components-overview/components-overview.component';
 import { TypographyComponent } from './typography/typography.component';
-import { HighlightModule } from 'ngx-highlightjs';
-import { HighlightPlusModule } from 'ngx-highlightjs/plus';
 import { DatePickerComponent } from './date-picker/date-picker.component';
 import { TimePickerComponent } from './time-picker/time-picker.component';
 import { PopoverComponent } from './popover/popover.component';
@@ -123,91 +78,6 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [
-    ComponentsOverviewComponent,
-    BannerComponent,
-    BreadcrumbComponent,
-    ButtonComponent,
-    CardComponent,
-    CheckboxComponent,
-    ContextMenuComponent,
-    DecagramComponent,
-    DividerComponent,
-    IconComponent,
-    ImageUploadComponent,
-    InputComponent,
-    LayoutComponent,
-    ProgressComponent,
-    RadioListComponent,
-    SelectComponent,
-    DocSettingsComponent,
-    SliderComponent,
-    SnackbarComponent,
-    SpinnerComponent,
-    StatusComponent,
-    SwitchComponent,
-    TableComponent,
-    TabsComponent,
-    TextareaComponent,
-    ToggleComponent,
-    TooltipComponent,
-    TypographyComponent,
-    DatePickerComponent,
-    TimePickerComponent,
-    PopoverComponent,
-    PanelbarComponent,
-    RadioComponent,
-    BadgeComponent,
-    DrawerComponent,
-    GraphViewComponent
-  ],
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    RouterModule.forChild(routes),
-    ComponentsModule,
-    ExamplesModule,
-
-    HighlightModule,
-    HighlightPlusModule,
-
-    CdkMenuModule,
-    CdkTableModule,
-
-    XuiLayoutModule,
-    XuiCardModule,
-    XuiMenuModule,
-    XuiButtonModule,
-    XuiInputModule,
-    XuiIcon,
-    XuiProgress,
-    XuiSettingsModule,
-    XuiTabModule,
-    XuiContextMenuModule,
-    XuiCheckbox,
-    XuiSwitch,
-    XuiImageUploadModule,
-    XuiRadioListModule,
-    XuiDecagram,
-    XuiTooltipModule,
-    XuiSnackbarModule,
-    XuiTextarea,
-    XuiSelectModule,
-    XuiSlider,
-    XuiSpinner,
-    XuiDivider,
-    XuiToggle,
-    XuiStatus,
-    XuiDatePicker,
-    XuiTimePicker,
-    XuiPopoverModule,
-    XuiPanelBarModule,
-    XuiConfigModule,
-    XuiRadioModule,
-    XuiDrawerModule,
-    XuiBadge,
-    XuiBanner,
-    XuiGraphViewModule
-  ]
+  imports: [RouterModule.forChild(routes)]
 })
 export class XuiComponentsModule {}

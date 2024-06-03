@@ -1,8 +1,12 @@
 import { Component } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { DateTime } from 'luxon';
+import { XuiDatePicker } from '@xui/components';
+import { CommonModule } from '@angular/common';
 
 @Component({
+  standalone: true,
+  imports: [XuiDatePicker, CommonModule, ReactiveFormsModule],
   selector: 'app-date-picker-example1',
   templateUrl: './date-picker-example1.component.html',
   styleUrls: ['./date-picker-example1.component.scss']

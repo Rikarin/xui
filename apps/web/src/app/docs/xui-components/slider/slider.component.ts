@@ -1,8 +1,13 @@
 import { Component } from '@angular/core';
-import { SliderMark } from '@xui/components';
-import { FormControl } from '@angular/forms';
+import { SliderMark, XuiButtonModule, XuiSlider } from '@xui/components';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { Information } from '../../components/information';
+import { Example } from '../../components/example';
+import { HighlightModule } from 'ngx-highlightjs';
 
 @Component({
+  standalone: true,
+  imports: [Information, Example, HighlightModule, XuiButtonModule, XuiSlider, ReactiveFormsModule],
   selector: 'app-slider',
   templateUrl: './slider.component.html',
   styleUrls: ['./slider.component.scss']

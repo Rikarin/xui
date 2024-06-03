@@ -1,9 +1,14 @@
 import { Component } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { ThemingService } from '@xui/theme-core';
 import { startWith } from 'rxjs';
+import { XuiIcon, XuiLayoutModule, XuiMenuModule, XuiSwitch } from '@xui/components';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule, RouterModule, XuiIcon, XuiSwitch, XuiLayoutModule, XuiMenuModule],
   selector: 'app-docs',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']

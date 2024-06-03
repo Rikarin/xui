@@ -2,13 +2,17 @@ import { Component, Input } from '@angular/core';
 import { Method, Usage } from './usage';
 import { DataSource } from '@angular/cdk/collections';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { CdkTableModule } from '@angular/cdk/table';
+import { XuiCardModule } from '@xui/components';
 
 @Component({
+  standalone: true,
+  imports: [CdkTableModule, XuiCardModule],
   selector: 'app-usage',
-  templateUrl: './usage.component.html',
-  styleUrls: ['./usage.component.scss']
+  templateUrl: 'usages.html',
+  styleUrls: ['usages.scss']
 })
-export class UsageComponent {
+export class Usages {
   displayedColumns: string[] = [];
   dataSource = new UsageDataSource();
 

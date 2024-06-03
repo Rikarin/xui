@@ -1,9 +1,14 @@
 import { Component } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { Usage } from '../../components/usage';
-import { FileType } from '../../components/example/example.component';
+import { Usage, Usages } from '../../components/usage';
+import { Example, FileType } from '../../components/example';
+import { Information } from '../../components/information';
+import { HighlightModule } from 'ngx-highlightjs';
+import { CheckboxExample1Component } from '../../../../examples/checkbox-example1/checkbox-example1.component';
+import { CheckboxExample2Component } from '../../../../examples/checkbox-example2/checkbox-example2.component';
 
 @Component({
+  standalone: true,
+  imports: [Information, Example, Usages, HighlightModule, CheckboxExample1Component, CheckboxExample2Component],
   selector: 'app-checkbox',
   templateUrl: './checkbox.component.html',
   styleUrls: ['./checkbox.component.scss']

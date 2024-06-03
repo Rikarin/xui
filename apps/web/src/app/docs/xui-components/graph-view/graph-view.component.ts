@@ -1,7 +1,12 @@
 import { Component } from '@angular/core';
-import { GraphViewData } from '@xui/components';
+import { GraphViewData, XuiGraphViewModule } from '@xui/components';
+import { Information } from '../../components/information';
+import { Example } from '../../components/example';
+import { HighlightModule } from 'ngx-highlightjs';
 
 @Component({
+  standalone: true,
+  imports: [Information, Example, HighlightModule, XuiGraphViewModule],
   selector: 'app-graph-view',
   templateUrl: './graph-view.component.html',
   styleUrls: ['./graph-view.component.scss']

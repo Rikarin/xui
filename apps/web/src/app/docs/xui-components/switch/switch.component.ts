@@ -1,8 +1,14 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { Usage } from '../../components/usage';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { Usage, Usages } from '../../components/usage';
+import { Information } from '../../components/information';
+import { Example } from '../../components/example';
+import { HighlightModule } from 'ngx-highlightjs';
+import { XuiSwitch } from '@xui/components';
 
 @Component({
+  standalone: true,
+  imports: [Information, Example, Usages, HighlightModule, XuiSwitch, ReactiveFormsModule],
   selector: 'app-switch',
   templateUrl: './switch.component.html',
   styleUrls: ['./switch.component.scss'],

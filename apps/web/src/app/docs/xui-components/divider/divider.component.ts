@@ -1,8 +1,13 @@
 import { Component } from '@angular/core';
-import { Usage } from '../../components/usage';
-import { FileType } from '../../components/example/example.component';
+import { Usage, Usages } from '../../components/usage';
+import { Example, FileType } from '../../components/example';
+import { Information } from '../../components/information';
+import { HighlightModule } from 'ngx-highlightjs';
+import { DividerExample1Component } from '../../../../examples/divider-example1/divider-example1.component';
 
 @Component({
+  standalone: true,
+  imports: [Information, Example, Usages, HighlightModule, DividerExample1Component],
   selector: 'app-divider',
   templateUrl: './divider.component.html',
   styleUrls: ['./divider.component.scss']
