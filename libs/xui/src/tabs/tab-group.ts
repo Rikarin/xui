@@ -9,6 +9,7 @@ import {
 } from '@angular/core';
 import { XuiTab } from './tab';
 import { Subject } from 'rxjs';
+import { TAB_GROUP_ACCESSOR, TabGroupAccessor } from './tab.types';
 
 @Component({
   selector: 'xui-tab-group',
@@ -28,9 +29,10 @@ import { Subject } from 'rxjs';
     </div>
 
     <ng-content select="xui-tab"></ng-content>
-  `
+  `,
+  providers: [{ provide: TAB_GROUP_ACCESSOR, useExisting: XuiTabGroup }]
 })
-export class XuiTabGroup implements AfterContentInit {
+export class XuiTabGroup implements AfterContentInit, TabGroupAccessor {
   _active?: XuiTab;
   _tabs: XuiTab[] = [];
   onChange$ = new Subject();

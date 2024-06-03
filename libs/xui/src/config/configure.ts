@@ -1,5 +1,5 @@
 import { Directive, Input } from '@angular/core';
-import { InputColor, InputSize } from '../input/input.types';
+import { InputColor, InputSize } from '../input';
 import {
   BADGE_MODULE,
   BANNER_MODULE,
@@ -8,11 +8,11 @@ import {
   DATE_PICKER_MODULE,
   INPUT_MODULE
 } from './config';
-import { ButtonColor, ButtonSize, ButtonType } from '../button/button.types';
+import { ButtonColor, ButtonSize, ButtonType } from '../button';
 import { XuiConfigService } from './config.service';
 import { BadgeColor } from '../badge';
 import { BannerType } from '../banner';
-import { CheckboxColor } from '../checkbox/checkbox.types';
+import { CheckboxColor } from '../checkbox';
 import { DatePickerColor, DatePickerSize } from '../date-picker';
 
 @Directive({

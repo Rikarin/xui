@@ -2,7 +2,6 @@ import { Directive, ElementRef, HostListener, Input } from '@angular/core';
 import { ConnectionPositionPair, Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { Tooltip } from './tooltip';
 import { ComponentPortal } from '@angular/cdk/portal';
-import { PopoverAnchor } from '../popover';
 import { TooltipAnchor, TooltipPosition } from './tooltip.types';
 import { InputBoolean } from '../utils';
 import { BooleanInput } from '@angular/cdk/coercion';

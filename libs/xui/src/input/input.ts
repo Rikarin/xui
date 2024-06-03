@@ -15,7 +15,6 @@ import { InputBoolean } from '../utils';
 import { INPUT_GROUP_ACCESSOR, InputColor, InputGroupAccessor, InputSize, InputType } from './input.types';
 import { BooleanInput } from '@angular/cdk/coercion';
 import { INPUT_MODULE, WithConfig, XuiConfigService } from '../config';
-import { data } from 'autoprefixer';
 
 @Component({
   selector: 'xui-input',
@@ -117,6 +116,4 @@ export class XuiInput implements ControlValueAccessor, OnInit {
   private _focusOut() {
     this.onTouched?.();
   }
-
-  protected readonly data = data;
 }

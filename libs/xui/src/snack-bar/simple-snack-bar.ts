@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, HostBinding, Inject } from '@angular/core';
 import { SnackBarRef } from './snack-bar-ref';
 import { XUI_SNACK_BAR_DATA } from './snack-bar.types';
-import { XuiButtonModule } from '@xui/components';
+import { XuiButtonModule } from '../button';
 import { TranslateModule } from '@ngx-translate/core';
 
 /**

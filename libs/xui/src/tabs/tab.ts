@@ -1,7 +1,15 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostBinding, Input, OnInit } from '@angular/core';
-import { XuiTabGroup } from './tab-group';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  HostBinding,
+  Inject,
+  Input,
+  OnInit
+} from '@angular/core';
 import { InputBoolean } from '../utils';
 import { BooleanInput } from '@angular/cdk/coercion';
+import { TAB_GROUP_ACCESSOR, TabGroupAccessor } from './tab.types';
 
 @Component({
   selector: 'xui-tab',
@@ -24,7 +32,7 @@ export class XuiTab implements OnInit {
   }
 
   constructor(
-    private tabGroup: XuiTabGroup,
+    @Inject(TAB_GROUP_ACCESSOR) private tabGroup: TabGroupAccessor,
     private cdr: ChangeDetectorRef
   ) {}
 

@@ -3,9 +3,9 @@ import { InputColor, InputSize } from '../input';
 import { ButtonColor, ButtonSize, ButtonType } from '../button';
 import { BadgeColor } from '../badge';
 import { BannerType } from '../banner';
-import { CheckboxColor } from '../checkbox/checkbox.types';
+import { CheckboxColor } from '../checkbox';
 import { DatePickerColor, DatePickerSize } from '../date-picker';
-import { SnackBarHorizontalPosition, SnackBarVerticalPosition } from '../snack-bar/snack-bar.types';
+import { SnackBarHorizontalPosition, SnackBarVerticalPosition } from '../snack-bar';
 import { Direction, Directionality } from '@angular/cdk/bidi';
 import { AriaLivePoliteness } from '@angular/cdk/a11y';
 
