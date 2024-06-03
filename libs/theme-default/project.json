@@ -51,7 +51,8 @@
       "executor": "ngx-deploy-npm:deploy",
       "options": {
         "noBuild": true,
-        "access": "public"
+        "access": "public",
+        "distFolderPath": "{workspaceRoot}/dist/libs/theme-default"
       }
     }
   }
