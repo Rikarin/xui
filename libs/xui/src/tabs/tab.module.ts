@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TabComponent } from './tab.component';
-import { TabGroupComponent } from './tab-group.component';
+import { XuiTab } from './tab';
+import { XuiTabGroup } from './tab-group';
 import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
-  declarations: [TabComponent, TabGroupComponent],
+  declarations: [XuiTab, XuiTabGroup],
   imports: [CommonModule, TranslateModule.forChild()],
-  exports: [TabComponent, TabGroupComponent]
+  exports: [XuiTab, XuiTabGroup]
 })
 export class XuiTabModule {}

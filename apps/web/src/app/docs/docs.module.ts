@@ -1,17 +1,10 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { OverviewComponent } from './components/overview/overview.component';
 import { GettingStartedComponent } from './components/getting-started/getting-started.component';
 import { ThemingComponent } from './components/theming/theming.component';
-import { ComponentsModule } from './components/components.module';
 import { TranslateService } from '@ngx-translate/core';
-import { CdkMenuModule } from '@angular/cdk/menu';
-import { XuiCardModule, XuiIconComponent, XuiLayoutModule, XuiMenuModule, XuiSwitchComponent } from '@xui/components';
 import { AppComponent } from './app.component';
-import { ReactiveFormsModule } from '@angular/forms';
-import { HighlightModule } from 'ngx-highlightjs';
-import { HighlightPlusModule } from 'ngx-highlightjs/plus';
 
 const routes: Routes = [
   {
@@ -32,23 +25,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [AppComponent, ThemingComponent, OverviewComponent, GettingStartedComponent],
-  imports: [
-    CommonModule,
-    ComponentsModule,
-    ReactiveFormsModule,
-    RouterModule.forChild(routes),
-
-    HighlightModule,
-    HighlightPlusModule,
-
-    CdkMenuModule,
-    XuiIconComponent,
-    XuiCardModule,
-    XuiSwitchComponent,
-    XuiLayoutModule,
-    XuiMenuModule
-  ]
+  imports: [RouterModule.forChild(routes)]
 })
 export class DocsModule {
   constructor(translations: TranslateService) {

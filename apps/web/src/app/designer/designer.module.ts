@@ -5,17 +5,17 @@ import { RouterModule } from '@angular/router';
 import {
   XuiButtonModule,
   XuiCardModule,
-  XuiCheckboxComponent,
-  XuiDatePickerComponent,
-  XuiIconComponent,
+  XuiCheckbox,
+  XuiDatePicker,
+  XuiIcon,
   XuiInputModule,
   XuiLayoutModule,
   XuiPanelBarModule,
   XuiPopoverModule,
   XuiSelectModule,
-  XuiSliderComponent,
-  XuiSwitchComponent,
-  XuiTextareaModule
+  XuiSlider,
+  XuiSwitch,
+  XuiTextarea
 } from '@xui/components';
 import { OverviewComponent } from './overview/overview.component';
 import { ThemeSidebarComponent } from './layout/theme-sidebar/theme-sidebar.component';
@@ -35,14 +35,14 @@ import { DesignerService } from './designer.service';
     XuiLayoutModule,
     XuiButtonModule,
     XuiCardModule,
-    XuiIconComponent,
+    XuiIcon,
     XuiPopoverModule,
     XuiInputModule,
-    XuiCheckboxComponent,
-    XuiSliderComponent,
-    XuiSwitchComponent,
-    XuiTextareaModule,
-    XuiDatePickerComponent,
+    XuiCheckbox,
+    XuiSlider,
+    XuiSwitch,
+    XuiTextarea,
+    XuiDatePicker,
     XuiSelectModule
   ],
   providers: [DesignerService]

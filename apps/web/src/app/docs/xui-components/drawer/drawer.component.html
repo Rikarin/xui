@@ -1,18 +1,9 @@
-<app-infomation title="Drawer">
-  <code apiReference highlight="import { XuiDrawerModule } from '@xui/components';"></code>
-</app-infomation>
+<app-information title="Drawer">
+  <code apiReference highlight="import { XuiDrawerModule } from '@xui/components';" language="typescript"></code>
+</app-information>
 
-<app-example>
-  <xui-drawer [items]="items" [expanded]="expanded">
-    <ng-template xuiDrawerHeaderTemplate>
-      <xui-button type="icon">
-        <xui-icon>plus</xui-icon>
-      </xui-button>
-    </ng-template>
-    <ng-template xuiDrawerFooterTemplate>
-      <xui-button type="icon" (click)="expanded = !expanded"><xui-icon>arrow-left</xui-icon></xui-button>
-    </ng-template>
-  </xui-drawer>
+<app-example [files]="example1">
+  <app-drawer-example1></app-drawer-example1>
 </app-example>
 
 <!--<app-usage [usage]="usage"></app-usage>-->

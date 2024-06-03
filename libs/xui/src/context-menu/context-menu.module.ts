@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ContextMenuComponent } from './context-menu.component';
+import { XuiContextMenu } from './context-menu';
 import { CdkMenuModule } from '@angular/cdk/menu';
 import { A11yModule } from '@angular/cdk/a11y';
-import { MenuTriggerForDirective } from './menu-trigger-for.directive';
-import { ContextMenuTriggerForDirective } from './context-menu-trigger-for.directive';
+import { XuiMenuTriggerFor } from './menu-trigger-for';
+import { XuiContextMenuTriggerFor } from './context-menu-trigger-for';
 
 @NgModule({
-  declarations: [ContextMenuComponent, MenuTriggerForDirective, ContextMenuTriggerForDirective],
+  declarations: [XuiContextMenu, XuiMenuTriggerFor, XuiContextMenuTriggerFor],
   imports: [CommonModule, CdkMenuModule, A11yModule],
-  exports: [ContextMenuComponent, CdkMenuModule, MenuTriggerForDirective, ContextMenuTriggerForDirective]
+  exports: [XuiContextMenu, CdkMenuModule, XuiMenuTriggerFor, XuiContextMenuTriggerFor]
 })
 export class XuiContextMenuModule {}

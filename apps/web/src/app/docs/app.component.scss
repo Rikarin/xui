@@ -42,6 +42,13 @@ xui-header {
     align-items: center;
     gap: 4px;
   }
+
+  a {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    font-size: 1rem;
+  }
 }
 
 xui-content {

@@ -11,7 +11,7 @@ import { NgxEchartsModule } from 'ngx-echarts';
 import { RootComponent } from './root.component';
 import { XUI_CONFIG } from '@xui/components';
 import { ThemingService } from '@xui/theme-core';
-import { HIGHLIGHT_OPTIONS, HighlightOptions } from 'ngx-highlightjs';
+import { provideHighlightOptions } from 'ngx-highlightjs';
 
 const routes: Routes = [
   { path: 'theme-designer', loadChildren: () => import('./designer/designer.module').then(x => x.DesignerModule) },
@@ -47,20 +47,15 @@ const routes: Routes = [
         }
       }
     },
-    {
-      provide: HIGHLIGHT_OPTIONS,
-      useValue: <HighlightOptions>{
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        lineNumbersLoader: () => import('highlightjs-line-numbers.js'),
-        coreLibraryLoader: () => import('highlight.js/lib/core'),
-        languages: {
-          typescript: () => import('highlight.js/lib/languages/typescript'),
-          scss: () => import('highlight.js/lib/languages/scss'),
-          xml: () => import('highlight.js/lib/languages/xml')
-        }
+    provideHighlightOptions({
+      lineNumbersLoader: () => import('ngx-highlightjs/line-numbers'),
+      coreLibraryLoader: () => import('highlight.js/lib/core'),
+      languages: {
+        typescript: () => import('highlight.js/lib/languages/typescript'),
+        scss: () => import('highlight.js/lib/languages/scss'),
+        xml: () => import('highlight.js/lib/languages/xml')
       }
-    }
+    })
   ],
   bootstrap: [RootComponent]
 })

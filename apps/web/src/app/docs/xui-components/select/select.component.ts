@@ -1,8 +1,14 @@
 import { Component } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { SelectItem } from '@xui/components';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { SelectItem, XuiSelectModule } from '@xui/components';
+import { Information } from '../../components/information';
+import { Example } from '../../components/example';
+import { Usages } from '../../components/usage';
+import { HighlightModule } from 'ngx-highlightjs';
 
 @Component({
+  standalone: true,
+  imports: [Information, Example, Usages, HighlightModule, XuiSelectModule, ReactiveFormsModule],
   selector: 'app-select',
   templateUrl: './select.component.html',
   styleUrls: ['./select.component.scss']

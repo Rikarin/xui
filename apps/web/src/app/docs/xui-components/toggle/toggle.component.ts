@@ -1,8 +1,15 @@
 import { Component } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { Usage } from '../../components/usage';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { Usage, Usages } from '../../components/usage';
+import { Information } from '../../components/information';
+import { Example } from '../../components/example';
+import { HighlightModule } from 'ngx-highlightjs';
+import { XuiToggle } from '@xui/components';
+import { CommonModule } from '@angular/common';
 
 @Component({
+  standalone: true,
+  imports: [Information, Example, Usages, HighlightModule, XuiToggle, CommonModule, ReactiveFormsModule],
   selector: 'app-toggle',
   templateUrl: './toggle.component.html',
   styleUrls: ['./toggle.component.scss']

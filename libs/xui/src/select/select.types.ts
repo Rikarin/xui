@@ -11,7 +11,7 @@ export interface SelectItem {
 }
 
 // This is needed to break the injection dependency between parent <-> child elements
-export const SELECT_ACCESSOR = new InjectionToken<SelectAccessor>('xui-select');
+export const XUI_SELECT_ACCESSOR = new InjectionToken<SelectAccessor>('xui-select');
 export interface SelectAccessor {
   color: SelectColor;
   value: SelectValue;

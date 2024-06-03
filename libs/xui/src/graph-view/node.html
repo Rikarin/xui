@@ -1,0 +1,38 @@
+<div class="x-node" cdkDrag (cdkDragMoved)="dragNode()">
+  <div class="x-node-header" cdkDragHandle>{{ title }}</div>
+  <div class="x-node-inputs">
+    @for (port of inputs; track port.id) {
+    <div class="x-node-value">
+      <xui-icon
+        draggable="true"
+        (drag)="drag($event)"
+        (dragstart)="dragStart($event)"
+        (dragend)="dragEnd()"
+        (drop)="drop($event)"
+        (dragover)="denyConnection($event)"
+        [style.color]="getPortGroup(port).color"
+        [attr.data-port]="port.id"
+        >{{ hasConnectedPort(port.id) ? 'radiobox-marked' : 'radiobox-blank' }}</xui-icon
+      >
+      {{ port.name }}
+    </div>
+    }
+  </div>
+
+  <div class="x-node-outputs">
+    @for (port of outputs; track port.id) {
+    <div class="x-node-value">
+      {{ port.name }}
+      <xui-icon
+        (dragover)="denyConnection($event)"
+        (drop)="drop($event)"
+        [style.color]="getPortGroup(port).color"
+        [attr.data-port]="port.id"
+        >{{ hasConnectedPort(port.id) ? 'radiobox-marked' : 'radiobox-blank' }}</xui-icon
+      >
+    </div>
+    }
+  </div>
+
+  <div class="x-node-extensions">extensions</div>
+</div>

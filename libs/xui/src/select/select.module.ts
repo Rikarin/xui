@@ -2,22 +2,15 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule } from '@angular/forms';
-import { SelectComponent } from './select.component';
+import { XuiSelect } from './select';
 import { OverlayModule } from '@angular/cdk/overlay';
-import { OptionComponent } from './option.component';
-import { XuiIconComponent } from '../icon';
-import { XuiDecagramComponent } from '../decagram';
+import { XuiOption } from './option';
+import { XuiIcon } from '../icon';
+import { XuiDecagram } from '../decagram';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    OverlayModule,
-    XuiIconComponent,
-    XuiDecagramComponent,
-    TranslateModule.forChild()
-  ],
-  declarations: [SelectComponent, OptionComponent],
-  exports: [SelectComponent, OptionComponent]
+  imports: [CommonModule, FormsModule, OverlayModule, XuiIcon, XuiDecagram, TranslateModule.forChild()],
+  declarations: [XuiSelect, XuiOption],
+  exports: [XuiSelect, XuiOption]
 })
 export class XuiSelectModule {}

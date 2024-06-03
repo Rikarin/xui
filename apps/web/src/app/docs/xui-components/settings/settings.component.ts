@@ -1,14 +1,19 @@
 import { Component, ViewChild } from '@angular/core';
-import { MenuItem, SettingsComponent } from '@xui/components';
-import { Method, Usage } from '../../components/usage';
+import { MenuItem, XuiButtonModule, XuiSettings, XuiSettingsModule } from '@xui/components';
+import { Method, Usage, Usages } from '../../components/usage';
+import { Information } from '../../components/information';
+import { Example } from '../../components/example';
+import { HighlightModule } from 'ngx-highlightjs';
 
 @Component({
+  standalone: true,
+  imports: [Information, Example, Usages, HighlightModule, XuiSettingsModule, XuiButtonModule],
   selector: 'app-settings',
   templateUrl: './settings.component.html',
   styleUrls: ['./settings.component.scss']
 })
 export class DocSettingsComponent {
-  @ViewChild('settings') settings!: SettingsComponent;
+  @ViewChild('settings') settings!: XuiSettings;
 
   items: MenuItem[] = [
     {

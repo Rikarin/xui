@@ -1,1 +1,1 @@
-export type XuiMenuType = 'default' | 'compact';
+export type MenuType = 'default' | 'compact';

@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LayoutComponent } from './layout.component';
-import { HeaderComponent } from './header.component';
-import { SiderComponent } from './sider.component';
-import { ContentComponent } from './content.component';
-import { FooterComponent } from './footer.component';
+import { XuiLayout } from './layout';
+import { XuiHeader } from './header';
+import { XuiSider } from './sider';
+import { XuiContent } from './content';
+import { XuiFooter } from './footer';
 
 @NgModule({
   imports: [CommonModule],
-  declarations: [LayoutComponent, HeaderComponent, SiderComponent, ContentComponent, FooterComponent],
-  exports: [LayoutComponent, HeaderComponent, SiderComponent, ContentComponent, FooterComponent]
+  declarations: [XuiLayout, XuiHeader, XuiSider, XuiContent, XuiFooter],
+  exports: [XuiLayout, XuiHeader, XuiSider, XuiContent, XuiFooter]
 })
 export class XuiLayoutModule {}

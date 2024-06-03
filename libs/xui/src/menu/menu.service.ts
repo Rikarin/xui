@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { XuiMenuType } from './menu.types';
+import { MenuType } from './menu.types';
 
 @Injectable()
-export class MenuService {
+export class XuiMenuService {
   _inlineIndent$ = new BehaviorSubject<number>(24);
-  _mode$ = new BehaviorSubject<XuiMenuType>('default');
+  _mode$ = new BehaviorSubject<MenuType>('default');
 
   get inlineIndent$() {
     return this._inlineIndent$.asObservable();
@@ -15,7 +15,7 @@ export class MenuService {
     return this._mode$.asObservable();
   }
 
-  setMode(mode: XuiMenuType) {
+  setMode(mode: MenuType) {
     this._mode$.next(mode);
   }
 

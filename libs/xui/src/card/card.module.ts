@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CardComponent } from './card.component';
+import { XuiCard } from './card';
 import { PortalModule } from '@angular/cdk/portal';
-import { CardActionsDirective } from './card-actions.directive';
-import { CardTitleDirective } from './card-title.directive';
+import { XuiCardActions } from './card-actions';
+import { XuiCardTitle } from './card-title';
 
 @NgModule({
   imports: [CommonModule, PortalModule],
-  declarations: [CardComponent, CardActionsDirective, CardTitleDirective],
-  exports: [CardComponent, CardActionsDirective, CardTitleDirective]
+  declarations: [XuiCard, XuiCardActions, XuiCardTitle],
+  exports: [XuiCard, XuiCardActions, XuiCardTitle]
 })
 export class XuiCardModule {}
