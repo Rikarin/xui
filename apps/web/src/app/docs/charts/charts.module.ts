@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { AnalysisComponent } from './analysis/analysis.component';
-import { ComponentsModule } from '../components/components.module';
 import { XuiAnalysisModule } from '@xui/charts';
 import { XuiCardModule } from '@xui/components';
 import { HighlightModule } from 'ngx-highlightjs';
@@ -15,7 +14,6 @@ const routes: Routes = [{ path: 'analysis', component: AnalysisComponent }];
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
-    ComponentsModule,
 
     HighlightModule,
     HighlightPlusModule,

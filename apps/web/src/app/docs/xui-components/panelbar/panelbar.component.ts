@@ -1,7 +1,12 @@
 import { Component } from '@angular/core';
-import { PanelBarItem } from '@xui/components';
+import { PanelBarItem, XuiButtonModule, XuiDecagram, XuiIcon, XuiPanelBarModule } from '@xui/components';
+import { Information } from '../../components/information';
+import { Example } from '../../components/example';
+import { HighlightModule } from 'ngx-highlightjs';
 
 @Component({
+  standalone: true,
+  imports: [Information, Example, HighlightModule, XuiPanelBarModule, XuiDecagram, XuiButtonModule, XuiIcon],
   selector: 'app-panelbar',
   templateUrl: './panelbar.component.html',
   styleUrls: ['./panelbar.component.scss']

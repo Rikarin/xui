@@ -38,8 +38,14 @@
   $button: null,
   $overline: null
 ) {
-  $headline-family: $font-family or 'Bungee', 'Helvetica Neue', sans-serif;
-  $body-family: $font-family or 'Rubik', 'Helvetica Neue', sans-serif;
+  $headline-family:
+    $font-family or 'Bungee',
+    'Helvetica Neue',
+    sans-serif;
+  $body-family:
+    $font-family or 'Rubik',
+    'Helvetica Neue',
+    sans-serif;
 
   $config: (
     headline-1: $headline-1 or define-typography-level(6rem, 6rem, 300, $headline-family),

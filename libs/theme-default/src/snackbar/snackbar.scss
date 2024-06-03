@@ -2,7 +2,12 @@
 @use '@xui/theme-core' as core;
 
 @mixin theme() {
-  .x-snackbar {
+  .x-snack-bar {
+    min-width: 300px;
+    margin: 12px;
+  }
+
+  .x-simple-snack-bar {
     display: flex;
     align-items: center;
     justify-content: space-between;

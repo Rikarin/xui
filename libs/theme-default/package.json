@@ -28,12 +28,12 @@
     }
   },
   "peerDependencies": {
-    "@angular/core": "15 - 16",
-    "@angular/cdk": "15 - 16",
+    "@angular/core": "15 - 17",
+    "@angular/cdk": "15 - 17",
     "@xui/theme-core": "0.0.0-PLACEHOLDER",
     "rxjs": "^7.8.0"
   },
   "dependencies": {
-    "tslib": "^2.5.3"
+    "tslib": "^2.6.0"
   }
 }

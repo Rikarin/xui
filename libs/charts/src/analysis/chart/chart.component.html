@@ -1,20 +1,22 @@
 <div echarts (chartInit)="onChartInit($event)" [options]="chartOptions" class="chart"></div>
 <div class="legend">
-  <div class="trend" *ngFor="let trend of trends$ | async">
-    <div class="metric">
-      42.0
-      <div class="type">%</div>
-    </div>
+  @for (trend of trends(); track trend) {
+    <div class="trend">
+      <div class="metric">
+        42.0
+        <div class="type">%</div>
+      </div>
 
-    <div class="labels">
-      <div class="metric-name">{{ trend.metric.name }}</div>
-      <div class="entity-name">{{ trend.entity.name }}</div>
-    </div>
+      <div class="labels">
+        <div class="metric-name">{{ trend.metric.name }}</div>
+        <div class="entity-name">{{ trend.entity.name }}</div>
+      </div>
 
-    <xui-button type="icon" [cdkMenuTriggerFor]="menu">
-      <xui-icon>dots-vertical</xui-icon>
-    </xui-button>
-  </div>
+      <xui-button type="icon" [cdkMenuTriggerFor]="menu">
+        <xui-icon>dots-vertical</xui-icon>
+      </xui-button>
+    </div>
+  }
 </div>
 
 <ng-template #menu>

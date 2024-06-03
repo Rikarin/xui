@@ -1,92 +1,93 @@
-import { Directive, ElementRef, Inject, Input, NgZone, Optional, ViewContainerRef } from '@angular/core';
-import {
-  _MatTooltipBase,
-  MAT_TOOLTIP_DEFAULT_OPTIONS,
-  MAT_TOOLTIP_SCROLL_STRATEGY,
-  MatTooltipDefaultOptions,
-  TooltipPosition
-} from '@angular/material/tooltip';
-import { ConnectedPosition, Overlay, ScrollDispatcher } from '@angular/cdk/overlay';
-import { Platform } from '@angular/cdk/platform';
-import { AriaDescriber, FocusMonitor } from '@angular/cdk/a11y';
-import { Directionality } from '@angular/cdk/bidi';
-import { DOCUMENT } from '@angular/common';
+import { Directive, ElementRef, HostListener, Input } from '@angular/core';
+import { ConnectionPositionPair, Overlay, OverlayRef } from '@angular/cdk/overlay';
+import { Tooltip } from './tooltip';
+import { ComponentPortal } from '@angular/cdk/portal';
+import { PopoverAnchor } from '../popover';
+import { TooltipAnchor, TooltipPosition } from './tooltip.types';
+import { InputBoolean } from '../utils';
+import { BooleanInput } from '@angular/cdk/coercion';
+import { TOOLTIP_MODULE, WithConfig, XuiConfigService } from '../config';
 import { TranslateService } from '@ngx-translate/core';
-import { TooltipComponent } from './tooltip.component';
 
 @Directive({
   selector: '[xuiTooltip]',
   exportAs: 'xuiTooltip'
 })
-export class TooltipDirective extends _MatTooltipBase<TooltipComponent> {
-  protected override readonly _tooltipComponent = TooltipComponent;
-  protected override readonly _cssClassPrefix = 'xui';
+export class XuiTooltip {
+  static ngAcceptInputType_disabled: BooleanInput;
+  private readonly _moduleName = TOOLTIP_MODULE;
 
-  @Input('xuiTooltip')
-  override get message() {
-    return super.message;
-  }
+  private readonly overlayRef: OverlayRef;
+  private readonly portal: ComponentPortal<Tooltip>;
 
-  override set message(value) {
-    super.message = value;
-    super.message = this.translate.instant(value);
-  }
-
-  @Input('xuiTooltipPosition')
-  override get position(): TooltipPosition {
-    return super.position;
-  }
-
-  override set position(value: TooltipPosition) {
-    super.position = value;
-  }
+  @Input('xuiTooltip') message!: string;
+  @Input('xuiTooltipPosition') position: TooltipPosition = 'right';
+  @Input('xuiTooltipDisabled') @InputBoolean() @WithConfig() disabled = false;
 
   constructor(
-    private translate: TranslateService,
-    overlay: Overlay,
-    elementRef: ElementRef<HTMLElement>,
-    scrollDispatcher: ScrollDispatcher,
-    viewContainerRef: ViewContainerRef,
-    ngZone: NgZone,
-    platform: Platform,
-    ariaDescriber: AriaDescriber,
-    focusMonitor: FocusMonitor,
-    @Inject(MAT_TOOLTIP_SCROLL_STRATEGY) scrollStrategy: any,
-    @Optional() dir: Directionality,
-    @Optional() @Inject(MAT_TOOLTIP_DEFAULT_OPTIONS) defaultOptions: MatTooltipDefaultOptions,
-    @Inject(DOCUMENT) _document: any
+    private configService: XuiConfigService,
+    private elementRef: ElementRef,
+    private overlay: Overlay,
+    private translate: TranslateService
   ) {
-    super(
-      overlay,
-      elementRef,
-      scrollDispatcher,
-      viewContainerRef,
-      ngZone,
-      platform,
-      ariaDescriber,
-      focusMonitor,
-      scrollStrategy,
-      dir,
-      defaultOptions,
-      _document
-    );
-    this._viewportMargin = 8; // this.MIN_VIEWPORT_TOOLTIP_THRESHOLD;
+    this.overlayRef = overlay.create();
+    this.portal = new ComponentPortal(Tooltip);
   }
 
-  protected override _addOffset(position: ConnectedPosition): ConnectedPosition {
-    const offset = 8; //UNBOUNDED_ANCHOR_GAP;
-    const isLtr = !this._dir || this._dir.value == 'ltr';
+  @HostListener('mouseenter')
+  onEnter() {
+    this.show();
+  }
 
-    if (position.originY === 'top') {
-      position.offsetY = -offset;
-    } else if (position.originY === 'bottom') {
-      position.offsetY = offset;
-    } else if (position.originX === 'start') {
-      position.offsetX = isLtr ? -offset : offset;
-    } else if (position.originX === 'end') {
-      position.offsetX = isLtr ? offset : -offset;
+  @HostListener('mouseleave')
+  onExit() {
+    this.overlayRef.detach();
+  }
+
+  public show() {
+    if (this.disabled) {
+      return;
     }
 
-    return position;
+    if (!this.overlayRef.hasAttached()) {
+      this.overlayRef.updatePositionStrategy(this.calculatePositionStrategy(this.elementRef));
+      const ref = this.overlayRef.attach(this.portal);
+
+      ref.instance.message = this.translate.instant(this.message);
+      ref.instance.position = this.position;
+    }
+  }
+
+  private calculatePositionStrategy(anchor: TooltipAnchor) {
+    return this.overlay
+      .position()
+      .flexibleConnectedTo((anchor as any)?.elementRef ?? anchor)
+      .withPositions([this.getPositionStrategy()])
+      .withPush(false);
+  }
+
+  private getPositionStrategy(): ConnectionPositionPair {
+    switch (this.position) {
+      case 'right':
+        return new ConnectionPositionPair(
+          { originX: 'end', originY: 'center' },
+          { overlayX: 'start', overlayY: 'center' }
+        );
+      case 'left':
+        return new ConnectionPositionPair(
+          { originX: 'start', originY: 'center' },
+          { overlayX: 'end', overlayY: 'center' }
+        );
+      case 'top':
+        return new ConnectionPositionPair(
+          { originX: 'center', originY: 'top' },
+          { overlayX: 'center', overlayY: 'bottom' }
+        );
+      case 'bottom':
+        return new ConnectionPositionPair(
+          { originX: 'center', originY: 'bottom' },
+          { overlayX: 'center', overlayY: 'top' }
+        );
+    }
   }
 }

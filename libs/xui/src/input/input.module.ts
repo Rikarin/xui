@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { InputComponent } from './input.component';
-import { InputGroupComponent } from './input-group.component';
+import { XuiInput } from './input';
+import { XuiInputGroup } from './input-group';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule } from '@angular/forms';
-import { InputAddonComponent } from './input-addon';
+import { XuiInputAddon } from './input-addon';
 
 @NgModule({
   imports: [CommonModule, FormsModule, TranslateModule.forChild()],
-  declarations: [InputComponent, InputGroupComponent, InputAddonComponent],
-  exports: [InputComponent, InputGroupComponent, InputAddonComponent]
+  declarations: [XuiInput, XuiInputGroup, XuiInputAddon],
+  exports: [XuiInput, XuiInputGroup, XuiInputAddon]
 })
 export class XuiInputModule {}

@@ -1,13 +1,14 @@
 {
   "name": "theme-core",
-  "root": "libs/theme-core",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/theme-core/src",
   "prefix": "xui",
+  "tags": [],
   "targets": {
     "build-internal": {
       "executor": "@nx/angular:package",
-      "outputs": ["dist/libs/theme-core"],
+      "outputs": ["{workspaceRoot}/dist/libs/theme-core"],
       "options": {
         "tsConfig": "libs/theme-core/tsconfig.lib.json",
         "project": "libs/theme-core/ng-package.json"
@@ -26,7 +27,7 @@
     },
     "build": {
       "executor": "nx:run-commands",
-      "outputs": ["dist/libs/theme-core"],
+      "outputs": ["{workspaceRoot}/dist/libs/theme-core"],
       "options": {
         "command": "gulp post-build",
         "cwd": "libs/theme-core",
@@ -53,6 +54,5 @@
         "access": "public"
       }
     }
-  },
-  "tags": []
+  }
 }

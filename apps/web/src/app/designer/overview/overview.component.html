@@ -3,9 +3,13 @@
   <div class="container">
     <label>Button</label>
     <div class="button-list">
-      <ng-container *ngFor="let type of buttonTypes">
-        <xui-button *ngFor="let color of buttonColors" [type]="type" [color]="color">Button</xui-button>
-      </ng-container>
+      @for (type of buttonTypes; track type) {
+        <ng-container>
+          @for (color of buttonColors; track color) {
+            <xui-button [type]="type" [color]="color">Button</xui-button>
+          }
+        </ng-container>
+      }
     </div>
 
     <div class="row">

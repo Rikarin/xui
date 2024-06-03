@@ -13,7 +13,7 @@ import { AnalysisService } from './analysis.service';
   providers: [AnalysisService]
 })
 export class XuiAnalysisComponent {
-  isDragging$ = this.analysisService.isDragging$;
+  isDragging = this.analysisService.isDragging;
   closed = false;
 
   @Input() entities?: EntityGroup[];

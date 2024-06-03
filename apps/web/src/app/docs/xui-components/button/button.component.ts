@@ -1,9 +1,27 @@
 import { Component } from '@angular/core';
-import { delay } from '@xui/components';
-import { Usage } from '../../components/usage';
-import { FileType } from '../../components/example/example.component';
+import { Usage, Usages } from '../../components/usage';
+import { Example, FileType } from '../../components/example';
+import { Information } from '../../components/information';
+import { HighlightModule } from 'ngx-highlightjs';
+import { ButtonExample1Component } from '../../../../examples/button-example1/button-example1.component';
+import { ButtonExample2Component } from '../../../../examples/button-example2/button-example2.component';
+import { ButtonExample3Component } from '../../../../examples/button-example3/button-example3.component';
+import { ButtonExample4Component } from '../../../../examples/button-example4/button-example4.component';
+import { ButtonExample5Component } from '../../../../examples/button-example5/button-example5.component';
 
 @Component({
+  standalone: true,
+  imports: [
+    Information,
+    Example,
+    Usages,
+    HighlightModule,
+    ButtonExample1Component,
+    ButtonExample2Component,
+    ButtonExample3Component,
+    ButtonExample4Component,
+    ButtonExample5Component
+  ],
   selector: 'app-button',
   templateUrl: './button.component.html',
   styleUrls: ['./button.component.scss']

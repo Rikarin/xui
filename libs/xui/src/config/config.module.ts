@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ConfigureDirective } from './configure.directive';
+import { XuiConfigure } from './configure';
 
 @NgModule({
-  declarations: [ConfigureDirective],
-  exports: [ConfigureDirective],
+  declarations: [XuiConfigure],
+  exports: [XuiConfigure],
   imports: [CommonModule]
 })
 export class XuiConfigModule {}

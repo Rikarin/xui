@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DockerManagerComponent } from './docker-manager.component';
+import { XuiDockerManager } from './docker-manager';
 
 @NgModule({
   imports: [CommonModule],
-  declarations: [DockerManagerComponent],
-  exports: [DockerManagerComponent]
+  declarations: [XuiDockerManager],
+  exports: [XuiDockerManager]
 })
 export class XuiDockerManagerModule {}

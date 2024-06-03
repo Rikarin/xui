@@ -1,6 +1,10 @@
 import { Component } from '@angular/core';
 import { DataSource } from '@angular/cdk/collections';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { Information } from '../../components/information';
+import { Example } from '../../components/example';
+import { HighlightModule } from 'ngx-highlightjs';
+import { CdkTableModule } from '@angular/cdk/table';
 
 export interface PeriodicElement {
   name: string;
@@ -23,6 +27,8 @@ const ELEMENT_DATA: PeriodicElement[] = [
 ];
 
 @Component({
+  standalone: true,
+  imports: [Information, Example, HighlightModule, CdkTableModule],
   selector: 'app-table',
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss']

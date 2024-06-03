@@ -1,13 +1,14 @@
 {
   "name": "charts",
-  "root": "libs/charts",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/charts/src",
   "prefix": "xui",
+  "tags": [],
   "targets": {
     "build-internal": {
       "executor": "@nx/angular:package",
-      "outputs": ["dist/libs/charts"],
+      "outputs": ["{workspaceRoot}/dist/libs/charts"],
       "options": {
         "tsConfig": "libs/charts/tsconfig.lib.json",
         "project": "libs/charts/ng-package.json"
@@ -26,7 +27,7 @@
     },
     "build": {
       "executor": "nx:run-commands",
-      "outputs": ["dist/libs/charts"],
+      "outputs": ["{workspaceRoot}/dist/libs/charts"],
       "options": {
         "command": "gulp post-build",
         "cwd": "libs/charts",
@@ -43,15 +44,11 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "libs/charts/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "libs/charts/jest.config.ts"
       }
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
-      "options": {
-        "lintFilePatterns": ["libs/charts/**/*.ts", "libs/charts/**/*.html"]
-      }
+      "executor": "@nx/eslint:lint"
     },
     "patch-dist": {
       "executor": "nx:run-commands",
@@ -67,6 +64,5 @@
         "access": "public"
       }
     }
-  },
-  "tags": []
+  }
 }

@@ -86,11 +86,14 @@ export class ChartComponent {
     ]
   };
 
-  get trends$() {
+  get trends() {
     return this.analysisService.getChart(this.index);
   }
 
-  constructor(private analysisService: AnalysisService, @Inject(DOCUMENT) private document: Document) {}
+  constructor(
+    private analysisService: AnalysisService,
+    @Inject(DOCUMENT) private document: Document
+  ) {}
 
   onChartInit(chart: ECharts) {
     this.chart = chart;

@@ -1,0 +1,18 @@
+:host {
+  grid-column: 1 / -1;
+}
+
+xui-card {
+  padding: 24px 0;
+  background-color: var(--color-bg-floating);
+}
+
+h6 {
+  margin-top: 24px;
+}
+
+::ng-deep app-information code {
+  width: fit-content;
+  padding: 12px 24px;
+  background-color: var(--color-bg-tertiary) !important;
+}

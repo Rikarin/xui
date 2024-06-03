@@ -24,7 +24,7 @@ export * from './radio-list';
 export * from './select';
 export * from './settings';
 export * from './slider';
-export * from './snackbar';
+export * from './snack-bar';
 export * from './spinner';
 export * from './status';
 export * from './switch';

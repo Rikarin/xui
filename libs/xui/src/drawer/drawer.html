@@ -1,0 +1,53 @@
+<div class="x-drawer-header" *ngIf="headerTemplate">
+  <ng-template [cdkPortalOutlet]="headerPortal" />
+  <div class="x-drawer-divider"></div>
+</div>
+
+<!--  <div class="x-drawer-item x-drawer-group x-drawer-active">-->
+<!--    <xui-icon>menu</xui-icon>-->
+<!--    Menu-->
+<!--  </div>-->
+
+<!--  <div class="x-drawer-item x-drawer-active">-->
+<!--    <xui-icon>menu</xui-icon>-->
+<!--    Menu-->
+<!--  </div>-->
+<!--  <div class="x-drawer-item x-drawer-selected">-->
+<!--    <xui-icon>menu</xui-icon>-->
+<!--    Menu-->
+<!--  </div>-->
+
+<!--  <div class="x-drawer-item x-drawer-group">-->
+<!--    <xui-icon>menu</xui-icon>-->
+<!--    Menu-->
+<!--  </div>-->
+
+<!--  <div class="x-drawer-item x-drawer-group">-->
+<!--    <xui-icon>menu</xui-icon>-->
+<!--    Menu-->
+<!--  </div>-->
+
+<ng-container *ngTemplateOutlet="menuRef; context: { items }" />
+
+<ng-template #menuRef let-items="items">
+  @for (item of items; track item) {
+  <ng-container>
+    <div
+      class="x-drawer-item"
+      [class.x-drawer-active]="item.children && item.expanded"
+      [class.x-drawer-group]="item.children"
+      (click)="clickGroup(item)"
+    >
+      <xui-icon>{{ item.icon }}</xui-icon>
+      {{ item.label }}
+    </div>
+
+    <ng-container *ngTemplateOutlet="menuRef; context: { items: item.children }" />
+  </ng-container>
+  }
+</ng-template>
+
+<div class="x-drawer-footer" *ngIf="footerTemplate">
+  <div class="x-drawer-divider"></div>
+  <ng-template [cdkPortalOutlet]="footerPortal" />
+</div>
