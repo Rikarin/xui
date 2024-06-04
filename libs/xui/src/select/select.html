@@ -1,6 +1,6 @@
 <div [ngClass]="styles" [tabindex]="disabled ? -1 : 0" (click)="open()" cdkOverlayOrigin #trigger="cdkOverlayOrigin">
   {{ !viewValue ? placeholder ?? '&nbsp;' : viewValue }}
-  <xui-icon>{{ isOpen ? 'chevron-up' : 'chevron-down' }}</xui-icon>
+  <xui-icon [icon]="isOpen ? 'keyboard_arrow_up' : 'keyboard_arrow_down'"></xui-icon>
 </div>
 
 <ng-template

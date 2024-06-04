@@ -18,7 +18,8 @@ import { XUI_SELECT_ACCESSOR, SelectAccessor, SelectValue } from './select.types
 @Component({
   selector: 'xui-option',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `<span #content><ng-content /></span> <xui-decagram *ngIf="isSelected" type="circle">check</xui-decagram>`
+  template: `<span #content><ng-content /></span>
+    <xui-decagram *ngIf="isSelected" type="circle" icon="check"></xui-decagram>`
 })
 export class XuiOption implements OnInit, AfterViewInit {
   static ngAcceptInputType_disabled: BooleanInput;

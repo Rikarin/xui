@@ -13,8 +13,7 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  Optional,
-  ViewEncapsulation
+  Optional
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -129,9 +128,9 @@ const funcIriPattern = /^url\(['"]?#(.*?)['"]?\)$/;
     class: 'x-icon notranslate',
     '[class]': 'color ? "x-icon-" + color : ""',
     '[attr.data-xui-icon-type]': '_usingFontIcon() ? "font" : "svg"',
-    '[attr.data-xui-icon-name]': '_svgName || fontIcon',
+    '[attr.data-xui-icon-name]': '_svgName || icon',
     '[attr.data-xui-icon-namespace]': '_svgNamespace || fontSet',
-    '[attr.fontIcon]': '_usingFontIcon() ? fontIcon : null',
+    '[attr.fontIcon]': '_usingFontIcon() ? icon : null',
     '[class.x-icon-inline]': 'inline',
     '[class.x-icon-no-color]': 'color !== "primary" && color !== "accent" && color !== "warn"' // TODO
   }
@@ -176,11 +175,11 @@ export class XuiIcon implements OnInit, AfterViewChecked, OnDestroy {
 
   /** Name of the icon in the SVG icon set. */
   @Input()
-  get icon(): string {
+  get svgIcon(): string {
     return this._svgIcon;
   }
 
-  set icon(value: string) {
+  set svgIcon(value: string) {
     if (value !== this._svgIcon) {
       if (value) {
         this._updateSvgIcon(value);
@@ -208,11 +207,11 @@ export class XuiIcon implements OnInit, AfterViewChecked, OnDestroy {
 
   /** Name of an icon within a font set. */
   @Input()
-  get fontIcon(): string {
+  get icon(): string {
     return this._fontIcon;
   }
 
-  set fontIcon(value: string) {
+  set icon(value: string) {
     const newValue = this._cleanupFontValue(value);
 
     if (newValue !== this._fontIcon) {
@@ -310,7 +309,7 @@ export class XuiIcon implements OnInit, AfterViewChecked, OnDestroy {
   }
 
   _usingFontIcon(): boolean {
-    return !this.icon;
+    return !this.svgIcon;
   }
 
   private _setSvgElement(svg: SVGElement) {
@@ -362,14 +361,14 @@ export class XuiIcon implements OnInit, AfterViewChecked, OnDestroy {
     fontSetClasses.forEach(className => elem.classList.add(className));
     this._previousFontSetClass = fontSetClasses;
 
-    if (this.fontIcon !== this._previousFontIconClass && !fontSetClasses.includes('x-ligature-font')) {
+    if (this.icon !== this._previousFontIconClass && !fontSetClasses.includes('x-ligature-font')) {
       if (this._previousFontIconClass) {
         elem.classList.remove(this._previousFontIconClass);
       }
-      if (this.fontIcon) {
-        elem.classList.add(this.fontIcon);
+      if (this.icon) {
+        elem.classList.add(this.icon);
       }
-      this._previousFontIconClass = this.fontIcon;
+      this._previousFontIconClass = this.icon;
     }
   }
 

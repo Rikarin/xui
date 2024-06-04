@@ -5,16 +5,10 @@
     display: inline-flex;
     width: fit-content;
     position: relative;
-
-    .x-icon {
-      width: 100%;
-    }
+    overflow: hidden;
 
     &-icon {
       position: absolute;
-      inset: 0 0 0 0;
-      margin-left: auto;
-      margin-right: auto;
     }
 
     &-triangle {

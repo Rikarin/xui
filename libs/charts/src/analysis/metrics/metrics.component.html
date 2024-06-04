@@ -1,22 +1,22 @@
 <div class="entries">
   <xui-input color="dark" size="small">
-    <xui-icon xuiPostfix>magnify</xui-icon>
+    <xui-icon icon="search" xuiPostfix></xui-icon>
   </xui-input>
 
   <div class="buttons">
-    <xui-button> <xui-icon>plus-circle-outline</xui-icon> Add Entities </xui-button>
+    <xui-button> <xui-icon icon="add_circle"></xui-icon> Add Entities </xui-button>
 
     <xui-button type="icon">
-      <xui-icon>refresh</xui-icon>
+      <xui-icon icon="refresh"></xui-icon>
     </xui-button>
   </div>
 
   @for (group of entities; track group) {
     <div class="group">
       <div class="name" (click)="toggleGroup(group)">
-        <xui-icon class="menu-icon">{{ isOpened(group) ? 'menu-down' : 'menu-right' }}</xui-icon>
+        <xui-icon class="menu-icon" [icon]="isOpened(group) ? 'menu' : 'menu_open'"></xui-icon>
         <div class="content">
-          <xui-icon>{{ group.icon }}</xui-icon>
+          <xui-icon [icon]="group.icon"></xui-icon>
           {{ group.name }}
         </div>
       </div>
@@ -24,7 +24,7 @@
       <div class="entities" *ngIf="isOpened(group)">
         @for (entity of group.entities; track entity.id) {
           <div class="entity" [class.active]="isActive(entity)" (click)="activate(entity)">
-            <xui-icon>{{ 'check' }}</xui-icon>
+            <xui-icon icon="check"></xui-icon>
             {{ entity.name }}
           </div>
         }
@@ -35,13 +35,13 @@
 
 <div class="metrics">
   <xui-input color="dark" size="small">
-    <xui-icon xuiPostfix>magnify</xui-icon>
+    <xui-icon icon="search" xuiPostfix></xui-icon>
   </xui-input>
 
   @for (group of active?.metrics; track group) {
     <div class="group">
       <div class="name" (click)="toggleGroup(group)">
-        <xui-icon class="menu-icon">{{ isOpened(group) ? 'menu-down' : 'menu-right' }}</xui-icon>
+        <xui-icon class="menu-icon" [icon]="isOpened(group) ? 'menu' : 'menu_open'"></xui-icon>
         <div class="content">
           {{ group.name }}
         </div>
@@ -58,14 +58,14 @@
           >
             <span style="display: none" *cdkDragPlaceholder></span>
             <div class="drag-preview" *cdkDragPreview>
-              <xui-icon>drag-vertical</xui-icon>
+              <xui-icon icon="drag_indicator"></xui-icon>
               <div>
                 {{ metric.name }}
                 <div class="description">{{ active!.name }}</div>
               </div>
             </div>
 
-            <xui-icon>drag-vertical</xui-icon>
+            <xui-icon icon="drag_indicator"></xui-icon>
             <div>
               {{ metric.name }}
               <div class="description">{{ active!.name }}</div>

@@ -13,23 +13,23 @@ export class DrawerExample1Component {
   items: DrawerItem[] = [
     {
       label: 'Foo',
-      icon: 'car'
+      icon: 'shopping_cart'
     },
     {
       label: 'Bar',
-      icon: 'decagram',
+      icon: 'shield',
       children: [
         {
           label: 'child 1',
-          icon: 'bell'
+          icon: 'notifications'
         },
         {
           label: 'child 2',
-          icon: 'bell'
+          icon: 'new_releases'
         },
         {
           label: 'child 3',
-          icon: 'bell'
+          icon: 'timer_play'
         }
       ]
     }

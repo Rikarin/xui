@@ -1,8 +1,8 @@
 <xui-panelbar class="properties">
-  <xui-panelbar-item [expanded]="true">
+  <xui-panelbar-item expanded>
     <div class="main-title" *xuiPanelBarItemTitle>
       Colors
-      <xui-button type="icon"><xui-icon>plus</xui-icon></xui-button>
+      <xui-button type="icon"><xui-icon icon="plus"></xui-icon></xui-button>
     </div>
     <div class="subtitle" *xuiPanelBarItemContent>Theme Colors</div>
 
@@ -12,7 +12,7 @@
           <div class="color" [style.background-color]="item.color"></div>
           {{ item.name }}
           <div class="color-label">{{ item.color }}</div>
-          <xui-button type="icon"><xui-icon>dots-horizontal</xui-icon></xui-button>
+          <xui-button type="icon"><xui-icon icon="dots-horizontal"></xui-icon></xui-button>
         </div>
       </xui-panelbar-item>
     }

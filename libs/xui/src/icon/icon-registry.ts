@@ -138,7 +138,7 @@ export class XuiIconRegistry implements OnDestroy {
    * specified. The default 'xui-icons' value assumes that the material icon font has been
    * loaded as described at https://google.github.io/material-design-icons/#icon-font-for-the-web
    */
-  private _defaultFontSetClass = ['xui-icons', 'x-ligature-font'];
+  private _defaultFontSetClass = ['material-symbols', 'x-ligature-font'];
 
   constructor(
     @Optional() private _httpClient: HttpClient,
@@ -432,7 +432,6 @@ export class XuiIconRegistry implements OnDestroy {
       map(() => {
         const foundIcon = this._extractIconWithNameFromAnySet(name, iconSetConfigs);
 
-        // TODO: add an ngDevMode check
         if (!foundIcon) {
           throw getXuiIconNameNotFoundError(name);
         }

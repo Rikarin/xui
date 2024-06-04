@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Inject, Input, OnInit } from '@angular/core';
-import { InputBoolean, XuiCard, XuiCardModule, XuiIcon, XuiTabModule } from '@xui/components';
+import { InputBoolean, XuiCard, XuiCardModule, XuiIcon, XuiTabModule, XuiTooltipModule } from '@xui/components';
 import sdk, { Project, ProjectFiles } from '@stackblitz/sdk';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, lastValueFrom } from 'rxjs';
@@ -16,6 +16,7 @@ import { HighlightLineNumbers } from 'ngx-highlightjs/line-numbers';
     CommonModule,
     XuiCardModule,
     XuiTabModule,
+    XuiTooltipModule,
     XuiIcon,
     HighlightModule,
     HighlightPlusModule,

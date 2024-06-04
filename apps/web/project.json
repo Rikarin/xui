@@ -23,11 +23,6 @@
           "apps/web/src/robots.txt",
           "apps/web/src/sitemap.xml",
           {
-            "glob": "mdi.svg",
-            "input": "./node_modules/@mdi/angular-material",
-            "output": "./assets"
-          },
-          {
             "glob": "sass.sync.js",
             "input": "./node_modules/sass.js/dist",
             "output": "./assets"

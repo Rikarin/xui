@@ -21,7 +21,7 @@ import { BooleanInput } from '@angular/cdk/coercion';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     @if (icon) {
-      <xui-icon>{{ icon }}</xui-icon>
+      <xui-icon [icon]="icon"></xui-icon>
     }
     <ng-content *ngIf="showLabel$ | async" />
   `,

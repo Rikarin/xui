@@ -5,13 +5,13 @@
 
   @switch (getIndicator()) {
     @case (1) {
-      <xui-decagram color="success" type="circle">check-bold</xui-decagram>
+      <xui-decagram color="success" type="circle" icon="check"></xui-decagram>
     }
     @case (0) {
       {{ progress }}%
     }
     @case (-1) {
-      <xui-decagram color="error" type="circle">close-thick</xui-decagram>
+      <xui-decagram color="error" type="circle" icon="close"></xui-decagram>
     }
   }
 } @else if (type === 'circle') {

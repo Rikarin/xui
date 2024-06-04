@@ -23,7 +23,7 @@ import { XuiIcon } from '../icon';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<div [class.x-toggle-clip]="!value">
       <div class="x-toggle-content">
-        <xui-icon><ng-content /></xui-icon>
+        <xui-icon [icon]="icon"></xui-icon>
       </div>
     </div>
     <div [class.x-toggle-toggled]="!value">
@@ -40,6 +40,7 @@ export class XuiToggle implements ControlValueAccessor, OnInit {
 
   @Input() @InputBoolean() disabled = false;
   @Input() color: ToggleColor = 'none';
+  @Input() icon!: string;
 
   @Input()
   @InputBoolean()

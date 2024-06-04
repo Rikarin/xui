@@ -1,21 +1,21 @@
 <div class="header">
   <p>New Analysis</p>
   <div class="buttons">
-    <xui-button><xui-icon>plus-circle-outline</xui-icon> New</xui-button>
-    <xui-button><xui-icon>content-save</xui-icon> Save</xui-button>
-    <xui-button><xui-icon>open-in-app</xui-icon> Load</xui-button>
+    <xui-button><xui-icon icon="add_circle"></xui-icon> New</xui-button>
+    <xui-button><xui-icon icon="save"></xui-icon> Save</xui-button>
+    <xui-button><xui-icon icon="file_open"></xui-icon> Load</xui-button>
 
-    <xui-button><xui-icon>export</xui-icon> Export</xui-button>
-    <xui-button><xui-icon>share</xui-icon> Share</xui-button>
+    <xui-button><xui-icon icon="file_save"></xui-icon> Export</xui-button>
+    <xui-button><xui-icon icon="share"></xui-icon> Share</xui-button>
 
-    <xui-button [cdkMenuTriggerFor]="moreMenu">More <xui-icon>chevron-down</xui-icon></xui-button>
+    <xui-button [cdkMenuTriggerFor]="moreMenu">More <xui-icon icon="arrow_drop_down"></xui-icon></xui-button>
 
     <ng-template #moreMenu>
       <xui-context-menu cdkMenu>
         <xui-button cdkMenuItem>Save as ...</xui-button>
         <xui-button cdkMenuItem color="error">
           Delete
-          <xui-icon>delete-outline</xui-icon>
+          <xui-icon icon="delete-outline"></xui-icon>
         </xui-button>
       </xui-context-menu>
     </ng-template>
@@ -32,7 +32,7 @@
     </xui-tab-group>
 
     <xui-button class="toggle" type="icon" (click)="closed = !closed">
-      <xui-icon>{{ closed ? 'chevron-double-right' : 'chevron-double-left' }}</xui-icon>
+      <xui-icon [icon]="closed ? 'chevron-double-right' : 'chevron-double-left'"></xui-icon>
     </xui-button>
   </div>
 

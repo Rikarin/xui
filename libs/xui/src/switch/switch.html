@@ -2,7 +2,7 @@
 
 <div [ngClass]="styleSwitch" (click)="_click()" [tabIndex]="disabled ? -1 : 0">
   <div class="x-switch-handle">
-    <xui-icon>{{ value ? 'check-bold' : 'close-thick' }}</xui-icon>
+    <xui-icon [icon]="value ? 'check' : 'close'"></xui-icon>
   </div>
   <input tabindex="-1" type="checkbox" [checked]="value" [disabled]="disabled" />
 </div>

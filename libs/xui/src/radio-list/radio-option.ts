@@ -15,7 +15,7 @@ import { RADIO_LIST_ACCESSOR, RadioListAccessor } from './radio-list.types';
 @Component({
   selector: 'xui-radio-option',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `<xui-icon>{{ icon }}</xui-icon>
+  template: `<xui-icon [icon]="icon"></xui-icon>
     <div class="x-radio-option-content">
       <ng-content />
 
@@ -72,7 +72,7 @@ export class XuiRadioOption implements OnInit {
   }
 
   get icon() {
-    return this.isSelected ? 'radiobox-marked' : 'radiobox-blank';
+    return this.isSelected ? 'radio_button_checked' : 'radio_button_unchecked';
   }
 
   constructor(

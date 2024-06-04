@@ -8,7 +8,7 @@
     [value]="value"
     (click)="open()"
   />
-  <xui-icon>calendar</xui-icon>
+  <xui-icon icon="calendar_month"></xui-icon>
 </div>
 
 <ng-template
@@ -28,7 +28,7 @@
         (keydown.enter)="updateMonth(false)"
         (keydown.space)="updateMonth(false)"
       >
-        <xui-icon>chevron-left</xui-icon>
+        <xui-icon icon="chevron_left"></xui-icon>
       </div>
       {{ focus.toFormat('MMMM yyyy') }}
       <div
@@ -38,7 +38,7 @@
         (keydown.enter)="updateMonth(true)"
         (keydown.space)="updateMonth(true)"
       >
-        <xui-icon>chevron-right</xui-icon>
+        <xui-icon icon="chevron_right"></xui-icon>
       </div>
     </div>
 

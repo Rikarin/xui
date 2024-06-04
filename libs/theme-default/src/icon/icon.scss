@@ -9,8 +9,9 @@ $size: 24px !default;
     width: $size;
 
     // In some cases the icon elements may extend beyond the container. Clip these cases
-    // in order to avoid weird overflows and click areas. See #11826.
-    overflow: hidden;
+    // in order to avoid weird overflows and click areas.
+    //overflow: hidden;
+    // TODO: uncomment
 
     &.x-icon-inline {
       font-size: inherit;
@@ -21,11 +22,11 @@ $size: 24px !default;
 
     &.x-ligature-font[fontIcon]::before {
       content: attr(fontIcon);
+
+      //display: block;
+      //position: absolute;
+      //width: inherit;
+      //height: inherit;
     }
-    //display: inline-flex;
-    //line-height: 0;
-      //
-      //flex: 1 1 auto;
-      //height: unset;
   }
 }

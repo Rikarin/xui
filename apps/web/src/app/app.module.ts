@@ -1,10 +1,9 @@
-import { BrowserModule, DomSanitizer, provideClientHydration } from '@angular/platform-browser';
+import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes } from '@angular/router';
 import { NgxGoogleAnalyticsModule, NgxGoogleAnalyticsRouterModule } from 'ngx-google-analytics';
 import { environment } from '../environments/environment';
-import { MatIconRegistry } from '@angular/material/icon';
 import { provideHttpClient, withFetch, withInterceptorsFromDi } from '@angular/common/http';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { NgxEchartsModule } from 'ngx-echarts';
@@ -12,7 +11,6 @@ import { RootComponent } from './root.component';
 import { XUI_CONFIG } from '@xui/components';
 import { ThemingService } from '@xui/theme-core';
 import { provideHighlightOptions } from 'ngx-highlightjs';
-import { ServerModule } from '@angular/platform-server';
 
 const routes: Routes = [
   { path: 'theme-designer', loadChildren: () => import('./designer/designer.module').then(x => x.DesignerModule) },
@@ -27,7 +25,7 @@ const routes: Routes = [
     RouterModule.forRoot(routes),
     BrowserModule,
     BrowserAnimationsModule,
-    ServerModule,
+    // ServerModule,
     NgxGoogleAnalyticsModule.forRoot(environment.ga),
     NgxGoogleAnalyticsRouterModule,
     NgxEchartsModule.forRoot({
@@ -55,14 +53,12 @@ const routes: Routes = [
         xml: () => import('highlight.js/lib/languages/xml')
       }
     }),
-    provideHttpClient(withInterceptorsFromDi(), withFetch()),
-    provideClientHydration()
+    provideHttpClient(withInterceptorsFromDi(), withFetch())
+    // provideClientHydration()
   ]
 })
 export class AppModule {
-  constructor(matIconRegistry: MatIconRegistry, domSanitizer: DomSanitizer, translations: TranslateService) {
-    matIconRegistry.addSvgIconSet(domSanitizer.bypassSecurityTrustResourceUrl('./assets/mdi.svg'));
-
+  constructor(translations: TranslateService) {
     translations.setDefaultLang('en-US');
   }
 }
