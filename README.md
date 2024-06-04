@@ -62,3 +62,5 @@ yarn start
 ## Issues
 
 If you find any issues in the library or have and idea for an improvement feel free to open an [issue](https://github.com/Rikarin/xui/issues).
+
+_This project is tested with BrowserStack_

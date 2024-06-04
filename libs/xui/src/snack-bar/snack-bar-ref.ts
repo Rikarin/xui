@@ -59,7 +59,7 @@ export class SnackBarRef<T> {
   /** Dismisses the snack bar after some duration */
   _dismissAfter(duration: number): void {
     // Note that we need to cap the duration to the maximum value for setTimeout, because
-    this.durationTimeoutId = setTimeout(() => this.dismiss(), Math.min(duration, MAX_TIMEOUT)) as any;
+    this.durationTimeoutId = setTimeout(() => this.dismiss(), Math.min(duration, MAX_TIMEOUT));
   }
 
   /** Gets an observable that is notified when the snack bar is finished closing. */

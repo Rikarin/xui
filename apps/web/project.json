@@ -73,6 +73,7 @@
               "with": "apps/web/src/environments/environment.prod.ts"
             }
           ],
+          "sourceMap": true,
           "outputHashing": "all"
         },
         "development": {

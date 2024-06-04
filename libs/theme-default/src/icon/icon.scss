@@ -1,11 +1,31 @@
+$size: 24px !default;
+
 @mixin theme() {
   .x-icon {
-    display: inline-flex;
-    line-height: 0;
+    background-repeat: no-repeat;
+    display: inline-block;
+    fill: currentColor;
+    height: $size;
+    width: $size;
 
-    .mat-icon {
-      flex: 1 1 auto;
-      height: unset;
+    // In some cases the icon elements may extend beyond the container. Clip these cases
+    // in order to avoid weird overflows and click areas. See #11826.
+    overflow: hidden;
+
+    &.x-icon-inline {
+      font-size: inherit;
+      height: inherit;
+      line-height: inherit;
+      width: inherit;
     }
+
+    &.x-ligature-font[fontIcon]::before {
+      content: attr(fontIcon);
+    }
+    //display: inline-flex;
+    //line-height: 0;
+      //
+      //flex: 1 1 auto;
+      //height: unset;
   }
 }
