@@ -6,9 +6,8 @@
     display: flex;
     align-items: center;
     gap: 12px;
-    height: 24px;
 
-    &-indicator {
+    &-line {
       flex: 1 1 auto;
       min-width: 200px;
       height: 8px;
@@ -17,15 +16,59 @@
       background-color: var(--color-bg-primary);
 
       @include core.border-radius($border-radius);
+
+      .x-progress-indicator {
+        @include core.border-radius($border-radius);
+      }
+
+      @each $name in core.$color-variations {
+        .x-progress-#{$name} {
+          background-color: var(--color-#{$name}-default);
+        }
+      }
     }
 
-    &-indicator-status {
-      @include core.border-radius($border-radius);
+    &-circle {
+      @property --progress {
+        syntax: '<number>';
+        inherits: false;
+        initial-value: 0;
+      }
+
+      --size: 100px;
+      --half-size: calc(var(--size) / 2);
+      --stroke-width: 8px;
+      --radius: calc((var(--size) - var(--stroke-width)) / 2);
+      --circumference: calc(var(--radius) * pi * 2);
+      --dash: calc((var(--progress) * var(--circumference)) / 100);
+      animation: progress-animation 5s linear 0s 1 forwards;
+
+      circle {
+        cx: var(--half-size);
+        cy: var(--half-size);
+        r: var(--radius);
+        stroke-width: var(--stroke-width);
+        fill: none;
+        stroke-linecap: round;
+      }
+
+      &-background {
+        stroke: var(--color-bg-tertiary);
+      }
+
+      &-foreground {
+        transform: rotate(-90deg);
+        transform-origin: var(--half-size) var(--half-size);
+        stroke-dasharray: var(--dash) calc(var(--circumference) - var(--dash));
+        transition: stroke-dasharray 0.3s linear 0s;
+      }
     }
 
     @each $name in core.$color-variations {
-      &-#{$name} {
-        background-color: var(--color-#{$name}-default);
+      &-circle.x-progress-#{$name} {
+        .x-progress-circle-foreground {
+          stroke: var(--color-#{$name}-default);
+        }
       }
     }
   }

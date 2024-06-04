@@ -23,7 +23,7 @@ export class XuiProgress {
 
   get style() {
     const ret: { [klass: string]: boolean } = {
-      'x-progress-indicator-status': true
+      'x-progress-indicator': true
     };
 
     ret[`x-progress-${this.getColor()}`] = true;

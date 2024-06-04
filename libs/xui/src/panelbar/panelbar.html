@@ -1,13 +1,13 @@
 <!--  <ng-container *ngTemplateOutlet="itemsTemplate; context: { items }"></ng-container>-->
 
 @for (item of items; track item) {
-<xui-panelbar-item
-  [title]="item.title"
-  [content]="item.content"
-  [icon]="item.icon"
-  [iconClass]="item.iconClass"
-  [_children]="item.children"
-/>
+  <xui-panelbar-item
+    [title]="item.title"
+    [content]="item.content"
+    [icon]="item.icon"
+    [iconClass]="item.iconClass"
+    [_children]="item.children"
+  />
 }
 <ng-content select="xui-panelbar-item" />
 

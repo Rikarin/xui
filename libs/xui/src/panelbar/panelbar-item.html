@@ -11,7 +11,7 @@
   <ng-content select="xui-panelbar-item"></ng-content>
 
   @for (child of _children; track child.title) {
-  <xui-panelbar-item [title]="child.title" [_children]="child.children" />
+    <xui-panelbar-item [title]="child.title" [_children]="child.children" />
   }
 </div>
 

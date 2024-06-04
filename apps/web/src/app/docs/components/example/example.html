@@ -7,16 +7,16 @@
     </xui-tab>
 
     @for (file of content$ | async; track file.name) {
-    <xui-tab [title]="file.name">
-      <pre><code lineNumbers="true" [language]="getFileType(file)" [highlight]="file.content"></code></pre>
-    </xui-tab>
+      <xui-tab [title]="file.name">
+        <pre><code lineNumbers="true" [language]="getFileType(file)" [highlight]="file.content"></code></pre>
+      </xui-tab>
     }
   </xui-tab-group>
 
   <div *ngIf="files || todo" class="menu">
     <div *ngIf="todo" class="todo">TODO</div>
     @if (files) {
-    <xui-icon (click)="openProject()" xuiTooltip="Edit in StackBlitz">open-in-new</xui-icon>
+      <xui-icon (click)="openProject()" xuiTooltip="Edit in StackBlitz">open-in-new</xui-icon>
     }
   </div>
 </xui-card>

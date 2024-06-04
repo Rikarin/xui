@@ -14,7 +14,7 @@
 >
   <div class="x-select-options">
     @for (item of items; track item.value) {
-    <xui-option [value]="item.value">{{ item.label | translate }}</xui-option>
+      <xui-option [value]="item.value">{{ item.label | translate }}</xui-option>
     }
     <ng-content select="xui-option" />
   </div>
