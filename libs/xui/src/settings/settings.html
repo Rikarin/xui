@@ -13,17 +13,17 @@
         (focusout)="menuFocused = false"
       >
         @for (item of items; track item; let i = $index) {
-        <div
-          [class.x-settings-menu-item]="item.type === 'item'"
-          [class.x-settings-menu-item-active]="i === defaultPage"
-          [class.x-settings-menu-item-focus]="i === focusedItem && menuFocused"
-          [class.x-settings-menu-category]="item.type === 'category'"
-          [class.x-settings-menu-divider]="item.type === 'divider'"
-          [class.x-settings-menu-red]="item.critical"
-          (click)="navigate(i); menuFocused = false"
-        >
-          {{ item.name ? (item.name | translate) : '' }}
-        </div>
+          <div
+            [class.x-settings-menu-item]="item.type === 'item'"
+            [class.x-settings-menu-item-active]="i === defaultPage"
+            [class.x-settings-menu-item-focus]="i === focusedItem && menuFocused"
+            [class.x-settings-menu-category]="item.type === 'category'"
+            [class.x-settings-menu-divider]="item.type === 'divider'"
+            [class.x-settings-menu-red]="item.critical"
+            (click)="navigate(i); menuFocused = false"
+          >
+            {{ item.name ? (item.name | translate) : '' }}
+          </div>
         }
       </nav>
     </div>

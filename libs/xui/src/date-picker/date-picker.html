@@ -66,16 +66,16 @@
       (focusout)="isFocus = false"
     >
       @for (index of indices; track index) {
-      <div
-        class="x-datepicker-day"
-        [class.x-datepicker--outside]="isOutsideOfMonth(index)"
-        [class.x-datepicker--disabled]="disabledDate?.(getDay(index))"
-        [class.x-datepicker--selected]="isSelected(index)"
-        [class.x-datepicker--focused]="isFocused(index) && isFocus"
-        (click)="onClick(index)"
-      >
-        {{ getDay(index).day }}
-      </div>
+        <div
+          class="x-datepicker-day"
+          [class.x-datepicker--outside]="isOutsideOfMonth(index)"
+          [class.x-datepicker--disabled]="disabledDate?.(getDay(index))"
+          [class.x-datepicker--selected]="isSelected(index)"
+          [class.x-datepicker--focused]="isFocused(index) && isFocus"
+          (click)="onClick(index)"
+        >
+          {{ getDay(index).day }}
+        </div>
       }
     </div>
   </div>
