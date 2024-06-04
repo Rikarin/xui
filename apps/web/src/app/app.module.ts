@@ -5,14 +5,14 @@ import { RouterModule, Routes } from '@angular/router';
 import { NgxGoogleAnalyticsModule, NgxGoogleAnalyticsRouterModule } from 'ngx-google-analytics';
 import { environment } from '../environments/environment';
 import { MatIconRegistry } from '@angular/material/icon';
-import {provideHttpClient, withFetch, withInterceptorsFromDi} from '@angular/common/http';
+import { provideHttpClient, withFetch, withInterceptorsFromDi } from '@angular/common/http';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { RootComponent } from './root.component';
 import { XUI_CONFIG } from '@xui/components';
 import { ThemingService } from '@xui/theme-core';
 import { provideHighlightOptions } from 'ngx-highlightjs';
-import {ServerModule} from "@angular/platform-server";
+import { ServerModule } from '@angular/platform-server';
 
 const routes: Routes = [
   { path: 'theme-designer', loadChildren: () => import('./designer/designer.module').then(x => x.DesignerModule) },

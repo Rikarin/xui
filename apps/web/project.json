@@ -162,7 +162,9 @@
     "prerender": {
       "executor": "@angular-devkit/build-angular:prerender",
       "options": {
-        "routes": ["/"]
+        "prerender": {
+          "discoverRoutes": true
+        }
       },
       "configurations": {
         "development": {
