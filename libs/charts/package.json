@@ -26,9 +26,9 @@
     }
   },
   "peerDependencies": {
-    "@angular/cdk": "15 - 17",
-    "@angular/common": "15 - 17",
-    "@angular/core": "15 - 17",
+    "@angular/cdk": "15 - 18",
+    "@angular/common": "15 - 18",
+    "@angular/core": "15 - 18",
     "@ngx-translate/core": "^15.0.0",
     "rxjs": "^7.8.0",
     "echarts": "5",
