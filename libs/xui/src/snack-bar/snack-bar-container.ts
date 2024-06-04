@@ -313,7 +313,7 @@ export class SnackBarContainer extends BasePortalOutlet implements OnDestroy {
             this.onAnnounce.next();
             this.onAnnounce.complete();
           }
-        }, this._announceDelay);
+        }, this._announceDelay) as any;
       });
     }
   }

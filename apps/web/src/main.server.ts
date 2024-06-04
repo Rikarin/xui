@@ -10,4 +10,4 @@ const win = createWindow(template);
 (global.window as any) = win;
 global.document = win.document;
 
-export { AppServerModule } from './app/app.server.module';
+export * from './app/app.module';
