@@ -42,9 +42,8 @@
       @include core.fill(secondary);
       @include core.focusable();
 
-      xui-icon {
-        width: 16px;
-        height: 16px;
+      .x-icon {
+        font-size: 16px;
       }
     }
 

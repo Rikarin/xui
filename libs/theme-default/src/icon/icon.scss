@@ -1,17 +1,19 @@
-$size: 24px !default;
+//$size: 24px !default;
 
 @mixin theme() {
   .x-icon {
     background-repeat: no-repeat;
     display: inline-block;
     fill: currentColor;
-    height: $size;
-    width: $size;
+    aspect-ratio: 1;
+    //height: $size;
+    //width: $size;
+
+    font-size: 1.5em;
 
     // In some cases the icon elements may extend beyond the container. Clip these cases
     // in order to avoid weird overflows and click areas.
-    //overflow: hidden;
-    // TODO: uncomment
+    overflow: hidden;
 
     &.x-icon-inline {
       font-size: inherit;
@@ -22,11 +24,6 @@ $size: 24px !default;
 
     &.x-ligature-font[fontIcon]::before {
       content: attr(fontIcon);
-
-      //display: block;
-      //position: absolute;
-      //width: inherit;
-      //height: inherit;
     }
   }
 }
