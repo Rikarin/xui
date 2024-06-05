@@ -19,5 +19,5 @@ export interface PanelBarItem {
 
 export const PANEL_BAR_ACCESSOR = new InjectionToken<PanelBarAccessor>('xui-panelbar');
 export interface PanelBarAccessor {
-  itemTemplate?: TemplateRef<unknown>;
+  _itemTemplate?: TemplateRef<unknown>;
 }

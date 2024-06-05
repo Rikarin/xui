@@ -1,35 +1,25 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, Optional } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, Optional } from '@angular/core';
 import { XuiMenuService } from './menu.service';
 import { XuiSubmenuService } from './submenu.service';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { combineLatest } from 'rxjs';
 
-@UntilDestroy()
 @Component({
   selector: 'xui-menu-group',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `<div class="x-menu-group-title" [style.paddingLeft.px]="paddingLeft">
-      {{ title }}
+  template: `<div class="x-menu-group-title" [style.paddingLeft.px]="_paddingLeft()">
+      {{ title() }}
     </div>
     <ng-content />`
 })
-export class XuiMenuGroup implements OnInit {
-  @Input() title!: string;
-  paddingLeft: number | null = null;
+export class XuiMenuGroup {
   private level = (this.submenuService?.level ?? 0) + 0.5;
+  _paddingLeft = computed(() =>
+    this.menuService._mode() === 'default' ? this.level * this.menuService._inlineIndent() : null
+  );
+
+  title = input.required<string>();
 
   constructor(
-    private cdr: ChangeDetectorRef,
     private menuService: XuiMenuService,
     @Optional() private submenuService: XuiSubmenuService
   ) {}
-
-  ngOnInit() {
-    combineLatest([this.menuService.mode$, this.menuService.inlineIndent$])
-      .pipe(untilDestroyed(this))
-      .subscribe(([mode, inlineIndent]) => {
-        this.paddingLeft = mode === 'default' ? this.level * inlineIndent : null;
-        this.cdr.markForCheck();
-      });
-  }
 }

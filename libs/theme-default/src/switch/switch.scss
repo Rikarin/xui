@@ -17,7 +17,7 @@
       cursor: pointer;
     }
 
-    &-disabled {
+    &--disabled {
       @include core.disabled();
       cursor: not-allowed;
 

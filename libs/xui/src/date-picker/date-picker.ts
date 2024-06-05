@@ -1,21 +1,20 @@
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
-  HostListener,
+  computed,
+  effect,
+  input,
   Input,
-  OnInit,
   Optional,
   Self,
-  ViewChild
+  signal
 } from '@angular/core';
 import { DateTime } from 'luxon';
 import { ControlValueAccessor, NgControl, ReactiveFormsModule } from '@angular/forms';
-import { InputBoolean } from '../utils';
-import { XuiInput, XuiInputModule } from '../input';
-import { BooleanInput } from '@angular/cdk/coercion';
+import { convertToBoolean } from '../utils';
+import { XuiInputModule } from '../input';
 import { DatePickerColor, DatePickerSize } from './date-picker.types';
-import { DATE_PICKER_MODULE, WithConfig, XuiConfigService } from '../config';
+import { DATE_PICKER_MODULE, XuiConfigService } from '../config';
 import { CommonModule } from '@angular/common';
 import { XuiIcon } from '../icon';
 import { OverlayModule } from '@angular/cdk/overlay';
@@ -26,114 +25,106 @@ import { A11yModule } from '@angular/cdk/a11y';
   imports: [CommonModule, XuiIcon, XuiInputModule, OverlayModule, A11yModule, ReactiveFormsModule],
   selector: 'xui-date-picker',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: 'date-picker.html'
+  templateUrl: 'date-picker.html',
+  host: {
+    '(focusout)': '_onTouched?.()',
+    '(keydown.enter)': '_keyPress($event)',
+    '(keydown.space)': '_keyPress($event)'
+  }
 })
-export class XuiDatePicker implements ControlValueAccessor, OnInit {
-  static ngAcceptInputType_disabled: BooleanInput;
-  static ngAcceptInputType_readOnly: BooleanInput;
+export class XuiDatePicker implements ControlValueAccessor {
   private readonly _moduleName = DATE_PICKER_MODULE;
+  readonly _indices = Array.from(Array(7 * 6)).map((x, i) => i);
 
   private onChange?: (source: string | null) => void;
-  private onTouched?: () => void;
-  private _value: DateTime | null = null;
+  _onTouched?: () => void;
 
-  focus!: DateTime;
-  indices = Array.from(Array(7 * 6)).map((x, i) => i);
-  isOpen = false;
-  isFocus = false;
-  mouseDown = false;
+  _value = signal<DateTime | null>(null);
+  _focused = signal<DateTime>(DateTime.now().startOf('day'));
+  _isOpened = signal(false);
+  _hasFocus = signal(false);
+  _mouseDown = signal(false);
+  _disabled = signal(false);
 
-  @Input() allowClear?: boolean; // TODO
   @Input() disabledDate?: (current: DateTime) => boolean;
-  @Input() placeholder?: string;
-  @Input() @InputBoolean() disabled = false;
-  @Input() @InputBoolean() readOnly = false;
-  @Input() @WithConfig() color: DatePickerColor = 'light';
-  @Input() @WithConfig() size: DatePickerSize = 'large';
+  value = input<string | null>();
+  placeholder = input<string>();
+  color = input<DatePickerColor>('light');
+  size = input<DatePickerSize>('large');
+  disabled = input(false, { transform: (v: string | boolean) => convertToBoolean(v) });
+  readOnly = input(false, { transform: (v: string | boolean) => convertToBoolean(v) });
+  allowClear = input(false, { transform: (v: string | boolean) => convertToBoolean(v) });
 
-  @ViewChild(XuiInput, { static: true }) input!: XuiInput;
-
-  @Input()
-  get value() {
-    return this._value?.toISODate() ?? null;
-  }
-
-  set value(v) {
-    if (!v) {
-      this._value = null;
-      this.input.value = null;
-      this.onChange?.(v);
-      this.cdr.markForCheck();
-
-      return;
-    }
-
-    const date = DateTime.fromISO(v).startOf('day');
-    if (this._value !== date) {
-      this._value = date;
-      this.focus = date;
-      this.input.value = date.setLocale('en-us').toLocaleString(DateTime.DATE_MED); // TODO: use globally defined locale
-      this.onChange?.(v);
-      this.cdr.markForCheck();
-    }
-  }
-
-  get styles() {
+  _styles = computed(() => {
     const ret: { [klass: string]: boolean } = {
       'x-datepicker': true
     };
 
-    ret[`x-datepicker-${this.color}`] = true;
-    ret[`x-datepicker-${this.size}`] = true;
+    ret[`x-datepicker-${this.color()}`] = true;
+    ret[`x-datepicker-${this.size()}`] = true;
+
     return ret;
-  }
+  });
 
   constructor(
     private configService: XuiConfigService,
-    private cdr: ChangeDetectorRef,
     @Self() @Optional() public control?: NgControl
   ) {
     if (this.control) {
       this.control.valueAccessor = this;
     }
+
+    effect(() => this._disabled.set(this.disabled()), { allowSignalWrites: true });
+    effect(
+      () => {
+        this.onChange?.(this._value()?.toISODate() ?? null);
+        this._focused.set(this._value()! ?? DateTime.now().startOf('day'));
+      },
+      { allowSignalWrites: true }
+    );
+
+    effect(
+      () => {
+        if (this.value()) {
+          this._value.set(DateTime.fromISO(this.value()!).startOf('day'));
+        }
+      },
+      { allowSignalWrites: true }
+    );
   }
 
-  ngOnInit() {
-    this.control?.statusChanges?.subscribe(() => this.cdr.markForCheck());
-  }
-
-  getDay(index: number) {
-    return this.focus
+  _getDay(index: number) {
+    return this._focused()
       .startOf('month')
       .startOf('week')
       .plus({ days: index - 1 });
   }
 
-  isSelected(index: number) {
-    return this._value?.toISODate() === this.getDay(index).toISODate();
+  _isSelected(index: number) {
+    return this._value()?.toISODate() === this._getDay(index).toISODate();
   }
 
-  isOutsideOfMonth(index: number) {
-    const day = this.getDay(index);
-    return day < this.focus.startOf('month') || day > this.focus.endOf('month');
+  _isOutsideOfMonth(index: number) {
+    const day = this._getDay(index);
+    return day < this._focused().startOf('month') || day > this._focused().endOf('month');
   }
 
-  updateMonth(add: boolean) {
-    this.focus = this.focus.plus({ month: add ? 1 : -1 });
+  _updateMonth(add: boolean) {
+    this._focused.set(this._focused().plus({ month: add ? 1 : -1 }));
   }
 
-  onClick(index: number) {
-    const day = this.getDay(index);
+  _onClick(index: number) {
+    const day = this._getDay(index);
     if (this.disabledDate?.(day)) {
       return;
     }
 
-    this.value = day.toISODate();
+    this._value.set(day);
     this.close();
   }
 
   writeValue(source: string) {
-    this.value = source;
+    this._value.set(DateTime.fromISO(source).startOf('day'));
   }
 
   registerOnChange(onChange: (source: string | null) => void) {
@@ -141,50 +132,43 @@ export class XuiDatePicker implements ControlValueAccessor, OnInit {
   }
 
   registerOnTouched(onTouched: () => void) {
-    this.onTouched = onTouched;
+    this._onTouched = onTouched;
   }
 
   setDisabledState(isDisabled: boolean): void {
-    this.disabled = isDisabled;
+    this._disabled.set(isDisabled);
   }
 
-  @HostListener('focusout')
-  private _focusOut() {
-    this.onTouched?.();
-  }
-
-  @HostListener('keydown.enter', ['$event'])
-  @HostListener('keydown.space', ['$event'])
-  private _keyPress(event: KeyboardEvent) {
+  _keyPress(event: KeyboardEvent) {
     event?.preventDefault();
     this.open();
   }
 
-  isFocused(index: number) {
-    return this.focus.toISODate() === this.getDay(index).toISODate();
+  _isFocused(index: number) {
+    return this._focused().toISODate() === this._getDay(index).toISODate();
   }
 
-  focusMove(days: number) {
-    const day = this.focus.plus({ days });
+  _focusMove(days: number) {
+    const day = this._focused().plus({ days });
     if (this.disabledDate?.(day)) {
       return;
     }
 
-    this.focus = day;
+    this._focused.set(day);
   }
 
-  applyFocused() {
-    this.value = this.focus.toISODate();
+  _applyFocused() {
+    this._value.set(this._focused());
     this.close();
   }
 
   open() {
-    this.focus = this._value ?? DateTime.now().startOf('day');
-    this.isOpen = !this.readOnly && !this.disabled;
+    this._focused.set(this._value() ?? DateTime.now().startOf('day'));
+    this._isOpened.set(!this.readOnly() && !this._disabled());
   }
 
   private close() {
-    this.isOpen = false;
-    this.isFocus = false;
+    this._isOpened.set(false);
+    this._hasFocus.set(false);
   }
 }

@@ -1,4 +1,4 @@
-import { InjectionToken } from '@angular/core';
+import { InjectionToken, Signal, WritableSignal } from '@angular/core';
 import { Observable } from 'rxjs';
 
 export type RadioValue = string | number | null;
@@ -13,8 +13,7 @@ export interface RadioItem {
 export const RADIO_GROUP_ACCESSOR = new InjectionToken<RadioGroupAccessor>('xui-radio-group');
 
 export interface RadioGroupAccessor {
-  color: RadioColor;
-  value: RadioValue;
-  disabled: boolean;
-  onChange$: Observable<unknown>;
+  color: Signal<RadioColor>;
+  _value: WritableSignal<RadioValue>;
+  _disabled: Signal<boolean>;
 }

@@ -1,11 +1,11 @@
-<div [ngClass]="styles" [tabindex]="disabled ? -1 : 0" cdkOverlayOrigin #trigger="cdkOverlayOrigin">
+<div [ngClass]="_styles()" [tabindex]="_disabled() ? -1 : 0" cdkOverlayOrigin #trigger="cdkOverlayOrigin">
   <xui-input
     tabindex="-1"
     type="text"
     readOnly
-    [disabled]="disabled"
-    [placeholder]="placeholder ?? ''"
-    [value]="value"
+    [disabled]="_disabled()"
+    [placeholder]="placeholder() ?? ''"
+    [value]="_value()?.toLocaleString()"
     (click)="open()"
   />
   <xui-icon icon="calendar_month"></xui-icon>
@@ -16,27 +16,28 @@
   cdkConnectedOverlayHasBackdrop
   [cdkConnectedOverlayBackdropClass]="'cdk-overlay-transparent'"
   [cdkConnectedOverlayOrigin]="trigger"
-  [cdkConnectedOverlayOpen]="isOpen"
-  (backdropClick)="isOpen = false"
+  [cdkConnectedOverlayOpen]="_isOpened()"
+  (backdropClick)="_isOpened.set(false)"
+  (detach)="_isOpened.set(false)"
 >
-  <div class="x-datepicker-popup" cdkTrapFocus>
+  <div class="x-datepicker-popup" cdkTrapFocus cdkTrapFocusAutoCapture>
     <div class="x-datepicker-header">
       <div
         class="x-datepicker-button"
         tabindex="0"
-        (click)="updateMonth(false)"
-        (keydown.enter)="updateMonth(false)"
-        (keydown.space)="updateMonth(false)"
+        (click)="_updateMonth(false)"
+        (keydown.enter)="_updateMonth(false)"
+        (keydown.space)="_updateMonth(false)"
       >
         <xui-icon icon="chevron_left"></xui-icon>
       </div>
-      {{ focus.toFormat('MMMM yyyy') }}
+      {{ _focused().toFormat('MMMM yyyy') }}
       <div
         class="x-datepicker-button"
         tabindex="0"
-        (click)="updateMonth(true)"
-        (keydown.enter)="updateMonth(true)"
-        (keydown.space)="updateMonth(true)"
+        (click)="_updateMonth(true)"
+        (keydown.enter)="_updateMonth(true)"
+        (keydown.space)="_updateMonth(true)"
       >
         <xui-icon icon="chevron_right"></xui-icon>
       </div>
@@ -54,27 +55,27 @@
     <div
       class="x-datepicker-calendar"
       tabindex="0"
-      (mousedown)="mouseDown = true"
-      (mouseup)="mouseDown = false"
-      (keydown.enter)="applyFocused()"
-      (keydown.space)="applyFocused()"
-      (keydown.arrowUp)="focusMove(-7)"
-      (keydown.arrowDown)="focusMove(7)"
-      (keydown.arrowLeft)="focusMove(-1)"
-      (keydown.arrowRight)="focusMove(1)"
-      (focusin)="isFocus = !mouseDown"
-      (focusout)="isFocus = false"
+      (mousedown)="_mouseDown.set(true)"
+      (mouseup)="_mouseDown.set(false)"
+      (keydown.enter)="_applyFocused()"
+      (keydown.space)="_applyFocused()"
+      (keydown.arrowUp)="_focusMove(-7)"
+      (keydown.arrowDown)="_focusMove(7)"
+      (keydown.arrowLeft)="_focusMove(-1)"
+      (keydown.arrowRight)="_focusMove(1)"
+      (focusin)="_hasFocus.set(!_mouseDown())"
+      (focusout)="_hasFocus.set(false)"
     >
-      @for (index of indices; track index) {
+      @for (index of _indices; track index) {
         <div
           class="x-datepicker-day"
-          [class.x-datepicker--outside]="isOutsideOfMonth(index)"
-          [class.x-datepicker--disabled]="disabledDate?.(getDay(index))"
-          [class.x-datepicker--selected]="isSelected(index)"
-          [class.x-datepicker--focused]="isFocused(index) && isFocus"
-          (click)="onClick(index)"
+          [class.x-datepicker--outside]="_isOutsideOfMonth(index)"
+          [class.x-datepicker--disabled]="disabledDate?.(_getDay(index))"
+          [class.x-datepicker--selected]="_isSelected(index)"
+          [class.x-datepicker--focused]="_isFocused(index) && _hasFocus()"
+          (click)="_onClick(index)"
         >
-          {{ getDay(index).day }}
+          {{ _getDay(index).day }}
         </div>
       }
     </div>

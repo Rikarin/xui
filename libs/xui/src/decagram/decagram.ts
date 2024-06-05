@@ -1,17 +1,7 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  HostBinding,
-  input,
-  Input,
-  numberAttribute
-} from '@angular/core';
-import { InputNumber } from '../utils';
+import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { DecagramColor, DecagramType } from './decagram.types';
 import { CommonModule } from '@angular/common';
 import { XuiIcon } from '../icon';
-import { NumberInput } from '@angular/cdk/coercion';
 
 @Component({
   standalone: true,
@@ -21,7 +11,10 @@ import { NumberInput } from '@angular/cdk/coercion';
   template: `
     <xui-icon [ngClass]="_style()" fontSet="filled" [icon]="_getIcon()"></xui-icon>
     <xui-icon [style.transform]="_scale()" [ngClass]="_iconStyle()" [icon]="icon()"></xui-icon>
-  `
+  `,
+  host: {
+    class: 'x-decagram'
+  }
 })
 export class XuiDecagram {
   iconSize = input<number>(65);
@@ -30,7 +23,6 @@ export class XuiDecagram {
   color = input<DecagramColor>('primary');
 
   _scale = computed(() => `scale(${this.iconSize() / 100})`);
-
   _getIcon = computed(() => {
     switch (this.type()) {
       case 'decagram':
@@ -45,7 +37,6 @@ export class XuiDecagram {
   });
 
   _style = computed(() => `x-decagram-${this.color()}`);
-
   _iconStyle = computed(() => {
     const ret: { [klass: string]: boolean } = {
       'x-decagram-icon': true
@@ -54,9 +45,4 @@ export class XuiDecagram {
     ret[`x-decagram-${this.type()}`] = true;
     return ret;
   });
-
-  @HostBinding('class.x-decagram')
-  get hostMainClass(): boolean {
-    return true;
-  }
 }

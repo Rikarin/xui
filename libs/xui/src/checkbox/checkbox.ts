@@ -1,19 +1,8 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  HostBinding,
-  HostListener,
-  Input,
-  OnInit,
-  Optional,
-  Self
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, input, Optional, Self, signal } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
-import { InputBoolean } from '../utils';
+import { convertToBoolean } from '../utils';
 import { CheckboxColor } from './checkbox.types';
-import { BooleanInput } from '@angular/cdk/coercion';
-import { CHECKBOX_MODULE, WithConfig, XuiConfigService } from '../config';
+import { CHECKBOX_MODULE, XuiConfigService } from '../config';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -21,9 +10,9 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule],
   selector: 'xui-checkbox',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `<div class="x-checkbox-box" [tabindex]="disabled ? -1 : 0" [class.x-checkbox-checked]="value">
+  template: `<div class="x-checkbox-box" [tabindex]="_disabled() ? -1 : 0" [class.x-checkbox-checked]="_value()">
       <svg
-        *ngIf="value"
+        *ngIf="_value()"
         viewBox="0 0 24 24"
         height="100%"
         width="100%"
@@ -33,64 +22,44 @@ import { CommonModule } from '@angular/common';
         <path d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path>
       </svg>
     </div>
-    <ng-content />`
+    <ng-content />`,
+  host: {
+    class: 'x-checkbox',
+    '[class]': '"x-checkbox-" + color()',
+    '[class.x-checkbox-disabled]': '_disabled()',
+    '(focusout)': '_onTouched?.()',
+    '(click)': '_click($event)',
+    '(keydown.enter)': '_click($event)',
+    '(keydown.space)': '_click($event)'
+  }
 })
-export class XuiCheckbox implements ControlValueAccessor, OnInit {
-  static ngAcceptInputType_disabled: BooleanInput;
-  static ngAcceptInputType_value: BooleanInput;
+export class XuiCheckbox implements ControlValueAccessor {
   private readonly _moduleName = CHECKBOX_MODULE;
 
   private onChange?: (source: boolean) => void;
-  private onTouched?: () => void;
-  private _value = false;
+  _onTouched?: () => void;
+  _disabled = signal(false);
+  _value = signal(false);
 
-  @Input() @InputBoolean() @WithConfig() disabled = false;
-  @Input() @WithConfig() color: CheckboxColor = 'primary';
-
-  @Input()
-  @InputBoolean()
-  get value() {
-    return this._value;
-  }
-
-  set value(v) {
-    if (this._value !== v) {
-      this._value = v;
-      this.onChange?.(v);
-    }
-  }
-
-  @HostBinding('class.x-checkbox')
-  get hostMainClass(): boolean {
-    return true;
-  }
-
-  @HostBinding('class.x-checkbox-disabled')
-  get hostDisabledClass(): boolean {
-    return this.disabled;
-  }
-
-  @HostBinding('class')
-  get hostClass(): string {
-    return `x-checkbox-${this.color}`;
-  }
+  disabled = input(false, { transform: (v: string | boolean) => convertToBoolean(v) });
+  color = input<CheckboxColor>('primary');
+  value = input<boolean>(false);
 
   constructor(
     private configService: XuiConfigService,
-    private cdr: ChangeDetectorRef,
     @Self() @Optional() public control?: NgControl
   ) {
     if (this.control) {
       this.control.valueAccessor = this;
     }
-  }
 
-  ngOnInit() {
-    this.control?.statusChanges?.subscribe(() => this.cdr.markForCheck());
+    effect(() => this._disabled.set(this.disabled()), { allowSignalWrites: true });
+    effect(() => this._value.set(this.value()), { allowSignalWrites: true });
+    effect(() => this.onChange?.(this._value()));
   }
 
   writeValue(source: boolean) {
-    this.value = source;
+    this._value.set(source);
   }
 
   registerOnChange(onChange: (source: boolean) => void) {
@@ -98,26 +67,18 @@ export class XuiCheckbox implements ControlValueAccessor, OnInit {
   }
 
   registerOnTouched(onTouched: () => void) {
-    this.onTouched = onTouched;
+    this._onTouched = onTouched;
   }
 
   setDisabledState(isDisabled: boolean): void {
-    this.disabled = isDisabled;
+    this._disabled.set(isDisabled);
   }
 
-  @HostListener('focusout')
-  private _focusOut() {
-    this.onTouched?.();
-  }
-
-  @HostListener('click')
-  @HostListener('keydown.enter', ['$event'])
-  @HostListener('keydown.space', ['$event'])
-  private _click(event: KeyboardEvent) {
+  _click(event: KeyboardEvent) {
     event?.preventDefault();
 
-    if (!this.disabled) {
-      this.value = !this.value;
+    if (!this._disabled()) {
+      this._value.set(!this._value());
     }
   }
 }

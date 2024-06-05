@@ -10,6 +10,7 @@
   <xui-input type="text" placeholder="Placeholder"></xui-input>
   <xui-input type="text" color="dark" placeholder="Dark"></xui-input>
   <xui-input type="text" placeholder="Required" [formControl]="errorControl"></xui-input>
+  Text: {{ errorControl.value }}
   <xui-input type="text" placeholder="Disabled" disabled></xui-input>
   <xui-input type="password" [formControl]="errorInputControl" placeholder="Password"></xui-input>
 </app-example>

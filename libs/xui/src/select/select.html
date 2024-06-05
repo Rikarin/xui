@@ -1,6 +1,12 @@
-<div [ngClass]="styles" [tabindex]="disabled ? -1 : 0" (click)="open()" cdkOverlayOrigin #trigger="cdkOverlayOrigin">
-  {{ !viewValue ? placeholder ?? '&nbsp;' : viewValue }}
-  <xui-icon [icon]="isOpen ? 'keyboard_arrow_up' : 'keyboard_arrow_down'"></xui-icon>
+<div
+  [ngClass]="_styles()"
+  [tabindex]="_disabled() ? -1 : 0"
+  (click)="open()"
+  cdkOverlayOrigin
+  #trigger="cdkOverlayOrigin"
+>
+  {{ !_viewValue() ? placeholder() ?? '&nbsp;' : _viewValue() }}
+  <xui-icon [icon]="_isOpened() ? 'keyboard_arrow_up' : 'keyboard_arrow_down'"></xui-icon>
 </div>
 
 <ng-template
@@ -8,12 +14,13 @@
   cdkConnectedOverlayHasBackdrop
   [cdkConnectedOverlayBackdropClass]="'cdk-overlay-transparent'"
   [cdkConnectedOverlayOrigin]="trigger"
-  [cdkConnectedOverlayOpen]="isOpen"
-  [cdkConnectedOverlayWidth]="width"
-  (backdropClick)="isOpen = false"
+  [cdkConnectedOverlayOpen]="_isOpened()"
+  [cdkConnectedOverlayWidth]="_width"
+  (backdropClick)="_isOpened.set(false)"
+  (detach)="_isOpened.set(false)"
 >
   <div class="x-select-options">
-    @for (item of items; track item.value) {
+    @for (item of items(); track item.value) {
       <xui-option [value]="item.value">{{ item.label | translate }}</xui-option>
     }
     <ng-content select="xui-option" />

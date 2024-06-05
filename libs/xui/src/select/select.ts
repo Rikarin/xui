@@ -1,110 +1,83 @@
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
+  computed,
+  effect,
   ElementRef,
-  HostListener,
-  Input,
-  OnInit,
+  input,
   Optional,
-  Self
+  Self,
+  signal
 } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
-import { InputBoolean } from '../utils';
+import { convertToBoolean } from '../utils';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { XUI_SELECT_ACCESSOR, SelectAccessor, SelectColor, SelectItem, SelectSize, SelectValue } from './select.types';
-import { BooleanInput } from '@angular/cdk/coercion';
-import { Subject } from 'rxjs';
 
 @UntilDestroy()
 @Component({
   selector: 'xui-select',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: 'select.html',
-  providers: [{ provide: XUI_SELECT_ACCESSOR, useExisting: XuiSelect }]
+  providers: [{ provide: XUI_SELECT_ACCESSOR, useExisting: XuiSelect }],
+  host: {
+    '(focusout)': '_onTouched?.()'
+  }
 })
-export class XuiSelect implements SelectAccessor, ControlValueAccessor, OnInit {
-  static ngAcceptInputType_disabled: BooleanInput;
-
+export class XuiSelect implements SelectAccessor, ControlValueAccessor {
   private onChange?: (source: SelectValue) => void;
-  private onTouched?: () => void;
-  private _value: SelectValue = null;
-  private _viewValue?: string;
-  isOpen = false;
-  onChange$ = new Subject();
+  _onTouched?: () => void;
 
-  @Input() placeholder?: string;
-  @Input() @InputBoolean() disabled = false;
-  @Input() color: SelectColor = 'light';
-  @Input() size: SelectSize = 'large';
-  @Input() items?: SelectItem[];
+  _viewValue = signal('');
+  _isOpened = signal(false);
+  _disabled = signal(false);
+  _value = signal<SelectValue>(null);
 
-  @Input()
-  get value() {
-    return this._value;
-  }
+  value = input<SelectValue>(null);
+  placeholder = input<string>();
+  color = input<SelectColor>('light');
+  size = input<SelectSize>('large');
+  items = input<SelectItem[]>();
+  disabled = input(false, { transform: (v: string | boolean) => convertToBoolean(v) });
 
-  set value(v) {
-    if (this._value !== v) {
-      this._value = v;
-      this.onChange?.(v);
-      this.onChange$.next(null);
-    }
-  }
-
-  get width() {
-    return this.elementRef.nativeElement.offsetWidth;
-  }
-
-  get viewValue() {
-    const item = this.items?.find(x => x.value === this.value);
-    return item?.label ?? this._viewValue;
-  }
-
-  set viewValue(value: string | undefined) {
-    this._viewValue = value;
-    this.cdr.detectChanges();
-  }
-
-  get styles() {
+  _styles = computed(() => {
     const ret: { [klass: string]: boolean } = {
       'x-select': true,
-      'x-select-disabled': this.disabled
+      'x-select-disabled': this._disabled()
     };
 
-    ret[`x-select-${this.color}`] = true;
-    ret[`x-select-${this.size}`] = true;
+    ret[`x-select-${this.color()}`] = true;
+    ret[`x-select-${this.size()}`] = true;
     return ret;
+  });
+
+  get _width() {
+    return this.elementRef.nativeElement.offsetWidth;
   }
 
   constructor(
     private elementRef: ElementRef,
-    private cdr: ChangeDetectorRef,
     @Self() @Optional() public control?: NgControl
   ) {
     if (this.control) {
       this.control.valueAccessor = this;
     }
-  }
 
-  ngOnInit() {
-    this.control?.statusChanges?.subscribe(() => {
-      this.cdr.markForCheck();
-    });
+    effect(() => this._disabled.set(this.disabled()), { allowSignalWrites: true });
+    effect(() => this._value.set(this.value()), { allowSignalWrites: true });
+    effect(() => this.onChange?.(this._value()));
   }
 
   open() {
-    this.isOpen = !this.disabled;
-    this.cdr.markForCheck();
+    this._isOpened.set(!this._disabled());
   }
 
   close() {
-    this.isOpen = false;
-    this.cdr.markForCheck();
+    this._isOpened.set(false);
   }
 
   writeValue(source: SelectValue) {
-    this.value = source;
+    this._value.set(source);
   }
 
   registerOnChange(onChange: (source: SelectValue) => void) {
@@ -112,15 +85,10 @@ export class XuiSelect implements SelectAccessor, ControlValueAccessor, OnInit {
   }
 
   registerOnTouched(onTouched: () => void) {
-    this.onTouched = onTouched;
+    this._onTouched = onTouched;
   }
 
   setDisabledState(isDisabled: boolean): void {
-    this.disabled = isDisabled;
-  }
-
-  @HostListener('focusout')
-  private _focusOut() {
-    this.onTouched?.();
+    this._disabled.set(isDisabled);
   }
 }

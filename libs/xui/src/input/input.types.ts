@@ -1,4 +1,4 @@
-import { InjectionToken } from '@angular/core';
+import { InjectionToken, Signal } from '@angular/core';
 
 export type InputSize = 'large' | 'small';
 export type InputColor = 'light' | 'dark';
@@ -6,5 +6,5 @@ export type InputType = 'text' | 'password' | 'color' | 'date' | 'email' | 'numb
 
 export const INPUT_GROUP_ACCESSOR = new InjectionToken<InputGroupAccessor>('xui-input-group');
 export interface InputGroupAccessor {
-  size?: InputSize;
+  size: Signal<InputSize | undefined>;
 }

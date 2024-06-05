@@ -1,4 +1,4 @@
-import { InjectionToken } from '@angular/core';
+import { InjectionToken, Signal, WritableSignal } from '@angular/core';
 import { Observable } from 'rxjs';
 
 export type SelectSize = 'large' | 'small';
@@ -13,11 +13,9 @@ export interface SelectItem {
 // This is needed to break the injection dependency between parent <-> child elements
 export const XUI_SELECT_ACCESSOR = new InjectionToken<SelectAccessor>('xui-select');
 export interface SelectAccessor {
-  color: SelectColor;
-  value: SelectValue;
-
-  viewValue: string | undefined;
-  onChange$: Observable<unknown>;
+  color: Signal<SelectColor>;
+  _value: WritableSignal<SelectValue>;
+  _viewValue: WritableSignal<string>;
 
   close(): void;
 }

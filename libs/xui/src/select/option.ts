@@ -1,83 +1,54 @@
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
+  computed,
   ElementRef,
-  HostBinding,
-  HostListener,
   Inject,
-  Input,
-  OnInit,
+  input,
   ViewChild
 } from '@angular/core';
-import { InputBoolean } from '../utils';
-import { BooleanInput } from '@angular/cdk/coercion';
+import { convertToBoolean } from '../utils';
 import { XUI_SELECT_ACCESSOR, SelectAccessor, SelectValue } from './select.types';
 
 @Component({
   selector: 'xui-option',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<span #content><ng-content /></span>
-    <xui-decagram *ngIf="isSelected" type="circle" icon="check"></xui-decagram>`
+    <xui-decagram *ngIf="_isSelected()" type="circle" icon="check"></xui-decagram>`,
+  host: {
+    class: 'x-select-option',
+    '[class]': '"x-select-option-" + _select.color',
+    '[class.x-select-option-selected]': '_isSelected()',
+    '[class.x-select-option-disabled]': 'disabled()',
+    '(click)': '_click()'
+  }
 })
-export class XuiOption implements OnInit, AfterViewInit {
-  static ngAcceptInputType_disabled: BooleanInput;
+export class XuiOption implements AfterViewInit {
+  value = input<SelectValue>(null);
+  disabled = input(false, { transform: (v: string | boolean) => convertToBoolean(v) });
 
-  @Input() value: SelectValue = null;
-  @Input() @InputBoolean() disabled = false;
+  @ViewChild('content') private contentRef!: ElementRef;
 
-  @ViewChild('content') contentRef!: ElementRef;
+  _isSelected = computed(() => this._select._value() == this.value());
 
-  @HostBinding('class.x-select-option')
-  get hostMainClass(): boolean {
-    return true;
-  }
-
-  @HostBinding('class.x-select-option-selected')
-  get hostSelectedClass(): boolean {
-    return this.isSelected;
-  }
-
-  @HostBinding('class.x-select-option-disabled')
-  get hostDisabledClass(): boolean {
-    return this.disabled;
-  }
-
-  @HostBinding('class')
-  get hostClass(): string {
-    return `x-select-option-${this.select.color}`;
-  }
-
-  get isSelected() {
-    return this.select.value == this.value;
-  }
-
-  get viewValue(): string {
+  private get viewValue(): string {
     return (this.contentRef.nativeElement.textContent || '').trim();
   }
 
-  constructor(
-    @Inject(XUI_SELECT_ACCESSOR) private select: SelectAccessor,
-    private cdr: ChangeDetectorRef
-  ) {}
-
-  ngOnInit() {
-    this.select.onChange$.subscribe(() => this.cdr.markForCheck());
-  }
+  constructor(@Inject(XUI_SELECT_ACCESSOR) public _select: SelectAccessor) {}
 
   ngAfterViewInit() {
-    if (this.isSelected) {
-      this.select.viewValue = this.viewValue;
+    if (this._isSelected()) {
+      this._select._viewValue.set(this.viewValue);
     }
   }
 
-  @HostListener('click')
-  click() {
-    if (!this.disabled) {
-      this.select.value = this.value;
-      this.select.viewValue = this.viewValue;
-      this.select.close();
+  _click() {
+    if (!this.disabled()) {
+      this._select._value.set(this.value());
+      this._select._viewValue.set(this.viewValue);
+      this._select.close();
     }
   }
 }

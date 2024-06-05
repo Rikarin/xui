@@ -1,14 +1,14 @@
 <div class="x-submenu-entry x-menu-hover" [style.paddingLeft.px]="paddingLeft" (click)="toggleSubmenu()">
   <div class="x-submenu-title x-menu-item">
-    <ng-container *ngIf="icon">
-      <xui-icon [icon]="icon"></xui-icon>
+    <ng-container *ngIf="icon()">
+      <xui-icon [icon]="icon()"></xui-icon>
     </ng-container>
-    {{ title }}
+    {{ title() }}
   </div>
 
-  <xui-icon [icon]="this.open ? 'keyboard_arrow_down' : 'keyboard_arrow_up'"></xui-icon>
+  <xui-icon [icon]="_isOpened() ? 'keyboard_arrow_down' : 'keyboard_arrow_up'"></xui-icon>
 </div>
 
-@if (open) {
+@if (_isOpened()) {
   <ng-content />
 }

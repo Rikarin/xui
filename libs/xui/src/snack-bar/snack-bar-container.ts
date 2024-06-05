@@ -5,7 +5,6 @@ import {
   ComponentRef,
   ElementRef,
   EmbeddedViewRef,
-  HostBinding,
   inject,
   NgZone,
   OnDestroy,
@@ -30,6 +29,7 @@ let uniqueId = 0;
   animations: [xuiSnackBarAnimations.snackBarState],
   templateUrl: 'snack-bar-container.html',
   host: {
+    class: 'x-snack-bar',
     '[@state]': '_animationState',
     '(@state.done)': 'onAnimationEnd($event)'
   }
@@ -80,11 +80,6 @@ export class SnackBarContainer extends BasePortalOutlet implements OnDestroy {
 
   /** The portal outlet inside of this container into which the snack bar content will be loaded. */
   @ViewChild(CdkPortalOutlet, { static: true }) portalOutlet!: CdkPortalOutlet;
-
-  @HostBinding('class')
-  get hostClass(): string {
-    return 'x-snack-bar';
-  }
 
   constructor(
     public snackBarConfig: SnackBarConfig,

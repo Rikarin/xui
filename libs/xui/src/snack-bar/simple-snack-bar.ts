@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, HostBinding, Inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { SnackBarRef } from './snack-bar-ref';
 import { XUI_SNACK_BAR_DATA } from './snack-bar.types';
 import { XuiButtonModule } from '../button';
@@ -25,20 +25,15 @@ export interface TextOnlySnackBar {
       <xui-button size="small" type="raised" color="success" (click)="action()">
         {{ data.action | translate }}
       </xui-button>
-    }`
+    }`,
+  host: {
+    class: 'x-simple-snack-bar'
+  }
 })
 export class SimpleSnackBar implements TextOnlySnackBar {
-  // @Input() @WithConfig() data!: { message: string; action: string };
-
-  @HostBinding('class.x-simple-snack-bar')
-  get hostMainClass(): boolean {
-    return true;
-  }
-
   constructor(
     public snackBarRef: SnackBarRef<SimpleSnackBar>,
     @Inject(XUI_SNACK_BAR_DATA) public data: { message: string; action: string }
-    // private configService: XuiConfigService
   ) {}
 
   action(): void {

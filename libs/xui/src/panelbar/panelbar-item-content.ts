@@ -7,6 +7,6 @@ import { XuiPanelBarItem } from './panelbar-item';
 })
 export class XuiPanelBarItemContent {
   constructor(panelBarItem: XuiPanelBarItem, templateRef: TemplateRef<unknown>) {
-    panelBarItem.contentDirective = templateRef;
+    panelBarItem._contentDirective = templateRef;
   }
 }

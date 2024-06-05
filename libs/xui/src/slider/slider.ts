@@ -1,24 +1,19 @@
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
+  computed,
+  effect,
   ElementRef,
-  HostBinding,
-  HostListener,
+  input,
   Input,
-  OnChanges,
-  OnInit,
   Optional,
   Self,
-  SimpleChanges,
+  signal,
   ViewChild
 } from '@angular/core';
 import { ControlValueAccessor, FormsModule, NgControl } from '@angular/forms';
-import { inNextTick, InputBoolean, InputNumber } from '../utils';
-import { BehaviorSubject, map } from 'rxjs';
+import { convertToBoolean, inNextTick } from '../utils';
 import { SliderColor, SliderMark } from './slider.types';
-import { BooleanInput, NumberInput } from '@angular/cdk/coercion';
 import { CommonModule } from '@angular/common';
 import { XuiTooltip, XuiTooltipModule } from '../tooltip';
 import { DragDropModule } from '@angular/cdk/drag-drop';
@@ -28,109 +23,62 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
   imports: [CommonModule, FormsModule, XuiTooltipModule, DragDropModule],
   selector: 'xui-slider',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: 'slider.html'
+  templateUrl: 'slider.html',
+  host: {
+    class: 'x-slider',
+    '[class.x-slider-disabled]': '_disabled()',
+    '(click)': '_move($event.x)',
+    '(focusout)': '_onTouched?.()',
+    '(keydown.arrowLeft)': '_decreaseKey()',
+    '(keydown.arrowRight)': '_increaseKey()'
+  }
 })
-export class XuiSlider implements ControlValueAccessor, OnInit, AfterViewInit, OnChanges {
-  static ngAcceptInputType_value: NumberInput;
-  static ngAcceptInputType_range: BooleanInput;
-  static ngAcceptInputType_tooltipDisabled: BooleanInput;
-
+export class XuiSlider implements ControlValueAccessor {
   private onChange?: (source: number) => void;
-  private onTouched?: () => void;
+  _onTouched?: () => void;
+  _disabled = signal(false);
+  _value = signal(0);
 
-  private _posX = new BehaviorSubject<number>(0);
-  private _value: number | null = null;
-
-  position$ = this._posX.pipe(map(x => ({ x, y: 0 })));
-
-  @ViewChild('track', { static: true }) trackElm!: ElementRef;
-  @ViewChild('tooltipRef') tooltipRef!: XuiTooltip;
-
-  @Input() @InputBoolean() disabled = false;
-  @Input() @InputBoolean() tooltipDisabled = false;
-  @Input() color: SliderColor = 'primary';
-  @Input() secondColor?: SliderColor;
-
-  @Input() @InputNumber() min = 0;
-  @Input() @InputNumber() max = 100;
-  @Input() @InputNumber() step = 1;
   @Input() tipFormatter?: (value: number) => string;
-  @Input() marks?: SliderMark[];
-  @Input() @InputBoolean() range = false;
+  color = input<SliderColor>('primary');
+  secondColor = input<SliderColor>();
+  min = input(0, { transform: (v: string | number) => Number(v) });
+  max = input(100, { transform: (v: string | number) => Number(v) });
+  step = input(1, { transform: (v: string | number) => Number(v) });
+  marks = input<SliderMark[]>();
+  value = input(this.min(), { transform: (v: string | number) => Number(v) });
+  // range = input(false, { transform: (v: string | boolean) => convertToBoolean(v) });
+  disabled = input(false, { transform: (v: string | boolean) => convertToBoolean(v) });
+  tooltipDisabled = input(false, { transform: (v: string | boolean) => convertToBoolean(v) });
 
-  @Input()
-  @InputNumber()
-  get value() {
-    return this._value ?? this.min;
-  }
+  @ViewChild('track', { static: true }) private trackElm!: ElementRef;
+  @ViewChild('tooltipRef') private tooltipRef!: XuiTooltip;
 
-  set value(v) {
-    if (this._value !== v) {
-      this._value = v;
+  _tooltip = computed(() => String(this.tipFormatter ? this.tipFormatter(this._value()) : this._value()));
+  private percentage = computed(() => this._getPercentage(this._value()));
+  _width = computed(() => 100 - this.percentage());
+  _position = computed(() => ({ x: (this.percentage() / 100) * this.hostRect.width - 5, y: 0 }));
 
-      this.onChange?.(v);
-    }
-  }
-
-  @HostBinding('class.x-slider')
-  get hostMainClass(): boolean {
-    return true;
-  }
-
-  @HostBinding('class.x-slider-disabled')
-  get hostDisabledClass(): boolean {
-    return this.disabled;
-  }
-
-  private get percentage() {
-    return this.getPercentage(this.value);
-  }
-
-  get width() {
-    return 100 - this.percentage;
-  }
-
-  get tooltip() {
-    return String(this.tipFormatter ? this.tipFormatter(this.value) : this.value);
-  }
-
-  getColor(color: string) {
+  _getColor(color: string) {
     return `x-slider-${color}`;
   }
 
-  getPercentage(absolute: number) {
-    return ((absolute - this.min) / (this.max - this.min)) * 100;
+  _getPercentage(absolute: number) {
+    return ((absolute - this.min()) / (this.max() - this.min())) * 100;
   }
 
-  constructor(
-    private cdr: ChangeDetectorRef,
-    @Self() @Optional() public control?: NgControl
-  ) {
+  constructor(@Self() @Optional() public control?: NgControl) {
     if (this.control) {
       this.control.valueAccessor = this;
     }
-  }
 
-  ngOnInit() {
-    this.control?.statusChanges?.subscribe(() => {
-      this.setPositionByPercentage(this.percentage);
-      this.cdr.markForCheck();
-    });
-  }
-
-  async ngAfterViewInit() {
-    await inNextTick();
-    this.setPositionByPercentage(this.percentage);
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes['value']) {
-      this.setPositionByPercentage(this.percentage);
-    }
+    effect(() => this._disabled.set(this.disabled()), { allowSignalWrites: true });
+    effect(() => this._value.set(this.value() ?? null), { allowSignalWrites: true });
+    effect(() => this.onChange?.(this._value()));
   }
 
   writeValue(source: number) {
-    this.value = source;
+    this._value.set(source);
   }
 
   registerOnChange(onChange: (source: number) => void) {
@@ -138,33 +86,23 @@ export class XuiSlider implements ControlValueAccessor, OnInit, AfterViewInit, O
   }
 
   registerOnTouched(onTouched: () => void) {
-    this.onTouched = onTouched;
+    this._onTouched = onTouched;
   }
 
   setDisabledState(isDisabled: boolean): void {
-    this.disabled = isDisabled;
+    this._disabled.set(isDisabled);
   }
 
-  @HostListener('focusout')
-  private _focusOut() {
-    this.onTouched?.();
+  _decreaseKey() {
+    this._value.set(Math.min(Math.max(this._value() - this.step(), this.min()), this.max()));
   }
 
-  @HostListener('keydown.arrowLeft')
-  private _decreaseKey() {
-    this.value = Math.min(Math.max(this.value - this.step, this.min), this.max);
-    this.setPositionByPercentage(this.percentage);
+  _increaseKey() {
+    this._value.set(Math.min(Math.max(this._value() + this.step(), this.min()), this.max()));
   }
 
-  @HostListener('keydown.arrowRight')
-  private _increaseKey() {
-    this.value = Math.min(Math.max(this.value + this.step, this.min), this.max);
-    this.setPositionByPercentage(this.percentage);
-  }
-
-  @HostListener('click', ['$event.x'])
-  async move(screenX: number) {
-    if (this.disabled) {
+  async _move(screenX: number) {
+    if (this._disabled()) {
       return;
     }
 
@@ -173,22 +111,15 @@ export class XuiSlider implements ControlValueAccessor, OnInit, AfterViewInit, O
     const width = rect.width - 10;
 
     const pos = Math.min(Math.max(screenX - rect.x - cursorOffset, 0), width);
-    const value = (pos / width) * (this.max - this.min); // 0 <-> max - min
-    const newValue = Math.round(value / this.step) * this.step;
+    const value = (pos / width) * (this.max() - this.min()); // 0 <-> max - min
+    const newValue = Math.round(value / this.step()) * this.step();
+    this._value.set(newValue + this.min());
 
-    this.value = newValue + this.min;
-    this.setPositionByPercentage(this.percentage);
     await inNextTick();
-
     this.tooltipRef.show();
   }
 
   private get hostRect() {
     return this.trackElm.nativeElement.getBoundingClientRect() as DOMRect;
-  }
-
-  private setPositionByPercentage(value: number) {
-    this._posX.next((value / 100) * this.hostRect.width - 5);
-    this.cdr.markForCheck();
   }
 }

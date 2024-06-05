@@ -1,8 +1,7 @@
-import { BooleanInput, NumberInput } from '@angular/cdk/coercion';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, Optional, Self } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, input, Optional, Self, signal } from '@angular/core';
 import { ControlValueAccessor, FormsModule, NgControl } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { InputBoolean, InputNumber } from '../utils';
+import { convertToBoolean } from '../utils';
 import { TextareaColor, TextareaSize } from './textarea.types';
 import { CommonModule } from '@angular/common';
 
@@ -11,50 +10,36 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule, FormsModule, TranslateModule],
   selector: 'xui-textarea',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: 'textarea.html'
+  templateUrl: 'textarea.html',
+  host: {
+    '(focusout)': '_onTouched?.()'
+  }
 })
-export class XuiTextarea implements ControlValueAccessor, OnInit {
-  static ngAcceptInputType_disabled: BooleanInput;
-
+export class XuiTextarea implements ControlValueAccessor {
   private onChange?: (source: string | null) => void;
-  private onTouched?: () => void;
+  _onTouched?: () => void;
+  _disabled = signal(false);
+  _value = signal<string | null>(null);
 
-  _value: string | null = null;
-  touched = false;
+  value = input<string | null>(null);
+  placeholder = input<string>();
+  color = input<TextareaColor>('light');
+  size = input<TextareaSize>('normal');
+  rows = input(3);
+  maxLength = input<number>();
+  disabled = input(false, { transform: (v: string | boolean) => convertToBoolean(v) });
+  readOnly = input(false, { transform: (v: string | boolean) => convertToBoolean(v) });
 
-  @Input() placeholder?: string;
-  @Input() @InputBoolean() disabled = false;
-  @Input() color: TextareaColor = 'light';
-  @Input() size: TextareaSize = 'normal';
-  @Input() @InputNumber() rows: NumberInput = 3;
-  @Input() @InputNumber() maxLength?: NumberInput;
-
-  @Input()
-  get value() {
-    return this._value;
-  }
-
-  set value(v) {
-    if (this._value !== v) {
-      this._value = v;
-      this.onChange?.(v);
-      this.cdr.markForCheck();
-    }
-  }
-
-  get wordCount() {
-    return ((this.maxLength as number) ?? 0) - (this.value?.length ?? 0);
-  }
-
-  get styles() {
+  _worldCount = computed(() => ((this.maxLength() as number) ?? 0) - (this._value()?.length ?? 0));
+  _styles = computed(() => {
     const ret: { [klass: string]: boolean } = {
       'x-textarea': true,
-      'x-textarea-disabled': this.disabled
+      'x-textarea-disabled': this._disabled()
     };
 
-    ret[`x-textarea-${this.color}`] = true;
+    ret[`x-textarea-${this.color()}`] = true;
     return ret;
-  }
+  });
 
   get errorMessage() {
     const msg = this.control?.getError('message');
@@ -62,17 +47,16 @@ export class XuiTextarea implements ControlValueAccessor, OnInit {
   }
 
   constructor(
-    private cdr: ChangeDetectorRef,
     private translation: TranslateService,
     @Self() @Optional() public control?: NgControl
   ) {
     if (this.control) {
       this.control.valueAccessor = this;
     }
-  }
 
-  ngOnInit() {
-    this.control?.statusChanges?.subscribe(() => this.cdr.markForCheck());
+    effect(() => this._disabled.set(this.disabled()), { allowSignalWrites: true });
+    effect(() => this._value.set(this.value()), { allowSignalWrites: true });
+    effect(() => this.onChange?.(this._value()));
   }
 
   get invalid(): boolean {
@@ -89,7 +73,7 @@ export class XuiTextarea implements ControlValueAccessor, OnInit {
   }
 
   writeValue(source: string) {
-    this.value = source;
+    this._value.set(source);
   }
 
   registerOnChange(onChange: (source: string | null) => void) {
@@ -97,17 +81,10 @@ export class XuiTextarea implements ControlValueAccessor, OnInit {
   }
 
   registerOnTouched(onTouched: () => void) {
-    this.onTouched = onTouched;
+    this._onTouched = onTouched;
   }
 
   setDisabledState(isDisabled: boolean): void {
-    this.disabled = isDisabled;
-  }
-
-  markAsTouched() {
-    if (!this.touched) {
-      this.onTouched?.();
-      this.touched = true;
-    }
+    this._disabled.set(isDisabled);
   }
 }

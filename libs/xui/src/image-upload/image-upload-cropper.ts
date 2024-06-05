@@ -9,10 +9,10 @@ import { DIALOG_DATA } from '@angular/cdk/dialog';
       <image-cropper
         [imageChangedEvent]="data.imageChangedEvent"
         [maintainAspectRatio]="true"
-        [aspectRatio]="data.aspectRatio"
+        [aspectRatio]="data.aspectRatio()"
         format="webp"
         output="base64"
-        [roundCropper]="data.type === 'round'"
+        [roundCropper]="data.type() === 'round'"
         (imageCropped)="data.imageCropped($event)"
       />
     </div>
