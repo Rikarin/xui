@@ -30,8 +30,8 @@ import { XuiRadioOption } from './radio-option';
     '[tabindex]': '_disabled() ? -1 : 0',
     '(keydown.arrowup)': '_prev($event)',
     '(keydown.arrowdown)': '_next($event)',
-    '(mousedown)': '_mouseDown2()',
-    '(mouseup)': '_mouseUp()',
+    '(mousedown)': '_mouseDown = true',
+    '(mouseup)': '_mouseDown = false',
     '(focusin)': '_focusIn()',
     '(focusout)': '_focusOut()'
   }
@@ -39,16 +39,18 @@ import { XuiRadioOption } from './radio-option';
 export class XuiRadioList implements RadioListAccessor, ControlValueAccessor {
   private onChange?: (source: RadioListValue) => void;
   private onTouched?: () => void;
-  private _mouseDown = false;
+  _mouseDown = false;
 
   _value = signal<RadioListValue>(null);
   _disabled = signal(false);
   _focusedValue = signal<RadioListValue>(null);
 
-  value = input<RadioListValue>(null);
+  value = input<RadioListValue>();
   size = input<RadioListSize>('md');
   color = input<RadioListColor>('light');
-  disabled = input(false, { transform: (v: string | boolean) => convertToBoolean(v) });
+  disabled = input<boolean | undefined, string | boolean>(undefined, {
+    transform: (v: string | boolean) => convertToBoolean(v)
+  });
 
   @ContentChildren(XuiRadioOption) private optionsRef!: QueryList<XuiRadioOption>;
 
@@ -57,8 +59,8 @@ export class XuiRadioList implements RadioListAccessor, ControlValueAccessor {
       this.control.valueAccessor = this;
     }
 
-    effect(() => this._disabled.set(this.disabled()), { allowSignalWrites: true });
-    effect(() => this._value.set(this.value()), { allowSignalWrites: true });
+    effect(() => this.disabled() && this._disabled.set(this.disabled()!), { allowSignalWrites: true });
+    effect(() => this.value() && this._value.set(this.value()!), { allowSignalWrites: true });
     effect(() => this.onChange?.(this._value()));
   }
 
@@ -90,14 +92,6 @@ export class XuiRadioList implements RadioListAccessor, ControlValueAccessor {
     this.select(false);
   }
 
-  _mouseDown2() {
-    this._mouseDown = true;
-  }
-
-  _mouseUp() {
-    this._mouseDown = false;
-  }
-
   _focusIn() {
     if (!this._mouseDown) {
       if (this._value() == null) {
@@ -113,28 +107,21 @@ export class XuiRadioList implements RadioListAccessor, ControlValueAccessor {
     this.onTouched?.();
   }
 
-  private select(prev: boolean) {
+  private select(backwards: boolean) {
     if (this._disabled()) {
       return;
     }
 
     const options = this.optionsRef.toArray();
     let next = options.findIndex(x => x.value() == this._value());
-    let iteration = 0;
+    let iterations = options.length;
 
     do {
-      next += prev ? -1 : 1;
+      next += backwards ? options.length - 1 : 1;
+      next %= options.length;
 
-      if (prev && next < 0) {
-        next = options.length - 1;
-        iteration++;
-      } else if (!prev && next >= options.length) {
-        next = 0;
-        iteration++;
-      }
-
-      if (iteration == 2) {
-        return;
+      if (!iterations--) {
+        throw 'No enabled options';
       }
     } while (options[next].disabled());
 

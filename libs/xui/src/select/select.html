@@ -3,7 +3,10 @@
   [tabindex]="_disabled() ? -1 : 0"
   (click)="open()"
   cdkOverlayOrigin
+  [cdkTrapFocus]="_isOpened()"
   #trigger="cdkOverlayOrigin"
+  (keydown.enter)="_isOpened.set(true)"
+  (keydown.space)="_isOpened.set(true)"
 >
   {{ !_viewValue() ? placeholder() ?? '&nbsp;' : _viewValue() }}
   <xui-icon [icon]="_isOpened() ? 'keyboard_arrow_up' : 'keyboard_arrow_down'"></xui-icon>

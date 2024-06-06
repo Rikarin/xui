@@ -24,18 +24,20 @@ export class XuiRadioGroup implements RadioGroupAccessor, ControlValueAccessor {
   _disabled = signal(false);
   _value = signal<RadioValue>(null);
 
-  value = input<RadioValue>(null);
+  value = input<RadioValue>();
   color = input<RadioColor>('none');
   items = input<RadioItem[]>();
-  disabled = input(false, { transform: (v: string | boolean) => convertToBoolean(v) });
+  disabled = input<boolean | undefined, string | boolean>(undefined, {
+    transform: (v: string | boolean) => convertToBoolean(v)
+  });
 
   constructor(@Self() @Optional() public control?: NgControl) {
     if (this.control) {
       this.control.valueAccessor = this;
     }
 
-    effect(() => this._disabled.set(this.disabled()), { allowSignalWrites: true });
-    effect(() => this._value.set(this.value()), { allowSignalWrites: true });
+    effect(() => this.disabled() && this._disabled.set(this.disabled()!), { allowSignalWrites: true });
+    effect(() => this.value() && this._value.set(this.value()!), { allowSignalWrites: true });
     effect(() => this.onChange?.(this._value()));
   }
 

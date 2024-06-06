@@ -31,13 +31,15 @@ export class XuiInput implements ControlValueAccessor {
   _disabled = signal(false);
   _value = signal<string | null>(null);
 
-  value = input<string | null>(null);
+  value = input<string>();
   placeholder = input<string>();
   color = input<InputColor>('light');
   size = input<InputSize>('large');
   type = input<InputType>('text');
   dataList = input<string[] | null>();
-  disabled = input(false, { transform: (v: string | boolean) => convertToBoolean(v) });
+  disabled = input<boolean | undefined, string | boolean>(undefined, {
+    transform: (v: string | boolean) => convertToBoolean(v)
+  });
   readOnly = input(false, { transform: (v: string | boolean) => convertToBoolean(v) });
 
   _styles = computed(() => {
@@ -66,8 +68,8 @@ export class XuiInput implements ControlValueAccessor {
       this.control.valueAccessor = this;
     }
 
-    effect(() => this._disabled.set(this.disabled()), { allowSignalWrites: true });
-    effect(() => this._value.set(this.value()), { allowSignalWrites: true });
+    effect(() => this.disabled() && this._disabled.set(this.disabled()!), { allowSignalWrites: true });
+    effect(() => this.value() && this._value.set(this.value()!), { allowSignalWrites: true });
     effect(() => this.onChange?.(this._value()));
   }
 

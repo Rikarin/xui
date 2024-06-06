@@ -25,9 +25,13 @@ export class XuiSwitch implements ControlValueAccessor {
   _value = signal(false);
   _disabled = signal(false);
 
-  value = input(false, { transform: (v: string | boolean) => convertToBoolean(v) });
+  value = input<boolean | undefined, string | boolean>(undefined, {
+    transform: (v: string | boolean) => convertToBoolean(v)
+  });
   color = input<SwitchColor>('success');
-  disabled = input(false, { transform: (v: string | boolean) => convertToBoolean(v) });
+  disabled = input<boolean | undefined, string | boolean>(undefined, {
+    transform: (v: string | boolean) => convertToBoolean(v)
+  });
 
   _styles = computed(() => {
     const ret: { [klass: string]: boolean } = {
@@ -44,8 +48,8 @@ export class XuiSwitch implements ControlValueAccessor {
       this.control.valueAccessor = this;
     }
 
-    effect(() => this._disabled.set(this.disabled()), { allowSignalWrites: true });
-    effect(() => this._value.set(this.value()), { allowSignalWrites: true });
+    effect(() => this.disabled() && this._disabled.set(this.disabled()!), { allowSignalWrites: true });
+    effect(() => this.value() && this._value.set(this.value()!), { allowSignalWrites: true });
     effect(() => this.onChange?.(this._value()));
   }
 

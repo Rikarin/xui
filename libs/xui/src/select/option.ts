@@ -21,6 +21,7 @@ import { XUI_SELECT_ACCESSOR, SelectAccessor, SelectValue } from './select.types
     '[class]': '"x-select-option-" + _select.color',
     '[class.x-select-option-selected]': '_isSelected()',
     '[class.x-select-option-disabled]': 'disabled()',
+    '[tabIndex]': 'disabled() ? -1 : 0',
     '(click)': '_click()'
   }
 })

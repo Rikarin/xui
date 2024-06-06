@@ -33,12 +33,14 @@ export class XuiSelect implements SelectAccessor, ControlValueAccessor {
   _disabled = signal(false);
   _value = signal<SelectValue>(null);
 
-  value = input<SelectValue>(null);
+  value = input<SelectValue>();
   placeholder = input<string>();
   color = input<SelectColor>('light');
   size = input<SelectSize>('large');
   items = input<SelectItem[]>();
-  disabled = input(false, { transform: (v: string | boolean) => convertToBoolean(v) });
+  disabled = input<boolean | undefined, string | boolean>(undefined, {
+    transform: (v: string | boolean) => convertToBoolean(v)
+  });
 
   _styles = computed(() => {
     const ret: { [klass: string]: boolean } = {
@@ -63,8 +65,8 @@ export class XuiSelect implements SelectAccessor, ControlValueAccessor {
       this.control.valueAccessor = this;
     }
 
-    effect(() => this._disabled.set(this.disabled()), { allowSignalWrites: true });
-    effect(() => this._value.set(this.value()), { allowSignalWrites: true });
+    effect(() => this.disabled() && this._disabled.set(this.disabled()!), { allowSignalWrites: true });
+    effect(() => this.value() && this._value.set(this.value()!), { allowSignalWrites: true });
     effect(() => this.onChange?.(this._value()));
   }
 

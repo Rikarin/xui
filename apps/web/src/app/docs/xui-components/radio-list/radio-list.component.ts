@@ -16,6 +16,6 @@ import { CommonModule } from '@angular/common';
 })
 export class RadioListComponent {
   model = new FormControl('second');
-  disabledModel = new FormControl({ value: 'second', disabled: true });
+  disabledModel = new FormControl({ value: 'fourth', disabled: true });
   langs = new FormControl('en_US');
 }

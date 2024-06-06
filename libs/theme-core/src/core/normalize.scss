@@ -333,10 +333,19 @@
     &:hover {
       text-decoration: underline;
     }
+
+    &:focus-visible {
+      text-decoration: underline;
+    }
   }
 
   // TODO: Remove this after moving settings into overlay
   .cdk-overlay-container {
     z-index: 10000;
+  }
+
+  *:focus-visible {
+    outline: 2px solid var(--focus-color);
+    z-index: 1;
   }
 }
