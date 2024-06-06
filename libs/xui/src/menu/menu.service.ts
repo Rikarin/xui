@@ -1,5 +1,4 @@
 import { Injectable, Signal } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
 import { MenuType } from './menu.types';
 
 @Injectable()

@@ -15,7 +15,7 @@ export interface TextOnlySnackBar {
 }
 
 @Component({
-  selector: 'simple-snack-bar',
+  selector: 'xui-simple-snack-bar',
   exportAs: 'xuiSnackBar',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,

@@ -1,5 +1,4 @@
 import { InjectionToken, Signal, WritableSignal } from '@angular/core';
-import { Observable } from 'rxjs';
 
 export type RadioListValue = string | number | null;
 export type RadioListSize = 'sm' | 'md';

@@ -341,7 +341,7 @@ export class XuiIconRegistry implements OnDestroy {
    * @param name Name of the icon to be retrieved.
    * @param namespace Namespace in which to look for the icon.
    */
-  getNamedSvgIcon(name: string, namespace: string = ''): Observable<SVGElement> {
+  getNamedSvgIcon(name: string, namespace = ''): Observable<SVGElement> {
     const key = iconKey(namespace, name);
     let config = this._svgIconConfigs.get(key);
 

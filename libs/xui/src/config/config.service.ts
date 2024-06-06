@@ -1,4 +1,4 @@
-import { Inject, Injectable, InputSignal, Optional, input } from '@angular/core';
+import { Inject, Injectable, Optional } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { filter, mapTo } from 'rxjs/operators';
 import { XuiConfig, XUI_CONFIG } from './config';

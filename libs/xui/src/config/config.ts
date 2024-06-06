@@ -1,8 +1,6 @@
 import { InjectionToken, ViewContainerRef } from '@angular/core';
 import { InputColor, InputSize } from '../input';
 import { ButtonColor, ButtonSize, ButtonType } from '../button';
-import { BadgeColor } from '../badge';
-import { BannerType } from '../banner';
 import { CheckboxColor } from '../checkbox';
 import { DatePickerColor, DatePickerSize } from '../date-picker';
 import { SnackBarHorizontalPosition, SnackBarVerticalPosition } from '../snack-bar';

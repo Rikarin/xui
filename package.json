@@ -20,7 +20,7 @@
     "e2e": "nx component-test xui",
     "format": "nx format:write --all",
     "format:check": "nx format:check",
-    "clean": "nx reset && rm -rf dist",
+    "clean": "nx reset && rm -rf dist .angular .nx",
     "prepare": "husky",
     "prerender": "nx prerender"
   },
