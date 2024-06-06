@@ -17,16 +17,20 @@
 xUI is a customizable Angular 15 - 18 UI Library with gaming look which can be easily adapted to your brand.
 Contains default dark and light theme with SCSS functions to generate your own themes in a few steps.
 
-## What you'll get
 
-- **Light and Dark** default themes easily customizable
-- **35+ Angular UI Components** ready to be used
-- **Great Theming Engine** - creating new components just in few steps
-- **Configurable Options** - tweaking the components in various ways
-- **Material Design Icons** - ready to be used https://mdisearch.com/
+## Features
+
+- **35+ High-Quality Angular Components:** Ready to use out of the box.
+- **Powerful Theme Customization:** Detailed customization options with default themes.
+- **High Performance:** Supports OnPush mode and Signals for optimized performance.
+- **Accessibility:** Supports WCAG 2.0 standards.
+- **Powerful Theme Customization:** Detailed customization options.
+- **TypeScript:** Written with predictable static types.
+
 
 ## Table of Contents
 
+- [StackBlitz Demo](https://stackblitz.com/fork/xui)
 - [Documentation](https://xuijs.org)
 - [Live Demo](https://cord.dj/r)
 - [Installation](#installation)
