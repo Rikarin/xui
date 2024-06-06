@@ -1,66 +1,55 @@
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
-  HostListener,
+  computed,
+  effect,
   Inject,
-  Input,
-  OnInit,
+  input,
   Optional,
-  Self
+  Self,
+  signal
 } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
-import { InputBoolean } from '../utils';
+import { convertToBoolean } from '../utils';
 import { INPUT_GROUP_ACCESSOR, InputColor, InputGroupAccessor, InputSize, InputType } from './input.types';
-import { BooleanInput } from '@angular/cdk/coercion';
-import { INPUT_MODULE, WithConfig, XuiConfigService } from '../config';
+import { INPUT_MODULE, XuiConfigService } from '../config';
 
 @Component({
   selector: 'xui-input',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: 'input.html'
+  templateUrl: 'input.html',
+  host: {
+    '(focusout)': '_onTouched?.()'
+  }
 })
-export class XuiInput implements ControlValueAccessor, OnInit {
-  static ngAcceptInputType_disabled: BooleanInput;
-  static ngAcceptInputType_readOnly: BooleanInput;
+export class XuiInput implements ControlValueAccessor {
   private readonly _moduleName = INPUT_MODULE;
 
   private onChange?: (source: string | null) => void;
-  private onTouched?: () => void;
-  private _value: string | null = null;
+  _onTouched?: () => void;
+  _disabled = signal(false);
+  _value = signal<string | null>(null);
 
-  @Input() placeholder?: string;
-  @Input() @InputBoolean() disabled = false;
-  @Input() @InputBoolean() readOnly = false;
-  @Input() @WithConfig() color: InputColor = 'light';
-  @Input() @WithConfig() size: InputSize = 'large';
-  @Input() type: InputType = 'text';
-  @Input() dataList?: string[] | null;
+  value = input<string | null>(null);
+  placeholder = input<string>();
+  color = input<InputColor>('light');
+  size = input<InputSize>('large');
+  type = input<InputType>('text');
+  dataList = input<string[] | null>();
+  disabled = input(false, { transform: (v: string | boolean) => convertToBoolean(v) });
+  readOnly = input(false, { transform: (v: string | boolean) => convertToBoolean(v) });
 
-  @Input()
-  get value() {
-    return this._value;
-  }
-
-  set value(v) {
-    if (this._value !== v) {
-      this._value = v;
-      this.onChange?.(v);
-      this.cdr.markForCheck();
-    }
-  }
-
-  get styles() {
+  _styles = computed(() => {
     const ret: { [klass: string]: boolean } = {
       'x-input': true,
       'x-input-error': this.showError
     };
 
-    ret[`x-input-${this.color}`] = true;
-    ret[`x-input-${this.group?.size ?? this.size}`] = true;
+    ret[`x-input-${this.color()}`] = true;
+    ret[`x-input-${this.group?.size() ?? this.size()}`] = true;
     return ret;
-  }
+  });
 
   get errorMessage() {
     const msg = this.control?.getError('message');
@@ -69,7 +58,6 @@ export class XuiInput implements ControlValueAccessor, OnInit {
 
   constructor(
     private configService: XuiConfigService,
-    private cdr: ChangeDetectorRef,
     private translation: TranslateService,
     @Inject(INPUT_GROUP_ACCESSOR) @Optional() private group: InputGroupAccessor,
     @Self() @Optional() public control?: NgControl
@@ -77,10 +65,10 @@ export class XuiInput implements ControlValueAccessor, OnInit {
     if (this.control) {
       this.control.valueAccessor = this;
     }
-  }
 
-  ngOnInit() {
-    this.control?.statusChanges?.subscribe(() => this.cdr.markForCheck());
+    effect(() => this._disabled.set(this.disabled()), { allowSignalWrites: true });
+    effect(() => this._value.set(this.value()), { allowSignalWrites: true });
+    effect(() => this.onChange?.(this._value()));
   }
 
   get invalid(): boolean {
@@ -97,7 +85,7 @@ export class XuiInput implements ControlValueAccessor, OnInit {
   }
 
   writeValue(source: string) {
-    this.value = source;
+    this._value.set(source);
   }
 
   registerOnChange(onChange: (source: string | null) => void) {
@@ -105,15 +93,10 @@ export class XuiInput implements ControlValueAccessor, OnInit {
   }
 
   registerOnTouched(onTouched: () => void) {
-    this.onTouched = onTouched;
+    this._onTouched = onTouched;
   }
 
   setDisabledState(isDisabled: boolean): void {
-    this.disabled = isDisabled;
-  }
-
-  @HostListener('focusout')
-  private _focusOut() {
-    this.onTouched?.();
+    this._disabled.set(isDisabled);
   }
 }

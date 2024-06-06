@@ -2,9 +2,9 @@ import {
   ChangeDetectionStrategy,
   Component,
   ContentChildren,
+  effect,
   EventEmitter,
-  HostListener,
-  Input,
+  input,
   Output,
   QueryList,
   TemplateRef,
@@ -21,19 +21,22 @@ import { ContextMenuAnchor } from './context-menu.types';
   selector: 'xui-context-menu',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<ng-template #templateRef>
-    <div class="x-context-menu" cdkTrapFocus (click)="close()">
+    <div class="x-context-menu" cdkTrapFocus cdkTrapFocusAutoCapture (click)="close()">
       <ng-content />
     </div>
-  </ng-template>`
+  </ng-template>`,
+  host: {
+    '(document:keydown.esc)': 'close()'
+  }
 })
 export class XuiContextMenu {
   private overlayRef!: OverlayRef;
 
-  @Input() anchor!: ContextMenuAnchor;
+  anchor = input<ContextMenuAnchor>();
   @Output() afterClosed = new EventEmitter();
 
-  @ViewChild('templateRef', { static: true }) templateRef!: TemplateRef<unknown>;
-  @ContentChildren(XuiButton) buttons!: QueryList<XuiButton>;
+  @ViewChild('templateRef', { static: true }) private templateRef!: TemplateRef<unknown>;
+  @ContentChildren(XuiButton) private buttons!: QueryList<XuiButton>;
 
   constructor(
     private overlay: Overlay,
@@ -49,10 +52,14 @@ export class XuiContextMenu {
     this.overlayRef.backdropClick().subscribe(() => {
       this.close();
     });
+
+    effect(() => {
+      this.overlayRef.updatePositionStrategy(this.calculatePositionStrategy(this.anchor()!));
+    });
   }
 
   open(anchor?: ContextMenuAnchor) {
-    this.overlayRef.updatePositionStrategy(this.calculatePositionStrategy(anchor ?? this.anchor));
+    this.overlayRef.updatePositionStrategy(this.calculatePositionStrategy(anchor ?? this.anchor()!));
 
     const userProfilePortal = new TemplatePortal(this.templateRef, this.viewContainerRef);
     this.overlayRef.attach(userProfilePortal);
@@ -72,7 +79,6 @@ export class XuiContextMenu {
       .withPush(false);
   }
 
-  @HostListener('document:keydown.esc')
   close() {
     this.overlayRef.detach();
     this.afterClosed.emit();

@@ -1,9 +1,9 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  computed,
   EventEmitter,
-  HostListener,
-  Input,
+  input,
   Output,
   TemplateRef,
   ViewChild,
@@ -16,25 +16,28 @@ import { PopoverAnchor, PopoverPosition } from './popover.types';
 @Component({
   selector: 'xui-popover',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: 'popover.html'
+  templateUrl: 'popover.html',
+  host: {
+    '(document:keydown.escape)': '_close()'
+  }
 })
 export class XuiPopover {
   private overlayRef!: OverlayRef;
 
-  @Input() anchor!: PopoverAnchor;
-  @Input() position: PopoverPosition = 'right';
+  anchor = input<PopoverAnchor>();
+  position = input<PopoverPosition>('right');
 
   @Output() afterClosed = new EventEmitter();
-  @ViewChild('popoverTemplate', { static: true }) popoverTemplate!: TemplateRef<unknown>;
+  @ViewChild('popoverTemplate', { static: true }) private popoverTemplate!: TemplateRef<unknown>;
 
-  get styles() {
+  _styles = computed(() => {
     const ret: { [klass: string]: boolean } = {
       'x-popover': true
     };
 
-    ret[`x-popover-${this.position}`] = true;
+    ret[`x-popover-${this.position()}`] = true;
     return ret;
-  }
+  });
 
   constructor(
     private overlay: Overlay,
@@ -47,20 +50,17 @@ export class XuiPopover {
     };
 
     this.overlayRef = this.overlay.create(config);
-    this.overlayRef.backdropClick().subscribe(() => {
-      this.close();
-    });
+    this.overlayRef.backdropClick().subscribe(() => this._close());
   }
 
   open(anchor?: PopoverAnchor) {
-    this.overlayRef.updatePositionStrategy(this.calculatePositionStrategy(anchor ?? this.anchor));
+    this.overlayRef.updatePositionStrategy(this.calculatePositionStrategy(anchor ?? this.anchor()!));
 
     const userProfilePortal = new TemplatePortal(this.popoverTemplate, this.viewContainerRef);
     this.overlayRef.attach(userProfilePortal);
   }
 
-  @HostListener('document:keydown.esc')
-  close() {
+  _close() {
     this.overlayRef.detach();
     this.afterClosed.emit();
   }
@@ -74,7 +74,7 @@ export class XuiPopover {
   }
 
   private getPositionStrategy(): ConnectionPositionPair {
-    switch (this.position) {
+    switch (this.position()) {
       case 'right':
         return new ConnectionPositionPair(
           { originX: 'end', originY: 'center' },

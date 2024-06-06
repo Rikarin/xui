@@ -12,8 +12,8 @@
           (dragover)="denyConnection($event)"
           [style.color]="getPortGroup(port).color"
           [attr.data-port]="port.id"
-          >{{ hasConnectedPort(port.id) ? 'radiobox-marked' : 'radiobox-blank' }}</xui-icon
-        >
+          [icon]="hasConnectedPort(port.id) ? 'radio_button_checked' : 'radio_button_unchecked'"
+        ></xui-icon>
         {{ port.name }}
       </div>
     }
@@ -28,8 +28,8 @@
           (drop)="drop($event)"
           [style.color]="getPortGroup(port).color"
           [attr.data-port]="port.id"
-          >{{ hasConnectedPort(port.id) ? 'radiobox-marked' : 'radiobox-blank' }}</xui-icon
-        >
+          [icon]="hasConnectedPort(port.id) ? 'radio_button_checked' : 'radio_button_unchecked'"
+        ></xui-icon>
       </div>
     }
   </div>

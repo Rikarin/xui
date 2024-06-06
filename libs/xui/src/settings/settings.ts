@@ -1,23 +1,11 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ComponentRef,
-  EventEmitter,
-  HostBinding,
-  HostListener,
-  Inject,
-  Input,
-  Output
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ComponentRef, EventEmitter, input, Output, signal } from '@angular/core';
 import { CdkPortalOutletAttachedRef, ComponentPortal } from '@angular/cdk/portal';
-import { SettingsPage } from './settings.types';
-import { animate, AnimationEvent, state, style, transition, trigger, useAnimation } from '@angular/animations';
-import { bounce, fadeInBottom, fadeOutBottom } from '../utils/animations';
-import { lastValueFrom, Subject } from 'rxjs';
+import { MenuItem, SettingsPage } from './settings.types';
+import { animate, state, style, transition, trigger, useAnimation } from '@angular/animations';
+import { bounce } from '../utils/animations';
 import { delay } from '../utils';
-import { XUI_SNACK_BAR_DATA } from '../snack-bar/snack-bar.types';
 import { SnackBarRef, XuiSnackBar } from '../snack-bar';
+import { SaveResetSnackbar } from './settings-snackbar';
 
 @Component({
   selector: 'xui-settings',
@@ -42,35 +30,30 @@ import { SnackBarRef, XuiSnackBar } from '../snack-bar';
       ),
       transition('* => *', animate(100))
     ])
-  ]
+  ],
+  host: {
+    '(document:keydown.escape)': 'close()'
+  }
 })
 export class XuiSettings {
-  mouseDown = false;
-  menuFocused = false;
-  focusedItem?: number;
-
-  defaultPage = 1;
-  opened = false;
-  openedAnimation: 'opened' | 'closed' = 'closed';
-  animationState = false;
-
-  portal?: ComponentPortal<SettingsPage>;
-  instance?: SettingsPage;
-
+  private instance?: SettingsPage;
   private snackbarRef?: SnackBarRef<SaveResetSnackbar>;
   private canExit = true;
 
-  @Input() items?: MenuItem[];
+  _portal?: ComponentPortal<SettingsPage>;
+  _animationState = false;
+  _mouseDown = false;
+  _menuFocused = false;
+
+  _focusedItem = signal<number | null>(null);
+  _defaultPage = signal(1);
+  _isOpened = signal(false);
+  _openedAnimation = signal<'opened' | 'closed'>('closed');
+
+  items = input<MenuItem[]>();
   @Output() afterClosed = new EventEmitter<void>();
 
-  @HostListener('document:keydown.escape') onKeydownHandler() {
-    this.close();
-  }
-
-  constructor(
-    private snackBar: XuiSnackBar,
-    private cdr: ChangeDetectorRef
-  ) {}
+  constructor(private snackBar: XuiSnackBar) {}
 
   stateChanged = (canExit: boolean) => {
     this.canExit = canExit;
@@ -85,7 +68,6 @@ export class XuiSettings {
               try {
                 await this.instance?.save();
                 await this.hideSnackbar();
-                this.cdr.markForCheck();
               } catch (e) {
                 // TODO: show error snackbar
               }
@@ -93,7 +75,6 @@ export class XuiSettings {
             reset: async () => {
               await this.instance?.reset();
               await this.hideSnackbar();
-              this.cdr.markForCheck();
             }
           }
         });
@@ -104,26 +85,23 @@ export class XuiSettings {
   };
 
   open(page = 1) {
-    this.defaultPage = page;
-    this.opened = true;
-    this.openedAnimation = 'opened';
-    this.navigate(this.defaultPage);
-    this.cdr.markForCheck();
+    this._defaultPage.set(page);
+    this._isOpened.set(true);
+    this._openedAnimation.set('opened');
+    this._navigate(this._defaultPage());
   }
 
   async close() {
     if (!this.canExit) {
-      this.animationState = true;
-      console.log('alert');
+      this._animationState = true;
       this.snackbarRef?.instance.alert();
       return;
     }
 
-    this.openedAnimation = 'closed';
+    this._openedAnimation.set('closed');
     await delay(100);
-    this.opened = false;
+    this._isOpened.set(false);
     this.afterClosed.emit();
-    this.cdr.markForCheck();
   }
 
   attached(ref: CdkPortalOutletAttachedRef) {
@@ -131,48 +109,48 @@ export class XuiSettings {
     this.instance.stateChanged = this.stateChanged;
   }
 
-  navigate(idx: number) {
+  _navigate(idx: number) {
     if (this.instance) {
       if (!this.canExit) {
         return;
       }
     }
 
-    const item = this.items?.[idx];
+    const item = this.items()?.[idx];
     if (item) {
-      this.defaultPage = idx;
-      this.focusedItem = idx;
+      this._defaultPage.set(idx);
+      this._focusedItem.set(idx);
 
       if (item.action) {
         item.action();
       } else if (item.component) {
-        this.portal = new ComponentPortal(item.component);
+        this._portal = new ComponentPortal(item.component);
       }
     }
   }
 
-  focusPrev() {
-    let cur = this.focusedItem ?? this.items?.length ?? 0;
+  _focusPrev() {
+    let cur = this._focusedItem() ?? this.items()?.length ?? 0;
 
     do {
       cur--;
       if (cur < 0) {
-        cur = (this.items?.length ?? 1) - 1;
+        cur = (this.items()?.length ?? 1) - 1;
       }
-    } while (this.items?.[cur].type !== 'item');
-    this.focusedItem = cur;
+    } while (this.items()?.[cur].type !== 'item');
+    this._focusedItem.set(cur);
   }
 
-  focusNext() {
-    let cur = this.focusedItem ?? this.items?.length ?? 0;
+  _focusNext() {
+    let cur = this._focusedItem() ?? this.items()?.length ?? 0;
 
     do {
       cur++;
-      if (cur >= (this.items?.length ?? 0)) {
+      if (cur >= (this.items()?.length ?? 0)) {
         cur = 0;
       }
-    } while (this.items?.[cur].type !== 'item');
-    this.focusedItem = cur;
+    } while (this.items()?.[cur].type !== 'item');
+    this._focusedItem.set(cur);
   }
 
   private async hideSnackbar() {
@@ -180,94 +158,5 @@ export class XuiSettings {
     this.snackbarRef?.dismiss();
     this.snackbarRef = undefined;
     this.canExit = true;
-  }
-}
-
-export interface MenuItem {
-  type: 'category' | 'item' | 'divider';
-  name?: string;
-  critical?: boolean;
-  component?: any;
-  action?: () => void;
-}
-
-@Component({
-  selector: 'xui-settings-snackbar',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
-    {{ 'xui.settings.save_changes_text' | translate }}
-    <div>
-      <xui-button size="small" color="minimal" [onClick]="reset">{{ 'xui.settings.reset' | translate }}</xui-button>
-      <xui-button size="small" color="success" type="raised" [onClick]="save">
-        {{ 'xui.settings.save' | translate }}
-      </xui-button>
-    </div>
-  `,
-  animations: [
-    trigger('fade', [
-      state(
-        'close',
-        style({
-          display: 'none'
-        })
-      ),
-      state(
-        'alert',
-        style({
-          backgroundColor: 'var(--color-error-darker)',
-          transform: 'scale(1.1)'
-        })
-      ),
-      transition('open => alert', animate(200)),
-      transition('alert => open', animate(200)),
-      transition('open => close', useAnimation(fadeOutBottom)),
-      transition('void => open', useAnimation(fadeInBottom))
-    ])
-  ]
-})
-export class SaveResetSnackbar {
-  _doneAnimating = new Subject();
-
-  @HostBinding('class.x-settings-snackbar')
-  get hostMainClass(): boolean {
-    return true;
-  }
-
-  @HostBinding('@fade')
-  animation = 'open';
-
-  constructor(
-    @Inject(XUI_SNACK_BAR_DATA) private data: any,
-    private cdr: ChangeDetectorRef
-  ) {}
-
-  async close() {
-    this.animation = 'close';
-    return await lastValueFrom(this._doneAnimating.asObservable());
-  }
-
-  async alert() {
-    this.animation = 'alert';
-    this.cdr.markForCheck();
-    await delay(1000);
-
-    this.animation = 'open';
-    this.cdr.markForCheck();
-  }
-
-  save = () => {
-    return this.data.save();
-  };
-
-  reset = () => {
-    return this.data.reset();
-  };
-
-  @HostListener('@fade.done', ['$event'])
-  _animationDone(event: AnimationEvent) {
-    if (event.toState === 'close') {
-      this._doneAnimating.next(undefined);
-      this._doneAnimating.complete();
-    }
   }
 }

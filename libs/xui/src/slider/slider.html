@@ -1,24 +1,24 @@
-<div [class]="'x-slider-track ' + getColor(color)">
-  <div [style.width.%]="width" [class]="'x-slider-track-half ' + getColor(secondColor ?? 'none')"></div>
+<div [class]="'x-slider-track ' + _getColor(color())">
+  <div [style.width.%]="_width()" [class]="'x-slider-track-half ' + _getColor(secondColor() ?? 'none')"></div>
 </div>
 
 <div class="x-slider-container" #track>
   <div
-    [tabindex]="disabled ? -1 : 0"
+    [tabindex]="_disabled() ? -1 : 0"
     cdkDrag
-    [cdkDragDisabled]="disabled"
-    [cdkDragFreeDragPosition]="(position$ | async) ?? { x: 0, y: 0 }"
-    (cdkDragMoved)="move($event.pointerPosition.x)"
+    [cdkDragDisabled]="_disabled()"
+    [cdkDragFreeDragPosition]="_position()"
+    (cdkDragMoved)="_move($event.pointerPosition.x)"
     class="x-slider-thumb"
     xuiTooltipPosition="top"
-    [xuiTooltip]="tooltip"
-    [xuiTooltipDisabled]="tooltipDisabled"
+    [xuiTooltip]="_tooltip()"
+    [xuiTooltipDisabled]="tooltipDisabled()"
     #tooltipRef="xuiTooltip"
   ></div>
 
-  @for (mark of marks; track mark.value) {
+  @for (mark of marks(); track mark.value) {
     <div
-      [style.left.%]="getPercentage(mark.value)"
+      [style.left.%]="_getPercentage(mark.value)"
       class="x-slider-mark"
       [class]="mark.color ? 'x-slider-mark-' + mark.color : ''"
     >

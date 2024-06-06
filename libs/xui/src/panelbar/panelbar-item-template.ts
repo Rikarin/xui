@@ -7,6 +7,6 @@ import { PANEL_BAR_ACCESSOR, PanelBarAccessor } from './panelbar.types';
 })
 export class XuiPanelBarItemTemplate {
   constructor(@Inject(PANEL_BAR_ACCESSOR) panelBar: PanelBarAccessor, templateRef: TemplateRef<unknown>) {
-    panelBar.itemTemplate = templateRef;
+    panelBar._itemTemplate = templateRef;
   }
 }

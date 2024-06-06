@@ -1,12 +1,13 @@
-<div [ngClass]="styles" [tabindex]="disabled ? -1 : 0">
+<div [ngClass]="_styles()" [tabindex]="_disabled() ? -1 : 0">
   <ng-content select="[xuiPrefix]" />
   <input
     tabindex="-1"
-    [disabled]="disabled"
-    [readOnly]="readOnly"
-    [type]="type"
-    [placeholder]="placeholder ?? ''"
-    [(ngModel)]="value"
+    [disabled]="_disabled()"
+    [readOnly]="readOnly()"
+    [type]="type()"
+    [placeholder]="placeholder() ?? ''"
+    [ngModel]="_value()"
+    (ngModelChange)="_value.set($event)"
     list="list"
   />
   <ng-content select="[xuiPostfix]" />
@@ -18,8 +19,8 @@
   <ng-container *ngIf="control?.hasError('email')">Email expected</ng-container>
 </div>
 
-<datalist id="list" *ngIf="dataList">
-  @for (item of dataList; track item) {
+<datalist id="list" *ngIf="dataList()">
+  @for (item of dataList(); track item) {
     <option [value]="item"></option>
   }
 </datalist>

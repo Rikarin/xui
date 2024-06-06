@@ -62,7 +62,7 @@ export class AnalysisComponent {
     {
       id: 'group-1' as EntityId,
       name: 'Servers',
-      icon: 'server',
+      icon: 'storage',
       entities: [
         {
           id: 'entity-1' as EntityId,
@@ -79,7 +79,7 @@ export class AnalysisComponent {
     {
       id: 'group-2' as EntityId,
       name: 'Virtual Servers',
-      icon: 'server',
+      icon: 'storage',
       entities: [
         {
           id: 'entity-3' as EntityId,

@@ -127,11 +127,11 @@
       font-size: 0.8rem;
       font-weight: 500;
 
-      xui-icon {
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
+      .x-icon {
+        font-size: 50px;
 
+        // needed to have rounded focusable outline
+        border-radius: 50%;
         @include core.focusable();
 
         &:focus-visible {

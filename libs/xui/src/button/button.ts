@@ -1,19 +1,18 @@
-import { BooleanInput } from '@angular/cdk/coercion';
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
+  computed,
   ElementRef,
   EventEmitter,
   Host,
-  HostBinding,
-  HostListener,
+  input,
   Input,
   Optional,
-  Output
+  Output,
+  signal
 } from '@angular/core';
-import { BUTTON_MODULE, WithConfig, XuiConfigService } from '../config';
-import { delay, InputBoolean, InputNumber } from '../utils';
+import { BUTTON_MODULE, XuiConfigService } from '../config';
+import { convertToBoolean, delay } from '../utils';
 import { ButtonColor, ButtonSize, ButtonType } from './button.types';
 import { XuiButtonGroup } from './button-group';
 
@@ -25,91 +24,61 @@ import { XuiButtonGroup } from './button-group';
     </div>
     <div class="x-button-state-image"></div>
 
-    @if (shine && !disabled) {
+    @if (shine() && !disabled()) {
       <div class="x-button-shine">
         <div class="x-button-shine-inner">
           <div class="x-button-shine-element"></div>
         </div>
       </div>
-    }`
+    }`,
+  host: {
+    class: 'x-button',
+    '[class]': '_class()',
+    '[class.x-button--non-idle]': '_state() != 0',
+    '[class.x-button--loading]': '_state() == 1',
+    '[class.x-button--succeeded]': '_state() == 2',
+    '[class.x-button--failed]': '_state() == 3',
+    '[tabindex]': 'disabled() ? -1 : 0',
+    '[attr.disabled]': 'disabled() || null',
+    '(click)': '_onAsync($event)',
+    '(keydown.enter)': '_keyboardInteraction($event)',
+    '(keydown.space)': '_keyboardInteraction($event)'
+  }
 })
 export class XuiButton {
-  static ngAcceptInputType_shine: BooleanInput;
-  static ngAcceptInputType_disabled: BooleanInput;
   private readonly _moduleName = BUTTON_MODULE;
+  _state = signal<0 | 1 | 2 | 3>(0);
 
-  state: 0 | 1 | 2 | 3 = 0;
-
-  @Input() type?: ButtonType;
-  @Input() size?: ButtonSize;
-  @Input() color?: ButtonColor;
-  @Input() @InputBoolean() shine = false;
-  @Input() @InputBoolean() disabled = false;
+  type = input<ButtonType>();
+  size = input<ButtonSize>();
+  color = input<ButtonColor>();
+  shine = input(false, { transform: (v: string | boolean) => convertToBoolean(v) });
+  disabled = input(false, { transform: (v: string | boolean) => convertToBoolean(v) });
+  stateDelay = input<number>(5000);
   @Input() onClick?: () => Promise<boolean>;
-  @Input() @InputNumber() @WithConfig() stateDelay = 5000;
 
   // Used to emit event when user interacts with button with spacebar or enter
   // eslint-disable-next-line @angular-eslint/no-output-native
   @Output() readonly click = new EventEmitter<unknown>();
 
-  @HostBinding('class.x-button')
-  get hostMainClass(): boolean {
-    return true;
-  }
-
-  @HostBinding('class.x-button--non-idle')
-  get hostNonIdleClass(): boolean {
-    return this.state != 0;
-  }
-
-  @HostBinding('class.x-button--loading')
-  get hostLoadingClass(): boolean {
-    return this.state == 1;
-  }
-
-  @HostBinding('class.x-button--succeeded')
-  get hostSucceededClass(): boolean {
-    return this.state == 2;
-  }
-
-  @HostBinding('class.x-button--failed')
-  get hostFailedClass(): boolean {
-    return this.state == 3;
-  }
-
-  @HostBinding('class')
-  get hostClass(): string {
+  _class = computed(() => {
     const config = this.configService.getConfigForComponent(BUTTON_MODULE);
-
     return (
-      `x-button-${this.size ?? this.group?.size ?? config?.size ?? 'medium'} ` +
-      `x-button-${this.type ?? this.group?.type ?? config?.type ?? 'normal'} ` +
-      `x-button-${this.color ?? this.group?.color ?? config?.color ?? 'primary'}`
+      `x-button-${this.size() ?? this.group?.size() ?? config?.size ?? 'medium'} ` +
+      `x-button-${this.type() ?? this.group?.type() ?? config?.type ?? 'normal'} ` +
+      `x-button-${this.color() ?? this.group?.color() ?? config?.color ?? 'primary'}`
     );
-  }
-
-  @HostBinding('tabindex')
-  get hostTabIndex(): number {
-    return this.disabled ? -1 : 0;
-  }
-
-  @HostBinding('attr.disabled')
-  get hostAttributeDisabled(): boolean | null {
-    return this.disabled || null;
-  }
+  });
 
   constructor(
     // TODO: Anchor for popover; consider removing it and refactoring
     public elementRef: ElementRef,
     private configService: XuiConfigService,
-    @Optional() @Host() private group: XuiButtonGroup,
-    private cdr: ChangeDetectorRef
+    @Optional() @Host() private group?: XuiButtonGroup
   ) {}
 
-  @HostListener('keydown.enter', ['$event'])
-  @HostListener('keydown.space', ['$event'])
-  async keyboardInteraction(event?: MouseEvent | KeyboardEvent) {
-    if (this.disabled) {
+  async _keyboardInteraction(event?: MouseEvent | KeyboardEvent) {
+    if (this.disabled()) {
       return;
     }
 
@@ -117,9 +86,8 @@ export class XuiButton {
     await this._onAsync(event);
   }
 
-  @HostListener('click', ['$event'])
   async _onAsync(event?: MouseEvent | KeyboardEvent | Event) {
-    if (this.disabled) {
+    if (this.disabled()) {
       return;
     }
 
@@ -131,18 +99,15 @@ export class XuiButton {
       return;
     }
 
-    this.state = 1;
-    this.cdr.markForCheck();
+    this._state.set(1);
 
     try {
-      this.state = (await this.onClick()) ? 2 : 3;
+      this._state.set((await this.onClick()) ? 2 : 3);
     } catch {
-      this.state = 2;
+      this._state.set(2);
     }
 
-    this.cdr.markForCheck();
     await delay(5000);
-    this.state = 0;
-    this.cdr.markForCheck();
+    this._state.set(0);
   }
 }

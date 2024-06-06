@@ -14,6 +14,7 @@
     box-sizing: border-box;
     user-select: none;
 
+    @include core.focusable();
     @include core.border-radius($border-radius);
     @include core.typography-level(body-1);
 

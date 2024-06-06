@@ -14,3 +14,7 @@ export function inNextTick(): Promise<void> {
   Promise.resolve().then(() => timer.next());
   return timer.pipe(take(1)).toPromise();
 }
+
+export function convertToBoolean(value: string | boolean) {
+  return typeof value === 'string' ? value === '' : value;
+}

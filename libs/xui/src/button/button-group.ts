@@ -1,18 +1,16 @@
-import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { ButtonColor, ButtonSize, ButtonType } from './button.types';
 
 @Component({
   selector: 'xui-button-group',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: '<ng-content />'
+  template: '<ng-content />',
+  host: {
+    class: 'x-button-group'
+  }
 })
 export class XuiButtonGroup {
-  @Input() type?: ButtonType;
-  @Input() size?: ButtonSize;
-  @Input() color?: ButtonColor;
-
-  @HostBinding('class.x-button-group')
-  get hostMainClass(): boolean {
-    return true;
-  }
+  type = input<ButtonType>();
+  size = input<ButtonSize>();
+  color = input<ButtonColor>();
 }

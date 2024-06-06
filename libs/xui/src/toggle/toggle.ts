@@ -1,17 +1,6 @@
-import { BooleanInput } from '@angular/cdk/coercion';
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  HostBinding,
-  HostListener,
-  Input,
-  OnInit,
-  Optional,
-  Self
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, input, Optional, Self, signal } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
-import { InputBoolean } from '../utils';
+import { convertToBoolean } from '../utils';
 import { ToggleColor } from './toggle.types';
 import { CommonModule } from '@angular/common';
 import { XuiIcon } from '../icon';
@@ -21,74 +10,48 @@ import { XuiIcon } from '../icon';
   imports: [CommonModule, XuiIcon],
   selector: 'xui-toggle',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `<div [class.x-toggle-clip]="!value">
+  template: `<div [class.x-toggle-clip]="!_value()">
       <div class="x-toggle-content">
-        <xui-icon><ng-content /></xui-icon>
+        <xui-icon [icon]="icon()"></xui-icon>
       </div>
     </div>
-    <div [class.x-toggle-toggled]="!value">
+    <div [class.x-toggle-toggled]="!_value()">
       <div class="x-toggle-line"></div>
-    </div>`
+    </div>`,
+  host: {
+    class: 'x-toggle',
+    '[class]': 'color() !== "none" ? "x-toggle-" + color() : ""',
+    '[class.x-toggle-disabled]': '_disabled()',
+    '[tabindex]': '_disabled() ? -1 : 0',
+    '(focusout)': '_onTouched?.()',
+    '(click)': '_click($event)',
+    '(keydown.enter)': '_click($event)',
+    '(keydown.space)': '_click($event)'
+  }
 })
-export class XuiToggle implements ControlValueAccessor, OnInit {
-  static ngAcceptInputType_disabled: BooleanInput;
-  static ngAcceptInputType_value: BooleanInput;
-
+export class XuiToggle implements ControlValueAccessor {
   private onChange?: (source: boolean) => void;
-  private onTouched?: () => void;
-  private _value = true;
+  _onTouched?: () => void;
+  _disabled = signal(false);
+  _value = signal(true);
 
-  @Input() @InputBoolean() disabled = false;
-  @Input() color: ToggleColor = 'none';
+  value = input(true, { transform: (v: string | boolean) => convertToBoolean(v) });
+  color = input<ToggleColor>('none');
+  icon = input<string>();
+  disabled = input(false, { transform: (v: string | boolean) => convertToBoolean(v) });
 
-  @Input()
-  @InputBoolean()
-  get value() {
-    return this._value;
-  }
-
-  set value(v) {
-    if (this._value !== v) {
-      this._value = v;
-      this.onChange?.(v);
-    }
-  }
-
-  @HostBinding('class.x-toggle')
-  get hostMainClass(): boolean {
-    return true;
-  }
-
-  @HostBinding('class.x-toggle-disabled')
-  get hostDisabledClass(): boolean {
-    return this.disabled;
-  }
-
-  @HostBinding('class')
-  get hostClass(): string {
-    return this.color !== 'none' ? `x-toggle-${this.color}` : '';
-  }
-
-  @HostBinding('tabindex')
-  get hostTabIndex(): number {
-    return this.disabled ? -1 : 0;
-  }
-
-  constructor(
-    private cdr: ChangeDetectorRef,
-    @Self() @Optional() public control?: NgControl
-  ) {
+  constructor(@Self() @Optional() public control?: NgControl) {
     if (this.control) {
       this.control.valueAccessor = this;
     }
-  }
 
-  ngOnInit() {
-    this.control?.statusChanges?.subscribe(() => this.cdr.markForCheck());
+    effect(() => this._disabled.set(this.disabled()), { allowSignalWrites: true });
+    effect(() => this._value.set(this.value()), { allowSignalWrites: true });
+    effect(() => this.onChange?.(this._value()));
   }
 
   writeValue(source: boolean) {
-    this.value = source;
+    this._value.set(source);
   }
 
   registerOnChange(onChange: (source: boolean) => void) {
@@ -96,26 +59,18 @@ export class XuiToggle implements ControlValueAccessor, OnInit {
   }
 
   registerOnTouched(onTouched: () => void) {
-    this.onTouched = onTouched;
+    this._onTouched = onTouched;
   }
 
   setDisabledState(isDisabled: boolean): void {
-    this.disabled = isDisabled;
+    this._disabled.set(isDisabled);
   }
 
-  @HostListener('focusout')
-  private _focusOut() {
-    this.onTouched?.();
-  }
-
-  @HostListener('click', ['$event'])
-  @HostListener('keydown.enter', ['$event'])
-  @HostListener('keydown.space', ['$event'])
   _click(event?: KeyboardEvent | MouseEvent) {
     event?.preventDefault();
 
-    if (!this.disabled) {
-      this.value = !this.value;
+    if (!this._disabled()) {
+      this._value.set(!this._value());
     }
   }
 }

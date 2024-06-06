@@ -7,6 +7,6 @@ import { XuiDrawer } from './drawer';
 })
 export class XuiDrawerFooterTemplate {
   constructor(drawer: XuiDrawer, templateRef: TemplateRef<unknown>) {
-    drawer.footerTemplate = templateRef;
+    drawer._footerTemplate = templateRef;
   }
 }

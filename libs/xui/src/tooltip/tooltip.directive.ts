@@ -1,27 +1,29 @@
-import { Directive, ElementRef, HostListener, Input } from '@angular/core';
+import { Directive, ElementRef, input } from '@angular/core';
 import { ConnectionPositionPair, Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { Tooltip } from './tooltip';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { TooltipAnchor, TooltipPosition } from './tooltip.types';
-import { InputBoolean } from '../utils';
-import { BooleanInput } from '@angular/cdk/coercion';
-import { TOOLTIP_MODULE, WithConfig, XuiConfigService } from '../config';
+import { convertToBoolean } from '../utils';
+import { TOOLTIP_MODULE, XuiConfigService } from '../config';
 import { TranslateService } from '@ngx-translate/core';
 
 @Directive({
   selector: '[xuiTooltip]',
-  exportAs: 'xuiTooltip'
+  exportAs: 'xuiTooltip',
+  host: {
+    '(mouseenter)': 'show()',
+    '(mouseleave)': '_overlayRef.detach()'
+  }
 })
 export class XuiTooltip {
-  static ngAcceptInputType_disabled: BooleanInput;
   private readonly _moduleName = TOOLTIP_MODULE;
 
-  private readonly overlayRef: OverlayRef;
+  readonly _overlayRef: OverlayRef;
   private readonly portal: ComponentPortal<Tooltip>;
 
-  @Input('xuiTooltip') message!: string;
-  @Input('xuiTooltipPosition') position: TooltipPosition = 'right';
-  @Input('xuiTooltipDisabled') @InputBoolean() @WithConfig() disabled = false;
+  message = input.required<string>({ alias: 'xuiTooltip' });
+  position = input<TooltipPosition>('right', { alias: 'xuiTooltipPosition' });
+  disabled = input(false, { transform: (v: string | boolean) => convertToBoolean(v), alias: 'xuiTooltipDisabled' });
 
   constructor(
     private configService: XuiConfigService,
@@ -29,31 +31,21 @@ export class XuiTooltip {
     private overlay: Overlay,
     private translate: TranslateService
   ) {
-    this.overlayRef = overlay.create();
+    this._overlayRef = overlay.create();
     this.portal = new ComponentPortal(Tooltip);
   }
 
-  @HostListener('mouseenter')
-  onEnter() {
-    this.show();
-  }
-
-  @HostListener('mouseleave')
-  onExit() {
-    this.overlayRef.detach();
-  }
-
   public show() {
-    if (this.disabled) {
+    if (this.disabled()) {
       return;
     }
 
-    if (!this.overlayRef.hasAttached()) {
-      this.overlayRef.updatePositionStrategy(this.calculatePositionStrategy(this.elementRef));
-      const ref = this.overlayRef.attach(this.portal);
+    if (!this._overlayRef.hasAttached()) {
+      this._overlayRef.updatePositionStrategy(this.calculatePositionStrategy(this.elementRef));
+      const ref = this._overlayRef.attach(this.portal);
 
-      ref.instance.message = this.translate.instant(this.message);
-      ref.instance.position = this.position;
+      ref.setInput('message', this.translate.instant(this.message()));
+      ref.setInput('position', this.position());
     }
   }
 
@@ -66,7 +58,7 @@ export class XuiTooltip {
   }
 
   private getPositionStrategy(): ConnectionPositionPair {
-    switch (this.position) {
+    switch (this.position()) {
       case 'right':
         return new ConnectionPositionPair(
           { originX: 'end', originY: 'center' },

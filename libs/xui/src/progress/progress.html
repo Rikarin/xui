@@ -1,27 +1,27 @@
-@if (type === 'line') {
+@if (type() === 'line') {
   <div class="x-progress-line">
-    <div [ngClass]="style" [style.width.%]="progress"></div>
+    <div [ngClass]="_style()" [style.width.%]="progress()"></div>
   </div>
 
-  @switch (getIndicator()) {
+  @switch (_indicator()) {
     @case (1) {
-      <xui-decagram color="success" type="circle">check-bold</xui-decagram>
+      <xui-decagram color="success" type="circle" icon="check"></xui-decagram>
     }
     @case (0) {
-      {{ progress }}%
+      {{ progress() }}%
     }
     @case (-1) {
-      <xui-decagram color="error" type="circle">close-thick</xui-decagram>
+      <xui-decagram color="error" type="circle" icon="close"></xui-decagram>
     }
   }
-} @else if (type === 'circle') {
+} @else if (type() === 'circle') {
   <svg
-    [style.--progress]="progress"
+    [style.--progress]="progress()"
     width="100"
     height="100"
     viewBox="0 0 100 100"
     class="x-progress-circle"
-    [ngClass]="style"
+    [ngClass]="_style()"
   >
     <circle class="x-progress-circle-background"></circle>
     <circle class="x-progress-circle-foreground"></circle>

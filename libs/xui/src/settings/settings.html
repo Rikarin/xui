@@ -1,26 +1,31 @@
-<dialog class="x-settings-dialog" [open]="opened" cdkTrapFocus>
-  <div class="x-settings" [@open]="openedAnimation" [@bounce]="animationState" (@bounce.done)="animationState = false">
+<dialog class="x-settings-dialog" [open]="_isOpened()" cdkTrapFocus cdkTrapFocusAutoCapture>
+  <div
+    class="x-settings"
+    [@open]="_openedAnimation()"
+    [@bounce]="_animationState"
+    (@bounce.done)="_animationState = false"
+  >
     <div class="x-settings-menu">
       <nav
         tabindex="0"
-        (keydown.enter)="navigate(focusedItem ?? 0)"
-        (keydown.space)="navigate(focusedItem ?? 0)"
-        (keydown.arrowDown)="focusNext()"
-        (keydown.arrowUp)="focusPrev()"
-        (mousedown)="mouseDown = true"
-        (mouseup)="mouseDown = false"
-        (focusin)="menuFocused = !mouseDown"
-        (focusout)="menuFocused = false"
+        (keydown.enter)="_navigate(_focusedItem() ?? 0)"
+        (keydown.space)="_navigate(_focusedItem() ?? 0)"
+        (keydown.arrowDown)="_focusNext()"
+        (keydown.arrowUp)="_focusPrev()"
+        (mousedown)="_mouseDown = true"
+        (mouseup)="_mouseDown = false"
+        (focusin)="_menuFocused = !_mouseDown"
+        (focusout)="_menuFocused = false"
       >
-        @for (item of items; track item; let i = $index) {
+        @for (item of items(); track item; let i = $index) {
           <div
             [class.x-settings-menu-item]="item.type === 'item'"
-            [class.x-settings-menu-item-active]="i === defaultPage"
-            [class.x-settings-menu-item-focus]="i === focusedItem && menuFocused"
+            [class.x-settings-menu-item-active]="i === _defaultPage()"
+            [class.x-settings-menu-item-focus]="i === _focusedItem() && _menuFocused"
             [class.x-settings-menu-category]="item.type === 'category'"
             [class.x-settings-menu-divider]="item.type === 'divider'"
             [class.x-settings-menu-red]="item.critical"
-            (click)="navigate(i); menuFocused = false"
+            (click)="_navigate(i); _menuFocused = false"
           >
             {{ item.name ? (item.name | translate) : '' }}
           </div>
@@ -29,12 +34,12 @@
     </div>
     <div class="x-settings-right">
       <div class="x-settings-content">
-        <ng-template [cdkPortalOutlet]="portal" (attached)="attached($event)" />
+        <ng-template [cdkPortalOutlet]="_portal" (attached)="attached($event)" />
       </div>
 
       <div class="x-settings-close-anchor">
         <div class="x-settings-close" (click)="close()">
-          <xui-icon tabindex="0" (keydown.space)="close()" (keydown.enter)="close()">close-circle-outline</xui-icon>
+          <xui-icon tabindex="0" (keydown.space)="close()" (keydown.enter)="close()" icon="cancel"></xui-icon>
           ESC
         </div>
       </div>

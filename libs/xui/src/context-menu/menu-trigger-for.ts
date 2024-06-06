@@ -1,17 +1,19 @@
-import { Directive, ElementRef, HostListener, Input } from '@angular/core';
+import { Directive, ElementRef, input } from '@angular/core';
 import { XuiContextMenu } from './context-menu';
 
 @Directive({
   selector: '[xuiMenuTriggerFor]',
-  exportAs: 'xuiMenuTriggerFor'
+  exportAs: 'xuiMenuTriggerFor',
+  host: {
+    '(click)': '_click($event)'
+  }
 })
 export class XuiMenuTriggerFor {
-  @Input('xuiMenuTriggerFor') menu!: XuiContextMenu;
+  menu = input.required<XuiContextMenu>({ alias: 'xuiMenuTriggerFor' });
 
   constructor(private elementRef: ElementRef) {}
 
-  @HostListener('click')
-  private _click() {
-    this.menu.open(this.elementRef);
+  _click() {
+    this.menu().open(this.elementRef);
   }
 }

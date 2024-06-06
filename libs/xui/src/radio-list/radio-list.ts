@@ -1,18 +1,15 @@
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   ContentChildren,
-  HostBinding,
-  HostListener,
-  Input,
-  OnInit,
+  effect,
+  input,
   Optional,
   QueryList,
-  Self
+  Self,
+  signal
 } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
-import { Subject } from 'rxjs';
 import {
   RADIO_LIST_ACCESSOR,
   RadioListAccessor,
@@ -20,71 +17,53 @@ import {
   RadioListSize,
   RadioListValue
 } from './radio-list.types';
-import { BooleanInput } from '@angular/cdk/coercion';
-import { InputBoolean } from '../utils';
+import { convertToBoolean } from '../utils';
 import { XuiRadioOption } from './radio-option';
 
 @Component({
   selector: 'xui-radio-list',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: '<ng-content />',
-  providers: [{ provide: RADIO_LIST_ACCESSOR, useExisting: XuiRadioList }]
+  providers: [{ provide: RADIO_LIST_ACCESSOR, useExisting: XuiRadioList }],
+  host: {
+    class: 'x-radio-list',
+    '[tabindex]': '_disabled() ? -1 : 0',
+    '(keydown.arrowup)': '_prev($event)',
+    '(keydown.arrowdown)': '_next($event)',
+    '(mousedown)': '_mouseDown2()',
+    '(mouseup)': '_mouseUp()',
+    '(focusin)': '_focusIn()',
+    '(focusout)': '_focusOut()'
+  }
 })
-export class XuiRadioList implements RadioListAccessor, ControlValueAccessor, OnInit {
-  static ngAcceptInputType_disabled: BooleanInput;
-
+export class XuiRadioList implements RadioListAccessor, ControlValueAccessor {
   private onChange?: (source: RadioListValue) => void;
   private onTouched?: () => void;
   private _mouseDown = false;
-  private _value: RadioListValue = null;
 
-  @Input() size: RadioListSize = 'md';
-  @Input() color: RadioListColor = 'light';
-  @Input() @InputBoolean() disabled = false;
+  _value = signal<RadioListValue>(null);
+  _disabled = signal(false);
+  _focusedValue = signal<RadioListValue>(null);
 
-  @ContentChildren(XuiRadioOption) optionsRef!: QueryList<XuiRadioOption>;
+  value = input<RadioListValue>(null);
+  size = input<RadioListSize>('md');
+  color = input<RadioListColor>('light');
+  disabled = input(false, { transform: (v: string | boolean) => convertToBoolean(v) });
 
-  focusedValue?: RadioListValue;
-  onChange$ = new Subject();
+  @ContentChildren(XuiRadioOption) private optionsRef!: QueryList<XuiRadioOption>;
 
-  @Input()
-  get value() {
-    return this._value;
-  }
-
-  set value(v) {
-    if (this._value !== v) {
-      this._value = v;
-      this.onChange?.(v);
-      this.onChange$.next(null);
-    }
-  }
-
-  @HostBinding('class.x-radio-list')
-  get hostMainClass(): boolean {
-    return true;
-  }
-
-  @HostBinding('tabindex')
-  get hostTabIndex(): number {
-    return 0;
-  }
-
-  constructor(
-    private cdr: ChangeDetectorRef,
-    @Self() @Optional() public control?: NgControl
-  ) {
+  constructor(@Self() @Optional() public control?: NgControl) {
     if (this.control) {
       this.control.valueAccessor = this;
     }
-  }
 
-  ngOnInit() {
-    this.control?.statusChanges?.subscribe(() => this.cdr.markForCheck());
+    effect(() => this._disabled.set(this.disabled()), { allowSignalWrites: true });
+    effect(() => this._value.set(this.value()), { allowSignalWrites: true });
+    effect(() => this.onChange?.(this._value()));
   }
 
   writeValue(source: RadioListValue) {
-    this.value = source;
+    this._value.set(source);
   }
 
   registerOnChange(onChange: (source: RadioListValue) => void) {
@@ -96,55 +75,51 @@ export class XuiRadioList implements RadioListAccessor, ControlValueAccessor, On
   }
 
   setDisabledState(isDisabled: boolean): void {
-    this.disabled = isDisabled;
+    this._disabled.set(isDisabled);
   }
 
-  @HostListener('keydown.arrowup', ['$event'])
-  private prev(event: KeyboardEvent) {
+  _prev(event: KeyboardEvent) {
     event.preventDefault();
     event.stopPropagation();
     this.select(true);
   }
 
-  @HostListener('keydown.arrowdown', ['$event'])
-  private next(event: KeyboardEvent) {
+  _next(event: KeyboardEvent) {
     event.preventDefault();
     event.stopPropagation();
     this.select(false);
   }
 
-  @HostListener('mousedown')
-  private mouseDown() {
+  _mouseDown2() {
     this._mouseDown = true;
   }
 
-  @HostListener('mouseup')
-  private mouseUp() {
+  _mouseUp() {
     this._mouseDown = false;
   }
 
-  @HostListener('focusin')
-  private focus() {
+  _focusIn() {
     if (!this._mouseDown) {
-      this.focusedValue = this.value;
-      this.onChange$.next(null);
+      if (this._value() == null) {
+        this.select(false);
+      } else {
+        this._focusedValue.set(this._value());
+      }
     }
   }
 
-  @HostListener('focusout')
-  private focusout() {
-    this.focusedValue = undefined;
-    this.onChange$.next(null);
+  _focusOut() {
+    this._focusedValue.set(null);
     this.onTouched?.();
   }
 
   private select(prev: boolean) {
-    if (this.disabled) {
+    if (this._disabled()) {
       return;
     }
 
     const options = this.optionsRef.toArray();
-    let next = options.findIndex(x => x.value === this.value);
+    let next = options.findIndex(x => x.value() == this._value());
     let iteration = 0;
 
     do {
@@ -161,9 +136,9 @@ export class XuiRadioList implements RadioListAccessor, ControlValueAccessor, On
       if (iteration == 2) {
         return;
       }
-    } while (options[next].disabled);
+    } while (options[next].disabled());
 
-    this.value = options[next].value;
-    this.focusedValue = this.value;
+    this._value.set(options[next].value());
+    this._focusedValue.set(this._value());
   }
 }

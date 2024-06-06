@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { XuiMenuService } from './menu.service';
 import { MenuType } from './menu.types';
 
@@ -8,21 +8,12 @@ import { MenuType } from './menu.types';
   template: `<ng-content />`,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class XuiMenu implements OnChanges {
-  @Input() inlineIndent = 24;
-  @Input() mode: MenuType = 'default';
+export class XuiMenu {
+  inlineIndent = input<number>(24);
+  mode = input<MenuType>('default');
 
-  constructor(private menuService: XuiMenuService) {}
-
-  ngOnChanges(changes: SimpleChanges) {
-    const { inlineIndent, mode } = changes;
-
-    if (inlineIndent) {
-      this.menuService.setInlineIndent(this.inlineIndent);
-    }
-
-    if (mode) {
-      this.menuService.setMode(this.mode);
-    }
+  constructor(private menuService: XuiMenuService) {
+    this.menuService._mode = this.mode;
+    this.menuService._inlineIndent = this.inlineIndent;
   }
 }

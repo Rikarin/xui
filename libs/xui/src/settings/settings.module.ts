@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SaveResetSnackbar, XuiSettings } from './settings';
+import { XuiSettings } from './settings';
 import { TranslateModule } from '@ngx-translate/core';
 import { PortalModule } from '@angular/cdk/portal';
 import { XuiButtonModule } from '../button';
 import { A11yModule } from '@angular/cdk/a11y';
 import { XuiIcon } from '../icon';
+import { SaveResetSnackbar } from './settings-snackbar';
 
 @NgModule({
   declarations: [XuiSettings, SaveResetSnackbar],

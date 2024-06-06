@@ -1,6 +1,6 @@
 <!--  <ng-container *ngTemplateOutlet="itemsTemplate; context: { items }"></ng-container>-->
 
-@for (item of items; track item) {
+@for (item of items(); track item) {
   <xui-panelbar-item
     [title]="item.title"
     [content]="item.content"

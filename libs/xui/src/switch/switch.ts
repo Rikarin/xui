@@ -1,18 +1,7 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  HostBinding,
-  HostListener,
-  Input,
-  OnInit,
-  Optional,
-  Self
-} from '@angular/core';
-import { InputBoolean } from '../utils';
+import { ChangeDetectionStrategy, Component, computed, effect, input, Optional, Self, signal } from '@angular/core';
+import { convertToBoolean } from '../utils';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { SwitchColor } from './switch.types';
-import { BooleanInput } from '@angular/cdk/coercion';
 import { CommonModule } from '@angular/common';
 import { XuiIcon } from '../icon';
 
@@ -21,67 +10,47 @@ import { XuiIcon } from '../icon';
   imports: [CommonModule, XuiIcon],
   selector: 'xui-switch',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: 'switch.html'
+  templateUrl: 'switch.html',
+  host: {
+    class: 'x-switch',
+    '[class.x-switch--disabled]': '_disabled()',
+    '(focusout)': '_onTouched?.()',
+    '(keydown.enter)': '_click($event)',
+    '(keydown.space)': '_click($event)'
+  }
 })
-export class XuiSwitch implements ControlValueAccessor, OnInit {
-  static ngAcceptInputType_disabled: BooleanInput;
-  static ngAcceptInputType_value: BooleanInput;
-
+export class XuiSwitch implements ControlValueAccessor {
   private onChange?: (source: boolean) => void;
-  private onTouched?: () => void;
-  private _value = false;
+  _onTouched?: () => void;
+  _value = signal(false);
+  _disabled = signal(false);
 
-  @Input() @InputBoolean() disabled = false;
-  @Input() color: SwitchColor = 'success';
+  value = input(false, { transform: (v: string | boolean) => convertToBoolean(v) });
+  color = input<SwitchColor>('success');
+  disabled = input(false, { transform: (v: string | boolean) => convertToBoolean(v) });
 
-  @Input()
-  @InputBoolean()
-  get value() {
-    return this._value;
-  }
-
-  set value(v) {
-    if (this._value !== v) {
-      this._value = v;
-      this.onChange?.(v);
-    }
-  }
-
-  @HostBinding('class.x-switch')
-  get hostMainClass(): boolean {
-    return true;
-  }
-
-  @HostBinding('class.x-switch-disabled')
-  get hostDisabledClass(): boolean {
-    return this.disabled;
-  }
-
-  get styleSwitch() {
+  _styles = computed(() => {
     const ret: { [klass: string]: boolean } = {
       'x-switch-element': true,
-      'x-switch-toggled': this.value
+      'x-switch-toggled': this._value()
     };
 
-    ret[`x-switch-${this.color}`] = this.value;
+    ret[`x-switch-${this.color()}`] = this._value();
     return ret;
-  }
+  });
 
-  constructor(
-    private cdr: ChangeDetectorRef,
-    @Self() @Optional() public control?: NgControl
-  ) {
+  constructor(@Self() @Optional() public control?: NgControl) {
     if (this.control) {
       this.control.valueAccessor = this;
     }
-  }
 
-  ngOnInit() {
-    this.control?.statusChanges?.subscribe(() => this.cdr.markForCheck());
+    effect(() => this._disabled.set(this.disabled()), { allowSignalWrites: true });
+    effect(() => this._value.set(this.value()), { allowSignalWrites: true });
+    effect(() => this.onChange?.(this._value()));
   }
 
   writeValue(source: boolean) {
-    this.value = source;
+    this._value.set(source);
   }
 
   registerOnChange(onChange: (source: boolean) => void) {
@@ -89,25 +58,18 @@ export class XuiSwitch implements ControlValueAccessor, OnInit {
   }
 
   registerOnTouched(onTouched: () => void) {
-    this.onTouched = onTouched;
+    this._onTouched = onTouched;
   }
 
   setDisabledState(isDisabled: boolean): void {
-    this.disabled = isDisabled;
+    this._disabled.set(isDisabled);
   }
 
-  @HostListener('focusout')
-  private _focusOut() {
-    this.onTouched?.();
-  }
-
-  @HostListener('keydown.enter', ['$event'])
-  @HostListener('keydown.space', ['$event'])
   _click(event?: KeyboardEvent | MouseEvent) {
     event?.preventDefault();
 
-    if (!this.disabled) {
-      this.value = !this.value;
+    if (!this._disabled()) {
+      this._value.set(!this._value());
     }
   }
 }

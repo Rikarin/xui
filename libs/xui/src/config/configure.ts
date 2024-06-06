@@ -1,17 +1,8 @@
 import { Directive, Input } from '@angular/core';
 import { InputColor, InputSize } from '../input';
-import {
-  BADGE_MODULE,
-  BANNER_MODULE,
-  BUTTON_MODULE,
-  CHECKBOX_MODULE,
-  DATE_PICKER_MODULE,
-  INPUT_MODULE
-} from './config';
+import { BUTTON_MODULE, CHECKBOX_MODULE, DATE_PICKER_MODULE, INPUT_MODULE } from './config';
 import { ButtonColor, ButtonSize, ButtonType } from '../button';
 import { XuiConfigService } from './config.service';
-import { BadgeColor } from '../badge';
-import { BannerType } from '../banner';
 import { CheckboxColor } from '../checkbox';
 import { DatePickerColor, DatePickerSize } from '../date-picker';
 
@@ -20,19 +11,14 @@ import { DatePickerColor, DatePickerSize } from '../date-picker';
   providers: [XuiConfigService]
 })
 export class XuiConfigure {
-  // Badge
-  @Input() set xuiBadgeColor(color: BadgeColor) {
-    this.configService.set(BADGE_MODULE, { color });
-  }
-
   // Banner
-  @Input() set xuiBannerType(type: BannerType) {
-    this.configService.set(BANNER_MODULE, { type });
-  }
-
-  @Input() set xuiBannerDismissible(dismissible: boolean) {
-    this.configService.set(BANNER_MODULE, { dismissible });
-  }
+  // @Input() set xuiBannerType(type: BannerType) {
+  //   this.configService.set(BANNER_MODULE, { type });
+  // }
+  //
+  // @Input() set xuiBannerDismissible(dismissible: boolean) {
+  //   this.configService.set(BANNER_MODULE, { dismissible });
+  // }
 
   // Button
   @Input() set xuiButtonType(type: ButtonType) {

@@ -20,7 +20,7 @@ Contains default dark and light theme with SCSS functions to generate your own t
 ## What you'll get
 
 - **Light and Dark** default themes easily customizable
-- **33+ Angular UI Components** ready to be used
+- **35+ Angular UI Components** ready to be used
 - **Great Theming Engine** - creating new components just in few steps
 - **Configurable Options** - tweaking the components in various ways
 - **Material Design Icons** - ready to be used https://mdisearch.com/
@@ -62,3 +62,5 @@ yarn start
 ## Issues
 
 If you find any issues in the library or have and idea for an improvement feel free to open an [issue](https://github.com/Rikarin/xui/issues).
+
+_This project is tested with BrowserStack_

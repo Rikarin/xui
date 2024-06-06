@@ -1,10 +1,13 @@
-import { ChangeDetectionStrategy, Component, HostBinding, OnInit, TemplateRef, ViewContainerRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, TemplateRef, ViewContainerRef } from '@angular/core';
 import { Portal, TemplatePortal } from '@angular/cdk/portal';
 
 @Component({
   selector: 'xui-card',
   templateUrl: 'card.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    class: 'x-card'
+  }
 })
 export class XuiCard implements OnInit {
   titleDirective?: TemplateRef<unknown>;
@@ -14,11 +17,6 @@ export class XuiCard implements OnInit {
   actionsPortal?: Portal<unknown>;
 
   // @Input() loading!: boolean;
-
-  @HostBinding('class.x-card')
-  get hostMainClass(): boolean {
-    return true;
-  }
 
   constructor(private viewContainerRef: ViewContainerRef) {}
 

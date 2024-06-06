@@ -1,9 +1,7 @@
-import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
-import { InputNumber } from '../utils';
+import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { DecagramColor, DecagramType } from './decagram.types';
 import { CommonModule } from '@angular/common';
 import { XuiIcon } from '../icon';
-import { NumberInput } from '@angular/cdk/coercion';
 
 @Component({
   standalone: true,
@@ -11,30 +9,40 @@ import { NumberInput } from '@angular/cdk/coercion';
   selector: 'xui-decagram',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <xui-icon [ngClass]="style">{{ this.type }}</xui-icon>
-    <xui-icon [style.width.%]="iconSize" [ngClass]="iconStyle"><ng-content /></xui-icon>
-  `
+    <xui-icon [ngClass]="_style()" fontSet="filled" [icon]="_getIcon()"></xui-icon>
+    <xui-icon [style.transform]="_scale()" [ngClass]="_iconStyle()" [icon]="icon()"></xui-icon>
+  `,
+  host: {
+    class: 'x-decagram'
+  }
 })
 export class XuiDecagram {
-  @Input() @InputNumber() iconSize: NumberInput = 65;
-  @Input() type: DecagramType = 'decagram';
-  @Input() color: DecagramColor = 'primary';
+  iconSize = input<number>(65);
+  icon = input.required<string>();
+  type = input<DecagramType>('decagram');
+  color = input<DecagramColor>('primary');
 
-  @HostBinding('class.x-decagram')
-  get hostMainClass(): boolean {
-    return true;
-  }
+  _scale = computed(() => `scale(${this.iconSize() / 100})`);
+  _getIcon = computed(() => {
+    switch (this.type()) {
+      case 'decagram':
+        return 'brightness_empty';
+      case 'circle':
+        return 'circle';
+      case 'shield':
+        return 'shield';
+      case 'triangle':
+        return 'change_history';
+    }
+  });
 
-  get style() {
-    return `x-decagram-${this.color}`;
-  }
-
-  get iconStyle() {
+  _style = computed(() => `x-decagram-${this.color()}`);
+  _iconStyle = computed(() => {
     const ret: { [klass: string]: boolean } = {
       'x-decagram-icon': true
     };
 
-    ret[`x-decagram-${this.type}`] = true;
+    ret[`x-decagram-${this.type()}`] = true;
     return ret;
-  }
+  });
 }

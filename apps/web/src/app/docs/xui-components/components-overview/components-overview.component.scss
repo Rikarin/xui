@@ -6,7 +6,6 @@
 }
 
 .category {
-  width: 100%;
   display: grid;
   row-gap: 32px;
   column-gap: 48px;
@@ -21,6 +20,7 @@ h6 {
 }
 
 .box {
+  height: 200px;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -37,7 +37,8 @@ h6 {
     background-color: var(--color-bg-tertiary);
   }
 
-  xui-icon {
-    height: 60%;
+  .x-icon {
+    height: 80px;
+    font-size: 80px;
   }
 }

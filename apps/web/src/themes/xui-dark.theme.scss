@@ -11,3 +11,4 @@ $theme: xui.define-dark-theme(
 );
 
 @include xui.all-root-variables($theme);
+@include xui.typography-default-font();

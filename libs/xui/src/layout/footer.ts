@@ -1,13 +1,11 @@
-import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
   selector: 'xui-footer',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: '<ng-content />'
-})
-export class XuiFooter {
-  @HostBinding('class.x-layout-footer')
-  get hostMainClass(): boolean {
-    return true;
+  template: '<ng-content />',
+  host: {
+    class: 'x-layout-footer'
   }
-}
+})
+export class XuiFooter {}

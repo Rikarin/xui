@@ -1,83 +1,68 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  HostBinding,
-  Input,
-  OnInit,
-  Optional
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, HostBinding, input, OnInit, Optional } from '@angular/core';
 import { XuiSubmenuService } from './submenu.service';
 import { XuiMenuService } from './menu.service';
-import { combineLatest, filter, map } from 'rxjs';
+import { filter, map } from 'rxjs';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { NavigationEnd, Router } from '@angular/router';
-import { InputBoolean } from '../utils';
-import { BooleanInput } from '@angular/cdk/coercion';
+import { convertToBoolean } from '../utils';
 
 @UntilDestroy()
 @Component({
   selector: 'xui-menu-item',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    @if (icon) {
-      <xui-icon>{{ icon }}</xui-icon>
+    @if (icon()) {
+      <xui-icon [icon]="icon()"></xui-icon>
     }
-    <ng-content *ngIf="showLabel$ | async" />
+
+    @if (_showLabel()) {
+      <ng-content />
+    }
   `,
   host: {
     class: 'x-menu-item x-menu-hover',
-    '[style.paddingLeft.px]': 'paddingLeft',
+    '[style.paddingLeft.px]': '_paddingLeft()',
     '(click)': 'clickMenuItem($event)'
   }
 })
 export class XuiMenuItem implements OnInit {
-  static ngAcceptInputType_disabled: BooleanInput;
+  private level = (this.submenuService?.level ?? 0) + 1;
+  _paddingLeft = computed(() =>
+    this.menuService._mode() === 'default' ? this.level * this.menuService._inlineIndent() : null
+  );
+  _showLabel = computed(() => this.menuService._mode() === 'default');
 
-  @Input() icon!: string;
-  @Input() link!: string;
-  @Input() @InputBoolean() disabled = false;
+  icon = input<string>();
+  link = input<string>();
+  disabled = input(false, { transform: (v: string | boolean) => convertToBoolean(v) });
 
   @HostBinding('class.x-menu-item-selected') selected = false;
 
-  get showLabel$() {
-    return this.menuService.mode$.pipe(map(x => x === 'default'));
-  }
-
-  private level = (this.submenuService?.level ?? 0) + 1;
-  paddingLeft: number | null = null;
-
   constructor(
     private router: Router,
-    private cdr: ChangeDetectorRef,
     private menuService: XuiMenuService,
     @Optional() private submenuService: XuiSubmenuService
   ) {}
 
   ngOnInit() {
-    combineLatest([this.menuService.mode$, this.menuService.inlineIndent$])
-      .pipe(untilDestroyed(this))
-      .subscribe(([mode, inlineIndent]) => {
-        this.paddingLeft = mode === 'default' ? this.level * inlineIndent : null;
-        this.cdr.markForCheck();
-      });
-
     this.router.events
       .pipe(
         untilDestroyed(this),
         filter(x => x instanceof NavigationEnd),
-        map(x => (x as NavigationEnd).url === this.link)
+        map(x => (x as NavigationEnd).url === this.link())
       )
       .subscribe(selected => (this.selected = selected));
   }
 
   clickMenuItem(e: MouseEvent) {
-    if (this.disabled) {
+    if (this.disabled()) {
       e.preventDefault();
       e.stopPropagation();
     } else {
       // Do stuff
-      this.router.navigateByUrl(this.link);
+      if (this.link() != undefined) {
+        this.router.navigateByUrl(this.link()!);
+      }
     }
   }
 }

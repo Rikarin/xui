@@ -5,3 +5,11 @@ export interface SettingsPage {
   save(): Promise<boolean>;
   reset(): Promise<boolean>;
 }
+
+export interface MenuItem {
+  type: 'category' | 'item' | 'divider';
+  name?: string;
+  critical?: boolean;
+  component?: any;
+  action?: () => void;
+}

@@ -6,23 +6,23 @@
 
 <app-example>
   <div style="display: flex; gap: 4px">
-    <xui-toggle [formControl]="model">bell</xui-toggle>
-    <xui-toggle>microphone</xui-toggle>
-    <xui-toggle [formControl]="asyncToggle">headphones</xui-toggle>
+    <xui-toggle [formControl]="model" icon="notifications_active"></xui-toggle>
+    <xui-toggle icon="mic"></xui-toggle>
+    <xui-toggle [formControl]="asyncToggle" icon="headphones"></xui-toggle>
 
-    <xui-toggle disabled>bell</xui-toggle>
-    <xui-toggle [value]="false" disabled>bell</xui-toggle>
+    <xui-toggle icon="notifications_active" disabled></xui-toggle>
+    <xui-toggle icon="notifications_active" [value]="false" disabled></xui-toggle>
   </div>
 
   <div style="display: flex; gap: 4px">
-    <xui-toggle color="primary-alt" [formControl]="model">bell</xui-toggle>
-    <xui-toggle color="primary">microphone</xui-toggle>
-    <xui-toggle color="success" [formControl]="asyncToggle">headphones</xui-toggle>
+    <xui-toggle icon="notifications_active" color="primary-alt" [formControl]="model"></xui-toggle>
+    <xui-toggle icon="mic" color="primary"></xui-toggle>
+    <xui-toggle icon="headphones" color="success" [formControl]="asyncToggle"></xui-toggle>
 
-    <xui-toggle color="secondary" disabled>bell</xui-toggle>
-    <xui-toggle color="warning" [value]="false" disabled>bell</xui-toggle>
+    <xui-toggle icon="notifications_active" color="secondary" disabled></xui-toggle>
+    <xui-toggle icon="notifications_active" color="warning" [value]="false" disabled></xui-toggle>
   </div>
-  Bell Toggled: {{ model.value | json }}
+  Notifications toggled: {{ model.value | json }}
 </app-example>
 
 <app-usage [usage]="usage"></app-usage>

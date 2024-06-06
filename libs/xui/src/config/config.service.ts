@@ -1,4 +1,4 @@
-import { Inject, Injectable, Optional } from '@angular/core';
+import { Inject, Injectable, InputSignal, Optional, input } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { filter, mapTo } from 'rxjs/operators';
 import { XuiConfig, XUI_CONFIG } from './config';
@@ -22,6 +22,12 @@ export class XuiConfigService {
 
   getConfigForComponent<T extends XuiConfigKey>(componentName: T): XuiConfig[T] {
     return this.config[componentName];
+  }
+
+  get<T extends XuiConfigKey>(componentName: T, key: string, defaultValue?: any): any {
+    const config = this.getConfigForComponent(componentName) as any;
+
+    return config?.[key] || defaultValue;
   }
 
   getConfigChangeEventForComponent(componentName: XuiConfigKey): Observable<void> {

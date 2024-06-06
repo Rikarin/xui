@@ -1,13 +1,15 @@
-<div [ngClass]="styles" [class.x-textarea-error]="showError" [tabindex]="disabled ? -1 : 0">
+<div [ngClass]="_styles()" [class.x-textarea-error]="showError" [tabindex]="_disabled() ? -1 : 0">
   <textarea
-    [disabled]="disabled"
-    [(ngModel)]="value"
-    [rows]="rows"
-    [placeholder]="placeholder ?? ''"
-    [maxLength]="maxLength ?? 524288"
+    [disabled]="_disabled()"
+    [readOnly]="readOnly()"
+    [ngModel]="_value()"
+    (ngModelChange)="_value.set($event)"
+    [rows]="rows()"
+    [placeholder]="placeholder() ?? ''"
+    [maxLength]="maxLength() ?? 524288"
   ></textarea>
 
-  <div *ngIf="maxLength" class="x-textarea-word-counter">{{ wordCount }}</div>
+  <div *ngIf="maxLength()" class="x-textarea-word-counter">{{ _worldCount() }}</div>
 </div>
 
 <div class="x-textarea-error-text" *ngIf="showError">

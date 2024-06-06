@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { StatusType } from './status.types';
 import { CommonModule } from '@angular/common';
 
@@ -7,7 +7,7 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule],
   selector: 'xui-status',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `<div [ngClass]="styles"></div>
+  template: `<div [ngClass]="_styles()"></div>
     <svg>
       <clipPath id="x-status-idle-clip-path" clipPathUnits="objectBoundingBox">
         <path d="M0.564,0 A0.399,0.399,0,1,1,0,0.564 A0.502,0.502,0,1,0,0.564,0" />
@@ -29,14 +29,14 @@ import { CommonModule } from '@angular/common';
     </svg>`
 })
 export class XuiStatus {
-  @Input() type?: StatusType;
+  type = input.required<StatusType>();
 
-  get styles() {
+  _styles = computed(() => {
     const ret: { [klass: string]: boolean } = {
       'x-status': true
     };
 
-    ret[`x-status-${this.type}`] = true;
+    ret[`x-status-${this.type()}`] = true;
     return ret;
-  }
+  });
 }

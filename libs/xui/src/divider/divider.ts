@@ -1,5 +1,4 @@
-import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
-import { InputNumber } from '../utils';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -7,37 +6,14 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule],
   selector: 'xui-divider',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: ''
+  template: '',
+  host: {
+    class: 'x-divider',
+    '[style.margin-top.px]': 'marginTop()',
+    '[style.margin-bottom.px]': 'marginBottom()'
+  }
 })
 export class XuiDivider {
-  @Input()
-  @InputNumber()
-  get marginTop() {
-    return this._marginTop;
-  }
-
-  set marginTop(value: number | undefined) {
-    this._marginTop = value;
-  }
-
-  @Input()
-  @InputNumber()
-  get marginBottom() {
-    return this._marginBottom;
-  }
-
-  set marginBottom(value: number | undefined) {
-    this._marginBottom = value;
-  }
-
-  @HostBinding('class.x-divider')
-  get hostMainClass(): boolean {
-    return true;
-  }
-
-  @HostBinding('style.margin-top.px')
-  private _marginTop?: number;
-
-  @HostBinding('style.margin-bottom.px')
-  private _marginBottom?: number;
+  marginTop = input<number>(0);
+  marginBottom = input<number>(0);
 }

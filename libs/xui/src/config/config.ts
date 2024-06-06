@@ -9,8 +9,6 @@ import { SnackBarHorizontalPosition, SnackBarVerticalPosition } from '../snack-b
 import { Direction, Directionality } from '@angular/cdk/bidi';
 import { AriaLivePoliteness } from '@angular/cdk/a11y';
 
-export const BADGE_MODULE = 'badge';
-export const BANNER_MODULE = 'banner';
 export const BUTTON_MODULE = 'button';
 export const CHECKBOX_MODULE = 'checkbox';
 export const DATE_PICKER_MODULE = 'datePicker';
@@ -26,8 +24,6 @@ export const LAYOUT_MODULE = 'layout';
 // export const MENU_MODULE
 
 export interface XuiConfig {
-  badge?: BadgeConfig;
-  banner?: BannerConfig;
   button?: ButtonConfig;
   input?: InputConfig;
   checkbox?: CheckboxConfig;
@@ -35,15 +31,6 @@ export interface XuiConfig {
 
   tooltip?: TooltipConfig;
   snackbar?: SnackBarConfig;
-}
-
-export interface BadgeConfig {
-  color?: BadgeColor;
-}
-
-export interface BannerConfig {
-  type?: BannerType;
-  dismissible?: boolean;
 }
 
 export interface ButtonConfig {

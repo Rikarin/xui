@@ -1,7 +1,7 @@
-<input #input type="file" [disabled]="disabled" (change)="handleFileInput($event)" accept="image/*" tabindex="-1" />
-<div class="x-image-upload-hover" [style.border-radius.%]="borderRadius">{{ hoverLabel | translate }}</div>
-<div *ngIf="!backgroundImage" class="x-image-upload-no-image">{{ 'xui.image_upload.no_image' | translate }}</div>
+<input #input type="file" [disabled]="_disabled()" (change)="handleFileInput($event)" accept="image/*" tabindex="-1" />
+<div class="x-image-upload-hover" [style.border-radius.%]="_borderRadius()">{{ hoverLabel() | translate }}</div>
+<div *ngIf="!_backgroundImageUrl()" class="x-image-upload-no-image">{{ 'xui.image_upload.no_image' | translate }}</div>
 
 <div class="x-image-upload-icon">
-  <xui-icon>image-plus-outline</xui-icon>
+  <xui-icon icon="add_photo_alternate"></xui-icon>
 </div>

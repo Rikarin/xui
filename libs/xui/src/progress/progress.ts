@@ -1,5 +1,4 @@
-import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
-import { InputNumber } from '../utils';
+import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { ProgressColor, ProgressStatus, ProgressType } from './progress.types';
 import { CommonModule } from '@angular/common';
 import { XuiDecagram } from '../decagram';
@@ -8,49 +7,49 @@ import { XuiDecagram } from '../decagram';
   imports: [CommonModule, XuiDecagram],
   selector: 'xui-progress',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: 'progress.html'
+  templateUrl: 'progress.html',
+  host: {
+    class: 'x-progress'
+  }
 })
 export class XuiProgress {
-  @Input() @InputNumber() progress!: number;
-  @Input() type: ProgressType = 'line';
-  @Input() color: ProgressColor = 'primary';
-  @Input() status: ProgressStatus = null;
+  progress = input.required<number>();
+  type = input<ProgressType>('line');
+  color = input<ProgressColor>('primary');
+  status = input<ProgressStatus>(null);
 
-  @HostBinding('class.x-progress')
-  get hostMainClass(): boolean {
-    return true;
-  }
+  private _color = computed(() => {
+    if (this.status() === 'error') {
+      return 'error';
+    }
 
-  get style() {
-    const ret: { [klass: string]: boolean } = {
-      'x-progress-indicator': true
-    };
+    console.log('progress', this.progress());
 
-    ret[`x-progress-${this.getColor()}`] = true;
-    return ret;
-  }
+    if (this.progress() == 100) {
+      return 'success';
+    }
 
-  getIndicator() {
-    if (this.status === 'error') {
+    return this.color();
+  });
+
+  _indicator = computed(() => {
+    if (this.status() === 'error') {
       return -1;
     }
 
-    if (this.progress === 100) {
+    if (this.progress() == 100) {
       return 1;
     }
 
     return 0;
-  }
+  });
 
-  private getColor() {
-    if (this.status === 'error') {
-      return 'error';
-    }
+  _style = computed(() => {
+    const ret: { [klass: string]: boolean } = {
+      'x-progress-indicator': true
+    };
 
-    if (this.progress === 100) {
-      return 'success';
-    }
-
-    return this.color;
-  }
+    ret[`x-progress-${this._color()}`] = true;
+    return ret;
+  });
 }

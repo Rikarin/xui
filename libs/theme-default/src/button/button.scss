@@ -48,10 +48,7 @@
     &-content {
       display: inline-flex;
       gap: 4px;
-    }
-
-    &:not(.x-button-icon) &-content .x-icon {
-      width: 1.3em;
+      align-items: center;
     }
 
     &-normal {

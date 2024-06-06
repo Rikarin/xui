@@ -10,6 +10,7 @@
   <xui-input type="text" placeholder="Placeholder"></xui-input>
   <xui-input type="text" color="dark" placeholder="Dark"></xui-input>
   <xui-input type="text" placeholder="Required" [formControl]="errorControl"></xui-input>
+  Text: {{ errorControl.value }}
   <xui-input type="text" placeholder="Disabled" disabled></xui-input>
   <xui-input type="password" [formControl]="errorInputControl" placeholder="Password"></xui-input>
 </app-example>
@@ -22,7 +23,7 @@
 
   <xui-input type="text" placeholder="Icon">
     <div xuiPrefix>
-      <xui-icon>account</xui-icon>
+      <xui-icon icon="person"></xui-icon>
     </div>
   </xui-input>
 
@@ -40,7 +41,7 @@
 
   <xui-input type="text" placeholder="With Icon Button">
     <div xuiPostfix>
-      <xui-button type="icon"><xui-icon>cog</xui-icon></xui-button>
+      <xui-button type="icon"><xui-icon icon="settings"></xui-icon></xui-button>
     </div>
   </xui-input>
 </app-example>
@@ -60,7 +61,7 @@
 
   <xui-input-group>
     <xui-input-addon>
-      <xui-icon>account</xui-icon>
+      <xui-icon icon="person"></xui-icon>
     </xui-input-addon>
     <xui-input type="text" placeholder="First Input"></xui-input>
   </xui-input-group>

@@ -1,4 +1,4 @@
-export * from './panelbar.types';
+export { PanelBarItem } from './panelbar.types';
 export * from './panelbar';
 export * from './panelbar.module';
 export * from './panelbar-item';
