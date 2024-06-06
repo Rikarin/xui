@@ -17,10 +17,11 @@ import { SliderColor, SliderMark } from './slider.types';
 import { CommonModule } from '@angular/common';
 import { XuiTooltip, XuiTooltipModule } from '../tooltip';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { XuiFocusModule } from '../utils/focus.service';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, FormsModule, XuiTooltipModule, DragDropModule],
+  imports: [CommonModule, FormsModule, XuiTooltipModule, DragDropModule, XuiFocusModule],
   selector: 'xui-slider',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: 'slider.html',

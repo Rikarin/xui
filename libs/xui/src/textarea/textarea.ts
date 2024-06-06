@@ -4,10 +4,11 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { convertToBoolean } from '../utils';
 import { TextareaColor, TextareaSize } from './textarea.types';
 import { CommonModule } from '@angular/common';
+import { XuiFocusModule } from '../utils/focus.service';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, FormsModule, TranslateModule],
+  imports: [CommonModule, FormsModule, TranslateModule, XuiFocusModule],
   selector: 'xui-textarea',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: 'textarea.html',

@@ -139,6 +139,13 @@
   }
 }
 
+@mixin focusable-within() {
+  html.keyboard-mode &:has(:focus-visible) {
+    outline: 5px solid var(--focus-color);
+    z-index: 1;
+  }
+}
+
 @function modifier-hover($color: accent, $palette: bg) {
   @return rgba(var(--color-#{$palette}-#{$color}-rgb), var(--hover-opacity));
 }

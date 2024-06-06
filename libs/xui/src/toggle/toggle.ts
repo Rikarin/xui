@@ -4,10 +4,11 @@ import { convertToBoolean } from '../utils';
 import { ToggleColor } from './toggle.types';
 import { CommonModule } from '@angular/common';
 import { XuiIcon } from '../icon';
+import { XuiFocusModule } from '../utils/focus.service';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, XuiIcon],
+  imports: [CommonModule, XuiIcon, XuiFocusModule],
   selector: 'xui-toggle',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<div [class.x-toggle-clip]="!_value()">

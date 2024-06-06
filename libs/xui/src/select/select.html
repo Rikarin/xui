@@ -3,7 +3,6 @@
   [tabindex]="_disabled() ? -1 : 0"
   (click)="open()"
   cdkOverlayOrigin
-  [cdkTrapFocus]="_isOpened()"
   #trigger="cdkOverlayOrigin"
   (keydown.enter)="_isOpened.set(true)"
   (keydown.space)="_isOpened.set(true)"
@@ -15,6 +14,7 @@
 <ng-template
   cdkConnectedOverlay
   cdkConnectedOverlayHasBackdrop
+  [cdkConnectedOverlayLockPosition]="true"
   [cdkConnectedOverlayBackdropClass]="'cdk-overlay-transparent'"
   [cdkConnectedOverlayOrigin]="trigger"
   [cdkConnectedOverlayOpen]="_isOpened()"
@@ -22,7 +22,7 @@
   (backdropClick)="_isOpened.set(false)"
   (detach)="_isOpened.set(false)"
 >
-  <div class="x-select-options">
+  <div class="x-select-options" [tabindex]="0" [cdkTrapFocus]="_isOpened()" [cdkTrapFocusAutoCapture]="true">
     @for (item of items(); track item.value) {
       <xui-option [value]="item.value">{{ item.label | translate }}</xui-option>
     }

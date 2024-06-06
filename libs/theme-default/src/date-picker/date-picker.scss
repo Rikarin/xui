@@ -4,11 +4,16 @@
 
 @mixin theme() {
   xui-date-picker {
-    display: flex;
+    width: fit-content;
   }
 
   .x-datepicker {
+    @include core.focusable();
     @include input-base.input($border-radius);
+
+    .x-icon {
+      font-size: 20px;
+    }
 
     &-popup {
       width: fit-content;

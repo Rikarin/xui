@@ -19,10 +19,11 @@ import { CommonModule } from '@angular/common';
 import { XuiIcon } from '../icon';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { A11yModule } from '@angular/cdk/a11y';
+import { XuiFocusModule } from '../utils/focus.service';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, XuiIcon, XuiInputModule, OverlayModule, A11yModule, ReactiveFormsModule],
+  imports: [CommonModule, XuiIcon, XuiInputModule, OverlayModule, A11yModule, ReactiveFormsModule, XuiFocusModule],
   selector: 'xui-date-picker',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: 'date-picker.html',

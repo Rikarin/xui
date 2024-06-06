@@ -1,8 +1,10 @@
 @use 'variables' as *;
 @use '../mixins/input-base';
+@use '@xui/theme-core' as core;
 
 @mixin theme() {
   .x-input {
+    @include core.focusable-within();
     @include input-base.input($border-radius);
     @include input-base.error();
   }

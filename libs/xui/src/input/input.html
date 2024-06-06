@@ -1,7 +1,7 @@
-<div [ngClass]="_styles()" [tabindex]="_disabled() ? -1 : 0">
+<div [ngClass]="_styles()">
   <ng-content select="[xuiPrefix]" />
   <input
-    tabindex="-1"
+    [tabindex]="_disabled() ? -1 : 0"
     [disabled]="_disabled()"
     [readOnly]="readOnly()"
     [type]="type()"

@@ -1,4 +1,4 @@
-<div [ngClass]="_styles()" [class.x-textarea-error]="showError" [tabindex]="_disabled() ? -1 : 0">
+<div [ngClass]="_styles()" [class.x-textarea-error]="showError">
   <textarea
     [disabled]="_disabled()"
     [readOnly]="readOnly()"
@@ -7,6 +7,7 @@
     [rows]="rows()"
     [placeholder]="placeholder() ?? ''"
     [maxLength]="maxLength() ?? 524288"
+    [tabindex]="_disabled() ? -1 : 0"
   ></textarea>
 
   <div *ngIf="maxLength()" class="x-textarea-word-counter">{{ _worldCount() }}</div>

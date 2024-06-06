@@ -4,10 +4,11 @@ import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { SwitchColor } from './switch.types';
 import { CommonModule } from '@angular/common';
 import { XuiIcon } from '../icon';
+import { XuiFocusModule } from '../utils/focus.service';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, XuiIcon],
+  imports: [CommonModule, XuiIcon, XuiFocusModule],
   selector: 'xui-switch',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: 'switch.html',

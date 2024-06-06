@@ -8,7 +8,6 @@
   box-sizing: border-box;
 
   @include core.border-radius($border-radius);
-  @include core.focusable();
 
   input {
     margin: 0;

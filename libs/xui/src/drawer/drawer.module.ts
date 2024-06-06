@@ -6,10 +6,11 @@ import { XuiDrawerHeaderTemplate } from './drawer-header-template';
 import { XuiDrawerFooterTemplate } from './drawer-footer-template';
 import { PortalModule } from '@angular/cdk/portal';
 import { XuiIcon } from '../icon';
+import { XuiFocusModule } from '../utils/focus.service';
 
 @NgModule({
   declarations: [XuiDrawer, XuiDrawerItemTemplate, XuiDrawerHeaderTemplate, XuiDrawerFooterTemplate],
-  imports: [CommonModule, PortalModule, XuiIcon],
+  imports: [CommonModule, PortalModule, XuiIcon, XuiFocusModule],
   exports: [XuiDrawer, XuiDrawerItemTemplate, XuiDrawerHeaderTemplate, XuiDrawerFooterTemplate]
 })
 export class XuiDrawerModule {}
