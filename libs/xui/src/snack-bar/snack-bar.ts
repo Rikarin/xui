@@ -223,7 +223,7 @@ export class XuiSnackBar implements OnDestroy {
     const overlayConfig = new OverlayConfig();
     overlayConfig.direction = config.direction;
 
-    let positionStrategy = this.overlay.position().global();
+    const positionStrategy = this.overlay.position().global();
     // Set horizontal position.
     const isRtl = config.direction === 'rtl';
     const isLeft =

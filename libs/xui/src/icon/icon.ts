@@ -171,7 +171,7 @@ export class XuiIcon implements OnInit, AfterViewChecked, OnDestroy {
    * the element the icon is contained in.
    */
   @Input({ transform: booleanAttribute })
-  inline: boolean = false;
+  inline = false;
 
   /** Name of the icon in the SVG icon set. */
   @Input()

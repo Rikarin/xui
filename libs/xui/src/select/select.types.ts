@@ -1,5 +1,4 @@
 import { InjectionToken, Signal, WritableSignal } from '@angular/core';
-import { Observable } from 'rxjs';
 
 export type SelectSize = 'large' | 'small';
 export type SelectColor = 'light' | 'dark';

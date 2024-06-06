@@ -14,7 +14,7 @@
   </xui-tab-group>
 
   <div *ngIf="files || todo" class="menu">
-    <div *ngIf="todo" class="todo">TODO</div>
+    <div *ngIf="todo()" class="todo">TODO</div>
     @if (files) {
       <xui-icon (click)="openProject()" xuiTooltip="Edit in StackBlitz" icon="open_in_new"></xui-icon>
     }

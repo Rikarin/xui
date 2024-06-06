@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, Inject, Input, OnInit } from '@angular/core';
-import { InputBoolean, XuiCard, XuiCardModule, XuiIcon, XuiTabModule, XuiTooltipModule } from '@xui/components';
+import { ChangeDetectionStrategy, Component, Inject, input, Input, OnInit } from '@angular/core';
+import { convertToBoolean, XuiCardModule, XuiIcon, XuiTabModule, XuiTooltipModule } from '@xui/components';
 import sdk, { Project, ProjectFiles } from '@stackblitz/sdk';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, lastValueFrom } from 'rxjs';
@@ -32,7 +32,7 @@ export class Example implements OnInit {
   content$ = new BehaviorSubject<File[]>([]);
 
   @Input() files: { [name: string]: FileType } = {};
-  @Input() @InputBoolean() todo = false;
+  todo = input(false, { transform: (v: string | boolean) => convertToBoolean(v) });
 
   get project(): Project {
     return <Project>{

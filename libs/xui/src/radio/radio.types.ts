@@ -1,5 +1,4 @@
 import { InjectionToken, Signal, WritableSignal } from '@angular/core';
-import { Observable } from 'rxjs';
 
 export type RadioValue = string | number | null;
 export type RadioColor = 'primary' | 'primary-alt' | 'secondary' | 'success' | 'warning' | 'error' | 'info' | 'none';
