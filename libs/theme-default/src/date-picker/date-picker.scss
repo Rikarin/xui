@@ -9,7 +9,7 @@
 
   .x-datepicker {
     @include core.focusable();
-    @include input-base.input($border-radius);
+    @include input-base.input($border-radius, $color-variable);
 
     .x-icon {
       font-size: 20px;

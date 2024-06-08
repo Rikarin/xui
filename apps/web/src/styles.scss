@@ -1,6 +1,5 @@
 @use './highlightjs';
 @use '@xui/theme-default';
-
 //  with (
 //  $enable-rounded: true,
 //  $banner-stamp-border-radius: 20px,
@@ -11,8 +10,6 @@
 //);
 
 @include theme-default.theme();
-
-// end user should be able to change swatches/colors but the overall theme such as border-radius should be compile time
 
 code {
   font-family: Consolas, Monospaced, sans-serif;

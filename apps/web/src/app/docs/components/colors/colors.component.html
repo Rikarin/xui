@@ -1,6 +1,7 @@
 @for (color of colors; track color) {
   <div class="color">
     <div class="title">{{ color }}</div>
+
     @for (token of tokens; track token) {
       <div class="token" [style]="getVariable(color, token)" #element>
         <span>{{ token }}</span>

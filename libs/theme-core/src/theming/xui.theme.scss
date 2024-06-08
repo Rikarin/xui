@@ -4,13 +4,12 @@ $dark-primary-text: 0 0 0;
 $light-primary-text: 89.7% 0.011 243.67;
 
 $background-dark-palette: (
-  primary: 33.66% 0.011 236.92,
-  secondary: 31.03% 0.011 248.19,
-  secondary-alt: 28.58% 0.01 242.05,
-  tertiary: 25.74% 0.012 248.29,
-  accent: 43.95% 0.01 248.07,
-  floating: 20.56% 0.011 242.31,
-
+  primary: var(--color-background-600-lch),
+  secondary: var(--color-background-630-lch),
+  secondary-alt: var(--color-background-660-lch),
+  tertiary: var(--color-background-700-lch),
+  accent: var(--color-background-530-lch),
+  floating: var(--color-background-800-lch),
   contrast: (
     primary: $light-primary-text,
     secondary: $light-primary-text,
@@ -22,19 +21,19 @@ $background-dark-palette: (
 );
 
 $background-light-palette: (
-  primary: 100% 0 0,
-  secondary: 96.4% 0.003 264.54,
-  secondary-alt: 94.48% 0.003 247.86,
-  tertiary: 92.12% 0.005 258.33,
-  accent: 55.47% 0.022 253.46,
-  floating: 100% 0 0,
+  primary: white,
+  secondary: var(--color-background-130-lch),
+  secondary-alt: var(--color-background-160-lch),
+  tertiary: var(--color-background-200-lch),
+  accent: var(--color-background-430-lch),
+  floating: var(--color-background-500-lch),
   contrast: (
     primary: $dark-primary-text,
     secondary: $dark-primary-text,
     secondary-alt: $dark-primary-text,
     tertiary: $dark-primary-text,
-    accent: $dark-primary-text,
-    floating: $dark-primary-text
+    accent: $light-primary-text,
+    floating: $light-primary-text
   )
 );
 
@@ -54,4 +53,4 @@ $red-palette: palette.generate-palette(58.07% 0.215 31.56);
 $green-palette: palette.generate-palette(54.27% 0.134 153.22);
 $orange-palette: palette.generate-palette(56.53% 0.13 61.8);
 $purple-palette: palette.generate-palette(55.68% 0.176 293.4);
-$dark-palette: palette.generate-palette(43.19% 0.011 236.92);
+$background-palette: palette.generate-palette(43.19% 0.011 236.92);

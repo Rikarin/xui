@@ -5,8 +5,7 @@ $theme: xui.define-dark-theme(
     color: (
       primary: xui.define-palette(xui.generate-palette(55.88% 0.154 252.84)),
       primary-alt: xui.define-palette(xui.$purple-palette),
-      secondary: xui.define-palette(xui.$orange-palette),
-      dark: xui.define-palette(xui.$dark-palette)
+      secondary: xui.define-palette(xui.$orange-palette)
     )
   )
 );

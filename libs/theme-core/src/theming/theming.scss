@@ -82,6 +82,7 @@
       success: map.get($color, success) or define-palette(theme.$green-palette),
       warning: map.get($color, warning) or define-palette(theme.$orange-palette),
       error: map.get($color, error) or define-palette(theme.$red-palette),
+      background: map.get($color, error) or define-palette(theme.$background-palette),
       bg: map.get($color, bg) or define-background-palette($default-background)
     )
   );

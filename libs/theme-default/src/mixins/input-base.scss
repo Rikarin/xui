@@ -1,11 +1,12 @@
 @use '@xui/theme-core' as core;
 
-@mixin input($border-radius) {
+@mixin input($border-radius, $color-var) {
   max-height: 40px;
   display: flex;
   gap: 8px;
   align-items: center;
   box-sizing: border-box;
+  background-color: var(#{$color-var});
 
   @include core.border-radius($border-radius);
 
@@ -35,18 +36,20 @@
   }
 
   &-light {
-    background-color: var(--color-bg-secondary);
+    #{$color-var}: var(--color-background-560);
 
     input {
+      // TODO
       -webkit-text-fill-color: var(--color-bg-secondary-contrast);
       caret-color: var(--color-bg-secondary-contrast);
     }
   }
 
   &-dark {
-    background-color: var(--color-bg-tertiary);
+    #{$color-var}: var(--color-background-900);
 
     input {
+      // TODO
       -webkit-text-fill-color: var(--color-bg-tertiary-contrast);
       caret-color: var(--color-bg-tertiary-contrast);
     }

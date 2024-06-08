@@ -5,7 +5,7 @@
 @mixin theme() {
   .x-input {
     @include core.focusable-within();
-    @include input-base.input($border-radius);
+    @include input-base.input($border-radius, $color-variable);
     @include input-base.error();
   }
 }
