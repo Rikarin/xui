@@ -149,21 +149,21 @@
 }
 
 @function modifier-hover($color: accent, $palette: bg) {
-  @return oklch(var(--color-#{$palette}-#{$color}-lch), var(--hover-opacity));
+  @return oklch(var(--color-#{$palette}-#{$color}-lch) / var(--hover-opacity));
 }
 
 @function modifier-active($color: accent, $palette: bg) {
-  @return oklch(var(--color-#{$palette}-#{$color}-lch), var(--active-opacity));
+  @return oklch(var(--color-#{$palette}-#{$color}-lch) / var(--active-opacity));
 }
 
 @function modifier-selected($color: accent, $palette: bg) {
-  @return oklch(var(--color-#{$palette}-#{$color}-lch), var(--selected-opacity));
+  @return oklch(var(--color-#{$palette}-#{$color}-lch) / var(--selected-opacity));
 }
 
 @function modifier-accent($color: accent, $palette: bg) {
-  @return oklch(var(--color-#{$palette}-#{$color}-lch), var(--accent-opacity));
+  @return oklch(var(--color-#{$palette}-#{$color}-lch) / var(--accent-opacity));
 }
 
 @function text-muted($color: accent, $palette: bg) {
-  @return oklch(var(--color-#{$palette}-#{$color}-contrast-lch), var(--text-muted-opacity));
+  @return oklch(var(--color-#{$palette}-#{$color}-contrast-lch) / var(--text-muted-opacity));
 }
