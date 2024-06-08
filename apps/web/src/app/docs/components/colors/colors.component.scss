@@ -1,0 +1,25 @@
+:host {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.title {
+  text-align: center;
+  padding: 12px;
+}
+
+.color {
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+}
+
+.token {
+  display: flex;
+  justify-content: space-between;
+  min-height: 2.5rem;
+  padding: 14px;
+
+  font-size: 0.8rem;
+}

@@ -1,28 +1,73 @@
 @use 'sass:map';
+@use 'sass:list';
 
-@function generate-palette($base, $dark-text: rgba(black, 0.87), $light-text: #d7dee4) {
+@function generate-palette($lch, $dark-text: 0 0 0, $light-text: 89.7% 0.011 243.67) {
+  $current-lightness: list.nth($lch, 1);
+  $safe-max-lightness: 97;
+  $safe-min-lightness: 21;
+
+  @if $current-lightness >= 88.5 {
+    $safe-max-lightness: 99.5;
+  }
+
+  @if $current-lightness <= 33 {
+    $safe-min-lightness: 0;
+  }
+
+  $light-base: ($safe-max-lightness - $current-lightness) / 500;
+  $dark-base: ($current-lightness - $safe-min-lightness) / 400;
+
+  $light: list.nth($lch, 1) + 500 * $light-base;
+  $d-light: list.nth($lch, 1) + 500 * $dark-base;
+  $chroma: list.nth($lch, 2);
+  $hue: list.nth($lch, 3);
+
   $colors: (
-    50: mix($base, white, 12%),
-    100: mix($base, white, 30%),
-    200: mix($base, white, 50%),
-    300: mix($base, white, 70%),
-    400: mix($base, white, 85%),
-    500: mix($base, white, 100%),
-    600: mix($base, black, 87%),
-    700: mix($base, black, 70%),
-    800: mix($base, black, 54%),
-    900: mix($base, black, 25%)
+    100: #{$light - 100 * $light-base} #{$chroma} #{$hue},
+    130: #{$light - 130 * $light-base} #{$chroma} #{$hue},
+    160: #{$light - 160 * $light-base} #{$chroma} #{$hue},
+    200: #{$light - 200 * $light-base} #{$chroma} #{$hue},
+    230: #{$light - 230 * $light-base} #{$chroma} #{$hue},
+    260: #{$light - 260 * $light-base} #{$chroma} #{$hue},
+    300: #{$light - 300 * $light-base} #{$chroma} #{$hue},
+    330: #{$light - 330 * $light-base} #{$chroma} #{$hue},
+    345: #{$light - 345 * $light-base} #{$chroma} #{$hue},
+    360: #{$light - 360 * $light-base} #{$chroma} #{$hue},
+    400: #{$light - 400 * $light-base} #{$chroma} #{$hue},
+    430: #{$light - 430 * $light-base} #{$chroma} #{$hue},
+    460: #{$light - 460 * $light-base} #{$chroma} #{$hue},
+    500: $lch,
+    530: #{$d-light - 530 * $dark-base} #{$chroma} #{$hue},
+    560: #{$d-light - 560 * $dark-base} #{$chroma} #{$hue},
+    600: #{$d-light - 600 * $dark-base} #{$chroma} #{$hue},
+    630: #{$d-light - 630 * $dark-base} #{$chroma} #{$hue},
+    660: #{$d-light - 660 * $dark-base} #{$chroma} #{$hue},
+    700: #{$d-light - 700 * $dark-base} #{$chroma} #{$hue},
+    730: #{$d-light - 730 * $dark-base} #{$chroma} #{$hue},
+    760: #{$d-light - 760 * $dark-base} #{$chroma} #{$hue},
+    800: #{$d-light - 800 * $dark-base} #{$chroma} #{$hue},
+    830: #{$d-light - 830 * $dark-base} #{$chroma} #{$hue},
+    860: #{$d-light - 860 * $dark-base} #{$chroma} #{$hue},
+    900: #{$d-light - 900 * $dark-base} #{$chroma} #{$hue}
   );
 
   @return map.merge(
     $colors,
     (
       contrast: (
-        50: $dark-text,
         100: $dark-text,
+        130: $dark-text,
+        160: $dark-text,
         200: $dark-text,
+        230: $dark-text,
+        260: $dark-text,
         300: $dark-text,
+        330: $dark-text,
+        345: $dark-text,
+        360: $dark-text,
         400: $dark-text,
+        430: $dark-text,
+        460: $dark-text,
         500: $light-text,
         600: $light-text,
         700: $light-text,

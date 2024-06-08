@@ -147,7 +147,7 @@
       animation-name: shine;
       animation-iteration-count: infinite;
       animation-timing-function: ease-in-out;
-      color: hsla(0, 0%, 100%, 0.1);
+      color: oklch(100% 0 0 / 0.1);
 
       &-inner {
         display: flex;

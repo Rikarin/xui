@@ -1,15 +1,15 @@
 @use 'palette';
 
-$dark-primary-text: rgba(black, 0.87);
-$light-primary-text: #d7dee4;
+$dark-primary-text: 0 0 0;
+$light-primary-text: 89.7% 0.011 243.67;
 
 $background-dark-palette: (
-  primary: #32383c,
-  secondary: #2c3136,
-  secondary-alt: #262b2f,
-  tertiary: #1f2429,
-  accent: #4e5358,
-  floating: #13181c,
+  primary: 33.66% 0.011 236.92,
+  secondary: 31.03% 0.011 248.19,
+  secondary-alt: 28.58% 0.01 242.05,
+  tertiary: 25.74% 0.012 248.29,
+  accent: 43.95% 0.01 248.07,
+  floating: 20.56% 0.011 242.31,
 
   contrast: (
     primary: $light-primary-text,
@@ -22,12 +22,12 @@ $background-dark-palette: (
 );
 
 $background-light-palette: (
-  primary: hsl(0, 0%, 100%),
-  secondary: hsl(220, 13%, 95.5%),
-  secondary-alt: hsl(210, 11.1%, 92.9%),
-  tertiary: hsl(216, 9.8%, 90%),
-  accent: hsl(213, 9.4%, 45.9%),
-  floating: hsl(0, 0%, 100%),
+  primary: 100% 0 0,
+  secondary: 96.4% 0.003 264.54,
+  secondary-alt: 94.48% 0.003 247.86,
+  tertiary: 92.12% 0.005 258.33,
+  accent: 55.47% 0.022 253.46,
+  floating: 100% 0 0,
   contrast: (
     primary: $dark-primary-text,
     secondary: $dark-primary-text,
@@ -49,8 +49,9 @@ $default-elevation: (
   high: 0 8px 16px rgba(0, 0, 0, 0.24)
 );
 
-$blue-palette: palette.generate-palette(#1f75cb);
-$red-palette: palette.generate-palette(#dd2b0e);
-$green-palette: palette.generate-palette(#108548);
-$orange-palette: palette.generate-palette(#ab6100);
-$purple-palette: palette.generate-palette(#7b58cf);
+$blue-palette: palette.generate-palette(55.88% 0.154 252.84);
+$red-palette: palette.generate-palette(58.07% 0.215 31.56);
+$green-palette: palette.generate-palette(54.27% 0.134 153.22);
+$orange-palette: palette.generate-palette(56.53% 0.13 61.8);
+$purple-palette: palette.generate-palette(55.68% 0.176 293.4);
+$dark-palette: palette.generate-palette(43.19% 0.011 236.92);

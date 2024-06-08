@@ -41,14 +41,14 @@
       padding-left: 9px;
       border-left: 3px solid core.modifier-selected();
 
-      background-color: rgba(var(--color-bg-accent-rgb), 0.2);
+      background-color: oklch(var(--color-bg-accent-lch) / 0.2);
     }
 
     &-selected {
       padding-left: 9px;
       border-left: 3px solid var(--color-primary-default);
 
-      background-color: rgba(var(--color-bg-accent-rgb), 0.4);
+      background-color: oklch(var(--color-bg-accent-lch) / 0.4);
     }
 
     &-divider {

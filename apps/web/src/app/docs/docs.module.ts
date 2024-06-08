@@ -5,6 +5,7 @@ import { GettingStartedComponent } from './components/getting-started/getting-st
 import { ThemingComponent } from './components/theming/theming.component';
 import { TranslateService } from '@ngx-translate/core';
 import { AppComponent } from './app.component';
+import { ColorsComponent } from './components/colors/colors.component';
 
 const routes: Routes = [
   {
@@ -14,6 +15,7 @@ const routes: Routes = [
       { path: '', component: OverviewComponent },
       { path: 'getting-started', component: GettingStartedComponent },
       { path: 'theming', component: ThemingComponent },
+      { path: 'colors', component: ColorsComponent },
 
       { path: 'charts', loadChildren: () => import('./charts/charts.module').then(x => x.ChartsModule) },
       {
