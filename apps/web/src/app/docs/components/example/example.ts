@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, Inject, input, OnInit, signal} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, input, OnInit, signal } from '@angular/core';
 import { convertToBoolean, XuiCardModule, XuiIcon, XuiTabModule, XuiTooltipModule } from '@xui/components';
 import sdk, { Project, ProjectFiles } from '@stackblitz/sdk';
 import { HttpClient } from '@angular/common/http';
@@ -48,7 +48,10 @@ export class Example implements OnInit {
     };
   }
 
-  constructor(private http: HttpClient, @Inject(DOCUMENT) private document: Document) {}
+  constructor(
+    private http: HttpClient,
+    @Inject(DOCUMENT) private document: Document
+  ) {}
 
   async ngOnInit() {
     this.content.set(await this.fetchFiles());
@@ -129,7 +132,9 @@ export class Example implements OnInit {
   openProject() {
     sdk.openProject(this.project, {
       newWindow: true,
-      openFile: this.content().map(x => x.path).join(',')
+      openFile: this.content()
+        .map(x => x.path)
+        .join(',')
     });
   }
 
@@ -181,5 +186,5 @@ export enum FileType {
 }
 
 interface Files {
-  [name: string]: FileType
+  [name: string]: FileType;
 }

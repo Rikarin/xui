@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Information } from '../../components/information';
 import { Example } from '../../components/example';
-import {Usage, Usages} from '../../components/usage';
+import { Usage, Usages } from '../../components/usage';
 import { HighlightModule } from 'ngx-highlightjs';
 import { XuiRadioModule } from '@xui/components';
 

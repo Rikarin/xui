@@ -4,7 +4,7 @@ import { DataSource } from '@angular/cdk/collections';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { CdkTableModule } from '@angular/cdk/table';
 import { XuiCardModule } from '@xui/components';
-import {CommonModule} from "@angular/common";
+import { CommonModule } from '@angular/common';
 
 @Component({
   standalone: true,

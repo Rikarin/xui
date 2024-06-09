@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Information } from '../../components/information';
 import { Example } from '../../components/example';
-import {Usage, Usages} from '../../components/usage';
+import { Usage, Usages } from '../../components/usage';
 import { HighlightModule } from 'ngx-highlightjs';
 import { XuiRadioListModule } from '@xui/components';
 import { CommonModule } from '@angular/common';

@@ -11,14 +11,14 @@ const PACKAGE_JSON = {
     luxon: '^3.4.0',
     '@types/luxon': '^3.4.0',
 
-    "@angular/animations": "^18.0.0",
-    "@angular/common": "^18.0.0",
-    "@angular/compiler": "^18.0.0",
-    "@angular/core": "^18.0.0",
-    "@angular/forms": "^18.0.0",
-    "@angular/platform-browser": "^18.0.0",
+    '@angular/animations': '^18.0.0',
+    '@angular/common': '^18.0.0',
+    '@angular/compiler': '^18.0.0',
+    '@angular/core': '^18.0.0',
+    '@angular/forms': '^18.0.0',
+    '@angular/platform-browser': '^18.0.0',
     '@angular/platform-browser-dynamic': '^18.0.0',
-    "@angular/router": "^18.0.0",
+    '@angular/router': '^18.0.0',
     rxjs: '~7.8.1',
     tslib: '^2.5.0',
     'zone.js': '~0.14.0'
@@ -29,10 +29,10 @@ const PACKAGE_JSON = {
     build: 'ng build'
   },
   devDependencies: {
-    "@angular-devkit/build-angular": "^18.0.0",
-    "@angular/cli": "^18.0.1",
-    "@angular/compiler-cli": "^18.0.0",
-    "typescript": "~5.4.0"
+    '@angular-devkit/build-angular': '^18.0.0',
+    '@angular/cli': '^18.0.1',
+    '@angular/compiler-cli': '^18.0.0',
+    typescript: '~5.4.0'
   }
 };
 
@@ -154,7 +154,7 @@ $theme: core.define-dark-theme(
 @include xui.theme();
 `;
 
-const files: any = { };
+const files: any = {};
 
 files['src/index.html'] = `<!DOCTYPE html>
   <html lang="en">

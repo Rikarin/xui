@@ -4,7 +4,7 @@ import { Information } from '../../components/information';
 import { Example } from '../../components/example';
 import { HighlightModule } from 'ngx-highlightjs';
 import { XuiButtonModule, XuiConfigModule, XuiIcon, XuiInputModule } from '@xui/components';
-import {Usage, Usages} from "../../components/usage";
+import { Usage, Usages } from '../../components/usage';
 
 @Component({
   standalone: true,
