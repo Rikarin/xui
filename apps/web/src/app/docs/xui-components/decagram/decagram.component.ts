@@ -24,22 +24,22 @@ export class DecagramComponent {
 
   readonly usage: Usage[] = [
     {
-      param: '[iconSize]',
-      description: 'Size of a inner icon',
+      param: 'iconSize',
+      description: 'Size of the inner icon.',
       type: 'number',
       default: '65'
     },
     {
-      param: '[type]',
-      description: 'Type of a decagram',
-      type: "'decagram' | 'circle' | 'shield'",
-      default: 'decagram'
+      param: 'type',
+      description: 'Type of the decagram.',
+      type: '"decagram" | "circle" | "shield"',
+      default: '"decagram"'
     },
     {
-      param: '[color]',
-      description: 'Color of a decagram',
-      type: "'primary' | 'primary-alt' | 'secondary' | 'success' | 'warning' | 'error' | 'info'",
-      default: 'primary'
+      param: 'color',
+      description: 'Color of the decagram.',
+      type: '"primary" | "primary-alt" | "secondary" | "success" | "warning" | "error" | "info"',
+      default: '"primary"'
     }
   ];
 }

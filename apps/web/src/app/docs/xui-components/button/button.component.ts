@@ -49,42 +49,42 @@ export class ButtonComponent {
 
   usage: Usage[] = [
     {
-      param: '[size]',
-      description: 'Size of a button',
-      type: "'sm' | 'md' | 'lg'",
+      param: 'size',
+      description: 'Size of the button.',
+      type: '"sm" | "md" | "lg"',
       default: 'md'
     },
     {
-      param: '[type]',
-      description: 'Type of a button',
-      type: "'normal' | 'dashed' | 'stroked' | 'raised' | 'fab' | 'icon'",
+      param: 'type',
+      description: 'Type of the button.',
+      type: '"normal" | "dashed" | "stroked" | "raised" | "fab" | "icon"',
       default: 'normal'
     },
     {
-      param: '[color]',
-      description: 'Color of a button',
-      type: "'primary' | 'primary-alt' | 'secondary' | 'success' | 'warning' | 'error' | 'info' | 'minimal",
+      param: 'color',
+      description: 'Color of the button.',
+      type: '"primary" | "primary-alt" | "secondary" | "success" | "warning" | "error" | "info" | "minimal"',
       default: 'primary'
     },
     {
-      param: '[disabled]',
-      description: 'Disable a button',
+      param: 'disabled',
+      description: 'Disable the button.',
       type: 'boolean'
     },
     {
-      param: '(onClick)',
-      description: 'Provides async way to execute an action and shows progress',
+      param: 'onClick',
+      description: 'Provide async way to execute an action and shows progress.',
       type: '() => Promise<boolean>'
     },
     {
-      param: '[stateDelay]',
-      description: 'Delay for how long is async state result shown',
+      param: 'stateDelay',
+      description: 'Delay for how long is async state result shown.',
       type: 'number',
       default: '5000'
     },
     {
-      param: '[shine]',
-      description: 'Add a nice shine to the button',
+      param: 'shine',
+      description: 'Add a nice shine to the button.',
       type: 'boolean'
     }
   ];

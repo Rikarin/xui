@@ -19,13 +19,13 @@ export class DividerComponent {
 
   readonly usage: Usage[] = [
     {
-      param: '[marginTop]',
-      description: 'Top margin',
+      param: 'marginTop',
+      description: 'Top margin.',
       type: 'number | undefined'
     },
     {
-      param: '[marginBottom]',
-      description: 'Bottom margin',
+      param: 'marginBottom',
+      description: 'Bottom margin.',
       type: 'number | undefined'
     }
   ];

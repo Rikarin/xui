@@ -6,3 +6,24 @@ xui-card {
   padding-top: 12px;
   background-color: var(--color-bg-secondary);
 }
+
+.param {
+  background-color: var(--color-bg-floating);
+  padding: 2px 6px;
+  border-radius: 6px;
+  font-size: 0.9em;
+  font-weight: 600;
+}
+
+.type {
+  color: var(--color-primary-300);
+}
+
+.default {
+  background-color: var(--color-background-100);
+  color: black;
+  padding: 2px 6px;
+  border-radius: 6px;
+  font-size: 0.9em;
+  font-weight: 600;
+}

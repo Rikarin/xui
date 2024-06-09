@@ -20,15 +20,16 @@ export class ToggleComponent {
 
   usage: Usage[] = [
     {
-      param: '[color]',
-      description: 'Color of a toggle',
-      type: "'primary' | 'primary-alt' | 'secondary' | 'success' | 'warning' | 'error' | 'info' | 'none'",
-      default: 'none'
+      param: 'color',
+      description: 'Color of the toggle.',
+      type: '"primary" | "primary-alt" | "secondary" | "success" | "warning" | "error" | "info" | "none"',
+      default: '"none"'
     },
     {
-      param: '[disabled]',
-      description: 'Disable a toggle',
-      type: 'boolean'
+      param: 'disabled',
+      description: 'Disable the toggle.',
+      type: 'boolean',
+      default: 'false'
     }
   ];
 

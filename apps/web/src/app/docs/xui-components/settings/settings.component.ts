@@ -46,24 +46,24 @@ export class DocSettingsComponent {
   ];
 
   readonly usage: Usage[] = [
-    {
-      param: '[type]',
-      description: 'Type of a decagram',
-      type: "'decagram' | 'circle' | 'shield'",
-      default: 'decagram'
-    },
-    {
-      param: '[color]',
-      description: 'Color of a decagram',
-      type: "'primary' | 'primary-alt' | 'secondary' | 'success' | 'warning' | 'error' | 'info'",
-      default: 'primary'
-    }
+    // {
+    //   param: 'type',
+    //   description: 'Type of the decagram',
+    //   type: "'decagram' | 'circle' | 'shield'",
+    //   default: 'decagram'
+    // },
+    // {
+    //   param: '[color]',
+    //   description: 'Color of a decagram',
+    //   type: "'primary' | 'primary-alt' | 'secondary' | 'success' | 'warning' | 'error' | 'info'",
+    //   default: 'primary'
+    // }
   ];
 
   methods: Method[] = [
     {
       property: 'open',
-      description: 'Opens a settings dialog',
+      description: 'Opens the settings dialog.',
       params: '(page: number = 1)'
     }
   ];
