@@ -47,6 +47,10 @@
       border: 1px solid var(--color-bg-tertiary);
       border-top: none;
 
+      &:focus-visible {
+        outline: none;
+      }
+
       @include core.border-bottom-radius-only($border-radius);
       @include core.fill(primary);
     }

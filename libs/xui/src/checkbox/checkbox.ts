@@ -4,10 +4,11 @@ import { convertToBoolean } from '../utils';
 import { CheckboxColor } from './checkbox.types';
 import { CHECKBOX_MODULE, XuiConfigService } from '../config';
 import { CommonModule } from '@angular/common';
+import { XuiFocusModule } from '../utils/focus.service';
 
 @Component({
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, XuiFocusModule],
   selector: 'xui-checkbox',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<div class="x-checkbox-box" [tabindex]="_disabled() ? -1 : 0" [class.x-checkbox-checked]="_value()">
@@ -41,9 +42,11 @@ export class XuiCheckbox implements ControlValueAccessor {
   _disabled = signal(false);
   _value = signal(false);
 
-  disabled = input(false, { transform: (v: string | boolean) => convertToBoolean(v) });
   color = input<CheckboxColor>('primary');
-  value = input<boolean>(false);
+  value = input<boolean>();
+  disabled = input<boolean | undefined, string | boolean>(undefined, {
+    transform: (v: string | boolean) => convertToBoolean(v)
+  });
 
   constructor(
     private configService: XuiConfigService,
@@ -53,8 +56,8 @@ export class XuiCheckbox implements ControlValueAccessor {
       this.control.valueAccessor = this;
     }
 
-    effect(() => this._disabled.set(this.disabled()), { allowSignalWrites: true });
-    effect(() => this._value.set(this.value()), { allowSignalWrites: true });
+    effect(() => this.disabled() && this._disabled.set(this.disabled()!), { allowSignalWrites: true });
+    effect(() => this.value() && this._value.set(this.value()!), { allowSignalWrites: true });
     effect(() => this.onChange?.(this._value()));
   }
 

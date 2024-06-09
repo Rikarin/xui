@@ -45,12 +45,12 @@ h6:not(:first-child) {
     position: relative;
 
     border-radius: 4px;
-    outline: 1px solid rgba(var(--color-primary-default-rgb), 0.4);
+    outline: 1px solid oklch(var(--color-primary-default-lch) / 0.4);
     outline-offset: -1px;
-    background-color: rgba(var(--color-primary-default-rgb), 0.15);
+    background-color: oklch(var(--color-primary-default-lch) / 0.15);
 
     &:hover {
-      background-color: rgba(var(--color-primary-default-rgb), 0.35);
+      background-color: oklch(var(--color-primary-default-lch) / 0.35);
     }
   }
 }

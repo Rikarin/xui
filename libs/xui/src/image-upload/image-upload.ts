@@ -45,7 +45,9 @@ export class XuiImageUpload implements ControlValueAccessor {
   type = input<ImageUploadType>('square');
   aspectRatio = input(1);
   hoverLabel = input('xui.image_upload.change_image');
-  disabled = input(false, { transform: (v: string | boolean) => convertToBoolean(v) });
+  disabled = input<boolean | undefined, string | boolean>(undefined, {
+    transform: (v: string | boolean) => convertToBoolean(v)
+  });
 
   _borderRadius = computed(() => (this.type() === 'round' ? 50 : 4));
   _backgroundImageUrl = computed(() => (this._backgroundImage() ? `url(${this._backgroundImage()})` : null));
@@ -60,7 +62,7 @@ export class XuiImageUpload implements ControlValueAccessor {
       this.control.valueAccessor = this;
     }
 
-    effect(() => this._disabled.set(this.disabled()), { allowSignalWrites: true });
+    effect(() => this.disabled() && this._disabled.set(this.disabled()!), { allowSignalWrites: true });
   }
 
   handleFileInput(event: unknown) {

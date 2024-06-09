@@ -7,10 +7,19 @@ import { XuiButtonModule } from '../button';
 import { TranslateModule } from '@ngx-translate/core';
 import { XuiImageUploadCropper } from './image-upload-cropper';
 import { XuiIcon } from '../icon';
+import { XuiFocusModule } from '../utils/focus.service';
 
 @NgModule({
   declarations: [XuiImageUpload, XuiImageUploadCropper],
-  imports: [CommonModule, ImageCropperComponent, DialogModule, XuiIcon, XuiButtonModule, TranslateModule.forChild()],
+  imports: [
+    CommonModule,
+    ImageCropperComponent,
+    DialogModule,
+    XuiIcon,
+    XuiButtonModule,
+    TranslateModule.forChild(),
+    XuiFocusModule
+  ],
   exports: [XuiImageUpload]
 })
 export class XuiImageUploadModule {}

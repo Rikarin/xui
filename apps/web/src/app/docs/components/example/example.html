@@ -6,7 +6,7 @@
       </div>
     </xui-tab>
 
-    @for (file of content$ | async; track file.name) {
+    @for (file of content(); track file.name) {
       <xui-tab [title]="file.name">
         <pre><code lineNumbers="true" [language]="getFileType(file)" [highlight]="file.content"></code></pre>
       </xui-tab>

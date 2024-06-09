@@ -4,10 +4,11 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { convertToBoolean } from '../utils';
 import { TextareaColor, TextareaSize } from './textarea.types';
 import { CommonModule } from '@angular/common';
+import { XuiFocusModule } from '../utils/focus.service';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, FormsModule, TranslateModule],
+  imports: [CommonModule, FormsModule, TranslateModule, XuiFocusModule],
   selector: 'xui-textarea',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: 'textarea.html',
@@ -21,13 +22,15 @@ export class XuiTextarea implements ControlValueAccessor {
   _disabled = signal(false);
   _value = signal<string | null>(null);
 
-  value = input<string | null>(null);
+  value = input<string>();
   placeholder = input<string>();
   color = input<TextareaColor>('light');
   size = input<TextareaSize>('normal');
   rows = input(3);
   maxLength = input<number>();
-  disabled = input(false, { transform: (v: string | boolean) => convertToBoolean(v) });
+  disabled = input<boolean | undefined, string | boolean>(undefined, {
+    transform: (v: string | boolean) => convertToBoolean(v)
+  });
   readOnly = input(false, { transform: (v: string | boolean) => convertToBoolean(v) });
 
   _worldCount = computed(() => ((this.maxLength() as number) ?? 0) - (this._value()?.length ?? 0));
@@ -54,8 +57,8 @@ export class XuiTextarea implements ControlValueAccessor {
       this.control.valueAccessor = this;
     }
 
-    effect(() => this._disabled.set(this.disabled()), { allowSignalWrites: true });
-    effect(() => this._value.set(this.value()), { allowSignalWrites: true });
+    effect(() => this.disabled() && this._disabled.set(this.disabled()!), { allowSignalWrites: true });
+    effect(() => this.value() && this._value.set(this.value()!), { allowSignalWrites: true });
     effect(() => this.onChange?.(this._value()));
   }
 

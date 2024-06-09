@@ -10,7 +10,7 @@ import { convertToBoolean } from '../utils';
   host: {
     class: 'x-radio',
     '[class.x-radio-disabled]': '_disabled()',
-    '[class]': `"x-radio-" + color() ?? _group.color`,
+    '[class]': `"x-radio-" + color() ?? _group.color()`,
     '(click)': '_click()'
   }
 })

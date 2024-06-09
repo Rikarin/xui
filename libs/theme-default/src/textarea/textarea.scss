@@ -8,7 +8,7 @@
     position: relative;
 
     @include core.border-radius($border-radius);
-    @include core.focusable();
+    @include core.focusable-within();
 
     textarea {
       width: 100%;

@@ -17,10 +17,11 @@ import { SliderColor, SliderMark } from './slider.types';
 import { CommonModule } from '@angular/common';
 import { XuiTooltip, XuiTooltipModule } from '../tooltip';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { XuiFocusModule } from '../utils/focus.service';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, FormsModule, XuiTooltipModule, DragDropModule],
+  imports: [CommonModule, FormsModule, XuiTooltipModule, DragDropModule, XuiFocusModule],
   selector: 'xui-slider',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: 'slider.html',
@@ -37,7 +38,6 @@ export class XuiSlider implements ControlValueAccessor {
   private onChange?: (source: number) => void;
   _onTouched?: () => void;
   _disabled = signal(false);
-  _value = signal(0);
 
   @Input() tipFormatter?: (value: number) => string;
   color = input<SliderColor>('primary');
@@ -46,14 +46,17 @@ export class XuiSlider implements ControlValueAccessor {
   max = input(100, { transform: (v: string | number) => Number(v) });
   step = input(1, { transform: (v: string | number) => Number(v) });
   marks = input<SliderMark[]>();
-  value = input(this.min(), { transform: (v: string | number) => Number(v) });
+  value = input<number | undefined, string | number>(undefined, { transform: (v: string | number) => Number(v) });
   // range = input(false, { transform: (v: string | boolean) => convertToBoolean(v) });
-  disabled = input(false, { transform: (v: string | boolean) => convertToBoolean(v) });
+  disabled = input<boolean | undefined, string | boolean>(undefined, {
+    transform: (v: string | boolean) => convertToBoolean(v)
+  });
   tooltipDisabled = input(false, { transform: (v: string | boolean) => convertToBoolean(v) });
 
   @ViewChild('track', { static: true }) private trackElm!: ElementRef;
   @ViewChild('tooltipRef') private tooltipRef!: XuiTooltip;
 
+  _value = signal(this.min());
   _tooltip = computed(() => String(this.tipFormatter ? this.tipFormatter(this._value()) : this._value()));
   private percentage = computed(() => this._getPercentage(this._value()));
   _width = computed(() => 100 - this.percentage());
@@ -72,8 +75,8 @@ export class XuiSlider implements ControlValueAccessor {
       this.control.valueAccessor = this;
     }
 
-    effect(() => this._disabled.set(this.disabled()), { allowSignalWrites: true });
-    effect(() => this._value.set(this.value() ?? null), { allowSignalWrites: true });
+    effect(() => this.disabled() && this._disabled.set(this.disabled()!), { allowSignalWrites: true });
+    effect(() => this.value() && this._value.set(this.value()!), { allowSignalWrites: true });
     effect(() => this.onChange?.(this._value()));
   }
 

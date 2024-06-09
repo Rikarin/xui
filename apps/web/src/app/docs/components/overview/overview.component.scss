@@ -2,12 +2,12 @@
   max-width: 1024px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 24px;
 }
 
 xui-card {
   padding: 24px 0;
-  background-color: var(--color-bg-floating);
+  background-color: var(--color-bg-secondary);
 
   ul {
     margin-left: 24px;

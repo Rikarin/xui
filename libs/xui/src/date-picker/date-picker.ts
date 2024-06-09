@@ -19,10 +19,11 @@ import { CommonModule } from '@angular/common';
 import { XuiIcon } from '../icon';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { A11yModule } from '@angular/cdk/a11y';
+import { XuiFocusModule } from '../utils/focus.service';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, XuiIcon, XuiInputModule, OverlayModule, A11yModule, ReactiveFormsModule],
+  imports: [CommonModule, XuiIcon, XuiInputModule, OverlayModule, A11yModule, ReactiveFormsModule, XuiFocusModule],
   selector: 'xui-date-picker',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: 'date-picker.html',
@@ -47,11 +48,13 @@ export class XuiDatePicker implements ControlValueAccessor {
   _disabled = signal(false);
 
   @Input() disabledDate?: (current: DateTime) => boolean;
-  value = input<string | null>();
+  value = input<string>();
   placeholder = input<string>();
   color = input<DatePickerColor>('light');
   size = input<DatePickerSize>('large');
-  disabled = input(false, { transform: (v: string | boolean) => convertToBoolean(v) });
+  disabled = input<boolean | undefined, string | boolean>(undefined, {
+    transform: (v: string | boolean) => convertToBoolean(v)
+  });
   readOnly = input(false, { transform: (v: string | boolean) => convertToBoolean(v) });
   allowClear = input(false, { transform: (v: string | boolean) => convertToBoolean(v) });
 
@@ -74,7 +77,7 @@ export class XuiDatePicker implements ControlValueAccessor {
       this.control.valueAccessor = this;
     }
 
-    effect(() => this._disabled.set(this.disabled()), { allowSignalWrites: true });
+    effect(() => this.disabled() && this._disabled.set(this.disabled()!), { allowSignalWrites: true });
     effect(
       () => {
         this.onChange?.(this._value()?.toISODate() ?? null);

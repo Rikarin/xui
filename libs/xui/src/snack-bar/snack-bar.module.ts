@@ -6,9 +6,18 @@ import { SimpleSnackBar } from './simple-snack-bar';
 import { XuiButtonModule } from '../button';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { XuiSnackBar } from './snack-bar';
+import { XuiFocusModule } from '../utils/focus.service';
 
 @NgModule({
-  imports: [CommonModule, XuiButtonModule, OverlayModule, PortalModule, SimpleSnackBar, TranslateModule.forChild()],
+  imports: [
+    CommonModule,
+    XuiButtonModule,
+    OverlayModule,
+    PortalModule,
+    SimpleSnackBar,
+    TranslateModule.forChild(),
+    XuiFocusModule
+  ],
   providers: [XuiSnackBar]
 })
 export class XuiSnackbarModule {}

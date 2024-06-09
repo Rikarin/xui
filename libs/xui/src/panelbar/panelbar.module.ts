@@ -7,10 +7,11 @@ import { PortalModule } from '@angular/cdk/portal';
 import { XuiPanelBarItemTitle } from './panelbar-item-title';
 import { XuiPanelBarItemContent } from './panelbar-item-content';
 import { XuiIcon } from '../icon';
+import { XuiFocusModule } from '../utils/focus.service';
 
 @NgModule({
   declarations: [XuiPanelBar, XuiPanelBarItem, XuiPanelBarItemTemplate, XuiPanelBarItemTitle, XuiPanelBarItemContent],
   exports: [XuiPanelBar, XuiPanelBarItem, XuiPanelBarItemTemplate, XuiPanelBarItemTitle, XuiPanelBarItemContent],
-  imports: [CommonModule, PortalModule, XuiIcon]
+  imports: [CommonModule, PortalModule, XuiIcon, XuiFocusModule]
 })
 export class XuiPanelBarModule {}
