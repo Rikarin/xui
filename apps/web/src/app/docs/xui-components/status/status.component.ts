@@ -1,14 +1,18 @@
 import { Component } from '@angular/core';
 import { Information } from '../../components/information';
-import { Example } from '../../components/example';
+import { Example, FileType } from '../../components/example';
 import { HighlightModule } from 'ngx-highlightjs';
-import { XuiStatus } from '@xui/components';
+import { StatusExample1Component } from '../../../../examples/status-example1/status-example1.component';
 
 @Component({
   standalone: true,
-  imports: [Information, Example, HighlightModule, XuiStatus],
+  imports: [Information, Example, HighlightModule, StatusExample1Component],
   selector: 'app-status',
   templateUrl: './status.component.html',
   styleUrls: ['./status.component.scss']
 })
-export class StatusComponent {}
+export class StatusComponent {
+  readonly example1 = {
+    'status-example1': FileType.Component
+  };
+}

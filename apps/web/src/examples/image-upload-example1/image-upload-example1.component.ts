@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { XuiImageUploadModule } from '@xui/components';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 

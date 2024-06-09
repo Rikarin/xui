@@ -1,0 +1,17 @@
+@use '@xui/theme-core';
+
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.background {
+  display: grid;
+  place-items: center;
+  width: 300px;
+  height: 100px;
+
+  border-radius: 4px;
+  @include theme-core.fill(default, primary);
+}

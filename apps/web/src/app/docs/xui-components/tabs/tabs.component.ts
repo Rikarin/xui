@@ -1,15 +1,18 @@
 import { Component } from '@angular/core';
 import { Information } from '../../components/information';
-import { Example } from '../../components/example';
+import { Example, FileType } from '../../components/example';
 import { HighlightModule } from 'ngx-highlightjs';
-import { XuiTabModule } from '@xui/components';
+import { TabsExample1Component } from '../../../../examples/tabs-example1/tabs-example1.component';
 
 @Component({
   standalone: true,
-  imports: [Information, Example, HighlightModule, XuiTabModule],
+  imports: [Information, Example, HighlightModule, TabsExample1Component],
   selector: 'app-tabs',
   templateUrl: './tabs.component.html',
   styleUrls: ['./tabs.component.scss']
-  // encapsulation: ViewEncapsulation.Emulated
 })
-export class TabsComponent {}
+export class TabsComponent {
+  readonly example1 = {
+    'tabs-example1': FileType.Component
+  };
+}
