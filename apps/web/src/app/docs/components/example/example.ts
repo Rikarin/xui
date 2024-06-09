@@ -1,9 +1,8 @@
-import { ChangeDetectionStrategy, Component, Inject, input, Input, OnInit } from '@angular/core';
+import {ChangeDetectionStrategy, Component, Inject, input, OnInit, signal} from '@angular/core';
 import { convertToBoolean, XuiCardModule, XuiIcon, XuiTabModule, XuiTooltipModule } from '@xui/components';
 import sdk, { Project, ProjectFiles } from '@stackblitz/sdk';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, lastValueFrom } from 'rxjs';
-import { BooleanInput } from '@angular/cdk/coercion';
+import { lastValueFrom } from 'rxjs';
 import { CommonModule, DOCUMENT } from '@angular/common';
 import { angularProject } from '../../../../templates/angular';
 import { HighlightModule } from 'ngx-highlightjs';
@@ -28,18 +27,17 @@ import { HighlightLineNumbers } from 'ngx-highlightjs/line-numbers';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class Example implements OnInit {
-  static ngAcceptInputType_todo: BooleanInput;
-  content$ = new BehaviorSubject<File[]>([]);
+  content = signal<File[]>([]);
 
-  @Input() files: { [name: string]: FileType } = {};
+  files = input<Files>();
   todo = input(false, { transform: (v: string | boolean) => convertToBoolean(v) });
 
   get project(): Project {
     return <Project>{
       ...angularProject,
       files: {
-        ...this.injectedAngularFiles(this.content$.value),
-        ...this.content$.value.reduce(
+        ...this.injectedAngularFiles(this.content()),
+        ...this.content().reduce(
           (obj, val) => {
             obj[val.path] = val.content;
             return obj;
@@ -50,21 +48,18 @@ export class Example implements OnInit {
     };
   }
 
-  constructor(
-    private http: HttpClient,
-    @Inject(DOCUMENT) private document: Document
-  ) {}
+  constructor(private http: HttpClient, @Inject(DOCUMENT) private document: Document) {}
 
   async ngOnInit() {
-    this.content$.next(await this.fetchFiles());
+    this.content.set(await this.fetchFiles());
   }
 
   async fetchFiles() {
     const files: File[] = [];
 
     // TODO: finish this
-    for (const file of Object.keys(this.files)) {
-      if (this.files[file] === FileType.Component) {
+    for (const file of Object.keys(this.files()!)) {
+      if (this.files()![file] === FileType.Component) {
         const ts = await this.fetchFile(file, 'component.ts');
         const scss = await this.fetchFile(file, 'component.scss');
         const html = await this.fetchFile(file, 'component.html');
@@ -88,7 +83,7 @@ export class Example implements OnInit {
 
     for (const file of files) {
       if (file.className) {
-        const path = file.path.replace('src/app/', '').replace('.ts', '');
+        const path = file.path.replace('src/', '').replace('.ts', '');
         imports.push(`import { ${file.className} } from './${path}';`);
       }
 
@@ -101,15 +96,12 @@ export class Example implements OnInit {
       .filter(x => x.className)
       .map(x => x.className)
       .join(', ');
+
     const ret = angularProject.files;
-    ret['src/app/app.module.ts'] = ret['src/app/app.module.ts']
+    ret['src/main.ts'] = ret['src/main.ts']
+      .replace('{{SELECTORS}}', selectors.join('\n'))
       .replace('{{IMPORTS}}', imports.join('\n'))
       .replace('{{DECLARATIONS}}', declarations);
-
-    ret['src/app/app.component.html'] = ret['src/app/app.component.html'].replace(
-      '{{SELECTORS}}',
-      selectors.join('\n')
-    );
 
     return ret;
   }
@@ -137,7 +129,7 @@ export class Example implements OnInit {
   openProject() {
     sdk.openProject(this.project, {
       newWindow: true,
-      openFile: this.content$.value.map(x => x.path).join(',')
+      openFile: this.content().map(x => x.path).join(',')
     });
   }
 
@@ -186,4 +178,8 @@ interface File {
 export enum FileType {
   Source,
   Component
+}
+
+interface Files {
+  [name: string]: FileType
 }
