@@ -2,13 +2,12 @@ import { Component } from '@angular/core';
 import { Information } from '../../components/information';
 import { Example, FileType } from '../../components/example';
 import { HighlightModule } from 'ngx-highlightjs';
-import { XuiIcon } from '@xui/components';
 import { Usage, Usages } from '../../components/usage';
 import { IconExample1Component } from '../../../../examples/icon-example1/icon-example1.component';
 
 @Component({
   standalone: true,
-  imports: [Information, Example, Usages, HighlightModule, XuiIcon, IconExample1Component],
+  imports: [Information, Example, Usages, HighlightModule, IconExample1Component],
   selector: 'app-icon',
   templateUrl: './icon.component.html',
   styleUrls: ['./icon.component.scss']

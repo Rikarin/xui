@@ -4,16 +4,12 @@
   <code apiReference highlight="import { XuiImageUploadModule } from '@xui/components';" language="typescript"></code>
 </app-information>
 
-<app-example>
-  <div class="content" [formGroup]="model">
-    <xui-image-upload formControlName="first"></xui-image-upload>
-    <xui-image-upload type="round" formControlName="second"></xui-image-upload>
-  </div>
+<app-example [files]="example1">
+  <app-image-upload-example1></app-image-upload-example1>
 </app-example>
 
-<app-example>
-  <div class="content">
-    <xui-image-upload disabled></xui-image-upload>
-    <xui-image-upload type="round" disabled></xui-image-upload>
-  </div>
+<app-example [files]="example2">
+  <app-image-upload-example2></app-image-upload-example2>
 </app-example>
+
+<app-usage [usage]="usage"></app-usage>
