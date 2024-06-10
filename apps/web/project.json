@@ -7,15 +7,18 @@
   "tags": [],
   "targets": {
     "build": {
-      "executor": "@angular-devkit/build-angular:browser",
+      "executor": "@angular-devkit/build-angular:application",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/web/browser",
         "index": "apps/web/src/index.html",
-        "main": "apps/web/src/main.ts",
-        "polyfills": "apps/web/src/polyfills.ts",
+        "browser": "apps/web/src/main.ts",
+        "polyfills": ["zone.js"],
         "tsConfig": "apps/web/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
+        "stylePreprocessorOptions": {
+          "includePaths": ["node_modules"]
+        },
         "assets": [
           "apps/web/src/favicon.ico",
           "apps/web/src/assets",
@@ -71,9 +74,7 @@
           "outputHashing": "all"
         },
         "development": {
-          "buildOptimizer": false,
           "optimization": false,
-          "vendorChunk": true,
           "extractLicenses": false,
           "sourceMap": true,
           "namedChunks": true
