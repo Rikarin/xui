@@ -16,11 +16,11 @@ export class XuiFocusService {
       }
     });
 
-    window.addEventListener('focus', function () {
+    doc.defaultView?.addEventListener('focus', function () {
       doc.documentElement.classList.add('app-focused');
     });
 
-    window.addEventListener('blur', function () {
+    doc.defaultView?.addEventListener('blur', function () {
       doc.documentElement.classList.remove('app-focused');
     });
   }
