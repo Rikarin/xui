@@ -1,10 +1,18 @@
-import { ChangeDetectionStrategy, Component, computed, HostBinding, input, OnInit, Optional } from '@angular/core';
+import {
+  booleanAttribute,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  HostBinding,
+  input,
+  OnInit,
+  Optional
+} from '@angular/core';
 import { XuiSubmenuService } from './submenu.service';
 import { XuiMenuService } from './menu.service';
 import { filter, map } from 'rxjs';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { NavigationEnd, Router } from '@angular/router';
-import { convertToBoolean } from '../utils';
 
 @UntilDestroy()
 @Component({
@@ -34,7 +42,7 @@ export class XuiMenuItem implements OnInit {
 
   icon = input<string>();
   link = input<string>();
-  disabled = input(false, { transform: (v: string | boolean) => convertToBoolean(v) });
+  disabled = input(false, { transform: booleanAttribute });
 
   @HostBinding('class.x-menu-item-selected') selected = false;
 

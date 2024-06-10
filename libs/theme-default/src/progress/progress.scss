@@ -7,13 +7,15 @@
     align-items: center;
     gap: 12px;
 
+    #{$background-color-variable}: var(--color-bg-tertiary);
+
     &-line {
       flex: 1 1 auto;
       min-width: 200px;
-      height: 8px;
+      height: #{$size * 1px};
       display: flex;
 
-      background-color: var(--color-bg-primary);
+      background-color: var(#{$background-color-variable});
 
       @include core.border-radius($border-radius);
 
@@ -37,7 +39,7 @@
 
       --size: 100px;
       --half-size: calc(var(--size) / 2);
-      --stroke-width: 8px;
+      --stroke-width: #{$size * 1px};
       --radius: calc((var(--size) - var(--stroke-width)) / 2);
       --circumference: calc(var(--radius) * pi * 2);
       --dash: calc((var(--progress) * var(--circumference)) / 100);
@@ -53,7 +55,7 @@
       }
 
       &-background {
-        stroke: var(--color-bg-tertiary);
+        stroke: var(#{$background-color-variable});
       }
 
       &-foreground {

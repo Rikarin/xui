@@ -5,7 +5,8 @@
 </app-information>
 
 <app-example>
-  <xui-input type="text"></xui-input>
+  <xui-input [(value)]="text" type="text"></xui-input>
+  Text: {{ text }}
   <xui-input type="text" size="small"></xui-input>
   <xui-input type="text" placeholder="Placeholder"></xui-input>
   <xui-input type="text" color="dark" placeholder="Dark"></xui-input>
@@ -84,3 +85,5 @@
   <xui-button>Test Button</xui-button>
   <xui-button type="normal">Test Button</xui-button>
 </app-example>
+
+<app-usage [usage]="usage"></app-usage>

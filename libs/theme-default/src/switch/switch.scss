@@ -10,6 +10,8 @@
     align-items: center;
     padding: 4px;
 
+    #{$background-color-variable}: var(--color-bg-accent);
+
     input {
       opacity: 0;
       width: 100%;
@@ -31,7 +33,7 @@
       width: 42px;
       height: 24px;
 
-      background-color: core.modifier-accent();
+      background-color: var(#{$background-color-variable});
       border-radius: 100px;
       cursor: pointer;
 

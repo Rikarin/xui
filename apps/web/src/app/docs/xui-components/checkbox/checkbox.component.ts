@@ -24,15 +24,21 @@ export class CheckboxComponent {
 
   usage: Usage[] = [
     {
-      param: '[color]',
-      description: 'Color of a checkbox',
-      type: "'primary' | 'primary-alt' | 'secondary' | 'success' | 'warning' | 'error' | 'info'",
-      default: 'primary'
+      param: 'value',
+      description: 'Value the checkbox.',
+      type: 'boolean'
     },
     {
-      param: '[disabled]',
-      description: 'Disable a checkbox',
-      type: 'boolean'
+      param: 'color',
+      description: 'Color of the checkbox.',
+      type: '"primary" | "primary-alt" | "secondary" | "success" | "warning" | "error" | "info"',
+      default: '"primary"'
+    },
+    {
+      param: 'disabled',
+      description: 'Disable the checkbox.',
+      type: 'boolean',
+      default: 'false'
     }
   ];
 }

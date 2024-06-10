@@ -8,7 +8,7 @@ export const RADIO_LIST_ACCESSOR = new InjectionToken<RadioListAccessor>('xui-ra
 export interface RadioListAccessor {
   color: Signal<RadioListColor>;
   size: Signal<RadioListSize>;
-  _value: WritableSignal<RadioListValue>;
+  value: WritableSignal<RadioListValue>;
   _focusedValue: Signal<RadioListValue>;
   _disabled: Signal<boolean>;
 }

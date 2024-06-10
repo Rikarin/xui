@@ -1,17 +1,18 @@
 import {
+  booleanAttribute,
   ChangeDetectionStrategy,
   Component,
   computed,
   effect,
   Inject,
   input,
+  model,
   Optional,
   Self,
   signal
 } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
-import { convertToBoolean } from '../utils';
 import { INPUT_GROUP_ACCESSOR, InputColor, InputGroupAccessor, InputSize, InputType } from './input.types';
 import { INPUT_MODULE, XuiConfigService } from '../config';
 
@@ -29,23 +30,22 @@ export class XuiInput implements ControlValueAccessor {
   private onChange?: (source: string | null) => void;
   _onTouched?: () => void;
   _disabled = signal(false);
-  _value = signal<string | null>(null);
 
-  value = input<string>();
+  value = model<string>();
   placeholder = input<string>();
   color = input<InputColor>('light');
   size = input<InputSize>('large');
   type = input<InputType>('text');
   dataList = input<string[] | null>();
   disabled = input<boolean | undefined, string | boolean>(undefined, {
-    transform: (v: string | boolean) => convertToBoolean(v)
+    transform: booleanAttribute
   });
-  readOnly = input(false, { transform: (v: string | boolean) => convertToBoolean(v) });
+  readOnly = input(false, { transform: booleanAttribute });
 
   _styles = computed(() => {
     const ret: { [klass: string]: boolean } = {
       'x-input': true,
-      'x-input-error': this.showError
+      'x-input-error': this._showError
     };
 
     ret[`x-input-${this.color()}`] = true;
@@ -69,25 +69,21 @@ export class XuiInput implements ControlValueAccessor {
     }
 
     effect(() => this.disabled() && this._disabled.set(this.disabled()!), { allowSignalWrites: true });
-    effect(() => this.value() && this._value.set(this.value()!), { allowSignalWrites: true });
-    effect(() => this.onChange?.(this._value()));
+    effect(() => this.value() != undefined && this.onChange?.(this.value()!));
   }
 
-  get invalid(): boolean {
-    return !!this.control?.invalid;
-  }
-
-  get showError(): boolean {
+  get _showError(): boolean {
     if (!this.control) {
       return false;
     }
 
+    const invalid = !!this.control.invalid;
     const { dirty, touched } = this.control;
-    return this.invalid ? (dirty ?? false) || (touched ?? false) : false;
+    return invalid ? (dirty ?? false) || (touched ?? false) : false;
   }
 
   writeValue(source: string) {
-    this._value.set(source);
+    this.value.set(source);
   }
 
   registerOnChange(onChange: (source: string | null) => void) {

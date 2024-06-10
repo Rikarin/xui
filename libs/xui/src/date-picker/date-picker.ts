@@ -1,4 +1,5 @@
 import {
+  booleanAttribute,
   ChangeDetectionStrategy,
   Component,
   computed,
@@ -11,7 +12,6 @@ import {
 } from '@angular/core';
 import { DateTime } from 'luxon';
 import { ControlValueAccessor, NgControl, ReactiveFormsModule } from '@angular/forms';
-import { convertToBoolean } from '../utils';
 import { XuiInputModule } from '../input';
 import { DatePickerColor, DatePickerSize } from './date-picker.types';
 import { DATE_PICKER_MODULE, XuiConfigService } from '../config';
@@ -53,10 +53,10 @@ export class XuiDatePicker implements ControlValueAccessor {
   color = input<DatePickerColor>('light');
   size = input<DatePickerSize>('large');
   disabled = input<boolean | undefined, string | boolean>(undefined, {
-    transform: (v: string | boolean) => convertToBoolean(v)
+    transform: booleanAttribute
   });
-  readOnly = input(false, { transform: (v: string | boolean) => convertToBoolean(v) });
-  allowClear = input(false, { transform: (v: string | boolean) => convertToBoolean(v) });
+  readOnly = input(false, { transform: booleanAttribute });
+  allowClear = input(false, { transform: booleanAttribute });
 
   _styles = computed(() => {
     const ret: { [klass: string]: boolean } = {

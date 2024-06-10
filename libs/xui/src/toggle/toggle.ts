@@ -1,6 +1,14 @@
-import { ChangeDetectionStrategy, Component, effect, input, Optional, Self, signal } from '@angular/core';
+import {
+  booleanAttribute,
+  ChangeDetectionStrategy,
+  Component,
+  effect,
+  input,
+  Optional,
+  Self,
+  signal
+} from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
-import { convertToBoolean } from '../utils';
 import { ToggleColor } from './toggle.types';
 import { CommonModule } from '@angular/common';
 import { XuiIcon } from '../icon';
@@ -37,12 +45,12 @@ export class XuiToggle implements ControlValueAccessor {
   _value = signal(true);
 
   value = input<boolean | undefined, string | boolean>(undefined, {
-    transform: (v: string | boolean) => convertToBoolean(v)
+    transform: booleanAttribute
   });
   color = input<ToggleColor>('none');
   icon = input<string>();
   disabled = input<boolean | undefined, string | boolean>(undefined, {
-    transform: (v: string | boolean) => convertToBoolean(v)
+    transform: booleanAttribute
   });
 
   constructor(@Self() @Optional() public control?: NgControl) {

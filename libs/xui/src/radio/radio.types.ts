@@ -13,6 +13,6 @@ export const RADIO_GROUP_ACCESSOR = new InjectionToken<RadioGroupAccessor>('xui-
 
 export interface RadioGroupAccessor {
   color: Signal<RadioColor>;
-  _value: WritableSignal<RadioValue>;
+  value: WritableSignal<RadioValue>;
   _disabled: Signal<boolean>;
 }

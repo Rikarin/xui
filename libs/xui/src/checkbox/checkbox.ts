@@ -1,6 +1,15 @@
-import { ChangeDetectionStrategy, Component, effect, input, Optional, Self, signal } from '@angular/core';
+import {
+  booleanAttribute,
+  ChangeDetectionStrategy,
+  Component,
+  effect,
+  input,
+  model,
+  Optional,
+  Self,
+  signal
+} from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
-import { convertToBoolean } from '../utils';
 import { CheckboxColor } from './checkbox.types';
 import { CHECKBOX_MODULE, XuiConfigService } from '../config';
 import { CommonModule } from '@angular/common';
@@ -11,9 +20,9 @@ import { XuiFocusModule } from '../utils/focus.service';
   imports: [CommonModule, XuiFocusModule],
   selector: 'xui-checkbox',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `<div class="x-checkbox-box" [tabindex]="_disabled() ? -1 : 0" [class.x-checkbox-checked]="_value()">
+  template: `<div class="x-checkbox-box" [tabindex]="_disabled() ? -1 : 0" [class.x-checkbox-checked]="value()">
       <svg
-        *ngIf="_value()"
+        *ngIf="value()"
         viewBox="0 0 24 24"
         height="100%"
         width="100%"
@@ -40,12 +49,11 @@ export class XuiCheckbox implements ControlValueAccessor {
   private onChange?: (source: boolean) => void;
   _onTouched?: () => void;
   _disabled = signal(false);
-  _value = signal(false);
 
   color = input<CheckboxColor>('primary');
-  value = input<boolean>();
+  value = model<boolean>();
   disabled = input<boolean | undefined, string | boolean>(undefined, {
-    transform: (v: string | boolean) => convertToBoolean(v)
+    transform: booleanAttribute
   });
 
   constructor(
@@ -57,12 +65,11 @@ export class XuiCheckbox implements ControlValueAccessor {
     }
 
     effect(() => this.disabled() && this._disabled.set(this.disabled()!), { allowSignalWrites: true });
-    effect(() => this.value() && this._value.set(this.value()!), { allowSignalWrites: true });
-    effect(() => this.onChange?.(this._value()));
+    effect(() => this.value() != undefined && this.onChange?.(this.value()!));
   }
 
   writeValue(source: boolean) {
-    this._value.set(source);
+    this.value.set(source);
   }
 
   registerOnChange(onChange: (source: boolean) => void) {
@@ -81,7 +88,7 @@ export class XuiCheckbox implements ControlValueAccessor {
     event?.preventDefault();
 
     if (!this._disabled()) {
-      this._value.set(!this._value());
+      this.value.set(!this.value());
     }
   }
 }

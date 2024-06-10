@@ -1,9 +1,11 @@
 import {
+  booleanAttribute,
   ChangeDetectionStrategy,
   Component,
   ContentChildren,
   effect,
   input,
+  model,
   Optional,
   QueryList,
   Self,
@@ -17,7 +19,6 @@ import {
   RadioListSize,
   RadioListValue
 } from './radio-list.types';
-import { convertToBoolean } from '../utils';
 import { XuiRadioOption } from './radio-option';
 
 @Component({
@@ -41,15 +42,14 @@ export class XuiRadioList implements RadioListAccessor, ControlValueAccessor {
   private onTouched?: () => void;
   _mouseDown = false;
 
-  _value = signal<RadioListValue>(null);
   _disabled = signal(false);
   _focusedValue = signal<RadioListValue>(null);
 
-  value = input<RadioListValue>();
+  value = model<RadioListValue>(null);
   size = input<RadioListSize>('md');
   color = input<RadioListColor>('light');
   disabled = input<boolean | undefined, string | boolean>(undefined, {
-    transform: (v: string | boolean) => convertToBoolean(v)
+    transform: booleanAttribute
   });
 
   @ContentChildren(XuiRadioOption) private optionsRef!: QueryList<XuiRadioOption>;
@@ -60,12 +60,11 @@ export class XuiRadioList implements RadioListAccessor, ControlValueAccessor {
     }
 
     effect(() => this.disabled() && this._disabled.set(this.disabled()!), { allowSignalWrites: true });
-    effect(() => this.value() && this._value.set(this.value()!), { allowSignalWrites: true });
-    effect(() => this.onChange?.(this._value()));
+    effect(() => this.value() != undefined && this.onChange?.(this.value()!));
   }
 
   writeValue(source: RadioListValue) {
-    this._value.set(source);
+    this.value.set(source);
   }
 
   registerOnChange(onChange: (source: RadioListValue) => void) {
@@ -94,10 +93,10 @@ export class XuiRadioList implements RadioListAccessor, ControlValueAccessor {
 
   _focusIn() {
     if (!this._mouseDown) {
-      if (this._value() == null) {
+      if (this.value() == null) {
         this.select(false);
       } else {
-        this._focusedValue.set(this._value());
+        this._focusedValue.set(this.value());
       }
     }
   }
@@ -113,7 +112,7 @@ export class XuiRadioList implements RadioListAccessor, ControlValueAccessor {
     }
 
     const options = this.optionsRef.toArray();
-    let next = options.findIndex(x => x.value() == this._value());
+    let next = options.findIndex(x => x.value() == this.value());
     let iterations = options.length;
 
     do {
@@ -125,7 +124,7 @@ export class XuiRadioList implements RadioListAccessor, ControlValueAccessor {
       }
     } while (options[next].disabled());
 
-    this._value.set(options[next].value());
-    this._focusedValue.set(this._value());
+    this.value.set(options[next].value());
+    this._focusedValue.set(this.value());
   }
 }

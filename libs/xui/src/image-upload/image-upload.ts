@@ -1,10 +1,12 @@
 import {
+  booleanAttribute,
   ChangeDetectionStrategy,
   Component,
   computed,
   effect,
   ElementRef,
   input,
+  model,
   Optional,
   Self,
   signal,
@@ -13,7 +15,6 @@ import {
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { Dialog, DialogRef } from '@angular/cdk/dialog';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
-import { convertToBoolean } from '../utils';
 import { XuiImageUploadCropper } from './image-upload-cropper';
 import { ImageUploadType } from './image-upload.types';
 
@@ -39,18 +40,18 @@ export class XuiImageUpload implements ControlValueAccessor {
   private croppedImage: string | null = null;
   private onChange?: (source: string | null) => void;
   _onTouched?: () => void;
-  _backgroundImage = signal<string | null>(null);
   _disabled = signal(false);
 
+  value = model<string | null>(null);
   type = input<ImageUploadType>('square');
   aspectRatio = input(1);
   hoverLabel = input('xui.image_upload.change_image');
   disabled = input<boolean | undefined, string | boolean>(undefined, {
-    transform: (v: string | boolean) => convertToBoolean(v)
+    transform: booleanAttribute
   });
 
   _borderRadius = computed(() => (this.type() === 'round' ? 50 : 4));
-  _backgroundImageUrl = computed(() => (this._backgroundImage() ? `url(${this._backgroundImage()})` : null));
+  _backgroundImageUrl = computed(() => (this.value() ? `url(${this.value()})` : null));
 
   @ViewChild('input') private inputElm!: ElementRef;
 
@@ -88,13 +89,13 @@ export class XuiImageUpload implements ControlValueAccessor {
 
   private save = () => {
     this.onChange?.(this.croppedImage);
-    this._backgroundImage.set(this.croppedImage);
+    this.value.set(this.croppedImage);
     this.dialogRef?.close();
   };
 
   writeValue(source: string) {
     this.croppedImage = source;
-    this._backgroundImage.set(source);
+    this.value.set(source);
   }
 
   registerOnChange(onChange: (source: string | null) => void) {

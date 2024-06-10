@@ -1,7 +1,17 @@
-import { ChangeDetectionStrategy, Component, computed, effect, input, Optional, Self, signal } from '@angular/core';
+import {
+  booleanAttribute,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  effect,
+  input,
+  model,
+  Optional,
+  Self,
+  signal
+} from '@angular/core';
 import { ControlValueAccessor, FormsModule, NgControl } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { convertToBoolean } from '../utils';
 import { TextareaColor, TextareaSize } from './textarea.types';
 import { CommonModule } from '@angular/common';
 import { XuiFocusModule } from '../utils/focus.service';
@@ -20,20 +30,19 @@ export class XuiTextarea implements ControlValueAccessor {
   private onChange?: (source: string | null) => void;
   _onTouched?: () => void;
   _disabled = signal(false);
-  _value = signal<string | null>(null);
 
-  value = input<string>();
+  value = model<string>();
   placeholder = input<string>();
   color = input<TextareaColor>('light');
   size = input<TextareaSize>('normal');
   rows = input(3);
   maxLength = input<number>();
   disabled = input<boolean | undefined, string | boolean>(undefined, {
-    transform: (v: string | boolean) => convertToBoolean(v)
+    transform: booleanAttribute
   });
-  readOnly = input(false, { transform: (v: string | boolean) => convertToBoolean(v) });
+  readOnly = input(false, { transform: booleanAttribute });
 
-  _worldCount = computed(() => ((this.maxLength() as number) ?? 0) - (this._value()?.length ?? 0));
+  _worldCount = computed(() => ((this.maxLength() as number) ?? 0) - (this.value()?.length ?? 0));
   _styles = computed(() => {
     const ret: { [klass: string]: boolean } = {
       'x-textarea': true,
@@ -58,25 +67,21 @@ export class XuiTextarea implements ControlValueAccessor {
     }
 
     effect(() => this.disabled() && this._disabled.set(this.disabled()!), { allowSignalWrites: true });
-    effect(() => this.value() && this._value.set(this.value()!), { allowSignalWrites: true });
-    effect(() => this.onChange?.(this._value()));
+    effect(() => this.value() != undefined && this.onChange?.(this.value()!));
   }
 
-  get invalid(): boolean {
-    return !!this.control?.invalid;
-  }
-
-  get showError(): boolean {
+  get _showError(): boolean {
     if (!this.control) {
       return false;
     }
 
+    const invalid = !!this.control.invalid;
     const { dirty, touched } = this.control;
-    return this.invalid ? (dirty ?? false) || (touched ?? false) : false;
+    return invalid ? (dirty ?? false) || (touched ?? false) : false;
   }
 
   writeValue(source: string) {
-    this._value.set(source);
+    this.value.set(source);
   }
 
   registerOnChange(onChange: (source: string | null) => void) {

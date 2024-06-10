@@ -2,11 +2,8 @@
   <code apiReference highlight="import { XuiIconComponent } from '@xui/components';" language="typescript"></code>
 </app-information>
 
-<app-example>
-  <div style="display: flex">
-    <xui-icon icon="add_reaction"></xui-icon>
-  </div>
-  <div style="display: flex">
-    <xui-icon [style.width.px]="100" icon="add_reaction"></xui-icon>
-  </div>
+<app-example [files]="example1">
+  <app-icon-example1></app-icon-example1>
 </app-example>
+
+<app-usage [usage]="usage"></app-usage>

@@ -1,5 +1,5 @@
-import {ChangeDetectionStrategy, Component, Inject, input, OnInit, signal} from '@angular/core';
-import { convertToBoolean, XuiCardModule, XuiIcon, XuiTabModule, XuiTooltipModule } from '@xui/components';
+import { booleanAttribute, ChangeDetectionStrategy, Component, Inject, input, OnInit, signal } from '@angular/core';
+import { XuiCardModule, XuiIcon, XuiTabModule, XuiTooltipModule } from '@xui/components';
 import sdk, { Project, ProjectFiles } from '@stackblitz/sdk';
 import { HttpClient } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
@@ -30,7 +30,7 @@ export class Example implements OnInit {
   content = signal<File[]>([]);
 
   files = input<Files>();
-  todo = input(false, { transform: (v: string | boolean) => convertToBoolean(v) });
+  todo = input(false, { transform: booleanAttribute });
 
   get project(): Project {
     return <Project>{
@@ -48,7 +48,10 @@ export class Example implements OnInit {
     };
   }
 
-  constructor(private http: HttpClient, @Inject(DOCUMENT) private document: Document) {}
+  constructor(
+    private http: HttpClient,
+    @Inject(DOCUMENT) private document: Document
+  ) {}
 
   async ngOnInit() {
     this.content.set(await this.fetchFiles());
@@ -56,6 +59,10 @@ export class Example implements OnInit {
 
   async fetchFiles() {
     const files: File[] = [];
+
+    if (!this.files()) {
+      return [];
+    }
 
     // TODO: finish this
     for (const file of Object.keys(this.files()!)) {
@@ -129,7 +136,9 @@ export class Example implements OnInit {
   openProject() {
     sdk.openProject(this.project, {
       newWindow: true,
-      openFile: this.content().map(x => x.path).join(',')
+      openFile: this.content()
+        .map(x => x.path)
+        .join(',')
     });
   }
 
@@ -181,5 +190,5 @@ export enum FileType {
 }
 
 interface Files {
-  [name: string]: FileType
+  [name: string]: FileType;
 }

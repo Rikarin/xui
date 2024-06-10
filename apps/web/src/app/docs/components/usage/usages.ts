@@ -4,10 +4,11 @@ import { DataSource } from '@angular/cdk/collections';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { CdkTableModule } from '@angular/cdk/table';
 import { XuiCardModule } from '@xui/components';
+import { CommonModule } from '@angular/common';
 
 @Component({
   standalone: true,
-  imports: [CdkTableModule, XuiCardModule],
+  imports: [CdkTableModule, XuiCardModule, CommonModule],
   selector: 'app-usage',
   templateUrl: 'usages.html',
   styleUrls: ['usages.scss']
@@ -22,7 +23,7 @@ export class Usages {
   }
 
   set usage(value: Usage[]) {
-    this.displayedColumns = ['param', 'description', 'type', 'default'];
+    this.displayedColumns = ['param', 'type', 'default', 'description'];
     this.dataSource.data.next(value);
   }
 

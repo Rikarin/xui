@@ -1,5 +1,14 @@
-import { ChangeDetectionStrategy, Component, computed, effect, input, Optional, Self, signal } from '@angular/core';
-import { convertToBoolean } from '../utils';
+import {
+  booleanAttribute,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  effect,
+  input,
+  Optional,
+  Self,
+  signal
+} from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { SwitchColor } from './switch.types';
 import { CommonModule } from '@angular/common';
@@ -27,11 +36,11 @@ export class XuiSwitch implements ControlValueAccessor {
   _disabled = signal(false);
 
   value = input<boolean | undefined, string | boolean>(undefined, {
-    transform: (v: string | boolean) => convertToBoolean(v)
+    transform: booleanAttribute
   });
   color = input<SwitchColor>('success');
   disabled = input<boolean | undefined, string | boolean>(undefined, {
-    transform: (v: string | boolean) => convertToBoolean(v)
+    transform: booleanAttribute
   });
 
   _styles = computed(() => {

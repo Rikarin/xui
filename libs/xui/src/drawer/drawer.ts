@@ -1,7 +1,14 @@
-import { ChangeDetectionStrategy, Component, input, OnInit, TemplateRef, ViewContainerRef } from '@angular/core';
+import {
+  booleanAttribute,
+  ChangeDetectionStrategy,
+  Component,
+  input,
+  OnInit,
+  TemplateRef,
+  ViewContainerRef
+} from '@angular/core';
 import { DrawerItem, DrawerMode } from './drawer.types';
 import { Portal, TemplatePortal } from '@angular/cdk/portal';
-import { convertToBoolean } from '../utils';
 
 @Component({
   selector: 'xui-drawer',
@@ -21,7 +28,7 @@ export class XuiDrawer implements OnInit {
   _headerPortal?: Portal<unknown>;
 
   mode = input<DrawerMode>('push');
-  expanded = input(true, { transform: (v: string | boolean) => convertToBoolean(v) });
+  expanded = input(true, { transform: booleanAttribute });
   items = input<DrawerItem[]>([]);
 
   constructor(private viewContainerRef: ViewContainerRef) {}

@@ -1,6 +1,14 @@
-import { ChangeDetectionStrategy, Component, effect, EventEmitter, input, Output, signal } from '@angular/core';
+import {
+  booleanAttribute,
+  ChangeDetectionStrategy,
+  Component,
+  effect,
+  EventEmitter,
+  input,
+  Output,
+  signal
+} from '@angular/core';
 import { XuiSubmenuService } from '../submenu.service';
-import { convertToBoolean } from '../../utils';
 
 @Component({
   selector: 'xui-submenu',
@@ -14,7 +22,7 @@ export class XuiSubmenu {
 
   title = input<string>();
   icon = input<string>();
-  open = input(false, { transform: (v: string | boolean) => convertToBoolean(v) });
+  open = input(false, { transform: booleanAttribute });
   @Output() readonly openChange: EventEmitter<boolean> = new EventEmitter();
 
   constructor(private submenuService: XuiSubmenuService) {
