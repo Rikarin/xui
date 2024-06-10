@@ -1,4 +1,5 @@
 import {
+  booleanAttribute,
   ChangeDetectionStrategy,
   Component,
   computed,
@@ -14,7 +15,6 @@ import {
 } from '@angular/core';
 import { TemplatePortal } from '@angular/cdk/portal';
 import { PANEL_BAR_ACCESSOR, PanelBarAccessor, PanelBarItem } from './panelbar.types';
-import { convertToBoolean } from '../utils';
 
 @Component({
   selector: 'xui-panelbar-item',
@@ -33,7 +33,7 @@ export class XuiPanelBarItem {
   content = input<any>();
   icon = input<string>();
   iconClass = input<string>();
-  expanded = input(false, { transform: (v: string | boolean) => convertToBoolean(v) });
+  expanded = input(false, { transform: booleanAttribute });
   _children = input<PanelBarItem[]>();
 
   @ViewChild('contentTemplate', { static: true }) private contentTemplate!: TemplateRef<unknown>;

@@ -1,4 +1,5 @@
 import {
+  booleanAttribute,
   ChangeDetectionStrategy,
   Component,
   computed,
@@ -12,7 +13,7 @@ import {
   signal
 } from '@angular/core';
 import { BUTTON_MODULE, XuiConfigService } from '../config';
-import { convertToBoolean, delay } from '../utils';
+import { delay } from '../utils';
 import { ButtonColor, ButtonSize, ButtonType } from './button.types';
 import { XuiButtonGroup } from './button-group';
 
@@ -52,8 +53,8 @@ export class XuiButton {
   type = input<ButtonType>();
   size = input<ButtonSize>();
   color = input<ButtonColor>();
-  shine = input(false, { transform: (v: string | boolean) => convertToBoolean(v) });
-  disabled = input(false, { transform: (v: string | boolean) => convertToBoolean(v) });
+  shine = input(false, { transform: booleanAttribute });
+  disabled = input(false, { transform: booleanAttribute });
   stateDelay = input<number>(5000);
   @Input() onClick?: () => Promise<boolean>;
 

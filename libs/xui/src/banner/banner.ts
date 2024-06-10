@@ -1,8 +1,16 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Inject, input, Optional, Output } from '@angular/core';
+import {
+  booleanAttribute,
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Inject,
+  input,
+  Optional,
+  Output
+} from '@angular/core';
 import { BannerType, XUI_BANNER_DEFAULT_OPTIONS, XuiBannerOptions } from './banner.types';
 import { CommonModule } from '@angular/common';
 import { XuiIcon } from '../icon';
-import { convertToBoolean } from '../utils';
 
 @Component({
   standalone: true,
@@ -20,7 +28,7 @@ import { convertToBoolean } from '../utils';
 export class XuiBanner {
   type = input<BannerType>(this.options?.type ?? 'info');
   stamp = input<string>();
-  dismissible = input(this.options?.dismissible ?? false, { transform: (v: string | boolean) => convertToBoolean(v) });
+  dismissible = input(this.options?.dismissible ?? false, { transform: booleanAttribute });
 
   @Output() bannerClose = new EventEmitter();
 

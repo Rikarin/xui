@@ -1,16 +1,17 @@
 import {
+  booleanAttribute,
   ChangeDetectionStrategy,
   Component,
   computed,
   effect,
   ElementRef,
   input,
+  model,
   Optional,
   Self,
   signal
 } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
-import { convertToBoolean } from '../utils';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { XUI_SELECT_ACCESSOR, SelectAccessor, SelectColor, SelectItem, SelectSize, SelectValue } from './select.types';
 
@@ -31,15 +32,14 @@ export class XuiSelect implements SelectAccessor, ControlValueAccessor {
   _viewValue = signal('');
   _isOpened = signal(false);
   _disabled = signal(false);
-  _value = signal<SelectValue>(null);
 
-  value = input<SelectValue>();
+  value = model<SelectValue>(null);
   placeholder = input<string>();
   color = input<SelectColor>('light');
   size = input<SelectSize>('large');
   items = input<SelectItem[]>();
   disabled = input<boolean | undefined, string | boolean>(undefined, {
-    transform: (v: string | boolean) => convertToBoolean(v)
+    transform: booleanAttribute
   });
 
   _styles = computed(() => {
@@ -66,8 +66,7 @@ export class XuiSelect implements SelectAccessor, ControlValueAccessor {
     }
 
     effect(() => this.disabled() && this._disabled.set(this.disabled()!), { allowSignalWrites: true });
-    effect(() => this.value() && this._value.set(this.value()!), { allowSignalWrites: true });
-    effect(() => this.onChange?.(this._value()));
+    effect(() => this.onChange?.(this.value()!));
   }
 
   open() {
@@ -79,7 +78,7 @@ export class XuiSelect implements SelectAccessor, ControlValueAccessor {
   }
 
   writeValue(source: SelectValue) {
-    this._value.set(source);
+    this.value.set(source);
   }
 
   registerOnChange(onChange: (source: SelectValue) => void) {

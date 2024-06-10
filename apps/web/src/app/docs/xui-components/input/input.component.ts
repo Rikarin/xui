@@ -24,6 +24,7 @@ import { Usage, Usages } from '../../components/usage';
   styleUrls: ['./input.component.scss']
 })
 export class InputComponent {
+  text = 'test';
   errorControl = new FormControl(null, Validators.required);
   errorInputControl = new FormControl(null, Validators.required);
 

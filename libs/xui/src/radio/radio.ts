@@ -1,6 +1,5 @@
-import { ChangeDetectionStrategy, Component, computed, Inject, input } from '@angular/core';
+import { booleanAttribute, ChangeDetectionStrategy, Component, computed, Inject, input } from '@angular/core';
 import { RADIO_GROUP_ACCESSOR, RadioColor, RadioGroupAccessor, RadioValue } from './radio.types';
-import { convertToBoolean } from '../utils';
 
 @Component({
   selector: 'xui-radio',
@@ -17,16 +16,16 @@ import { convertToBoolean } from '../utils';
 export class XuiRadio {
   value = input<RadioValue>(null);
   color = input<RadioColor>();
-  disabled = input(false, { transform: (v: string | boolean) => convertToBoolean(v) });
+  disabled = input(false, { transform: booleanAttribute });
 
-  _selected = computed(() => this._group._value() === this.value());
+  _selected = computed(() => this._group.value() === this.value());
   _disabled = computed(() => this.disabled() || this._group._disabled());
 
   constructor(@Inject(RADIO_GROUP_ACCESSOR) public _group: RadioGroupAccessor) {}
 
   _click() {
     if (!this._disabled()) {
-      this._group._value.set(this.value());
+      this._group.value.set(this.value());
     }
   }
 }

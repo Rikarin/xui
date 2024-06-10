@@ -1,17 +1,18 @@
 import {
+  booleanAttribute,
   ChangeDetectionStrategy,
   Component,
   computed,
   effect,
   Inject,
   input,
+  model,
   Optional,
   Self,
   signal
 } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
-import { convertToBoolean } from '../utils';
 import { INPUT_GROUP_ACCESSOR, InputColor, InputGroupAccessor, InputSize, InputType } from './input.types';
 import { INPUT_MODULE, XuiConfigService } from '../config';
 
@@ -29,18 +30,17 @@ export class XuiInput implements ControlValueAccessor {
   private onChange?: (source: string | null) => void;
   _onTouched?: () => void;
   _disabled = signal(false);
-  _value = signal<string | null>(null);
 
-  value = input<string>();
+  value = model<string>();
   placeholder = input<string>();
   color = input<InputColor>('light');
   size = input<InputSize>('large');
   type = input<InputType>('text');
   dataList = input<string[] | null>();
   disabled = input<boolean | undefined, string | boolean>(undefined, {
-    transform: (v: string | boolean) => convertToBoolean(v)
+    transform: booleanAttribute
   });
-  readOnly = input(false, { transform: (v: string | boolean) => convertToBoolean(v) });
+  readOnly = input(false, { transform: booleanAttribute });
 
   _styles = computed(() => {
     const ret: { [klass: string]: boolean } = {
@@ -69,8 +69,7 @@ export class XuiInput implements ControlValueAccessor {
     }
 
     effect(() => this.disabled() && this._disabled.set(this.disabled()!), { allowSignalWrites: true });
-    effect(() => this.value() && this._value.set(this.value()!), { allowSignalWrites: true });
-    effect(() => this.onChange?.(this._value()));
+    effect(() => this.onChange?.(this.value()!));
   }
 
   get invalid(): boolean {
@@ -87,7 +86,7 @@ export class XuiInput implements ControlValueAccessor {
   }
 
   writeValue(source: string) {
-    this._value.set(source);
+    this.value.set(source);
   }
 
   registerOnChange(onChange: (source: string | null) => void) {

@@ -2,8 +2,7 @@
   <textarea
     [disabled]="_disabled()"
     [readOnly]="readOnly()"
-    [ngModel]="_value()"
-    (ngModelChange)="_value.set($event)"
+    [(ngModel)]="value"
     [rows]="rows()"
     [placeholder]="placeholder() ?? ''"
     [maxLength]="maxLength() ?? 524288"

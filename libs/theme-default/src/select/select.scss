@@ -24,7 +24,7 @@
     }
 
     &-light {
-      @include core.fill(secondary);
+      @include core.fill(primary);
     }
 
     &-dark {

@@ -1,5 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, Inject, input } from '@angular/core';
-import { convertToBoolean } from '../utils';
+import { booleanAttribute, ChangeDetectionStrategy, Component, computed, Inject, input } from '@angular/core';
 import { TAB_GROUP_ACCESSOR, TabGroupAccessor } from './tab.types';
 
 @Component({
@@ -12,7 +11,7 @@ import { TAB_GROUP_ACCESSOR, TabGroupAccessor } from './tab.types';
 })
 export class XuiTab {
   title = input<string>();
-  disabled = input(false, { transform: (v: string | boolean) => convertToBoolean(v) });
+  disabled = input(false, { transform: booleanAttribute });
 
   _isActive = computed(() => this.tabGroup._active() === this);
 

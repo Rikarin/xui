@@ -1,4 +1,5 @@
 import {
+  booleanAttribute,
   ChangeDetectionStrategy,
   Component,
   computed,
@@ -12,7 +13,7 @@ import {
   ViewChild
 } from '@angular/core';
 import { ControlValueAccessor, FormsModule, NgControl } from '@angular/forms';
-import { convertToBoolean, inNextTick } from '../utils';
+import { inNextTick } from '../utils';
 import { SliderColor, SliderMark } from './slider.types';
 import { CommonModule } from '@angular/common';
 import { XuiTooltip, XuiTooltipModule } from '../tooltip';
@@ -49,9 +50,9 @@ export class XuiSlider implements ControlValueAccessor {
   value = input<number | undefined, string | number>(undefined, { transform: (v: string | number) => Number(v) });
   // range = input(false, { transform: (v: string | boolean) => convertToBoolean(v) });
   disabled = input<boolean | undefined, string | boolean>(undefined, {
-    transform: (v: string | boolean) => convertToBoolean(v)
+    transform: booleanAttribute
   });
-  tooltipDisabled = input(false, { transform: (v: string | boolean) => convertToBoolean(v) });
+  tooltipDisabled = input(false, { transform: booleanAttribute });
 
   @ViewChild('track', { static: true }) private trackElm!: ElementRef;
   @ViewChild('tooltipRef') private tooltipRef!: XuiTooltip;

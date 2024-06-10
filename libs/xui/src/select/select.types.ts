@@ -13,7 +13,7 @@ export interface SelectItem {
 export const XUI_SELECT_ACCESSOR = new InjectionToken<SelectAccessor>('xui-select');
 export interface SelectAccessor {
   color: Signal<SelectColor>;
-  _value: WritableSignal<SelectValue>;
+  value: WritableSignal<SelectValue>;
   _viewValue: WritableSignal<string>;
 
   close(): void;

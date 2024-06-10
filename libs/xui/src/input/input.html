@@ -6,8 +6,7 @@
     [readOnly]="readOnly()"
     [type]="type()"
     [placeholder]="placeholder() ?? ''"
-    [ngModel]="_value()"
-    (ngModelChange)="_value.set($event)"
+    [(ngModel)]="value"
     list="list"
   />
   <ng-content select="[xuiPostfix]" />

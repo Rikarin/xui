@@ -25,7 +25,7 @@
     }
 
     &-light textarea {
-      @include core.fill(secondary);
+      @include core.fill(primary);
     }
 
     &-dark textarea {

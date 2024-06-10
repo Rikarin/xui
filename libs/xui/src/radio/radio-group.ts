@@ -1,6 +1,15 @@
-import { ChangeDetectionStrategy, Component, effect, input, Optional, Self, signal } from '@angular/core';
+import {
+  booleanAttribute,
+  ChangeDetectionStrategy,
+  Component,
+  effect,
+  input,
+  model,
+  Optional,
+  Self,
+  signal
+} from '@angular/core';
 import { RADIO_GROUP_ACCESSOR, RadioColor, RadioGroupAccessor, RadioItem, RadioValue } from './radio.types';
-import { convertToBoolean } from '../utils';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 
 @Component({
@@ -22,13 +31,12 @@ export class XuiRadioGroup implements RadioGroupAccessor, ControlValueAccessor {
   private onTouched?: () => void;
 
   _disabled = signal(false);
-  _value = signal<RadioValue>(null);
 
-  value = input<RadioValue>();
+  value = model<RadioValue>(null);
   color = input<RadioColor>('none');
   items = input<RadioItem[]>();
   disabled = input<boolean | undefined, string | boolean>(undefined, {
-    transform: (v: string | boolean) => convertToBoolean(v)
+    transform: booleanAttribute
   });
 
   constructor(@Self() @Optional() public control?: NgControl) {
@@ -37,12 +45,11 @@ export class XuiRadioGroup implements RadioGroupAccessor, ControlValueAccessor {
     }
 
     effect(() => this.disabled() && this._disabled.set(this.disabled()!), { allowSignalWrites: true });
-    effect(() => this.value() && this._value.set(this.value()!), { allowSignalWrites: true });
-    effect(() => this.onChange?.(this._value()));
+    effect(() => this.onChange?.(this.value()!));
   }
 
   writeValue(source: RadioValue) {
-    this._value.set(source);
+    this.value.set(source);
   }
 
   registerOnChange(onChange: (source: RadioValue) => void) {

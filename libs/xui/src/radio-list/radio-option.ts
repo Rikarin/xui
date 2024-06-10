@@ -1,5 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, Inject, input } from '@angular/core';
-import { convertToBoolean } from '../utils';
+import { booleanAttribute, ChangeDetectionStrategy, Component, computed, Inject, input } from '@angular/core';
 import { RADIO_LIST_ACCESSOR, RadioListAccessor, RadioListValue } from './radio-list.types';
 
 @Component({
@@ -25,9 +24,9 @@ import { RADIO_LIST_ACCESSOR, RadioListAccessor, RadioListValue } from './radio-
 export class XuiRadioOption {
   value = input.required<RadioListValue>();
   color = input<string>();
-  disabled = input(false, { transform: (v: string | boolean) => convertToBoolean(v) });
+  disabled = input(false, { transform: booleanAttribute });
 
-  _isSelected = computed(() => this.value() == this.list._value());
+  _isSelected = computed(() => this.value() == this.list.value());
   _isFocused = computed(() => this.value() == this.list._focusedValue());
   _isDisabled = computed(() => this.disabled() || this.list._disabled());
   _icon = computed(() => (this._isSelected() ? 'radio_button_checked' : 'radio_button_unchecked'));
@@ -41,7 +40,7 @@ export class XuiRadioOption {
 
   _click() {
     if (!this._isDisabled()) {
-      this.list._value.set(this.value());
+      this.list.value.set(this.value());
     }
   }
 }

@@ -1,9 +1,8 @@
-import { Directive, ElementRef, input } from '@angular/core';
+import { booleanAttribute, Directive, ElementRef, input } from '@angular/core';
 import { ConnectionPositionPair, Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { Tooltip } from './tooltip';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { TooltipAnchor, TooltipPosition } from './tooltip.types';
-import { convertToBoolean } from '../utils';
 import { TOOLTIP_MODULE, XuiConfigService } from '../config';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -23,7 +22,7 @@ export class XuiTooltip {
 
   message = input.required<string>({ alias: 'xuiTooltip' });
   position = input<TooltipPosition>('right', { alias: 'xuiTooltipPosition' });
-  disabled = input(false, { transform: (v: string | boolean) => convertToBoolean(v), alias: 'xuiTooltipDisabled' });
+  disabled = input(false, { transform: booleanAttribute, alias: 'xuiTooltipDisabled' });
 
   constructor(
     private configService: XuiConfigService,

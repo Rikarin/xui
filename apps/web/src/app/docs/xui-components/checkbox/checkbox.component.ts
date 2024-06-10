@@ -25,8 +25,8 @@ export class CheckboxComponent {
   usage: Usage[] = [
     {
       param: 'value',
-      description: 'Value the radio.',
-      type: 'any'
+      description: 'Value the checkbox.',
+      type: 'boolean'
     },
     {
       param: 'color',

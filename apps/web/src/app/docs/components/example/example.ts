@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, Inject, input, OnInit, signal } from '@angular/core';
-import { convertToBoolean, XuiCardModule, XuiIcon, XuiTabModule, XuiTooltipModule } from '@xui/components';
+import { booleanAttribute, ChangeDetectionStrategy, Component, Inject, input, OnInit, signal } from '@angular/core';
+import { XuiCardModule, XuiIcon, XuiTabModule, XuiTooltipModule } from '@xui/components';
 import sdk, { Project, ProjectFiles } from '@stackblitz/sdk';
 import { HttpClient } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
@@ -30,7 +30,7 @@ export class Example implements OnInit {
   content = signal<File[]>([]);
 
   files = input<Files>();
-  todo = input(false, { transform: (v: string | boolean) => convertToBoolean(v) });
+  todo = input(false, { transform: booleanAttribute });
 
   get project(): Project {
     return <Project>{

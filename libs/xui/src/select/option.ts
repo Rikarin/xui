@@ -1,5 +1,6 @@
 import {
   AfterViewInit,
+  booleanAttribute,
   ChangeDetectionStrategy,
   Component,
   computed,
@@ -8,7 +9,6 @@ import {
   input,
   ViewChild
 } from '@angular/core';
-import { convertToBoolean } from '../utils';
 import { XUI_SELECT_ACCESSOR, SelectAccessor, SelectValue } from './select.types';
 
 @Component({
@@ -26,11 +26,11 @@ import { XUI_SELECT_ACCESSOR, SelectAccessor, SelectValue } from './select.types
 })
 export class XuiOption implements AfterViewInit {
   value = input<SelectValue>(null);
-  disabled = input(false, { transform: (v: string | boolean) => convertToBoolean(v) });
+  disabled = input(false, { transform: booleanAttribute });
 
   @ViewChild('content') private contentRef!: ElementRef;
 
-  _isSelected = computed(() => this._select._value() == this.value());
+  _isSelected = computed(() => this._select.value() == this.value());
 
   private get viewValue(): string {
     return (this.contentRef.nativeElement.textContent || '').trim();
@@ -46,7 +46,7 @@ export class XuiOption implements AfterViewInit {
 
   _click() {
     if (!this.disabled()) {
-      this._select._value.set(this.value());
+      this._select.value.set(this.value());
       this._select._viewValue.set(this.viewValue);
       this._select.close();
     }
