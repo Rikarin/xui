@@ -60,7 +60,7 @@ export class XuiRadioList implements RadioListAccessor, ControlValueAccessor {
     }
 
     effect(() => this.disabled() && this._disabled.set(this.disabled()!), { allowSignalWrites: true });
-    effect(() => this.onChange?.(this.value()!));
+    effect(() => this.value() != undefined && this.onChange?.(this.value()!));
   }
 
   writeValue(source: RadioListValue) {

@@ -60,6 +60,10 @@ export class Example implements OnInit {
   async fetchFiles() {
     const files: File[] = [];
 
+    if (!this.files()) {
+      return [];
+    }
+
     // TODO: finish this
     for (const file of Object.keys(this.files()!)) {
       if (this.files()![file] === FileType.Component) {

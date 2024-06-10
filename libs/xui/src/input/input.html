@@ -1,4 +1,4 @@
-<div [ngClass]="_styles()">
+<div [ngClass]="_styles()" [class.x-input-error]="_showError">
   <ng-content select="[xuiPrefix]" />
   <input
     [tabindex]="_disabled() ? -1 : 0"
@@ -12,7 +12,7 @@
   <ng-content select="[xuiPostfix]" />
 </div>
 
-<div class="x-input-error-text" *ngIf="showError">
+<div class="x-input-error-text" *ngIf="_showError">
   <ng-container *ngIf="control?.hasError('message')">{{ errorMessage }}</ng-container>
   <ng-container *ngIf="control?.hasError('required')">This field is required!</ng-container>
   <ng-container *ngIf="control?.hasError('email')">Email expected</ng-container>

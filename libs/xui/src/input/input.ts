@@ -45,7 +45,7 @@ export class XuiInput implements ControlValueAccessor {
   _styles = computed(() => {
     const ret: { [klass: string]: boolean } = {
       'x-input': true,
-      'x-input-error': this.showError
+      'x-input-error': this._showError
     };
 
     ret[`x-input-${this.color()}`] = true;
@@ -69,20 +69,17 @@ export class XuiInput implements ControlValueAccessor {
     }
 
     effect(() => this.disabled() && this._disabled.set(this.disabled()!), { allowSignalWrites: true });
-    effect(() => this.onChange?.(this.value()!));
+    effect(() => this.value() != undefined && this.onChange?.(this.value()!));
   }
 
-  get invalid(): boolean {
-    return !!this.control?.invalid;
-  }
-
-  get showError(): boolean {
+  get _showError(): boolean {
     if (!this.control) {
       return false;
     }
 
+    const invalid = !!this.control.invalid;
     const { dirty, touched } = this.control;
-    return this.invalid ? (dirty ?? false) || (touched ?? false) : false;
+    return invalid ? (dirty ?? false) || (touched ?? false) : false;
   }
 
   writeValue(source: string) {
