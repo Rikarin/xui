@@ -9,6 +9,7 @@ import {
   model,
   Optional,
   Self,
+  Signal,
   signal
 } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
@@ -40,7 +41,7 @@ export class XuiSelect implements SelectAccessor, ControlValueAccessor {
   items = input<SelectItem[]>();
   disabled = input<boolean | undefined, string | boolean>(undefined, {
     transform: booleanAttribute
-  });
+  }) as any;
 
   _styles = computed(() => {
     const ret: { [klass: string]: boolean } = {

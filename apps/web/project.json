@@ -7,7 +7,7 @@
   "tags": [],
   "targets": {
     "build": {
-      "executor": "@angular-devkit/build-angular:application",
+      "executor": "@ng-doc/builder:application",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/web",
@@ -20,6 +20,21 @@
           "includePaths": ["node_modules"]
         },
         "assets": [
+          {
+            "glob": "**/*",
+            "input": "node_modules/@ng-doc/app/assets",
+            "output": "assets/ng-doc/app"
+          },
+          {
+            "glob": "**/*",
+            "input": "node_modules/@ng-doc/ui-kit/assets",
+            "output": "assets/ng-doc/ui-kit"
+          },
+          {
+            "glob": "**/*",
+            "input": "ng-doc/web/assets",
+            "output": "assets/ng-doc"
+          },
           "apps/web/src/favicon.ico",
           "apps/web/src/assets",
           "apps/web/src/_redirects",
@@ -37,6 +52,7 @@
           }
         ],
         "styles": [
+          "node_modules/@ng-doc/app/styles/global.css",
           "apps/web/src/styles.scss",
           {
             "input": "apps/web/src/themes/xui-dark.theme.scss",
@@ -49,7 +65,8 @@
             "bundleName": "xui-light.theme"
           }
         ],
-        "scripts": []
+        "scripts": [],
+        "allowedCommonJsDependencies": ["@ng-doc/core"]
       },
       "configurations": {
         "production": {
@@ -83,7 +100,7 @@
       "defaultConfiguration": "production"
     },
     "serve": {
-      "executor": "@angular-devkit/build-angular:dev-server",
+      "executor": "@ng-doc/builder:dev-server",
       "configurations": {
         "production": {
           "port": 4800,

@@ -42,3 +42,7 @@ Thumbs.db
 libs/xui-charts
 
 .nx/cache
+
+
+# NgDoc files
+/ng-doc

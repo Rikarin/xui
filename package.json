@@ -27,8 +27,16 @@
   "dependencies": {
     "@angular/platform-server": "18.0.1",
     "@angular/ssr": "18.0.2",
+    "@ng-doc/app": "18.1.1",
+    "@ng-doc/builder": "18.1.1",
+    "@ng-doc/core": "18.1.1",
+    "@ng-doc/keywords-loaders": "^18.1.1",
+    "@ng-doc/ui-kit": "18.1.1",
+    "@ng-web-apis/common": "^4.6.5",
+    "@tinkoff/ng-polymorpheus": "^4.3.0",
     "@xui/theme-core": "link:libs/theme-core/src",
     "@xui/theme-default": "link:libs/theme-default/src",
+    "di-controls": "^5.0.5",
     "express": "~4.19.2",
     "tslib": "^2.6.2"
   },

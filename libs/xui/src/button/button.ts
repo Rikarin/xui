@@ -17,6 +17,12 @@ import { delay } from '../utils';
 import { ButtonColor, ButtonSize, ButtonType } from './button.types';
 import { XuiButtonGroup } from './button-group';
 
+/**
+ *  Write documentation in JSDoc format for this class.
+ *
+ *
+ *
+ */
 @Component({
   selector: 'xui-button',
   changeDetection: ChangeDetectionStrategy.OnPush,

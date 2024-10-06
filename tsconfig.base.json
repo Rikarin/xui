@@ -24,6 +24,8 @@
     "baseUrl": ".",
     "paths": {
       "@local/test": ["libs/@local/test/src/index.ts"],
+      "@ng-doc/generated": ["./ng-doc/web/index.ts"],
+      "@ng-doc/generated/*": ["./ng-doc/web/*"],
       "@xui/charts": ["libs/charts/src/index.ts"],
       "@xui/components": ["libs/xui/src/index.ts"],
       "@xui/theme-core": ["libs/theme-core/src/index.ts"]
