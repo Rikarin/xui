@@ -12,10 +12,7 @@
     "components",
     "tailwindcss"
   ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/rikarin/xui.git"
-  },
+  "repository": "github:rikarin/xui",
   "bugs": {
     "url": "https://github.com/rikarin/xui/issues"
   },

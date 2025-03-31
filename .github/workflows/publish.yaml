@@ -16,12 +16,12 @@ jobs:
       id-token: write # needed for provenance data generation
     timeout-minutes: 10
     steps:
-      - name: Checkout repository
+      - name: Checkout Repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Install pnpm
+      - name: Install PNPM
         uses: pnpm/action-setup@v4
         with:
           version: 10.7.0
@@ -33,7 +33,7 @@ jobs:
           registry-url: https://registry.npmjs.org/
           cache: 'pnpm'
 
-      - name: Install dependencies
+      - name: Install Dependencies
         run: pnpm install --frozen-lockfile
         shell: bash
 
@@ -41,11 +41,11 @@ jobs:
         run: pnpx nx report
         shell: bash
 
-      - name: Print Environment Info
+      - name: Build Packages
         run: pnpx nx run-many -t build
         shell: bash
 
-      - name: Publish packages
+      - name: Publish Packages
         run: pnpm run publish
         shell: bash
         env:
