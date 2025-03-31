@@ -4,10 +4,10 @@ export const decorators = [
   withThemeByClassName({
     themes: {
       light: 'light',
-      dark: 'dark',
+      dark: 'dark'
     },
-    defaultTheme: 'light',
-  }),
+    defaultTheme: 'light'
+  })
 ];
 
 const preview = {
@@ -16,12 +16,12 @@ const preview = {
   parameters: {
     options: {
       storySort: {
-        method: 'alphabetical',
-      },
-    },
+        method: 'alphabetical'
+      }
+    }
   },
 
-  tags: ['autodocs'],
+  tags: ['autodocs']
 };
 
 export default preview;

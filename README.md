@@ -16,7 +16,6 @@
 
 xUI is a customizable Angular 19 UI Library with full support of TailwindCSS styling based on popular React library ShardCN and its Angular alternative SpartanUI.
 
-
 ## Features
 
 - **35+ High-Quality Angular Components:** Ready to use out of the box.
@@ -27,7 +26,7 @@ xUI is a customizable Angular 19 UI Library with full support of TailwindCSS sty
 - **TypeScript:** Written with predictable static types.
 
 ## Table of Contents
-
+- [Storybook](https://develop--67d2b4c756077a325913e5d9.chromatic.com/?globals=theme:dark)
 - [StackBlitz Demo](https://stackblitz.com/fork/xui)
 - [Documentation](https://xuijs.org)
 - [Live Demo](https://cord.dj/r)
@@ -57,7 +56,6 @@ To start docs page use
 pnpm start
 ```
 
-
 To start storybook use
 
 ```bash
@@ -67,7 +65,6 @@ pnpm storybook
 ## Issues
 
 If you find any issues in the library or have and idea for an improvement feel free to open an [issue](https://github.com/Rikarin/xui/issues).
-
 
 ## Roadmap (12/42)
 
@@ -137,7 +134,6 @@ If you find any issues in the library or have and idea for an improvement feel f
 
 Make cli to install the components
 
-
 ## TODO
 
 - Button
@@ -146,6 +142,7 @@ Make cli to install the components
   - Shine
 
 - Breadcrumb
+
   - fix styling issues
   - on hover stuff
   - data driven component
