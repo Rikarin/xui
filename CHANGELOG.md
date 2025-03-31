@@ -1,3 +1,13 @@
+## 2.0.0-alpha.3 (2025-03-31)
+
+### 🩹 Fixes
+
+- test ([79f31d3](https://github.com/Rikarin/xui/commit/79f31d3))
+
+### ❤️ Thank You
+
+- Rikarin @Rikarin
+
 ## 2.0.0-alpha.2 (2025-03-31)
 
 ### 🚀 Features
