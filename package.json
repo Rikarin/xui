@@ -2,13 +2,15 @@
   "name": "xui",
   "version": "0.0.0",
   "author": "Rene Cincura",
-  "description": "Angular UI Library",
+  "description": "Modern Angular 19 UI Library based on TailwindCSS",
   "maintainers": [
     "Rene Cincura"
   ],
   "keywords": [
     "angular",
-    "ui"
+    "ui",
+    "components",
+    "tailwindcss"
   ],
   "repository": {
     "type": "git",
