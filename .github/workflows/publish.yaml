@@ -2,6 +2,8 @@ name: Publish
 
 on:
   push:
+    branches:
+      - develop
     tags:
       - v*.*.*
 
@@ -22,7 +24,7 @@ jobs:
       - name: Install pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: 10
+          version: 10.2.0
 
       - name: Install Node
         uses: actions/setup-node@v4
