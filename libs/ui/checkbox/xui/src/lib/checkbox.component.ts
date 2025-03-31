@@ -32,6 +32,7 @@ const checkboxVariants = cva(
   {
     variants: {
       color: {
+        test: 'test',
         primary:
           '[&:not([data-state=unchecked])]:text-primary-foreground [&:not([data-state=unchecked])]:bg-primary [&:not([data-state=unchecked])]:border-primary-darker',
         secondary:
