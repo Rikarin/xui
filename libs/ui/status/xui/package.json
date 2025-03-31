@@ -1,14 +1,32 @@
 {
   "name": "@xui/status",
   "version": "2.0.0-alpha.0",
-  "sideEffects": false,
-  "publishConfig": {
-    "access": "public"
+  "description": "Angular UI Library",
+  "keywords": [
+    "angular",
+    "ui"
+  ],
+  "homepage": "https://xuijs.org",
+  "bugs": {
+    "url": "https://github.com/rikarin/xui/issues"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rikarin/xui.git"
+  },
+  "license": "MIT",
+  "author": "Rene Cincura",
+  "maintainers": [
+    "Rene Cincura"
+  ],
+  "sideEffects": false,
   "peerDependencies": {
     "@angular/core": "19",
     "@xui/core": "2",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

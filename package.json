@@ -1,6 +1,23 @@
 {
   "name": "xui",
   "version": "0.0.0",
+  "author": "Rene Cincura",
+  "description": "Angular UI Library",
+  "maintainers": [
+    "Rene Cincura"
+  ],
+  "keywords": [
+    "angular",
+    "ui"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rikarin/xui.git"
+  },
+  "bugs": {
+    "url": "https://github.com/rikarin/xui/issues"
+  },
+  "homepage": "https://xuijs.org",
   "private": true,
   "license": "MIT",
   "type": "module",
@@ -14,7 +31,9 @@
     "lint": "nx run-many --target=lint --parallel",
     "start": "nx serve app",
     "storybook": "nx storybook ui-storybook",
-    "test": "nx run-many --target test --all"
+    "test": "nx run-many --target test --all",
+    "publish": "nx release --preid alpha",
+    "release": "nx release publish --tag develop"
   },
   "dependencies": {
     "@angular/animations": "^19.2.3",

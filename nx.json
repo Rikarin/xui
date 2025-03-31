@@ -109,7 +109,7 @@
   },
   "release": {
     "version": {
-      "preVersionCommand": "pnpm dlx nx run-many -t build",
+      "preVersionCommand": "pnpm nx g @xui/tools:update-projects && pnpm dlx nx run-many -t build",
       "conventionalCommits": true
     }
   }

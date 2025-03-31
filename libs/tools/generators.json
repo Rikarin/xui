@@ -1,9 +1,9 @@
 {
   "generators": {
-    "auto-increment-version": {
-      "factory": "./src/generators/auto-increment-version/generator",
-      "schema": "./src/generators/auto-increment-version/schema.json",
-      "description": "Auto increment build number for nightly releases"
+    "update-projects": {
+      "factory": "./src/generators/update-projects/generator",
+      "schema": "./src/generators/update-projects/schema.json",
+      "description": "Update projects' package.json and README"
     },
     "replace-ui-version": {
       "factory": "./src/generators/replace-ui-version/generator",

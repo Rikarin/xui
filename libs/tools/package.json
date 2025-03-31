@@ -1,18 +1,36 @@
 {
   "name": "@xui/tools",
   "version": "2.0.0-alpha.0",
+  "description": "Angular UI Library",
+  "keywords": [
+    "angular",
+    "ui"
+  ],
+  "homepage": "https://xuijs.org",
+  "bugs": {
+    "url": "https://github.com/rikarin/xui/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rikarin/xui.git"
+  },
+  "license": "MIT",
+  "author": "Rene Cincura",
+  "maintainers": [
+    "Rene Cincura"
+  ],
   "type": "commonjs",
   "main": "./src/index.js",
   "types": "./src/index.d.ts",
-  "publishConfig": {
-    "access": "public"
-  },
   "dependencies": {
     "@nx/angular": "20.6.2",
     "@nx/devkit": "20.6.2",
     "@phenomnomnominal/tsquery": "^6.1.3",
     "tslib": "^2.3.0",
     "typescript": "~5.8.2"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "generators": "./generators.json"
 }
