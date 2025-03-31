@@ -14,16 +14,16 @@
 [![Discord](https://img.shields.io/discord/776258487307075594.svg?label=&logo=discord&logoColor=ffffff&color=7389D8&labelColor=6A7EC2)](https://discord.gg/aPkZsFcu)
 [![Netlify Status](https://api.netlify.com/api/v1/badges/fa0cfd14-97df-47fa-8a7c-152e6d4cfda2/deploy-status)](https://app.netlify.com/sites/xui/deploys)
 
-xUI is a customizable Angular 15 - 18 UI Library with gaming look which can be easily adapted to your brand.
-Contains default dark and light theme with SCSS functions to generate your own themes in a few steps.
+xUI is a customizable Angular 19 UI Library with full support of TailwindCSS styling based on popular React library ShardCN and its Angular alternative SpartanUI.
+
 
 ## Features
 
 - **35+ High-Quality Angular Components:** Ready to use out of the box.
 - **Powerful Theme Customization:** Detailed customization options with default themes.
-- **High Performance:** Supports OnPush mode and Signals for optimized performance.
+- **High Performance:** Supports Zoneless, OnPush mode, and Signals for optimized performance.
 - **Accessibility:** Supports WCAG 2.0 standards.
-- **Powerful Theme Customization:** Detailed customization options.
+- **Powerful Theme Customization:** Install each visual component and customize it according your needs
 - **TypeScript:** Written with predictable static types.
 
 ## Table of Contents
@@ -37,16 +37,10 @@ Contains default dark and light theme with SCSS functions to generate your own t
 
 ## Installation
 
-Install package with **YARN**
+Install package with **PNPM**
 
 ```bash
-yarn add @xui/components
-```
-
-or **NPM**
-
-```bash
-npm install @xui/components
+pnpm i @xui/core ....
 ```
 
 ## Browser Support
@@ -57,12 +51,104 @@ xUI Supports most recent browsers according to Angular [support](https://angular
 
 The project uses `NX` and `Angular` to build the package.
 
+To start docs page use
+
 ```bash
-yarn start
+pnpm start
+```
+
+
+To start storybook use
+
+```bash
+pnpm storybook
 ```
 
 ## Issues
 
 If you find any issues in the library or have and idea for an improvement feel free to open an [issue](https://github.com/Rikarin/xui/issues).
 
-_This project is tested with BrowserStack_
+
+## Roadmap (12/42)
+
+- [ ] Accordion
+- [ ] Alert
+- [ ] Alert Dialog
+- [ ] Avatar
+- [x] Badge
+- [x] Breadcrumb
+- [x] Button
+- [x] Button Group
+- [ ] Calendar
+- [ ] Card
+- [ ] Carousel
+- [x] Checkbox
+- [ ] Collapsible
+- [ ] Combobox
+- [ ] Command
+- [ ] Date Picker
+- [ ] Date Range Picker
+- [ ] Dialog
+- [x] Form Field
+- [ ] Hover Card
+- [x] Icon
+- [x] Input
+- [x] Label
+- [ ] Menu
+- [ ] Pagination
+- [ ] Popover
+- [ ] Progress
+- [ ] Radio Group
+- [ ] Scroll Area
+- [ ] Select
+- [ ] Separator
+- [ ] Sheet
+- [x] Skeleton
+- [ ] Slider
+- [x] Sonner
+- [ ] Spinner
+- [x] Status
+- [ ] Switch
+- [ ] Table
+- [ ] Tabs
+- [ ] Toggle
+- [ ] Tooltip
+- [ ] Typography
+
+### Additional
+
+- [ ] Decagram
+- [ ] Settings
+- [ ] Drawer
+- [ ] Panel Bar
+- [ ] Textarea
+- [ ] Time Picker
+- [ ] Image Upload
+- [ ] Banner
+- [ ] Snack bar
+
+## Opinionated "components"
+
+- [ ] Graph View (Nodes)
+- [ ] Analysis
+- [ ] Charts (NG Charts?)
+
+## CLI
+
+Make cli to install the components
+
+
+## TODO
+
+- Button
+
+  - Icon
+  - Shine
+
+- Breadcrumb
+  - fix styling issues
+  - on hover stuff
+  - data driven component
+
+- Sonner
+  - Colors
