@@ -145,7 +145,7 @@
     "typescript-eslint": "^8.27.0",
     "verdaccio": "^6.0.5"
   },
-  "packageManager": "pnpm@10.2.0",
+  "packageManager": "pnpm@10.7.0",
   "engines": {
     "node": "20.x || 21.x || 22.x || 23.x",
     "npm": "please-use-pnpm",
