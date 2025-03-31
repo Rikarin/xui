@@ -1,3 +1,13 @@
+## 2.0.0-alpha.4 (2025-03-31)
+
+### 🩹 Fixes
+
+- button publish ([d795133](https://github.com/Rikarin/xui/commit/d795133))
+
+### ❤️ Thank You
+
+- Rikarin @Rikarin
+
 ## 2.0.0-alpha.3 (2025-03-31)
 
 ### 🩹 Fixes
