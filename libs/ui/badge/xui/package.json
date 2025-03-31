@@ -2,6 +2,9 @@
   "name": "@xui/badge",
   "version": "2.0.0-alpha.0",
   "sideEffects": false,
+  "publishConfig": {
+    "access": "public"
+  },
   "peerDependencies": {
     "@angular/cdk": "19",
     "@angular/core": "19",

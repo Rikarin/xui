@@ -4,6 +4,9 @@
   "type": "commonjs",
   "main": "./src/index.js",
   "types": "./src/index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
     "@nx/angular": "20.6.2",
     "@nx/devkit": "20.6.2",
