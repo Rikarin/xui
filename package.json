@@ -32,7 +32,7 @@
     "storybook": "nx storybook ui-storybook",
     "test": "nx run-many --target test --all",
     "release": "nx release --preid alpha --skip-publish",
-    "publish": "nx release publish --tag develop"
+    "publish": "nx release publish"
   },
   "dependencies": {
     "@angular/animations": "^19.2.3",
