@@ -1,0 +1,39 @@
+{
+  "generators": {
+    "auto-increment-version": {
+      "factory": "./src/generators/auto-increment-version/generator",
+      "schema": "./src/generators/auto-increment-version/schema.json",
+      "description": "Auto increment build number for nightly releases"
+    },
+    "replace-ui-version": {
+      "factory": "./src/generators/replace-ui-version/generator",
+      "schema": "./src/generators/replace-ui-version/schema.json",
+      "description": "replace-ui-version"
+    },
+    "core-secondary-entrypoint": {
+      "factory": "./src/generators/core-secondary-entrypoint/generator",
+      "schema": "./src/generators/core-secondary-entrypoint/schema.json",
+      "description": "Add a secondary entrypoint to the Core library"
+    },
+    "component": {
+      "factory": "./src/generators/xui-component/generator",
+      "schema": "./src/generators/xui-component/schema.json",
+      "description": "Generate a xUI component"
+    },
+    "directive": {
+      "factory": "./src/generators/xui-directive/generator",
+      "schema": "./src/generators/xui-directive/schema.json",
+      "description": "Generate a xUI directive"
+    },
+    "story": {
+      "factory": "./src/generators/xui-story/generator",
+      "schema": "./src/generators/xui-story/schema.json",
+      "description": "Generate a xUI story"
+    },
+    "library": {
+      "factory": "./src/generators/xui-library/generator",
+      "schema": "./src/generators/xui-library/schema.json",
+      "description": "Generate a xUI library"
+    }
+  }
+}

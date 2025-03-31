@@ -1,3 +1,0 @@
-Sitemap: https://xuijs.org/sitemap.xml
-User-agent: *
-Disallow:

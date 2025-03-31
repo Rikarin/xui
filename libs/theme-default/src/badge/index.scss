@@ -1,7 +1,0 @@
-@forward 'variables';
-
-@use 'badge';
-
-@mixin theme() {
-  @include badge.theme();
-}

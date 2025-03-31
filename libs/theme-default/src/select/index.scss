@@ -1,9 +1,0 @@
-@forward 'variables';
-
-@use 'option';
-@use 'select';
-
-@mixin theme() {
-  @include option.theme();
-  @include select.theme();
-}

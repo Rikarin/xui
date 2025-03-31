@@ -1,8 +1,0 @@
-<ng-content />
-
-<div [ngClass]="_styles()" (click)="_click()" [tabIndex]="_disabled() ? -1 : 0">
-  <div class="x-switch-handle">
-    <xui-icon [icon]="_value() ? 'check' : 'close'"></xui-icon>
-  </div>
-  <input tabindex="-1" type="checkbox" [checked]="_value()" [disabled]="_disabled()" />
-</div>

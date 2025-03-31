@@ -1,0 +1,14 @@
+{
+  "name": "@xui/breadcrumb",
+  "version": "2.0.0",
+  "sideEffects": false,
+  "peerDependencies": {
+    "@angular/core": "19",
+    "@angular/router": "19",
+    "@ng-icons/core": "^31.1.0",
+    "@ng-icons/material-icons": "^31.2.0",
+    "@xui/core": "2",
+    "@xui/icon": "2",
+    "clsx": "^2.1.1"
+  }
+}

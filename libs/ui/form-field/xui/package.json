@@ -1,0 +1,9 @@
+{
+  "name": "@xui/form-field",
+  "version": "2.0.0",
+  "sideEffects": false,
+  "peerDependencies": {
+    "@angular/core": "19",
+    "@xui/core": "2"
+  }
+}

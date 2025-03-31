@@ -1,0 +1,13 @@
+{
+  "name": "@xui/core",
+  "version": "2.0.0",
+  "sideEffects": false,
+  "peerDependencies": {
+    "@angular/cdk": "19",
+    "@angular/common": "19",
+    "@angular/core": "19",
+    "@angular/forms": "19",
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^3.0.2"
+  }
+}

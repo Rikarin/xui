@@ -1,0 +1,15 @@
+{
+  "name": "@xui/tools",
+  "version": "0.0.1",
+  "type": "commonjs",
+  "main": "./src/index.js",
+  "types": "./src/index.d.ts",
+  "dependencies": {
+    "@nx/angular": "20.6.2",
+    "@phenomnomnominal/tsquery": "^6.1.3",
+    "tslib": "^2.3.0",
+    "typescript": "~5.8.2",
+    "@nx/devkit": "20.6.2"
+  },
+  "generators": "./generators.json"
+}

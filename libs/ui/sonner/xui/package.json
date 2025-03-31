@@ -1,0 +1,11 @@
+{
+  "name": "@xui/sonner",
+  "version": "0.0.1",
+  "sideEffects": false,
+  "peerDependencies": {
+    "@angular/core": "19",
+    "@xui/core": "2",
+    "clsx": "^2.1.1",
+    "ngx-sonner": "^3.0.0"
+  }
+}

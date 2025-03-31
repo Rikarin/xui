@@ -1,7 +1,0 @@
-@forward 'variables';
-
-@use 'time-picker';
-
-@mixin theme() {
-  @include time-picker.theme();
-}

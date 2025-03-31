@@ -1,0 +1,57 @@
+import { Component, computed, input } from '@angular/core';
+import { xui } from '@xui/core';
+import type { ClassValue } from 'clsx';
+import { cva, VariantProps } from 'class-variance-authority';
+
+const <%= propertyVariantsName %> = cva(
+  [
+    '',
+  ],
+  {
+    variants: {
+      variant: {
+        default: '',
+      },
+      size: {
+        sm: '',
+        md: '',
+        lg: '',
+      },
+      color: {
+        primary: '',
+        secondary: '',
+        success: '',
+        error: '',
+        info: '',
+        warning: '',
+      },
+    },
+    defaultVariants: {
+      variant: 'default',
+      size: 'md',
+      color: 'primary',
+    },
+  },
+);
+
+export type <%= variantsName %> = VariantProps<typeof <%= propertyVariantsName %>>;
+
+
+@Component({
+	selector: '<%= selector %>',
+	imports: [],
+	template: ``,
+  host: {
+    '[class]': 'computedClass()',
+  },
+})
+export class <%= componentName %> {
+	/** The user defined classes */
+	readonly class = input<ClassValue>('');
+  readonly color = input<<%= variantsName %>['color']>();
+  readonly size = input<<%= variantsName %>['size']>();
+  readonly variant = input<<%= variantsName %>['variant']>();
+
+	/** The classes to apply to the component merged with the user defined classes */
+	protected readonly computedClass = computed(() => xui(<%= propertyVariantsName %>({ variant: this.variant(), color: this.color(), size: this.size() }), this.class()));
+}

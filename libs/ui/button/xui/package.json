@@ -1,0 +1,11 @@
+{
+  "name": "@xui/button",
+  "version": "2.0.0",
+  "sideEffects": false,
+  "peerDependencies": {
+    "@angular/common": "19",
+    "@angular/core": "19",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1"
+  }
+}

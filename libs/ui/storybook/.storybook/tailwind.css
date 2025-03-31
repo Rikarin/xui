@@ -1,0 +1,103 @@
+/*@import '@angular/cdk/overlay-prebuilt.css';*/
+@import 'tailwindcss';
+@plugin 'tailwindcss-animate';
+
+/*@variant dark (&:is(.dark *));*/
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-primary: var(--primary);
+  --color-primary-darker: var(--primary-darker);
+  --color-primary-lighter: var(--primary-lighter);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-darker: var(--secondary-darker);
+  --color-secondary-lighter: var(--secondary-lighter);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-success: var(--success);
+  --color-success-darker: var(--success-darker);
+  --color-success-lighter: var(--success-lighter);
+  --color-success-foreground: var(--success-foreground);
+  --color-error: var(--error);
+  --color-error-darker: var(--error-darker);
+  --color-error-lighter: var(--error-lighter);
+  --color-error-foreground: var(--error-foreground);
+  --color-warning: var(--warning);
+  --color-warning-darker: var(--warning-darker);
+  --color-warning-lighter: var(--warning-lighter);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-info: var(--info);
+  --color-info-darker: var(--info-darker);
+  --color-info-lighter: var(--info-lighter);
+  --color-info-foreground: var(--info-foreground);
+
+  --color-focus: var(--focus);
+  --color-link: var(--link);
+}
+
+:root {
+  --background: white;
+  --foreground: var(--color-zinc-950);
+
+  --primary: oklch(55.88% 0.154 252.84);
+  --primary-darker: oklch(from var(--primary) calc(l - 0.1) calc(c - 0.05) h);
+  --primary-lighter: oklch(from var(--primary) calc(l + 0.05) c h);
+  --primary-foreground: white;
+
+  --secondary: var(--color-indigo-500);
+  --secondary-darker: oklch(from var(--secondary) calc(l - 0.1) calc(c - 0.05) h);
+  --secondary-lighter: oklch(from var(--secondary) calc(l + 0.05) c h);
+  --secondary-foreground: white;
+
+  --success: var(--color-green-700);
+  --success-darker: oklch(from var(--success) calc(l - 0.1) calc(c - 0.05) h);
+  --success-lighter: oklch(from var(--success) calc(l + 0.05) c h);
+
+  --success-foreground: white;
+  --error: var(--color-red-500);
+  --error-darker: oklch(from var(--error) calc(l - 0.1) calc(c - 0.05) h);
+  --error-lighter: oklch(from var(--error) calc(l + 0.05) c h);
+
+  --error-foreground: white;
+  --warning: var(--color-yellow-500);
+  --warning-darker: oklch(from var(--warning) calc(l - 0.1) calc(c - 0.05) h);
+  --warning-lighter: oklch(from var(--warning) calc(l + 0.05) c h);
+
+  --warning-foreground: white;
+  --info: var(--color-blue-400);
+  --info-darker: oklch(from var(--info) calc(l - 0.1) calc(c - 0.05) h);
+  --info-lighter: oklch(from var(--info) calc(l + 0.05) c h);
+
+  --info-foreground: var(--primary-foreground);
+
+  --focus: var(--color-sky-500);
+  --link: var(--color-sky-500);
+
+  color-scheme: light;
+}
+
+:root[class~='dark'] {
+  --background: var(--color-zinc-800);
+  --foreground: var(--color-zinc-100);
+
+  color-scheme: dark;
+}
+
+.sb-story {
+  @apply bg-background p-4;
+}
+
+@layer base {
+  * {
+    @apply outline-focus;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-feature-settings:
+      'rlig' 1,
+      'calt' 1;
+  }
+}

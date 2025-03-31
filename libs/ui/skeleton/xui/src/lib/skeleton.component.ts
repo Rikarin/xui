@@ -1,0 +1,20 @@
+import { Component, computed, input } from '@angular/core';
+import { xui } from '@xui/core';
+import type { ClassValue } from 'clsx';
+
+@Component({
+  selector: 'xui-skeleton',
+  template: '',
+  host: {
+    '[class]': 'computedClass()'
+  }
+})
+export class XuiSkeletonComponent {
+  /** The user defined classes */
+  readonly class = input<ClassValue>('');
+
+  /** The classes to apply to the component merged with the user defined classes */
+  protected readonly computedClass = computed(() =>
+    xui('block animate-pulse rounded-md bg-foreground/20', this.class())
+  );
+}
