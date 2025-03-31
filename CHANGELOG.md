@@ -1,3 +1,17 @@
+## 2.0.0-alpha.1 (2025-03-31)
+
+### 🚀 Features
+
+- update projects generator ([c59e85f](https://github.com/Rikarin/xui/commit/c59e85f))
+
+### 🩹 Fixes
+
+- publish public ([0ca6682](https://github.com/Rikarin/xui/commit/0ca6682))
+
+### ❤️ Thank You
+
+- Rikarin @Rikarin
+
 ## 2.0.0-alpha.0 (2025-03-31)
 
 ### 🚀 Features
