@@ -1,6 +1,6 @@
 {
   "name": "@xui/badge",
-  "version": "2.0.0-alpha.1",
+  "version": "2.0.0-alpha.2",
   "description": "Modern Angular 19 UI Library based on TailwindCSS",
   "keywords": [
     "angular",
