@@ -24,5 +24,8 @@
     "@angular/core": "^19.2.0",
     "@xui/core": "2.0.0-alpha.4",
     "clsx": "^2.1.1"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
