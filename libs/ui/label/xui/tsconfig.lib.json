@@ -7,6 +7,6 @@
     "inlineSources": true,
     "types": []
   },
-  "exclude": ["xui/src/**/*.spec.ts", "src/test-setup.ts", "xui/jest.config.ts", "xui/src/**/*.test.ts"],
-  "include": ["xui/src/**/*.ts"]
+  "exclude": ["src/**/*.spec.ts", "src/test-setup.ts", "jest.config.ts", "src/**/*.test.ts"],
+  "include": ["src/**/*.ts"]
 }

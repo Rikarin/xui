@@ -1,24 +1,24 @@
 {
   "name": "xui",
   "version": "0.0.0",
-  "author": "Rene Cincura",
+  "private": true,
   "description": "Modern Angular 19 UI Library based on TailwindCSS",
-  "maintainers": [
-    "Rene Cincura"
-  ],
   "keywords": [
     "angular",
     "ui",
     "components",
     "tailwindcss"
   ],
-  "repository": "https://github.com/Rikarin/xui",
+  "homepage": "https://xuijs.org",
   "bugs": {
     "url": "https://github.com/rikarin/xui/issues"
   },
-  "homepage": "https://xuijs.org",
-  "private": true,
+  "repository": "https://github.com/Rikarin/xui",
   "license": "MIT",
+  "author": "Rene Cincura",
+  "maintainers": [
+    "Rene Cincura"
+  ],
   "type": "module",
   "scripts": {
     "build": "nx run-many --target build --all --parallel",
@@ -28,11 +28,11 @@
     "dev": "nx serve app",
     "format": "nx format --write",
     "lint": "nx run-many --target=lint --parallel",
+    "publish": "nx release publish",
+    "release": "nx release --preid alpha --skip-publish",
     "start": "nx serve app",
     "storybook": "nx storybook ui-storybook",
-    "test": "nx run-many --target test --all",
-    "release": "nx release --preid alpha --skip-publish",
-    "publish": "nx release publish"
+    "test": "nx run-many --target test --all"
   },
   "dependencies": {
     "@angular/animations": "^19.2.3",
@@ -46,6 +46,7 @@
     "@angular/platform-server": "~19.2.3",
     "@angular/router": "~19.2.3",
     "@angular/ssr": "~19.2.4",
+    "@faker-js/faker": "^9.6.0",
     "@ng-doc/app": "^19.1.0",
     "@ng-doc/builder": "^19.1.0",
     "@ng-doc/core": "^19.1.0",

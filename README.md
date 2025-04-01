@@ -26,6 +26,7 @@ xUI is a customizable Angular 19 UI Library with full support of TailwindCSS sty
 - **TypeScript:** Written with predictable static types.
 
 ## Table of Contents
+
 - [Storybook](https://develop--67d2b4c756077a325913e5d9.chromatic.com/?globals=theme:dark)
 - [StackBlitz Demo](https://stackblitz.com/fork/xui)
 - [Documentation](https://xuijs.org)

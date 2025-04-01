@@ -1,0 +1,11 @@
+{
+  "name": "@xui/table",
+  "version": "0.0.1",
+  "sideEffects": false,
+  "peerDependencies": {
+    "@angular/common": "^19.2.0",
+    "@angular/core": "^19.2.0",
+    "@xui/core": "2.0.0-alpha.4",
+    "clsx": "^2.1.1"
+  }
+}

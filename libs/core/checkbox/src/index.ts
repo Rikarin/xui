@@ -1,1 +1,1 @@
-export * from './lib/x-core-checkbox.component';
+export * from './lib/checkbox.component';

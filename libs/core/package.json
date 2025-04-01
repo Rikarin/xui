@@ -24,8 +24,14 @@
     "@angular/common": "19",
     "@angular/core": "19",
     "@angular/forms": "19",
-    "clsx": "^2.1.1",
-    "tailwind-merge": "^3.0.2"
+    "clsx": ">=2.0.0",
+    "luxon": ">=3.0.0",
+    "tailwind-merge": ">=3.0.0"
+  },
+  "peerDependenciesMeta": {
+    "luxon": {
+      "optional": true
+    }
   },
   "publishConfig": {
     "access": "public"

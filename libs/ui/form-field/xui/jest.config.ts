@@ -1,6 +1,6 @@
 export default {
   displayName: 'form-field',
-  preset: '../../../../jest.preset.js',
+  preset: '../../../../jest.preset.cjs',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   coverageDirectory: '../../../coverage/libs/ui/form-field',
   transform: {

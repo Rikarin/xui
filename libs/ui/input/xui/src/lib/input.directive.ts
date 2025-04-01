@@ -1,7 +1,7 @@
 import { computed, Directive, DoCheck, effect, inject, Injector, input, signal, untracked } from '@angular/core';
 import { FormGroupDirective, NgControl, NgForm } from '@angular/forms';
 import { xui } from '@xui/core';
-import { XCoreFormFieldControl } from '@xui/core/form-field';
+import { XFormFieldControl } from '@xui/core/form-field';
 import { ErrorStateMatcher, ErrorStateTracker } from '@xui/core/forms';
 import { cva, VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
@@ -9,7 +9,7 @@ import type { ClassValue } from 'clsx';
 export const inputVariants = cva(
   [
     'flex rounded-lg border font-normal border border-neutral-100/20 text-base transition-all',
-    'file:border-0 file:text-foreground file:bg-transparent file:font-medium placeholder:text-foreground/60',
+    'file:border-0 file:text-foreground file:bg-transparent file:font-medium',
     // 'focus-visible:outline-5 focus-visible:outline-offset-2',
     'focus:border-focus focus:outline-none',
     'disabled:cursor-not-allowed disabled:opacity-50'
@@ -23,8 +23,8 @@ export const inputVariants = cva(
         // lg: 'h-12 px-8 file:md:py-3 file:max-md:py-2.5' // TODO: support just sm/default
       },
       color: {
-        dark: 'bg-zinc-900 text-neutral-100',
-        light: 'bg-zinc-700 text-neutral-100'
+        dark: 'bg-zinc-900 text-neutral-100 placeholder:text-neutral-100/60',
+        light: 'bg-zinc-700 text-neutral-100 placeholder:text-neutral-100/60'
       },
       error: {
         auto: '[&.ng-invalid.ng-touched]:text-error [&.ng-invalid.ng-touched]:border-2 [&.ng-invalid.ng-touched]:border-error',
@@ -47,12 +47,12 @@ type InputVariants = VariantProps<typeof inputVariants>;
   },
   providers: [
     {
-      provide: XCoreFormFieldControl,
+      provide: XFormFieldControl,
       useExisting: XuiInputDirective
     }
   ]
 })
-export class XuiInputDirective implements XCoreFormFieldControl, DoCheck {
+export class XuiInputDirective implements XFormFieldControl, DoCheck {
   private readonly injector = inject(Injector);
   private readonly errorStateTracker: ErrorStateTracker;
   private readonly defaultErrorStateMatcher = inject(ErrorStateMatcher);

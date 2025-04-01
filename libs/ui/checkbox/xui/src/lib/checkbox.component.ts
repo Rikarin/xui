@@ -15,7 +15,7 @@ import { NgIcon, provideIcons } from '@ng-icons/core';
 import { matCheckRound, matRemoveRound } from '@ng-icons/material-icons/round';
 
 import { xui } from '@xui/core';
-import { XCoreCheckboxComponent } from '@xui/core/checkbox';
+import { XCheckboxComponent } from '@xui/core/checkbox';
 import type { ChangeFn, TouchFn } from '@xui/core/forms';
 import { IconSize, XuiIconDirective } from '@xui/icon';
 import { cva, VariantProps } from 'class-variance-authority';
@@ -61,9 +61,9 @@ export const XUI_CHECKBOX_VALUE_ACCESSOR = {
 
 @Component({
   selector: 'xui-checkbox',
-  imports: [XCoreCheckboxComponent, NgIcon, XuiIconDirective],
+  imports: [XCheckboxComponent, NgIcon, XuiIconDirective],
   template: `
-    <x-core-checkbox
+    <x-checkbox
       [id]="id()"
       [name]="name()"
       [class]="computedClass()"
@@ -82,7 +82,7 @@ export const XUI_CHECKBOX_VALUE_ACCESSOR = {
         [name]="checked() === 'indeterminate' ? 'matRemoveRound' : 'matCheckRound'"
         [class]="computedIconClass()"
       />
-    </x-core-checkbox>
+    </x-checkbox>
   `,
   host: {
     class: 'contents',
@@ -106,16 +106,16 @@ export class XuiCheckboxComponent {
   protected readonly computedClass = computed(() => xui(checkboxVariants({ color: this.color() }), this.class()));
   protected readonly computedIconClass = computed(() => xui('leading-none group-data-[state=unchecked]:opacity-0'));
 
-  /** Used to set the id on the underlying XCore element. */
+  /** Used to set the id on the underlying xLabel element. */
   readonly id = input<string | null>(null);
 
-  /** Used to set the aria-label attribute on the underlying XCore element. */
+  /** Used to set the aria-label attribute on the underlying xLabel element. */
   readonly ariaLabel = input<string | null>(null, { alias: 'aria-label' });
 
-  /** Used to set the aria-labelledby attribute on the underlying XCore element. */
+  /** Used to set the aria-labelledby attribute on the underlying xLabel element. */
   readonly ariaLabelledby = input<string | null>(null, { alias: 'aria-labelledby' });
 
-  /** Used to set the aria-describedby attribute on the underlying XCore element. */
+  /** Used to set the aria-describedby attribute on the underlying xLabel element. */
   readonly ariaDescribedby = input<string | null>(null, { alias: 'aria-describedby' });
 
   /** The checked state of the checkbox. */

@@ -1,5 +1,5 @@
 import { Component, computed, contentChild, contentChildren, effect } from '@angular/core';
-import { XCoreFormFieldControl } from '@xui/core/form-field';
+import { XFormFieldControl } from '@xui/core/form-field';
 import { XuiErrorComponent } from './error.component';
 
 @Component({
@@ -22,7 +22,7 @@ import { XuiErrorComponent } from './error.component';
   }
 })
 export class XuiFormFieldComponent {
-  readonly control = contentChild(XCoreFormFieldControl);
+  readonly control = contentChild(XFormFieldControl);
   readonly errorChildren = contentChildren(XuiErrorComponent);
 
   protected readonly hasDisplayedMessage = computed<'error' | 'hint'>(() =>
@@ -32,7 +32,7 @@ export class XuiFormFieldComponent {
   constructor() {
     effect(() => {
       if (!this.control()) {
-        throw new Error('xui-form-field must contain an XCoreFormFieldControl.');
+        throw new Error('xui-form-field must contain an XFormFieldControl.');
       }
     });
   }

@@ -37,9 +37,12 @@
       "@xui/checkbox": ["libs/ui/checkbox/xui/src/index.ts"],
       "@xui/core": ["libs/core/src/index.ts"],
       "@xui/core/checkbox": ["libs/core/checkbox/src/index.ts"],
+      "@xui/core/date-time": ["libs/core/date-time/src/index.ts"],
+      "@xui/core/date-time-luxon": ["libs/core/date-time-luxon/src/index.ts"],
       "@xui/core/form-field": ["libs/core/form-field/src/index.ts"],
       "@xui/core/forms": ["libs/core/forms/src/index.ts"],
       "@xui/core/label": ["libs/core/label/src/index.ts"],
+      "@xui/core/table": ["libs/core/table/src/index.ts"],
       "@xui/form-field": ["libs/ui/form-field/xui/src/index.ts"],
       "@xui/icon": ["libs/ui/icon/xui/src/index.ts"],
       "@xui/input": ["libs/ui/input/xui/src/index.ts"],
@@ -47,6 +50,7 @@
       "@xui/skeleton": ["libs/ui/skeleton/xui/src/index.ts"],
       "@xui/sonner": ["libs/ui/sonner/xui/src/index.ts"],
       "@xui/status": ["libs/ui/status/xui/src/index.ts"],
+      "@xui/table": ["libs/ui/table/xui/src/index.ts"],
       "@xui/tools": ["libs/tools/src/index.ts"]
     }
   },

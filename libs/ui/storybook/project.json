@@ -2,7 +2,7 @@
   "name": "ui-storybook",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/ui/storybook/src",
-  "prefix": "spartan-ng",
+  "prefix": "xui",
   "tags": [],
   "projectType": "library",
   "targets": {

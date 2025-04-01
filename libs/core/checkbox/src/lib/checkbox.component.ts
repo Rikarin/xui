@@ -24,13 +24,13 @@ import {
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ChangeFn, TouchFn } from '@xui/core/forms';
 
-export const XCORE_CHECKBOX_VALUE_ACCESSOR = {
+export const X_CHECKBOX_VALUE_ACCESSOR = {
   provide: NG_VALUE_ACCESSOR,
-  useExisting: forwardRef(() => XCoreCheckboxComponent),
+  useExisting: forwardRef(() => XCheckboxComponent),
   multi: true
 };
 
-export function indeterminateBooleanAttribute(value: unknown): XCoreCheckboxValue {
+export function indeterminateBooleanAttribute(value: unknown): XCheckboxValue {
   if (value === 'indeterminate') {
     return 'indeterminate';
   }
@@ -41,7 +41,7 @@ export function indeterminateBooleanAttribute(value: unknown): XCoreCheckboxValu
 const CONTAINER_POST_FIX = '-checkbox';
 
 @Component({
-  selector: 'x-core-checkbox',
+  selector: 'x-checkbox',
   imports: [NgStyle],
   template: `
     <input
@@ -85,11 +85,11 @@ const CONTAINER_POST_FIX = '-checkbox';
     '[attr.id]': 'hostId()',
     '[attr.name]': 'hostName()'
   },
-  providers: [XCORE_CHECKBOX_VALUE_ACCESSOR],
+  providers: [X_CHECKBOX_VALUE_ACCESSOR],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None
 })
-export class XCoreCheckboxComponent implements AfterContentInit, OnDestroy {
+export class XCheckboxComponent implements AfterContentInit, OnDestroy {
   private readonly renderer = inject(Renderer2);
   private readonly elementRef = inject(ElementRef);
   private readonly focusMonitor = inject(FocusMonitor);
@@ -99,7 +99,7 @@ export class XCoreCheckboxComponent implements AfterContentInit, OnDestroy {
 
   readonly focusVisible = this._focusVisible.asReadonly();
   readonly focused = this._focused.asReadonly();
-  readonly checked = model<XCoreCheckboxValue>(false);
+  readonly checked = model<XCheckboxValue>(false);
   readonly isChecked = this.checked.asReadonly();
 
   protected readonly dataState = computed(() => {
@@ -138,12 +138,12 @@ export class XCoreCheckboxComponent implements AfterContentInit, OnDestroy {
   }));
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  protected onChange: ChangeFn<XCoreCheckboxValue> = () => {};
+  protected onChange: ChangeFn<XCheckboxValue> = () => {};
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   private onTouched: TouchFn = () => {};
 
   readonly checkbox = viewChild.required<ElementRef<HTMLInputElement>>('checkBox');
-  readonly changed = output<XCoreCheckboxValue>();
+  readonly changed = output<XCheckboxValue>();
 
   constructor() {
     effect(() => {
@@ -220,7 +220,7 @@ export class XCoreCheckboxComponent implements AfterContentInit, OnDestroy {
     this.focusMonitor.stopMonitoring(this.elementRef);
   }
 
-  writeValue(value: XCoreCheckboxValue): void {
+  writeValue(value: XCheckboxValue): void {
     if (value === 'indeterminate') {
       this.checked.set('indeterminate');
     } else {
@@ -228,7 +228,7 @@ export class XCoreCheckboxComponent implements AfterContentInit, OnDestroy {
     }
   }
 
-  registerOnChange(fn: ChangeFn<XCoreCheckboxValue>): void {
+  registerOnChange(fn: ChangeFn<XCheckboxValue>): void {
     this.onChange = fn;
   }
 
@@ -250,4 +250,4 @@ export class XCoreCheckboxComponent implements AfterContentInit, OnDestroy {
   }
 }
 
-type XCoreCheckboxValue = boolean | 'indeterminate';
+type XCheckboxValue = boolean | 'indeterminate';

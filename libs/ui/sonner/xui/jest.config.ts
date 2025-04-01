@@ -1,6 +1,6 @@
 export default {
   displayName: 'sonner',
-  preset: '../../../../jest.preset.js',
+  preset: '../../../../jest.preset.cjs',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   coverageDirectory: '../../../../coverage/libs/ui/sonner/xui',
   transform: {

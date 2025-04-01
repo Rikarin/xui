@@ -26,7 +26,7 @@ export default [
         'error',
         {
           type: 'attribute',
-          prefix: 'xCore',
+          prefix: 'x',
           style: 'camelCase'
         }
       ],
@@ -34,7 +34,7 @@ export default [
         'error',
         {
           type: 'element',
-          prefix: 'x-core',
+          prefix: 'x',
           style: 'kebab-case'
         }
       ]

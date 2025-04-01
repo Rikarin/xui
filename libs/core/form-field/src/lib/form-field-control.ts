@@ -2,7 +2,7 @@ import { Directive, type Signal, signal } from '@angular/core';
 import type { AbstractControlDirective, NgControl } from '@angular/forms';
 
 @Directive()
-export class XCoreFormFieldControl {
+export class XFormFieldControl {
   /** Gets the AbstractControlDirective for this control. */
   readonly ngControl: NgControl | AbstractControlDirective | null = null;
 

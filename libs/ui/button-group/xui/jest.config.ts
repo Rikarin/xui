@@ -1,6 +1,6 @@
 export default {
   displayName: 'button-group',
-  preset: '../../../../jest.preset.js',
+  preset: '../../../../jest.preset.cjs',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   coverageDirectory: '../../../coverage/libs/ui/button-group',
   transform: {
