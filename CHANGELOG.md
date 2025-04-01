@@ -1,3 +1,17 @@
+## 2.0.0-alpha.5 (2025-04-01)
+
+### 🚀 Features
+
+- table and data table components ([49aab59](https://github.com/Rikarin/xui/commit/49aab59))
+
+### 🩹 Fixes
+
+- update package and readme ([88b3c62](https://github.com/Rikarin/xui/commit/88b3c62))
+
+### ❤️ Thank You
+
+- Rikarin @Rikarin
+
 ## 2.0.0-alpha.4 (2025-03-31)
 
 ### 🩹 Fixes
