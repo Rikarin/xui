@@ -1,3 +1,13 @@
+## 2.0.0-alpha.6 (2025-04-01)
+
+### 🩹 Fixes
+
+- table package access ([b2795d2](https://github.com/Rikarin/xui/commit/b2795d2))
+
+### ❤️ Thank You
+
+- Rikarin @Rikarin
+
 ## 2.0.0-alpha.5 (2025-04-01)
 
 ### 🚀 Features
