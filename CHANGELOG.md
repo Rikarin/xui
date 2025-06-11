@@ -1,3 +1,13 @@
+## 2.0.0-alpha.7 (2025-06-11)
+
+### 🩹 Fixes
+
+- table package access ([5a71586](https://github.com/Rikarin/xui/commit/5a71586))
+
+### ❤️ Thank You
+
+- Rikarin @Rikarin
+
 ## 2.0.0-alpha.6 (2025-04-01)
 
 ### 🩹 Fixes
