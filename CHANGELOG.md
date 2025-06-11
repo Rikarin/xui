@@ -1,21 +1,3 @@
-# [0.0.0](https://github.com/Rikarin/xui/compare/v2.0.0-alpha.7...v0.0.0) (2025-06-11)
-
-
-### Bug Fixes
-
-* OnPush only ([baefb8a](https://github.com/Rikarin/xui/commit/baefb8a177ce19f2eb2ec7d8728d229650ba99c4))
-* storybook ([7cc04a1](https://github.com/Rikarin/xui/commit/7cc04a1c5af6591a7c8a6cdbde5d18e0a53f6a93))
-* stuff ([c223f84](https://github.com/Rikarin/xui/commit/c223f846e2f97a261454e8d066e8888517901986))
-
-
-### Features
-
-* update nx ([bc26bff](https://github.com/Rikarin/xui/commit/bc26bffe694ff4e16e6b4eaab0ee385be95ac80c))
-* update package dependencies ([6bc773a](https://github.com/Rikarin/xui/commit/6bc773a0fc0a77163e18a9aa8f0a686bb9b23cd0))
-* update packages ([ff434e6](https://github.com/Rikarin/xui/commit/ff434e66efcdb13f51d062b3a9854d32f6a7dd57))
-
-
-
 # [2.0.0-alpha.7](https://github.com/Rikarin/xui/compare/v2.0.0-alpha.6...v2.0.0-alpha.7) (2025-06-11)
 
 
