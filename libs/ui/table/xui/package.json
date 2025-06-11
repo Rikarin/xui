@@ -20,9 +20,9 @@
   ],
   "sideEffects": false,
   "peerDependencies": {
-    "@angular/common": "^19.2.0",
-    "@angular/core": "^19.2.0",
-    "@xui/core": "2.0.0-alpha.4",
+    "@angular/common": "19",
+    "@angular/core": "19",
+    "@xui/core": "2",
     "clsx": "^2.1.1"
   },
   "publishConfig": {

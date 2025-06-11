@@ -70,7 +70,7 @@ export const Default: Story = {
       stickyHeader
       [dataSource]="users()"
       [displayedColumns]="columns.displayedColumns()"
-      [trackBy]="_trackBy"
+      [trackBy]="trackBy"
     >
       <x-column-def name="name" class="w-40">
         <xui-th *xHeaderDef>Name</xui-th>
