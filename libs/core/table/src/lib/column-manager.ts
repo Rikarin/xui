@@ -10,7 +10,7 @@ type AllColumnsPropertyType<T> = T extends Record<string, boolean>
 		: never;
 
 export class XColumnManager<T extends XColumnVisibility> {
-  private readonly _initialColumnVisibility: T;
+  private readonly initialColumnVisibility: T;
   private readonly _columnVisibility;
 
   public readonly allColumns: AllColumnsPropertyType<T>;
@@ -22,11 +22,11 @@ export class XColumnManager<T extends XColumnVisibility> {
   });
 
   constructor(initialColumnVisibility: T) {
-    this._initialColumnVisibility = initialColumnVisibility;
-    this._columnVisibility = signal(this._initialColumnVisibility);
-    this._columnVisibility.set(this._initialColumnVisibility);
+    this.initialColumnVisibility = initialColumnVisibility;
+    this._columnVisibility = signal(this.initialColumnVisibility);
+    this._columnVisibility.set(this.initialColumnVisibility);
     this.columnVisibility = this._columnVisibility.asReadonly();
-    this.allColumns = this.createAllColumns(this._initialColumnVisibility);
+    this.allColumns = this.createAllColumns(this.initialColumnVisibility);
   }
 
   public readonly isColumnVisible = (columnName: string) => {

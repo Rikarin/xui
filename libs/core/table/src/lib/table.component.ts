@@ -56,7 +56,7 @@ export type XTableDataSourceInput<T> = CdkTableDataSourceInput<T>;
 })
 export class XTableComponent<T> implements TableClassesSettable, AfterContentInit {
   @ViewChild('cdkTable', { read: CdkTable, static: true })
-  private readonly _cdkTable?: CdkTable<T>;
+  private readonly cdkTable?: CdkTable<T>;
 
   // Cdk Table Inputs / Outputs
   @Input()
@@ -79,8 +79,8 @@ export class XTableComponent<T> implements TableClassesSettable, AfterContentIni
   @Input()
   public set trackBy(value: TrackByFunction<T>) {
     this._trackBy = value;
-    if (this._cdkTable) {
-      this._cdkTable.trackBy = this._trackBy;
+    if (this.cdkTable) {
+      this.cdkTable.trackBy = this._trackBy;
     }
   }
 
@@ -113,14 +113,14 @@ export class XTableComponent<T> implements TableClassesSettable, AfterContentIni
   // All that's left is to add them to the table ourselves:
   public ngAfterContentInit(): void {
     this.columnDefComponents.forEach(component => {
-      if (!this._cdkTable) return;
+      if (!this.cdkTable) return;
       if (component.cell) {
-        this._cdkTable.addColumnDef(component.columnDef);
+        this.cdkTable.addColumnDef(component.columnDef);
       }
     });
     this.rowDefs.forEach(rowDef => {
-      if (!this._cdkTable) return;
-      this._cdkTable.addRowDef(rowDef);
+      if (!this.cdkTable) return;
+      this.cdkTable.addRowDef(rowDef);
     });
   }
 

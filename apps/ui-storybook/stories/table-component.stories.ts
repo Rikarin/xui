@@ -130,6 +130,7 @@ export class TableStory {
 
   protected readonly trackBy: TrackByFunction<{ name: string }> = (_index: number, user: { name: string }) => user.name;
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected readonly onStateChange = (state: PaginatorState) => {
     // this._startEndIndex.set({ start: state.startIndex, end: state.endIndex });
   };

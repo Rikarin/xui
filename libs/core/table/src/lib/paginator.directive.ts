@@ -43,10 +43,10 @@ export class XPaginatorDirective implements OnInit {
     return true;
   }
 
-  private readonly _vcr = inject(ViewContainerRef);
-  private readonly _template = inject(TemplateRef<unknown>);
+  private readonly vcr = inject(ViewContainerRef);
+  private readonly template = inject(TemplateRef<unknown>);
 
-  private readonly _state = signal<PaginatorState>({
+  private readonly state = signal<PaginatorState>({
     currentPage: 0,
     startIndex: 0,
     endIndex: 0,
@@ -54,8 +54,8 @@ export class XPaginatorDirective implements OnInit {
     totalPages: 0,
     totalElements: null
   });
-  private readonly _decrementable = computed(() => 0 < this._state().startIndex);
-  private readonly _incrementable = computed(() => this._state().endIndex < (this._state().totalElements ?? 0) - 1);
+  private readonly decrementable = computed(() => 0 < this.state().startIndex);
+  private readonly incrementable = computed(() => this.state().endIndex < (this.state().totalElements ?? 0) - 1);
 
   @Input({ alias: 'xPaginatorTotalElements' })
   public set totalElements(value: number | null | undefined) {
@@ -77,7 +77,7 @@ export class XPaginatorDirective implements OnInit {
 
   constructor() {
     effect(() => {
-      const state = this._state();
+      const state = this.state();
       untracked(() => {
         Promise.resolve().then(() => {
           if (this.onStateChange) {
@@ -89,13 +89,13 @@ export class XPaginatorDirective implements OnInit {
   }
 
   public ngOnInit() {
-    this._vcr.createEmbeddedView<PaginatorContext>(this._template, {
+    this.vcr.createEmbeddedView<PaginatorContext>(this.template, {
       $implicit: {
-        state: this._state,
+        state: this.state,
         increment: () => this.incrementPage(),
         decrement: () => this.decrementPage(),
-        incrementable: this._incrementable,
-        decrementable: this._decrementable,
+        incrementable: this.incrementable,
+        decrementable: this.decrementable,
         goToFirstPage: () => this.reset(),
         goToLastPage: () => this.goToLastPage()
       }
@@ -103,18 +103,18 @@ export class XPaginatorDirective implements OnInit {
   }
 
   public goToLastPage(): void {
-    this.currentPage = this._state().totalPages;
+    this.currentPage = this.state().totalPages;
   }
 
   public decrementPage(): void {
-    const { currentPage } = this._state();
+    const { currentPage } = this.state();
     if (0 < currentPage) {
       this.calculateNewState({ newPage: currentPage - 1 });
     }
   }
 
   public incrementPage(): void {
-    const { currentPage, totalPages } = this._state();
+    const { currentPage, totalPages } = this.state();
     if (totalPages > currentPage) {
       this.calculateNewState({ newPage: currentPage + 1 });
     }
@@ -133,7 +133,7 @@ export class XPaginatorDirective implements OnInit {
     newPageSize: number;
     newTotalElements: number | null | undefined;
   }>) {
-    const previousState = this._state();
+    const previousState = this.state();
 
     let currentPage = newPage ?? previousState.currentPage;
     const pageSize = newPageSize ?? previousState.pageSize;
@@ -157,6 +157,6 @@ export class XPaginatorDirective implements OnInit {
       totalElements: totalElements
     };
 
-    this._state.set(newState);
+    this.state.set(newState);
   }
 }
