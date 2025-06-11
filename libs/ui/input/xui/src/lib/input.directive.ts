@@ -89,7 +89,7 @@ export class XuiInputDirective implements XFormFieldControl, DoCheck {
       untracked(() => {
         if (this.ngControl) {
           const shouldShowError = error && this.ngControl.invalid && (this.ngControl.touched || this.ngControl.dirty);
-          this._errorStateTracker.errorState.set(shouldShowError ? true : false);
+          this.errorStateTracker.errorState.set(!!shouldShowError);
           this.setError(shouldShowError ? true : 'auto');
         }
       });
