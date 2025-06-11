@@ -151,6 +151,7 @@ Make cli to install the components
 - Sonner
   - Colors
 
-ESLint configs
-commitlint
-everything should be onpush
+
+- ESLint configs
+- commitlint
+- move storybook with stories from libs to apps

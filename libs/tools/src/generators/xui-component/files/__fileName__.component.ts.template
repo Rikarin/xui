@@ -40,8 +40,8 @@ export type <%= variantsName %> = VariantProps<typeof <%= propertyVariantsName %
 @Component({
 	selector: '<%= selector %>',
 	imports: [],
-	template: ``,
-	changeDetection: ChangeDetectionStrategy.OnPush
+	changeDetection: ChangeDetectionStrategy.OnPush,
+	template: ``
   host: {
     '[class]': 'computedClass()',
   },

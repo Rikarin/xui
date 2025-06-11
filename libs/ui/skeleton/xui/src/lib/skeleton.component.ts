@@ -4,8 +4,8 @@ import type { ClassValue } from 'clsx';
 
 @Component({
   selector: 'xui-skeleton',
-  template: '',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  template: '',
   host: {
     '[class]': 'computedClass()'
   }

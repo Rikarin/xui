@@ -1,4 +1,4 @@
-import { Component, computed, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { xui } from '@xui/core';
 import { cva, VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
@@ -26,7 +26,7 @@ export type StatusVariants = VariantProps<typeof statusVariants>;
 
 @Component({
   selector: 'xui-status',
-  imports: [],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<svg>
       <clipPath id="x-status-idle-clip-path" clipPathUnits="objectBoundingBox">
         <path d="M0.564,0 A0.399,0.399,0,1,1,0,0.564 A0.502,0.502,0,1,0,0.564,0" />

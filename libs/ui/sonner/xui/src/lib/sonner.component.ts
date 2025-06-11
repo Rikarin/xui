@@ -6,6 +6,7 @@ import { NgxSonnerToaster, ToasterProps } from 'ngx-sonner';
 @Component({
   selector: 'xui-sonner',
   imports: [NgxSonnerToaster],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <ngx-sonner-toaster
       [class]="computedClass()"
@@ -23,8 +24,7 @@ import { NgxSonnerToaster, ToasterProps } from 'ngx-sonner';
       [dir]="dir()"
       [style]="style()"
     />
-  `,
-  changeDetection: ChangeDetectionStrategy.OnPush
+  `
 })
 export class XuiSonnerComponent {
   readonly invert = input<ToasterProps['invert'], boolean | string>(false, {

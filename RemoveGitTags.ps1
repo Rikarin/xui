@@ -1,3 +1,5 @@
+# This script will remove all tags on remote that are not present locally
+
 $remoteTags = git ls-remote --tags origin | ForEach-Object {
     ($_ -split "`t")[1] -replace '^refs/tags/', '' -replace '\^\{\}$', ''
 } | Sort-Object -Unique
@@ -12,5 +14,6 @@ $tagsToDelete = Compare-Object -ReferenceObject $remoteTags -DifferenceObject $l
 
 foreach ($tag in $tagsToDelete) {
     Write-Host "Deleting remote tag: $tag"
-    git push origin ":refs/tags/$tag"
+# Uncomment to execute
+#    git push origin ":refs/tags/$tag"
 }
