@@ -1,19 +1,19 @@
-import { Component, computed, contentChild, contentChildren, effect } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, contentChild, contentChildren, effect } from '@angular/core';
 import { XFormFieldControl } from '@xui/core/form-field';
 import { XuiErrorComponent } from './error.component';
 
 @Component({
   selector: 'xui-form-field',
-  imports: [],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <ng-content></ng-content>
+    <ng-content />
 
     @switch (hasDisplayedMessage()) {
       @case ('error') {
-        <ng-content select="xui-error"></ng-content>
+        <ng-content select="xui-error" />
       }
       @default {
-        <ng-content select="xui-hint"></ng-content>
+        <ng-content select="xui-hint" />
       }
     }
   `,

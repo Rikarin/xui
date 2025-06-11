@@ -10,7 +10,7 @@ import {
   signal,
   ViewEncapsulation
 } from '@angular/core';
-import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { matCheckRound, matRemoveRound } from '@ng-icons/material-icons/round';
 
@@ -96,7 +96,7 @@ export const XUI_CHECKBOX_VALUE_ACCESSOR = {
   encapsulation: ViewEncapsulation.None,
   viewProviders: [provideIcons({ matCheckRound, matRemoveRound })]
 })
-export class XuiCheckboxComponent {
+export class XuiCheckboxComponent implements ControlValueAccessor {
   private readonly config = injectXuiCheckboxConfig();
 
   readonly class = input<ClassValue>('');

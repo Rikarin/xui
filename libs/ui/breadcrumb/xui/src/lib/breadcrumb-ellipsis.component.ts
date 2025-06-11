@@ -1,4 +1,4 @@
-import { Component, computed, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { matMoreHorizRound } from '@ng-icons/material-icons/round';
 import { xui } from '@xui/core';
@@ -9,6 +9,7 @@ import type { ClassValue } from 'clsx';
   selector: 'xui-breadcrumb-ellipsis',
   imports: [NgIcon, XuiIconDirective],
   providers: [provideIcons({ matMoreHorizRound })],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <span role="presentation" aria-hidden="true" [class]="computedClass()">
       <ng-icon xui size="sm" name="matMoreHorizRound" />

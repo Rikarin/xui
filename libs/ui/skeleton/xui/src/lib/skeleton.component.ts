@@ -1,10 +1,11 @@
-import { Component, computed, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { xui } from '@xui/core';
 import type { ClassValue } from 'clsx';
 
 @Component({
   selector: 'xui-skeleton',
   template: '',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[class]': 'computedClass()'
   }

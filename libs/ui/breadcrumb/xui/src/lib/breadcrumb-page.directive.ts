@@ -7,9 +7,6 @@ import type { ClassValue } from 'clsx';
   host: {
     role: 'link',
     '[class]': 'computedClass()'
-    // TODO
-    // '[attr.aria-disabled]': 'disabled',
-    // '[attr.aria-current]': 'page',
   }
 })
 export class XuiBreadcrumbPageDirective {
