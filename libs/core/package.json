@@ -1,7 +1,7 @@
 {
   "name": "@xui/core",
   "version": "2.0.0-alpha.7",
-  "description": "Modern Angular 19 UI Library based on TailwindCSS",
+  "description": "Modern Angular 20 UI Library based on TailwindCSS",
   "keywords": [
     "angular",
     "ui",
@@ -20,10 +20,10 @@
   ],
   "sideEffects": false,
   "peerDependencies": {
-    "@angular/cdk": "19",
-    "@angular/common": "19",
-    "@angular/core": "19",
-    "@angular/forms": "19",
+    "@angular/cdk": "20",
+    "@angular/common": "20",
+    "@angular/core": "20",
+    "@angular/forms": "20",
     "clsx": ">=2.0.0",
     "luxon": ">=3.0.0",
     "tailwind-merge": ">=3.0.0"

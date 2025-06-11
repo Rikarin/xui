@@ -3,12 +3,7 @@
     "update-projects": {
       "factory": "./src/generators/update-projects/generator",
       "schema": "./src/generators/update-projects/schema.json",
-      "description": "Update projects' package.json and README"
-    },
-    "replace-ui-version": {
-      "factory": "./src/generators/replace-ui-version/generator",
-      "schema": "./src/generators/replace-ui-version/schema.json",
-      "description": "replace-ui-version"
+      "description": "Update projects' package.json and README based on root package.json file"
     },
     "core-secondary-entrypoint": {
       "factory": "./src/generators/core-secondary-entrypoint/generator",

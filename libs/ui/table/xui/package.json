@@ -1,7 +1,7 @@
 {
   "name": "@xui/table",
   "version": "2.0.0-alpha.7",
-  "description": "Modern Angular 19 UI Library based on TailwindCSS",
+  "description": "Modern Angular 20 UI Library based on TailwindCSS",
   "keywords": [
     "angular",
     "ui",
@@ -20,8 +20,8 @@
   ],
   "sideEffects": false,
   "peerDependencies": {
-    "@angular/common": "19",
-    "@angular/core": "19",
+    "@angular/common": "20",
+    "@angular/core": "20",
     "@xui/core": "2",
     "clsx": "^2.1.1"
   },

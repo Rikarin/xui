@@ -149,4 +149,9 @@ Make cli to install the components
   - data driven component
 
 - Sonner
+
   - Colors
+
+- ESLint configs
+- commitlint
+- move storybook with stories from libs to apps
