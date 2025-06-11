@@ -154,4 +154,4 @@ Make cli to install the components
 
 - ESLint configs
 - commitlint
-- move storybook with stories from libs to apps
+- adjust generator to generate stories into the apps/storybook

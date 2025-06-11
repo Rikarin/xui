@@ -2,9 +2,9 @@ import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import type { Meta, StoryObj } from '@storybook/angular';
 import { moduleMetadata } from '@storybook/angular';
 // eslint-disable-next-line @nx/enforce-module-boundaries
-import { XuiFormFieldComponent, XuiFormFieldImports } from './xui/src';
+import { XuiFormFieldComponent, XuiFormFieldImports } from '@xui/form-field';
 // eslint-disable-next-line @nx/enforce-module-boundaries
-import { XuiInputDirective } from '../input/xui/src';
+import { XuiInputDirective } from '@xui/input';
 
 export default {
   title: 'Form Field',

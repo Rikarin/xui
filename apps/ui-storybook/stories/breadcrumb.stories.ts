@@ -3,8 +3,8 @@ import { NgIcon, provideIcons } from '@ng-icons/core';
 import { matHomeRound } from '@ng-icons/material-icons/round';
 import type { Meta, StoryObj } from '@storybook/angular';
 import { moduleMetadata } from '@storybook/angular';
-import { XuiIconDirective } from '../icon/xui/src';
-import { XuiBreadcrumbDirective, XuiBreadcrumbImports } from './xui/src';
+import { XuiBreadcrumbDirective, XuiBreadcrumbImports } from '@xui/breadcrumb';
+import { XuiIconDirective } from '@xui/icon';
 
 export default {
   title: 'Breadcrumb',

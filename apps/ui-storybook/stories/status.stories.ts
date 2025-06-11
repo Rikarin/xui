@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/angular';
 import { moduleMetadata } from '@storybook/angular';
-import { XuiStatusComponent, XuiStatusImports } from './xui/src';
+import { XuiStatusComponent, XuiStatusImports } from '@xui/status';
 
 export default {
   title: 'Status',

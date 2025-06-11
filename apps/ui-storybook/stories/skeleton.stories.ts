@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/angular';
 import { moduleMetadata } from '@storybook/angular';
-import { XuiSkeletonComponent, XuiSkeletonImports } from './xui/src';
+import { XuiSkeletonComponent, XuiSkeletonImports } from '@xui/skeleton';
 
 export default {
   title: 'Skeleton',

@@ -1,6 +1,6 @@
 import { Meta, moduleMetadata, StoryObj } from '@storybook/angular';
-import { XuiButtonDirective } from '../button/xui/src';
-import { XuiButtonGroupDirective } from './xui/src';
+import { XuiButtonDirective } from '@xui/button';
+import { XuiButtonGroupDirective } from '@xui/button-group';
 
 const meta: Meta<XuiButtonGroupDirective> = {
   title: 'Button Group',

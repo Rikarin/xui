@@ -1,6 +1,6 @@
 {
   "onlyChanged": true,
   "projectId": "Project:67d2b4c756077a325913e5d9",
-  "storybookConfigDir": "libs/ui/storybook/.storybook",
+  "storybookConfigDir": "apps/ui-storybook/.storybook",
   "zip": true
 }

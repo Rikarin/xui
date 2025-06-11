@@ -1,7 +1,7 @@
 {
   "name": "ui-storybook",
-  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/ui/storybook/src",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/ui-storybook/src",
   "prefix": "xui",
   "tags": [],
   "projectType": "library",
@@ -10,10 +10,10 @@
       "executor": "@storybook/angular:start-storybook",
       "options": {
         "port": 4400,
-        "configDir": "libs/ui/storybook/.storybook",
+        "configDir": "apps/ui-storybook/.storybook",
         "browserTarget": "ui-storybook:build-storybook",
         "compodoc": false,
-        "styles": ["libs/ui/storybook/.storybook/tailwind.css"]
+        "styles": ["apps/ui-storybook/.storybook/tailwind.css"]
       },
       "configurations": {
         "ci": {
@@ -26,10 +26,10 @@
       "outputs": ["{options.outputDir}"],
       "options": {
         "outputDir": "dist/storybook/ui-storybook",
-        "configDir": "libs/ui/storybook/.storybook",
+        "configDir": "apps/ui-storybook/.storybook",
         "browserTarget": "ui-storybook:build-storybook",
         "compodoc": false,
-        "styles": ["libs/ui/storybook/.storybook/tailwind.css"]
+        "styles": ["apps/ui-storybook/.storybook/tailwind.css"]
       },
       "configurations": {
         "ci": {

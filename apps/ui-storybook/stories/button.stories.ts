@@ -1,5 +1,5 @@
 import { argsToTemplate, Meta, moduleMetadata, StoryObj } from '@storybook/angular';
-import { XuiButtonDirective } from './xui/src';
+import { XuiButtonDirective } from '@xui/button';
 
 const meta: Meta<XuiButtonDirective> = {
   title: 'Button',

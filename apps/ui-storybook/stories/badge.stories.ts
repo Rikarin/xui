@@ -1,5 +1,5 @@
 import { type Meta, type StoryObj, argsToTemplate, moduleMetadata } from '@storybook/angular';
-import { XuiBadgeDirective } from './xui/src';
+import { XuiBadgeDirective } from '@xui/badge';
 
 const meta: Meta<XuiBadgeDirective> = {
   title: 'Badge',
