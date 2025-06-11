@@ -14,7 +14,7 @@
 [![Discord](https://img.shields.io/discord/776258487307075594.svg?label=&logo=discord&logoColor=ffffff&color=7389D8&labelColor=6A7EC2)](https://discord.gg/aPkZsFcu)
 [![Netlify Status](https://api.netlify.com/api/v1/badges/fa0cfd14-97df-47fa-8a7c-152e6d4cfda2/deploy-status)](https://app.netlify.com/sites/xui/deploys)
 
-xUI is a customizable Angular 19 UI Library with full support of TailwindCSS styling based on popular React library ShardCN and its Angular alternative SpartanUI.
+xUI is a customizable Angular 20 UI Library with full support of TailwindCSS styling based on popular React library ShardCN and its Angular alternative SpartanUI.
 
 ## Features
 
@@ -67,7 +67,7 @@ pnpm storybook
 
 If you find any issues in the library or have and idea for an improvement feel free to open an [issue](https://github.com/Rikarin/xui/issues).
 
-## Roadmap (12/42)
+## Roadmap (13/42)
 
 - [ ] Accordion
 - [ ] Alert
@@ -107,7 +107,7 @@ If you find any issues in the library or have and idea for an improvement feel f
 - [ ] Spinner
 - [x] Status
 - [ ] Switch
-- [ ] Table
+- [x] Table
 - [ ] Tabs
 - [ ] Toggle
 - [ ] Tooltip
@@ -149,9 +149,10 @@ Make cli to install the components
   - data driven component
 
 - Sonner
-  - Colors
 
+  - Colors
 
 - ESLint configs
 - commitlint
+- move storybook with stories from libs to apps
 - adjust generator to generate stories into the apps/storybook

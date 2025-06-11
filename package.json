@@ -32,7 +32,8 @@
     "release": "nx release --preid alpha --skip-publish",
     "start": "nx serve app",
     "storybook": "nx storybook ui-storybook",
-    "test": "nx run-many --target test --all"
+    "test": "nx run-many --target test --all",
+    "update-projects": "nx g @xui/tools:update-projects"
   },
   "dependencies": {
     "@angular/animations": "^20.0.3",
