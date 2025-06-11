@@ -67,7 +67,7 @@ export class XLuxonDateAdapter implements XDateAdapter<DateTime> {
   }
 
   getDay(date: DateTime): number {
-    return date.weekday;
+    return date.weekday % 7;
   }
 
   getHours(date: DateTime): number {

@@ -29,6 +29,8 @@ export type PaginatorContext = {
     decrementable: Signal<boolean>;
     increment: () => void;
     decrement: () => void;
+    goToFirstPage: () => void;
+    goToLastPage: () => void;
   };
 };
 
@@ -93,9 +95,15 @@ export class XPaginatorDirective implements OnInit {
         increment: () => this.incrementPage(),
         decrement: () => this.decrementPage(),
         incrementable: this._incrementable,
-        decrementable: this._decrementable
+        decrementable: this._decrementable,
+        goToFirstPage: () => this.reset(),
+        goToLastPage: () => this.goToLastPage()
       }
     });
+  }
+
+  public goToLastPage(): void {
+    this.currentPage = this._state().totalPages;
   }
 
   public decrementPage(): void {

@@ -150,3 +150,7 @@ Make cli to install the components
 
 - Sonner
   - Colors
+
+ESLint configs
+commitlint
+everything should be onpush
