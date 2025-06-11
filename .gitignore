@@ -45,3 +45,5 @@ Thumbs.db
 build-storybook.log
 .env
 /ng-doc
+.cursor/rules/nx-rules.mdc
+.github/instructions/nx.instructions.md
