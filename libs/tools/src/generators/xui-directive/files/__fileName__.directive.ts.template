@@ -38,18 +38,18 @@ export type <%= variantsName %> = VariantProps<typeof <%= propertyVariantsName %
 
 
 @Directive({
-	selector: '[<%= selector %>]',
-	host: {
-		'[class]': 'computedClass()',
-	},
+  selector: '[<%= selector %>]',
+  host: {
+    '[class]': 'computedClass()',
+  },
 })
 export class <%= directiveName %> {
-	/** The user defined classes */
-	readonly class = input<ClassValue>('');
+  /** The user-defined classes */
+  readonly class = input<ClassValue>('');
   readonly color = input<<%= variantsName %>['color']>();
   readonly size = input<<%= variantsName %>['size']>();
   readonly variant = input<<%= variantsName %>['variant']>();
 
-  /** The classes to apply to the component merged with the user defined classes */
+  /** The classes to apply to the component merged with the user-defined classes */
   protected readonly computedClass = computed(() => xui(<%= propertyVariantsName %>({ variant: this.variant(), color: this.color(), size: this.size() }), this.class()));
 }

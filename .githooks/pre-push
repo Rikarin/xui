@@ -1,0 +1,5 @@
+#!/bin/sh
+
+# TODO: fix linting
+#pnpm nx affected -t lint --parallel
+pnpm nx format:check

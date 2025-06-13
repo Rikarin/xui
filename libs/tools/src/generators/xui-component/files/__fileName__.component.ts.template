@@ -41,18 +41,18 @@ export type <%= variantsName %> = VariantProps<typeof <%= propertyVariantsName %
 	selector: '<%= selector %>',
 	imports: [],
 	changeDetection: ChangeDetectionStrategy.OnPush,
-	template: ``
+	template: ``,
   host: {
     '[class]': 'computedClass()',
-  },
+  }
 })
 export class <%= componentName %> {
-	/** The user defined classes */
-	readonly class = input<ClassValue>('');
+  /** The user-defined classes */
+  readonly class = input<ClassValue>('');
   readonly color = input<<%= variantsName %>['color']>();
   readonly size = input<<%= variantsName %>['size']>();
   readonly variant = input<<%= variantsName %>['variant']>();
 
-	/** The classes to apply to the component merged with the user defined classes */
-	protected readonly computedClass = computed(() => xui(<%= propertyVariantsName %>({ variant: this.variant(), color: this.color(), size: this.size() }), this.class()));
+  /** The classes to apply to the component merged with the user-defined classes */
+  protected readonly computedClass = computed(() => xui(<%= propertyVariantsName %>({ variant: this.variant(), color: this.color(), size: this.size() }), this.class()));
 }

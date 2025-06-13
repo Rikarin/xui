@@ -4,14 +4,10 @@
 
 ---
 
-![Build Status](https://github.com/rikarin/xui/actions/workflows/continuous-delivery.yaml/badge.svg?branch=master)
+![Build Status](https://github.com/rikarin/xui/actions/workflows/publish.yaml/badge.svg?branch=develop)
 [![Demo](https://img.shields.io/badge/demo-online-ed1c46)](https://xuijs.org/)
-[![npm](https://img.shields.io/npm/v/%40xui/components.svg?maxAge=2592000?style=plastic)](https://www.npmjs.com/org/xui)
-[![Downloads](https://img.shields.io/npm/dt/%40xui/components.svg)](https://www.npmjs.com/org/xui)
-[![Monthly Downloads](https://img.shields.io/npm/dm/%40xui/components.svg)](https://www.npmjs.com/org/xui)
-[![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/%40xui/components)](https://bundlephobia.com/result?p=xui)
+[![npm](https://img.shields.io/npm/v/%40xui/core.svg?maxAge=2592000?style=plastic)](https://www.npmjs.com/org/xui)
 [![License](https://img.shields.io/npm/l/express.svg?maxAge=2592000)](/LICENSE)
-[![Discord](https://img.shields.io/discord/776258487307075594.svg?label=&logo=discord&logoColor=ffffff&color=7389D8&labelColor=6A7EC2)](https://discord.gg/aPkZsFcu)
 [![Netlify Status](https://api.netlify.com/api/v1/badges/fa0cfd14-97df-47fa-8a7c-152e6d4cfda2/deploy-status)](https://app.netlify.com/sites/xui/deploys)
 
 xUI is a customizable Angular 20 UI Library with full support of TailwindCSS styling based on popular React library ShardCN and its Angular alternative SpartanUI.
@@ -31,9 +27,31 @@ xUI is a customizable Angular 20 UI Library with full support of TailwindCSS sty
 - [StackBlitz Demo](https://stackblitz.com/fork/xui)
 - [Documentation](https://xuijs.org)
 - [Live Demo](https://cord.dj/r)
+- [Packages](#packages)
 - [Installation](#installation)
+- [Browser Support](#browser-support)
+- [Development](#development)
+- [Issues](#issues)
+- [Roadmap](#roadmap)
 
-<a name="installation"></a>
+## Packages
+
+| Package      | Usage                                                                                                                                                                                                                                                                                                                                                                                                                             | Description                                 |
+| ------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------- |
+| Core         | [![Downloads](https://img.shields.io/npm/dt/%40xui/core.svg)](https://www.npmjs.com/package/%40xui/core)<br />[![Monthly Downloads](https://img.shields.io/npm/dm/%40xui/core.svg)](https://www.npmjs.com/package/%40xui/core)<br />[![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/%40xui/core)](https://bundlephobia.com/result?p=%40xui/core)                                                 | Core package required by all other packages |
+| Badge        | [![Downloads](https://img.shields.io/npm/dt/%40xui/badge.svg)](https://www.npmjs.com/package/%40xui/badge)<br />[![Monthly Downloads](https://img.shields.io/npm/dm/%40xui/badge.svg)](https://www.npmjs.com/package/%40xui/badge)<br />[![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/%40xui/badge)](https://bundlephobia.com/result?p=%40xui/badge)                                           | Badge component                             |
+| Breadcrumb   | [![Downloads](https://img.shields.io/npm/dt/%40xui/breadcrumb.svg)](https://www.npmjs.com/package/%40xui/breadcrumb)<br />[![Monthly Downloads](https://img.shields.io/npm/dm/%40xui/breadcrumb.svg)](https://www.npmjs.com/package/%40xui/breadcrumb)<br />[![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/%40xui/breadcrumb)](https://bundlephobia.com/result?p=%40xui/breadcrumb)             | Breadcrumb component                        |
+| Button       | [![Downloads](https://img.shields.io/npm/dt/%40xui/button.svg)](https://www.npmjs.com/package/%40xui/button)<br />[![Monthly Downloads](https://img.shields.io/npm/dm/%40xui/button.svg)](https://www.npmjs.com/package/%40xui/button)<br />[![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/%40xui/button)](https://bundlephobia.com/result?p=%40xui/button)                                     | Button component                            |
+| Button Group | [![Downloads](https://img.shields.io/npm/dt/%40xui/button-group.svg)](https://www.npmjs.com/package/%40xui/button-group)<br />[![Monthly Downloads](https://img.shields.io/npm/dm/%40xui/button-group.svg)](https://www.npmjs.com/package/%40xui/button-group)<br />[![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/%40xui/button-group)](https://bundlephobia.com/result?p=%40xui/button-group) | Button Group component                      |
+| Checkbox     | [![Downloads](https://img.shields.io/npm/dt/%40xui/checkbox.svg)](https://www.npmjs.com/package/%40xui/checkbox)<br />[![Monthly Downloads](https://img.shields.io/npm/dm/%40xui/checkbox.svg)](https://www.npmjs.com/package/%40xui/checkbox)<br />[![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/%40xui/checkbox)](https://bundlephobia.com/result?p=%40xui/checkbox)                         | Checkbox component                          |
+| Form Field   | [![Downloads](https://img.shields.io/npm/dt/%40xui/form-field.svg)](https://www.npmjs.com/package/%40xui/form-field)<br />[![Monthly Downloads](https://img.shields.io/npm/dm/%40xui/form-field.svg)](https://www.npmjs.com/package/%40xui/form-field)<br />[![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/%40xui/form-field)](https://bundlephobia.com/result?p=%40xui/form-field)             | Form Field component                        |
+| Icon         | [![Downloads](https://img.shields.io/npm/dt/%40xui/icon.svg)](https://www.npmjs.com/package/%40xui/icon)<br />[![Monthly Downloads](https://img.shields.io/npm/dm/%40xui/icon.svg)](https://www.npmjs.com/package/%40xui/icon)<br />[![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/%40xui/icon)](https://bundlephobia.com/result?p=%40xui/icon)                                                 | Icon component                              |
+| Input        | [![Downloads](https://img.shields.io/npm/dt/%40xui/input.svg)](https://www.npmjs.com/package/%40xui/input)<br />[![Monthly Downloads](https://img.shields.io/npm/dm/%40xui/input.svg)](https://www.npmjs.com/package/%40xui/input)<br />[![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/%40xui/input)](https://bundlephobia.com/result?p=%40xui/input)                                           | Input component                             |
+| Label        | [![Downloads](https://img.shields.io/npm/dt/%40xui/label.svg)](https://www.npmjs.com/package/%40xui/label)<br />[![Monthly Downloads](https://img.shields.io/npm/dm/%40xui/label.svg)](https://www.npmjs.com/package/%40xui/label)<br />[![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/%40xui/label)](https://bundlephobia.com/result?p=%40xui/label)                                           | Label component                             |
+| Skeleton     | [![Downloads](https://img.shields.io/npm/dt/%40xui/skeleton.svg)](https://www.npmjs.com/package/%40xui/skeleton)<br />[![Monthly Downloads](https://img.shields.io/npm/dm/%40xui/skeleton.svg)](https://www.npmjs.com/package/%40xui/skeleton)<br />[![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/%40xui/skeleton)](https://bundlephobia.com/result?p=%40xui/skeleton)                         | Skeleton component                          |
+| Sonner       | [![Downloads](https://img.shields.io/npm/dt/%40xui/sonner.svg)](https://www.npmjs.com/package/%40xui/sonner)<br />[![Monthly Downloads](https://img.shields.io/npm/dm/%40xui/sonner.svg)](https://www.npmjs.com/package/%40xui/sonner)<br />[![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/%40xui/sonner)](https://bundlephobia.com/result?p=%40xui/sonner)                                     | Sonner component                            |
+| Status       | [![Downloads](https://img.shields.io/npm/dt/%40xui/status.svg)](https://www.npmjs.com/package/%40xui/status)<br />[![Monthly Downloads](https://img.shields.io/npm/dm/%40xui/status.svg)](https://www.npmjs.com/package/%40xui/status)<br />[![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/%40xui/status)](https://bundlephobia.com/result?p=%40xui/status)                                     | Status component                            |
+| Table        | [![Downloads](https://img.shields.io/npm/dt/%40xui/table.svg)](https://www.npmjs.com/package/%40xui/table)<br />[![Monthly Downloads](https://img.shields.io/npm/dm/%40xui/table.svg)](https://www.npmjs.com/package/%40xui/table)<br />[![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/%40xui/table)](https://bundlephobia.com/result?p=%40xui/table)                                           | Table component                             |
 
 ## Installation
 
@@ -67,31 +85,22 @@ pnpm storybook
 
 If you find any issues in the library or have and idea for an improvement feel free to open an [issue](https://github.com/Rikarin/xui/issues).
 
-## Roadmap (13/42)
+## Roadmap
 
 - [ ] Accordion
 - [ ] Alert
 - [ ] Alert Dialog
 - [ ] Avatar
-- [x] Badge
-- [x] Breadcrumb
-- [x] Button
-- [x] Button Group
 - [ ] Calendar
 - [ ] Card
 - [ ] Carousel
-- [x] Checkbox
 - [ ] Collapsible
 - [ ] Combobox
 - [ ] Command
 - [ ] Date Picker
 - [ ] Date Range Picker
 - [ ] Dialog
-- [x] Form Field
 - [ ] Hover Card
-- [x] Icon
-- [x] Input
-- [x] Label
 - [ ] Menu
 - [ ] Pagination
 - [ ] Popover
@@ -101,17 +110,15 @@ If you find any issues in the library or have and idea for an improvement feel f
 - [ ] Select
 - [ ] Separator
 - [ ] Sheet
-- [x] Skeleton
 - [ ] Slider
-- [x] Sonner
 - [ ] Spinner
-- [x] Status
 - [ ] Switch
-- [x] Table
 - [ ] Tabs
 - [ ] Toggle
 - [ ] Tooltip
 - [ ] Typography
+- [ ] Input OTP
+- [ ] Toggle Group
 
 ### Additional
 
@@ -152,7 +159,4 @@ Make cli to install the components
 
   - Colors
 
-- ESLint configs
-- commitlint
-- move storybook with stories from libs to apps
 - adjust generator to generate stories into the apps/storybook
