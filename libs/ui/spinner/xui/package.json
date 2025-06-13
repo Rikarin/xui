@@ -1,0 +1,31 @@
+{
+  "name": "@xui/spinner",
+  "version": "0.0.1",
+  "description": "Modern Angular 20 UI Library based on TailwindCSS",
+  "keywords": [
+    "angular",
+    "ui",
+    "components",
+    "tailwindcss"
+  ],
+  "homepage": "https://xuijs.org",
+  "bugs": {
+    "url": "https://github.com/rikarin/xui/issues"
+  },
+  "repository": "https://github.com/Rikarin/xui",
+  "license": "MIT",
+  "author": "Rene Cincura",
+  "maintainers": [
+    "Rene Cincura"
+  ],
+  "sideEffects": false,
+  "peerDependencies": {
+    "@angular/core": "20",
+    "@xui/core": "2",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
