@@ -1,3 +1,24 @@
+## 2.0.0-alpha.8 (2025-06-15)
+
+### 🚀 Features
+
+- update nx ([bc26bff](https://github.com/Rikarin/xui/commit/bc26bff))
+- update packages ([ff434e6](https://github.com/Rikarin/xui/commit/ff434e6))
+- update package dependencies ([6bc773a](https://github.com/Rikarin/xui/commit/6bc773a))
+- spinner ([0088905](https://github.com/Rikarin/xui/commit/0088905))
+- spinner ([abb3fb1](https://github.com/Rikarin/xui/commit/abb3fb1))
+- update to resolve docs issues ([61e79d9](https://github.com/Rikarin/xui/commit/61e79d9))
+
+### 🩹 Fixes
+
+- stuff ([c223f84](https://github.com/Rikarin/xui/commit/c223f84))
+- OnPush only ([baefb8a](https://github.com/Rikarin/xui/commit/baefb8a))
+- storybook ([7cc04a1](https://github.com/Rikarin/xui/commit/7cc04a1))
+
+### ❤️ Thank You
+
+- Rikarin @Rikarin
+
 # [2.0.0-alpha.7](https://github.com/Rikarin/xui/compare/v2.0.0-alpha.6...v2.0.0-alpha.7) (2025-06-11)
 
 ### Bug Fixes

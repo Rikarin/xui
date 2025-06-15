@@ -1,6 +1,6 @@
 {
   "name": "@xui/button",
-  "version": "2.0.0-alpha.7",
+  "version": "2.0.0-alpha.8",
   "description": "Modern Angular 20 UI Library based on TailwindCSS",
   "keywords": [
     "angular",
