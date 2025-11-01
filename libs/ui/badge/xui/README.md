@@ -50,6 +50,7 @@ xUI is a customizable Angular 20 UI Library with full support of TailwindCSS sty
 | Label        | [![Downloads](https://img.shields.io/npm/dt/%40xui/label.svg)](https://www.npmjs.com/package/%40xui/label)<br />[![Monthly Downloads](https://img.shields.io/npm/dm/%40xui/label.svg)](https://www.npmjs.com/package/%40xui/label)<br />[![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/%40xui/label)](https://bundlephobia.com/result?p=%40xui/label)                                           | Label component                             |
 | Skeleton     | [![Downloads](https://img.shields.io/npm/dt/%40xui/skeleton.svg)](https://www.npmjs.com/package/%40xui/skeleton)<br />[![Monthly Downloads](https://img.shields.io/npm/dm/%40xui/skeleton.svg)](https://www.npmjs.com/package/%40xui/skeleton)<br />[![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/%40xui/skeleton)](https://bundlephobia.com/result?p=%40xui/skeleton)                         | Skeleton component                          |
 | Sonner       | [![Downloads](https://img.shields.io/npm/dt/%40xui/sonner.svg)](https://www.npmjs.com/package/%40xui/sonner)<br />[![Monthly Downloads](https://img.shields.io/npm/dm/%40xui/sonner.svg)](https://www.npmjs.com/package/%40xui/sonner)<br />[![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/%40xui/sonner)](https://bundlephobia.com/result?p=%40xui/sonner)                                     | Sonner component                            |
+| Spinner      | [![Downloads](https://img.shields.io/npm/dt/%40xui/spinner.svg)](https://www.npmjs.com/package/%40xui/spinner)<br />[![Monthly Downloads](https://img.shields.io/npm/dm/%40xui/spinner.svg)](https://www.npmjs.com/package/%40xui/spinner)<br />[![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/%40xui/spinner)](https://bundlephobia.com/result?p=%40xui/spinner)                               | Spinner component                           |
 | Status       | [![Downloads](https://img.shields.io/npm/dt/%40xui/status.svg)](https://www.npmjs.com/package/%40xui/status)<br />[![Monthly Downloads](https://img.shields.io/npm/dm/%40xui/status.svg)](https://www.npmjs.com/package/%40xui/status)<br />[![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/%40xui/status)](https://bundlephobia.com/result?p=%40xui/status)                                     | Status component                            |
 | Table        | [![Downloads](https://img.shields.io/npm/dt/%40xui/table.svg)](https://www.npmjs.com/package/%40xui/table)<br />[![Monthly Downloads](https://img.shields.io/npm/dm/%40xui/table.svg)](https://www.npmjs.com/package/%40xui/table)<br />[![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/%40xui/table)](https://bundlephobia.com/result?p=%40xui/table)                                           | Table component                             |
 
@@ -111,7 +112,6 @@ If you find any issues in the library or have and idea for an improvement feel f
 - [ ] Separator
 - [ ] Sheet
 - [ ] Slider
-- [ ] Spinner
 - [ ] Switch
 - [ ] Tabs
 - [ ] Toggle
@@ -145,18 +145,15 @@ Make cli to install the components
 ## TODO
 
 - Button
-
   - Icon
   - Shine
 
 - Breadcrumb
-
   - fix styling issues
   - on hover stuff
   - data driven component
 
 - Sonner
-
   - Colors
 
 - adjust generator to generate stories into the apps/storybook
