@@ -25,12 +25,12 @@ import {
   viewChild
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ChangeFn, TouchFn } from '@xui/core/forms';
 
 export const X_CHECKBOX_VALUE_ACCESSOR = {
   provide: NG_VALUE_ACCESSOR,
-  useExisting: forwardRef(() => XCheckboxComponent),
+  useExisting: forwardRef(() => XCheckbox),
   multi: true
 };
 
@@ -52,9 +52,9 @@ const CONTAINER_POST_FIX = '-checkbox';
       [attr.aria-describedby]="ariaDescribedby() || null"
       [attr.aria-checked]="ariaChecked()"
       [attr.data-state]="dataState()"
-      [attr.data-focus-visible]="focusVisible()"
-      [attr.data-focus]="focused()"
-      [attr.data-disabled]="state().disabled()"
+      [attr.data-focus-visible]="focusVisible() ? '' : null"
+      [attr.data-focus]="focused() ? '' : null"
+      [attr.data-disabled]="state().disabled() ? '' : null"
       [disabled]="state().disabled()"
       [tabIndex]="state().disabled() ? -1 : 0"
       (click)="$event.preventDefault(); toggle()"
@@ -70,15 +70,15 @@ const CONTAINER_POST_FIX = '-checkbox';
     '[attr.aria-label]': 'null',
     '[attr.aria-describedby]': 'null',
     '[attr.data-state]': 'dataState()',
-    '[attr.data-focus-visible]': 'focusVisible()',
-    '[attr.data-focus]': 'focused()',
-    '[attr.data-disabled]': 'state().disabled()'
+    '[attr.data-focus-visible]': 'focusVisible() ? "" : null',
+    '[attr.data-focus]': 'focused() ? "" : null',
+    '[attr.data-disabled]': 'state().disabled() ? "" : null'
   },
   providers: [X_CHECKBOX_VALUE_ACCESSOR],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None
 })
-export class XCheckboxComponent implements AfterContentInit, OnDestroy {
+export class XCheckbox implements ControlValueAccessor, AfterContentInit, OnDestroy {
   private readonly destroyRef = inject(DestroyRef);
   private readonly renderer = inject(Renderer2);
   private readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
@@ -92,10 +92,12 @@ export class XCheckboxComponent implements AfterContentInit, OnDestroy {
 
   /**
    * Current checked state of checkbox.
-   * Can be boolean (true/false) or 'indeterminate'.
    * Can be bound with [(checked)] for two-way binding.
    */
-  readonly checked = model<XCheckboxValue>(false);
+  readonly checked = model<boolean>(false);
+
+  /** Emits when checked state changes. */
+  readonly checkedChange = output<boolean>();
 
   /**
    * Read-only signal of the current checkbox state.
@@ -103,14 +105,15 @@ export class XCheckboxComponent implements AfterContentInit, OnDestroy {
    */
   readonly isChecked = this.checked.asReadonly();
 
+  readonly indeterminate = model<boolean>(false);
+
   /**
    * Computed data-state attribute value based on a checked state.
    * Returns 'checked', 'unchecked', or 'indeterminate'.
    */
   protected readonly dataState = computed(() => {
-    const checked = this.checked();
-    if (checked === 'indeterminate') return 'indeterminate';
-    return checked ? 'checked' : 'unchecked';
+    if (this.indeterminate()) return 'indeterminate';
+    return this.checked() ? 'checked' : 'unchecked';
   });
 
   /**
@@ -118,9 +121,8 @@ export class XCheckboxComponent implements AfterContentInit, OnDestroy {
    * Returns 'true', 'false', or 'mixed' (for indeterminate).
    */
   protected readonly ariaChecked = computed(() => {
-    const checked = this.checked();
-    if (checked === 'indeterminate') return 'mixed';
-    return checked ? 'true' : 'false';
+    if (this.indeterminate()) return 'mixed';
+    return this.checked() ? 'true' : 'false';
   });
 
   /**
@@ -128,47 +130,47 @@ export class XCheckboxComponent implements AfterContentInit, OnDestroy {
    * When provided, the inner button gets ID without '-checkbox' suffix.
    * Auto-generates ID if not provided.
    */
-  public readonly id = input<string | null>(uniqueIdCounter++ + '');
+  readonly id = input<string | null>(uniqueIdCounter++ + '');
 
   /**
    * Form control name for checkbox.
    * When provided, the inner button gets the name without '-checkbox' suffix.
    */
-  public readonly name = input<string | null>(null);
+  readonly name = input<string | null>(null);
 
   /**
    * CSS classes applied to the inner button element.
    */
-  public readonly class = input<string | null>(null);
+  readonly class = input<string | null>(null);
 
   /**
    * Accessibility label for screen readers.
    * Use when no visible label exists.
    */
-  public readonly ariaLabel = input<string | null>(null, { alias: 'aria-label' });
+  readonly ariaLabel = input<string | null>(null, { alias: 'aria-label' });
 
   /**
    * ID of an element that labels this checkbox for accessibility.
    * Auto-set when a checkbox is inside a label element.
    */
-  public readonly ariaLabelledby = input<string | null>(null, { alias: 'aria-labelledby' });
-  public readonly mutableAriaLabelledby = linkedSignal(() => this.ariaLabelledby());
+  readonly ariaLabelledby = input<string | null>(null, { alias: 'aria-labelledby' });
+  readonly mutableAriaLabelledby = linkedSignal(() => this.ariaLabelledby());
 
   /**
    * ID of the element that describes this checkbox for accessibility.
    */
-  public readonly ariaDescribedby = input<string | null>(null, { alias: 'aria-describedby' });
+  readonly ariaDescribedby = input<string | null>(null, { alias: 'aria-describedby' });
 
   /**
    * Whether a checkbox is required in a form.
    */
-  public readonly required = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
+  readonly required = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
 
   /**
    * Whether the checkbox is disabled.
    * Disabled checkboxes cannot be toggled and indicate the disabled state through a data-disabled attribute.
    */
-  public readonly disabled = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
+  readonly disabled = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
 
   /**
    * Computed state for checkbox container and accessibility.
@@ -185,26 +187,20 @@ export class XCheckboxComponent implements AfterContentInit, OnDestroy {
   });
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  protected _onChange: ChangeFn<XCheckboxValue> = () => {};
+  protected _onChange: ChangeFn<boolean> = () => {};
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   private _onTouched: TouchFn = () => {};
 
   /**
    * Reference to the checkbox button element in the template.
    */
-  public readonly checkbox = viewChild.required<ElementRef<HTMLButtonElement>>('checkBox');
-
-  /**
-   * Event emitted when the checkbox value changes.
-   * Emits a new checked state (true/false/'indeterminate').
-   */
-  public readonly changed = output<XCheckboxValue>();
+  readonly checkbox = viewChild.required<ElementRef<HTMLButtonElement>>('checkBox');
 
   /**
    * Event emitted when the checkbox is blurred (loses focus).
    * Used for form validation.
    */
-  public readonly touched = output<void>();
+  readonly touched = output<void>();
 
   constructor() {
     effect(() => {
@@ -244,10 +240,11 @@ export class XCheckboxComponent implements AfterContentInit, OnDestroy {
     this._onTouched();
     this.touched.emit();
 
-    const previousChecked = this.checked();
-    this.checked.set(previousChecked === 'indeterminate' ? true : !previousChecked);
-    this._onChange(this.checked());
-    this.changed.emit(this.checked());
+    const newChecked = this.indeterminate() ? true : !this.checked();
+    this.indeterminate.set(false);
+    this.checkedChange.emit(newChecked);
+    this.checked.set(newChecked);
+    this._onChange(newChecked);
   }
 
   ngAfterContentInit() {
@@ -299,12 +296,8 @@ export class XCheckboxComponent implements AfterContentInit, OnDestroy {
    *
    * @param value - New checkbox state (true/false/'indeterminate')
    */
-  writeValue(value: XCheckboxValue): void {
-    if (value === 'indeterminate') {
-      this.checked.set('indeterminate');
-    } else {
-      this.checked.set(value);
-    }
+  writeValue(value: boolean): void {
+    this.checked.set(value);
   }
 
   /**
@@ -313,7 +306,7 @@ export class XCheckboxComponent implements AfterContentInit, OnDestroy {
    *
    * @param fn - Function to call when value changes
    */
-  registerOnChange(fn: ChangeFn<XCheckboxValue>): void {
+  registerOnChange(fn: ChangeFn<boolean>): void {
     this._onChange = fn;
   }
 
@@ -338,5 +331,3 @@ export class XCheckboxComponent implements AfterContentInit, OnDestroy {
     this.cdr.markForCheck();
   }
 }
-
-type XCheckboxValue = boolean | 'indeterminate';

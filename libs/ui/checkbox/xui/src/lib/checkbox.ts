@@ -1,3 +1,4 @@
+import { BooleanInput } from '@angular/cdk/coercion';
 import {
   booleanAttribute,
   ChangeDetectionStrategy,
@@ -5,17 +6,16 @@ import {
   computed,
   forwardRef,
   input,
+  linkedSignal,
   model,
   output,
-  signal,
   ViewEncapsulation
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { matCheckRound, matRemoveRound } from '@ng-icons/material-icons/round';
-
 import { xui } from '@xui/core';
-import { XCheckboxComponent } from '@xui/core/checkbox';
+import { XCheckbox } from '@xui/core/checkbox';
 import type { ChangeFn, TouchFn } from '@xui/core/forms';
 import { IconSize, XuiIconDirective } from '@xui/icon';
 import { cva, VariantProps } from 'class-variance-authority';
@@ -27,7 +27,7 @@ const checkboxVariants = cva(
     'group inline-flex border shrink-0 cursor-pointer items-center rounded-sm',
     'focus-visible:outline-5 focus-visible:outline-offset-2 transition-[outline]',
     'border-foreground/30 data-[state=unchecked]:bg-background',
-    'data-[disabled=true]:cursor-not-allowed data-[disabled=true]:saturate-30'
+    'data-disabled:cursor-not-allowed data-disabled:saturate-30'
   ],
   {
     variants: {
@@ -55,31 +55,32 @@ export type CheckboxVariants = VariantProps<typeof checkboxVariants> & { size: I
 
 export const XUI_CHECKBOX_VALUE_ACCESSOR = {
   provide: NG_VALUE_ACCESSOR,
-  useExisting: forwardRef(() => XuiCheckboxComponent),
+  useExisting: forwardRef(() => XuiCheckbox),
   multi: true
 };
 
 @Component({
   selector: 'xui-checkbox',
-  imports: [XCheckboxComponent, NgIcon, XuiIconDirective],
+  imports: [XCheckbox, NgIcon, XuiIconDirective],
   template: `
     <x-checkbox
       [id]="id()"
       [name]="name()"
       [class]="computedClass()"
       [checked]="checked()"
-      [disabled]="state().disabled()"
+      [(indeterminate)]="indeterminate"
+      [disabled]="_disabled()"
       [required]="required()"
       [aria-label]="ariaLabel()"
       [aria-labelledby]="ariaLabelledby()"
       [aria-describedby]="ariaDescribedby()"
-      (changed)="handleChange()"
+      (checkedChange)="handleChange($event)"
       (touched)="onTouched?.()"
     >
       <ng-icon
         xui
         [size]="size()"
-        [name]="checked() === 'indeterminate' ? 'matRemoveRound' : 'matCheckRound'"
+        [name]="indeterminate() ? 'matRemoveRound' : 'matCheckRound'"
         [class]="computedIconClass()"
       />
     </x-checkbox>
@@ -89,14 +90,15 @@ export const XUI_CHECKBOX_VALUE_ACCESSOR = {
     '[attr.id]': 'null',
     '[attr.aria-label]': 'null',
     '[attr.aria-labelledby]': 'null',
-    '[attr.aria-describedby]': 'null'
+    '[attr.aria-describedby]': 'null',
+    '[attr.data-disabled]': '_disabled() ? "" : null'
   },
   providers: [XUI_CHECKBOX_VALUE_ACCESSOR],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   viewProviders: [provideIcons({ matCheckRound, matRemoveRound })]
 })
-export class XuiCheckboxComponent implements ControlValueAccessor {
+export class XuiCheckbox implements ControlValueAccessor {
   private readonly config = injectXuiCheckboxConfig();
 
   readonly class = input<ClassValue>('');
@@ -119,43 +121,46 @@ export class XuiCheckboxComponent implements ControlValueAccessor {
   readonly ariaDescribedby = input<string | null>(null, { alias: 'aria-describedby' });
 
   /** The checked state of the checkbox. */
-  readonly checked = model<CheckboxValue>(false);
+  readonly checked = model<boolean>(false);
+
+  /** Emits when checked state changes. */
+  readonly checkedChange = output<boolean>();
+
+  /**
+   * The indeterminate state of the checkbox.
+   * For example, a "select all/deselect all" checkbox may be in the indeterminate state when some but not all of its sub-controls are checked.
+   */
+  readonly indeterminate = model<boolean>(false);
 
   /** The name attribute of the checkbox. */
   readonly name = input<string | null>(null);
 
   /** Whether the checkbox is required. */
-  readonly required = input(false, { transform: booleanAttribute });
+  readonly required = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
 
   /** Whether the checkbox is disabled. */
-  readonly disabled = input(false, { transform: booleanAttribute });
+  readonly disabled = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
+  protected readonly _disabled = linkedSignal(this.disabled);
 
-  protected readonly state = computed(() => ({
-    disabled: signal(this.disabled())
-  }));
-
-  readonly changed = output<boolean>();
-
-  protected onChange?: ChangeFn<CheckboxValue>;
+  protected onChange?: ChangeFn<boolean>;
   protected onTouched?: TouchFn;
 
-  protected handleChange(): void {
-    if (this.state().disabled()) {
+  protected handleChange(value: boolean): void {
+    if (this._disabled()) {
       return;
     }
 
-    const previousChecked = this.checked();
-    this.checked.set(previousChecked === 'indeterminate' ? true : !previousChecked);
-    this.onChange?.(!previousChecked);
-    this.changed.emit(!previousChecked);
+    this.checked.set(value);
+    this.checkedChange.emit(value);
+    this.onChange?.(value);
   }
 
   /** CONTROL VALUE ACCESSOR */
-  writeValue(value: CheckboxValue): void {
-    this.checked.set(!!value);
+  writeValue(value: boolean): void {
+    this.checked.set(value);
   }
 
-  registerOnChange(fn: ChangeFn<CheckboxValue>): void {
+  registerOnChange(fn: ChangeFn<boolean>): void {
     this.onChange = fn;
   }
 
@@ -164,8 +169,6 @@ export class XuiCheckboxComponent implements ControlValueAccessor {
   }
 
   setDisabledState(isDisabled: boolean): void {
-    this.state().disabled.set(isDisabled);
+    this._disabled.set(isDisabled);
   }
 }
-
-type CheckboxValue = boolean | 'indeterminate';

@@ -1,16 +1,16 @@
 import { NgDocPage } from '@ng-doc/core';
-import { XuiCheckboxComponent } from '@xui/checkbox';
+import { XuiCheckbox } from '@xui/checkbox';
 import GeneralCategory from '../ng-doc.category';
 
 const AutoGenerationPage: NgDocPage = {
   title: 'Checkbox',
   mdFile: './index.md',
   category: GeneralCategory,
-  imports: [XuiCheckboxComponent],
+  imports: [XuiCheckbox],
 
   playgrounds: {
     CheckboxPlayground: {
-      target: XuiCheckboxComponent,
+      target: XuiCheckbox,
       template: '<ng-doc-selector />',
       controls: {
         size: { type: 'Size', options: ['xs', 'sm', 'md', 'lg', 'xl'] },

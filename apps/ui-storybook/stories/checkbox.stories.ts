@@ -1,11 +1,11 @@
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgIcon } from '@ng-icons/core';
 import { argsToTemplate, Meta, moduleMetadata, StoryObj } from '@storybook/angular';
-import { XuiCheckboxComponent } from '@xui/checkbox';
+import { XuiCheckbox } from '@xui/checkbox';
 
-const meta: Meta<XuiCheckboxComponent> = {
+const meta: Meta<XuiCheckbox> = {
   title: 'Checkbox',
-  component: XuiCheckboxComponent,
+  component: XuiCheckbox,
   args: {
     color: 'primary',
     size: 'md'
@@ -26,7 +26,7 @@ const meta: Meta<XuiCheckboxComponent> = {
   },
   decorators: [
     moduleMetadata({
-      imports: [XuiCheckboxComponent, NgIcon, ReactiveFormsModule]
+      imports: [XuiCheckbox, NgIcon, ReactiveFormsModule]
     })
   ],
   render: ({ ...args }) => ({
@@ -38,7 +38,7 @@ const meta: Meta<XuiCheckboxComponent> = {
       </label>
 
       <label class="flex items-center gap-2 mt-2">
-        <xui-checkbox checked="indeterminate" ${argsToTemplate(args)} />
+        <xui-checkbox indeterminate="true" ${argsToTemplate(args)} />
         Indeterminate
       </label>
 
@@ -53,7 +53,7 @@ const meta: Meta<XuiCheckboxComponent> = {
       </label>
 
       <label class="flex items-center gap-2 mt-2">
-        <xui-checkbox checked="indeterminate" disabled ${argsToTemplate(args)} />
+        <xui-checkbox indeterminate="true" disabled ${argsToTemplate(args)} />
         Indeterminate Disabled
       </label>
 
@@ -66,7 +66,7 @@ const meta: Meta<XuiCheckboxComponent> = {
 };
 
 export default meta;
-type Story = StoryObj<XuiCheckboxComponent>;
+type Story = StoryObj<XuiCheckbox>;
 
 export const Default: Story = {};
 
@@ -86,12 +86,12 @@ export const Colors: Story = {
         </div>
 
         <div class="flex gap-2 mt-2">
-          <xui-checkbox checked="indeterminate" color="primary" ${tmp} />
-          <xui-checkbox checked="indeterminate" color="secondary" ${tmp} />
-          <xui-checkbox checked="indeterminate" color="success" ${tmp} />
-          <xui-checkbox checked="indeterminate" color="error" ${tmp} />
-          <xui-checkbox checked="indeterminate" color="warning" ${tmp} />
-          <xui-checkbox checked="indeterminate" color="info" ${tmp} />
+          <xui-checkbox indeterminate="true" color="primary" ${tmp} />
+          <xui-checkbox indeterminate="true" color="secondary" ${tmp} />
+          <xui-checkbox indeterminate="true" color="success" ${tmp} />
+          <xui-checkbox indeterminate="true" color="error" ${tmp} />
+          <xui-checkbox indeterminate="true" color="warning" ${tmp} />
+          <xui-checkbox indeterminate="true" color="info" ${tmp} />
         </div>
 
         <div class="flex gap-2 mt-2">

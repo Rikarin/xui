@@ -7,6 +7,6 @@
 
 # API
 
-{{ NgDocApi.api("libs/ui/checkbox/xui/src/lib/checkbox.component.ts#XuiCheckboxComponent") }}
+{{ NgDocApi.api("libs/ui/checkbox/xui/src/lib/checkbox.ts#XuiCheckboxComponent") }}
 
 <div id="end"></div>
