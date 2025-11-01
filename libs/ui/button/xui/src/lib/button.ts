@@ -123,7 +123,7 @@ export type ButtonVariants = VariantProps<typeof buttonVariants>;
     '[class]': 'computedClass()'
   }
 })
-export class XuiButtonDirective {
+export class XuiButton {
   // TODO: shine, icon
 
   // private readonly renderer = inject(Renderer2);

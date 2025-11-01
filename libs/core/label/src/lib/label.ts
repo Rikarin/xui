@@ -14,7 +14,7 @@ let nextId = 0;
     '[class.ng-touched]': 'this.ngControl?.touched || null'
   }
 })
-export class XLabelDirective implements OnInit {
+export class XLabel implements OnInit {
   private changes?: MutationObserver;
   private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
   private readonly element = inject(ElementRef).nativeElement;

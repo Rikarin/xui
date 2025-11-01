@@ -4,10 +4,10 @@ import { FormsModule } from '@angular/forms';
 import { faker } from '@faker-js/faker';
 import type { Meta, StoryObj } from '@storybook/angular';
 import { moduleMetadata } from '@storybook/angular';
-import { XuiButtonDirective } from '@xui/button';
-import { PaginatorState, useXColumnManager, XTableModule } from '@xui/core/table';
+import { XuiButton } from '@xui/button';
+import { PaginatorState, useXColumnManager, XTableImports } from '@xui/core/table';
 import { XuiInputModule } from '@xui/input';
-import { XuiTableComponent, XuiTableModule } from '@xui/table';
+import { XuiTable, XuiTableModule } from '@xui/table';
 
 const createUsers = (numUsers = 5) => {
   return Array.from({ length: numUsers }, () => ({
@@ -19,16 +19,16 @@ const createUsers = (numUsers = 5) => {
 
 export default {
   title: 'Table',
-  component: XuiTableComponent,
+  component: XuiTable,
   tags: ['autodocs'],
   decorators: [
     moduleMetadata({
-      imports: [XuiTableModule]
+      imports: [XTableImports]
     })
   ]
-} as Meta<XuiTableComponent>;
+} as Meta<XuiTable>;
 
-type Story = StoryObj<XuiTableComponent>;
+type Story = StoryObj<XuiTable>;
 
 export const Default: Story = {
   render: () => ({
@@ -62,7 +62,7 @@ export const Default: Story = {
 
 @Component({
   selector: 'table-story',
-  imports: [XuiTableModule, XTableModule, XuiButtonDirective, XuiInputModule, NgForOf, FormsModule],
+  imports: [XuiTableModule, XTableImports, XuiButton, XuiInputModule, NgForOf, FormsModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <x-table

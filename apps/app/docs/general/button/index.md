@@ -23,6 +23,6 @@ Button can have different types.
 
 # API
 
-{{ NgDocApi.api("libs/ui/button/xui/src/lib/button.directive.ts#XuiButtonDirective") }}
+{{ NgDocApi.api("libs/ui/button/xui/src/lib/button.ts#XuiButtonDirective") }}
 
 <div id="end"></div>

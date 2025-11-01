@@ -1,5 +1,5 @@
 import { Meta, moduleMetadata, StoryObj } from '@storybook/angular';
-import { XuiButtonDirective } from '@xui/button';
+import { XuiButton } from '@xui/button';
 import { XuiButtonGroupDirective } from '@xui/button-group';
 
 const meta: Meta<XuiButtonGroupDirective> = {
@@ -7,7 +7,7 @@ const meta: Meta<XuiButtonGroupDirective> = {
   component: XuiButtonGroupDirective,
   decorators: [
     moduleMetadata({
-      imports: [XuiButtonGroupDirective, XuiButtonDirective]
+      imports: [XuiButtonGroupDirective, XuiButton]
     })
   ]
 };

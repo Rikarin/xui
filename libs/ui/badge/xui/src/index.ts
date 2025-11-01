@@ -1,1 +1,5 @@
-export * from './lib/badge.directive';
+import { XuiBadge } from './lib/badge';
+
+export * from './lib/badge';
+
+export const XuiBadgeImports = [XuiBadge] as const;

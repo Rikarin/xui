@@ -1,7 +1,7 @@
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgIcon } from '@ng-icons/core';
 import { argsToTemplate, Meta, moduleMetadata, StoryObj } from '@storybook/angular';
-import { XuiCheckbox } from '@xui/checkbox';
+import { XuiCheckbox, XuiCheckboxImports } from '@xui/checkbox';
 
 const meta: Meta<XuiCheckbox> = {
   title: 'Checkbox',
@@ -26,7 +26,7 @@ const meta: Meta<XuiCheckbox> = {
   },
   decorators: [
     moduleMetadata({
-      imports: [XuiCheckbox, NgIcon, ReactiveFormsModule]
+      imports: [XuiCheckboxImports, NgIcon, ReactiveFormsModule]
     })
   ],
   render: ({ ...args }) => ({

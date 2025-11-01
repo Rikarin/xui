@@ -1,5 +1,5 @@
 import { NgDocPage } from '@ng-doc/core';
-import { XuiButtonDirective } from '@xui/button';
+import { XuiButton } from '@xui/button';
 import GeneralCategory from '../ng-doc.category';
 
 // import { XuiButton, XuiButtonModule } from '@xui/components';
@@ -15,7 +15,7 @@ const AutoGenerationPage: NgDocPage = {
   title: 'Button',
   mdFile: './index.md',
   category: GeneralCategory,
-  imports: [XuiButtonDirective],
+  imports: [XuiButton],
   // order: 1,
 
   // demos: {
@@ -30,7 +30,7 @@ const AutoGenerationPage: NgDocPage = {
 
   playgrounds: {
     ButtonPlayground: {
-      target: XuiButtonDirective,
+      target: XuiButton,
       template: '<button xuiButton>Click me!</button>',
       controls: {
         disabled: 'boolean'

@@ -15,9 +15,9 @@ import {
   ViewEncapsulation,
   input
 } from '@angular/core';
-import { XCellDefDirective } from './cell-def.directive';
-import { XFooterDefDirective } from './footer-def.directive';
-import { XHeaderDefDirective } from './header-def.directive';
+import { XCellDef } from './cell-def';
+import { XFooterDef } from './footer-def';
+import { XHeaderDef } from './header-def';
 
 @Component({
   selector: 'x-column-def',
@@ -32,42 +32,43 @@ import { XHeaderDefDirective } from './header-def.directive';
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None
 })
-export class XColumnDefComponent implements AfterContentChecked {
-  public get columnDef() {
+export class XColumnDef implements AfterContentChecked {
+  get columnDef() {
     return this._columnDef;
   }
 
-  public get cell() {
+  get cell() {
     return this._columnDef.cell;
   }
 
   private _name = '';
+
   @Input()
-  public get name(): string {
+  get name(): string {
     return this._name;
   }
 
-  public set name(value: string) {
+  set name(value: string) {
     this._name = value;
     if (!this._columnDef) return;
     this._columnDef.name = value;
   }
 
-  public readonly class = input('');
+  readonly class = input('');
 
   @ViewChild(CdkColumnDef, { static: true })
   private readonly _columnDef!: CdkColumnDef;
 
-  @ContentChild(XCellDefDirective, { static: true })
+  @ContentChild(XCellDef, { static: true })
   private readonly _cellDef?: CdkCellDef;
 
-  @ContentChild(XFooterDefDirective, { static: true })
+  @ContentChild(XFooterDef, { static: true })
   private readonly _footerCellDef?: CdkFooterCellDef;
 
-  @ContentChild(XHeaderDefDirective, { static: true })
+  @ContentChild(XHeaderDef, { static: true })
   private readonly _headerCellDef?: CdkHeaderCellDef;
 
-  public ngAfterContentChecked() {
+  ngAfterContentChecked() {
     this._columnDef.name = this.name;
 
     if (this._cellDef) {

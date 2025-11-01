@@ -13,9 +13,9 @@ export class XColumnManager<T extends XColumnVisibility> {
   private readonly initialColumnVisibility: T;
   private readonly _columnVisibility;
 
-  public readonly allColumns: AllColumnsPropertyType<T>;
-  public readonly columnVisibility;
-  public readonly displayedColumns: Signal<(keyof T)[]> = computed(() => {
+  readonly allColumns: AllColumnsPropertyType<T>;
+  readonly columnVisibility;
+  readonly displayedColumns: Signal<(keyof T)[]> = computed(() => {
     return Object.entries(this._columnVisibility())
       .filter(([, value]) => (typeof value === 'boolean' ? value : value.visible))
       .map(([key]) => key);
@@ -29,27 +29,30 @@ export class XColumnManager<T extends XColumnVisibility> {
     this.allColumns = this.createAllColumns(this.initialColumnVisibility);
   }
 
-  public readonly isColumnVisible = (columnName: string) => {
+  readonly isColumnVisible = (columnName: string) => {
     const visibilityMap = this.columnVisibility();
     const columnEntry = visibilityMap[columnName];
     return typeof columnEntry === 'boolean' ? columnEntry : columnEntry.visible;
   };
-  public readonly isColumnDisabled = (columnName: string) =>
+
+  readonly isColumnDisabled = (columnName: string) =>
     this.isColumnVisible(columnName) && this.displayedColumns().length === 1;
 
-  public toggleVisibility(columnName: keyof T) {
+  toggleVisibility(columnName: keyof T) {
     const visibilityMap = this._columnVisibility();
     const columnEntry = visibilityMap[columnName];
     const newVisibilityState = typeof columnEntry === 'boolean' ? !columnEntry : { visible: !columnEntry.visible };
     this._columnVisibility.set({ ...visibilityMap, [columnName]: newVisibilityState });
   }
-  public setVisible(columnName: keyof T) {
+
+  setVisible(columnName: keyof T) {
     const visibilityMap = this._columnVisibility();
     const columnEntry = visibilityMap[columnName];
     const newVisibilityState = typeof columnEntry === 'boolean' ? true : { visible: true };
     this._columnVisibility.set({ ...visibilityMap, [columnName]: newVisibilityState });
   }
-  public setInvisible(columnName: keyof T) {
+
+  setInvisible(columnName: keyof T) {
     const visibilityMap = this._columnVisibility();
     const columnEntry = visibilityMap[columnName];
     const newVisibilityState = typeof columnEntry === 'boolean' ? false : { visible: false };

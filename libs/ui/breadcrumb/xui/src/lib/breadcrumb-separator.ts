@@ -12,8 +12,8 @@ import type { ClassValue } from 'clsx';
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     role: 'presentation',
-    '[class]': 'computedClass()',
-    '[attr.aria-hidden]': 'true'
+    'aria-hidden': 'true',
+    '[class]': 'computedClass()'
   },
   template: `
     <ng-content>
@@ -21,7 +21,7 @@ import type { ClassValue } from 'clsx';
     </ng-content>
   `
 })
-export class XuiBreadcrumbSeparatorComponent {
+export class XuiBreadcrumbSeparator {
   readonly class = input<ClassValue>('');
 
   protected readonly computedClass = computed(() =>

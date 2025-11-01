@@ -1,5 +1,5 @@
 import { InjectionToken, ValueProvider, inject } from '@angular/core';
-import { ButtonVariants } from './button.directive';
+import { ButtonVariants } from './button';
 
 export interface XuiButtonConfig {
   color: ButtonVariants['color'];

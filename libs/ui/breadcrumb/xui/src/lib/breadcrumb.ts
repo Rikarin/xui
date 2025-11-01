@@ -10,9 +10,9 @@ import type { ClassValue } from 'clsx';
     '[attr.aria-label]': 'ariaLabel()'
   }
 })
-export class XuiBreadcrumbDirective {
+export class XuiBreadcrumb {
   readonly class = input<ClassValue>('');
   readonly ariaLabel = input<string>('breadcrumb', { alias: 'aria-label' });
 
-  protected readonly computedClass = computed(() => xui('', this.class()));
+  protected readonly computedClass = computed(() => xui(this.class()));
 }

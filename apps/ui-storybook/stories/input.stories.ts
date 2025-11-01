@@ -1,7 +1,7 @@
 import { argsToTemplate, Meta, moduleMetadata, StoryObj } from '@storybook/angular';
-import { XuiButtonDirective } from '@xui/button';
+import { XuiButton } from '@xui/button';
 import { XuiInputDirective, XuiInputImports } from '@xui/input';
-import { XuiLabelDirective } from '@xui/label';
+import { XuiLabelImports } from '@xui/label';
 
 export default {
   title: 'Input',
@@ -20,7 +20,7 @@ export default {
   },
   decorators: [
     moduleMetadata({
-      imports: [XuiInputImports, XuiLabelDirective, XuiButtonDirective]
+      imports: [XuiInputImports, XuiLabelImports, XuiButton]
     })
   ]
 } as Meta<XuiInputDirective>;

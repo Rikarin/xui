@@ -1,12 +1,12 @@
-import { CdkFooterCellDef } from '@angular/cdk/table';
+import { CdkCellDef } from '@angular/cdk/table';
 import { Directive, TemplateRef, inject } from '@angular/core';
 
 @Directive({
-  selector: '[xFooterDef]',
-  exportAs: 'xFooterDef'
+  selector: '[xCellDef]',
+  exportAs: 'xCellDef'
 })
-export class XFooterDefDirective extends CdkFooterCellDef {
-  public override template: TemplateRef<unknown>;
+export class XCellDef extends CdkCellDef {
+  override template: TemplateRef<unknown>;
 
   constructor() {
     const template = inject<TemplateRef<unknown>>(TemplateRef);

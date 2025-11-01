@@ -5,8 +5,8 @@ import { Directive, TemplateRef, inject } from '@angular/core';
   selector: '[xHeaderDef]',
   exportAs: 'xHeaderDef'
 })
-export class XHeaderDefDirective extends CdkHeaderCellDef {
-  public override template: TemplateRef<unknown>;
+export class XHeaderDef extends CdkHeaderCellDef {
+  override template: TemplateRef<unknown>;
 
   constructor() {
     const template = inject<TemplateRef<unknown>>(TemplateRef);

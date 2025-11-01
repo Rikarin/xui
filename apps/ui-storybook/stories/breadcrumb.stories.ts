@@ -3,12 +3,12 @@ import { NgIcon, provideIcons } from '@ng-icons/core';
 import { matHomeRound } from '@ng-icons/material-icons/round';
 import type { Meta, StoryObj } from '@storybook/angular';
 import { moduleMetadata } from '@storybook/angular';
-import { XuiBreadcrumbDirective, XuiBreadcrumbImports } from '@xui/breadcrumb';
+import { XuiBreadcrumb, XuiBreadcrumbImports } from '@xui/breadcrumb';
 import { XuiIconDirective } from '@xui/icon';
 
 export default {
   title: 'Breadcrumb',
-  component: XuiBreadcrumbDirective,
+  component: XuiBreadcrumb,
   tags: ['autodocs'],
   decorators: [
     moduleMetadata({
@@ -16,9 +16,9 @@ export default {
       providers: [provideIcons({ matHomeRound })]
     })
   ]
-} as Meta<XuiBreadcrumbDirective>;
+} as Meta<XuiBreadcrumb>;
 
-type Story = StoryObj<XuiBreadcrumbDirective>;
+type Story = StoryObj<XuiBreadcrumb>;
 
 export const Default: Story = {
   render: () => ({

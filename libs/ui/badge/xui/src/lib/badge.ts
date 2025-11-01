@@ -72,7 +72,7 @@ export type BadgeVariants = VariantProps<typeof badgeVariants>;
     '[class]': 'computedClass()'
   }
 })
-export class XuiBadgeDirective {
+export class XuiBadge {
   protected readonly computedClass = computed(() =>
     xui(badgeVariants({ color: this.color(), size: this.size(), static: this.static() }), this.class())
   );

@@ -38,8 +38,8 @@ export type PaginatorContext = {
   selector: '[xPaginator]',
   exportAs: 'xPaginator'
 })
-export class XPaginatorDirective implements OnInit {
-  static ngTemplateContextGuard(_directive: XPaginatorDirective, _context: unknown): _context is PaginatorContext {
+export class XPaginator implements OnInit {
+  static ngTemplateContextGuard(_directive: XPaginator, _context: unknown): _context is PaginatorContext {
     return true;
   }
 
@@ -58,22 +58,22 @@ export class XPaginatorDirective implements OnInit {
   private readonly incrementable = computed(() => this.state().endIndex < (this.state().totalElements ?? 0) - 1);
 
   @Input({ alias: 'xPaginatorTotalElements' })
-  public set totalElements(value: number | null | undefined) {
+  set totalElements(value: number | null | undefined) {
     this.calculateNewState({ newTotalElements: value, newPage: 0 });
   }
 
   @Input({ alias: 'xPaginatorCurrentPage', transform: numberAttribute })
-  public set currentPage(value: number) {
+  set currentPage(value: number) {
     this.calculateNewState({ newPage: value });
   }
 
   @Input({ alias: 'xPaginatorPageSize', transform: numberAttribute })
-  public set pageSize(value: number) {
+  set pageSize(value: number) {
     this.calculateNewState({ newPageSize: value, newPage: 0 });
   }
 
   @Input({ alias: 'xPaginatorOnStateChange' })
-  public onStateChange?: (state: PaginatorState) => void;
+  onStateChange?: (state: PaginatorState) => void;
 
   constructor() {
     effect(() => {
@@ -88,7 +88,7 @@ export class XPaginatorDirective implements OnInit {
     });
   }
 
-  public ngOnInit() {
+  ngOnInit() {
     this.vcr.createEmbeddedView<PaginatorContext>(this.template, {
       $implicit: {
         state: this.state,
@@ -102,25 +102,25 @@ export class XPaginatorDirective implements OnInit {
     });
   }
 
-  public goToLastPage(): void {
+  goToLastPage(): void {
     this.currentPage = this.state().totalPages;
   }
 
-  public decrementPage(): void {
+  decrementPage(): void {
     const { currentPage } = this.state();
     if (0 < currentPage) {
       this.calculateNewState({ newPage: currentPage - 1 });
     }
   }
 
-  public incrementPage(): void {
+  incrementPage(): void {
     const { currentPage, totalPages } = this.state();
     if (totalPages > currentPage) {
       this.calculateNewState({ newPage: currentPage + 1 });
     }
   }
 
-  public reset(): void {
+  reset(): void {
     this.currentPage = 0;
   }
 

@@ -1,9 +1,9 @@
 import { type Meta, type StoryObj, argsToTemplate, moduleMetadata } from '@storybook/angular';
-import { XuiBadgeDirective } from '@xui/badge';
+import { XuiBadge } from '@xui/badge';
 
-const meta: Meta<XuiBadgeDirective> = {
+const meta: Meta<XuiBadge> = {
   title: 'Badge',
-  component: XuiBadgeDirective,
+  component: XuiBadge,
   tags: ['autodocs'],
   argTypes: {
     color: {
@@ -36,7 +36,7 @@ const meta: Meta<XuiBadgeDirective> = {
   },
   decorators: [
     moduleMetadata({
-      imports: [XuiBadgeDirective]
+      imports: [XuiBadge]
     })
   ],
   render: ({ ...args }) => ({
@@ -48,7 +48,7 @@ const meta: Meta<XuiBadgeDirective> = {
 };
 
 export default meta;
-type Story = StoryObj<XuiBadgeDirective>;
+type Story = StoryObj<XuiBadge>;
 
 export const Default: Story = {
   args: {

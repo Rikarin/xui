@@ -1,6 +1,6 @@
 import { Directive, computed, inject, input, signal } from '@angular/core';
 import { xui } from '@xui/core';
-import { XLabelDirective } from '@xui/core/label';
+import { XLabel } from '@xui/core/label';
 import { type VariantProps, cva } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
 
@@ -38,7 +38,7 @@ export type LabelVariants = VariantProps<typeof labelVariants>;
   selector: '[xuiLabel]',
   hostDirectives: [
     {
-      directive: XLabelDirective,
+      directive: XLabel,
       inputs: ['id']
     }
   ],
@@ -46,8 +46,10 @@ export type LabelVariants = VariantProps<typeof labelVariants>;
     '[class]': 'computedClass()'
   }
 })
-export class XuiLabelDirective {
-  private readonly xLabel = inject(XLabelDirective, { host: true });
+export class XuiLabel {
+  // TODO: check the implementation of this component
+
+  private readonly xLabel = inject(XLabel, { host: true });
 
   readonly class = input<ClassValue>('');
   readonly variant = input<LabelVariants['variant']>('default');

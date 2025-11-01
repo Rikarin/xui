@@ -8,7 +8,7 @@ import type { ClassValue } from 'clsx';
     '[class]': 'computedClass()'
   }
 })
-export class XuiBreadcrumbItemDirective {
+export class XuiBreadcrumbItem {
   readonly class = input<ClassValue>('');
   readonly active = input(false, { transform: booleanAttribute });
 

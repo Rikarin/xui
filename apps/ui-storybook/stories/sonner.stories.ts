@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/angular';
-import { XuiButtonDirective } from '@xui/button';
+import { XuiButton } from '@xui/button';
 import { XuiSonnerComponent, XuiSonnerImports } from '@xui/sonner';
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
@@ -7,7 +7,7 @@ import { toast } from 'ngx-sonner';
 
 @Component({
   selector: 'sonner-default-test',
-  imports: [XuiSonnerImports, XuiButtonDirective],
+  imports: [XuiSonnerImports, XuiButton],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <xui-sonner />

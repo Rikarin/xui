@@ -15,7 +15,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { matCheckRound, matRemoveRound } from '@ng-icons/material-icons/round';
 import { xui } from '@xui/core';
-import { XCheckbox } from '@xui/core/checkbox';
+import { XCheckboxImports } from '@xui/core/checkbox';
 import type { ChangeFn, TouchFn } from '@xui/core/forms';
 import { IconSize, XuiIconDirective } from '@xui/icon';
 import { cva, VariantProps } from 'class-variance-authority';
@@ -61,7 +61,7 @@ export const XUI_CHECKBOX_VALUE_ACCESSOR = {
 
 @Component({
   selector: 'xui-checkbox',
-  imports: [XCheckbox, NgIcon, XuiIconDirective],
+  imports: [XCheckboxImports, NgIcon, XuiIconDirective],
   template: `
     <x-checkbox
       [id]="id()"

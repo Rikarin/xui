@@ -1,32 +1,25 @@
-import { NgModule } from '@angular/core';
-import { XuiBreadcrumbEllipsisComponent } from './lib/breadcrumb-ellipsis.component';
-import { XuiBreadcrumbItemDirective } from './lib/breadcrumb-item.directive';
-import { XuiBreadcrumbLinkDirective } from './lib/breadcrumb-link.directive';
-import { XuiBreadcrumbListDirective } from './lib/breadcrumb-list.directive';
-import { XuiBreadcrumbPageDirective } from './lib/breadcrumb-page.directive';
-import { XuiBreadcrumbSeparatorComponent } from './lib/breadcrumb-separator.component';
-import { XuiBreadcrumbDirective } from './lib/breadcrumb.directive';
+import { XuiBreadcrumb } from './lib/breadcrumb';
+import { XuiBreadcrumbEllipsis } from './lib/breadcrumb-ellipsis';
+import { XuiBreadcrumbItem } from './lib/breadcrumb-item';
+import { XuiBreadcrumbLink } from './lib/breadcrumb-link';
+import { XuiBreadcrumbList } from './lib/breadcrumb-list';
+import { XuiBreadcrumbPage } from './lib/breadcrumb-page';
+import { XuiBreadcrumbSeparator } from './lib/breadcrumb-separator';
 
-export * from './lib/breadcrumb-ellipsis.component';
-export * from './lib/breadcrumb-item.directive';
-export * from './lib/breadcrumb-link.directive';
-export * from './lib/breadcrumb-list.directive';
-export * from './lib/breadcrumb-page.directive';
-export * from './lib/breadcrumb-separator.component';
-export * from './lib/breadcrumb.directive';
+export * from './lib/breadcrumb';
+export * from './lib/breadcrumb-ellipsis';
+export * from './lib/breadcrumb-item';
+export * from './lib/breadcrumb-link';
+export * from './lib/breadcrumb-list';
+export * from './lib/breadcrumb-page';
+export * from './lib/breadcrumb-separator';
 
 export const XuiBreadcrumbImports = [
-  XuiBreadcrumbDirective,
-  XuiBreadcrumbEllipsisComponent,
-  XuiBreadcrumbItemDirective,
-  XuiBreadcrumbLinkDirective,
-  XuiBreadcrumbListDirective,
-  XuiBreadcrumbPageDirective,
-  XuiBreadcrumbSeparatorComponent
+  XuiBreadcrumb,
+  XuiBreadcrumbEllipsis,
+  XuiBreadcrumbItem,
+  XuiBreadcrumbLink,
+  XuiBreadcrumbList,
+  XuiBreadcrumbPage,
+  XuiBreadcrumbSeparator
 ] as const;
-
-@NgModule({
-  imports: [...XuiBreadcrumbImports],
-  exports: [...XuiBreadcrumbImports]
-})
-export class XuiBreadcrumbModule {}

@@ -17,7 +17,7 @@ import type { ClassValue } from 'clsx';
     </span>
   `
 })
-export class XuiBreadcrumbEllipsisComponent {
+export class XuiBreadcrumbEllipsis {
   readonly class = input<ClassValue>('');
   protected readonly computedClass = computed(() => xui('flex items-center justify-center', this.class()));
 }

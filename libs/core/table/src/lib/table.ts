@@ -14,14 +14,14 @@ import {
   booleanAttribute
 } from '@angular/core';
 import { type TableClassesSettable, provideTableClassesSettableExisting } from '@xui/core';
-import { XColumnDefComponent } from './column-def.component';
+import { XColumnDef } from './column-def';
 
 export type XTableDataSourceInput<T> = CdkTableDataSourceInput<T>;
 
 @Component({
   selector: 'x-table',
   imports: [CdkTableModule],
-  providers: [provideTableClassesSettableExisting(<T>() => XTableComponent<T>)],
+  providers: [provideTableClassesSettableExisting(<T>() => XTable<T>)],
   template: `
     <cdk-table
       #cdkTable
@@ -54,30 +54,30 @@ export type XTableDataSourceInput<T> = CdkTableDataSourceInput<T>;
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None
 })
-export class XTableComponent<T> implements TableClassesSettable, AfterContentInit {
+export class XTable<T> implements TableClassesSettable, AfterContentInit {
   @ViewChild('cdkTable', { read: CdkTable, static: true })
   private readonly cdkTable?: CdkTable<T>;
 
   // Cdk Table Inputs / Outputs
   @Input()
-  public dataSource: XTableDataSourceInput<T> = [];
+  dataSource: XTableDataSourceInput<T> = [];
 
   @Input({ transform: booleanAttribute })
-  public fixedLayout = false;
+  fixedLayout = false;
 
   @Input({ transform: booleanAttribute })
-  public multiTemplateDataRows = false;
+  multiTemplateDataRows = false;
 
   @Input()
-  public displayedColumns: string[] = [];
+  displayedColumns: string[] = [];
 
   private _trackBy?: TrackByFunction<T>;
-  public get trackBy(): TrackByFunction<T> | undefined {
+  get trackBy(): TrackByFunction<T> | undefined {
     return this._trackBy;
   }
 
   @Input()
-  public set trackBy(value: TrackByFunction<T>) {
+  set trackBy(value: TrackByFunction<T>) {
     this._trackBy = value;
     if (this.cdkTable) {
       this.cdkTable.trackBy = this._trackBy;
@@ -85,56 +85,55 @@ export class XTableComponent<T> implements TableClassesSettable, AfterContentIni
   }
 
   @Output()
-  public readonly contentChanged: EventEmitter<void> = new EventEmitter<void>();
+  readonly contentChanged: EventEmitter<void> = new EventEmitter<void>();
 
   // X Inputs / Outputs
   @Input({ transform: booleanAttribute })
-  public customTemplateDataRows = false;
+  customTemplateDataRows = false;
 
   @Input()
-  public onRowClick: ((element: T) => void) | undefined;
+  onRowClick: ((element: T) => void) | undefined;
 
   @Input({ transform: booleanAttribute })
-  public stickyHeader = false;
+  stickyHeader = false;
 
   @Input()
-  public tableClasses = '';
+  tableClasses = '';
 
   @Input()
-  public headerRowClasses = '';
+  headerRowClasses = '';
 
   @Input()
-  public bodyRowClasses = '';
+  bodyRowClasses = '';
 
-  @ContentChildren(XColumnDefComponent) public columnDefComponents!: QueryList<XColumnDefComponent>;
-  @ContentChildren(CdkRowDef) public rowDefs!: QueryList<CdkRowDef<T>>;
+  @ContentChildren(XColumnDef) columnDefComponents!: QueryList<XColumnDef>;
+  @ContentChildren(CdkRowDef) rowDefs!: QueryList<CdkRowDef<T>>;
 
   // after the <ng-content> has been initialized, the column definitions are available.
   // All that's left is to add them to the table ourselves:
-  public ngAfterContentInit(): void {
+  ngAfterContentInit(): void {
     this.columnDefComponents.forEach(component => {
       if (!this.cdkTable) return;
       if (component.cell) {
         this.cdkTable.addColumnDef(component.columnDef);
       }
     });
+
     this.rowDefs.forEach(rowDef => {
       if (!this.cdkTable) return;
       this.cdkTable.addRowDef(rowDef);
     });
   }
 
-  public setTableClasses({
-    table,
-    headerRow,
-    bodyRow
-  }: Partial<{ table: string; headerRow: string; bodyRow: string }>): void {
+  setTableClasses({ table, headerRow, bodyRow }: Partial<{ table: string; headerRow: string; bodyRow: string }>): void {
     if (table) {
       this.tableClasses = table;
     }
+
     if (headerRow) {
       this.headerRowClasses = headerRow;
     }
+
     if (bodyRow) {
       this.bodyRowClasses = bodyRow;
     }

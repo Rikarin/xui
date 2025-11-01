@@ -27,7 +27,7 @@ import type { ClassValue } from 'clsx';
     '[class]': 'computedClass()'
   }
 })
-export class XuiBreadcrumbLinkDirective {
+export class XuiBreadcrumbLink {
   readonly class = input<ClassValue>('');
   readonly link = input<RouterLink['routerLink']>();
 

@@ -6,10 +6,12 @@ import type { ClassValue } from 'clsx';
   selector: '[xuiBreadcrumbPage]',
   host: {
     role: 'link',
+    'aria-disabled': 'true',
+    'aria-current': 'page',
     '[class]': 'computedClass()'
   }
 })
-export class XuiBreadcrumbPageDirective {
+export class XuiBreadcrumbPage {
   readonly class = input<ClassValue>('');
 
   protected readonly computedClass = computed(() => xui('font-normal text-foreground', this.class()));

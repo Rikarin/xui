@@ -12,8 +12,8 @@ import type { ClassValue } from 'clsx';
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None
 })
-export class XuiTrComponent {
-  public readonly class = input<ClassValue>('');
+export class XuiTr {
+  readonly class = input<ClassValue>('');
 
   protected computedClass = computed(() =>
     xui(

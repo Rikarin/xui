@@ -1,9 +1,9 @@
 import { argsToTemplate, Meta, moduleMetadata, StoryObj } from '@storybook/angular';
-import { XuiButtonDirective } from '@xui/button';
+import { XuiButton } from '@xui/button';
 
-const meta: Meta<XuiButtonDirective> = {
+const meta: Meta<XuiButton> = {
   title: 'Button',
-  component: XuiButtonDirective,
+  component: XuiButton,
   args: {
     color: 'primary',
     variant: 'default',
@@ -31,7 +31,7 @@ const meta: Meta<XuiButtonDirective> = {
   },
   decorators: [
     moduleMetadata({
-      imports: [XuiButtonDirective]
+      imports: [XuiButton]
     })
   ],
   render: ({ ...args }) => ({
@@ -41,7 +41,7 @@ const meta: Meta<XuiButtonDirective> = {
 };
 
 export default meta;
-type Story = StoryObj<XuiButtonDirective>;
+type Story = StoryObj<XuiButton>;
 
 export const Default: Story = {
   args: {
