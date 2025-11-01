@@ -1,11 +1,11 @@
 import { argsToTemplate, Meta, moduleMetadata, StoryObj } from '@storybook/angular';
-import { XuiButton } from '@xui/button';
-import { XuiInputDirective, XuiInputImports } from '@xui/input';
+import { XuiButtonImports } from '@xui/button';
+import { XuiInput, XuiInputImports } from '@xui/input';
 import { XuiLabelImports } from '@xui/label';
 
 export default {
   title: 'Input',
-  component: XuiInputDirective,
+  component: XuiInput,
   tags: ['autodocs'],
   args: {
     color: 'dark'
@@ -20,12 +20,12 @@ export default {
   },
   decorators: [
     moduleMetadata({
-      imports: [XuiInputImports, XuiLabelImports, XuiButton]
+      imports: [XuiInputImports, XuiLabelImports, XuiButtonImports]
     })
   ]
-} as Meta<XuiInputDirective>;
+} as Meta<XuiInput>;
 
-type Story = StoryObj<XuiInputDirective>;
+type Story = StoryObj<XuiInput>;
 
 export const Default: Story = {
   render: ({ ...args }) => ({

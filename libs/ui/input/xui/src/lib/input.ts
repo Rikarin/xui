@@ -1,4 +1,15 @@
-import { computed, Directive, DoCheck, effect, inject, Injector, input, signal, untracked } from '@angular/core';
+import {
+  computed,
+  Directive,
+  DoCheck,
+  effect,
+  forwardRef,
+  inject,
+  Injector,
+  input,
+  linkedSignal,
+  untracked
+} from '@angular/core';
 import { FormGroupDirective, NgControl, NgForm } from '@angular/forms';
 import { xui } from '@xui/core';
 import { XFormFieldControl } from '@xui/core/form-field';
@@ -48,18 +59,18 @@ type InputVariants = VariantProps<typeof inputVariants>;
   providers: [
     {
       provide: XFormFieldControl,
-      useExisting: XuiInputDirective
+      useExisting: forwardRef(() => XuiInput)
     }
   ]
 })
-export class XuiInputDirective implements XFormFieldControl, DoCheck {
+export class XuiInput implements XFormFieldControl, DoCheck {
   private readonly injector = inject(Injector);
   private readonly errorStateTracker: ErrorStateTracker;
   private readonly defaultErrorStateMatcher = inject(ErrorStateMatcher);
   private readonly parentForm = inject(NgForm, { optional: true });
   private readonly parentFormGroup = inject(FormGroupDirective, { optional: true });
 
-  /** The user defined classes */
+  /** The user-defined classes */
   readonly class = input<ClassValue>('');
   readonly size = input<InputVariants['size']>('default');
   readonly color = input<InputVariants['color']>('dark');
@@ -67,14 +78,12 @@ export class XuiInputDirective implements XFormFieldControl, DoCheck {
   readonly ngControl: NgControl | null = this.injector.get(NgControl, null);
   readonly errorState = computed(() => this.errorStateTracker.errorState());
 
-  /** The classes to apply to the component merged with the user defined classes */
+  /** The classes to apply to the component merged with the user-defined classes */
   protected readonly computedClass = computed(() =>
-    xui(inputVariants({ size: this.size(), color: this.color(), error: this.state().error() }), this.class())
+    xui(inputVariants({ size: this.size(), color: this.color(), error: this.state().error }), this.class())
   );
 
-  protected readonly state = computed(() => ({
-    error: signal(this.error())
-  }));
+  protected readonly state = linkedSignal(() => ({ error: this.error() }));
 
   constructor() {
     this.errorStateTracker = new ErrorStateTracker(
@@ -101,6 +110,6 @@ export class XuiInputDirective implements XFormFieldControl, DoCheck {
   }
 
   setError(error: InputVariants['error']) {
-    this.state().error.set(error);
+    this.state.set({ error });
   }
 }

@@ -4,10 +4,10 @@ import { FormsModule } from '@angular/forms';
 import { faker } from '@faker-js/faker';
 import type { Meta, StoryObj } from '@storybook/angular';
 import { moduleMetadata } from '@storybook/angular';
-import { XuiButton } from '@xui/button';
+import { XuiButtonImports } from '@xui/button';
 import { PaginatorState, useXColumnManager, XTableImports } from '@xui/core/table';
-import { XuiInputModule } from '@xui/input';
-import { XuiTable, XuiTableModule } from '@xui/table';
+import { XuiInputImports } from '@xui/input';
+import { XuiTable, XuiTableImports } from '@xui/table';
 
 const createUsers = (numUsers = 5) => {
   return Array.from({ length: numUsers }, () => ({
@@ -62,7 +62,7 @@ export const Default: Story = {
 
 @Component({
   selector: 'table-story',
-  imports: [XuiTableModule, XTableImports, XuiButton, XuiInputModule, NgForOf, FormsModule],
+  imports: [XuiTableImports, XTableImports, XuiButtonImports, XuiInputImports, NgForOf, FormsModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <x-table

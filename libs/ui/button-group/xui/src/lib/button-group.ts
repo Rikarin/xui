@@ -16,7 +16,7 @@ export type ButtonGroupVariants = VariantProps<typeof buttonGroupVariants>;
     '[class]': 'computedClass()'
   }
 })
-export class XuiButtonGroupDirective {
+export class XuiButtonGroup {
   // TODO: we can provide configuration for buttons though DI/token
 
   // private readonly config = injectXuiButtonConfig();

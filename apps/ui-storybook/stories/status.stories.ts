@@ -1,19 +1,19 @@
 import type { Meta, StoryObj } from '@storybook/angular';
 import { moduleMetadata } from '@storybook/angular';
-import { XuiStatusComponent, XuiStatusImports } from '@xui/status';
+import { XuiStatus, XuiStatusImports } from '@xui/status';
 
 export default {
   title: 'Status',
-  component: XuiStatusComponent,
+  component: XuiStatus,
   tags: ['autodocs'],
   decorators: [
     moduleMetadata({
       imports: [XuiStatusImports]
     })
   ]
-} as Meta<XuiStatusComponent>;
+} as Meta<XuiStatus>;
 
-type Story = StoryObj<XuiStatusComponent>;
+type Story = StoryObj<XuiStatus>;
 
 export const Default: Story = {
   render: () => ({

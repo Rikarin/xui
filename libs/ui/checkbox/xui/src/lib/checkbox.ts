@@ -17,7 +17,7 @@ import { matCheckRound, matRemoveRound } from '@ng-icons/material-icons/round';
 import { xui } from '@xui/core';
 import { XCheckboxImports } from '@xui/core/checkbox';
 import type { ChangeFn, TouchFn } from '@xui/core/forms';
-import { IconSize, XuiIconDirective } from '@xui/icon';
+import { IconSize, XuiIcon } from '@xui/icon';
 import { cva, VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
 import { injectXuiCheckboxConfig } from './checkbox.token';
@@ -61,7 +61,7 @@ export const XUI_CHECKBOX_VALUE_ACCESSOR = {
 
 @Component({
   selector: 'xui-checkbox',
-  imports: [XCheckboxImports, NgIcon, XuiIconDirective],
+  imports: [XCheckboxImports, NgIcon, XuiIcon],
   template: `
     <x-checkbox
       [id]="id()"

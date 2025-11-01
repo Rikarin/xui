@@ -1,4 +1,3 @@
-import { NgModule } from '@angular/core';
 import { XuiCaption } from './lib/caption';
 import { XuiTable } from './lib/table';
 import { XuiTableDirective } from './lib/table.directive';
@@ -14,9 +13,3 @@ export * from './lib/th';
 export * from './lib/tr';
 
 export const XuiTableImports = [XuiTable, XuiTableDirective, XuiCaption, XuiTh, XuiTd, XuiTr] as const;
-
-@NgModule({
-  imports: [...XuiTableImports],
-  exports: [...XuiTableImports]
-})
-export class XuiTableModule {}

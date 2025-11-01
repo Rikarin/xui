@@ -26,7 +26,7 @@ import { NgxSonnerToaster, ToasterProps } from 'ngx-sonner';
     />
   `
 })
-export class XuiSonnerComponent {
+export class XuiSonner {
   readonly invert = input<ToasterProps['invert'], boolean | string>(false, {
     transform: booleanAttribute
   });

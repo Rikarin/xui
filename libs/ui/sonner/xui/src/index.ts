@@ -1,11 +1,4 @@
-import { NgModule } from '@angular/core';
-import { XuiSonnerComponent } from './lib/sonner.component';
-export * from './lib/sonner.component';
+import { XuiSonner } from './lib/sonner';
+export * from './lib/sonner';
 
-export const XuiSonnerImports = [XuiSonnerComponent] as const;
-
-@NgModule({
-  imports: [...XuiSonnerImports],
-  exports: [...XuiSonnerImports]
-})
-export class XuiSonnerModule {}
+export const XuiSonnerImports = [XuiSonner] as const;

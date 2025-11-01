@@ -9,7 +9,7 @@ export type IconSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'none' | (Record<never
     '[style.--ng-icon__size]': 'computedSize()'
   }
 })
-export class XuiIconDirective {
+export class XuiIcon {
   private readonly config = injectXuiIconConfig();
   readonly size = input<IconSize>(this.config.size);
 

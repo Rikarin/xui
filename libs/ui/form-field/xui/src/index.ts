@@ -1,15 +1,8 @@
-import { NgModule } from '@angular/core';
-import { XuiErrorComponent } from './lib/error.component';
-import { XuiFormFieldComponent } from './lib/form-field.component';
-import { XuiHintComponent } from './lib/hint.component';
-export * from './lib/error.component';
-export * from './lib/form-field.component';
-export * from './lib/hint.component';
+import { XuiError } from './lib/error';
+import { XuiFormField } from './lib/form-field';
+import { XuiHint } from './lib/hint';
+export * from './lib/error';
+export * from './lib/form-field';
+export * from './lib/hint';
 
-export const XuiFormFieldImports = [XuiFormFieldComponent, XuiErrorComponent, XuiHintComponent] as const;
-
-@NgModule({
-  imports: [...XuiFormFieldImports],
-  exports: [...XuiFormFieldImports]
-})
-export class XuiFormFieldModule {}
+export const XuiFormFieldImports = [XuiFormField, XuiError, XuiHint] as const;

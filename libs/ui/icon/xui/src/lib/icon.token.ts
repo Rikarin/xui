@@ -1,5 +1,5 @@
 import { InjectionToken, ValueProvider, inject } from '@angular/core';
-import type { IconSize } from './icon.directive';
+import type { IconSize } from './icon';
 
 export interface XuiIconConfig {
   size: IconSize;

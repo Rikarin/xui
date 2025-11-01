@@ -51,13 +51,13 @@ export type StatusVariants = VariantProps<typeof statusVariants>;
     '[style.clip-path]': 'computedStyle()'
   }
 })
-export class XuiStatusComponent {
-  /** The user defined classes */
+export class XuiStatus {
+  /** The user-defined classes */
   readonly class = input<ClassValue>('');
   readonly variant = input.required<StatusVariants['variant']>();
   readonly size = input<StatusVariants['size']>('md');
 
-  /** The classes to apply to the component merged with the user defined classes */
+  /** The classes to apply to the component merged with the user-defined classes */
   protected readonly computedClass = computed(() =>
     xui(statusVariants({ variant: this.variant(), size: this.size() }), this.class())
   );

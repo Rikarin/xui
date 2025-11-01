@@ -55,7 +55,7 @@ export type SpinnerVariants = VariantProps<typeof spinnerVariants>;
     role: 'status'
   }
 })
-export class XuiSpinnerComponent {
+export class XuiSpinner {
   /** The user-defined classes */
   readonly class = input<ClassValue>('');
   readonly color = input<SpinnerVariants['color']>();

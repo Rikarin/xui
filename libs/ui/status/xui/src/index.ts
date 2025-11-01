@@ -1,11 +1,4 @@
-import { NgModule } from '@angular/core';
-import { XuiStatusComponent } from './lib/status.component';
-export * from './lib/status.component';
+import { XuiStatus } from './lib/status';
+export * from './lib/status';
 
-export const XuiStatusImports = [XuiStatusComponent] as const;
-
-@NgModule({
-  imports: [...XuiStatusImports],
-  exports: [...XuiStatusImports]
-})
-export class XuiStatusModule {}
+export const XuiStatusImports = [XuiStatus] as const;

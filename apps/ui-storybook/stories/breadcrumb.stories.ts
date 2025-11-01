@@ -4,7 +4,7 @@ import { matHomeRound } from '@ng-icons/material-icons/round';
 import type { Meta, StoryObj } from '@storybook/angular';
 import { moduleMetadata } from '@storybook/angular';
 import { XuiBreadcrumb, XuiBreadcrumbImports } from '@xui/breadcrumb';
-import { XuiIconDirective } from '@xui/icon';
+import { XuiIcon } from '@xui/icon';
 
 export default {
   title: 'Breadcrumb',
@@ -12,7 +12,7 @@ export default {
   tags: ['autodocs'],
   decorators: [
     moduleMetadata({
-      imports: [XuiBreadcrumbImports, NgIcon, XuiIconDirective, RouterTestingModule],
+      imports: [XuiBreadcrumbImports, NgIcon, XuiIcon, RouterTestingModule],
       providers: [provideIcons({ matHomeRound })]
     })
   ]

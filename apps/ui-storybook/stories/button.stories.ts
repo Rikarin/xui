@@ -1,5 +1,5 @@
 import { argsToTemplate, Meta, moduleMetadata, StoryObj } from '@storybook/angular';
-import { XuiButton } from '@xui/button';
+import { XuiButton, XuiButtonImports } from '@xui/button';
 
 const meta: Meta<XuiButton> = {
   title: 'Button',
@@ -31,7 +31,7 @@ const meta: Meta<XuiButton> = {
   },
   decorators: [
     moduleMetadata({
-      imports: [XuiButton]
+      imports: [XuiButtonImports]
     })
   ],
   render: ({ ...args }) => ({

@@ -1,11 +1,4 @@
-import { NgModule } from '@angular/core';
-import { XuiSkeletonComponent } from './lib/skeleton.component';
-export * from './lib/skeleton.component';
+import { XuiSkeleton } from './lib/skeleton';
+export * from './lib/skeleton';
 
-export const XuiSkeletonImports = [XuiSkeletonComponent] as const;
-
-@NgModule({
-  imports: [...XuiSkeletonImports],
-  exports: [...XuiSkeletonImports]
-})
-export class XuiSkeletonModule {}
+export const XuiSkeletonImports = [XuiSkeleton] as const;

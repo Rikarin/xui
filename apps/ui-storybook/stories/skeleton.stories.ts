@@ -1,19 +1,19 @@
 import type { Meta, StoryObj } from '@storybook/angular';
 import { moduleMetadata } from '@storybook/angular';
-import { XuiSkeletonComponent, XuiSkeletonImports } from '@xui/skeleton';
+import { XuiSkeleton, XuiSkeletonImports } from '@xui/skeleton';
 
 export default {
   title: 'Skeleton',
-  component: XuiSkeletonComponent,
+  component: XuiSkeleton,
   tags: ['autodocs'],
   decorators: [
     moduleMetadata({
       imports: [XuiSkeletonImports]
     })
   ]
-} as Meta<XuiSkeletonComponent>;
+} as Meta<XuiSkeleton>;
 
-type Story = StoryObj<XuiSkeletonComponent>;
+type Story = StoryObj<XuiSkeleton>;
 
 export const Default: Story = {
   render: () => ({

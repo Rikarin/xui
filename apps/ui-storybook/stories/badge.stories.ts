@@ -1,5 +1,5 @@
 import { type Meta, type StoryObj, argsToTemplate, moduleMetadata } from '@storybook/angular';
-import { XuiBadge } from '@xui/badge';
+import { XuiBadge, XuiBadgeImports } from '@xui/badge';
 
 const meta: Meta<XuiBadge> = {
   title: 'Badge',
@@ -36,7 +36,7 @@ const meta: Meta<XuiBadge> = {
   },
   decorators: [
     moduleMetadata({
-      imports: [XuiBadge]
+      imports: [XuiBadgeImports]
     })
   ],
   render: ({ ...args }) => ({

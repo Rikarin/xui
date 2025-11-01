@@ -2,12 +2,12 @@ import { ChangeDetectionStrategy, Component, computed, input } from '@angular/co
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { matMoreHorizRound } from '@ng-icons/material-icons/round';
 import { xui } from '@xui/core';
-import { XuiIconDirective } from '@xui/icon';
+import { XuiIcon } from '@xui/icon';
 import type { ClassValue } from 'clsx';
 
 @Component({
   selector: 'xui-breadcrumb-ellipsis',
-  imports: [NgIcon, XuiIconDirective],
+  imports: [NgIcon, XuiIcon],
   providers: [provideIcons({ matMoreHorizRound })],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `

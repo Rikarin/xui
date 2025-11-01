@@ -1,21 +1,21 @@
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import type { Meta, StoryObj } from '@storybook/angular';
 import { moduleMetadata } from '@storybook/angular';
-import { XuiFormFieldComponent, XuiFormFieldImports } from '@xui/form-field';
-import { XuiInputDirective } from '@xui/input';
+import { XuiFormField, XuiFormFieldImports } from '@xui/form-field';
+import { XuiInputImports } from '@xui/input';
 
 export default {
   title: 'Form Field',
-  component: XuiFormFieldComponent,
+  component: XuiFormField,
   tags: ['autodocs'],
   decorators: [
     moduleMetadata({
-      imports: [XuiFormFieldImports, XuiInputDirective, ReactiveFormsModule]
+      imports: [XuiFormFieldImports, XuiInputImports, ReactiveFormsModule]
     })
   ]
-} as Meta<XuiFormFieldComponent>;
+} as Meta<XuiFormField>;
 
-type Story = StoryObj<XuiFormFieldComponent>;
+type Story = StoryObj<XuiFormField>;
 
 export const Default: Story = {
   render: () => ({

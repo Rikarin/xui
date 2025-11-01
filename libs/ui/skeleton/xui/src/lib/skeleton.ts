@@ -10,11 +10,11 @@ import type { ClassValue } from 'clsx';
     '[class]': 'computedClass()'
   }
 })
-export class XuiSkeletonComponent {
-  /** The user defined classes */
+export class XuiSkeleton {
+  /** The user-defined classes */
   readonly class = input<ClassValue>('');
 
-  /** The classes to apply to the component merged with the user defined classes */
+  /** The classes to apply to the component merged with the user-defined classes */
   protected readonly computedClass = computed(() =>
     xui('block animate-pulse rounded-md bg-foreground/20', this.class())
   );

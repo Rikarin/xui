@@ -1,11 +1,4 @@
-import { NgModule } from '@angular/core';
-import { XuiSpinnerComponent } from './lib/spinner.component';
-export * from './lib/spinner.component';
+import { XuiSpinner } from './lib/spinner';
+export * from './lib/spinner';
 
-export const XuiSpinnerImports = [XuiSpinnerComponent] as const;
-
-@NgModule({
-  imports: [...XuiSpinnerImports],
-  exports: [...XuiSpinnerImports]
-})
-export class XuiSpinnerModule {}
+export const XuiSpinnerImports = [XuiSpinner] as const;

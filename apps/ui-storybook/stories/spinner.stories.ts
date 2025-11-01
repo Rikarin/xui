@@ -1,9 +1,9 @@
 import { argsToTemplate, Meta, moduleMetadata, StoryObj } from '@storybook/angular';
-import { XuiSpinnerComponent, XuiSpinnerImports } from '@xui/spinner';
+import { XuiSpinner, XuiSpinnerImports } from '@xui/spinner';
 
 export default {
   title: 'Spinner',
-  component: XuiSpinnerComponent,
+  component: XuiSpinner,
   tags: ['autodocs'],
   argTypes: {
     size: {
@@ -18,9 +18,9 @@ export default {
       imports: [XuiSpinnerImports]
     })
   ]
-} as Meta<XuiSpinnerComponent>;
+} as Meta<XuiSpinner>;
 
-type Story = StoryObj<XuiSpinnerComponent>;
+type Story = StoryObj<XuiSpinner>;
 
 export const Default: Story = {
   render: ({ ...args }) => ({

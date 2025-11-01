@@ -1,13 +1,4 @@
-import { NgModule } from '@angular/core';
-import { XuiInputErrorDirective } from './lib/input-error.directive';
-import { XuiInputDirective } from './lib/input.directive';
-export * from './lib/input-error.directive';
-export * from './lib/input.directive';
+import { XuiInput } from './lib/input';
+export * from './lib/input';
 
-export const XuiInputImports = [XuiInputDirective, XuiInputErrorDirective] as const;
-
-@NgModule({
-  imports: [...XuiInputImports],
-  exports: [...XuiInputImports]
-})
-export class XuiInputModule {}
+export const XuiInputImports = [XuiInput] as const;

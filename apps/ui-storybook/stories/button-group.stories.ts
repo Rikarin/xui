@@ -1,19 +1,19 @@
 import { Meta, moduleMetadata, StoryObj } from '@storybook/angular';
-import { XuiButton } from '@xui/button';
-import { XuiButtonGroupDirective } from '@xui/button-group';
+import { XuiButtonImports } from '@xui/button';
+import { XuiButtonGroup, XuiButtonGroupImports } from '@xui/button-group';
 
-const meta: Meta<XuiButtonGroupDirective> = {
+const meta: Meta<XuiButtonGroup> = {
   title: 'Button Group',
-  component: XuiButtonGroupDirective,
+  component: XuiButtonGroup,
   decorators: [
     moduleMetadata({
-      imports: [XuiButtonGroupDirective, XuiButton]
+      imports: [XuiButtonGroupImports, XuiButtonImports]
     })
   ]
 };
 
 export default meta;
-type Story = StoryObj<XuiButtonGroupDirective>;
+type Story = StoryObj<XuiButtonGroup>;
 
 export const Default: Story = {
   render: () => ({

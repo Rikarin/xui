@@ -1,13 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/angular';
-import { XuiButton } from '@xui/button';
-import { XuiSonnerComponent, XuiSonnerImports } from '@xui/sonner';
+import { XuiButtonImports } from '@xui/button';
+import { XuiSonner, XuiSonnerImports } from '@xui/sonner';
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { toast } from 'ngx-sonner';
 
 @Component({
   selector: 'sonner-default-test',
-  imports: [XuiSonnerImports, XuiButton],
+  imports: [XuiSonnerImports, XuiButtonImports],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <xui-sonner />
@@ -24,9 +24,9 @@ export default {
   title: 'Sonner',
   component: SonnerDefaultTestComponent,
   tags: ['autodocs']
-} as Meta<XuiSonnerComponent>;
+} as Meta<XuiSonner>;
 
-type Story = StoryObj<XuiSonnerComponent>;
+type Story = StoryObj<XuiSonner>;
 
 export const Default: Story = {
   render: () => ({
