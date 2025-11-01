@@ -95,13 +95,13 @@ export class XCheckboxComponent implements AfterContentInit, OnDestroy {
    * Can be boolean (true/false) or 'indeterminate'.
    * Can be bound with [(checked)] for two-way binding.
    */
-  public readonly checked = model<XCheckboxValue>(false);
+  readonly checked = model<XCheckboxValue>(false);
 
   /**
    * Read-only signal of the current checkbox state.
    * Use this when you only need to read the state without changing it.
    */
-  public readonly isChecked = this.checked.asReadonly();
+  readonly isChecked = this.checked.asReadonly();
 
   /**
    * Computed data-state attribute value based on a checked state.
