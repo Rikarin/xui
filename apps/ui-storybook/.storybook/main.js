@@ -7,12 +7,7 @@ const __dirname = path.dirname(__filename);
 
 const config = {
   stories: ['../**/*.@(mdx|stories.@(js|jsx|ts|tsx))'],
-  addons: [
-    '@storybook/addon-essentials',
-    '@storybook/addon-a11y',
-    '@storybook/addon-themes',
-    '@chromatic-com/storybook'
-  ],
+  addons: ['@storybook/addon-a11y', '@storybook/addon-themes', '@chromatic-com/storybook'],
   framework: {
     name: '@storybook/angular',
     options: {}
