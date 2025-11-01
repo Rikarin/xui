@@ -21,7 +21,8 @@
   "sideEffects": false,
   "peerDependencies": {
     "@angular/core": "20",
-    "@xui/core": "2.0.0-alpha.8"
+    "@xui/core": "2.0.0-alpha.8",
+    "clsx": "^2.1.1"
   },
   "publishConfig": {
     "access": "public"
