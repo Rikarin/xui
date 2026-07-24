@@ -1,6 +1,5 @@
 import { signal } from '@angular/core';
-import { provideRouter } from '@angular/router';
-import { applicationConfig, moduleMetadata, type Meta, type StoryObj } from '@storybook/angular-vite';
+import { moduleMetadata, type Meta, type StoryObj } from '@storybook/angular-vite';
 import { XuiBadgeImports } from '@xui/badge';
 import { XuiBreadcrumbImports } from '@xui/breadcrumb';
 import { XuiLinkImports } from '@xui/link';
@@ -12,9 +11,6 @@ const meta: Meta<XuiOverflowList<string>> = {
   title: 'Overflow List',
   component: XuiOverflowList,
   decorators: [
-    // XuiBreadcrumbLink composes RouterLink as a host directive, so the
-    // breadcrumb parts cannot render without a router in the injector.
-    applicationConfig({ providers: [provideRouter([])] }),
     moduleMetadata({ imports: [XuiOverflowListImports, XuiLinkImports, XuiBadgeImports, XuiBreadcrumbImports] })
   ]
 };
@@ -60,7 +56,7 @@ export const CollapseFromEnd: Story = {
   })
 };
 
-/** The breadcrumb parts composed with the overflow list — Blueprint's collapsing Breadcrumbs. */
+/** The breadcrumb parts composed by hand. `<xui-breadcrumbs>` does this for you. */
 export const CollapsingBreadcrumbs: Story = {
   render: () => ({
     props: { items: signal(CRUMBS) },

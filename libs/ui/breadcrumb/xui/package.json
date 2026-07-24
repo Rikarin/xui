@@ -20,12 +20,15 @@
   ],
   "sideEffects": false,
   "peerDependencies": {
+    "@angular/cdk": "22",
+    "@angular/common": "22.0.8",
     "@angular/core": "22",
     "@angular/router": "22",
     "@ng-icons/core": "34",
     "@ng-icons/material-icons": "34",
     "@xui/core": "2.0.0-alpha.8",
     "@xui/icon": "2.0.0-alpha.8",
+    "@xui/overflow-list": "2.0.0-alpha.8",
     "clsx": "^2.1.1"
   },
   "publishConfig": {

@@ -1,35 +1,42 @@
-import { Directive, computed, input } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import type { BooleanInput } from '@angular/cdk/coercion';
+import { Directive, booleanAttribute, computed, input } from '@angular/core';
 import { xui } from '@xui/core';
 import type { ClassValue } from 'clsx';
 
+/**
+ * A navigable crumb.
+ *
+ * ```html
+ * <a xuiBreadcrumbLink href="/projects">Projects</a>
+ * <a xuiBreadcrumbLink [routerLink]="['/projects']">Projects</a>
+ * ```
+ *
+ * This is styling and disabled semantics only — it deliberately does not
+ * compose `RouterLink`. Doing so made every breadcrumb fail to render without a
+ * `Router` in the injector, routed or not, because host directives are
+ * instantiated unconditionally. Applying `routerLink` alongside it costs the
+ * consumer nothing and keeps `@angular/router` optional.
+ */
 @Directive({
   selector: '[xuiBreadcrumbLink]',
-  hostDirectives: [
-    {
-      directive: RouterLink,
-      inputs: [
-        'target',
-        'queryParams',
-        'fragment',
-        'queryParamsHandling',
-        'state',
-        'info',
-        'relativeTo',
-        'preserveFragment',
-        'skipLocationChange',
-        'replaceUrl',
-        'routerLink: link'
-      ]
-    }
-  ],
   host: {
-    '[class]': 'computedClass()'
+    '[class]': 'computedClass()',
+    '[attr.aria-disabled]': 'disabled() || null',
+    '[attr.tabindex]': 'disabled() ? -1 : null'
   }
 })
 export class XuiBreadcrumbLink {
+  /** The user-defined classes. Merged last so they win over the base classes. */
   readonly class = input<ClassValue>('');
-  readonly link = input<RouterLink['routerLink']>();
 
-  protected readonly computedClass = computed(() => xui('transition-colors hover:text-foreground', this.class()));
+  /** Renders the crumb as unreachable without dropping it from the trail. */
+  readonly disabled = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
+
+  protected readonly computedClass = computed(() =>
+    xui(
+      'hover:text-foreground rounded-sm transition-colors focus-visible:outline-5 focus-visible:outline-offset-2',
+      this.disabled() && 'text-foreground-muted pointer-events-none opacity-60 hover:text-inherit',
+      this.class()
+    )
+  );
 }

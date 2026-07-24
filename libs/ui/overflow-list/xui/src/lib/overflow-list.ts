@@ -71,7 +71,7 @@ export class XuiOverflowListOverflow {}
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     @if (collapseFrom() === 'start' && (overflowed().length > 0 || alwaysRenderOverflow())) {
-      <div class="shrink-0">
+      <div class="shrink-0" [attr.role]="itemRole()">
         <ng-container
           *ngTemplateOutlet="
             overflowTemplate() ?? null;
@@ -82,7 +82,7 @@ export class XuiOverflowListOverflow {}
     }
 
     @for (entry of visible(); track entry.index) {
-      <div class="shrink-0">
+      <div class="shrink-0" [attr.role]="itemRole()">
         <ng-container
           *ngTemplateOutlet="itemTemplate() ?? null; context: { $implicit: entry.item, index: entry.index }"
         />
@@ -90,7 +90,7 @@ export class XuiOverflowListOverflow {}
     }
 
     @if (collapseFrom() === 'end' && (overflowed().length > 0 || alwaysRenderOverflow())) {
-      <div class="shrink-0">
+      <div class="shrink-0" [attr.role]="itemRole()">
         <ng-container
           *ngTemplateOutlet="
             overflowTemplate() ?? null;
@@ -136,6 +136,16 @@ export class XuiOverflowList<T> {
 
   /** Render the overflow template even when nothing is hidden. */
   readonly alwaysRenderOverflow = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
+
+  /**
+   * Role for the wrapper around each item, including the overflow one.
+   *
+   * The wrappers exist to hold the layout, so by default they are plain
+   * elements. A list needs them announced: set `role="list"` on the host and
+   * `itemRole="listitem"` here, and the wrappers stop breaking the chain
+   * between the two.
+   */
+  readonly itemRole = input<string | null>(null);
 
   /** Emits the hidden items whenever the overflow set changes. */
   readonly overflow = output<T[]>();

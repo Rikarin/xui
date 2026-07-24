@@ -17,6 +17,7 @@ const ITEM_WIDTH = 100;
       [collapseFrom]="collapseFrom()"
       [minVisibleItems]="minVisibleItems()"
       [alwaysRenderOverflow]="alwaysRenderOverflow()"
+      [itemRole]="itemRole()"
       (overflow)="hidden.set($event)"
     >
       <ng-template xuiOverflowListItem let-item>
@@ -34,6 +35,7 @@ class OverflowHost {
   readonly collapseFrom = signal<'start' | 'end'>('start');
   readonly minVisibleItems = signal(0);
   readonly alwaysRenderOverflow = signal(false);
+  readonly itemRole = signal<string | null>(null);
   readonly hidden = signal<string[] | null>(null);
 }
 
@@ -162,6 +164,18 @@ describe('XuiOverflowList', () => {
     // Otherwise every item would be announced twice.
     expect(ruler).toBeTruthy();
     expect(ruler.className).toContain('invisible');
+  });
+
+  it('gives the layout wrappers a role on request, overflow included', () => {
+    const { fixture, host, remeasure, visible } = setup(3 * ITEM_WIDTH);
+    host.itemRole.set('listitem');
+    fixture.detectChanges();
+    remeasure();
+
+    // Without this the wrappers sit between a role="list" and its items and
+    // break the chain between them.
+    const wrappers = fixture.nativeElement.querySelectorAll('[role="listitem"]');
+    expect(wrappers).toHaveLength(visible().length + 1);
   });
 
   it('re-measures when the item set changes', () => {

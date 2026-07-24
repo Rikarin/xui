@@ -290,20 +290,64 @@ generator, plus three upgrades. Notes worth carrying forward:
 | `Skeleton`                                                        | **UP** `@xui/skeleton`                      | Blueprint's skeleton is a class modifier — add `xuiSkeleton` directive that suppresses focus/interaction on children.                    |
 | `Link`, `AnchorButton`                                            | **NEW** `@xui/link`                         | `<a xuiLink>` + anchor variant of `xuiButton`.                                                                                           |
 
-### Phase 2 — Layout & content (10 packages)
+### Phase 2 — Layout & content (10 packages) — ✅ done
 
-| Blueprint                                                 | xUI                            | Notes                                                                                                                                |
-| --------------------------------------------------------- | ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------ |
-| `Card`                                                    | **NEW** `@xui/card`            | `elevation` 0–4, `interactive`, `compact`, `selected`.                                                                               |
-| `CardList`                                                | **NEW** `@xui/card-list`       | `bordered`, `compact`; composes `@xui/card`.                                                                                         |
-| `Section`, `SectionCard`                                  | **NEW** `@xui/section`         | `title`, `subtitle`, `rightElement`, `collapsible` (needs `@xui/collapse`), `elevation`.                                             |
-| `Callout`                                                 | **NEW** `@xui/callout`         | `intent`, `icon`, `title`, `compact`; uses `*-subtle` tokens.                                                                        |
-| `Collapse`                                                | **NEW** `@xui/collapse`        | Height animation via Web Animations API, not `@angular/animations`; `isOpen` model, `keepChildrenMounted`.                           |
-| `EntityTitle`                                             | **NEW** `@xui/entity-title`    | `title`, `subtitle`, `icon`, `tags`, `heading` size, `loading`.                                                                      |
-| `NonIdealState`                                           | **NEW** `@xui/non-ideal-state` | `icon`, `title`, `description`, `action`, `layout` vertical/horizontal.                                                              |
-| `Navbar`, `NavbarGroup`, `NavbarHeading`, `NavbarDivider` | **NEW** `@xui/navbar`          | Directives + `fixedToTop`.                                                                                                           |
-| `Breadcrumbs`, `Breadcrumb`                               | **UP** `@xui/breadcrumb`       | Add collapsing behavior via `@xui/overflow-list`, `current` state, icons — existing package has the sub-parts but no overflow logic. |
-| `OverflowList`                                            | **NEW** `@xui/overflow-list`   | Headless measure/collapse in `@xui/core/interactions`; `collapseFrom`, `minVisibleItems`, `overflowRenderer`.                        |
+Nine new packages: `card`, `card-list`, `callout`, `collapse`, `entity-title`, `non-ideal-state`,
+`navbar`, `overflow-list`, `section`. Notes worth carrying forward:
+
+- **`overflow-list` measures through an off-screen ruler.** Every item is rendered once, hidden and
+  `aria-hidden`, purely to learn its width; the visible count is then derived in one pass. The
+  naive alternative — render, measure, re-render — oscillates between two states at the boundary.
+  Its "nothing measurable yet" branch shows _everything_ rather than clamping to the measured
+  count: the first pass runs before the ruler has laid out, and clamping there collapsed the whole
+  list permanently, since nothing else would change to trigger a re-measure. That would also have
+  hit any container starting at zero width (inside a hidden parent).
+- **`collapse` animates with the Web Animations API**, not `@angular/animations` — keeping the
+  dependency out and staying zoneless-clean. It pins the start height before animating, because a
+  transition _from_ `auto` does not run at all, and releases the fixed height once open so later
+  content growth is not clipped. Content is unmounted while closed; `keepChildrenMounted` trades
+  that for avoiding a rebuild, and then relies on `inert` + `aria-hidden`.
+- **`card` is a directive, not a component**, so an interactive card can be a real `<button>` or
+  `<a>` and gets keyboard activation and focus for free. `aria-selected` is only emitted when the
+  card is actually interactive — a static card cannot be selected, so claiming a selection state
+  would be a lie.
+- **`section` renders its projected body through a single `ng-template`.** An `ng-content` in each
+  branch of the collapsible/non-collapsible `@if` does not work: projection slots are static, so
+  only the first would ever receive content.
+- **`callout` derives its icon from its colour**, and announces error/warning callouts as `alert`
+  while leaving informational ones as ordinary content.
+
+- **`XuiBreadcrumbLink` no longer composes `RouterLink`.** Host directives are instantiated
+  unconditionally, so composing it made _every_ breadcrumb — routed or not — fail with `NG0201`
+  without a `Router` in the injector. Routing is now applied by the consumer (`[routerLink]`
+  alongside `xuiBreadcrumbLink`), and the data-driven wrapper only instantiates `RouterLink` inside
+  the `@if` branch for items that carry a `link`. A spec renders a trail with no router at all as
+  the guard.
+- **`<xui-breadcrumbs [items]>`** is the assembled form, wired to `overflow-list`. Three content
+  templates mirror Blueprint's renderer props: `xuiBreadcrumbsItem`, `xuiBreadcrumbsCurrent`,
+  `xuiBreadcrumbsOverflow`. The collapsed crumbs reach the overflow template and `(overflow)`, so a
+  menu can be hung off the ellipsis once Phase 3 lands — Blueprint's version opens a `Popover`
+  there, which does not exist yet.
+- **`overflow-list` gained `itemRole`.** Its per-item layout wrappers sat between the breadcrumb's
+  `role="list"` and its items and broke the chain; the wrappers now carry `role="listitem"` on
+  request, which keeps the list semantics without giving up the `<div>` layout.
+
+Worth remembering for browser verification: **a `ResizeObserver` only delivers on a painted frame.**
+Reading `hostSize()` from a tab that is not rendering shows `0×0` and nothing ever collapses, which
+looks exactly like a broken measurement. Force a paint (a screenshot will do) before reading.
+
+| Blueprint                                                 | xUI                            | Notes                                                                                                                                              |
+| --------------------------------------------------------- | ------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Card`                                                    | **NEW** `@xui/card`            | `elevation` 0–4, `interactive`, `compact`, `selected`.                                                                                             |
+| `CardList`                                                | **NEW** `@xui/card-list`       | `bordered`, `compact`; composes `@xui/card`.                                                                                                       |
+| `Section`, `SectionCard`                                  | **NEW** `@xui/section`         | `title`, `subtitle`, `rightElement`, `collapsible` (needs `@xui/collapse`), `elevation`.                                                           |
+| `Callout`                                                 | **NEW** `@xui/callout`         | `intent`, `icon`, `title`, `compact`; uses `*-subtle` tokens.                                                                                      |
+| `Collapse`                                                | **NEW** `@xui/collapse`        | Height animation via Web Animations API, not `@angular/animations`; `isOpen` model, `keepChildrenMounted`.                                         |
+| `EntityTitle`                                             | **NEW** `@xui/entity-title`    | `title`, `subtitle`, `icon`, `tags`, `heading` size, `loading`.                                                                                    |
+| `NonIdealState`                                           | **NEW** `@xui/non-ideal-state` | `icon`, `title`, `description`, `action`, `layout` vertical/horizontal.                                                                            |
+| `Navbar`, `NavbarGroup`, `NavbarHeading`, `NavbarDivider` | **NEW** `@xui/navbar`          | Directives + `fixedToTop`.                                                                                                                         |
+| `Breadcrumbs`, `Breadcrumb`                               | **UP** `@xui/breadcrumb`       | `<xui-breadcrumbs [items]>` collapses via `@xui/overflow-list`; `current`, icons, `disabled`, three renderer templates; `RouterLink` now optional. |
+| `OverflowList`                                            | **NEW** `@xui/overflow-list`   | Headless measure/collapse in `@xui/core/interactions`; `collapseFrom`, `minVisibleItems`, `overflowRenderer`.                                      |
 
 ### Phase 3 — Overlays (10 packages, depends on 0.2)
 
@@ -474,5 +518,8 @@ bump, cut `2.0.0-beta.0` after Phase 5, `2.0.0` after Phase 7.
    covering the positioning jsdom cannot check)
 5. ~~Start Phase 1 in component order: `text` → `icon` → `divider` → `spinner` → `progress-bar` →
    `skeleton` → `link`.~~ ✅ (242 tests workspace-wide)
-6. Phase 2 — layout & content: `card` → `card-list` → `section` → `callout` → `collapse` →
-   `entity-title` → `non-ideal-state` → `navbar` → `overflow-list` → `breadcrumb` upgrade.
+6. ~~Phase 2 — layout & content: `card` → `card-list` → `section` → `callout` → `collapse` →
+   `entity-title` → `non-ideal-state` → `navbar` → `overflow-list` → `breadcrumbs`.~~ ✅ (356 tests
+   workspace-wide)
+7. Phase 3 — overlays, on `@xui/core/overlay`: `popover` → `tooltip` → `menu` → `context-menu` →
+   `dialog` → `alert` → `drawer` → `toast` → `panel-stack`.
