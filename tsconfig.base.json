@@ -61,7 +61,16 @@
       "@xui/divider": ["./libs/ui/divider/xui/src/index.ts"],
       "@xui/link": ["./libs/ui/link/xui/src/index.ts"],
       "@xui/progress-bar": ["./libs/ui/progress-bar/xui/src/index.ts"],
-      "@xui/text": ["./libs/ui/text/xui/src/index.ts"]
+      "@xui/text": ["./libs/ui/text/xui/src/index.ts"],
+      "@xui/card": ["./libs/ui/card/xui/src/index.ts"],
+      "@xui/card-list": ["./libs/ui/card-list/xui/src/index.ts"],
+      "@xui/callout": ["./libs/ui/callout/xui/src/index.ts"],
+      "@xui/collapse": ["./libs/ui/collapse/xui/src/index.ts"],
+      "@xui/entity-title": ["./libs/ui/entity-title/xui/src/index.ts"],
+      "@xui/non-ideal-state": ["./libs/ui/non-ideal-state/xui/src/index.ts"],
+      "@xui/navbar": ["./libs/ui/navbar/xui/src/index.ts"],
+      "@xui/overflow-list": ["./libs/ui/overflow-list/xui/src/index.ts"],
+      "@xui/section": ["./libs/ui/section/xui/src/index.ts"]
     },
     "strict": false,
     "noUncheckedSideEffectImports": false,

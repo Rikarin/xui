@@ -1,0 +1,16 @@
+{
+  "name": "@xui/entity-title",
+  "version": "2.0.0-alpha.8",
+  "sideEffects": false,
+  "peerDependencies": {
+    "@angular/cdk": "22",
+    "@angular/core": "22",
+    "@xui/core": "2.0.0-alpha.8",
+    "@xui/skeleton": "2.0.0-alpha.8",
+    "@xui/text": "2.0.0-alpha.8",
+    "clsx": "^2.1.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
