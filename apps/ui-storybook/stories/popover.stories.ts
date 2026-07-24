@@ -61,7 +61,7 @@ export const Hover: Story = {
       <a class="text-link cursor-pointer underline" tabindex="0" [xuiPopover]="card" interactionKind="hover">&#64;rikarin</a>
       <ng-template #card>
         <div class="w-64 p-4">
-          <p class="text-foreground font-semibold">Rene Cincura</p>
+          <p class="text-foreground font-semibold">Jiu</p>
           <p class="text-foreground-muted mt-1 text-sm">Maintainer of xUI. Hover cards never steal focus.</p>
         </div>
       </ng-template>
