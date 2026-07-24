@@ -510,7 +510,7 @@ The last two — **`toast` and `panel-stack`** — closed the phase. Notes:
 | `Toast`, `OverlayToaster`                                               | **✅ NEW** `@xui/toast`        | `XuiToastService.show({message,intent,icon,actionText,onAction,timeout})` → id; `dismiss`/`clear`, `maxToasts`, `position` (6). Corner-pinned overlay, pointer pass-through, auto-dismiss. 9 tests, browser-verified. `@xui/sonner` kept published but frozen.                                       |
 | `PanelStack2`                                                           | **✅ NEW** `@xui/panel-stack`  | `<xui-panel-stack [initialPanel]>`; template (`let-stack`) or component (`XUI_PANEL_STACK`/`XUI_PANEL_DATA`) panels, back-navigating header, WAAPI slide, `(opened)`/`(closed)`. 6 tests, browser-verified. Keep-mounted mode deferred.                                                              |
 
-### Phase 4 — Forms (14 packages) — 🚧 5 done (textarea, switch, radio, numeric-input, file-input)
+### Phase 4 — Forms (14 packages) — 🚧 8 done (textarea, switch, radio, numeric-input, file-input, control-group, html-select, segmented-control)
 
 First three landed as a batch. Notes worth carrying forward:
 
@@ -548,6 +548,17 @@ First three landed as a batch. Notes worth carrying forward:
   security**, so `writeValue` can only _clear_ the selection, never pre-fill it — the CVA honours a
   reset and nothing more. jsdom has no `DataTransfer`, so its tests build a `FileList`-shaped object by
   hand.
+- **`html-select` frames a real native `<select>`** — the platform dropdown/keyboard/mobile behaviour
+  kept, only a chevron added. Options come as data _or_ projected `<option>`s. The DOM only carries
+  strings, so on change it recovers the original typed value (number, object) by matching `String(v)`
+  against the data options — otherwise a `[value]="1"` round-trips as `"1"`.
+- **`segmented-control` is `@xui/radio` with a different skin** — `role="radiogroup"`, one tab stop,
+  arrow-key navigation, but rendered as a pill bar from an `options` array. `select()` guards the
+  _option's own_ disabled state, not just the group's: a disabled `<button>` blocks native clicks but
+  nothing stops a programmatic one (the same class of gap the segmented-control test caught).
+- **`control-group` collapses adjacent controls into one unit** — the radii between neighbours go
+  square and the shared 1px border is overlapped with a negative margin (`-ml-px`/`-mt-px`) so it never
+  reads as double-width. Extends `@xui/button-group`'s pattern to a vertical axis and adds `fill`.
 
 | Blueprint                                 | xUI                                          | Notes                                                                                                                                                                                                                                                                     |
 | ----------------------------------------- | -------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -558,11 +569,11 @@ First three landed as a batch. Notes worth carrying forward:
 | `Checkbox`                                | **UP** `@xui/checkbox`                       | Add `alignIndicator`, `inline`, `large`, label content projection; keep the existing headless `x-checkbox`.                                                                                                                                                               |
 | `Radio`, `RadioGroup`                     | **✅ NEW** `@xui/radio`                      | `xui-radio-group` (CVA, owns value/name/tab-stop, arrow-key nav, `orientation`, `disabled`) + `xui-radio` (`value`, `size`, `disabled`). `role=radiogroup`/`radio`. 9 tests, browser-verified. Headless `@xui/core/radio` folded inline for now.                          |
 | `Switch`                                  | **✅ NEW** `@xui/switch`                     | `xui-switch` `role=switch` button; `checked` model, `size` (default/large), `disabled`, Space/Enter, full CVA. 8 tests, browser-verified. `innerLabel`/`alignIndicator` deferred.                                                                                         |
-| `ControlGroup`                            | **NEW** `@xui/control-group`                 | `fill`, `vertical` — sibling-radius handling shared with `@xui/button-group`.                                                                                                                                                                                             |
+| `ControlGroup`                            | **✅ NEW** `@xui/control-group`              | `[xuiControlGroup]`; `vertical`, `fill`; collapses radii + overlaps the shared border between neighbours. 4 tests, browser-verified.                                                                                                                                      |
 | `FormGroup`                               | **UP** `@xui/form-field`                     | Blueprint's `label`/`labelInfo`/`helperText`/`subLabel`/`intent`/`inline`; wire `@xui/core/form-field` + `ErrorStateTracker` (already present).                                                                                                                           |
-| `HTMLSelect`                              | **NEW** `@xui/html-select`                   | Native `<select>` styling + chevron; distinct from Phase 6's `@xui/select`.                                                                                                                                                                                               |
+| `HTMLSelect`                              | **✅ NEW** `@xui/html-select`                | `xui-html-select` frames a native `<select>` + chevron; `options` data or projected `<option>`, `placeholder`, `size`, `fill`, typed-value recovery, full CVA. 8 tests, browser-verified. Distinct from Phase 6's `@xui/select`.                                          |
 | `Slider`, `RangeSlider`, `MultiSlider`    | **NEW** `@xui/slider` (+ `@xui/core/slider`) | Headless drag/keyboard/tick math; `labelRenderer`, `labelStepSize`, `intent` per track segment, vertical.                                                                                                                                                                 |
-| `SegmentedControl`                        | **NEW** `@xui/segmented-control`             | `options`, `inline`, `fill`, `intent`, `size`; roving tabindex, `role="radiogroup"`.                                                                                                                                                                                      |
+| `SegmentedControl`                        | **✅ NEW** `@xui/segmented-control`          | `xui-segmented-control`; `options`, `value` model, `size`, `fill`, per-option `disabled`; `role=radiogroup`, roving tabindex, arrow-key nav, full CVA. 8 tests, browser-verified.                                                                                         |
 | `CheckboxCard`, `RadioCard`, `SwitchCard` | **NEW** `@xui/control-card`                  | Composes card + control; `showAsSelectedWhenChecked`.                                                                                                                                                                                                                     |
 | `EditableText`                            | **NEW** `@xui/editable-text`                 | `multiline`, `confirmOnEnterKey`, `selectAllOnFocus`, `maxLength`, `placeholder`.                                                                                                                                                                                         |
 | `TagInput`                                | **NEW** `@xui/tag-input`                     | `values`, `addOnBlur`/`addOnPaste`, `separator`, `tagProps`, `leftIcon`, `rightElement`; CVA.                                                                                                                                                                             |
@@ -708,8 +719,10 @@ bump, cut `2.0.0-beta.0` after Phase 5, `2.0.0` after Phase 7.
    every surface browser-verified). Deferred within the phase: popover arrow, tooltip nothing,
    menu checkbox/radio items, context-menu imperative opener, dialog multistep, panel-stack
    keep-mounted mode.
-8. Phase 4 — forms (14 packages): ~~`textarea` → `switch` → `radio` → `numeric-input` →
-   `file-input`~~ ✅ (483 tests workspace-wide, 47 projects) → `checkbox` (up) → `input` (up:
-   `InputGroup` left/right elements + clear) → `control-group` → `form-field` (up) → `html-select` →
-   `slider` → `segmented-control` → … . These lean on `@xui/core/forms` (`ControlValueAccessor`,
-   `ErrorStateTracker`); the select family (Phase 6) is where forms meet overlays again.
+8. Phase 4 — forms (14 packages): ~~`textarea` → `switch` → `radio` → `numeric-input` → `file-input`
+   → `control-group` → `html-select` → `segmented-control`~~ ✅ (503 tests workspace-wide, 50
+   projects). Left: `checkbox` (up: `alignIndicator`/`inline`/`large`/label projection), `input` (up:
+   `InputGroup` left/right elements + clear button + `intent`), `form-field` (up:
+   `label`/`helperText`/`intent`/`inline` on `@xui/core/form-field`), and `slider` (headless
+   drag/keyboard/tick — the one substantial build left). The select family (Phase 6) is where forms
+   meet overlays again.
