@@ -77,7 +77,9 @@
       "@xui/context-menu": ["./libs/ui/context-menu/xui/src/index.ts"],
       "@xui/dialog": ["./libs/ui/dialog/xui/src/index.ts"],
       "@xui/alert": ["./libs/ui/alert/xui/src/index.ts"],
-      "@xui/drawer": ["./libs/ui/drawer/xui/src/index.ts"]
+      "@xui/drawer": ["./libs/ui/drawer/xui/src/index.ts"],
+      "@xui/toast": ["./libs/ui/toast/xui/src/index.ts"],
+      "@xui/panel-stack": ["./libs/ui/panel-stack/xui/src/index.ts"]
     },
     "strict": false,
     "noUncheckedSideEffectImports": false,

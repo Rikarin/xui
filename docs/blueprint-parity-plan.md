@@ -349,7 +349,7 @@ looks exactly like a broken measurement. Force a paint (a screenshot will do) be
 | `Breadcrumbs`, `Breadcrumb`                               | **UP** `@xui/breadcrumb`       | `<xui-breadcrumbs [items]>` collapses via `@xui/overflow-list`; `current`, icons, `disabled`, three renderer templates; `RouterLink` now optional. |
 | `OverflowList`                                            | **NEW** `@xui/overflow-list`   | Headless measure/collapse in `@xui/core/interactions`; `collapseFrom`, `minVisibleItems`, `overflowRenderer`.                                      |
 
-### Phase 3 — Overlays (10 packages, depends on 0.2) — 🚧 7 of 10
+### Phase 3 — Overlays (10 packages, depends on 0.2) — ✅ done
 
 `popover` is the first and the base the rest compose. Notes worth carrying forward:
 
@@ -475,6 +475,27 @@ only advances while the page paints. A headless read caught the drawer frozen at
 (`translateX(100%)`, fully off-screen) — a screenshot forced a paint and it settled to the pinned
 resting position. Don't diagnose a stuck transform from a non-painting tab.
 
+The last two — **`toast` and `panel-stack`** — closed the phase. Notes:
+
+- **`toast` is a service, not a component you place.** `XuiToastService.show({...})` keeps the live
+  notices in a signal and lazily mounts _one_ corner-pinned overlay (reusing the new `globalPosition`)
+  the first time it is called — no backdrop, `scrollStrategy: 'noop'`, and `pointer-events-none` on the
+  stack so the page stays fully usable, with each toast re-enabling pointer events for its own buttons.
+  Past `maxToasts` the oldest is dropped. Bottom positions use `flex-col-reverse` so a new toast
+  appears nearest its edge. Browser-verified the corner pin and pointer pass-through; 9 unit tests
+  (driven by `ApplicationRef.tick()`, since the container mounts on the app ref, not a fixture view)
+  cover stacking, timeout, sticky, action, dismiss and the cap.
+- **`panel-stack` is a signal-driven stack**, not an overlay — a drill-down in a fixed box. Only the
+  top panel renders; a panel's content navigates through a `stack` controller handed to a template
+  (`let-stack`) or injected by a component panel (`XUI_PANEL_STACK` + `XUI_PANEL_DATA`). The header
+  shows a back button labelled with the panel beneath and a centred title; push/pop slides via WAAPI
+  (reduced-motion aware). The `content` union (`TemplateRef | Type`) can't narrow through a method
+  call in a template, so it is split into two pre-narrowed computeds
+  (`templateContent`/`componentContent`) for the `ngTemplateOutlet` vs `ngComponentOutlet` branches.
+  Browser-verified the Settings → Account drill (with injected `data`) and back navigation.
+- Both stub `Element.prototype.animate` in their specs — jsdom has no Web Animations API, and the
+  slide is decorative. Same pattern the drawer established.
+
 | Blueprint                                                               | xUI                            | Notes                                                                                                                                                                                                                                                                                                |
 | ----------------------------------------------------------------------- | ------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `Portal`                                                                | (core) `@xui/core/portal`      | No published UI package.                                                                                                                                                                                                                                                                             |
@@ -486,8 +507,8 @@ resting position. Don't diagnose a stuck transform from a non-painting tab.
 | `Dialog`, `DialogBody`, `DialogFooter`, `DialogStep`, `MultistepDialog` | **✅ NEW** `@xui/dialog`       | `<xui-dialog [(isOpen)]>` + `xui-dialog-body`/`-footer`; `title`/`icon`/`size`/`canEscapeKeyClose`/`canOutsideClickClose`/`showCloseButton`. `XuiDialogService.open()` → injectable `XuiDialogRef<R>`. 9 tests, browser-verified. Multistep deferred.                                                |
 | `Alert`                                                                 | **✅ NEW** `@xui/alert`        | `<xui-alert [(isOpen)]>` confirm/cancel over dialog; `intent`(5)+icon, `confirmText`/`cancelText`, any dismissal = cancel. `XuiAlertService.confirm()` → `Promise<boolean>`. 8 tests, browser-verified.                                                                                              |
 | `Drawer`                                                                | **✅ NEW** `@xui/drawer`       | `<xui-drawer [(isOpen)]>` `position` left/right/top/bottom, `size`, `title`, `showCloseButton`; edge-pinned modal (new core `globalPosition`), WAAPI slide-in, reduced-motion aware. 8 tests, browser-verified.                                                                                      |
-| `Toast`, `OverlayToaster`                                               | **UP/REPLACE** `@xui/toast`    | Blueprint's `Toaster` API (`toaster.show({message, intent, action, timeout})`, positions, `maxToasts`). Decide: reimplement natively and deprecate `@xui/sonner`, or keep sonner as an alternative renderer (recommend: native `@xui/toast`, keep `@xui/sonner` published but frozen).               |
-| `PanelStack2`                                                           | **NEW** `@xui/panel-stack`     | Signal panel stack + slide transitions; renderers as `TemplateRef`/component type.                                                                                                                                                                                                                   |
+| `Toast`, `OverlayToaster`                                               | **✅ NEW** `@xui/toast`        | `XuiToastService.show({message,intent,icon,actionText,onAction,timeout})` → id; `dismiss`/`clear`, `maxToasts`, `position` (6). Corner-pinned overlay, pointer pass-through, auto-dismiss. 9 tests, browser-verified. `@xui/sonner` kept published but frozen.                                       |
+| `PanelStack2`                                                           | **✅ NEW** `@xui/panel-stack`  | `<xui-panel-stack [initialPanel]>`; template (`let-stack`) or component (`XUI_PANEL_STACK`/`XUI_PANEL_DATA`) panels, back-navigating header, WAAPI slide, `(opened)`/`(closed)`. 6 tests, browser-verified. Keep-mounted mode deferred.                                                              |
 
 ### Phase 4 — Forms (14 packages)
 
@@ -645,8 +666,12 @@ bump, cut `2.0.0-beta.0` after Phase 5, `2.0.0` after Phase 7.
 6. ~~Phase 2 — layout & content: `card` → `card-list` → `section` → `callout` → `collapse` →
    `entity-title` → `non-ideal-state` → `navbar` → `overflow-list` → `breadcrumbs`.~~ ✅ (356 tests
    workspace-wide)
-7. Phase 3 — overlays: ~~`popover`~~ ✅ → ~~`tooltip`~~ ✅ → ~~`menu`~~ ✅ → ~~`context-menu`~~ ✅ →
-   ~~`dialog`~~ ✅ → ~~`alert`~~ ✅ → ~~`drawer`~~ ✅ (436 tests workspace-wide) → `toast` →
-   `panel-stack`. Two left: `toast` (a `Toaster` service placing stacked, auto-dismissing notices in a
-   corner — reuses the new `globalPosition`; decide native-vs-`@xui/sonner`) and `panel-stack`
-   (a signal-driven stack with slide transitions).
+7. ~~Phase 3 — overlays: `popover` → `tooltip` → `menu` → `context-menu` → `dialog` → `alert` →
+   `drawer` → `toast` → `panel-stack`.~~ ✅ (all 10; 439 tests workspace-wide, 42 projects green,
+   every surface browser-verified). Deferred within the phase: popover arrow, tooltip nothing,
+   menu checkbox/radio items, context-menu imperative opener, dialog multistep, panel-stack
+   keep-mounted mode.
+8. Phase 4 — forms (14 packages): `input` (up) → `textarea` → `numeric-input` → `file-input` →
+   `checkbox` (up) → `radio` → `switch` → `control-group` → `form-field` (up) → … . These lean on
+   `@xui/core/forms` (`ControlValueAccessor`, `ErrorStateTracker`), not the overlay foundation; the
+   select family (Phase 6) is where forms meet overlays again.
