@@ -349,13 +349,47 @@ looks exactly like a broken measurement. Force a paint (a screenshot will do) be
 | `Breadcrumbs`, `Breadcrumb`                               | **UP** `@xui/breadcrumb`       | `<xui-breadcrumbs [items]>` collapses via `@xui/overflow-list`; `current`, icons, `disabled`, three renderer templates; `RouterLink` now optional. |
 | `OverflowList`                                            | **NEW** `@xui/overflow-list`   | Headless measure/collapse in `@xui/core/interactions`; `collapseFrom`, `minVisibleItems`, `overflowRenderer`.                                      |
 
-### Phase 3 — Overlays (10 packages, depends on 0.2)
+### Phase 3 — Overlays (10 packages, depends on 0.2) — 🚧 1 of 10
+
+`popover` is the first and the base the rest compose. Notes worth carrying forward:
+
+- **The trigger is a directive on any element** (`[xuiPopover]="tpl"`), not a wrapper component —
+  the trigger stays a real `<button>`/`<a>` and the content is a `TemplateRef`, so it renders lazily
+  (nothing until open) and unmounts on close. Blueprint wraps the target in a `<Popover>`; the
+  directive form is the idiomatic Angular equivalent and avoids an extra element in the layout.
+- **`isOpen` is the single source of truth.** An `effect` reconciles the model against the overlay:
+  interaction handlers and controlled `[isOpen]` bindings both just move the signal, and the overlay
+  closing itself (Escape, outside click) folds back into it via `ref.closed`, so `isOpen` never lies
+  about what is on screen. Guard the fold-back write with `untracked` or the effect re-enters.
+- **The panel is opened as a component, not the user's template**, because a `ComponentPortal` can't
+  bind `@Input`s. `XuiPopoverPanel` reads its config (content template, `minimal`, width) from an
+  injected token (`XUI_POPOVER_CONTENT`) instead. Passing the content as a `TemplateRef` keeps the
+  trigger's view as its declaration context, so `let-` variables and the trigger's injector still
+  resolve. This panel is the shared surface every later preset (tooltip, menu, select) reuses.
+- **`interactionKind` covers all four Blueprint modes.** `hover` tracks pointer enter/leave on both
+  the trigger _and_ the pane (so the pointer can cross the gap into the content); `hover-target`
+  ignores pane hover; `click` toggles; `click-target` opens without toggling shut. Hover uses
+  `setTimeout` for the open/close delays — the timer's signal write drives zoneless CD correctly,
+  which is a legitimate use of `setTimeout`, distinct from using it to _force_ CD.
+- **A hover popover never traps or steals focus**, only click popovers with a role do; a hover card
+  that grabbed focus would yank the caret out of whatever the user was doing. Verified in-browser:
+  the card opens with `document.activeElement` still on `<body>`, and the trigger carries no
+  `aria-haspopup`/`aria-expanded` (a hover card is not a keyboard-operable popup).
+- **Deferred: the arrow.** Blueprint's popover arrow uses Popper's arrow middleware; CDK's connected
+  strategy does not expose the resolved connection point cleanly, so the arrow needs a
+  `positionChanges` subscription to place a caret element. Left out of the first cut to keep it solid
+  and tested; the panel surface has a slot for it when it lands.
+
+A **browser-verification gotcha** to remember: opening is driven by an `effect`, which in a zoneless
+app flushes on the scheduler _after_ the interaction returns. Reading the DOM synchronously in the
+same `javascript_tool` call as the `.click()` shows nothing — split the click and the assertion into
+separate evaluations, or the popover looks broken when it is not.
 
 | Blueprint                                                               | xUI                         | Notes                                                                                                                                                                                                                                                                                  |
 | ----------------------------------------------------------------------- | --------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `Portal`                                                                | (core) `@xui/core/portal`   | No published UI package.                                                                                                                                                                                                                                                               |
 | `Overlay2`                                                              | **NEW** `@xui/overlay`      | Public wrapper over `@xui/core/overlay`: `isOpen` model, backdrop, `canEscapeKeyClose`, `canOutsideClickClose`, `enforceFocus`, `usePortal`, transition hooks, stacking.                                                                                                               |
-| `Popover`/`PopoverNext`                                                 | **NEW** `@xui/popover`      | CDK flexible connected positioning; `interactionKind` (click/hover/hover-target/click-target), `placement`, `hoverOpenDelay`/`CloseDelay`, `minimal`, arrow, `matchTargetWidth`, `popupKind`. Trigger directive `[xuiPopoverTrigger]`.                                                 |
+| `Popover`/`PopoverNext`                                                 | **✅ NEW** `@xui/popover`   | `[xuiPopover]="tpl"` trigger directive; `interactionKind` click/hover/hover-target/click-target, `placement`, `offset`, `hoverOpenDelay`/`hoverCloseDelay`, `minimal`, `matchTargetWidth`, `disabled`, controlled `isOpen`. Arrow deferred. 15 tests, browser-verified.                |
 | `Tooltip`                                                               | **NEW** `@xui/tooltip`      | Thin popover preset; `content`, `placement`, `intent`, `compact`, `openOnTargetFocus`, `disabled`.                                                                                                                                                                                     |
 | `Menu`, `MenuItem`, `MenuDivider`                                       | **NEW** `@xui/menu`         | Built on `cdk/menu` for keyboard/typeahead; submenus, `selected`, `icon`, `labelElement`, `roleStructure` menuitem/listoption.                                                                                                                                                         |
 | `ContextMenu`, `ContextMenuPopover`, `showContextMenu`                  | **NEW** `@xui/context-menu` | `[xuiContextMenu]` directive + imperative `ContextMenuService`.                                                                                                                                                                                                                        |
@@ -521,5 +555,7 @@ bump, cut `2.0.0-beta.0` after Phase 5, `2.0.0` after Phase 7.
 6. ~~Phase 2 — layout & content: `card` → `card-list` → `section` → `callout` → `collapse` →
    `entity-title` → `non-ideal-state` → `navbar` → `overflow-list` → `breadcrumbs`.~~ ✅ (356 tests
    workspace-wide)
-7. Phase 3 — overlays, on `@xui/core/overlay`: `popover` → `tooltip` → `menu` → `context-menu` →
-   `dialog` → `alert` → `drawer` → `toast` → `panel-stack`.
+7. Phase 3 — overlays, on `@xui/core/overlay`: ~~`popover`~~ ✅ (371 tests workspace-wide) →
+   `tooltip` → `menu` → `context-menu` → `dialog` → `alert` → `drawer` → `toast` → `panel-stack`.
+   `tooltip` is next: a thin preset over `@xui/popover` (`hover` kind, compact panel, `intent`,
+   `openOnTargetFocus`).
