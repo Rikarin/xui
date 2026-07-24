@@ -1,0 +1,97 @@
+import { CdkMenuItem, CdkMenuTrigger } from '@angular/cdk/menu';
+import { ChangeDetectionStrategy, Component, booleanAttribute, computed, inject, input } from '@angular/core';
+import { NgIcon, provideIcons } from '@ng-icons/core';
+import { matCheckRound, matChevronRightRound } from '@ng-icons/material-icons/round';
+import { xui } from '@xui/core';
+import { XuiIcon } from '@xui/icon';
+import { cva, type VariantProps } from 'class-variance-authority';
+import type { ClassValue } from 'clsx';
+
+const itemVariants = cva(
+  'flex w-full cursor-pointer items-center gap-2 rounded-md px-2 py-1.5 text-left text-sm outline-none select-none aria-disabled:pointer-events-none aria-disabled:opacity-50',
+  {
+    variants: {
+      intent: {
+        none: 'text-foreground hover:bg-hover-overlay focus-visible:bg-hover-overlay',
+        primary: 'text-primary-emphasis hover:bg-primary-subtle focus-visible:bg-primary-subtle',
+        success: 'text-success-emphasis hover:bg-success-subtle focus-visible:bg-success-subtle',
+        warning: 'text-warning-emphasis hover:bg-warning-subtle focus-visible:bg-warning-subtle',
+        error: 'text-error-emphasis hover:bg-error-subtle focus-visible:bg-error-subtle'
+      }
+    },
+    defaultVariants: {
+      intent: 'none'
+    }
+  }
+);
+
+export type XuiMenuItemIntent = NonNullable<VariantProps<typeof itemVariants>['intent']>;
+
+/**
+ * A command in a menu.
+ *
+ * Put it on a real `<button>` or `<a>` so activation, focus and disabled
+ * semantics are the element's own. `CdkMenuItem` supplies `role="menuitem"`,
+ * keyboard activation and the `triggered` output; this component adds the icon,
+ * the selected checkmark, intent colour and the submenu affordance.
+ *
+ * A left cell is always reserved — for the icon, or the checkmark when
+ * `selected` — so labels line up whether or not a given row has one.
+ */
+@Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
+  selector: 'button[xuiMenuItem], a[xuiMenuItem]',
+  imports: [NgIcon, XuiIcon],
+  viewProviders: [provideIcons({ matCheckRound, matChevronRightRound })],
+  hostDirectives: [
+    {
+      directive: CdkMenuItem,
+      inputs: ['cdkMenuItemDisabled: disabled', 'cdkMenuitemTypeaheadLabel: typeaheadLabel'],
+      outputs: ['cdkMenuItemTriggered: triggered']
+    }
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `
+    <span class="flex w-4 shrink-0 items-center justify-center">
+      @if (selected()) {
+        <ng-icon xui size="sm" name="matCheckRound" />
+      } @else if (icon()) {
+        <ng-icon xui size="sm" [name]="icon()" />
+      }
+    </span>
+
+    <span class="flex-1 truncate"><ng-content /></span>
+
+    <!-- Right rail: a shortcut/label, then a chevron when this opens a submenu. -->
+    <span class="text-foreground-subtle ml-2 shrink-0 text-xs empty:hidden">
+      <ng-content select="[menuItemLabel]" />
+    </span>
+
+    @if (hasSubmenu()) {
+      <ng-icon xui size="sm" name="matChevronRightRound" class="text-foreground-muted -mr-1 shrink-0" />
+    }
+  `,
+  host: {
+    '[class]': 'computedClass()'
+  }
+})
+export class XuiMenuItem {
+  // Present only when `xuiMenuTriggerFor` (a `CdkMenuTrigger`) is on the same
+  // host, which is exactly how a submenu is declared.
+  private readonly submenuTrigger = inject(CdkMenuTrigger, { optional: true, self: true });
+
+  /** The user-defined classes. Merged last so they win over the variant classes. */
+  readonly class = input<ClassValue>('');
+
+  /** Name of a registered `@ng-icons` icon, shown in the left cell. */
+  readonly icon = input<string>();
+
+  /** Draws a checkmark in the left cell — for a chosen option in a menu. */
+  readonly selected = input(false, { transform: booleanAttribute });
+
+  readonly intent = input<XuiMenuItemIntent>('none');
+
+  protected readonly hasSubmenu = computed(() => this.submenuTrigger != null);
+
+  protected readonly computedClass = computed(() => xui(itemVariants({ intent: this.intent() }), this.class()));
+}

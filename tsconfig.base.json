@@ -71,7 +71,9 @@
       "@xui/navbar": ["./libs/ui/navbar/xui/src/index.ts"],
       "@xui/overflow-list": ["./libs/ui/overflow-list/xui/src/index.ts"],
       "@xui/section": ["./libs/ui/section/xui/src/index.ts"],
-      "@xui/popover": ["./libs/ui/popover/xui/src/index.ts"]
+      "@xui/popover": ["./libs/ui/popover/xui/src/index.ts"],
+      "@xui/tooltip": ["./libs/ui/tooltip/xui/src/index.ts"],
+      "@xui/menu": ["./libs/ui/menu/xui/src/index.ts"]
     },
     "strict": false,
     "noUncheckedSideEffectImports": false,
