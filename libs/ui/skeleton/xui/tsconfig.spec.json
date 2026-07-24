@@ -9,7 +9,7 @@
     "isolatedModules": true
   },
   "files": ["src/test-setup.ts"],
-  "include": ["jest.config.ts", "xui/src/**/*.test.ts", "xui/src/**/*.spec.ts", "xui/src/**/*.d.ts"],
+  "include": ["jest.config.ts", "src/**/*.test.ts", "src/**/*.spec.ts", "src/**/*.d.ts"],
   "angularCompilerOptions": {
     "extendedDiagnostics": {
       "checks": {

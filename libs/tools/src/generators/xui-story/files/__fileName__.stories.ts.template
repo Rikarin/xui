@@ -1,24 +1,70 @@
-import type { Meta, StoryObj } from '@storybook/angular';
-import { moduleMetadata } from '@storybook/angular';
-import { <%= componentName %>, <%= componentImports %>} from '<%= importPath %>';
+import { argsToTemplate, moduleMetadata, type Meta, type StoryObj } from '@storybook/angular-vite';
+import { <%= componentName %>, <%= componentImports %> } from '<%= importPath %>';
 
-export default {
-	title: '<%= storyName %>',
-	component: <%= componentName %>,
-	tags: ['autodocs'],
-	decorators: [
-		moduleMetadata({
-			imports: [<%= componentImports %>],
-		}),
-	],
-} as Meta<<%= componentName %>>
+const meta: Meta<<%= componentName %>> = {
+  title: '<%= storyName %>',
+  component: <%= componentName %>,
+  args: {
+    color: 'primary',
+    variant: 'default',
+    size: 'md'
+  },
+  argTypes: {
+    color: {
+      options: ['primary', 'secondary', 'success', 'error', 'warning', 'info'],
+      control: { type: 'select' }
+    },
+    variant: {
+      options: ['default'],
+      control: { type: 'select' }
+    },
+    size: {
+      options: ['sm', 'md', 'lg'],
+      control: { type: 'select' }
+    }
+  },
+  decorators: [
+    moduleMetadata({
+      imports: [<%= componentImports %>]
+    })
+  ],
+  render: ({ ...args }) => ({
+    props: args,
+    template: `<%- usage %>`
+  })
+};
 
+export default meta;
 type Story = StoryObj<<%= componentName %>>;
 
-export const Default: Story = {
-	render: () => ({
-		template: `
+export const Default: Story = {};
 
-		`,
-	}),
+export const Sizes: Story = {
+  render: ({ ...args }) => {
+    const rest = argsToTemplate(args, { exclude: ['size'] });
+
+    return {
+      props: args,
+      template: `
+        <div class="flex items-center gap-2">
+          <%- sizesUsage %>
+        </div>
+      `
+    };
+  }
+};
+
+export const Colors: Story = {
+  render: ({ ...args }) => {
+    const rest = argsToTemplate(args, { exclude: ['color'] });
+
+    return {
+      props: args,
+      template: `
+        <div class="flex items-center gap-2">
+          <%- colorsUsage %>
+        </div>
+      `
+    };
+  }
 };

@@ -5,12 +5,19 @@ import { XuiDirectiveGeneratorSchema } from './schema';
 
 export async function xuiDirectiveGenerator(tree: Tree, options: XuiDirectiveGeneratorSchema) {
   const { root } = readProjectConfiguration(tree, options.project);
-  const { fileName, className } = names(options.directiveName);
+  const { fileName, className, propertyName } = names(options.directiveName);
   const directivePath = joinPathFragments(root, 'src', 'lib');
+
+  // Published directives are named `Xui<Name>` and live in `<name>.ts` — no
+  // `Directive` suffix, no `.directive.` infix. `libs/ui/button` is the reference.
+  const directiveName = `Xui${className}`;
 
   generateFiles(tree, path.join(__dirname, 'files'), directivePath, {
     fileName,
-    directiveName: `Xui${className}Directive`,
+    className,
+    directiveName,
+    propertyVariantsName: `${propertyName}Variants`,
+    variantsName: `${className}Variants`,
     selector: `xui${className}`
   });
 
@@ -18,12 +25,10 @@ export async function xuiDirectiveGenerator(tree: Tree, options: XuiDirectiveGen
   const indexPath = joinPathFragments(root, 'src', 'index.ts');
   let sourceCode = tree.read(indexPath, 'utf-8');
 
-  sourceCode = addImportStatement(
-    sourceCode,
-    `import { Xui${className}Directive } from './lib/${fileName}.directive';`
-  );
-  sourceCode = addExportStatement(sourceCode, `export * from './lib/${fileName}.directive';`);
-  sourceCode = addToExportConstArray(sourceCode, `Xui${className}Directive`);
+  sourceCode = addImportStatement(sourceCode, `import { ${directiveName} } from './lib/${fileName}';`);
+  sourceCode = addExportStatement(sourceCode, `export * from './lib/${fileName}';`);
+  sourceCode = addExportStatement(sourceCode, `export * from './lib/${fileName}.token';`);
+  sourceCode = addToExportConstArray(sourceCode, directiveName);
 
   tree.write(indexPath, sourceCode);
   await formatFiles(tree);

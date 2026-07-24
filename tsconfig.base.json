@@ -53,6 +53,7 @@
       "@xui/spinner": ["libs/ui/spinner/xui/src/index.ts"],
       "@xui/status": ["libs/ui/status/xui/src/index.ts"],
       "@xui/table": ["libs/ui/table/xui/src/index.ts"],
+      "@xui/testing": ["libs/testing/src/index.ts"],
       "@xui/tools": ["libs/tools/src/index.ts"]
     },
     "strict": false,

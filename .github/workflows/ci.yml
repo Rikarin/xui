@@ -1,0 +1,57 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+      - develop
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ci:
+    name: Lint, test and build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: read
+    timeout-minutes: 20
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          # Nx needs history on both sides of the comparison to work out what changed.
+          fetch-depth: 0
+
+      - name: Install PNPM
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.12.1
+
+      - name: Install Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: 'pnpm'
+
+      - name: Install Dependencies
+        run: pnpm install --frozen-lockfile
+        shell: bash
+
+      - name: Derive SHAs for `nx affected`
+        uses: nrwl/nx-set-shas@v4
+
+      - name: Check Formatting
+        run: pnpx nx format:check
+        shell: bash
+
+      - name: Lint, Test and Build Affected Projects
+        run: pnpx nx affected -t lint test build --parallel=3
+        shell: bash
+
+      - name: Build Storybook
+        run: pnpx nx build-storybook ui-storybook
+        shell: bash

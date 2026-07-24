@@ -3,6 +3,19 @@ import storybook from 'eslint-plugin-storybook';
 
 import nx from '@nx/eslint-plugin';
 
+const moduleBoundaries = {
+  enforceBuildableLibDependency: true,
+  // `@ng-doc/generated` is build output under /ng-doc, which Nx resolves
+  // back to the `app` project and would otherwise reject as an app import.
+  allow: ['^.*/eslint(\\.base)?\\.config\\.[cm]?js$', '^@ng-doc/generated$'],
+  depConstraints: [
+    {
+      sourceTag: '*',
+      onlyDependOnLibsWithTags: ['*']
+    }
+  ]
+};
+
 export default [
   {
     files: ['**/*.json'],
@@ -30,21 +43,7 @@ export default [
       }
     },
     rules: {
-      '@nx/enforce-module-boundaries': [
-        'error',
-        {
-          enforceBuildableLibDependency: true,
-          // `@ng-doc/generated` is build output under /ng-doc, which Nx resolves
-          // back to the `app` project and would otherwise reject as an app import.
-          allow: ['^.*/eslint(\\.base)?\\.config\\.[cm]?js$', '^@ng-doc/generated$'],
-          depConstraints: [
-            {
-              sourceTag: '*',
-              onlyDependOnLibsWithTags: ['*']
-            }
-          ]
-        }
-      ],
+      '@nx/enforce-module-boundaries': ['error', moduleBoundaries],
       '@typescript-eslint/no-unused-vars': [
         'error',
         {
@@ -83,6 +82,10 @@ export default [
   {
     files: ['**/*.spec.ts', '**/tests/**/*.ts'],
     rules: {
+      // Specs are excluded from tsconfig.lib.json and never reach a published
+      // bundle, so a buildable library may depend on the non-buildable
+      // `@xui/testing` harness from its tests.
+      '@nx/enforce-module-boundaries': ['error', { ...moduleBoundaries, enforceBuildableLibDependency: false }]
       // '@nx/workspace-prefer-signals': 'off'
     }
   },

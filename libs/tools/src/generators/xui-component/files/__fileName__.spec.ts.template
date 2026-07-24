@@ -1,0 +1,42 @@
+import { expectClasses, render } from '@xui/testing';
+import { <%= componentName %> } from './<%= fileName %>';
+import { provideXui<%= className %>Config } from './<%= fileName %>.token';
+
+describe('<%= componentName %>', () => {
+  it('renders and projects its content', () => {
+    const { query } = render('<<%= selector %>>content</<%= selector %>>', { imports: [<%= componentName %>] });
+
+    expect(query('<%= selector %>').textContent).toBe('content');
+  });
+
+  it('merges the class input instead of replacing the variant classes', () => {
+    const { query } = render('<<%= selector %> class="mt-4" />', { imports: [<%= componentName %>] });
+
+    expectClasses(query('<%= selector %>'), 'mt-4');
+  });
+
+  it('takes its defaults from the injected config', () => {
+    const { fixture, query } = render('<<%= selector %> />', {
+      imports: [<%= componentName %>],
+      providers: [provideXui<%= className %>Config({ size: 'lg' })]
+    });
+
+    expect(fixture.debugElement.children[0].componentInstance.size()).toBe('lg');
+    expect(query('<%= selector %>')).toBeTruthy();
+  });
+
+  it('lets an explicit input win over the configured default', () => {
+    const { fixture } = render('<<%= selector %> size="sm" />', {
+      imports: [<%= componentName %>],
+      providers: [provideXui<%= className %>Config({ size: 'lg' })]
+    });
+
+    expect(fixture.debugElement.children[0].componentInstance.size()).toBe('sm');
+  });
+
+  // Fill these in as the variants get real classes — assert the handful of
+  // classes that carry the variant, never the whole generated class string.
+  it.todo('applies the colour variant classes');
+  it.todo('applies the size variant classes');
+  it.todo('exposes its accessibility contract (role / aria-* / disabled)');
+});

@@ -1,0 +1,55 @@
+import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import { xui } from '@xui/core';
+import { cva, VariantProps } from 'class-variance-authority';
+import type { ClassValue } from 'clsx';
+import { injectXui<%= className %>Config } from './<%= fileName %>.token';
+
+const <%= propertyVariantsName %> = cva([''], {
+  variants: {
+    variant: {
+      default: ''
+    },
+    size: {
+      sm: '',
+      md: '',
+      lg: ''
+    },
+    color: {
+      primary: '',
+      secondary: '',
+      success: '',
+      error: '',
+      info: '',
+      warning: ''
+    }
+  },
+  defaultVariants: {
+    variant: 'default',
+    size: 'md',
+    color: 'primary'
+  }
+});
+
+export type <%= variantsName %> = VariantProps<typeof <%= propertyVariantsName %>>;
+
+@Component({
+  selector: '<%= selector %>',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `<ng-content />`,
+  host: {
+    '[class]': 'computedClass()'
+  }
+})
+export class <%= componentName %> {
+  private readonly config = injectXui<%= className %>Config();
+
+  /** The user-defined classes. Merged last so they win over the variant classes. */
+  readonly class = input<ClassValue>('');
+  readonly color = input<<%= variantsName %>['color']>(this.config.color);
+  readonly size = input<<%= variantsName %>['size']>(this.config.size);
+  readonly variant = input<<%= variantsName %>['variant']>(this.config.variant);
+
+  protected readonly computedClass = computed(() =>
+    xui(<%= propertyVariantsName %>({ variant: this.variant(), color: this.color(), size: this.size() }), this.class())
+  );
+}

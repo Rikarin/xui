@@ -20,6 +20,12 @@
       "type": "string",
       "description": "The name of the component.",
       "x-prompt": "The name of the component?"
+    },
+    "kind": {
+      "type": "string",
+      "description": "Whether the story renders an element selector or an attribute directive.",
+      "enum": ["component", "directive"],
+      "default": "component"
     }
   },
   "required": ["project", "componentName"]

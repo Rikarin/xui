@@ -8,11 +8,16 @@ export async function xuiComponentGenerator(tree: Tree, options: XuiComponentGen
   const { fileName, className, propertyName } = names(options.componentName);
   const componentPath = joinPathFragments(root, 'src', 'lib');
 
+  // Published components are named `Xui<Name>` and live in `<name>.ts` — no
+  // `Component` suffix, no `.component.` infix. `libs/ui/checkbox` is the reference.
+  const componentName = `Xui${className}`;
+
   generateFiles(tree, path.join(__dirname, 'files'), componentPath, {
     fileName,
+    className,
+    componentName,
     propertyVariantsName: `${propertyName}Variants`,
     variantsName: `${className}Variants`,
-    componentName: `Xui${className}Component`,
     selector: `xui-${fileName}`
   });
 
@@ -20,12 +25,10 @@ export async function xuiComponentGenerator(tree: Tree, options: XuiComponentGen
   const indexPath = joinPathFragments(root, 'src', 'index.ts');
   let sourceCode = tree.read(indexPath, 'utf-8');
 
-  sourceCode = addImportStatement(
-    sourceCode,
-    `import { Xui${className}Component } from './lib/${fileName}.component';`
-  );
-  sourceCode = addExportStatement(sourceCode, `export * from './lib/${fileName}.component';`);
-  sourceCode = addToExportConstArray(sourceCode, `Xui${className}Component`);
+  sourceCode = addImportStatement(sourceCode, `import { ${componentName} } from './lib/${fileName}';`);
+  sourceCode = addExportStatement(sourceCode, `export * from './lib/${fileName}';`);
+  sourceCode = addExportStatement(sourceCode, `export * from './lib/${fileName}.token';`);
+  sourceCode = addToExportConstArray(sourceCode, componentName);
 
   tree.write(indexPath, sourceCode);
   await formatFiles(tree);

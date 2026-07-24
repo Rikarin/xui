@@ -160,16 +160,55 @@ Generated with `nx g @xui/tools:core-secondary-entrypoint <name>`:
   (id, disabled, required, error state, describedby wiring).
 - `@xui/core/portal` — re-export/wrap `cdk/portal` with the xUI container conventions.
 
-### 0.3 Tooling
+### 0.3 Tooling — ✅ done
 
-- Fix `xui-library` generator: emit the `Xui<Name>Imports` const index (not `NgModule`), the
-  `@xui/<name>` `package.json` peer-dep block, the `tsconfig.base.json` path entry, and the
-  README row; add a `--headless` flag that also scaffolds `libs/core/<name>`.
-- Add a `spec.ts.template` to `xui-component`/`xui-directive` with the 6 canonical test cases
-  pre-stubbed.
-- Upgrade `xui-story` template to CSF3 with `argTypes` scaffolding derived from the CVA variants.
-- Add a shared test util lib (`libs/core/testing`, not published): `renderXui()` host-component
-  helper, `expectClasses()`, `dispatchKey()`.
+`nx g @xui/tools:library <name> --generate=component|directive --story` now produces a package
+that passes `test lint build` unedited, matching the conventions in §2:
+
+- **`xui-library`** — writes the `Xui<Name>Imports` const barrel (was an `NgModule`), the
+  `@xui/<name>` package.json (`sideEffects`, peer deps, `publishConfig`, version taken from
+  `@xui/core`), and repairs two things Nx's Angular library generator gets wrong for this
+  workspace: a `tsconfig.spec.json` `include` rooted at the import path rather than the tsconfig's
+  own directory (so `src/**/*.spec.ts` matched nothing), and a CommonJS `jest.config.cts` where
+  every other library uses an ESM `jest.config.ts`. It also generates the component/directive
+  _before_ the story so the story's selector matches what was produced.
+- **`xui-component` / `xui-directive`** — emit `Xui<Name>` in `<name>.ts` (was
+  `Xui<Name>Component` in `<name>.component.ts`, which no published package uses), plus a
+  `<name>.token.ts` config token and a `<name>.spec.ts` with four working tests and three
+  `it.todo` markers for the variant/a11y assertions that only make sense once the CVA has real
+  classes. The directive template also referenced variant names its generator never passed —
+  it could not produce compiling output.
+- **`xui-story`** — CSF3 against `@storybook/angular-vite` with `argTypes` for every variant axis
+  and `Default`/`Sizes`/`Colors` stories, written into `apps/ui-storybook/stories/` (it used to
+  land next to the library, where Storybook does not look).
+- **`libs/testing`** (`@xui/testing`, not published) — `render()` mounts a template against a
+  throwaway host with a `props` signal for re-bindable inputs, and returns `query`/`queryAll`/
+  `setProps` plus `click`/`press`/`type` helpers that dispatch a real DOM event _and_ run change
+  detection. That pairing matters: the suite is zoneless, so a bare `element.click()` updates
+  component state while leaving the DOM stale. Also `expectClasses`/`expectNoClasses`/
+  `expectAttributes` (order-independent, and distinguishing an absent attribute from an empty one)
+  and free-function event helpers for tests that need to assert between event and re-render.
+- **Test environment** — every `test-setup.ts` moved from `setupZoneTestEnv` to
+  `setupZonelessTestEnv`, so the tests actually exercise the zoneless support the library claims.
+- **`.github/workflows/ci.yml`** — `nx affected -t lint test build` plus `format:check` and a
+  Storybook build, on PRs and pushes to master/develop. `nx.json` already listed this file under
+  `sharedGlobals`; it had never existed.
+- **eslint** — spec files may depend on the non-buildable `@xui/testing` (they are excluded from
+  `tsconfig.lib.json` and never reach a published bundle); the boundary rule stays strict
+  everywhere else.
+
+### 0.4 Spec backfill for the existing packages — ✅ done
+
+118 passing tests across all 14 published packages plus the harness, covering base classes, each
+variant axis, `class`-input merging, config-token defaults and override precedence, the
+accessibility contract (roles, `aria-*`, `data-state`, tab order), and `ControlValueAccessor`
+round-trips. Notable per-package points:
+
+- `form-field` tests against a local fake `XFormFieldControl` rather than importing `@xui/input`,
+  so the packages stay decoupled.
+- `sonner` asserts on the `class` input ngx-sonner receives, because ngx-sonner takes `class` as
+  an input and applies it to a toast list it renders lazily — the classes never reach the host.
+  Its `test-setup.ts` stubs `matchMedia`, which jsdom does not implement.
 - CI: add `nx affected -t test lint build` gate; flip Storybook a11y `test: 'todo'` → `'error'`
   once Phase 1 lands.
 
@@ -357,7 +396,7 @@ bump, cut `2.0.0-beta.0` after Phase 5, `2.0.0` after Phase 7.
 | 4   | **Popover engine**: `cdk/overlay` vs Floating UI (what Blueprint's `PopoverNext` uses) | `cdk/overlay` — already a dependency, SSR-safe, integrates with `cdk/a11y` focus trapping.                                                                          |
 | 5   | **`@angular/animations`**                                                              | Avoid; use Web Animations API / CSS transitions so packages stay dependency-light and zoneless-clean.                                                               |
 | 6   | **Test runner split** — Jest for libs, Vitest for the Storybook addon                  | Keep both: Jest for unit specs (existing infra), Vitest+Playwright only for Storybook interaction/a11y runs. Don't migrate mid-project.                             |
-| 7   | **Phase 8 (data grid)** scope                                                          | Confirm whether it's in scope at all before Phase 5 ends; it roughly doubles the project.                                                                           |
+| 7   | **Phase 8 (data grid)** scope                                                          | Confirmed in scope. Runs as its own sub-project after Phase 5; earlier phases must not paint it into a corner (see Phase 8).                                        |
 | 8   | **Bundle/dep hygiene**                                                                 | Each package declares exact peer deps; add a CI check that a package's `package.json` peers match its actual imports.                                               |
 
 ---
@@ -366,10 +405,10 @@ bump, cut `2.0.0-beta.0` after Phase 5, `2.0.0` after Phase 7.
 
 1. ~~Land Phase 0.1 — extract `theme.css`, add surface/border/muted/elevation tokens, purge raw
    Tailwind palette usage from the 14 existing packages, add the Design Tokens story.~~ ✅
-2. Land Phase 0.3 — fix `xui-library`/`xui-component`/`xui-story` generators + spec template +
-   `libs/core/testing`.
-3. Land Phase 0.2 — `@xui/core/overlay` and `@xui/core/interactions` with tests (unblocks Phase 3).
-4. Backfill specs for the 14 existing packages against the new conventions (~1–2 days, and it
-   validates the test harness before 57 new packages depend on it).
+2. ~~Land Phase 0.3 — fix `xui-library`/`xui-component`/`xui-story` generators + spec template +
+   `libs/testing`.~~ ✅
+3. ~~Backfill specs for the 14 existing packages against the new conventions — it validates the
+   test harness before 57 new packages depend on it.~~ ✅ (118 tests)
+4. Land Phase 0.2 — `@xui/core/overlay` and `@xui/core/interactions` with tests (unblocks Phase 3).
 5. Start Phase 1 in component order: `text` → `icon` → `divider` → `spinner` → `progress-bar` →
    `skeleton` → `link`.
