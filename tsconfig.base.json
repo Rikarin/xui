@@ -73,7 +73,11 @@
       "@xui/section": ["./libs/ui/section/xui/src/index.ts"],
       "@xui/popover": ["./libs/ui/popover/xui/src/index.ts"],
       "@xui/tooltip": ["./libs/ui/tooltip/xui/src/index.ts"],
-      "@xui/menu": ["./libs/ui/menu/xui/src/index.ts"]
+      "@xui/menu": ["./libs/ui/menu/xui/src/index.ts"],
+      "@xui/context-menu": ["./libs/ui/context-menu/xui/src/index.ts"],
+      "@xui/dialog": ["./libs/ui/dialog/xui/src/index.ts"],
+      "@xui/alert": ["./libs/ui/alert/xui/src/index.ts"],
+      "@xui/drawer": ["./libs/ui/drawer/xui/src/index.ts"]
     },
     "strict": false,
     "noUncheckedSideEffectImports": false,

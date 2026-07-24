@@ -14,12 +14,32 @@ export type XOverlayOrigin = ElementRef<HTMLElement> | HTMLElement;
  */
 export type XScrollStrategy = 'reposition' | 'block' | 'close' | 'noop';
 
+/**
+ * Where a `global` overlay sits in the viewport.
+ *
+ * Any edge offset given pins that edge; unset edges are free. `centerHorizontally`
+ * / `centerVertically` centre on the free axis. With nothing set the overlay
+ * centres on both axes — the default for a dialog. A right drawer pins
+ * `{ top: '0', right: '0', bottom: '0' }`; a bottom-right toast pins
+ * `{ bottom: '1rem', right: '1rem' }`.
+ */
+export interface XGlobalPosition {
+  top?: string;
+  right?: string;
+  bottom?: string;
+  left?: string;
+  centerHorizontally?: boolean;
+  centerVertically?: boolean;
+}
+
 export interface XOverlayConfig {
   /**
    * `connected` anchors to `origin`; `global` centres in the viewport.
    * Defaults to `connected` when an origin is given, `global` otherwise.
    */
   position?: 'connected' | 'global';
+  /** For a `global` overlay, where it pins. Defaults to centred. */
+  globalPosition?: XGlobalPosition;
   /** The element a connected overlay anchors to. */
   origin?: XOverlayOrigin;
   /** Preferred placement for a connected overlay. */

@@ -58,6 +58,35 @@ function toElement(origin: XOverlayOrigin): HTMLElement {
   return origin instanceof ElementRef ? origin.nativeElement : origin;
 }
 
+function globalPositionStrategy(injector: Injector, position: XOverlayConfig['globalPosition']) {
+  const strategy = createGlobalPositionStrategy(injector);
+
+  if (!position) {
+    return strategy.centerHorizontally().centerVertically();
+  }
+
+  if (position.top != null) {
+    strategy.top(position.top);
+  }
+  if (position.right != null) {
+    strategy.right(position.right);
+  }
+  if (position.bottom != null) {
+    strategy.bottom(position.bottom);
+  }
+  if (position.left != null) {
+    strategy.left(position.left);
+  }
+  if (position.centerHorizontally) {
+    strategy.centerHorizontally();
+  }
+  if (position.centerVertically) {
+    strategy.centerVertically();
+  }
+
+  return strategy;
+}
+
 /**
  * Create overlays bound to the calling injection context.
  *
@@ -116,7 +145,7 @@ export function injectXOverlay(): XOverlayFactory {
               .withPositions(connectedPositions(resolved.placement, resolved.offset, resolved.flip))
               .withFlexibleDimensions(false)
               .withPush(resolved.flip)
-          : createGlobalPositionStrategy(injector).centerHorizontally().centerVertically(),
+          : globalPositionStrategy(injector, resolved.globalPosition),
       scrollStrategy: scrollStrategyFor(resolved.scrollStrategy),
       hasBackdrop: resolved.hasBackdrop,
       backdropClass: resolved.backdropClass,

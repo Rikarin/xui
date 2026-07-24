@@ -106,7 +106,7 @@ export class XuiTooltip {
       return;
     }
 
-    this.ref = this.overlay.open(XuiTooltipPanel, {
+    const ref = this.overlay.open(XuiTooltipPanel, {
       origin: this.host,
       placement: this.placement(),
       offset: this.offset(),
@@ -132,16 +132,26 @@ export class XuiTooltip {
       ]
     });
 
+    this.ref = ref;
     this.openState.set(true);
-    void this.ref.closed.then(() => {
-      this.ref = null;
-      untracked(() => this.openState.set(false));
+
+    // Only the current ref folds its dismissal back — a hide-then-show in the
+    // same tick replaces it, and the stale ref's late `closed` must not win.
+    void ref.closed.then(() => {
+      if (this.ref === ref) {
+        this.ref = null;
+        untracked(() => this.openState.set(false));
+      }
     });
   }
 
   private hide(): void {
     this.clearTimers();
-    this.ref?.close();
+
+    // Null synchronously so a re-show in the same tick does not see a stale ref.
+    const ref = this.ref;
+    this.ref = null;
+    ref?.close();
   }
 
   // --- Interaction wiring -------------------------------------------------

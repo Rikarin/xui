@@ -349,7 +349,7 @@ looks exactly like a broken measurement. Force a paint (a screenshot will do) be
 | `Breadcrumbs`, `Breadcrumb`                               | **UP** `@xui/breadcrumb`       | `<xui-breadcrumbs [items]>` collapses via `@xui/overflow-list`; `current`, icons, `disabled`, three renderer templates; `RouterLink` now optional. |
 | `OverflowList`                                            | **NEW** `@xui/overflow-list`   | Headless measure/collapse in `@xui/core/interactions`; `collapseFrom`, `minVisibleItems`, `overflowRenderer`.                                      |
 
-### Phase 3 — Overlays (10 packages, depends on 0.2) — 🚧 3 of 10
+### Phase 3 — Overlays (10 packages, depends on 0.2) — 🚧 7 of 10
 
 `popover` is the first and the base the rest compose. Notes worth carrying forward:
 
@@ -440,19 +440,54 @@ aria-disabled:pointer-events-none`) — no need to read the value into a signal.
   cdk auto-focusing the first item on open. Escape needs `keyCode: 27` in tests — cdk reads
   `keyCode`, not `key` (the same quirk the overlay Escape tests already work around).
 
-| Blueprint                                                               | xUI                         | Notes                                                                                                                                                                                                                                                                                                |
-| ----------------------------------------------------------------------- | --------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `Portal`                                                                | (core) `@xui/core/portal`   | No published UI package.                                                                                                                                                                                                                                                                             |
-| `Overlay2`                                                              | **NEW** `@xui/overlay`      | Public wrapper over `@xui/core/overlay`: `isOpen` model, backdrop, `canEscapeKeyClose`, `canOutsideClickClose`, `enforceFocus`, `usePortal`, transition hooks, stacking.                                                                                                                             |
-| `Popover`/`PopoverNext`                                                 | **✅ NEW** `@xui/popover`   | `[xuiPopover]="tpl"` trigger directive; `interactionKind` click/hover/hover-target/click-target, `placement`, `offset`, `hoverOpenDelay`/`hoverCloseDelay`, `minimal`, `matchTargetWidth`, `disabled`, controlled `isOpen`. Arrow deferred. 15 tests, browser-verified.                              |
-| `Tooltip`                                                               | **✅ NEW** `@xui/tooltip`   | `[xuiTooltip]="'text'                                                                                                                                                                                                                                                                                | tpl"`on the overlay foundation;`placement`, `intent`(6),`compact`, `openOnTargetFocus`, hover delays, `disabled`; `aria-describedby`+`role=tooltip`, Escape-dismiss, empty-content guard, non-interactive chip. 13 tests, browser-verified. |
-| `Menu`, `MenuItem`, `MenuDivider`                                       | **✅ NEW** `@xui/menu`      | On `cdk/menu` (keyboard, typeahead, submenu aim, close-on-select); `xui-menu`, `[xuiMenuItem]` with `icon`/`selected`/`intent`/`disabled`/`triggered`, `xui-menu-divider` (+`title`), `[xuiMenuTriggerFor]`. Submenus via item + trigger. 11 tests, browser-verified. Checkbox/radio items deferred. |
-| `ContextMenu`, `ContextMenuPopover`, `showContextMenu`                  | **NEW** `@xui/context-menu` | `[xuiContextMenu]` directive + imperative `ContextMenuService`.                                                                                                                                                                                                                                      |
-| `Dialog`, `DialogBody`, `DialogFooter`, `DialogStep`, `MultistepDialog` | **NEW** `@xui/dialog`       | Component API + `XuiDialogService.open()` returning a typed ref; multistep with signal-driven step state.                                                                                                                                                                                            |
-| `Alert`                                                                 | **NEW** `@xui/alert`        | Confirm/cancel preset over dialog + `AlertService.confirm()` returning a promise/signal.                                                                                                                                                                                                             |
-| `Drawer`                                                                | **NEW** `@xui/drawer`       | `position` top/right/bottom/left, `size`, `title`, `icon`.                                                                                                                                                                                                                                           |
-| `Toast`, `OverlayToaster`                                               | **UP/REPLACE** `@xui/toast` | Blueprint's `Toaster` API (`toaster.show({message, intent, action, timeout})`, positions, `maxToasts`). Decide: reimplement natively and deprecate `@xui/sonner`, or keep sonner as an alternative renderer (recommend: native `@xui/toast`, keep `@xui/sonner` published but frozen).               |
-| `PanelStack2`                                                           | **NEW** `@xui/panel-stack`  | Signal panel stack + slide transitions; renderers as `TemplateRef`/component type.                                                                                                                                                                                                                   |
+The **modal family — `context-menu`, `dialog`, `alert`, `drawer` — landed together.** Notes:
+
+- **`context-menu` is `menu` with a different opener.** `[xuiContextMenuTriggerFor]` aliases
+  `CdkContextMenuTrigger` and opens the very same `@xui/menu` panel at the pointer on right-click —
+  submenus, keyboard and dismissal all inherited. The package has no styling of its own; that reuse is
+  the whole point, and it is why `menu` was built on cdk/menu rather than our overlay.
+- **A shared reopen-race fix, applied to every overlay-backed surface** (dialog, drawer, and
+  retro-fitted into popover and tooltip). The overlay's `closed` promise resolves on a _microtask_,
+  so the pattern `ref.closed.then(() => this.ref = null)` leaves `this.ref` stale for one tick. A
+  synchronous close-then-reopen (which tests do, and rapid users can) then either no-ops the reopen or
+  lets the old ref's late `closed` clobber the new one. The fix everywhere: **null `this.ref`
+  synchronously in `detach`, and guard the `closed` handler with `if (this.ref !== ref) return`** so a
+  superseded ref's resolution is inert. This is the single most important correctness lesson of the
+  batch — any future overlay surface must follow it.
+- **`dialog` is declarative and controlled**: `[(isOpen)]`, its content attached to a modal overlay
+  (backdrop, focus trap, scroll lock, focus restore) only while open. `XuiDialogService.open(cmp)`
+  is the imperative twin — it mounts the component on the same modal overlay and provides a
+  `XuiDialogRef` the component injects to close itself with a typed result, so `await ref.closed` is a
+  confirm flow. The surface classes live in one place (`dialog.token.ts`) shared by both paths.
+- **`alert` composes `dialog`** — no title bar, no close button, a fixed confirm/cancel pair — and
+  treats _any_ dismissal (Escape, backdrop) as a cancel via an `isOpen` effect that reports a close it
+  did not itself initiate. `XuiAlertService.confirm()` returns `Promise<boolean>`; browser-verified it
+  resolves `true`/`false`. The service reuses `XuiDialogService` + `XuiDialogRef<boolean>`.
+- **`drawer` needed a core-overlay extension.** The overlay only centred `global` overlays; a drawer
+  pins to an edge, so `XOverlayConfig` gained `globalPosition` (edge offsets + optional axis
+  centring), driving `GlobalPositionStrategy` — `toast` will reuse it for corner placement. The
+  drawer slides in with the Web Animations API (no `@angular/animations`), respects
+  `prefers-reduced-motion`, and pins full-cross-axis to its edge. Browser-verified the pin (via the
+  cdk wrapper's `justify/align`) and resting position.
+
+A **browser gotcha for both drawer animation and any WAAPI**: like `ResizeObserver`, a Web Animation
+only advances while the page paints. A headless read caught the drawer frozen at its _start_ keyframe
+(`translateX(100%)`, fully off-screen) — a screenshot forced a paint and it settled to the pinned
+resting position. Don't diagnose a stuck transform from a non-painting tab.
+
+| Blueprint                                                               | xUI                            | Notes                                                                                                                                                                                                                                                                                                |
+| ----------------------------------------------------------------------- | ------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Portal`                                                                | (core) `@xui/core/portal`      | No published UI package.                                                                                                                                                                                                                                                                             |
+| `Overlay2`                                                              | **NEW** `@xui/overlay`         | Public wrapper over `@xui/core/overlay`: `isOpen` model, backdrop, `canEscapeKeyClose`, `canOutsideClickClose`, `enforceFocus`, `usePortal`, transition hooks, stacking.                                                                                                                             |
+| `Popover`/`PopoverNext`                                                 | **✅ NEW** `@xui/popover`      | `[xuiPopover]="tpl"` trigger directive; `interactionKind` click/hover/hover-target/click-target, `placement`, `offset`, `hoverOpenDelay`/`hoverCloseDelay`, `minimal`, `matchTargetWidth`, `disabled`, controlled `isOpen`. Arrow deferred. 15 tests, browser-verified.                              |
+| `Tooltip`                                                               | **✅ NEW** `@xui/tooltip`      | `[xuiTooltip]="'text'                                                                                                                                                                                                                                                                                | tpl"`on the overlay foundation;`placement`, `intent`(6),`compact`, `openOnTargetFocus`, hover delays, `disabled`; `aria-describedby`+`role=tooltip`, Escape-dismiss, empty-content guard, non-interactive chip. 13 tests, browser-verified. |
+| `Menu`, `MenuItem`, `MenuDivider`                                       | **✅ NEW** `@xui/menu`         | On `cdk/menu` (keyboard, typeahead, submenu aim, close-on-select); `xui-menu`, `[xuiMenuItem]` with `icon`/`selected`/`intent`/`disabled`/`triggered`, `xui-menu-divider` (+`title`), `[xuiMenuTriggerFor]`. Submenus via item + trigger. 11 tests, browser-verified. Checkbox/radio items deferred. |
+| `ContextMenu`, `ContextMenuPopover`, `showContextMenu`                  | **✅ NEW** `@xui/context-menu` | `[xuiContextMenuTriggerFor]` aliases `CdkContextMenuTrigger`, opening the `@xui/menu` panel at the pointer. 4 tests, browser-verified. Imperative opener deferred.                                                                                                                                   |
+| `Dialog`, `DialogBody`, `DialogFooter`, `DialogStep`, `MultistepDialog` | **✅ NEW** `@xui/dialog`       | `<xui-dialog [(isOpen)]>` + `xui-dialog-body`/`-footer`; `title`/`icon`/`size`/`canEscapeKeyClose`/`canOutsideClickClose`/`showCloseButton`. `XuiDialogService.open()` → injectable `XuiDialogRef<R>`. 9 tests, browser-verified. Multistep deferred.                                                |
+| `Alert`                                                                 | **✅ NEW** `@xui/alert`        | `<xui-alert [(isOpen)]>` confirm/cancel over dialog; `intent`(5)+icon, `confirmText`/`cancelText`, any dismissal = cancel. `XuiAlertService.confirm()` → `Promise<boolean>`. 8 tests, browser-verified.                                                                                              |
+| `Drawer`                                                                | **✅ NEW** `@xui/drawer`       | `<xui-drawer [(isOpen)]>` `position` left/right/top/bottom, `size`, `title`, `showCloseButton`; edge-pinned modal (new core `globalPosition`), WAAPI slide-in, reduced-motion aware. 8 tests, browser-verified.                                                                                      |
+| `Toast`, `OverlayToaster`                                               | **UP/REPLACE** `@xui/toast`    | Blueprint's `Toaster` API (`toaster.show({message, intent, action, timeout})`, positions, `maxToasts`). Decide: reimplement natively and deprecate `@xui/sonner`, or keep sonner as an alternative renderer (recommend: native `@xui/toast`, keep `@xui/sonner` published but frozen).               |
+| `PanelStack2`                                                           | **NEW** `@xui/panel-stack`     | Signal panel stack + slide transitions; renderers as `TemplateRef`/component type.                                                                                                                                                                                                                   |
 
 ### Phase 4 — Forms (14 packages)
 
@@ -610,7 +645,8 @@ bump, cut `2.0.0-beta.0` after Phase 5, `2.0.0` after Phase 7.
 6. ~~Phase 2 — layout & content: `card` → `card-list` → `section` → `callout` → `collapse` →
    `entity-title` → `non-ideal-state` → `navbar` → `overflow-list` → `breadcrumbs`.~~ ✅ (356 tests
    workspace-wide)
-7. Phase 3 — overlays: ~~`popover`~~ ✅ → ~~`tooltip`~~ ✅ → ~~`menu`~~ ✅ (395 tests workspace-wide)
-   → `context-menu` → `dialog` → `alert` → `drawer` → `toast` → `panel-stack`. `context-menu` is
-   next and small: `CdkContextMenuTrigger` opening the existing `@xui/menu` panel on right-click,
-   plus an imperative opener.
+7. Phase 3 — overlays: ~~`popover`~~ ✅ → ~~`tooltip`~~ ✅ → ~~`menu`~~ ✅ → ~~`context-menu`~~ ✅ →
+   ~~`dialog`~~ ✅ → ~~`alert`~~ ✅ → ~~`drawer`~~ ✅ (436 tests workspace-wide) → `toast` →
+   `panel-stack`. Two left: `toast` (a `Toaster` service placing stacked, auto-dismissing notices in a
+   corner — reuses the new `globalPosition`; decide native-vs-`@xui/sonner`) and `panel-stack`
+   (a signal-driven stack with slide transitions).

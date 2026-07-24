@@ -1,0 +1,12 @@
+{
+  "name": "@xui/context-menu",
+  "version": "2.0.0-alpha.8",
+  "sideEffects": false,
+  "peerDependencies": {
+    "@angular/cdk": "22",
+    "@angular/core": "22"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

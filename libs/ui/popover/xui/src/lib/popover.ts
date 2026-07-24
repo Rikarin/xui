@@ -139,7 +139,7 @@ export class XuiPopover {
     const hover = this.hoverKind();
     const minimal = this.minimal();
 
-    this.ref = this.overlay.open(XuiPopoverPanel, {
+    const ref = this.overlay.open(XuiPopoverPanel, {
       origin: this.host,
       placement: this.placement(),
       offset: minimal ? 0 : this.offset(),
@@ -168,17 +168,25 @@ export class XuiPopover {
       ]
     });
 
+    this.ref = ref;
+
     // The overlay can close itself (Escape, outside click). Fold that back into
-    // the model so `isOpen` never lies about what is on screen.
-    void this.ref.closed.then(() => {
-      this.ref = null;
+    // the model so `isOpen` never lies about what is on screen. Only the current
+    // ref folds — a programmatic close or a synchronous reopen has already moved
+    // `this.ref` on, and a stale ref's late `closed` must not clobber it.
+    void ref.closed.then(() => {
       this.overPane = false;
-      untracked(() => this.isOpen.set(false));
+
+      if (this.ref === ref) {
+        this.ref = null;
+        untracked(() => this.isOpen.set(false));
+      }
+
       this.closed.emit();
     });
 
     if (hover) {
-      const pane = this.ref.pane;
+      const pane = ref.pane;
       pane.addEventListener('pointerenter', this.onPaneEnter);
       pane.addEventListener('pointerleave', this.onPaneLeave);
     }
@@ -189,8 +197,10 @@ export class XuiPopover {
   private detach(): void {
     this.clearTimers();
 
-    // Closing settles the `closed` promise, which nulls `this.ref`.
-    this.ref?.close();
+    // Null synchronously so a reopen in the same tick does not see a stale ref.
+    const ref = this.ref;
+    this.ref = null;
+    ref?.close();
   }
 
   // --- Interaction wiring -------------------------------------------------
