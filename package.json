@@ -15,9 +15,10 @@
   },
   "repository": "https://github.com/Rikarin/xui",
   "license": "MIT",
-  "author": "Rene Cincura",
+  "author": "Jiu",
   "maintainers": [
-    "Rene Cincura"
+    "Jiu",
+    "Rikarin"
   ],
   "type": "module",
   "scripts": {

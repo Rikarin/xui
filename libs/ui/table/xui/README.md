@@ -10,7 +10,7 @@
 [![License](https://img.shields.io/npm/l/express.svg?maxAge=2592000)](/LICENSE)
 [![Netlify Status](https://api.netlify.com/api/v1/badges/fa0cfd14-97df-47fa-8a7c-152e6d4cfda2/deploy-status)](https://app.netlify.com/sites/xui/deploys)
 
-xUI is a customizable Angular 20 UI Library with full support of TailwindCSS styling based on popular React library ShardCN and its Angular alternative SpartanUI.
+xUI is a customizable Angular 22 UI Library with full support of TailwindCSS styling based on popular React library ShardCN and its Angular alternative SpartanUI.
 
 ## Features
 
@@ -61,6 +61,41 @@ Install package with **PNPM**
 ```bash
 pnpm i @xui/core ....
 ```
+
+## Theming
+
+Every `@xui/*` component styles itself with semantic Tailwind utilities — `bg-surface`,
+`text-foreground-muted`, `border-error-muted` — that resolve through the token layer shipped with
+`@xui/core`. Import it once, after Tailwind:
+
+```css
+@import 'tailwindcss';
+@import '@xui/core/styles/theme.css';
+
+/* Only needed if you use an overlay surface — popover, tooltip, menu, dialog,
+   drawer or toast. Without it overlays render in the document flow. */
+@import '@angular/cdk/overlay-prebuilt.css';
+
+/* Tell Tailwind to scan the component sources for utility classes. */
+@source '../node_modules/@xui';
+```
+
+Switch themes by putting `.dark` (or `[data-theme='dark']`) on `<html>`; with neither class
+present the theme follows `prefers-color-scheme`. Both selectors also work on any element, so a
+subtree can render in the opposite theme.
+
+Re-theme by overriding tokens after the import — the `darker` / `lighter` / `subtle` / `muted` /
+`emphasis` steps of each intent are derived, so one declaration re-colours the whole ramp:
+
+```css
+:root {
+  --primary: var(--color-violet-600);
+  --surface-inset: var(--color-zinc-50);
+}
+```
+
+The full token reference, rendered in both themes, is the **Design Tokens** page in
+[Storybook](https://develop--67d2b4c756077a325913e5d9.chromatic.com/?globals=theme:dark).
 
 ## Browser Support
 
@@ -145,15 +180,18 @@ Make cli to install the components
 ## TODO
 
 - Button
+
   - Icon
   - Shine
 
 - Breadcrumb
+
   - fix styling issues
   - on hover stuff
   - data driven component
 
 - Sonner
+
   - Colors
 
 - adjust generator to generate stories into the apps/storybook
