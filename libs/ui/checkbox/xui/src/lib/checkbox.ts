@@ -9,13 +9,14 @@ import {
   linkedSignal,
   model,
   output,
+  viewChild,
   ViewEncapsulation
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { matCheckRound, matRemoveRound } from '@ng-icons/material-icons/round';
 import { xui } from '@xui/core';
-import { XCheckboxImports } from '@xui/core/checkbox';
+import { XCheckbox, XCheckboxImports } from '@xui/core/checkbox';
 import type { ChangeFn, TouchFn } from '@xui/core/forms';
 import { IconSize, XuiIcon } from '@xui/icon';
 import { cva, VariantProps } from 'class-variance-authority';
@@ -53,6 +54,31 @@ const checkboxVariants = cva(
 
 export type CheckboxVariants = VariantProps<typeof checkboxVariants> & { size: IconSize };
 
+/** The `<label>` that wraps the box and its text, governing layout. */
+const wrapperVariants = cva('items-center gap-x-2 data-disabled:cursor-not-allowed', {
+  variants: {
+    inline: {
+      // Non-inline controls take a full row so several stack vertically; inline
+      // ones sit side by side with a little breathing room to their right.
+      false: 'flex',
+      true: 'mr-5 inline-flex align-middle'
+    },
+    alignIndicator: {
+      // `end` flips the box to the trailing edge, label leading.
+      start: 'flex-row',
+      end: 'flex-row-reverse justify-between'
+    },
+    disabled: {
+      true: 'cursor-not-allowed text-foreground-subtle',
+      false: 'cursor-pointer'
+    }
+  },
+  defaultVariants: { inline: false, alignIndicator: 'start', disabled: false }
+});
+type WrapperVariants = VariantProps<typeof wrapperVariants>;
+
+export type CheckboxAlignIndicator = NonNullable<WrapperVariants['alignIndicator']>;
+
 export const XUI_CHECKBOX_VALUE_ACCESSOR = {
   provide: NG_VALUE_ACCESSOR,
   useExisting: forwardRef(() => XuiCheckbox),
@@ -63,27 +89,40 @@ export const XUI_CHECKBOX_VALUE_ACCESSOR = {
   selector: 'xui-checkbox',
   imports: [XCheckboxImports, NgIcon, XuiIcon],
   template: `
-    <x-checkbox
-      [id]="id()"
-      [name]="name()"
-      [class]="computedClass()"
-      [checked]="checked()"
-      [(indeterminate)]="indeterminate"
-      [disabled]="_disabled()"
-      [required]="required()"
-      [aria-label]="ariaLabel()"
-      [aria-labelledby]="ariaLabelledby()"
-      [aria-describedby]="ariaDescribedby()"
-      (checkedChange)="handleChange($event)"
-      (touched)="onTouched?.()"
-    >
-      <ng-icon
-        xui
-        [size]="size()"
-        [name]="indeterminate() ? 'matRemoveRound' : 'matCheckRound'"
-        [class]="computedIconClass()"
-      />
-    </x-checkbox>
+    <span [class]="wrapperClass()">
+      <x-checkbox
+        [id]="id()"
+        [name]="name()"
+        [class]="computedClass()"
+        [checked]="checked()"
+        [(indeterminate)]="indeterminate"
+        [disabled]="_disabled()"
+        [required]="required()"
+        [aria-label]="effectiveAriaLabel()"
+        [aria-labelledby]="ariaLabelledby()"
+        [aria-describedby]="ariaDescribedby()"
+        (checkedChange)="handleChange($event)"
+        (touched)="onTouched?.()"
+      >
+        <ng-icon
+          xui
+          [size]="iconSize()"
+          [name]="indeterminate() ? 'matRemoveRound' : 'matCheckRound'"
+          [class]="computedIconClass()"
+        />
+      </x-checkbox>
+      <!-- The box is a custom control, not a labelable element, so a wrapping
+           <label> would not forward clicks — toggle the box explicitly instead.
+           Keyboard users operate the focusable box directly, so the label text is
+           deliberately not a second tab stop. -->
+      <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
+      <span [class]="labelClass()" (click)="toggleFromLabel()">
+        @if (label()) {
+          <span>{{ label() }}</span>
+        }
+        <ng-content
+      /></span>
+    </span>
   `,
   host: {
     class: 'contents',
@@ -105,8 +144,43 @@ export class XuiCheckbox implements ControlValueAccessor {
   readonly color = input<CheckboxVariants['color']>(this.config.color);
   readonly size = input<CheckboxVariants['size']>(this.config.size);
 
-  protected readonly computedClass = computed(() => xui(checkboxVariants({ color: this.color() }), this.class()));
+  /** A plain-text label rendered beside the box, as an alternative to projection. */
+  readonly label = input<string>('');
+
+  /** Which side the box sits on relative to the label. */
+  readonly alignIndicator = input<CheckboxAlignIndicator>('start');
+
+  /** Lay the control out inline so several sit on one line, rather than stacked. */
+  readonly inline = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
+
+  /** Render a larger box and label. */
+  readonly large = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
+
+  /** The box grows a step when `large`; otherwise follows the configured size. */
+  protected readonly iconSize = computed<IconSize>(() => (this.large() ? 'lg' : this.size()));
+
+  protected readonly computedClass = computed(() =>
+    xui(checkboxVariants({ color: this.color() }), this.large() && 'p-0.5', this.class())
+  );
   protected readonly computedIconClass = computed(() => xui('leading-none group-data-[state=unchecked]:opacity-0'));
+
+  protected readonly wrapperClass = computed(() =>
+    xui(wrapperVariants({ inline: this.inline(), alignIndicator: this.alignIndicator(), disabled: this._disabled() }))
+  );
+
+  protected readonly labelClass = computed(() =>
+    xui('select-none empty:hidden', this.large() ? 'text-base' : 'text-sm')
+  );
+
+  /** Fall back to the plain-text label for the box's accessible name. */
+  protected readonly effectiveAriaLabel = computed(() => this.ariaLabel() ?? (this.label() || null));
+
+  private readonly box = viewChild(XCheckbox);
+
+  /** The label text is not a real `<label>`, so forward its clicks to the box. */
+  protected toggleFromLabel(): void {
+    this.box()?.toggle();
+  }
 
   /** Used to set the id on the underlying xLabel element. */
   readonly id = input<string | null>(null);

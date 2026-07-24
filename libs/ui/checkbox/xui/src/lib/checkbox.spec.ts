@@ -59,6 +59,59 @@ describe('XuiCheckbox', () => {
     expectAttributes(query('xui-checkbox'), { 'aria-label': null });
   });
 
+  describe('label and layout', () => {
+    it('renders a plain-text label from the label input', () => {
+      const { query } = setup('<xui-checkbox label="Remember me" />');
+
+      expect(query('xui-checkbox > span').textContent).toContain('Remember me');
+    });
+
+    it('projects content beside the box', () => {
+      const { query } = setup('<xui-checkbox>Accept <b>terms</b></xui-checkbox>');
+
+      expect(query('xui-checkbox > span').textContent).toContain('Accept');
+      expect(query('b')).toBeTruthy();
+    });
+
+    it('flips the row when the indicator aligns to the end', () => {
+      const { query } = setup('<xui-checkbox alignIndicator="end" label="x" />');
+
+      expectClasses(query('xui-checkbox > span'), 'flex-row-reverse');
+    });
+
+    it('lays out inline when asked', () => {
+      const { query } = setup('<xui-checkbox inline label="x" />');
+
+      expectClasses(query('xui-checkbox > span'), 'inline-flex');
+    });
+
+    it('grows the box and label when large', () => {
+      const { query } = setup('<xui-checkbox large label="x" />');
+
+      expectClasses(query('button'), 'p-0.5');
+    });
+
+    it('reflects disabled onto the wrapping label', () => {
+      const { query } = setup('<xui-checkbox disabled label="x" />');
+
+      expectClasses(query('xui-checkbox > span'), 'cursor-not-allowed');
+    });
+
+    it('toggles the box when the label text is clicked', () => {
+      const { query, click } = setup('<xui-checkbox label="Toggle me" />');
+
+      click('xui-checkbox > span > span');
+
+      expectAttributes(query('button'), { 'aria-checked': 'true' });
+    });
+
+    it('names the box from the label input for assistive tech', () => {
+      const { query } = setup('<xui-checkbox label="Accept terms" />');
+
+      expectAttributes(query('button'), { 'aria-label': 'Accept terms' });
+    });
+  });
+
   describe('as a form control', () => {
     it('writeValue updates the rendered state', () => {
       const { fixture, query } = setup('<xui-checkbox />');

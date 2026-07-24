@@ -62,6 +62,13 @@ describe('XuiInput', () => {
     expectClasses(query('input'), 'w-full', 'rounded-lg');
   });
 
+  it('applies the intent accent border, independent of the invalid state', () => {
+    const { query } = setup('<input xuiInput intent="success" />');
+
+    expectClasses(query('input'), 'border-success');
+    expectNoClasses(query('input'), 'border-error');
+  });
+
   describe('when bound to a form control', () => {
     it('exposes the control and stays clean until touched', () => {
       const control = new FormControl('', Validators.required);

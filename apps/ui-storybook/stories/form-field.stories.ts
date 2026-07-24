@@ -31,3 +31,47 @@ export const Default: Story = {
 		`
   })
 };
+
+/** The `label`, `labelInfo`, `subLabel` and `helperText` inputs render the chrome for you. */
+export const WithLabel: Story = {
+  render: () => ({
+    template: `
+      <xui-form-field
+        class="w-80"
+        label="Email address"
+        labelInfo="(required)"
+        subLabel="We use this to send receipts"
+        helperText="You can change this later in settings"
+      >
+        <input xuiInput class="w-full" type="email" placeholder="you@example.com" />
+      </xui-form-field>
+    `
+  })
+};
+
+/** `intent` accents the label and helper text. */
+export const Intent: Story = {
+  render: () => ({
+    template: `
+      <div class="flex flex-col gap-5 w-80">
+        <xui-form-field intent="success" label="Username" helperText="This name is available">
+          <input xuiInput class="w-full" value="octocat" />
+        </xui-form-field>
+        <xui-form-field intent="warning" label="Password" helperText="Consider a longer passphrase">
+          <input xuiInput class="w-full" type="password" value="hunter2" />
+        </xui-form-field>
+      </div>
+    `
+  })
+};
+
+/** `inline` places the label beside the control. */
+export const Inline: Story = {
+  render: () => ({
+    template: `
+      <xui-form-field inline label="Port" helperText="Default is 8080" class="w-96">
+        <input xuiInput class="w-24" type="number" value="8080" />
+      </xui-form-field>
+    `
+  })
+};

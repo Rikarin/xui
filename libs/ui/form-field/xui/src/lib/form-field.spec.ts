@@ -76,6 +76,69 @@ describe('XuiFormField', () => {
 
     expect(host.querySelector('xui-hint')).toBeTruthy();
   });
+
+  describe('label, helper and layout', () => {
+    it('renders a label with secondary info', () => {
+      const { query } = setup(
+        '<xui-form-field label="Email" labelInfo="(required)"><input xuiFakeControl /></xui-form-field>'
+      );
+
+      expect(query('label').textContent).toContain('Email');
+      expect(query('label').textContent).toContain('(required)');
+    });
+
+    it('associates the label with the projected control by id', () => {
+      const { query } = setup('<xui-form-field label="Email"><input xuiFakeControl /></xui-form-field>');
+
+      const forId = query('label').getAttribute('for');
+      expect(forId).toBeTruthy();
+      expect(query<HTMLInputElement>('input').id).toBe(forId);
+    });
+
+    it('keeps a control that already has an id, pointing the label at it', () => {
+      const { query } = setup('<xui-form-field label="Email"><input xuiFakeControl id="my-email" /></xui-form-field>');
+
+      expect(query('label').getAttribute('for')).toBe('my-email');
+      expect(query<HTMLInputElement>('input').id).toBe('my-email');
+    });
+
+    it('renders helper text under the control while valid', () => {
+      const { host } = setup(
+        '<xui-form-field helperText="We never share it"><input xuiFakeControl /></xui-form-field>'
+      );
+
+      expect(host.textContent).toContain('We never share it');
+    });
+
+    it('hides helper text once the control reports an error', () => {
+      const { fixture, host } = setup(`
+        <xui-form-field helperText="We never share it">
+          <input xuiFakeControl />
+          <xui-error>Required</xui-error>
+        </xui-form-field>
+      `);
+
+      control(fixture).errorState.set(true);
+      fixture.detectChanges();
+
+      expect(host.textContent).not.toContain('We never share it');
+      expect(host.querySelector('xui-error')).toBeTruthy();
+    });
+
+    it('lays the label beside the control when inline', () => {
+      const { query } = setup('<xui-form-field inline label="Email"><input xuiFakeControl /></xui-form-field>');
+
+      expectClasses(query('xui-form-field'), 'flex', 'items-baseline');
+    });
+
+    it('tints the label with the intent accent', () => {
+      const { query } = setup(
+        '<xui-form-field intent="danger" label="Email"><input xuiFakeControl /></xui-form-field>'
+      );
+
+      expectClasses(query('label'), 'text-error');
+    });
+  });
 });
 
 describe('XuiError', () => {

@@ -8,6 +8,7 @@ import {
   Injector,
   input,
   linkedSignal,
+  signal,
   untracked
 } from '@angular/core';
 import { FormGroupDirective, NgControl, NgForm } from '@angular/forms';
@@ -39,6 +40,14 @@ export const inputVariants = cva(
         dark: 'bg-surface-inset text-foreground placeholder:text-foreground-subtle',
         light: 'bg-surface-raised text-foreground placeholder:text-foreground-subtle'
       },
+      // A deliberate accent border, distinct from the automatic invalid state.
+      intent: {
+        none: '',
+        primary: 'border-primary focus:border-primary',
+        success: 'border-success focus:border-success',
+        warning: 'border-warning focus:border-warning',
+        danger: 'border-error focus:border-error'
+      },
       error: {
         auto: '[&.ng-invalid.ng-touched]:text-error [&.ng-invalid.ng-touched]:border-2 [&.ng-invalid.ng-touched]:border-error',
         true: 'text-error border-error border-2'
@@ -47,6 +56,7 @@ export const inputVariants = cva(
     defaultVariants: {
       size: 'default',
       color: 'dark',
+      intent: 'none',
       error: 'auto'
     }
   }
@@ -76,13 +86,26 @@ export class XuiInput implements XFormFieldControl, DoCheck {
   readonly class = input<ClassValue>('');
   readonly size = input<InputVariants['size']>('default');
   readonly color = input<InputVariants['color']>('dark');
+  readonly intent = input<InputVariants['intent']>('none');
   readonly error = input<InputVariants['error']>('auto');
   readonly ngControl: NgControl | null = this.injector.get(NgControl, null);
   readonly errorState = computed(() => this.errorStateTracker.errorState());
 
+  /**
+   * Extra inline padding, reserved by an enclosing `xui-input-group` for the
+   * left/right elements it overlays. Set by the group, not by consumers.
+   */
+  readonly padStart = signal(false);
+  readonly padEnd = signal(false);
+
   /** The classes to apply to the component merged with the user-defined classes */
   protected readonly computedClass = computed(() =>
-    xui(inputVariants({ size: this.size(), color: this.color(), error: this.state().error }), this.class())
+    xui(
+      inputVariants({ size: this.size(), color: this.color(), intent: this.intent(), error: this.state().error }),
+      this.padStart() && 'pl-9',
+      this.padEnd() && 'pr-9',
+      this.class()
+    )
   );
 
   protected readonly state = linkedSignal(() => ({ error: this.error() }));
