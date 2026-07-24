@@ -79,7 +79,10 @@
       "@xui/alert": ["./libs/ui/alert/xui/src/index.ts"],
       "@xui/drawer": ["./libs/ui/drawer/xui/src/index.ts"],
       "@xui/toast": ["./libs/ui/toast/xui/src/index.ts"],
-      "@xui/panel-stack": ["./libs/ui/panel-stack/xui/src/index.ts"]
+      "@xui/panel-stack": ["./libs/ui/panel-stack/xui/src/index.ts"],
+      "@xui/switch": ["./libs/ui/switch/xui/src/index.ts"],
+      "@xui/radio": ["./libs/ui/radio/xui/src/index.ts"],
+      "@xui/textarea": ["./libs/ui/textarea/xui/src/index.ts"]
     },
     "strict": false,
     "noUncheckedSideEffectImports": false,

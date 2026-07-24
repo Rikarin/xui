@@ -510,17 +510,42 @@ The last two — **`toast` and `panel-stack`** — closed the phase. Notes:
 | `Toast`, `OverlayToaster`                                               | **✅ NEW** `@xui/toast`        | `XuiToastService.show({message,intent,icon,actionText,onAction,timeout})` → id; `dismiss`/`clear`, `maxToasts`, `position` (6). Corner-pinned overlay, pointer pass-through, auto-dismiss. 9 tests, browser-verified. `@xui/sonner` kept published but frozen.                                       |
 | `PanelStack2`                                                           | **✅ NEW** `@xui/panel-stack`  | `<xui-panel-stack [initialPanel]>`; template (`let-stack`) or component (`XUI_PANEL_STACK`/`XUI_PANEL_DATA`) panels, back-navigating header, WAAPI slide, `(opened)`/`(closed)`. 6 tests, browser-verified. Keep-mounted mode deferred.                                                              |
 
-### Phase 4 — Forms (14 packages)
+### Phase 4 — Forms (14 packages) — 🚧 3 done (textarea, switch, radio)
+
+First three landed as a batch. Notes worth carrying forward:
+
+- **`switch` and `radio` are custom-element controls, not native inputs**, so two things the browser
+  enforces do not apply and must be handled: the `disabled:` Tailwind variant only matches real form
+  elements, so use `data-disabled:` with a `[attr.data-disabled]` binding; and a custom element does
+  not synthesise a click from Space/Enter, so bind `(keydown.space)`/`(keydown.enter)` and toggle
+  explicitly.
+- **Disabled has two independent sources** — the `disabled` input and a reactive form's
+  `setDisabledState` — so model it as `computed(() => input() || signalFromForm())`, never a single
+  `linkedSignal(input)` that one source clobbers. This is the pattern every future control should use.
+- **`model()` already provides the `<name>Change` output**, so declaring an explicit `checkedChange`
+  /`valueChange` alongside it is a compile error (`NG1054`). Let the model's built-in change output do
+  the work; `.set()` emits it.
+- **The radio group is the single `ControlValueAccessor`**, holding the value, the shared `name` and
+  one tab stop; each `xui-radio` reads its state from the group via a token and holds nothing but its
+  `value`. Arrow keys move selection (and focus follows) per the WAI-ARIA radio pattern.
+- **A browser-only bug the tests missed:** `contentChildren` defaults to _direct_ children, but radios
+  are normally wrapped in a `<label>`, so the group found **zero** buttons and arrow-nav silently did
+  nothing. The unit test had un-wrapped radios and passed. Fix: `{ descendants: true }`, plus a
+  regression test that wraps radios in labels. Lesson: test form controls in their real
+  `<label>`-wrapped markup, not the bare element.
+- **`textarea` is a directive on the native element** (like `input`), so `ngModel`/validation/error
+  styling come for free; `autoResize` measures `scrollHeight` on input and turns manual resize off (the
+  two fight). Collapse height to `auto` before measuring so a shrink is caught, not just growth.
 
 | Blueprint                                 | xUI                                          | Notes                                                                                                                                                                                                                                                            |
 | ----------------------------------------- | -------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `InputGroup`                              | **UP** `@xui/input`                          | `leftIcon`, `leftElement`, `rightElement`, `intent`, `round`, `size`, `asyncControl`, clear button.                                                                                                                                                              |
-| `TextArea`                                | **NEW** `@xui/textarea`                      | `autoResize`, `size`, `intent`, `fill`.                                                                                                                                                                                                                          |
+| `TextArea`                                | **✅ NEW** `@xui/textarea`                   | `textarea[xuiTextarea]` directive; `size`, `autoResize` (scrollHeight, resize-off), token-driven error styling, full CVA passthrough. 9 tests, browser-verified.                                                                                                 |
 | `NumericInput`                            | **NEW** `@xui/numeric-input`                 | Steppers, `min`/`max`/`stepSize`/`majorStepSize`, `clampValueOnBlur`, `allowNumericCharactersOnly`, locale parsing.                                                                                                                                              |
 | `FileInput`                               | **NEW** `@xui/file-input`                    | `text`, `buttonText`, `hasSelection`, `fill`, CVA over `FileList`.                                                                                                                                                                                               |
 | `Checkbox`                                | **UP** `@xui/checkbox`                       | Add `alignIndicator`, `inline`, `large`, label content projection; keep the existing headless `x-checkbox`.                                                                                                                                                      |
-| `Radio`, `RadioGroup`                     | **NEW** `@xui/radio` (+ `@xui/core/radio`)   | Headless roving-tabindex group, CVA on the group.                                                                                                                                                                                                                |
-| `Switch`                                  | **NEW** `@xui/switch` (+ `@xui/core/switch`) | `innerLabel`/`innerLabelChecked`, `alignIndicator`.                                                                                                                                                                                                              |
+| `Radio`, `RadioGroup`                     | **✅ NEW** `@xui/radio`                      | `xui-radio-group` (CVA, owns value/name/tab-stop, arrow-key nav, `orientation`, `disabled`) + `xui-radio` (`value`, `size`, `disabled`). `role=radiogroup`/`radio`. 9 tests, browser-verified. Headless `@xui/core/radio` folded inline for now.                 |
+| `Switch`                                  | **✅ NEW** `@xui/switch`                     | `xui-switch` `role=switch` button; `checked` model, `size` (default/large), `disabled`, Space/Enter, full CVA. 8 tests, browser-verified. `innerLabel`/`alignIndicator` deferred.                                                                                |
 | `ControlGroup`                            | **NEW** `@xui/control-group`                 | `fill`, `vertical` — sibling-radius handling shared with `@xui/button-group`.                                                                                                                                                                                    |
 | `FormGroup`                               | **UP** `@xui/form-field`                     | Blueprint's `label`/`labelInfo`/`helperText`/`subLabel`/`intent`/`inline`; wire `@xui/core/form-field` + `ErrorStateTracker` (already present).                                                                                                                  |
 | `HTMLSelect`                              | **NEW** `@xui/html-select`                   | Native `<select>` styling + chevron; distinct from Phase 6's `@xui/select`.                                                                                                                                                                                      |
@@ -671,7 +696,8 @@ bump, cut `2.0.0-beta.0` after Phase 5, `2.0.0` after Phase 7.
    every surface browser-verified). Deferred within the phase: popover arrow, tooltip nothing,
    menu checkbox/radio items, context-menu imperative opener, dialog multistep, panel-stack
    keep-mounted mode.
-8. Phase 4 — forms (14 packages): `input` (up) → `textarea` → `numeric-input` → `file-input` →
-   `checkbox` (up) → `radio` → `switch` → `control-group` → `form-field` (up) → … . These lean on
-   `@xui/core/forms` (`ControlValueAccessor`, `ErrorStateTracker`), not the overlay foundation; the
-   select family (Phase 6) is where forms meet overlays again.
+8. Phase 4 — forms (14 packages): ~~`textarea` → `switch` → `radio`~~ ✅ (465 tests workspace-wide,
+   45 projects) → `numeric-input` → `file-input` → `checkbox` (up) → `input` (up: `InputGroup`
+   left/right elements + clear) → `control-group` → `form-field` (up) → `html-select` → `slider` →
+   `segmented-control` → … . These lean on `@xui/core/forms` (`ControlValueAccessor`,
+   `ErrorStateTracker`); the select family (Phase 6) is where forms meet overlays again.
