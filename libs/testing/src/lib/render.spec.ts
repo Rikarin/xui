@@ -76,6 +76,13 @@ describe('matchers', () => {
     expect(classesOf(query('span'))).toEqual(new Set(['marker', 'marker-primary']));
   });
 
+  it('reads classes off an SVG element', () => {
+    // `className` on an SVG element is an SVGAnimatedString, not a string.
+    const { host } = render('<svg class="size-4 animate-spin"></svg>');
+
+    expectClasses(host.querySelector('svg')!, 'size-4', 'animate-spin');
+  });
+
   it('expectClasses reports the classes that are missing', () => {
     const { query } = render('<span xuiTestMarker></span>', { imports: [TestMarker] });
 

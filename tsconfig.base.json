@@ -57,7 +57,11 @@
       "@xui/tools": ["libs/tools/src/index.ts"],
       "@xui/core/overlay": ["./libs/core/overlay/src/index.ts"],
       "@xui/core/interactions": ["./libs/core/interactions/src/index.ts"],
-      "@xui/core/a11y": ["./libs/core/a11y/src/index.ts"]
+      "@xui/core/a11y": ["./libs/core/a11y/src/index.ts"],
+      "@xui/divider": ["./libs/ui/divider/xui/src/index.ts"],
+      "@xui/link": ["./libs/ui/link/xui/src/index.ts"],
+      "@xui/progress-bar": ["./libs/ui/progress-bar/xui/src/index.ts"],
+      "@xui/text": ["./libs/ui/text/xui/src/index.ts"]
     },
     "strict": false,
     "noUncheckedSideEffectImports": false,

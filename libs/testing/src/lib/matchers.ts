@@ -7,9 +7,19 @@
  * test are present, never that the whole string equals a literal.
  */
 
-/** The element's classes as a set, order-independent. */
+/**
+ * The element's classes as a set, order-independent.
+ *
+ * Reads `classList` rather than `className`, which on an SVG element is an
+ * `SVGAnimatedString` rather than a string.
+ */
 export function classesOf(element: Element): Set<string> {
-  return new Set(element.className.split(/\s+/).filter(Boolean));
+  return new Set(element.classList);
+}
+
+/** The element's classes as a string, for error messages. */
+function classNameOf(element: Element): string {
+  return element.getAttribute('class') ?? '';
 }
 
 /** Assert every listed class is applied. */
@@ -18,7 +28,7 @@ export function expectClasses(element: Element, ...classes: string[]): void {
   const missing = classes.filter(c => !applied.has(c));
 
   if (missing.length > 0) {
-    throw new Error(`Expected classes ${missing.join(', ')} to be applied.\nGot: ${element.className}`);
+    throw new Error(`Expected classes ${missing.join(', ')} to be applied.\nGot: ${classNameOf(element)}`);
   }
 }
 
@@ -28,7 +38,7 @@ export function expectNoClasses(element: Element, ...classes: string[]): void {
   const present = classes.filter(c => applied.has(c));
 
   if (present.length > 0) {
-    throw new Error(`Expected classes ${present.join(', ')} not to be applied.\nGot: ${element.className}`);
+    throw new Error(`Expected classes ${present.join(', ')} not to be applied.\nGot: ${classNameOf(element)}`);
   }
 }
 

@@ -1,4 +1,7 @@
 import { XuiSkeleton } from './lib/skeleton';
-export * from './lib/skeleton';
+import { XuiSkeletonDirective } from './lib/skeleton.directive';
 
-export const XuiSkeletonImports = [XuiSkeleton] as const;
+export * from './lib/skeleton';
+export * from './lib/skeleton.directive';
+
+export const XuiSkeletonImports = [XuiSkeleton, XuiSkeletonDirective] as const;

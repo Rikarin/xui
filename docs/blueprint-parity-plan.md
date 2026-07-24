@@ -249,7 +249,36 @@ round-trips. Notable per-package points:
 
 Legend: **NEW** = new package · **UP** = upgrade existing package to Blueprint parity.
 
-### Phase 1 — Primitives & typography (7 packages)
+### Phase 1 — Primitives & typography (7 packages) — ✅ done
+
+Four new packages (`text`, `divider`, `link`, `progress-bar`) all scaffolded through the fixed
+generator, plus three upgrades. Notes worth carrying forward:
+
+- **`@xui/text`** is five directives on native elements — `xuiText`, `xuiHeading`, `xuiBlockquote`,
+  `xuiCode`, `xuiCodeBlock`, `xuiList` — so semantics stay in the markup. `xuiHeading` derives its
+  size from the host's own tag; `level` only overrides the _appearance_, because the heading level
+  is what assistive technology navigates by and must not follow a styling choice. `xuiList` picks
+  its marker from the host tag via `[&:is(ol)]:list-decimal`, so one directive covers both.
+- **`ellipsize` only sets `title` while the text actually overflows** — a tooltip repeating visible
+  text is noise, and a screen reader announces it on top of the content. Measurement is driven by
+  `injectElementSize`, plus a public `remeasure()` for content that changes without a resize;
+  measuring on every render would mean a `scrollWidth` reflow per instance per CD cycle, which is
+  the cost Blueprint explicitly warns about.
+- **`@xui/spinner` was rebuilt** around a two-circle SVG with `stroke-dasharray`, so it supports a
+  determinate `value` (Blueprint's 0–1 fraction) alongside the indeterminate spin, and drops
+  `aria-valuenow` entirely while indeterminate.
+- **`@xui/skeleton` gained a `xuiSkeleton` directive** that masks an element in place rather than
+  replacing it, so the layout does not shift when content arrives — xUI's `Classes.SKELETON`.
+  Masked content is `inert` + `aria-hidden` + `tabindex="-1"`: placeholder text must not be
+  focusable or announced. Every mask class carries `!` because the host's own directive writes to
+  the same `class` attribute — without it, `bg-primary` vs `bg-muted` is decided by Tailwind's
+  stylesheet order and a masked button stays blue (caught in the browser, not by the specs).
+- **`@xui/icon`** now takes an intent `color` and a `title`. Without a title the icon is decoration
+  and gets `aria-hidden`; with one it becomes `role="img"` with that accessible name. Its default
+  size was also `'base'`, which is not in the size map — every unsized icon was emitting
+  `--ng-icon__size: base`.
+- **`@nx/dependency-checks` caught the new packages' undeclared `@angular/cdk` peer dep** — the
+  library generator now seeds it, closing risk #8 for future packages.
 
 | Blueprint                                                         | xUI                                         | Notes                                                                                                                                    |
 | ----------------------------------------------------------------- | ------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
@@ -443,5 +472,7 @@ bump, cut `2.0.0-beta.0` after Phase 5, `2.0.0` after Phase 7.
 4. ~~Land Phase 0.2 — `@xui/core/overlay` and `@xui/core/interactions` with tests (unblocks
    Phase 3).~~ ✅ (plus `@xui/core/a11y`; 53 tests in `core`, and a `Core/Overlay` Storybook page
    covering the positioning jsdom cannot check)
-5. Start Phase 1 in component order: `text` → `icon` → `divider` → `spinner` → `progress-bar` →
-   `skeleton` → `link`.
+5. ~~Start Phase 1 in component order: `text` → `icon` → `divider` → `spinner` → `progress-bar` →
+   `skeleton` → `link`.~~ ✅ (242 tests workspace-wide)
+6. Phase 2 — layout & content: `card` → `card-list` → `section` → `callout` → `collapse` →
+   `entity-title` → `non-ideal-state` → `navbar` → `overflow-list` → `breadcrumb` upgrade.

@@ -89,6 +89,7 @@ function alignPackageJson(tree: Tree, projectRoot: string, normalizedName: strin
     sideEffects: false,
     peerDependencies: {
       '@angular/core': '22',
+      '@angular/cdk': '22',
       '@xui/core': version,
       'class-variance-authority': '^0.7.1',
       clsx: '^2.1.1'

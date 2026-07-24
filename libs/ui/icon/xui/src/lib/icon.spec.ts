@@ -1,5 +1,5 @@
 import { NgIcon } from '@ng-icons/core';
-import { render } from '@xui/testing';
+import { expectAttributes, expectClasses, render } from '@xui/testing';
 import { XuiIcon } from './icon';
 import { provideXuiIconConfig } from './icon.token';
 
@@ -37,5 +37,43 @@ describe('XuiIcon', () => {
     const { query } = setup('<ng-icon xui size="xs" />', [provideXuiIconConfig({ size: 'lg' })]);
 
     expect(sizeOf(query('ng-icon'))).toBe('12px');
+  });
+
+  it('is hidden from assistive technology when decorative', () => {
+    const { query } = setup('<ng-icon xui />');
+
+    // An icon with no accessible name is decoration; announcing it would just
+    // add noise next to the label it sits beside.
+    expectAttributes(query('ng-icon'), { 'aria-hidden': 'true', role: null, 'aria-label': null });
+  });
+
+  it('becomes a labelled image once given a title', () => {
+    const { query } = setup('<ng-icon xui title="Remove" />');
+
+    expectAttributes(query('ng-icon'), { role: 'img', 'aria-label': 'Remove', 'aria-hidden': null });
+  });
+
+  it('inherits the surrounding text colour by default', () => {
+    const { query } = setup('<ng-icon xui />');
+
+    expect(query('ng-icon').className).toBe('');
+  });
+
+  it('applies the colour variant', () => {
+    const { query } = setup('<ng-icon xui color="error" />');
+
+    expectClasses(query('ng-icon'), 'text-error');
+  });
+
+  it('takes its default colour from the injected config', () => {
+    const { query } = setup('<ng-icon xui />', [provideXuiIconConfig({ color: 'muted' })]);
+
+    expectClasses(query('ng-icon'), 'text-foreground-muted');
+  });
+
+  it('merges the class input', () => {
+    const { query } = setup('<ng-icon xui class="shrink-0" />');
+
+    expectClasses(query('ng-icon'), 'shrink-0');
   });
 });
