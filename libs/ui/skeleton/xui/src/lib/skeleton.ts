@@ -15,7 +15,5 @@ export class XuiSkeleton {
   readonly class = input<ClassValue>('');
 
   /** The classes to apply to the component merged with the user-defined classes */
-  protected readonly computedClass = computed(() =>
-    xui('block animate-pulse rounded-md bg-foreground/20', this.class())
-  );
+  protected readonly computedClass = computed(() => xui('block animate-pulse rounded-md bg-muted', this.class()));
 }

@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "storybook",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["exec", "nx", "storybook", "ui-storybook"],
+      "port": 4400
+    }
+  ]
+}

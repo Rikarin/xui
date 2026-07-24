@@ -9,7 +9,7 @@ const statusVariants = cva(['inline-flex aspect-square rounded-[50%]'], {
       online: 'bg-success',
       idle: 'bg-warning',
       dnd: 'bg-error',
-      offline: 'bg-gray-600'
+      offline: 'bg-muted-foreground'
     },
     size: {
       sm: 'w-3',

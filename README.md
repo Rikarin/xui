@@ -62,6 +62,37 @@ Install package with **PNPM**
 pnpm i @xui/core ....
 ```
 
+## Theming
+
+Every `@xui/*` component styles itself with semantic Tailwind utilities — `bg-surface`,
+`text-foreground-muted`, `border-error-muted` — that resolve through the token layer shipped with
+`@xui/core`. Import it once, after Tailwind:
+
+```css
+@import 'tailwindcss';
+@import '@xui/core/styles/theme.css';
+
+/* Tell Tailwind to scan the component sources for utility classes. */
+@source '../node_modules/@xui';
+```
+
+Switch themes by putting `.dark` (or `[data-theme='dark']`) on `<html>`; with neither class
+present the theme follows `prefers-color-scheme`. Both selectors also work on any element, so a
+subtree can render in the opposite theme.
+
+Re-theme by overriding tokens after the import — the `darker` / `lighter` / `subtle` / `muted` /
+`emphasis` steps of each intent are derived, so one declaration re-colours the whole ramp:
+
+```css
+:root {
+  --primary: var(--color-violet-600);
+  --surface-inset: var(--color-zinc-50);
+}
+```
+
+The full token reference, rendered in both themes, is the **Design Tokens** page in
+[Storybook](https://develop--67d2b4c756077a325913e5d9.chromatic.com/?globals=theme:dark).
+
 ## Browser Support
 
 xUI Supports most recent browsers according to Angular [support](https://angular.io/guide/browser-support).

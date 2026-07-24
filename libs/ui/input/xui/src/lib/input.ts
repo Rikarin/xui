@@ -19,7 +19,7 @@ import type { ClassValue } from 'clsx';
 
 export const inputVariants = cva(
   [
-    'flex rounded-lg border font-normal border border-neutral-100/20 text-base transition-all',
+    'flex rounded-lg border border-border font-normal text-base transition-all',
     'file:border-0 file:text-foreground file:bg-transparent file:font-medium',
     // 'focus-visible:outline-5 focus-visible:outline-offset-2',
     'focus:border-focus focus:outline-none',
@@ -33,9 +33,11 @@ export const inputVariants = cva(
         sm: 'h-9 px-2 text-sm'
         // lg: 'h-12 px-8 file:md:py-3 file:max-md:py-2.5' // TODO: support just sm/default
       },
+      // TODO(phase-4): this axis is a surface choice, not a colour — rename the
+      // options to `default`/`subtle` when the InputGroup API lands.
       color: {
-        dark: 'bg-zinc-900 text-neutral-100 placeholder:text-neutral-100/60',
-        light: 'bg-zinc-700 text-neutral-100 placeholder:text-neutral-100/60'
+        dark: 'bg-surface-inset text-foreground placeholder:text-foreground-subtle',
+        light: 'bg-surface-raised text-foreground placeholder:text-foreground-subtle'
       },
       error: {
         auto: '[&.ng-invalid.ng-touched]:text-error [&.ng-invalid.ng-touched]:border-2 [&.ng-invalid.ng-touched]:border-error',

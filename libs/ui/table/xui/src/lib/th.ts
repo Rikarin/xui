@@ -41,7 +41,7 @@ export class XuiTh {
 
   protected readonly computedClass = computed(() =>
     xui(
-      'flex flex-none h-12 px-3 text-sm items-center font-medium text-foreground/80 [&:has([role=checkbox])]:pr-0',
+      'flex flex-none h-12 px-3 text-sm items-center font-medium text-foreground-muted [&:has([role=checkbox])]:pr-0',
       this.columnDef?.class(),
       this.class()
     )

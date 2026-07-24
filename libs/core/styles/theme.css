@@ -1,0 +1,382 @@
+/**
+ * xUI design tokens.
+ *
+ * Import this once, after Tailwind, in your application's stylesheet:
+ *
+ *   @import 'tailwindcss';
+ *   @import '@xui/core/styles/theme.css';
+ *
+ * Every token is a raw CSS custom property (`--foreground`) that is mapped to a
+ * Tailwind utility namespace through `@theme inline` (`--color-foreground` →
+ * `text-foreground`, `bg-foreground`, `border-foreground`, …). `inline` matters:
+ * it makes the generated utilities reference the variable rather than its value,
+ * so swapping a theme at runtime re-colours everything without rebuilding CSS.
+ *
+ * Components must only ever use these semantic utilities — never a raw Tailwind
+ * palette class such as `bg-zinc-800`, which cannot follow the active theme.
+ *
+ * The palette is derived from Tailwind's own colours and tuned to sit between
+ * Blueprint and GitHub Primer: a neutral zinc surface stack, tight elevation
+ * shadows, and six intents.
+ */
+
+/* Class-based dark mode. Tailwind's built-in `dark:` variant follows
+   `prefers-color-scheme`, which cannot be toggled by an app-level theme switch. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme inline {
+  /* Surfaces */
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
+  --color-surface-overlay: var(--surface-overlay);
+  --color-surface-sunken: var(--surface-sunken);
+  --color-surface-inset: var(--surface-inset);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+
+  /* Text */
+  --color-foreground: var(--foreground);
+  --color-foreground-muted: var(--foreground-muted);
+  --color-foreground-subtle: var(--foreground-subtle);
+  --color-foreground-on-emphasis: var(--foreground-on-emphasis);
+
+  /* Borders */
+  --color-border: var(--border);
+  --color-border-muted: var(--border-muted);
+  --color-border-strong: var(--border-strong);
+
+  /* Intents */
+  --color-primary: var(--primary);
+  --color-primary-darker: var(--primary-darker);
+  --color-primary-lighter: var(--primary-lighter);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-subtle: var(--primary-subtle);
+  --color-primary-muted: var(--primary-muted);
+  --color-primary-emphasis: var(--primary-emphasis);
+
+  --color-secondary: var(--secondary);
+  --color-secondary-darker: var(--secondary-darker);
+  --color-secondary-lighter: var(--secondary-lighter);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary-subtle: var(--secondary-subtle);
+  --color-secondary-muted: var(--secondary-muted);
+  --color-secondary-emphasis: var(--secondary-emphasis);
+
+  --color-success: var(--success);
+  --color-success-darker: var(--success-darker);
+  --color-success-lighter: var(--success-lighter);
+  --color-success-foreground: var(--success-foreground);
+  --color-success-subtle: var(--success-subtle);
+  --color-success-muted: var(--success-muted);
+  --color-success-emphasis: var(--success-emphasis);
+
+  --color-error: var(--error);
+  --color-error-darker: var(--error-darker);
+  --color-error-lighter: var(--error-lighter);
+  --color-error-foreground: var(--error-foreground);
+  --color-error-subtle: var(--error-subtle);
+  --color-error-muted: var(--error-muted);
+  --color-error-emphasis: var(--error-emphasis);
+
+  --color-warning: var(--warning);
+  --color-warning-darker: var(--warning-darker);
+  --color-warning-lighter: var(--warning-lighter);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-warning-subtle: var(--warning-subtle);
+  --color-warning-muted: var(--warning-muted);
+  --color-warning-emphasis: var(--warning-emphasis);
+
+  --color-info: var(--info);
+  --color-info-darker: var(--info-darker);
+  --color-info-lighter: var(--info-lighter);
+  --color-info-foreground: var(--info-foreground);
+  --color-info-subtle: var(--info-subtle);
+  --color-info-muted: var(--info-muted);
+  --color-info-emphasis: var(--info-emphasis);
+
+  /* Interaction state */
+  --color-focus: var(--focus);
+  --color-link: var(--link);
+  --color-link-hover: var(--link-hover);
+  --color-selection: var(--selection);
+  --color-hover-overlay: var(--hover-overlay);
+  --color-active-overlay: var(--active-overlay);
+
+  /* Elevation. Deliberately kept separate from Tailwind's own `shadow-*` scale so
+     that overriding elevation never changes the meaning of `shadow-md`. */
+  --shadow-elevation-0: var(--elevation-0);
+  --shadow-elevation-1: var(--elevation-1);
+  --shadow-elevation-2: var(--elevation-2);
+  --shadow-elevation-3: var(--elevation-3);
+  --shadow-elevation-4: var(--elevation-4);
+  --shadow-overlay: var(--elevation-overlay);
+
+  /* Motion */
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-decelerate: cubic-bezier(0, 0, 0.2, 1);
+  --ease-accelerate: cubic-bezier(0.4, 0, 1, 1);
+
+  /* `text-md` sits between `text-sm` and `text-lg`; Tailwind has no such step. */
+  --text-md: 0.9375rem;
+  --text-md--line-height: calc(1.375 / 0.9375);
+}
+
+/* Light theme. Also matchable on any element so a subtree can be themed
+   independently of the document — e.g. a dark toolbar inside a light page. */
+:root,
+.light,
+[data-theme='light'] {
+  /* ---------------------------------------------------------------- surfaces */
+  --background: var(--color-white);
+  --surface: var(--color-white);
+  --surface-raised: var(--color-white);
+  --surface-overlay: var(--color-white);
+  --surface-sunken: var(--color-zinc-50);
+  --surface-inset: var(--color-zinc-50);
+  --muted: var(--color-zinc-100);
+  --muted-foreground: var(--color-zinc-500);
+
+  /* ------------------------------------------------------------------- text */
+  --foreground: var(--color-zinc-950);
+  --foreground-muted: var(--color-zinc-700);
+  --foreground-subtle: var(--color-zinc-500);
+  --foreground-on-emphasis: var(--color-white);
+
+  /* ---------------------------------------------------------------- borders */
+  --border: var(--color-zinc-200);
+  --border-muted: var(--color-zinc-100);
+  --border-strong: var(--color-zinc-300);
+
+  /* ---------------------------------------------------------------- intents */
+  --primary: oklch(55.88% 0.154 252.84);
+  --primary-foreground: var(--color-white);
+
+  --secondary: var(--color-indigo-500);
+  --secondary-foreground: var(--color-white);
+
+  --success: var(--color-green-700);
+  --success-foreground: var(--color-white);
+
+  --error: var(--color-red-500);
+  --error-foreground: var(--color-white);
+
+  --warning: var(--color-amber-500);
+  --warning-foreground: var(--color-zinc-950);
+
+  --info: var(--color-sky-500);
+  --info-foreground: var(--color-white);
+
+  /* ------------------------------------------------------------------ state */
+  /* How far `*-emphasis` moves an intent's lightness so it stays legible on that
+     intent's `*-subtle` surface: down towards ink on light, up towards paper on
+     dark. Clamped so very light intents (warning) do not wash out and very dark
+     ones (success) do not go muddy. See the derived-ramp block below. */
+  --emphasis-shift: -0.25;
+  --emphasis-l-min: 0.28;
+  --emphasis-l-max: 0.55;
+
+  --focus: var(--color-sky-500);
+  --link: var(--color-sky-600);
+  --link-hover: var(--color-sky-700);
+  --selection: color-mix(in oklab, var(--primary) 25%, transparent);
+  --hover-overlay: color-mix(in oklab, var(--color-zinc-950) 6%, transparent);
+  --active-overlay: color-mix(in oklab, var(--color-zinc-950) 12%, transparent);
+
+  /* -------------------------------------------------------------- elevation */
+  --elevation-0: 0 0 0 1px color-mix(in oklab, var(--foreground) 8%, transparent);
+  --elevation-1:
+    0 0 0 1px color-mix(in oklab, var(--foreground) 8%, transparent),
+    0 1px 1px color-mix(in oklab, var(--foreground) 8%, transparent);
+  --elevation-2:
+    0 0 0 1px color-mix(in oklab, var(--foreground) 8%, transparent),
+    0 1px 1px color-mix(in oklab, var(--foreground) 8%, transparent),
+    0 2px 6px color-mix(in oklab, var(--foreground) 10%, transparent);
+  --elevation-3:
+    0 0 0 1px color-mix(in oklab, var(--foreground) 8%, transparent),
+    0 2px 4px color-mix(in oklab, var(--foreground) 10%, transparent),
+    0 8px 24px color-mix(in oklab, var(--foreground) 12%, transparent);
+  --elevation-4:
+    0 0 0 1px color-mix(in oklab, var(--foreground) 8%, transparent),
+    0 4px 8px color-mix(in oklab, var(--foreground) 10%, transparent),
+    0 18px 46px 6px color-mix(in oklab, var(--foreground) 14%, transparent);
+  --elevation-overlay: var(--elevation-3);
+
+  /* ----------------------------------------------------------------- motion */
+  --duration-fast: 100ms;
+  --duration-base: 200ms;
+  --duration-slow: 300ms;
+
+  color-scheme: light;
+}
+
+/* Dark theme. Applied by adding `.dark` (or `[data-theme='dark']`) to <html>,
+   or to any subtree that should render dark on its own. */
+.dark,
+[data-theme='dark'] {
+  --background: var(--color-zinc-950);
+  --surface: var(--color-zinc-900);
+  --surface-raised: var(--color-zinc-900);
+  --surface-overlay: var(--color-zinc-800);
+  --surface-sunken: var(--color-black);
+  --surface-inset: var(--color-zinc-900);
+  --muted: var(--color-zinc-800);
+  --muted-foreground: var(--color-zinc-400);
+
+  --foreground: var(--color-zinc-100);
+  --foreground-muted: var(--color-zinc-400);
+  --foreground-subtle: var(--color-zinc-500);
+  --foreground-on-emphasis: var(--color-white);
+
+  --border: var(--color-zinc-700);
+  --border-muted: var(--color-zinc-800);
+  --border-strong: var(--color-zinc-600);
+
+  --warning-foreground: var(--color-zinc-950);
+
+  --emphasis-shift: 0.22;
+  --emphasis-l-min: 0.72;
+  --emphasis-l-max: 0.9;
+
+  --link: var(--color-sky-400);
+  --link-hover: var(--color-sky-300);
+  --hover-overlay: color-mix(in oklab, var(--color-white) 8%, transparent);
+  --active-overlay: color-mix(in oklab, var(--color-white) 14%, transparent);
+
+  /* Shadows read as noise on dark surfaces; lean on the hairline ring instead. */
+  --elevation-0: 0 0 0 1px color-mix(in oklab, var(--color-white) 10%, transparent);
+  --elevation-1:
+    0 0 0 1px color-mix(in oklab, var(--color-white) 10%, transparent),
+    0 1px 1px color-mix(in oklab, var(--color-black) 40%, transparent);
+  --elevation-2:
+    0 0 0 1px color-mix(in oklab, var(--color-white) 10%, transparent),
+    0 2px 6px color-mix(in oklab, var(--color-black) 50%, transparent);
+  --elevation-3:
+    0 0 0 1px color-mix(in oklab, var(--color-white) 12%, transparent),
+    0 8px 24px color-mix(in oklab, var(--color-black) 60%, transparent);
+  --elevation-4:
+    0 0 0 1px color-mix(in oklab, var(--color-white) 14%, transparent),
+    0 18px 46px 6px color-mix(in oklab, var(--color-black) 70%, transparent);
+
+  color-scheme: dark;
+}
+
+/* Follow the OS preference when the app has not pinned a theme explicitly. */
+@media (prefers-color-scheme: dark) {
+  :root:not(.light):not([data-theme='light']) {
+    --background: var(--color-zinc-950);
+    --surface: var(--color-zinc-900);
+    --surface-raised: var(--color-zinc-900);
+    --surface-overlay: var(--color-zinc-800);
+    --surface-sunken: var(--color-black);
+    --surface-inset: var(--color-zinc-900);
+    --muted: var(--color-zinc-800);
+    --muted-foreground: var(--color-zinc-400);
+
+    --foreground: var(--color-zinc-100);
+    --foreground-muted: var(--color-zinc-400);
+    --foreground-subtle: var(--color-zinc-500);
+
+    --border: var(--color-zinc-700);
+    --border-muted: var(--color-zinc-800);
+    --border-strong: var(--color-zinc-600);
+
+    --emphasis-shift: 0.22;
+    --emphasis-l-min: 0.72;
+    --emphasis-l-max: 0.9;
+
+    --link: var(--color-sky-400);
+    --link-hover: var(--color-sky-300);
+    --hover-overlay: color-mix(in oklab, var(--color-white) 8%, transparent);
+    --active-overlay: color-mix(in oklab, var(--color-white) 14%, transparent);
+
+    color-scheme: dark;
+  }
+}
+
+/**
+ * Derived intent ramps.
+ *
+ * Every value is relative to the intent's base colour and to `--background`, so
+ * overriding a single `--primary` re-derives the whole ramp for free.
+ *
+ * The selector must list every theme scope: a custom property that references
+ * `var(--background)` is substituted on the element where it is *declared*, so
+ * declaring these on `:root` alone would freeze them at the document's theme and
+ * a nested `.dark` subtree would keep the light ramp.
+ *
+ * - `darker` / `lighter`  solid hover + border states for filled controls
+ * - `subtle`              tinted surface for callouts, tags, selected rows
+ * - `muted`               border that pairs with a `subtle` surface
+ * - `emphasis`            text/icon colour that stays legible on `subtle`
+ */
+:root,
+.light,
+[data-theme='light'],
+.dark,
+[data-theme='dark'] {
+  --primary-darker: oklch(from var(--primary) calc(l - 0.1) calc(c - 0.05) h);
+  --primary-lighter: oklch(from var(--primary) calc(l + 0.05) c h);
+  --primary-subtle: color-mix(in oklab, var(--primary) 12%, var(--background));
+  --primary-muted: color-mix(in oklab, var(--primary) 35%, transparent);
+  --primary-emphasis: oklch(
+    from var(--primary) clamp(var(--emphasis-l-min), calc(l + var(--emphasis-shift)), var(--emphasis-l-max)) c h
+  );
+
+  --secondary-darker: oklch(from var(--secondary) calc(l - 0.1) calc(c - 0.05) h);
+  --secondary-lighter: oklch(from var(--secondary) calc(l + 0.05) c h);
+  --secondary-subtle: color-mix(in oklab, var(--secondary) 12%, var(--background));
+  --secondary-muted: color-mix(in oklab, var(--secondary) 35%, transparent);
+  --secondary-emphasis: oklch(
+    from var(--secondary) clamp(var(--emphasis-l-min), calc(l + var(--emphasis-shift)), var(--emphasis-l-max)) c h
+  );
+
+  --success-darker: oklch(from var(--success) calc(l - 0.1) calc(c - 0.05) h);
+  --success-lighter: oklch(from var(--success) calc(l + 0.05) c h);
+  --success-subtle: color-mix(in oklab, var(--success) 12%, var(--background));
+  --success-muted: color-mix(in oklab, var(--success) 35%, transparent);
+  --success-emphasis: oklch(
+    from var(--success) clamp(var(--emphasis-l-min), calc(l + var(--emphasis-shift)), var(--emphasis-l-max)) c h
+  );
+
+  --error-darker: oklch(from var(--error) calc(l - 0.1) calc(c - 0.05) h);
+  --error-lighter: oklch(from var(--error) calc(l + 0.05) c h);
+  --error-subtle: color-mix(in oklab, var(--error) 12%, var(--background));
+  --error-muted: color-mix(in oklab, var(--error) 35%, transparent);
+  --error-emphasis: oklch(
+    from var(--error) clamp(var(--emphasis-l-min), calc(l + var(--emphasis-shift)), var(--emphasis-l-max)) c h
+  );
+
+  --warning-darker: oklch(from var(--warning) calc(l - 0.1) calc(c - 0.05) h);
+  --warning-lighter: oklch(from var(--warning) calc(l + 0.05) c h);
+  --warning-subtle: color-mix(in oklab, var(--warning) 12%, var(--background));
+  --warning-muted: color-mix(in oklab, var(--warning) 35%, transparent);
+  --warning-emphasis: oklch(
+    from var(--warning) clamp(var(--emphasis-l-min), calc(l + var(--emphasis-shift)), var(--emphasis-l-max)) c h
+  );
+
+  --info-darker: oklch(from var(--info) calc(l - 0.1) calc(c - 0.05) h);
+  --info-lighter: oklch(from var(--info) calc(l + 0.05) c h);
+  --info-subtle: color-mix(in oklab, var(--info) 12%, var(--background));
+  --info-muted: color-mix(in oklab, var(--info) 35%, transparent);
+  --info-emphasis: oklch(
+    from var(--info) clamp(var(--emphasis-l-min), calc(l + var(--emphasis-shift)), var(--emphasis-l-max)) c h
+  );
+}
+
+@layer base {
+  * {
+    @apply outline-focus;
+  }
+
+  ::selection {
+    background-color: var(--selection);
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-feature-settings:
+      'rlig' 1,
+      'calt' 1;
+  }
+}

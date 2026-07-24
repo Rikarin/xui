@@ -23,7 +23,7 @@ export default {
   tags: ['autodocs'],
   decorators: [
     moduleMetadata({
-      imports: [XTableImports]
+      imports: [XuiTableImports, XTableImports]
     })
   ]
 } as Meta<XuiTable>;

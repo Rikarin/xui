@@ -124,10 +124,7 @@ export type ButtonVariants = VariantProps<typeof buttonVariants>;
   }
 })
 export class XuiButton {
-  // TODO: shine, icon
-
-  // private readonly renderer = inject(Renderer2);
-  // private readonly elementRef = inject(ElementRef);
+  // TODO(phase-4): icon/endIcon, loading, active, fill, alignText.
 
   private readonly config = injectXuiButtonConfig();
   private readonly additionalClasses = signal<ClassValue>('');
@@ -148,10 +145,4 @@ export class XuiButton {
   setClass(classes: ClassValue): void {
     this.additionalClasses.set(classes);
   }
-
-  // ngAfterViewInit() {
-  //   const shine = this.renderer.createElement('div');
-  //   this.renderer.addClass(shine, 'bg-green-500'); //, 'w-10', 'h-10');
-  //   this.renderer.appendChild(this.elementRef.nativeElement, shine);
-  // }
 }

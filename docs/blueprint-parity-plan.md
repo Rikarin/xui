@@ -1,0 +1,375 @@
+# xUI ⇄ Blueprint Parity — Implementation Plan
+
+Goal: bring `@xui/*` to feature parity with [Blueprint](https://blueprintjs.com) (`/Users/jiu/Projects/blueprint`),
+implemented idiomatically for Angular 22 (signals, zoneless, standalone, OnPush), with a
+Storybook story and a small test suite per component.
+
+Out of scope: `apps/app` (docs site) is reworked later — touch only when a build break forces it.
+
+---
+
+## 1. Current state
+
+**Workspace**: Nx 23 monorepo, Angular 22.0.8, Tailwind 4, CVA + `tailwind-merge`, pnpm.
+
+**Layering (already established, keep it):**
+
+| Layer     | Path                        | Package            | Role                                                                          |
+| --------- | --------------------------- | ------------------ | ----------------------------------------------------------------------------- |
+| Utilities | `libs/core/src`             | `@xui/core`        | `xui()` class merger, injection-token factory                                 |
+| Headless  | `libs/core/<name>`          | `@xui/core/<name>` | Unstyled behavior/a11y primitives (`x-checkbox`, table, forms, date adapters) |
+| Styled    | `libs/ui/<name>/xui`        | `@xui/<name>`      | CVA-styled directives/components (`xuiButton`, `xui-checkbox`)                |
+| Stories   | `apps/ui-storybook/stories` | —                  | Central Storybook 10 (Vite builder)                                           |
+
+**Existing packages (14):** badge, breadcrumb, button, button-group, checkbox, form-field, icon,
+input, label, skeleton, sonner, spinner, status, table.
+
+**Blueprint surface to match:** ~62 exported components in `@blueprintjs/core`, 5 in `select`,
+7 in `datetime`/`datetime2`, plus the `table` grid and `labs` (box/flex/slot).
+
+**Gaps in the current setup that block scale-up:**
+
+1. **Tests** — 1 spec file in the whole repo (`libs/core/table/.../column-manager.spec.ts`). No
+   component test conventions, no shared test harness.
+2. **No overlay foundation** — `@angular/cdk` 22.0.6 is a dependency but only `a11y`, `coercion`,
+   `table` are used. Popover/tooltip/dialog/menu/toast all need `cdk/overlay` + `cdk/portal`.
+3. **Theme is thin** — 6 intents × (base/darker/lighter/foreground) + background/foreground.
+   No surface elevation, border, muted-text or state-layer tokens; components hardcode
+   `bg-gray-600`, `text-foreground/30` etc.
+4. **Generators are incomplete** — `xui-library` still writes an `NgModule`-style index while
+   real packages export `const XuiXImports = [...] as const`; no spec-file template.
+5. **`tsconfig.base.json` `paths` are hand-maintained** — 30+ new entries incoming.
+
+---
+
+## 2. Target conventions (definition of done per component)
+
+Every component ships as one publishable Nx library `libs/ui/<name>/xui` → `@xui/<name>`:
+
+```
+libs/ui/<name>/xui/
+├── src/
+│   ├── index.ts                 # export * + `export const Xui<Name>Imports = [...] as const`
+│   ├── test-setup.ts
+│   └── lib/
+│       ├── <name>.ts            # component/directive
+│       ├── <name>.token.ts      # injectXui<Name>Config() defaults (when it has variants)
+│       └── <name>.spec.ts       # co-located tests
+├── package.json  ng-package.json  project.json  jest.config.ts  tsconfig*.json
+apps/ui-storybook/stories/<name>.stories.ts
+```
+
+**Code rules**
+
+- `ChangeDetectionStrategy.OnPush`, standalone, zoneless-safe (no `setTimeout`-driven CD).
+- Signal APIs only: `input()`, `input.required()`, `model()`, `output()`, `computed()`,
+  `linkedSignal()`, `viewChild()`, `contentChildren()`, `effect()` as last resort.
+- Boolean inputs via `input<boolean, BooleanInput>(false, { transform: booleanAttribute })`.
+- Styling: `cva()` variant map + `xui(...)` merge, exposed on `host: { '[class]': 'computedClass()' }`;
+  always accept a `class = input<ClassValue>('')` escape hatch.
+- Defaults come from an injection token (`createInjectionToken` in `@xui/core`) so apps can
+  re-theme globally — the `button`/`checkbox`/`icon` `.token.ts` files are the reference.
+- Prefer a **directive on a native element** (`<button xuiButton>`, `<table xuiTable>`) over a
+  wrapper component whenever the native element is semantically correct; use a component when
+  the thing owns structure or state.
+- Behavior that is non-trivial and reusable (roving tabindex, overlay lifecycle, query/filter
+  logic, date math) goes headless into `@xui/core/<name>`; `@xui/<name>` only styles it.
+- Forms: implement `ControlValueAccessor` on anything with a value; reuse
+  `@xui/core/forms` (`ChangeFn`, `TouchFn`, `ErrorStateTracker`).
+- A11y: correct roles/aria wiring, keyboard interaction per WAI-ARIA APG, `FocusMonitor`/
+  `FocusTrap` from `cdk/a11y` where relevant.
+
+**Tests (Jest + `jest-preset-angular`, 4–8 per component)** — a host component in `TestBed`, then:
+
+1. renders + applies base classes;
+2. each variant/size/intent input maps to the expected class (spot-check, not snapshot the world);
+3. the `class` input merges rather than replaces;
+4. outputs/`model()` two-way binding fire correctly;
+5. a11y contract (role, `aria-*`, `data-state`, `tabindex`, disabled semantics);
+6. keyboard interaction for interactive components;
+7. `ControlValueAccessor` round-trip (`writeValue` → DOM, DOM → `onChange`) for form controls.
+
+**Story** — CSF3, `Meta<Xui...>` + `moduleMetadata`, `argTypes` for every variant input, plus
+`Default`, one story per variant axis, a `Colors`/`Intents` matrix, and `Disabled`/edge states.
+Follow `apps/ui-storybook/stories/button.stories.ts`.
+
+---
+
+## 3. Phase 0 — Foundations (blocking; do first)
+
+### 0.1 Design tokens / theme — ✅ done
+
+Keep the semantic-token approach, but grow it into a GitHub-Primer-shaped scale built from the
+Tailwind 4 palette. Single source: was `apps/ui-storybook/.storybook/tailwind.css` (duplicated in
+`apps/app/src/styles.css`) → now `libs/core/styles/theme.css`, published as
+`@xui/core/styles/theme.css` and imported by Storybook, the docs app and consumers.
+
+Token groups (light + dark):
+
+| Group     | Tokens                                                                                                                               | Tailwind source (light → dark)             |
+| --------- | ------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------ |
+| Surfaces  | `--surface`, `--surface-raised`, `--surface-overlay`, `--surface-sunken`, `--surface-inset`                                          | `white`/`zinc-50` → `zinc-900`/`zinc-950`  |
+| Text      | `--foreground`, `--foreground-muted`, `--foreground-subtle`, `--foreground-on-emphasis`                                              | `zinc-950/700/500` → `zinc-100/400/500`    |
+| Borders   | `--border`, `--border-muted`, `--border-strong`                                                                                      | `zinc-200/100/300` → `zinc-700/800/600`    |
+| Intents   | existing `primary/secondary/success/error/warning/info` + `*-subtle`, `*-emphasis`, `*-muted` (tinted backgrounds for callouts/tags) | `blue/indigo/green/red/amber/sky`          |
+| State     | `--focus`, `--link`, `--selection`, `--hover-overlay`, `--active-overlay`                                                            | `sky-500`, `zinc-500/8%`                   |
+| Elevation | `shadow-elevation-{0..4}`, `shadow-overlay`                                                                                          | Blueprint-like tight shadows, not Material |
+| Motion    | `--duration-fast/base/slow`, `--ease-standard/decelerate/accelerate`                                                                 | 100/200/300ms                              |
+
+Rules: no raw Tailwind color in a component (`bg-gray-600` in `status.ts` was a bug);
+intent naming stays xUI's (`error`, not Blueprint's `danger`) — document the alias in the README.
+
+Design notes worth keeping in mind for later phases:
+
+- **Derived ramps.** `darker` / `lighter` / `subtle` / `muted` / `emphasis` are computed from the
+  intent base and `--background` via `oklch(from …)` and `color-mix()`. Overriding `--primary`
+  alone re-colours the whole ramp, which is what makes re-theming a two-line job.
+- **Scoped themes.** `.light` / `.dark` / `[data-theme]` match on _any_ element, not just `:root`,
+  so a subtree can render in the opposite theme. This is why the derived-ramp rule repeats every
+  theme selector: a custom property referencing `var(--background)` is substituted on the element
+  where it is declared, so declaring the ramps only on `:root` would freeze them at the document
+  theme. Popovers, dialogs and toasts in Phase 3 rely on this.
+- **Elevation is a separate namespace** from Tailwind's `shadow-*` scale, so re-tuning elevation
+  never changes what `shadow-md` means in application code.
+- **`shadow-elevation-*` maps 1:1 to Blueprint's `Card`/`Section` `elevation` prop** (Phase 2).
+
+**Delivered:** `libs/core/styles/theme.css` (+ `assets`/`exports` wiring in `libs/core`), Storybook
+and the docs app both importing it instead of duplicating tokens, a `Design Tokens` Storybook page
+with an `All` and a `LightAndDark` story, a README _Theming_ section, and every raw-palette and
+opacity-approximated colour in the 14 existing packages replaced with tokens (`status`, `input`,
+`skeleton`, `checkbox`, `form-field/hint`, `table/{tr,th,table.directive}`) — plus `--muted`,
+`--muted-foreground` and `--text-md`, which components already referenced but nothing defined.
+
+**Follow-up:** run `nx g @xui/tools:update-projects` to propagate the README _Theming_ section into
+the 15 per-package READMEs (skipped here to keep this diff reviewable).
+
+### 0.2 Core primitives (`@xui/core/*` secondary entrypoints)
+
+Generated with `nx g @xui/tools:core-secondary-entrypoint <name>`:
+
+- `@xui/core/overlay` — thin signal wrapper over `cdk/overlay`: positioning strategies, scroll
+  strategies, backdrop, focus trap + restore, escape/outside-click, stacking, `OverlayInstance`
+  equivalent of Blueprint's `Overlay2`. **Everything in Phase 3 depends on this.**
+- `@xui/core/a11y` — `useHotkeys` equivalent (`injectHotkeys`), roving-tabindex/`ListKeyManager`
+  helpers, `injectUniqueId`, live-region announcer.
+- `@xui/core/interactions` — `injectResizeObserver` (ResizeSensor), `injectElementSize`,
+  outside-click, long-press, drag-handle (slider/resize) helpers.
+- `@xui/core/query` — Blueprint's `QueryList` logic (predicate filtering, item renderer contract,
+  keyboard navigation, create-new-item) reused by Phase 6.
+- `@xui/core/forms` — extend the existing entrypoint with a shared `XuiControl` base
+  (id, disabled, required, error state, describedby wiring).
+- `@xui/core/portal` — re-export/wrap `cdk/portal` with the xUI container conventions.
+
+### 0.3 Tooling
+
+- Fix `xui-library` generator: emit the `Xui<Name>Imports` const index (not `NgModule`), the
+  `@xui/<name>` `package.json` peer-dep block, the `tsconfig.base.json` path entry, and the
+  README row; add a `--headless` flag that also scaffolds `libs/core/<name>`.
+- Add a `spec.ts.template` to `xui-component`/`xui-directive` with the 6 canonical test cases
+  pre-stubbed.
+- Upgrade `xui-story` template to CSF3 with `argTypes` scaffolding derived from the CVA variants.
+- Add a shared test util lib (`libs/core/testing`, not published): `renderXui()` host-component
+  helper, `expectClasses()`, `dispatchKey()`.
+- CI: add `nx affected -t test lint build` gate; flip Storybook a11y `test: 'todo'` → `'error'`
+  once Phase 1 lands.
+
+---
+
+## 4. Component inventory & phasing
+
+Legend: **NEW** = new package · **UP** = upgrade existing package to Blueprint parity.
+
+### Phase 1 — Primitives & typography (7 packages)
+
+| Blueprint                                                         | xUI                                         | Notes                                                                                                                                    |
+| ----------------------------------------------------------------- | ------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| `Text`, `Blockquote`, `Code`, `Pre`, `H1–H6`, `OL`, `UL`, `Label` | **NEW** `@xui/text` (+ **UP** `@xui/label`) | Directives on native elements: `<h1 xuiHeading>`, `<code xuiCode>`, `<p xuiText ellipsize>`. `ellipsize` needs `@xui/core/interactions`. |
+| `Icon`                                                            | **UP** `@xui/icon`                          | Add `intent` input, standard `IconSize` enum (12/16/20/24), `title`/`aria-hidden` handling.                                              |
+| `Divider`                                                         | **NEW** `@xui/divider`                      | Horizontal/vertical, `<div xuiDivider>` + inside menus/navbars.                                                                          |
+| `Spinner`                                                         | **UP** `@xui/spinner`                       | Add `value` (determinate), `size`, `intent`; SVG track/head like Blueprint.                                                              |
+| `ProgressBar`                                                     | **NEW** `@xui/progress-bar`                 | `value`, `intent`, `stripes`, `animate`, indeterminate.                                                                                  |
+| `Skeleton`                                                        | **UP** `@xui/skeleton`                      | Blueprint's skeleton is a class modifier — add `xuiSkeleton` directive that suppresses focus/interaction on children.                    |
+| `Link`, `AnchorButton`                                            | **NEW** `@xui/link`                         | `<a xuiLink>` + anchor variant of `xuiButton`.                                                                                           |
+
+### Phase 2 — Layout & content (10 packages)
+
+| Blueprint                                                 | xUI                            | Notes                                                                                                                                |
+| --------------------------------------------------------- | ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------ |
+| `Card`                                                    | **NEW** `@xui/card`            | `elevation` 0–4, `interactive`, `compact`, `selected`.                                                                               |
+| `CardList`                                                | **NEW** `@xui/card-list`       | `bordered`, `compact`; composes `@xui/card`.                                                                                         |
+| `Section`, `SectionCard`                                  | **NEW** `@xui/section`         | `title`, `subtitle`, `rightElement`, `collapsible` (needs `@xui/collapse`), `elevation`.                                             |
+| `Callout`                                                 | **NEW** `@xui/callout`         | `intent`, `icon`, `title`, `compact`; uses `*-subtle` tokens.                                                                        |
+| `Collapse`                                                | **NEW** `@xui/collapse`        | Height animation via Web Animations API, not `@angular/animations`; `isOpen` model, `keepChildrenMounted`.                           |
+| `EntityTitle`                                             | **NEW** `@xui/entity-title`    | `title`, `subtitle`, `icon`, `tags`, `heading` size, `loading`.                                                                      |
+| `NonIdealState`                                           | **NEW** `@xui/non-ideal-state` | `icon`, `title`, `description`, `action`, `layout` vertical/horizontal.                                                              |
+| `Navbar`, `NavbarGroup`, `NavbarHeading`, `NavbarDivider` | **NEW** `@xui/navbar`          | Directives + `fixedToTop`.                                                                                                           |
+| `Breadcrumbs`, `Breadcrumb`                               | **UP** `@xui/breadcrumb`       | Add collapsing behavior via `@xui/overflow-list`, `current` state, icons — existing package has the sub-parts but no overflow logic. |
+| `OverflowList`                                            | **NEW** `@xui/overflow-list`   | Headless measure/collapse in `@xui/core/interactions`; `collapseFrom`, `minVisibleItems`, `overflowRenderer`.                        |
+
+### Phase 3 — Overlays (10 packages, depends on 0.2)
+
+| Blueprint                                                               | xUI                         | Notes                                                                                                                                                                                                                                                                                  |
+| ----------------------------------------------------------------------- | --------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Portal`                                                                | (core) `@xui/core/portal`   | No published UI package.                                                                                                                                                                                                                                                               |
+| `Overlay2`                                                              | **NEW** `@xui/overlay`      | Public wrapper over `@xui/core/overlay`: `isOpen` model, backdrop, `canEscapeKeyClose`, `canOutsideClickClose`, `enforceFocus`, `usePortal`, transition hooks, stacking.                                                                                                               |
+| `Popover`/`PopoverNext`                                                 | **NEW** `@xui/popover`      | CDK flexible connected positioning; `interactionKind` (click/hover/hover-target/click-target), `placement`, `hoverOpenDelay`/`CloseDelay`, `minimal`, arrow, `matchTargetWidth`, `popupKind`. Trigger directive `[xuiPopoverTrigger]`.                                                 |
+| `Tooltip`                                                               | **NEW** `@xui/tooltip`      | Thin popover preset; `content`, `placement`, `intent`, `compact`, `openOnTargetFocus`, `disabled`.                                                                                                                                                                                     |
+| `Menu`, `MenuItem`, `MenuDivider`                                       | **NEW** `@xui/menu`         | Built on `cdk/menu` for keyboard/typeahead; submenus, `selected`, `icon`, `labelElement`, `roleStructure` menuitem/listoption.                                                                                                                                                         |
+| `ContextMenu`, `ContextMenuPopover`, `showContextMenu`                  | **NEW** `@xui/context-menu` | `[xuiContextMenu]` directive + imperative `ContextMenuService`.                                                                                                                                                                                                                        |
+| `Dialog`, `DialogBody`, `DialogFooter`, `DialogStep`, `MultistepDialog` | **NEW** `@xui/dialog`       | Component API + `XuiDialogService.open()` returning a typed ref; multistep with signal-driven step state.                                                                                                                                                                              |
+| `Alert`                                                                 | **NEW** `@xui/alert`        | Confirm/cancel preset over dialog + `AlertService.confirm()` returning a promise/signal.                                                                                                                                                                                               |
+| `Drawer`                                                                | **NEW** `@xui/drawer`       | `position` top/right/bottom/left, `size`, `title`, `icon`.                                                                                                                                                                                                                             |
+| `Toast`, `OverlayToaster`                                               | **UP/REPLACE** `@xui/toast` | Blueprint's `Toaster` API (`toaster.show({message, intent, action, timeout})`, positions, `maxToasts`). Decide: reimplement natively and deprecate `@xui/sonner`, or keep sonner as an alternative renderer (recommend: native `@xui/toast`, keep `@xui/sonner` published but frozen). |
+| `PanelStack2`                                                           | **NEW** `@xui/panel-stack`  | Signal panel stack + slide transitions; renderers as `TemplateRef`/component type.                                                                                                                                                                                                     |
+
+### Phase 4 — Forms (14 packages)
+
+| Blueprint                                 | xUI                                          | Notes                                                                                                                                                                                                                                                            |
+| ----------------------------------------- | -------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `InputGroup`                              | **UP** `@xui/input`                          | `leftIcon`, `leftElement`, `rightElement`, `intent`, `round`, `size`, `asyncControl`, clear button.                                                                                                                                                              |
+| `TextArea`                                | **NEW** `@xui/textarea`                      | `autoResize`, `size`, `intent`, `fill`.                                                                                                                                                                                                                          |
+| `NumericInput`                            | **NEW** `@xui/numeric-input`                 | Steppers, `min`/`max`/`stepSize`/`majorStepSize`, `clampValueOnBlur`, `allowNumericCharactersOnly`, locale parsing.                                                                                                                                              |
+| `FileInput`                               | **NEW** `@xui/file-input`                    | `text`, `buttonText`, `hasSelection`, `fill`, CVA over `FileList`.                                                                                                                                                                                               |
+| `Checkbox`                                | **UP** `@xui/checkbox`                       | Add `alignIndicator`, `inline`, `large`, label content projection; keep the existing headless `x-checkbox`.                                                                                                                                                      |
+| `Radio`, `RadioGroup`                     | **NEW** `@xui/radio` (+ `@xui/core/radio`)   | Headless roving-tabindex group, CVA on the group.                                                                                                                                                                                                                |
+| `Switch`                                  | **NEW** `@xui/switch` (+ `@xui/core/switch`) | `innerLabel`/`innerLabelChecked`, `alignIndicator`.                                                                                                                                                                                                              |
+| `ControlGroup`                            | **NEW** `@xui/control-group`                 | `fill`, `vertical` — sibling-radius handling shared with `@xui/button-group`.                                                                                                                                                                                    |
+| `FormGroup`                               | **UP** `@xui/form-field`                     | Blueprint's `label`/`labelInfo`/`helperText`/`subLabel`/`intent`/`inline`; wire `@xui/core/form-field` + `ErrorStateTracker` (already present).                                                                                                                  |
+| `HTMLSelect`                              | **NEW** `@xui/html-select`                   | Native `<select>` styling + chevron; distinct from Phase 6's `@xui/select`.                                                                                                                                                                                      |
+| `Slider`, `RangeSlider`, `MultiSlider`    | **NEW** `@xui/slider` (+ `@xui/core/slider`) | Headless drag/keyboard/tick math; `labelRenderer`, `labelStepSize`, `intent` per track segment, vertical.                                                                                                                                                        |
+| `SegmentedControl`                        | **NEW** `@xui/segmented-control`             | `options`, `inline`, `fill`, `intent`, `size`; roving tabindex, `role="radiogroup"`.                                                                                                                                                                             |
+| `CheckboxCard`, `RadioCard`, `SwitchCard` | **NEW** `@xui/control-card`                  | Composes card + control; `showAsSelectedWhenChecked`.                                                                                                                                                                                                            |
+| `EditableText`                            | **NEW** `@xui/editable-text`                 | `multiline`, `confirmOnEnterKey`, `selectAllOnFocus`, `maxLength`, `placeholder`.                                                                                                                                                                                |
+| `TagInput`                                | **NEW** `@xui/tag-input`                     | `values`, `addOnBlur`/`addOnPaste`, `separator`, `tagProps`, `leftIcon`, `rightElement`; CVA.                                                                                                                                                                    |
+| `ButtonGroup`                             | **UP** `@xui/button-group`                   | `vertical`, `fill`, `minimal`, `alignText`; radius collapsing between children.                                                                                                                                                                                  |
+| `Button`                                  | **UP** `@xui/button`                         | Blueprint parity: `loading` (spinner swap keeping width), `icon`/`endIcon`, `active`, `fill`, `alignText`, `text`+`ellipsizeText`, `AnchorButton`. Map Blueprint `minimal`→existing `ghost`, `outlined`→`outline`. Remove the commented-out "shine" scaffolding. |
+
+### Phase 5 — Data display & navigation (6 packages)
+
+| Blueprint                                     | xUI                                           | Notes                                                                                                                                                    |
+| --------------------------------------------- | --------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Tabs`, `Tab`, `TabPanel`, `TabsExpander`     | **NEW** `@xui/tabs` (+ `@xui/core/tabs`)      | `selectedTabId` model, `animate` indicator, `vertical`, `fill`, `renderActiveTabPanelOnly`, keyboard nav, `large`.                                       |
+| `Tag`, `CompoundTag`                          | **UP** `@xui/badge` → also **NEW** `@xui/tag` | Blueprint `Tag` = removable/interactive/icon/round/minimal/large/`fill`; `@xui/badge` stays the small static variant.                                    |
+| `Tree`, `TreeNode`                            | **NEW** `@xui/tree` (+ `@xui/core/tree`)      | Prefer `cdk/tree` for keyboard/expansion; `contents` model, `isExpanded`/`isSelected`, `secondaryLabel`, `hasCaret`, `childNodes`.                       |
+| `HTMLTable`                                   | **UP** `@xui/table`                           | `striped`, `bordered`, `interactive`, `compact`, `condensed` on the existing `xuiTable` directive; keep the CDK-based `@xui/core/table` for data tables. |
+| `Hotkeys`, `HotkeysProvider`, `HotkeysDialog` | **NEW** `@xui/hotkeys`                        | `injectHotkeys()` from `@xui/core/a11y` + the `?`-triggered help dialog.                                                                                 |
+| `ResizeSensor`                                | (core) `@xui/core/interactions`               | Directive `[xuiResizeSensor] (resize)` re-exported from `@xui/core`.                                                                                     |
+
+### Phase 6 — Select family (5 packages, depends on Phases 3+4)
+
+`@blueprintjs/select` → `@xui/select` package family, all driven by `@xui/core/query`:
+
+| Blueprint     | xUI                         | Notes                                                                                                                                   |
+| ------------- | --------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| `QueryList`   | `@xui/core/query`           | Headless: `items`, `itemPredicate`/`itemListPredicate`, `activeItem` model, keyboard nav, `createNewItem`.                              |
+| `Select`      | **NEW** `@xui/select`       | Popover + query list + arbitrary target; `filterable`, `resetOnClose`, `itemRenderer` via `TemplateRef` with typed `$implicit` context. |
+| `MultiSelect` | **NEW** `@xui/multi-select` | Composes `@xui/tag-input`; `selectedItems` model, `onRemove`, `openOnKeyDown`.                                                          |
+| `Suggest`     | **NEW** `@xui/suggest`      | Input-as-target variant.                                                                                                                |
+| `Omnibar`     | **NEW** `@xui/omnibar`      | Full-screen overlay command palette.                                                                                                    |
+
+### Phase 7 — Date & time (6 packages)
+
+`libs/core/date-time` already has `DateAdapter` + native/Luxon implementations — reuse it as the
+localization/formatting layer (Blueprint uses date-fns; the adapter is the better Angular fit).
+
+| Blueprint         | xUI                                                 | Notes                                                                                                                                                                |
+| ----------------- | --------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `DatePicker`      | **NEW** `@xui/date-picker` (+ `@xui/core/calendar`) | Headless calendar (month grid, focus/keyboard model, min/max, disabled-day predicate) in core; shortcuts, `showActionsBar`, `highlightCurrentDay`, time-picker slot. |
+| `DateRangePicker` | **NEW** `@xui/date-range-picker`                    | Range selection strategy port of `DateRangeSelectionStrategy`; `contiguousCalendarMonths`, `allowSingleDayRange`, shortcuts.                                         |
+| `TimePicker`      | **NEW** `@xui/time-picker`                          | `precision` minute/second/millisecond, `useAmPm`, arrow-key steppers.                                                                                                |
+| `DateInput`       | **NEW** `@xui/date-input`                           | Input + popover picker, parse/format via `DateAdapter`, `closeOnSelection`, `timePrecision`, `showTimezoneSelect`.                                                   |
+| `DateRangeInput`  | **NEW** `@xui/date-range-input`                     | Two-input variant with boundary focus logic.                                                                                                                         |
+| `TimezoneSelect`  | **NEW** `@xui/timezone-select`                      | `Intl.supportedValuesOf('timeZone')` + `@xui/select`; drops Blueprint's moment-timezone data.                                                                        |
+
+### Phase 8 — Advanced data grid (in scope; large)
+
+`@blueprintjs/table` → `@xui/data-table`, built on `cdk/scrolling` + the existing
+`@xui/core/table`. Comparable in size to Phases 1–3 combined, so it runs as its own
+sub-project after Phase 5 — but it _is_ in scope and the earlier phases should not
+paint it into a corner (notably: `@xui/core/interactions` must expose the drag/resize
+primitives the grid needs, and the token layer must carry grid-specific surfaces).
+
+Sub-milestones, each independently shippable:
+
+| #   | Milestone            | Contents                                                                                                                                                                                                                                                                  |
+| --- | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 8.1 | Core model           | `@xui/core/grid`: region model (`Regions`, cell/row/column/table regions), coordinate ↔ pixel locator, column/row size store as signals, `loadingOptions`. Pure logic, heavily unit-tested — this is where Blueprint's `regions.ts`/`locator.ts`/`tableState.ts` port to. |
+| 8.2 | Virtualized viewport | `cdk/scrolling` two-axis virtualization + the quadrant renderer (main / frozen-top / frozen-left / frozen-top-left), scroll synchronization, `numFrozenRows`/`numFrozenColumns`.                                                                                          |
+| 8.3 | Cells & renderers    | `Cell`, `EditableCell`, `JSONFormat`/`TruncatedFormat` equivalents; `TemplateRef`-based `cellRenderer` with a typed context; `ColumnHeaderCell`, `RowHeaderCell`.                                                                                                         |
+| 8.4 | Interactions         | Column/row resizing (incl. auto-fit on double-click), reordering via `cdk/drag-drop`, region selection with shift/ctrl semantics, focused cell + keyboard navigation.                                                                                                     |
+| 8.5 | Integration          | Copy to clipboard, `onCompleteRender`, sort/menu hooks in column headers, `ghostCellCount`, a11y (`role="grid"` + `aria-rowindex`/`aria-colindex`), Storybook + perf story at 100k rows.                                                                                  |
+
+Explicitly **not** ported: Blueprint's `table-dev-app` harness, and the deprecated `Table`
+(v1) API — `@xui/data-table` targets `Table2` semantics only.
+
+### Phase 9 — Optional / labs
+
+`Box`, `Flex`, `Slot` (`@blueprintjs/labs`) — mostly redundant with Tailwind utilities.
+Recommend skipping `Box`/`Flex`; a `xuiSlot`-style content-merge directive may be worth it for
+composition (Angular's `ngProjectAs` covers most cases).
+
+**Totals:** ~13 upgrades + ~57 new packages + ~10 core entrypoints (excluding Phase 8).
+
+---
+
+## 5. Execution model
+
+**Per-component loop** (repeatable, ~½–1 day for simple, 2–4 days for overlay/date components):
+
+```bash
+nx g @xui/tools:library <name> --generate=component --story
+```
+
+1. Port the Blueprint props table → signal inputs; drop React-only props (`elementRef`,
+   `*Renderer` → `TemplateRef`, `children` → content projection).
+2. Extract non-trivial behavior into `@xui/core/<name>` first, with its own tests.
+3. Implement CVA variants against the Phase 0 tokens; cross-check visually against
+   `pnpm --dir /Users/jiu/Projects/blueprint storybook` (Blueprint's own Storybook) or its docs.
+4. Write the spec (6 canonical cases) and the story (variant matrix + dark mode).
+5. `nx run-many -t lint test build -p <name>` green; add README row + `tsconfig.base.json` path
+   (generator does this once fixed).
+6. Chromatic snapshot review on the PR.
+
+**Branching:** one PR per component (or per tight cluster, e.g. navbar + its 3 sub-directives).
+Conventional commits — `feat(select): add multi-select component`.
+
+**Ordering constraints:**
+
+```
+Phase 0 ──► Phase 1 ──► Phase 2
+   └──► 0.2 overlay ──► Phase 3 ──► Phase 6 (select) ──► Phase 7 (datetime)
+                            └────► Phase 4 (forms) ──┘
+                            └────► Phase 5
+```
+
+**Release:** keep the current `nx release` + `2.0.0-alpha.x` train; publish each phase as an alpha
+bump, cut `2.0.0-beta.0` after Phase 5, `2.0.0` after Phase 7.
+
+---
+
+## 6. Risks & open decisions
+
+| #   | Item                                                                                   | Recommendation                                                                                                                                                      |
+| --- | -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | **Toast**: `@xui/sonner` (ngx-sonner wrapper) vs a native `@xui/toast`                 | Build native `@xui/toast` on `@xui/core/overlay`; freeze `@xui/sonner` and mark it deprecated in the README. Removes a third-party runtime dep from the core story. |
+| 2   | **Icons**: Blueprint ships ~500 custom icons; xUI uses `@ng-icons` (Material)          | Stay on `@ng-icons` — do not port Blueprint's icon set. Document the icon-name mapping for anyone migrating.                                                        |
+| 3   | **Intent naming**: Blueprint `danger`/`none` vs xUI `error`/undefined                  | Keep xUI names; add a doc table. Do not add aliases (double API surface).                                                                                           |
+| 4   | **Popover engine**: `cdk/overlay` vs Floating UI (what Blueprint's `PopoverNext` uses) | `cdk/overlay` — already a dependency, SSR-safe, integrates with `cdk/a11y` focus trapping.                                                                          |
+| 5   | **`@angular/animations`**                                                              | Avoid; use Web Animations API / CSS transitions so packages stay dependency-light and zoneless-clean.                                                               |
+| 6   | **Test runner split** — Jest for libs, Vitest for the Storybook addon                  | Keep both: Jest for unit specs (existing infra), Vitest+Playwright only for Storybook interaction/a11y runs. Don't migrate mid-project.                             |
+| 7   | **Phase 8 (data grid)** scope                                                          | Confirm whether it's in scope at all before Phase 5 ends; it roughly doubles the project.                                                                           |
+| 8   | **Bundle/dep hygiene**                                                                 | Each package declares exact peer deps; add a CI check that a package's `package.json` peers match its actual imports.                                               |
+
+---
+
+## 7. Immediate next steps
+
+1. ~~Land Phase 0.1 — extract `theme.css`, add surface/border/muted/elevation tokens, purge raw
+   Tailwind palette usage from the 14 existing packages, add the Design Tokens story.~~ ✅
+2. Land Phase 0.3 — fix `xui-library`/`xui-component`/`xui-story` generators + spec template +
+   `libs/core/testing`.
+3. Land Phase 0.2 — `@xui/core/overlay` and `@xui/core/interactions` with tests (unblocks Phase 3).
+4. Backfill specs for the 14 existing packages against the new conventions (~1–2 days, and it
+   validates the test harness before 57 new packages depend on it).
+5. Start Phase 1 in component order: `text` → `icon` → `divider` → `spinner` → `progress-bar` →
+   `skeleton` → `link`.

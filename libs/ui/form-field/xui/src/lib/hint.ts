@@ -13,5 +13,5 @@ import type { ClassValue } from 'clsx';
 export class XuiHint {
   readonly class = input<ClassValue>('');
 
-  protected computedClass = computed(() => xui('block text-sm text-foreground/50', this.class()));
+  protected computedClass = computed(() => xui('block text-sm text-foreground-subtle', this.class()));
 }

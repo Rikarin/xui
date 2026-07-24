@@ -26,7 +26,7 @@ const checkboxVariants = cva(
   [
     'group inline-flex border shrink-0 cursor-pointer items-center rounded-sm',
     'focus-visible:outline-5 focus-visible:outline-offset-2 transition-[outline]',
-    'border-foreground/30 data-[state=unchecked]:bg-background',
+    'border-border-strong data-[state=unchecked]:bg-surface-inset',
     'data-disabled:cursor-not-allowed data-disabled:saturate-30'
   ],
   {
