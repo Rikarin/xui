@@ -38,3 +38,29 @@ export const OutlineButtons: Story = {
     `
   })
 };
+
+/** Stacked vertically, with the radii collapsing on the vertical axis. */
+export const Vertical: Story = {
+  render: () => ({
+    template: `
+    <div xuiButtonGroup vertical class="w-40">
+      <button xuiButton variant="outline">Top</button>
+      <button xuiButton variant="outline">Middle</button>
+      <button xuiButton variant="outline">Bottom</button>
+    </div>
+    `
+  })
+};
+
+/** `fill` shares the width equally; `alignText` positions each label. */
+export const Fill: Story = {
+  render: () => ({
+    template: `
+    <div xuiButtonGroup fill alignText="left" class="w-96">
+      <button xuiButton variant="outline">Files</button>
+      <button xuiButton variant="outline">Settings</button>
+      <button xuiButton variant="outline">Help</button>
+    </div>
+    `
+  })
+};

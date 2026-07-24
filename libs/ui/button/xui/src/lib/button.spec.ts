@@ -80,4 +80,41 @@ describe('XuiButton', () => {
 
     expectClasses(query('button'), 'ring-2', 'bg-primary');
   });
+
+  describe('Blueprint-parity extras', () => {
+    it('stretches to fill when asked', () => {
+      const { query } = setup('<button xuiButton fill></button>');
+
+      expectClasses(query('button'), 'w-full', 'min-w-0');
+    });
+
+    it('aligns its contents', () => {
+      const { query } = setup('<button xuiButton alignText="left"></button>');
+
+      expectClasses(query('button'), 'justify-start', 'text-left');
+      expectNoClasses(query('button'), 'justify-center');
+    });
+
+    it('marks itself pressed when active', () => {
+      const { query } = setup('<button xuiButton active></button>');
+
+      expectClasses(query('button'), 'shadow-inner');
+      expect(query('button').getAttribute('aria-pressed')).toBe('true');
+    });
+
+    it('shows a spinner and hides the label while loading, keeping width', () => {
+      const { query } = setup('<button xuiButton loading>Save</button>');
+
+      expectClasses(query('button'), 'text-transparent', 'pointer-events-none', 'before:animate-spin');
+      expect(query('button').getAttribute('aria-busy')).toBe('true');
+      // The label text is still present (laid out, just transparent) so the width holds.
+      expect(query('button').textContent).toBe('Save');
+    });
+
+    it('works as an anchor button', () => {
+      const { query } = setup('<a xuiButton href="#go">Go</a>');
+
+      expectClasses(query('a'), 'inline-flex', 'bg-primary');
+    });
+  });
 });

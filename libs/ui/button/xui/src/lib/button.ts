@@ -1,8 +1,18 @@
-import { computed, Directive, input, signal } from '@angular/core';
+import { BooleanInput } from '@angular/cdk/coercion';
+import { booleanAttribute, computed, Directive, input, signal } from '@angular/core';
 import { xui } from '@xui/core';
 import { cva, VariantProps } from 'class-variance-authority';
 import { ClassValue } from 'clsx';
 import { injectXuiButtonConfig } from './button.token';
+
+/** How the button's contents are aligned along its main axis. */
+export type ButtonAlign = 'left' | 'center' | 'right';
+
+const alignClass: Record<ButtonAlign, string> = {
+  left: 'justify-start text-left',
+  center: 'justify-center text-center',
+  right: 'justify-end text-right'
+};
 
 const buttonVariants = cva(
   [
@@ -120,12 +130,13 @@ export type ButtonVariants = VariantProps<typeof buttonVariants>;
   selector: '[xuiButton]',
   exportAs: 'xuiButton',
   host: {
-    '[class]': 'computedClass()'
+    '[class]': 'computedClass()',
+    '[attr.aria-pressed]': "active() ? 'true' : null",
+    '[attr.aria-busy]': "loading() ? 'true' : null",
+    '[attr.data-loading]': "loading() ? '' : null"
   }
 })
 export class XuiButton {
-  // TODO(phase-4): icon/endIcon, loading, active, fill, alignText.
-
   private readonly config = injectXuiButtonConfig();
   private readonly additionalClasses = signal<ClassValue>('');
 
@@ -134,13 +145,38 @@ export class XuiButton {
   readonly variant = input<ButtonVariants['variant']>(this.config.variant);
   readonly class = input<ClassValue>('');
 
-  protected readonly computedClass = computed(() => {
-    return xui(
+  /** Stretch to fill the available width instead of hugging its contents. */
+  readonly fill = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
+
+  /** Alignment of the label/icons along the main axis. Defaults to centred. */
+  readonly alignText = input<ButtonAlign>('center');
+
+  /** Render a pressed/selected appearance (also sets `aria-pressed`). */
+  readonly active = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
+
+  /**
+   * Swap the contents for a centred spinner while keeping the button's width, and
+   * block interaction. The label stays laid out (hidden) so the button never jumps.
+   */
+  readonly loading = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
+
+  protected readonly computedClass = computed(() =>
+    xui(
       buttonVariants({ color: this.color(), variant: this.variant(), size: this.size() }),
+      alignClass[this.alignText() ?? 'center'],
+      this.fill() && 'w-full min-w-0',
+      this.active() && 'shadow-inner brightness-95',
+      this.loading() && [
+        'pointer-events-none relative text-transparent [&_svg]:invisible',
+        // The label is hidden by `text-transparent`, which also zeroes currentColor,
+        // so the spinner is coloured explicitly with `foreground` rather than `current`.
+        'before:absolute before:top-1/2 before:left-1/2 before:size-4 before:-translate-x-1/2 before:-translate-y-1/2',
+        'before:animate-spin before:rounded-full before:border-2 before:border-foreground before:border-t-transparent'
+      ],
       this.class(),
       this.additionalClasses()
-    );
-  });
+    )
+  );
 
   setClass(classes: ClassValue): void {
     this.additionalClasses.set(classes);

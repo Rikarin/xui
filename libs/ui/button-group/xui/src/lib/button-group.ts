@@ -1,11 +1,33 @@
-import { computed, Directive, input, signal } from '@angular/core';
+import { BooleanInput } from '@angular/cdk/coercion';
+import { booleanAttribute, computed, Directive, input, signal } from '@angular/core';
 import { xui } from '@xui/core';
 import { cva, VariantProps } from 'class-variance-authority';
 import { ClassValue } from 'clsx';
 
-const buttonGroupVariants = cva([
-  'inline-flex *:not-first:rounded-l-none *:not-last:rounded-r-none *:not-first:border-l-0'
-]);
+/** How each button's contents align — applied to every child. */
+export type ButtonGroupAlign = 'left' | 'center' | 'right';
+
+const alignClass: Record<ButtonGroupAlign, string> = {
+  left: '[&>*]:justify-start [&>*]:text-left',
+  center: '',
+  right: '[&>*]:justify-end [&>*]:text-right'
+};
+
+const buttonGroupVariants = cva('inline-flex', {
+  variants: {
+    vertical: {
+      // Collapse the radii and drop the doubled border between neighbours, on
+      // whichever axis the group runs.
+      false: 'flex-row *:not-first:rounded-l-none *:not-last:rounded-r-none *:not-first:border-l-0',
+      true: 'flex-col *:not-first:rounded-t-none *:not-last:rounded-b-none *:not-first:border-t-0'
+    },
+    fill: {
+      true: '[&>*]:min-w-0 [&>*]:flex-1',
+      false: ''
+    }
+  },
+  defaultVariants: { vertical: false, fill: false }
+});
 
 export type ButtonGroupVariants = VariantProps<typeof buttonGroupVariants>;
 
@@ -17,19 +39,28 @@ export type ButtonGroupVariants = VariantProps<typeof buttonGroupVariants>;
   }
 })
 export class XuiButtonGroup {
-  // TODO: we can provide configuration for buttons though DI/token
-
-  // private readonly config = injectXuiButtonConfig();
   private readonly additionalClasses = signal<ClassValue>('');
 
-  // readonly color = input<ButtonVariants['color']>(this.config.color);
-  // readonly size = input<ButtonVariants['size']>(this.config.size);
-  // readonly variant = input<ButtonVariants['variant']>(this.config.variant);
   readonly class = input<ClassValue>('');
 
-  protected readonly computedClass = computed(() => {
-    return xui(buttonGroupVariants(), this.class(), this.additionalClasses());
-  });
+  /** Stack the buttons vertically rather than in a row. */
+  readonly vertical = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
+
+  /** Stretch the buttons to share the group's width (or height) equally. */
+  readonly fill = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
+
+  /** Align every button's contents. Defaults to centred. */
+  readonly alignText = input<ButtonGroupAlign>('center');
+
+  protected readonly computedClass = computed(() =>
+    xui(
+      buttonGroupVariants({ vertical: this.vertical(), fill: this.fill() }),
+      alignClass[this.alignText() ?? 'center'],
+      this.fill() && 'flex w-full',
+      this.class(),
+      this.additionalClasses()
+    )
+  );
 
   setClass(classes: ClassValue): void {
     this.additionalClasses.set(classes);

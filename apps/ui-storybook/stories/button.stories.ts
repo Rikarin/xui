@@ -165,3 +165,48 @@ export const Disabled: Story = {
     };
   }
 };
+
+/** `loading` swaps the label for a spinner while keeping the button's width. */
+export const Loading: Story = {
+  render: () => ({
+    template: `
+      <div class="flex gap-3">
+        <button xuiButton loading>Save changes</button>
+        <button xuiButton loading variant="outline" color="success">Publish</button>
+        <button xuiButton loading variant="ghost">Refresh</button>
+      </div>
+    `
+  })
+};
+
+/** `active` renders a pressed appearance (and sets <code>aria-pressed</code>). */
+export const Active: Story = {
+  render: () => ({
+    template: `
+      <div class="flex gap-3">
+        <button xuiButton active>Active</button>
+        <button xuiButton variant="outline" active>Active outline</button>
+      </div>
+    `
+  })
+};
+
+/** `fill` stretches to the container; `alignText` positions the contents. */
+export const FillAndAlign: Story = {
+  render: () => ({
+    template: `
+      <div class="flex w-72 flex-col gap-2">
+        <button xuiButton fill>Full width, centred</button>
+        <button xuiButton fill alignText="left" variant="outline">Full width, left</button>
+        <button xuiButton fill alignText="right" variant="outline">Full width, right</button>
+      </div>
+    `
+  })
+};
+
+/** The directive works on an anchor too — an <code>AnchorButton</code>. */
+export const Anchor: Story = {
+  render: () => ({
+    template: `<a xuiButton href="#" variant="outline">Anchor button</a>`
+  })
+};

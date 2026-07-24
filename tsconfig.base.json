@@ -88,7 +88,10 @@
       "@xui/control-group": ["./libs/ui/control-group/xui/src/index.ts"],
       "@xui/html-select": ["./libs/ui/html-select/xui/src/index.ts"],
       "@xui/segmented-control": ["./libs/ui/segmented-control/xui/src/index.ts"],
-      "@xui/slider": ["./libs/ui/slider/xui/src/index.ts"]
+      "@xui/slider": ["./libs/ui/slider/xui/src/index.ts"],
+      "@xui/editable-text": ["./libs/ui/editable-text/xui/src/index.ts"],
+      "@xui/tag-input": ["./libs/ui/tag-input/xui/src/index.ts"],
+      "@xui/control-card": ["./libs/ui/control-card/xui/src/index.ts"]
     },
     "strict": false,
     "noUncheckedSideEffectImports": false,
