@@ -72,6 +72,10 @@ Every `@xui/*` component styles itself with semantic Tailwind utilities — `bg-
 @import 'tailwindcss';
 @import '@xui/core/styles/theme.css';
 
+/* Only needed if you use an overlay surface — popover, tooltip, menu, dialog,
+   drawer or toast. Without it overlays render in the document flow. */
+@import '@angular/cdk/overlay-prebuilt.css';
+
 /* Tell Tailwind to scan the component sources for utility classes. */
 @source '../node_modules/@xui';
 ```

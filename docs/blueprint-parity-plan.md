@@ -145,20 +145,51 @@ the 15 per-package READMEs (skipped here to keep this diff reviewable).
 
 ### 0.2 Core primitives (`@xui/core/*` secondary entrypoints)
 
-Generated with `nx g @xui/tools:core-secondary-entrypoint <name>`:
+Generated with `nx g @xui/tools:core-secondary-entrypoint <name>`.
 
-- `@xui/core/overlay` — thin signal wrapper over `cdk/overlay`: positioning strategies, scroll
-  strategies, backdrop, focus trap + restore, escape/outside-click, stacking, `OverlayInstance`
-  equivalent of Blueprint's `Overlay2`. **Everything in Phase 3 depends on this.**
-- `@xui/core/a11y` — `useHotkeys` equivalent (`injectHotkeys`), roving-tabindex/`ListKeyManager`
-  helpers, `injectUniqueId`, live-region announcer.
-- `@xui/core/interactions` — `injectResizeObserver` (ResizeSensor), `injectElementSize`,
-  outside-click, long-press, drag-handle (slider/resize) helpers.
+**✅ `@xui/core/overlay`** — the single seam every Phase 3 surface sits on, so escape handling,
+outside clicks, focus trapping and focus restoration behave identically across all of them.
+
+- `injectXOverlay()` returns a factory bound to the calling injection context, capturing its
+  `Injector` and `ViewContainerRef` (so template content stamps in the right place) and closing
+  anything still open on destroy. Built on CDK 22's functional `createOverlayRef` API rather than
+  the `Overlay` service.
+- `XOverlayRef` is single-use and signal-based: `isOpen`, `result`, and an awaitable `closed`
+  promise for confirm-style flows. `close()` disposes; reopening asks for a fresh ref, which keeps
+  reopen paths free of stale positioning state.
+- `XOverlayConfig` covers connected vs global positioning, placement/offset/flip,
+  `matchOriginWidth`, backdrop, the four scroll strategies, escape/outside-click/backdrop
+  dismissal, focus trap/auto-focus/restore, template `context`, and the ARIA attributes.
+- `XPlacement` uses the Floating-UI/Popper naming Blueprint uses (`top-start`, `bottom-end`, …);
+  `connectedPositions()` translates it to CDK's corner pairs and generates flip/shift fallbacks in
+  the same order Floating UI's middleware produces, so ported components land in the same place.
+
+  Two things worth remembering: CDK's _vertical_ positions are `top|center|bottom` but its
+  _horizontal_ ones are `start|center|end` — `left`/`right` are not valid there — and an outside
+  click on the trigger is deliberately ignored, otherwise a toggle handler reopens what the
+  dismissal just closed and the overlay flickers instead of toggling.
+
+**✅ `@xui/core/interactions`** — `injectElementSize()` (signal-based `ResizeObserver`, SSR-safe,
+stays 0×0 where unavailable), the `[xResizeSensor] (xResize)` directive that is xUI's
+`ResizeSensor`, and `injectOutsideClick()` for the non-overlay dismissal cases (inline editors,
+expanding search fields). Also the measurement step for overflow lists, auto-resizing textareas and
+the data grid's column sizing.
+
+**✅ `@xui/core/a11y`** — `uniqueId()` / `resolveId()` for the `aria-labelledby`/`describedby`
+wiring overlay surfaces need between elements in different parts of the tree. Roving tabindex and
+hotkeys land here with their first consumer (Phase 4/5) rather than being built speculatively; CDK
+already supplies `ListKeyManager` and `FocusKeyManager` underneath.
+
+Still to build, each with its consumer:
+
 - `@xui/core/query` — Blueprint's `QueryList` logic (predicate filtering, item renderer contract,
   keyboard navigation, create-new-item) reused by Phase 6.
 - `@xui/core/forms` — extend the existing entrypoint with a shared `XuiControl` base
   (id, disabled, required, error state, describedby wiring).
-- `@xui/core/portal` — re-export/wrap `cdk/portal` with the xUI container conventions.
+
+**Consumer requirement:** apps using any overlay surface must import
+`@angular/cdk/overlay-prebuilt.css` alongside the theme — without it overlays render in the
+document flow. Noted in the README's Theming section.
 
 ### 0.3 Tooling — ✅ done
 
@@ -409,6 +440,8 @@ bump, cut `2.0.0-beta.0` after Phase 5, `2.0.0` after Phase 7.
    `libs/testing`.~~ ✅
 3. ~~Backfill specs for the 14 existing packages against the new conventions — it validates the
    test harness before 57 new packages depend on it.~~ ✅ (118 tests)
-4. Land Phase 0.2 — `@xui/core/overlay` and `@xui/core/interactions` with tests (unblocks Phase 3).
+4. ~~Land Phase 0.2 — `@xui/core/overlay` and `@xui/core/interactions` with tests (unblocks
+   Phase 3).~~ ✅ (plus `@xui/core/a11y`; 53 tests in `core`, and a `Core/Overlay` Storybook page
+   covering the positioning jsdom cannot check)
 5. Start Phase 1 in component order: `text` → `icon` → `divider` → `spinner` → `progress-bar` →
    `skeleton` → `link`.

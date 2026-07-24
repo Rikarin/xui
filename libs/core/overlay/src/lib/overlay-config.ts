@@ -1,0 +1,91 @@
+import type { ElementRef } from '@angular/core';
+import type { XPlacement } from './placement';
+
+/** What the overlay positions itself against. */
+export type XOverlayOrigin = ElementRef<HTMLElement> | HTMLElement;
+
+/**
+ * How the overlay reacts to the page scrolling underneath it.
+ *
+ * - `reposition` — follow the trigger (popovers, tooltips, menus)
+ * - `block`      — lock the page (modal dialogs, drawers)
+ * - `close`      — dismiss on scroll (hover cards)
+ * - `noop`       — do nothing
+ */
+export type XScrollStrategy = 'reposition' | 'block' | 'close' | 'noop';
+
+export interface XOverlayConfig {
+  /**
+   * `connected` anchors to `origin`; `global` centres in the viewport.
+   * Defaults to `connected` when an origin is given, `global` otherwise.
+   */
+  position?: 'connected' | 'global';
+  /** The element a connected overlay anchors to. */
+  origin?: XOverlayOrigin;
+  /** Preferred placement for a connected overlay. */
+  placement?: XPlacement;
+  /** Gap in pixels between trigger and overlay. */
+  offset?: number;
+  /** Whether the overlay may flip/shift to stay in the viewport. */
+  flip?: boolean;
+  /** Match the overlay's width to the trigger's — for select-style dropdowns. */
+  matchOriginWidth?: boolean;
+
+  hasBackdrop?: boolean;
+  backdropClass?: string | string[];
+  panelClass?: string | string[];
+  scrollStrategy?: XScrollStrategy;
+
+  /** Close when Escape is pressed. */
+  closeOnEscape?: boolean;
+  /** Close when a pointer event lands outside the overlay (and outside the origin). */
+  closeOnOutsideClick?: boolean;
+  /** Close when the backdrop is clicked. Implied by `closeOnOutsideClick` when a backdrop exists. */
+  closeOnBackdropClick?: boolean;
+
+  /** Keep Tab focus inside the overlay while it is open. */
+  trapFocus?: boolean;
+  /** Move focus into the overlay when it opens. */
+  autoFocus?: boolean;
+  /** Return focus to whatever had it before the overlay opened. */
+  restoreFocus?: boolean;
+
+  /** Forwarded to the overlay pane so screen readers announce it correctly. */
+  role?: 'dialog' | 'alertdialog' | 'menu' | 'listbox' | 'tooltip' | 'grid' | null;
+  ariaLabel?: string | null;
+  ariaLabelledBy?: string | null;
+  ariaDescribedBy?: string | null;
+
+  /** Extra injector-scoped providers for the attached content. */
+  providers?: unknown[];
+  /**
+   * Context for template content — `$implicit` plus any named values the
+   * template destructures with `let-`. Ignored for component content, which
+   * takes its inputs through `providers` or its own API instead.
+   */
+  context?: Record<string, unknown>;
+}
+
+/**
+ * Defaults tuned for a click-triggered popover, the most common case. Modal
+ * surfaces (dialog, drawer) override `position`, `hasBackdrop`, `scrollStrategy`
+ * and the focus flags.
+ */
+export const X_OVERLAY_DEFAULTS = {
+  placement: 'bottom-start',
+  offset: 8,
+  flip: true,
+  matchOriginWidth: false,
+  hasBackdrop: false,
+  scrollStrategy: 'reposition',
+  closeOnEscape: true,
+  closeOnOutsideClick: true,
+  closeOnBackdropClick: true,
+  trapFocus: false,
+  autoFocus: false,
+  restoreFocus: true,
+  role: null,
+  ariaLabel: null,
+  ariaLabelledBy: null,
+  ariaDescribedBy: null
+} as const satisfies XOverlayConfig;

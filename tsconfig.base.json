@@ -54,7 +54,10 @@
       "@xui/status": ["libs/ui/status/xui/src/index.ts"],
       "@xui/table": ["libs/ui/table/xui/src/index.ts"],
       "@xui/testing": ["libs/testing/src/index.ts"],
-      "@xui/tools": ["libs/tools/src/index.ts"]
+      "@xui/tools": ["libs/tools/src/index.ts"],
+      "@xui/core/overlay": ["./libs/core/overlay/src/index.ts"],
+      "@xui/core/interactions": ["./libs/core/interactions/src/index.ts"],
+      "@xui/core/a11y": ["./libs/core/a11y/src/index.ts"]
     },
     "strict": false,
     "noUncheckedSideEffectImports": false,

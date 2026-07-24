@@ -1,5 +1,9 @@
-/*@import '@angular/cdk/overlay-prebuilt.css';*/
 @import 'tailwindcss';
+
+/* Positioning styles for the CDK overlay container that `@xui/core/overlay`
+   builds on. Without it every overlay renders in the document flow instead of
+   floating, so consuming apps need this import too. */
+@import '@angular/cdk/overlay-prebuilt.css';
 
 /* The single source of truth for xUI's design tokens. Published as
    `@xui/core/styles/theme.css`; imported by path here so Storybook always

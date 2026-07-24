@@ -7,8 +7,36 @@
     "inlineSources": true,
     "types": []
   },
-  "exclude": ["**/*.spec.ts", "test-setup.ts", "jest.config.ts", "**/*.test.ts"],
-  "include": ["**/*.ts"],
+  "exclude": [
+    "**/*.spec.ts",
+    "test-setup.ts",
+    "jest.config.ts",
+    "**/*.test.ts",
+    "overlay/**/*.spec.ts",
+    "overlay/**/*.test.ts",
+    "interactions/**/*.spec.ts",
+    "interactions/**/*.test.ts",
+    "interactions/overlay/**/*.spec.ts",
+    "interactions/overlay/**/*.test.ts",
+    "a11y/**/*.spec.ts",
+    "a11y/**/*.test.ts",
+    "a11y/overlay/**/*.spec.ts",
+    "a11y/overlay/**/*.test.ts",
+    "a11y/interactions/**/*.spec.ts",
+    "a11y/interactions/**/*.test.ts",
+    "a11y/interactions/overlay/**/*.spec.ts",
+    "a11y/interactions/overlay/**/*.test.ts"
+  ],
+  "include": [
+    "**/*.ts",
+    "overlay/**/*.ts",
+    "interactions/**/*.ts",
+    "interactions/overlay/**/*.ts",
+    "a11y/**/*.ts",
+    "a11y/overlay/**/*.ts",
+    "a11y/interactions/**/*.ts",
+    "a11y/interactions/overlay/**/*.ts"
+  ],
   "angularCompilerOptions": {
     "extendedDiagnostics": {
       "checks": {
