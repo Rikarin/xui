@@ -1,3 +1,6 @@
+// For more info, see https://github.com/storybookjs/eslint-plugin-storybook#configuration-flat-config-format
+import storybook from 'eslint-plugin-storybook';
+
 import nx from '@nx/eslint-plugin';
 
 export default [
@@ -31,7 +34,9 @@ export default [
         'error',
         {
           enforceBuildableLibDependency: true,
-          allow: ['^.*/eslint(\\.base)?\\.config\\.[cm]?js$'],
+          // `@ng-doc/generated` is build output under /ng-doc, which Nx resolves
+          // back to the `app` project and would otherwise reject as an app import.
+          allow: ['^.*/eslint(\\.base)?\\.config\\.[cm]?js$', '^@ng-doc/generated$'],
           depConstraints: [
             {
               sourceTag: '*',
@@ -80,5 +85,6 @@ export default [
     rules: {
       // '@nx/workspace-prefer-signals': 'off'
     }
-  }
+  },
+  ...storybook.configs['flat/recommended']
 ];

@@ -4,6 +4,8 @@ import { injectXuiIconConfig } from './icon.token';
 export type IconSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'none' | (Record<never, never> & string);
 
 @Directive({
+  // The bare `xui` attribute is the intended public API here: `<ng-icon xui />`.
+  // eslint-disable-next-line @angular-eslint/directive-selector
   selector: 'ng-icon[xui]',
   host: {
     '[style.--ng-icon__size]': 'computedSize()'

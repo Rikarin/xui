@@ -1,8 +1,8 @@
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { matHomeRound } from '@ng-icons/material-icons/round';
-import type { Meta, StoryObj } from '@storybook/angular';
-import { moduleMetadata } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/angular-vite';
+import { moduleMetadata } from '@storybook/angular-vite';
 import { XuiBreadcrumb, XuiBreadcrumbImports } from '@xui/breadcrumb';
 import { XuiIcon } from '@xui/icon';
 

@@ -1,4 +1,4 @@
-import { type Meta, type StoryObj, argsToTemplate, moduleMetadata } from '@storybook/angular';
+import { type Meta, type StoryObj, argsToTemplate, moduleMetadata } from '@storybook/angular-vite';
 import { XuiBadge, XuiBadgeImports } from '@xui/badge';
 
 const meta: Meta<XuiBadge> = {

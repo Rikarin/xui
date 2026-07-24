@@ -2,6 +2,11 @@
 @import 'tailwindcss';
 @plugin 'tailwindcss-animate';
 
+/* Tailwind's automatic source detection is rooted at the Vite project, which
+   excludes the component sources the stories render. Declare them explicitly. */
+@source '../../../libs';
+@source '../stories';
+
 /*@variant dark (&:is(.dark *));*/
 
 @theme inline {

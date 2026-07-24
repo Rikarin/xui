@@ -1,6 +1,6 @@
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 import { type ApplicationConfig, provideZonelessChangeDetection } from '@angular/core';
-import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
+import { provideClientHydration, withEventReplay, withNoIncrementalHydration } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import {
@@ -17,7 +17,7 @@ import { NG_DOC_ROUTING, provideNgDocContext } from '@ng-doc/generated';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZonelessChangeDetection(),
-    provideClientHydration(withEventReplay()),
+    provideClientHydration(withEventReplay(), withNoIncrementalHydration()),
 
     // Provide context of the generated documentation
     provideNgDocContext(),
@@ -29,7 +29,7 @@ export const appConfig: ApplicationConfig = {
     // Provide animations
     provideAnimations(),
     // Provide HttpClient with interceptors (NgDoc uses interceptors)
-    provideHttpClient(withInterceptorsFromDi()),
+    provideHttpClient(withXhr(), withInterceptorsFromDi()),
     // Add generated routes to the application
     provideRouter(
       NG_DOC_ROUTING,

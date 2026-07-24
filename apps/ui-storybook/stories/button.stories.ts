@@ -1,4 +1,4 @@
-import { argsToTemplate, Meta, moduleMetadata, StoryObj } from '@storybook/angular';
+import { argsToTemplate, Meta, moduleMetadata, StoryObj } from '@storybook/angular-vite';
 import { XuiButton, XuiButtonImports } from '@xui/button';
 
 const meta: Meta<XuiButton> = {

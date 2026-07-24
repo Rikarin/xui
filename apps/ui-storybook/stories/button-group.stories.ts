@@ -1,4 +1,4 @@
-import { Meta, moduleMetadata, StoryObj } from '@storybook/angular';
+import { Meta, moduleMetadata, StoryObj } from '@storybook/angular-vite';
 import { XuiButtonImports } from '@xui/button';
 import { XuiButtonGroup, XuiButtonGroupImports } from '@xui/button-group';
 

@@ -1,7 +1,11 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "module": "commonjs"
+    "module": "commonjs",
+    // The base config still uses classic "node" resolution, which ignores the
+    // "exports" maps that @nx/* packages now rely on for their subpaths.
+    "moduleResolution": "bundler",
+    "ignoreDeprecations": "6.0"
   },
   "files": [],
   "include": [],

@@ -1,7 +1,7 @@
 {
   "name": "@xui/checkbox",
   "version": "2.0.0-alpha.8",
-  "description": "Modern Angular 20 UI Library based on TailwindCSS",
+  "description": "Modern Angular 22 UI Library based on TailwindCSS",
   "keywords": [
     "angular",
     "ui",
@@ -20,10 +20,11 @@
   ],
   "sideEffects": false,
   "peerDependencies": {
-    "@angular/core": "20",
-    "@angular/forms": "20",
-    "@ng-icons/core": "32",
-    "@ng-icons/material-icons": "32",
+    "@angular/cdk": "22",
+    "@angular/core": "22",
+    "@angular/forms": "22",
+    "@ng-icons/core": "34",
+    "@ng-icons/material-icons": "34",
     "@xui/core": "2.0.0-alpha.8",
     "@xui/icon": "2.0.0-alpha.8",
     "class-variance-authority": "^0.7.1",

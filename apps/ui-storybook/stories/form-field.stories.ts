@@ -1,6 +1,6 @@
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import type { Meta, StoryObj } from '@storybook/angular';
-import { moduleMetadata } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/angular-vite';
+import { moduleMetadata } from '@storybook/angular-vite';
 import { XuiFormField, XuiFormFieldImports } from '@xui/form-field';
 import { XuiInputImports } from '@xui/input';
 

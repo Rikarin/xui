@@ -94,7 +94,10 @@ export class XCheckbox implements ControlValueAccessor, AfterContentInit, OnDest
    * Current checked state of checkbox.
    * Can be bound with [(checked)] for two-way binding.
    */
-  readonly checked = model<boolean>(false);
+  // Aliased so the writable `checked` linkedSignal below can own the public name.
+  // eslint-disable-next-line @angular-eslint/no-input-rename
+  readonly checkedInput = input<boolean>(false, { alias: 'checked' });
+  readonly checked = linkedSignal(this.checkedInput);
 
   /** Emits when checked state changes. */
   readonly checkedChange = output<boolean>();

@@ -1,7 +1,7 @@
 {
   "name": "@xui/badge",
   "version": "2.0.0-alpha.8",
-  "description": "Modern Angular 20 UI Library based on TailwindCSS",
+  "description": "Modern Angular 22 UI Library based on TailwindCSS",
   "keywords": [
     "angular",
     "ui",
@@ -20,8 +20,8 @@
   ],
   "sideEffects": false,
   "peerDependencies": {
-    "@angular/cdk": "20",
-    "@angular/core": "20",
+    "@angular/cdk": "22",
+    "@angular/core": "22",
     "@xui/core": "2.0.0-alpha.8",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1"

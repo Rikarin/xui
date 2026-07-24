@@ -7,7 +7,7 @@ featuring support for icons and theming.
 ### Import
 
 ```ts
-import { XuiButtonDirective } from '@xui/button';
+import { XuiButton } from '@xui/button';
 ```
 
 ## Types
@@ -23,6 +23,6 @@ Button can have different types.
 
 # API
 
-{{ NgDocApi.api("libs/ui/button/xui/src/lib/button.ts#XuiButtonDirective") }}
+{{ NgDocApi.api("libs/ui/button/xui/src/lib/button.ts#XuiButton") }}
 
 <div id="end"></div>

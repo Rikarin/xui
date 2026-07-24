@@ -1,0 +1,20 @@
+onlyBuiltDependencies:
+  - '@parcel/watcher'
+  - '@swc/core'
+  - '@tailwindcss/oxide'
+  - core-js
+  - esbuild
+  - lmdb
+  - msgpackr-extract
+  - nx
+  - unrs-resolver
+
+overrides:
+  # Nx 23.1 still bundles @typescript-eslint 8.46, which references the
+  # `FlatESLint` export removed in ESLint 10. Pin the family to a version
+  # that declares ESLint 10 support.
+  '@typescript-eslint/eslint-plugin': ^8.65.0
+  '@typescript-eslint/parser': ^8.65.0
+  '@typescript-eslint/type-utils': ^8.65.0
+  '@typescript-eslint/typescript-estree': ^8.65.0
+  '@typescript-eslint/utils': ^8.65.0
