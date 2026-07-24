@@ -87,7 +87,8 @@
       "@xui/file-input": ["./libs/ui/file-input/xui/src/index.ts"],
       "@xui/control-group": ["./libs/ui/control-group/xui/src/index.ts"],
       "@xui/html-select": ["./libs/ui/html-select/xui/src/index.ts"],
-      "@xui/segmented-control": ["./libs/ui/segmented-control/xui/src/index.ts"]
+      "@xui/segmented-control": ["./libs/ui/segmented-control/xui/src/index.ts"],
+      "@xui/slider": ["./libs/ui/slider/xui/src/index.ts"]
     },
     "strict": false,
     "noUncheckedSideEffectImports": false,
