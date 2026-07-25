@@ -132,7 +132,8 @@
       "@xui/alert-dialog": ["./libs/ui/alert-dialog/xui/src/index.ts"],
       "@xui/menubar": ["./libs/ui/menubar/xui/src/index.ts"],
       "@xui/navigation-menu": ["./libs/ui/navigation-menu/xui/src/index.ts"],
-      "@xui/konva": ["./libs/ui/konva/xui/src/index.ts"]
+      "@xui/konva": ["./libs/ui/konva/xui/src/index.ts"],
+      "@xui/echarts": ["./libs/ui/echarts/xui/src/index.ts"]
     },
     "strict": false,
     "noUncheckedSideEffectImports": false,
