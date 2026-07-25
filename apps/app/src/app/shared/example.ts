@@ -1,5 +1,14 @@
 import { NgComponentOutlet } from '@angular/common';
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import {
+  afterNextRender,
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  ElementRef,
+  inject,
+  input,
+  signal
+} from '@angular/core';
 import { XuiTabsImports } from '@xui/tabs';
 import { XuiTextImports } from '@xui/text';
 import type { DocsExample } from '../core/docs.model';
@@ -11,11 +20,17 @@ import { CodeBlock } from './code-block';
  * The preview is the compiled component the generator built from the story, so what renders here is
  * the same code the Code tab shows — there is no second, hand-maintained copy to drift.
  *
- * It renders on viewport rather than on the server. A preview is a live demo, not content: several
- * components measure the DOM or construct a `ResizeObserver` on creation and cannot render without a
- * browser, and the heavy ones (a chart, a canvas, a node graph) have no business in the payload of a
- * page whose reader may never scroll to them. Everything that is documentation — the description,
- * the source, the API tables — is still server-rendered.
+ * It renders in the browser only. A preview is a live demo rather than content: several components
+ * measure the DOM or construct a `ResizeObserver` when they are created and cannot render on the
+ * server at all. `afterNextRender` runs once hydration has finished, so the server and the client
+ * agree on the markup and nothing has to be skipped. Everything that is documentation — the
+ * description, the source, the API tables — is still server-rendered.
+ *
+ * The frame scrolls only when its contents are genuinely too wide, because a scroll container clips
+ * on both axes — CSS cannot scroll one and overflow the other. Left scrolling permanently on, a
+ * cascader or colour picker (both of which position their panel themselves rather than through the
+ * CDK overlay) has it cut off at the frame's edge; left permanently off, a 760px-wide data table
+ * pushes the whole page sideways.
  */
 @Component({
   selector: 'docs-example',
@@ -31,11 +46,13 @@ import { CodeBlock } from './code-block';
       <xui-tabs [selectedTabId]="'preview-' + anchor()">
         <xui-tab [id]="'preview-' + anchor()" title="Preview">
           <div
-            class="border-border bg-background flex min-h-24 flex-wrap items-start gap-4 overflow-x-auto rounded-lg border p-6"
+            data-preview-frame
+            class="border-border bg-background flex min-h-24 flex-wrap items-start gap-4 rounded-lg border p-6"
+            [class.overflow-x-auto]="scrollable()"
           >
-            @defer (on viewport) {
+            @if (rendered()) {
               <ng-container [ngComponentOutlet]="example().preview!" />
-            } @placeholder {
+            } @else {
               <span class="text-foreground-subtle text-sm">Loading preview…</span>
             }
           </div>
@@ -53,4 +70,37 @@ export class Example {
   readonly example = input.required<DocsExample>();
   /** Stable id for the heading and the tab group — tab ids have to be unique across the page. */
   readonly anchor = input.required<string>();
+
+  private readonly host = inject(ElementRef<HTMLElement>);
+  private readonly destroyRef = inject(DestroyRef);
+
+  protected readonly rendered = signal(false);
+  protected readonly scrollable = signal(false);
+
+  constructor() {
+    afterNextRender(() => {
+      this.rendered.set(true);
+
+      // One frame later: the preview mounts during the change detection this very call schedules,
+      // so measuring now would always report that it fits.
+      requestAnimationFrame(() => this.measure());
+
+      const remeasure = () => this.measure();
+
+      window.addEventListener('resize', remeasure, { passive: true });
+      this.destroyRef.onDestroy(() => window.removeEventListener('resize', remeasure));
+    });
+  }
+
+  /**
+   * The frame is looked up by attribute rather than by a view query: it is projected into a tab
+   * panel, which the query does not resolve through, and the DOM node always does.
+   */
+  private measure(): void {
+    const frame = (this.host.nativeElement as HTMLElement).querySelector<HTMLElement>('[data-preview-frame]');
+
+    if (frame) {
+      this.scrollable.set(frame.scrollWidth > frame.clientWidth);
+    }
+  }
 }

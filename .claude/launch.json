@@ -6,6 +6,12 @@
       "runtimeExecutable": "pnpm",
       "runtimeArgs": ["exec", "nx", "serve", "app", "--port", "4300"],
       "port": 4300
+    },
+    {
+      "name": "docs-dist",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "4301", "--directory", "dist/apps/app/browser"],
+      "port": 4301
     }
   ]
 }
