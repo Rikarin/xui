@@ -1,3 +1,18 @@
+## 2.0.0-alpha.10 (2026-07-25)
+
+### 🚀 Features
+
+- **core:** add an ng-add schematic ([122868a](https://github.com/Rikarin/xui/commit/122868a))
+
+### 🩹 Fixes
+
+- **repo:** version every package, not just the first sixteen ([a918b5e](https://github.com/Rikarin/xui/commit/a918b5e))
+
+### ❤️ Thank You
+
+- Claude Opus 5
+- Rikarin @Rikarin
+
 ## 2.0.0-alpha.9 (2026-07-25)
 
 ### 🚀 Features
