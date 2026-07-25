@@ -29,7 +29,7 @@
     "format": "nx format --write",
     "lint": "nx run-many --target=lint --parallel",
     "local-registry": "nx local-registry",
-    "prepare": "git config core.hooksPath .githooks",
+    "prepare": "test -n \"$CI\" || git config core.hooksPath .githooks",
     "release": "nx release --skip-publish",
     "release:dry-run": "nx release --skip-publish --dry-run",
     "release:publish": "nx release publish",

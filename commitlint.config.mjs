@@ -58,6 +58,8 @@ export default {
         'typography',
         'mcp',
         'nx',
+        // `nx release` commits as `chore(release): publish <version>`.
+        'release',
         'repo'
       ]
     ]
