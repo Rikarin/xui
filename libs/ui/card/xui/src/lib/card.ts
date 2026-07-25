@@ -1,5 +1,5 @@
 import type { BooleanInput } from '@angular/cdk/coercion';
-import { booleanAttribute, computed, Directive, input } from '@angular/core';
+import { booleanAttribute, computed, Directive, ElementRef, inject, input } from '@angular/core';
 import { xui } from '@xui/core';
 import { cva, VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
@@ -65,11 +65,23 @@ export type CardElevation = NonNullable<CardVariants['elevation']>;
   exportAs: 'xuiCard',
   host: {
     '[class]': 'computedClass()',
-    '[attr.aria-selected]': 'interactive() && selected() ? "true" : null'
+    // `aria-selected` is only valid on a handful of roles (option, row, tab,
+    // gridcell, treeitem) — on a plain button or link it is an invalid-attribute
+    // violation. A toggling button is `aria-pressed`; a link marking the current
+    // item is `aria-current`. An explicit `role` from the author wins.
+    '[attr.aria-pressed]': 'selectedState() && !role && host === "button" ? "true" : null',
+    '[attr.aria-current]': 'selectedState() && !role && host === "a" ? "true" : null',
+    '[attr.aria-selected]': 'selectedState() && role ? "true" : null'
   }
 })
 export class XuiCard {
   private readonly config = injectXuiCardConfig();
+  private readonly element = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
+
+  /** The host tag, so the selected state maps onto an attribute that role allows. */
+  protected readonly host = this.element.tagName.toLowerCase();
+  /** An author-supplied role takes over the naming of the selected state. */
+  protected readonly role = this.element.getAttribute('role');
 
   /** The user-defined classes. Merged last so they win over the variant classes. */
   readonly class = input<ClassValue>('');

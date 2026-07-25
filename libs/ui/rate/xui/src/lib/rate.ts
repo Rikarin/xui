@@ -61,9 +61,11 @@ import type { ClassValue } from 'clsx';
   host: {
     '[class]': 'computedClass()',
     role: 'slider',
+    '[attr.aria-label]': 'effectiveAriaLabel()',
     '[attr.aria-valuemin]': '0',
     '[attr.aria-valuemax]': 'count()',
     '[attr.aria-valuenow]': 'value()',
+    '[attr.aria-valuetext]': 'valueText()',
     '[attr.aria-readonly]': 'readonly() || null',
     '[attr.aria-disabled]': 'disabled() || null',
     '[attr.tabindex]': 'readonly() || disabled() ? null : 0',
@@ -80,6 +82,9 @@ export class XuiRate {
 
   readonly class = input<ClassValue>('');
 
+  /** Names the control. Defaults to "Rating" so the slider is never anonymous. */
+  readonly ariaLabel = input<string | null>(null, { alias: 'aria-label' });
+
   readonly value = model<number>(0);
   readonly count = input<number, NumberInput>(5, { transform: numberAttribute });
   readonly allowHalf = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
@@ -91,6 +96,11 @@ export class XuiRate {
   readonly starSize = input<number, NumberInput>(20, { transform: numberAttribute });
 
   protected readonly hover = signal<number | null>(null);
+
+  protected readonly effectiveAriaLabel = computed(() => this.ariaLabel() ?? 'Rating');
+
+  /** A bare number tells a screen-reader user nothing about the scale. */
+  protected readonly valueText = computed(() => `${this.value()} of ${this.count()}`);
 
   protected readonly stars = computed(() => Array.from({ length: this.count() }, (_, i) => i + 1));
   protected readonly starPx = computed(() => this.starSize());

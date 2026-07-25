@@ -826,3 +826,70 @@ bump, cut `2.0.0-beta.0` after Phase 5, `2.0.0` after Phase 7.
     layers — browser-verified as a pinned corner scrolling both axes). **Phase 8 complete** (46 data-table
     tests). Only `onCompleteRender`, header menus, and `ghostCellCount` polish remain deferred. Phase 9
     (labs) is out of scope per the user.
+
+---
+
+## 8. Accessibility & RTL hardening
+
+A cross-cutting audit of the finished library (RTL, Tab focus, a11y semantics) and the fixes it
+produced. Everything below is browser-verified in Storybook plus covered by unit tests.
+
+### 8.1 Focus indicators
+
+- **The `focus:outline-none focus-visible:outline-*` idiom painted nothing.** `:focus-visible`
+  implies `:focus`, so in Tailwind 4 the `outline-none` half won and `outline-style` stayed `none`
+  while width/colour were set — 13 components (tabs, tree, slider, date-picker, control-card,
+  data-table, …) had an invisible keyboard focus ring. The suppressor is now dropped wherever a
+  `focus-visible:` replacement exists. It is kept only on text fields that deliberately swap the
+  ring for a `focus:border-focus` border (input, textarea, suggest, select trigger, transfer search).
+- **`libs/core/styles/theme.css` gained a baseline `:focus-visible` rule** (2px `--focus` outline,
+  2px offset) so a focusable element is never left with no indicator. Utilities outrank it, so any
+  component drawing its own ring still wins.
+- Rings added where there were none at all: menubar triggers, navigation-menu triggers and links,
+  the pagination page-size select, transfer search, clickable steps, every color-picker control,
+  and both upload controls.
+
+### 8.2 Keyboard access
+
+| Component      | Was                                                        | Now                                                                                     |
+| -------------- | ---------------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| `transfer`     | `<li (click)>` — mouse only, a11y lint rules suppressed     | `role="listbox"` + `aria-multiselectable`, one tab stop per side, `aria-activedescendant`, Arrow/Home/End/Space/Enter; select-all is a real tri-state `role="checkbox"` button |
+| `color-picker` | S/V square, hue and alpha strips were `<div (mousedown)>`   | Strips are `role="slider"` with `aria-value*` and arrow keys; the square is a focusable group with two-axis arrow stepping (Shift = ×10) |
+| `splitter`     | `role="separator"` with no tabindex, no keys, no values     | Focusable separator with `aria-valuenow/min/max`, Arrow (Shift = 10%) and Home/End        |
+
+### 8.3 Modal semantics
+
+`@xui/core/overlay` now emits `aria-modal="true"` and marks every sibling of the CDK overlay
+container `inert` while a modal is open, undoing it before focus is restored. `modal` defaults to
+`trapFocus && hasBackdrop`, so dialog/drawer become modal while a focus-trapping popover (no
+backdrop, closes on outside click) does not — `inert` would swallow the clicks it listens for.
+Carousel slides that are `aria-hidden` are now `inert` too, so they cannot hold a tab stop.
+
+### 8.4 RTL
+
+The library had **no direction support at all** — no `Directionality` anywhere, no `dir` in any
+spec, no way to even view RTL in Storybook.
+
+- **`@xui/core/a11y` gained the direction primitives**: `injectXDirection()` (a signal over
+  `@angular/cdk/bidi`), `arrowDirection` / `arrowDirectionOnAxis` (WAI-ARIA's rule that horizontal
+  arrows mirror in RTL and vertical ones never do), `arrowValueDirection` (the same for
+  value widgets, where ArrowUp *increases* rather than meaning "previous"), and `inlineFraction`
+  for pointer maths along the inline axis.
+- **Keyboard fixed** in tabs, tree, slider, rate, carousel, date-picker, data-table and splitter.
+- **Geometry fixed**: the tabs indicator (`insetInlineStart` measured from the right edge in RTL),
+  slider handle/fill/ticks/labels, carousel track transform, tree indentation
+  (`padding-inline-start`), colour-picker handles and gradients, and pointer maths in slider,
+  splitter and colour picker.
+- **Physical Tailwind utilities swapped for logical ones** across 39 files (`ml/mr/pl/pr` →
+  `ms/me/ps/pe`, `border-l/r` → `border-s/e`, `rounded-l/r` → `rounded-s/e`, `text-left/right` →
+  `text-start/end`, affix `left-0`/`right-0` → `start-0`/`end-0`).
+- **CDK overlays are told the direction**, so `*-start` placements anchor to the right edge in RTL.
+- **Storybook has a Direction toolbar toggle** (`globalTypes.direction`) that sets `dir` on
+  `<html>`, and `@xui/testing` exports `provideDirection('rtl')` for specs.
+
+**Known limits.** `@xui/data-table` positions virtualized cells with JS-computed physical `left`
+and `sticky left-0` frozen columns; its keyboard navigation is direction-aware but the *layout*
+is still LTR-only. Directional API names (`drawer position="left|right"`, `button align`,
+`timeline mode`, `data-table align`, the overlay `placement` union) stay physical — renaming them
+to `start`/`end` is a breaking change worth its own pass. The hardcoded English `aria-label`s
+(~38 of them) still have no override hook.

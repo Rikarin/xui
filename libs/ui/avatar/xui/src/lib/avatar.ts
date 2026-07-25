@@ -56,8 +56,11 @@ export type AvatarVariants = VariantProps<typeof avatarVariants>;
   `,
   host: {
     '[class]': 'computedClass()',
-    role: 'img',
-    '[attr.aria-label]': 'alt() || text() || null'
+    // An unnamed `role="img"` is an axe violation and announces as a bare
+    // "image" — so an avatar with nothing to say is decorative instead.
+    '[attr.role]': 'accessibleName() ? "img" : null',
+    '[attr.aria-label]': 'accessibleName()',
+    '[attr.aria-hidden]': 'accessibleName() ? null : "true"'
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None
@@ -78,6 +81,9 @@ export class XuiAvatar {
     source: this.src,
     computation: () => false
   });
+
+  /** `alt` names the image, `text` the initials; neither means "decorative". */
+  protected readonly accessibleName = computed(() => this.alt() || this.text() || null);
 
   protected readonly computedClass = computed(() =>
     xui(avatarVariants({ shape: this.shape(), size: this.size() }), this.class())

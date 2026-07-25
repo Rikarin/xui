@@ -16,6 +16,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { matCheckRound, matRemoveRound } from '@ng-icons/material-icons/round';
 import { xui } from '@xui/core';
+import { uniqueId } from '@xui/core/a11y';
 import { XCheckbox, XCheckboxImports } from '@xui/core/checkbox';
 import type { ChangeFn, TouchFn } from '@xui/core/forms';
 import { IconSize, XuiIcon } from '@xui/icon';
@@ -99,7 +100,7 @@ export const XUI_CHECKBOX_VALUE_ACCESSOR = {
         [disabled]="_disabled()"
         [required]="required()"
         [aria-label]="effectiveAriaLabel()"
-        [aria-labelledby]="ariaLabelledby()"
+        [aria-labelledby]="effectiveAriaLabelledby()"
         [aria-describedby]="ariaDescribedby()"
         (checkedChange)="handleChange($event)"
         (touched)="onTouched?.()"
@@ -116,7 +117,7 @@ export const XUI_CHECKBOX_VALUE_ACCESSOR = {
            Keyboard users operate the focusable box directly, so the label text is
            deliberately not a second tab stop. -->
       <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
-      <span [class]="labelClass()" (click)="toggleFromLabel()">
+      <span [id]="labelId" [class]="labelClass()" (click)="toggleFromLabel()">
         @if (label()) {
           <span>{{ label() }}</span>
         }
@@ -174,6 +175,19 @@ export class XuiCheckbox implements ControlValueAccessor {
 
   /** Fall back to the plain-text label for the box's accessible name. */
   protected readonly effectiveAriaLabel = computed(() => this.ariaLabel() ?? (this.label() || null));
+
+  protected readonly labelId = uniqueId('xui-checkbox-label');
+
+  /**
+   * Projected label content lives in a sibling span, not inside the button, so
+   * it cannot name the control on its own. Point the box at that span whenever
+   * there is no `label` string or explicit `aria-label`/`aria-labelledby` — the
+   * common `<xui-checkbox>Rich <b>content</b></xui-checkbox>` form would
+   * otherwise render a checkbox with no accessible name at all.
+   */
+  protected readonly effectiveAriaLabelledby = computed(
+    () => this.ariaLabelledby() ?? (this.effectiveAriaLabel() ? null : this.labelId)
+  );
 
   private readonly box = viewChild(XCheckbox);
 
