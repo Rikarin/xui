@@ -3,8 +3,9 @@ import { XuiColorPicker, XuiColorPickerImports } from '@xui/color-picker';
 
 /**
  * A color picker — the swatch trigger opens a panel with a saturation/value
- * square, hue slider, optional alpha slider, hex field and preset swatches.
- * `value` is a two-way bindable hex string.
+ * square, hue slider, optional alpha slider, a channel input row and preset
+ * swatches. `value` is a two-way bindable hex string; the input row switches
+ * between `HEX`, `HSL` and `LCH` via the `format` selector.
  */
 const meta: Meta<XuiColorPicker> = {
   title: 'Data entry/Color picker',
@@ -37,6 +38,32 @@ export const WithAlpha: Story = {
       <div class="flex flex-col gap-4">
         <xui-color-picker [(value)]="color" showAlpha />
         <span class="text-foreground-muted text-sm">{{ color }}</span>
+      </div>
+    `
+  })
+};
+
+/**
+ * `format` picks which channel model the input row edits. It's also switchable
+ * in-panel via the selector, so one picker can flip between HEX, HSL and LCH.
+ */
+export const InputFormats: Story = {
+  render: () => ({
+    props: { hex: '#722ED1', hsl: '#722ED1', lch: '#722ED1' },
+    template: `
+      <div class="flex gap-8">
+        <div class="flex flex-col gap-2">
+          <span class="text-foreground text-sm font-medium">HEX</span>
+          <xui-color-picker [(value)]="hex" format="hex" />
+        </div>
+        <div class="flex flex-col gap-2">
+          <span class="text-foreground text-sm font-medium">HSL</span>
+          <xui-color-picker [(value)]="hsl" format="hsl" />
+        </div>
+        <div class="flex flex-col gap-2">
+          <span class="text-foreground text-sm font-medium">LCH</span>
+          <xui-color-picker [(value)]="lch" format="lch" />
+        </div>
       </div>
     `
   })

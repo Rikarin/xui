@@ -16,7 +16,21 @@ import {
 } from '@angular/core';
 import { xui } from '@xui/core';
 import type { ClassValue } from 'clsx';
-import { hsvToRgb, normalizeHex, parseHex, rgbToHex, rgbToHsv, type HSV } from './color-utils';
+import {
+  hslToRgb,
+  hsvToRgb,
+  lchToRgb,
+  normalizeHex,
+  parseHex,
+  rgbToHex,
+  rgbToHsl,
+  rgbToHsv,
+  rgbToLch,
+  type HSV
+} from './color-utils';
+
+/** The channel model shown in the input row. */
+export type ColorFormat = 'hex' | 'hsl' | 'lch';
 
 /**
  * A color picker: a swatch trigger opens a panel with a saturation/value square,
@@ -54,7 +68,44 @@ import { hsvToRgb, normalizeHex, parseHex, rgbToHex, rgbToHsv, type HSV } from '
           </div>
         }
 
-        <input [class]="hexInputClass()" [value]="value()" (change)="onHexInput($any($event.target).value)" aria-label="Hex color" spellcheck="false" />
+        <!-- Format selector + channel inputs -->
+        <div class="flex items-center gap-1.5">
+          <select
+            [class]="formatSelectClass()"
+            (change)="format.set($any($event.target).value)"
+            aria-label="Color format"
+          >
+            <option value="hex" [selected]="format() === 'hex'">HEX</option>
+            <option value="hsl" [selected]="format() === 'hsl'">HSL</option>
+            <option value="lch" [selected]="format() === 'lch'">LCH</option>
+          </select>
+
+          @switch (format()) {
+            @case ('hex') {
+              <input
+                [class]="hexInputClass()"
+                [value]="value()"
+                (change)="onHexInput($any($event.target).value)"
+                aria-label="Hex color"
+                spellcheck="false"
+              />
+            }
+            @case ('hsl') {
+              <div class="flex flex-1 gap-1">
+                <input [class]="channelInputClass()" type="number" min="0" max="360" [value]="hslValue().h" (change)="setHsl('h', $any($event.target).value)" aria-label="Hue" />
+                <input [class]="channelInputClass()" type="number" min="0" max="100" [value]="hslValue().s" (change)="setHsl('s', $any($event.target).value)" aria-label="Saturation" />
+                <input [class]="channelInputClass()" type="number" min="0" max="100" [value]="hslValue().l" (change)="setHsl('l', $any($event.target).value)" aria-label="Lightness" />
+              </div>
+            }
+            @case ('lch') {
+              <div class="flex flex-1 gap-1">
+                <input [class]="channelInputClass()" type="number" min="0" max="100" [value]="lchValue().l" (change)="setLch('l', $any($event.target).value)" aria-label="Lightness" />
+                <input [class]="channelInputClass()" type="number" min="0" max="150" [value]="lchValue().c" (change)="setLch('c', $any($event.target).value)" aria-label="Chroma" />
+                <input [class]="channelInputClass()" type="number" min="0" max="360" [value]="lchValue().h" (change)="setLch('h', $any($event.target).value)" aria-label="Hue" />
+              </div>
+            }
+          }
+        </div>
 
         @if (presets().length) {
           <div class="flex flex-wrap gap-1.5">
@@ -84,10 +135,16 @@ export class XuiColorPicker {
   readonly showAlpha = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
   readonly disabled = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
   readonly presets = input<string[]>([]);
+  /** Which channel model the input row edits: `hex`, `hsl` or `lch`. Two-way bindable. */
+  readonly format = model<ColorFormat>('hex');
 
   protected readonly open = signal(false);
   protected readonly hsv = signal<HSV>({ h: 215, s: 91, v: 100 });
   protected readonly alphaValue = signal(1);
+
+  private readonly currentRgb = computed(() => hsvToRgb(this.hsv()));
+  protected readonly hslValue = computed(() => rgbToHsl(this.currentRgb()));
+  protected readonly lchValue = computed(() => rgbToLch(this.currentRgb()));
 
   protected readonly hex = computed(() => rgbToHex(hsvToRgb(this.hsv()), this.showAlpha() ? this.alphaValue() : 1));
   protected readonly svBackground = computed(
@@ -146,6 +203,24 @@ export class XuiColorPicker {
     }
   }
 
+  protected setHsl(channel: 'h' | 's' | 'l', raw: string): void {
+    const n = Number(raw);
+    if (raw.trim() === '' || Number.isNaN(n)) {
+      return;
+    }
+    this.hsv.set(rgbToHsv(hslToRgb({ ...this.hslValue(), [channel]: n })));
+    this.commit();
+  }
+
+  protected setLch(channel: 'l' | 'c' | 'h', raw: string): void {
+    const n = Number(raw);
+    if (raw.trim() === '' || Number.isNaN(n)) {
+      return;
+    }
+    this.hsv.set(rgbToHsv(lchToRgb({ ...this.lchValue(), [channel]: n })));
+    this.commit();
+  }
+
   // --- drag interactions ---
   protected startSv(event: MouseEvent): void {
     this.drag(event, (x, y) => {
@@ -196,6 +271,14 @@ export class XuiColorPicker {
     xui('border-border bg-surface-overlay absolute z-50 mt-2 flex w-60 flex-col gap-3 rounded-lg border p-3 shadow-lg')
   );
   protected readonly hexInputClass = computed(() =>
-    xui('border-border bg-surface text-foreground h-8 rounded-md border px-2 text-sm outline-none uppercase')
+    xui('border-border bg-surface text-foreground h-8 flex-1 rounded-md border px-2 text-sm outline-none uppercase')
+  );
+  protected readonly channelInputClass = computed(() =>
+    xui(
+      'border-border bg-surface text-foreground h-8 w-full min-w-0 rounded-md border px-1.5 text-center text-sm tabular-nums outline-none [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none'
+    )
+  );
+  protected readonly formatSelectClass = computed(() =>
+    xui('border-border bg-surface text-foreground h-8 shrink-0 rounded-md border px-1.5 text-xs font-medium outline-none')
   );
 }

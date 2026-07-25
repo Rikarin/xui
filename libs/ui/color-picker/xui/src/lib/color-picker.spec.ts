@@ -72,4 +72,55 @@ describe('XuiColorPicker', () => {
     // Opening shows the SV handle at full saturation/value for red.
     expect(cmp['hsv']()).toEqual({ h: 0, s: 100, v: 100 });
   });
+
+  it('switches the input row to HSL and shows the derived channels', () => {
+    const { detect, cmp } = setup('', { value: '#FF0000' });
+    detect();
+    trigger().click();
+    detect();
+
+    const select = document.querySelector('xui-color-picker select') as HTMLSelectElement;
+    select.value = 'hsl';
+    select.dispatchEvent(new Event('change'));
+    detect();
+
+    expect(cmp.format()).toBe('hsl');
+    const inputs = [...document.querySelectorAll('xui-color-picker input[type="number"]')] as HTMLInputElement[];
+    // Red = hsl(0, 100%, 50%).
+    expect(inputs.map(i => i.value)).toEqual(['0', '100', '50']);
+  });
+
+  it('applies an edited HSL channel back to the value', () => {
+    const { detect, cmp } = setup(`[format]="'hsl'"`, { value: '#FF0000' });
+    detect();
+    trigger().click();
+    detect();
+
+    // Change hue from 0 → 240 (red → blue).
+    const hue = document.querySelector('xui-color-picker input[type="number"]') as HTMLInputElement;
+    hue.value = '240';
+    hue.dispatchEvent(new Event('change'));
+    detect();
+
+    expect(cmp.value()).toBe('#0000FF');
+  });
+
+  it('switches to LCH and edits a channel', () => {
+    const { detect, cmp } = setup(`[format]="'lch'"`, { value: '#FFFFFF' });
+    detect();
+    trigger().click();
+    detect();
+
+    const inputs = [...document.querySelectorAll('xui-color-picker input[type="number"]')] as HTMLInputElement[];
+    // White = L 100, no chroma.
+    expect(inputs[0].value).toBe('100');
+    expect(inputs[1].value).toBe('0');
+
+    // Drop lightness to 0 → black.
+    inputs[0].value = '0';
+    inputs[0].dispatchEvent(new Event('change'));
+    detect();
+
+    expect(cmp.value()).toBe('#000000');
+  });
 });
