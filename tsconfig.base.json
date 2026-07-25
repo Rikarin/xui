@@ -60,6 +60,7 @@
       "@xui/core/a11y": ["./libs/core/a11y/src/index.ts"],
       "@xui/core/query": ["./libs/core/query/src/index.ts"],
       "@xui/core/calendar": ["./libs/core/calendar/src/index.ts"],
+      "@xui/core/grid": ["./libs/core/grid/src/index.ts"],
       "@xui/divider": ["./libs/ui/divider/xui/src/index.ts"],
       "@xui/link": ["./libs/ui/link/xui/src/index.ts"],
       "@xui/progress-bar": ["./libs/ui/progress-bar/xui/src/index.ts"],
@@ -107,7 +108,8 @@
       "@xui/timezone-select": ["./libs/ui/timezone-select/xui/src/index.ts"],
       "@xui/date-input": ["./libs/ui/date-input/xui/src/index.ts"],
       "@xui/date-range-picker": ["./libs/ui/date-range-picker/xui/src/index.ts"],
-      "@xui/date-range-input": ["./libs/ui/date-range-input/xui/src/index.ts"]
+      "@xui/date-range-input": ["./libs/ui/date-range-input/xui/src/index.ts"],
+      "@xui/data-table": ["./libs/ui/data-table/xui/src/index.ts"]
     },
     "strict": false,
     "noUncheckedSideEffectImports": false,

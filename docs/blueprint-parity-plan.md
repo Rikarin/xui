@@ -617,7 +617,7 @@ localization/formatting layer (Blueprint uses date-fns; the adapter is the bette
 | `DateRangeInput`  | **✅ NEW** `@xui/date-range-input`                            | `xui-date-range-input`; two boundary fields (start → end) sharing one popover `xui-date-range-picker`; per-boundary typed parse, `[(range)]`. 6 tests.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
 | `TimezoneSelect`  | **✅ NEW** `@xui/timezone-select`                             | `xui-timezone-select` = `Intl.supportedValuesOf('timeZone')` (with a fallback) fed into `xui-select`, each labelled with its current `shortOffset` GMT; `[(value)]` holds the IANA id. 4 tests.                                                                                                                                                                                                                                                                                                                                                                                                                                           |
 
-### Phase 8 — Advanced data grid (in scope; large)
+### Phase 8 — Advanced data grid (in scope; large) — 🚧 core + virtualized grid shipped (8.1 ✅, 8.2/8.3 ✅, 8.4/8.5 partial)
 
 `@blueprintjs/table` → `@xui/data-table`, built on `cdk/scrolling` + the existing
 `@xui/core/table`. Comparable in size to Phases 1–3 combined, so it runs as its own
@@ -627,13 +627,13 @@ primitives the grid needs, and the token layer must carry grid-specific surfaces
 
 Sub-milestones, each independently shippable:
 
-| #   | Milestone            | Contents                                                                                                                                                                                                                                                                  |
-| --- | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 8.1 | Core model           | `@xui/core/grid`: region model (`Regions`, cell/row/column/table regions), coordinate ↔ pixel locator, column/row size store as signals, `loadingOptions`. Pure logic, heavily unit-tested — this is where Blueprint's `regions.ts`/`locator.ts`/`tableState.ts` port to. |
-| 8.2 | Virtualized viewport | `cdk/scrolling` two-axis virtualization + the quadrant renderer (main / frozen-top / frozen-left / frozen-top-left), scroll synchronization, `numFrozenRows`/`numFrozenColumns`.                                                                                          |
-| 8.3 | Cells & renderers    | `Cell`, `EditableCell`, `JSONFormat`/`TruncatedFormat` equivalents; `TemplateRef`-based `cellRenderer` with a typed context; `ColumnHeaderCell`, `RowHeaderCell`.                                                                                                         |
-| 8.4 | Interactions         | Column/row resizing (incl. auto-fit on double-click), reordering via `cdk/drag-drop`, region selection with shift/ctrl semantics, focused cell + keyboard navigation.                                                                                                     |
-| 8.5 | Integration          | Copy to clipboard, `onCompleteRender`, sort/menu hooks in column headers, `ghostCellCount`, a11y (`role="grid"` + `aria-rowindex`/`aria-colindex`), Storybook + perf story at 100k rows.                                                                                  |
+| #   | Milestone            | Contents                                                                                                                                                                                                                                                                                                                                                                             |
+| --- | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 8.1 | Core model           | **✅ `@xui/core/grid`**: `region.ts` (cell/row/column/table `Region`s, containment, equality, toggle-select), `size-store.ts` (`createGridSizeStore` — signal-backed per-index sizes with overrides, reactive `defaultSize`, cumulative `offsets` + `total`), `locator.ts` (`indexAtPosition` binary search, `positionAtIndex`, `visibleRange` with overscan). Pure logic. 20 tests. |
+| 8.2 | Virtualized viewport | **✅ (single-axis)** `@xui/data-table` windows rows via the locator — verified **15 DOM rows out of 100,000** (3.6M px virtual height), correct window after far scroll (49997–50015), sticky header scrolling horizontally with the body. Column virtualization + the frozen quadrant renderer (`numFrozenRows`/`numFrozenColumns`) **deferred**.                                   |
+| 8.3 | Cells & renderers    | **✅** `TemplateRef` `[xuiDataCell]` with a typed `{$implicit,row,column,value,rowIndex,colIndex}` context (default text cell); `role=columnheader`/`gridcell`, `align`. `EditableCell`/`JSONFormat`/`TruncatedFormat` + `RowHeaderCell` **deferred**.                                                                                                                               |
+| 8.4 | Interactions         | **🚧 partial** column resizing (drag the header divider → size store), tri-state header sort (asc→desc→clear, internal sort by `value`), focused cell + arrow-key navigation with scroll-into-view. Column reorder (`cdk/drag-drop`), auto-fit double-click, and region multi-select (shift/ctrl) **deferred**.                                                                      |
+| 8.5 | Integration          | **✅ (core)** `sortChange`/`cellClicked` outputs, `role="grid"` + `aria-row/colcount` + `aria-row/colindex` + `aria-sort`, Storybook incl. the 100k-row perf story (browser-verified). Copy-to-clipboard, `onCompleteRender`, header menus, `ghostCellCount` **deferred**.                                                                                                           |
 
 Explicitly **not** ported: Blueprint's `table-dev-app` harness, and the deprecated `Table`
 (v1) API — `@xui/data-table` targets `Table2` semantics only.
@@ -735,5 +735,11 @@ bump, cut `2.0.0-beta.0` after Phase 5, `2.0.0` after Phase 7.
     `time-picker` → `timezone-select` → `date-input` → `date-range-picker` → `date-range-input`~~ ✅
     **Phase 7 COMPLETE (6 UI packages + core/calendar).** All build on the existing
     `@xui/core/date-time` `DateAdapter` (native `Date` default, generic `T`); `Intl` handles
-    locale-aware labels via `getTime()`→`Date` so it stays adapter-agnostic. Next: Phase 8 (advanced
-    data grid — large, its own sub-project) and Phase 9 (labs).
+    locale-aware labels via `getTime()`→`Date` so it stays adapter-agnostic.
+12. Phase 8 — advanced data grid: **8.1 `@xui/core/grid`** (region/size/locator model, pure, 20
+    tests) ✅ and **`@xui/data-table`** — a row-virtualized grid on that model (browser-verified at
+    100k rows: 15 DOM rows, correct far-scroll window, sticky header, tri-state sort, resizable
+    columns, focused-cell keyboard nav, `[xuiDataCell]` templates, `role=grid` a11y). 🚧 **Remaining
+    (deferred within Phase 8):** column virtualization + the frozen quadrant renderer, region
+    multi-select (shift/ctrl), column reorder (`cdk/drag-drop`), editable cells, copy-to-clipboard.
+    Then Phase 9 (labs — mostly skippable; a `xuiSlot` content-merge directive is the one candidate).
