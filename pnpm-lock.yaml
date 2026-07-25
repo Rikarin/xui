@@ -93,6 +93,9 @@ importers:
       express:
         specifier: ^5.2.1
         version: 5.2.1
+      konva:
+        specifier: ^10.3.0
+        version: 10.3.0
       luxon:
         specifier: ^3.7.2
         version: 3.7.2
@@ -8646,6 +8649,9 @@ packages:
   koa@3.0.3:
     resolution: {integrity: sha512-MeuwbCoN1daWS32/Ni5qkzmrOtQO2qrnfdxDHjrm6s4b59yG4nexAJ0pTEFyzjLp0pBVO80CZp0vW8Ze30Ebow==}
     engines: {node: '>= 18'}
+
+  konva@10.3.0:
+    resolution: {integrity: sha512-gt19K2gzY4lHbnkvsku7eSmB+A9PTS2jG4F9coBMsdjM1UKfJNxJbDbXVpeCW1wjEGRwBD3nBamcHnqJhAeKlg==}
 
   launch-editor@2.12.0:
     resolution: {integrity: sha512-giOHXoOtifjdHqUamwKq6c49GzBdLjvxrd2D+Q4V6uOHopJv7p9VJxikDsQ/CBXZbEITgUqSVHXLTG3VhPP1Dg==}
@@ -22484,6 +22490,8 @@ snapshots:
       type-is: 2.1.0
       vary: 1.1.2
     optional: true
+
+  konva@10.3.0: {}
 
   launch-editor@2.12.0:
     dependencies:
