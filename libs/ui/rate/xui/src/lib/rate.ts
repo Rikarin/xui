@@ -11,7 +11,7 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import { xui } from '@xui/core';
-import { arrowDirection, injectXDirection } from '@xui/core/a11y';
+import { arrowValueDirection, injectXDirection } from '@xui/core/a11y';
 import type { ClassValue } from 'clsx';
 
 /**
@@ -123,13 +123,13 @@ export class XuiRate {
       return;
     }
     const step = this.allowHalf() ? 0.5 : 1;
-    const arrow = arrowDirection(event.key, this.direction());
+    const arrow = arrowValueDirection(event.key, this.direction());
     if (!arrow) {
       return;
     }
 
     const next =
-      arrow === 'next' ? Math.min(this.count(), this.value() + step) : Math.max(0, this.value() - step);
+      arrow === 'increase' ? Math.min(this.count(), this.value() + step) : Math.max(0, this.value() - step);
 
     event.preventDefault();
     this.value.set(next);

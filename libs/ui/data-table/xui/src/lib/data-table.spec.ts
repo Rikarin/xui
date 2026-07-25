@@ -1,4 +1,4 @@
-import { render } from '@xui/testing';
+import { provideDirection, render } from '@xui/testing';
 import { XuiDataTableImports } from '../index';
 import { XuiDataTable } from './data-table';
 import type { XuiDataColumn } from './data-table.types';
@@ -446,6 +446,49 @@ describe('XuiDataTable', () => {
       expect(present).toContain(2);
       // The scroll window is far away from the frozen rows.
       expect(Math.max(...present)).toBeGreaterThan(90);
+    });
+  });
+
+  describe('RTL', () => {
+    const rtlSetup = () => {
+      const result = render(
+        `<xui-data-table [data]="props().data" [columns]="props().columns" [rowHeight]="30" [headerHeight]="30" [height]="300" [overscan]="1" />`,
+        {
+          imports: IMPORTS,
+          props: { data: makeData(1000), columns: COLUMNS },
+          providers: [provideDirection('rtl')]
+        }
+      );
+      const cmp = result.fixture.debugElement.query(n => n.name === 'xui-data-table')
+        .componentInstance as XuiDataTable<Person>;
+      return { ...result, cmp };
+    };
+
+    it('walks columns in reading order', () => {
+      const { detect, cmp } = rtlSetup();
+      detect();
+      (rows()[0].querySelectorAll('[role="gridcell"]')[1] as HTMLElement).click();
+      detect();
+
+      // Columns run right-to-left, so ArrowLeft advances to the next one.
+      keydown({ key: 'ArrowLeft' });
+      detect();
+      expect(cmp.focusedCell()).toEqual({ row: 0, col: 2 });
+
+      keydown({ key: 'ArrowRight' });
+      detect();
+      expect(cmp.focusedCell()).toEqual({ row: 0, col: 1 });
+    });
+
+    it('still moves rows with the vertical arrows', () => {
+      const { detect, cmp } = rtlSetup();
+      detect();
+      (rows()[0].querySelectorAll('[role="gridcell"]')[0] as HTMLElement).click();
+      detect();
+
+      keydown({ key: 'ArrowDown' });
+      detect();
+      expect(cmp.focusedCell()).toEqual({ row: 1, col: 0 });
     });
   });
 });

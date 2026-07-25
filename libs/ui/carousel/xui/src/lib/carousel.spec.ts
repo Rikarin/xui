@@ -1,4 +1,4 @@
-import { render } from '@xui/testing';
+import { provideDirection, render } from '@xui/testing';
 import { XuiCarouselImports } from '../index';
 import { XuiCarousel } from './carousel';
 
@@ -85,5 +85,52 @@ describe('XuiCarousel', () => {
     } finally {
       jest.useRealTimers();
     }
+  });
+
+  describe('RTL', () => {
+    const rtlSetup = (props: Record<string, unknown> = {}) => {
+      const result = render(
+        `<xui-carousel [(index)]="props().index">
+           <xui-carousel-item>One</xui-carousel-item>
+           <xui-carousel-item>Two</xui-carousel-item>
+           <xui-carousel-item>Three</xui-carousel-item>
+         </xui-carousel>`,
+        { imports: IMPORTS, props: { index: 0, ...props }, providers: [provideDirection('rtl')] }
+      );
+      const cmp = result.fixture.debugElement.query(n => n.name === 'xui-carousel').componentInstance as XuiCarousel;
+      return { ...result, cmp };
+    };
+
+    it('slides the track the other way', () => {
+      const { detect } = rtlSetup({ index: 1 });
+      detect();
+
+      // The flex row lays slides out right-to-left, so advancing pushes the
+      // track to positive X instead of negative.
+      expect(track().style.transform).toBe('translateX(100%)');
+    });
+
+    it('mirrors the arrow keys', () => {
+      const { detect, press, cmp } = rtlSetup({ index: 1 });
+      detect();
+
+      const viewport = document.querySelector('xui-carousel [tabindex="0"]') as HTMLElement;
+
+      press(viewport, 'ArrowLeft');
+      expect(cmp.index()).toBe(2);
+
+      press(viewport, 'ArrowRight');
+      expect(cmp.index()).toBe(1);
+    });
+
+    it('puts the previous arrow at the inline start', () => {
+      const { detect } = rtlSetup();
+      detect();
+
+      const prev = document.querySelector('[aria-label="Previous slide"]') as HTMLElement;
+      expect(prev.className).toContain('start-3');
+      // The chevron glyph is mirrored so it still points back.
+      expect(prev.className).toContain('-scale-x-100');
+    });
   });
 });

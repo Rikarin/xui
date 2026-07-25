@@ -16,7 +16,7 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { xui } from '@xui/core';
-import { arrowDirection, inlineFraction, injectXDirection } from '@xui/core/a11y';
+import { arrowValueDirection, inlineFraction, injectXDirection } from '@xui/core/a11y';
 import type { ChangeFn, TouchFn } from '@xui/core/forms';
 import { cva, VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
@@ -356,12 +356,13 @@ export class XuiSlider implements ControlValueAccessor {
     const page = this.labelStepSize() || step * 10;
     let next: number;
 
-    // Both axes drive the value (APG lets either pair work on a slider), but the
-    // horizontal pair mirrors in RTL: ArrowRight then decreases.
-    const arrow = arrowDirection(event.key, this.direction());
+    // Both axes drive the value (APG lets either pair work on a slider): Up/Right
+    // increase, Down/Left decrease — with the horizontal pair mirrored in RTL,
+    // where ArrowRight walks the value down.
+    const arrow = arrowValueDirection(event.key, this.direction());
     if (arrow) {
       event.preventDefault();
-      this.commit(this.value() + (arrow === 'next' ? step : -step));
+      this.commit(this.value() + (arrow === 'increase' ? step : -step));
       return;
     }
 

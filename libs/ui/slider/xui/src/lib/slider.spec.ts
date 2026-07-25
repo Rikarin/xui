@@ -1,5 +1,5 @@
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { expectAttributes, expectClasses, render } from '@xui/testing';
+import { expectAttributes, expectClasses, provideDirection, render } from '@xui/testing';
 import { XuiSliderImports } from '../index';
 import { XuiSlider } from './slider';
 
@@ -182,6 +182,48 @@ describe('XuiSlider', () => {
 
       expect(handle().tabIndex).toBe(-1);
       expectAttributes(handle(), { 'aria-disabled': 'true' });
+    });
+  });
+
+  describe('RTL', () => {
+    const rtl = (template: string) => render(template, { imports: IMPORTS, providers: [provideDirection('rtl')] });
+
+    it('mirrors the horizontal arrows', () => {
+      const { detect, press } = rtl('<xui-slider min="0" max="10" value="4" />');
+      detect();
+
+      // The track fills from the right, so ArrowRight walks the value down.
+      press(handle(), 'ArrowRight');
+      expectAttributes(handle(), { 'aria-valuenow': '3' });
+
+      press(handle(), 'ArrowLeft');
+      press(handle(), 'ArrowLeft');
+      expectAttributes(handle(), { 'aria-valuenow': '5' });
+    });
+
+    it('leaves the vertical arrows, Home and End alone', () => {
+      const { detect, press } = rtl('<xui-slider min="0" max="10" value="4" />');
+      detect();
+
+      press(handle(), 'ArrowUp');
+      expectAttributes(handle(), { 'aria-valuenow': '5' });
+
+      press(handle(), 'Home');
+      expectAttributes(handle(), { 'aria-valuenow': '0' });
+
+      press(handle(), 'End');
+      expectAttributes(handle(), { 'aria-valuenow': '10' });
+    });
+
+    it('positions the handle from the inline start', () => {
+      const { detect } = rtl('<xui-slider min="0" max="10" value="4" />');
+      detect();
+
+      // `insetInlineStart` resolves to the right edge in RTL, so the same 40%
+      // renders on the opposite side without any style branching.
+      expect(handle().style.getPropertyValue('inset-inline-start')).toBe('40%');
+      expect(handle().style.left).toBe('');
+      expect(handle().style.transform).toContain('50%');
     });
   });
 });

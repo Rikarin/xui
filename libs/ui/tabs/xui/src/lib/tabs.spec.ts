@@ -1,4 +1,4 @@
-import { expectAttributes, render } from '@xui/testing';
+import { expectAttributes, provideDirection, render } from '@xui/testing';
 import { XuiTabsImports } from '../index';
 
 const IMPORTS = [XuiTabsImports];
@@ -95,6 +95,31 @@ describe('XuiTabs', () => {
 
       // Gamma is disabled, so End lands on Beta.
       expectAttributes(tabButtons()[1], { 'aria-selected': 'true' });
+    });
+  });
+
+  describe('RTL', () => {
+    const rtl = (props: Record<string, unknown>) =>
+      render(TEMPLATE, { imports: IMPORTS, props, providers: [provideDirection('rtl')] });
+
+    it('mirrors the horizontal arrows', () => {
+      const { detect, press } = rtl({ selected: 'b' });
+      detect();
+
+      // Alpha sits to the *right* of Beta in RTL, so ArrowRight goes back to it.
+      press(tabButtons()[1], 'ArrowRight');
+      expectAttributes(tabButtons()[0], { 'aria-selected': 'true' });
+
+      press(tabButtons()[0], 'ArrowLeft');
+      expectAttributes(tabButtons()[1], { 'aria-selected': 'true' });
+    });
+
+    it('leaves Home and End alone', () => {
+      const { detect, press } = rtl({ selected: 'b' });
+      detect();
+
+      press(tabButtons()[1], 'Home');
+      expectAttributes(tabButtons()[0], { 'aria-selected': 'true' });
     });
   });
 

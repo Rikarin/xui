@@ -1,5 +1,5 @@
 import { Directionality } from '@angular/cdk/bidi';
-import { computed, inject, type Signal } from '@angular/core';
+import { inject, type Signal } from '@angular/core';
 
 /** The reading direction of the nearest `dir` ancestor. */
 export type XDirection = 'ltr' | 'rtl';
@@ -68,6 +68,29 @@ export function arrowDirectionOnAxis(
   }
 
   return arrowDirection(key, direction);
+}
+
+/**
+ * The same mapping for a widget that holds a *value* rather than a list.
+ *
+ * The vertical arrows part company with {@link arrowDirection} here: APG has
+ * ArrowUp increase a slider's value, where in a list it moves to the previous
+ * item. The horizontal pair still mirrors in RTL.
+ */
+export function arrowValueDirection(key: string, direction: XDirection): 'increase' | 'decrease' | null {
+  switch (key) {
+    case 'ArrowUp':
+      return 'increase';
+    case 'ArrowDown':
+      return 'decrease';
+    case 'ArrowRight':
+    case 'ArrowLeft': {
+      const step = arrowDirection(key, direction);
+      return step === 'next' ? 'increase' : 'decrease';
+    }
+    default:
+      return null;
+  }
 }
 
 /**

@@ -1,7 +1,13 @@
 import { Dir } from '@angular/cdk/bidi';
 import { Component, type Signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { arrowDirection, arrowDirectionOnAxis, inlineFraction, injectXDirection } from './direction';
+import {
+  arrowDirection,
+  arrowDirectionOnAxis,
+  arrowValueDirection,
+  inlineFraction,
+  injectXDirection
+} from './direction';
 
 @Component({
   selector: 'x-dir-host',
@@ -67,6 +73,30 @@ describe('arrowDirectionOnAxis', () => {
 
   it('still mirrors the horizontal axis in RTL', () => {
     expect(arrowDirectionOnAxis('ArrowRight', 'rtl', 'horizontal')).toBe('previous');
+  });
+});
+
+describe('arrowValueDirection', () => {
+  it('treats ArrowUp as an increase, unlike a list', () => {
+    // The list mapping calls ArrowUp "previous"; a slider has to go the other way.
+    expect(arrowDirection('ArrowUp', 'ltr')).toBe('previous');
+    expect(arrowValueDirection('ArrowUp', 'ltr')).toBe('increase');
+    expect(arrowValueDirection('ArrowDown', 'ltr')).toBe('decrease');
+  });
+
+  it('mirrors the horizontal pair in RTL', () => {
+    expect(arrowValueDirection('ArrowRight', 'ltr')).toBe('increase');
+    expect(arrowValueDirection('ArrowRight', 'rtl')).toBe('decrease');
+    expect(arrowValueDirection('ArrowLeft', 'rtl')).toBe('increase');
+  });
+
+  it('leaves the vertical pair unmirrored', () => {
+    expect(arrowValueDirection('ArrowUp', 'rtl')).toBe('increase');
+    expect(arrowValueDirection('ArrowDown', 'rtl')).toBe('decrease');
+  });
+
+  it('ignores anything that is not an arrow', () => {
+    expect(arrowValueDirection('PageUp', 'ltr')).toBeNull();
   });
 });
 
