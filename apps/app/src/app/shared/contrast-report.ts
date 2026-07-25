@@ -1,11 +1,19 @@
 import { isPlatformBrowser } from '@angular/common';
-import { afterNextRender, ChangeDetectionStrategy, Component, effect, inject, PLATFORM_ID, signal } from '@angular/core';
+import {
+  afterNextRender,
+  ChangeDetectionStrategy,
+  Component,
+  effect,
+  inject,
+  PLATFORM_ID,
+  signal
+} from '@angular/core';
 import { XuiTableImports } from '@xui/table';
 import { XuiTagImports } from '@xui/tag';
 import { XuiTextImports } from '@xui/text';
+import { Theme } from '../core/theme';
 import { ThemeBuilder } from '../core/theme-builder';
 import { contrastRatio } from '../core/theme-css';
-import { Theme } from '../core/theme';
 import { CONTRAST_PAIRS } from '../core/theme-tokens';
 
 interface ContrastRow {

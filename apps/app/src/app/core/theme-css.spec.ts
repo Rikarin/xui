@@ -1,5 +1,5 @@
-import { buildThemeCss, contrastRatio, countOverrides, emptyOverrides, parseHexColour } from './theme-css';
 import type { ThemeDefaults, ThemeOverrides } from './theme-css';
+import { buildThemeCss, contrastRatio, countOverrides, emptyOverrides, parseHexColour } from './theme-css';
 
 const NO_DEFAULTS: ThemeDefaults = { light: {}, dark: {} };
 
@@ -22,10 +22,10 @@ describe('buildThemeCss', () => {
   it('re-states the untouched scope so the :root selector cannot leak across', () => {
     // Only light was edited, but light and dark differ by default — leaving dark out would let the
     // light block's `:root` win on a dark document, because it is declared after `theme.css`.
-    const css = buildThemeCss(
-      overrides({ light: { background: '#fffdf7' } }),
-      { light: { background: '#ffffff' }, dark: { background: '#09090b' } }
-    );
+    const css = buildThemeCss(overrides({ light: { background: '#fffdf7' } }), {
+      light: { background: '#ffffff' },
+      dark: { background: '#09090b' }
+    });
 
     expect(css).toContain('--background: #fffdf7;');
     expect(css).toContain(".dark,\n[data-theme='dark'] {\n  --background: #09090b;\n}");

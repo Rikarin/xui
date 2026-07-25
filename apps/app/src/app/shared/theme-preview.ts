@@ -133,7 +133,9 @@ const CHARTS = [1, 2, 3, 4, 5, 6, 7, 8];
           @for (row of rows; track row.name) {
             <xui-tr>
               <xui-td class="min-w-0 flex-1">{{ row.name }}</xui-td>
-              <xui-td class="w-28 shrink-0"><xui-tag minimal [intent]="row.intent">{{ row.status }}</xui-tag></xui-td>
+              <xui-td class="w-28 shrink-0"
+                ><xui-tag minimal [intent]="row.intent">{{ row.status }}</xui-tag></xui-td
+              >
             </xui-tr>
           }
         </xui-table>

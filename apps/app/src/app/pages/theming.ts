@@ -89,8 +89,8 @@ const SWATCH_GROUPS = new Set(['surfaces', 'text', 'borders', 'intents', 'state'
 
         <xui-callout color="primary" title="Do it with the swatches instead" class="mt-4">
           The <a class="text-link hover:text-link-hover underline" href="/docs/theme-builder">theme builder</a> edits
-          these same tokens with a colour picker, re-themes this whole site as you go, checks the contrast of every
-          pair that has to stay legible, and hands back exactly this block of CSS.
+          these same tokens with a colour picker, re-themes this whole site as you go, checks the contrast of every pair
+          that has to stay legible, and hands back exactly this block of CSS.
         </xui-callout>
 
         <h2 xuiHeading [level]="2" class="mt-10 mb-3 scroll-mt-20" id="density">Control density</h2>

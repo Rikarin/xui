@@ -20,9 +20,7 @@ export function isEmpty(overrides: ThemeOverrides): boolean {
 }
 
 export function countOverrides(overrides: ThemeOverrides): number {
-  return (
-    Object.keys(overrides.root).length + Object.keys(overrides.light).length + Object.keys(overrides.dark).length
-  );
+  return Object.keys(overrides.root).length + Object.keys(overrides.light).length + Object.keys(overrides.dark).length;
 }
 
 function declarations(values: Record<string, string>): string {

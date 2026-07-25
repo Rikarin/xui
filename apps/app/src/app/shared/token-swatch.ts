@@ -53,18 +53,10 @@ const QUICK_PICKS = [
   host: { class: 'flex items-center gap-2.5', role: 'group', '[attr.aria-label]': 'token().label' },
   template: `
     @if (resolved()) {
-      <xui-color-picker
-        class="w-32 shrink-0"
-        [value]="value()"
-        [presets]="quickPicks"
-        (valueChange)="pick($event)"
-      />
+      <xui-color-picker class="w-32 shrink-0" [value]="value()" [presets]="quickPicks" (valueChange)="pick($event)" />
     } @else {
       <span class="border-border bg-surface flex w-32 shrink-0 items-center gap-2 rounded-md border px-2 py-1.5">
-        <span
-          class="border-border/60 h-5 w-5 rounded border"
-          [style.background]="'var(--' + token().name + ')'"
-        ></span>
+        <span class="border-border/60 h-5 w-5 rounded border" [style.background]="'var(--' + token().name + ')'"></span>
       </span>
     }
 

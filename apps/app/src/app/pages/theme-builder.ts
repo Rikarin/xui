@@ -54,9 +54,9 @@ const SCOPES: XuiSegmentedOption<ThemeScope>[] = [
     <article class="min-w-0">
       <h1 xuiHeading [level]="1">Theme builder</h1>
       <p xuiText color="muted" size="lg" class="mt-3 max-w-3xl">
-        Every colour in the library resolves through one token layer, so a theme is a handful of CSS declarations
-        rather than a fork. Change them here and the whole site follows — this page, the sidebar, the header. When it
-        looks right, copy the CSS out.
+        Every colour in the library resolves through one token layer, so a theme is a handful of CSS declarations rather
+        than a fork. Change them here and the whole site follows — this page, the sidebar, the header. When it looks
+        right, copy the CSS out.
       </p>
 
       <div
@@ -178,8 +178,8 @@ const SCOPES: XuiSegmentedOption<ThemeScope>[] = [
         </p>
       } @else {
         <xui-callout color="none" title="Nothing changed yet" class="max-w-3xl">
-          Pick a preset or open a group and click a swatch. The CSS to copy appears here, and your theme is kept in
-          this browser until you reset it.
+          Pick a preset or open a group and click a swatch. The CSS to copy appears here, and your theme is kept in this
+          browser until you reset it.
         </xui-callout>
       }
     </article>
