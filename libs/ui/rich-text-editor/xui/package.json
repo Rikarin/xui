@@ -1,6 +1,6 @@
 {
   "name": "@xui/rich-text-editor",
-  "version": "2.0.0-alpha.8",
+  "version": "2.0.0-alpha.9",
   "description": "Modern Angular 22 UI Library based on TailwindCSS",
   "keywords": [
     "angular",
@@ -26,8 +26,8 @@
     "@angular/forms": "22",
     "@ng-icons/core": "^34.0.0",
     "@ng-icons/material-icons": "^34.0.0",
-    "@xui/core": "2.0.0-alpha.8",
-    "@xui/icon": "2.0.0-alpha.8",
+    "@xui/core": "2.0.0-alpha.9",
+    "@xui/icon": "2.0.0-alpha.9",
     "clsx": "^2.1.1"
   },
   "publishConfig": {

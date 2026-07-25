@@ -4,13 +4,6 @@
   "sourceRoot": "libs/ui/drawer/xui/src",
   "prefix": "xui",
   "projectType": "library",
-  "release": {
-    "version": {
-      "manifestRootsToUpdate": ["dist/{projectRoot}"],
-      "currentVersionResolver": "git-tag",
-      "fallbackCurrentVersionResolver": "disk"
-    }
-  },
   "tags": ["ui"],
   "targets": {
     "build": {

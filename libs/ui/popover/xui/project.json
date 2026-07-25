@@ -4,13 +4,6 @@
   "sourceRoot": "libs/ui/popover/xui/src",
   "prefix": "xui",
   "projectType": "library",
-  "release": {
-    "version": {
-      "manifestRootsToUpdate": ["dist/{projectRoot}"],
-      "currentVersionResolver": "git-tag",
-      "fallbackCurrentVersionResolver": "disk"
-    }
-  },
   "tags": ["ui"],
   "targets": {
     "build": {

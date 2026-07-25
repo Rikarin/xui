@@ -1,6 +1,6 @@
 {
   "name": "@xui/aspect-ratio",
-  "version": "2.0.0-alpha.8",
+  "version": "2.0.0-alpha.9",
   "description": "Modern Angular 22 UI Library based on TailwindCSS",
   "keywords": [
     "angular",
@@ -22,7 +22,7 @@
   "sideEffects": false,
   "peerDependencies": {
     "@angular/core": "22",
-    "@xui/core": "2.0.0-alpha.8",
+    "@xui/core": "2.0.0-alpha.9",
     "clsx": "^2.1.1"
   },
   "publishConfig": {
