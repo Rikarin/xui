@@ -1,0 +1,15 @@
+{
+  "name": "@xui/kbd",
+  "version": "2.0.0-alpha.8",
+  "sideEffects": false,
+  "peerDependencies": {
+    "@angular/cdk": "22",
+    "@angular/core": "22",
+    "@xui/core": "2.0.0-alpha.8",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -124,7 +124,15 @@
       "@xui/tree-select": ["./libs/ui/tree-select/xui/src/index.ts"],
       "@xui/cascader": ["./libs/ui/cascader/xui/src/index.ts"],
       "@xui/transfer": ["./libs/ui/transfer/xui/src/index.ts"],
-      "@xui/upload": ["./libs/ui/upload/xui/src/index.ts"]
+      "@xui/upload": ["./libs/ui/upload/xui/src/index.ts"],
+      "@xui/kbd": ["./libs/ui/kbd/xui/src/index.ts"],
+      "@xui/aspect-ratio": ["./libs/ui/aspect-ratio/xui/src/index.ts"],
+      "@xui/scroll-area": ["./libs/ui/scroll-area/xui/src/index.ts"],
+      "@xui/input-otp": ["./libs/ui/input-otp/xui/src/index.ts"],
+      "@xui/accordion": ["./libs/ui/accordion/xui/src/index.ts"],
+      "@xui/alert-dialog": ["./libs/ui/alert-dialog/xui/src/index.ts"],
+      "@xui/menubar": ["./libs/ui/menubar/xui/src/index.ts"],
+      "@xui/navigation-menu": ["./libs/ui/navigation-menu/xui/src/index.ts"]
     },
     "strict": false,
     "noUncheckedSideEffectImports": false,
