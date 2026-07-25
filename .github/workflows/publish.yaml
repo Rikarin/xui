@@ -83,6 +83,30 @@ jobs:
       - name: Print environment info
         run: pnpm exec nx report
 
+      - name: Authenticate with npm
+        # Before the build, so a stale token costs seconds instead of a full workspace build. pnpm
+        # reads credentials from .npmrc rather than NODE_AUTH_TOKEN, and npm reports an
+        # unauthenticated publish as a 404 that looks like a missing package.
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          set -euo pipefail
+
+          if [ -z "${NPM_TOKEN:-}" ]; then
+            echo "::error::The NPM_TOKEN secret is empty. Publishing needs a token with write access to the @xui scope."
+            exit 1
+          fi
+
+          echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> "$HOME/.npmrc"
+
+          if ! whoami_output=$(npm whoami 2>&1); then
+            echo "::error::npm rejected the token: ${whoami_output}"
+            echo "::error::Create an automation token, or a granular token with read/write on the whole @xui scope, and update the NPM_TOKEN secret."
+            exit 1
+          fi
+
+          echo "Authenticated with npm as ${whoami_output}."
+
       - name: Verify the workspace
         run: pnpm exec nx run-many -t lint test --parallel=3
 

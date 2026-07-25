@@ -148,6 +148,32 @@ jobs:
           echo "published=true" >> "$GITHUB_OUTPUT"
           echo "Releasing $after under the '$dist_tag' dist-tag."
 
+      - name: Authenticate with npm
+        # Fail here rather than after versioning and building 93 packages. `NODE_AUTH_TOKEN` is an
+        # npm convention; pnpm reads credentials from .npmrc, so the token is written there
+        # explicitly. npm answers an unauthenticated publish with a 404 that reads like the package
+        # does not exist, which is a miserable thing to debug from the other end.
+        if: steps.changes.outputs.release == 'true' && steps.version.outputs.published == 'true'
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          set -euo pipefail
+
+          if [ -z "${NPM_TOKEN:-}" ]; then
+            echo "::error::The NPM_TOKEN secret is empty. Publishing needs a token with write access to the @xui scope."
+            exit 1
+          fi
+
+          echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> "$HOME/.npmrc"
+
+          if ! whoami_output=$(npm whoami 2>&1); then
+            echo "::error::npm rejected the token: ${whoami_output}"
+            echo "::error::Create an automation token, or a granular token with read/write on the whole @xui scope, and update the NPM_TOKEN secret."
+            exit 1
+          fi
+
+          echo "Authenticated with npm as ${whoami_output}."
+
       - name: Publish to npm
         if: steps.changes.outputs.release == 'true' && steps.version.outputs.published == 'true'
         env:
