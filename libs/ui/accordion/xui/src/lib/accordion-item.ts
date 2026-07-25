@@ -1,0 +1,88 @@
+import { BooleanInput } from '@angular/cdk/coercion';
+import {
+  booleanAttribute,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  input,
+  ViewEncapsulation
+} from '@angular/core';
+import { xui } from '@xui/core';
+import { XuiAccordion } from './accordion';
+
+/**
+ * One section of an {@link XuiAccordion}. `value` identifies it within the group;
+ * `title` is the header label (or project `[xuiAccordionTitle]` for rich content).
+ * The body is the default projected content.
+ */
+@Component({
+  selector: 'xui-accordion-item',
+  template: `
+    <h3 class="flex">
+      <button
+        type="button"
+        [class]="triggerClass()"
+        [disabled]="disabled()"
+        [attr.aria-expanded]="open()"
+        (click)="toggle()"
+      >
+        <span class="flex-1 text-left">{{ title() }}<ng-content select="[xuiAccordionTitle]" /></span>
+        <svg
+          viewBox="0 0 24 24"
+          class="text-foreground-muted h-4 w-4 shrink-0 transition-transform duration-200"
+          [class.rotate-180]="open()"
+          fill="none"
+        >
+          <path
+            d="M6 9l6 6 6-6"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </button>
+    </h3>
+
+    <div [class]="regionClass()" role="region" [attr.aria-hidden]="!open()">
+      <div class="min-h-0 overflow-hidden">
+        <div class="text-foreground-muted px-4 pt-0 pb-4 text-sm">
+          <ng-content />
+        </div>
+      </div>
+    </div>
+  `,
+  host: {
+    class: 'block'
+  },
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None
+})
+export class XuiAccordionItem {
+  private readonly accordion = inject(XuiAccordion);
+
+  readonly value = input.required<string>();
+  readonly title = input<string>('');
+  readonly disabled = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
+
+  protected readonly open = computed(() => this.accordion.isOpen(this.value()));
+
+  protected toggle(): void {
+    if (!this.disabled()) {
+      this.accordion.toggle(this.value());
+    }
+  }
+
+  protected readonly triggerClass = computed(() =>
+    xui(
+      'text-foreground hover:bg-surface-inset flex flex-1 items-center gap-2 px-4 py-3 text-sm font-medium outline-none disabled:opacity-50',
+      'focus-visible:ring-focus focus-visible:ring-2 focus-visible:ring-inset'
+    )
+  );
+
+  // A grid collapsing from 1fr → 0fr animates the height without measuring it.
+  protected readonly regionClass = computed(() =>
+    xui('grid transition-[grid-template-rows] duration-200', this.open() ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]')
+  );
+}

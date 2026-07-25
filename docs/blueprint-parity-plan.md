@@ -688,6 +688,40 @@ timeline mode, circular `progress`, and folding `@xui/pagination` into `@xui/dat
 
 ---
 
+## 4c. Phase 11 — spartan (shadcn-for-Angular) additions — ✅ COMPLETE (Tier 1 + Tier 2)
+
+A gap analysis against `spartan/ui` (`helm` styled layer, CDK-based) surfaced a handful of
+primitives it has that xui lacked. Most of spartan overlaps what xui already ships — skipped as
+already covered: `collapsible`≈`collapse`, `input-group`≈`control-group`, `toggle-group`≈
+`segmented-control`, `native-select`≈`html-select`, `separator`≈`divider`, `resizable`≈`splitter`,
+`sheet`≈`drawer`, `empty`≈`non-ideal-state`, `command`≈`omnibar`, `autocomplete`/`combobox`≈
+`suggest`/`multi-select`, `hover-card`≈`popover` (hover kind), `typography`≈`text`. 8 new
+packages, 33 tests, all browser-verified.
+
+**Tier 1 (clean, high-utility):**
+
+| Package             | Notes                                                                                                            |
+| ------------------- | --------------------------------------------------------------------------------------------------------------- |
+| `@xui/kbd`          | Keyboard-key cap directive (`[xuiKbd]`), sm/md/lg. Pairs with `@xui/hotkeys`. 3 tests.                           |
+| `@xui/aspect-ratio` | Ratio-locked container via CSS `aspect-ratio`; stretches/covers projected media. 3 tests.                       |
+| `@xui/scroll-area`  | Scroll container with slim theme-aware scrollbars (WebKit + Firefox); vertical/horizontal/both. 3 tests.        |
+| `@xui/input-otp`    | Segmented OTP/PIN; one hidden input drives native caret/paste/autofill, visual slots, `mask`, `completed`. 7 tests. Browser-verified. |
+| `@xui/accordion`    | Multi-item expand/collapse; single- or `multiple`-open; CSS grid-rows height animation. `value` model. 5 tests. Browser-verified. |
+
+**Tier 2 (heavier):**
+
+| Package               | Notes                                                                                                          |
+| --------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `@xui/alert-dialog`   | Modal confirm/destructive dialog; `open` model, `confirmed`/`cancelled`, Escape/backdrop dismiss, focus. 5 tests. Browser-verified. |
+| `@xui/menubar`        | Desktop menu bar on CDK `CdkMenuBar` (roving focus, arrow-nav, hover-switch); dropdowns reuse `@xui/menu`. 3 tests. Browser-verified. |
+| `@xui/navigation-menu`| Hover mega-menu; items open a shared viewport panel (padded bridge keeps it reachable); `href` items are links. 4 tests. Browser-verified. |
+
+**Deferred / not ported:** `sidebar` (app-shell scale), `item` (≈`card-list`), a standalone inline
+`calendar` (already inside `date-picker`), and entrance/exit animations on `alert-dialog` /
+`navigation-menu` (no animation dep in the workspace).
+
+---
+
 ## 5. Execution model
 
 **Per-component loop** (repeatable, ~½–1 day for simple, 2–4 days for overlay/date components):
