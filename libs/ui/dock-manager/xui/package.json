@@ -1,0 +1,35 @@
+{
+  "name": "@xui/dock-manager",
+  "version": "2.0.0-alpha.8",
+  "description": "Modern Angular 22 UI Library based on TailwindCSS",
+  "keywords": [
+    "angular",
+    "ui",
+    "components",
+    "tailwindcss"
+  ],
+  "homepage": "https://xuijs.org",
+  "bugs": {
+    "url": "https://github.com/rikarin/xui/issues"
+  },
+  "repository": "https://github.com/Rikarin/xui",
+  "license": "MIT",
+  "author": "Jiu",
+  "maintainers": [
+    "Jiu",
+    "Rikarin"
+  ],
+  "sideEffects": false,
+  "peerDependencies": {
+    "@angular/common": "22",
+    "@angular/core": "22",
+    "@ng-icons/core": "34",
+    "@ng-icons/material-icons": "34",
+    "@xui/core": "2.0.0-alpha.8",
+    "@xui/icon": "2.0.0-alpha.8",
+    "clsx": "^2.1.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
