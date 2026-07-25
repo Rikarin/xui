@@ -312,6 +312,8 @@ export class XuiRichTextEditor implements ControlValueAccessor {
   private synced: string | null = null;
   /** The element that value went into — the source toggle builds a new one. */
   private syncedSurface: HTMLElement | null = null;
+  /** What the link is to wrap, held while the URL field has the selection. */
+  private savedRange: Range | null = null;
 
   private readonly syntax = computed(() => {
     const syntax = this.syntaxes.get(this.format());
@@ -469,14 +471,17 @@ export class XuiRichTextEditor implements ControlValueAccessor {
       return;
     }
 
-    this.focus();
-
     if (tool.command === 'xuiLink') {
+      // Captured before anything touches focus: the URL field is about to take
+      // the document selection, and this is the range the link must wrap.
+      this.savedRange = currentRange();
       // The field appears with the draft; an effect focuses it once it exists.
       this.linkDraft.set('');
 
       return;
     }
+
+    this.focus();
 
     if (tool.command === 'xuiCode') {
       this.wrapSelection('code');
@@ -497,11 +502,25 @@ export class XuiRichTextEditor implements ControlValueAccessor {
 
     this.linkDraft.set(null);
     this.focus();
+    this.restoreSelection();
 
     if (href) {
       this.exec('createLink', href);
       this.pull();
     }
+  }
+
+  /** Puts the caret back where it was before the URL field took focus. */
+  private restoreSelection(): void {
+    const selection = getSelection();
+
+    if (!this.savedRange || !selection) {
+      return;
+    }
+
+    selection.removeAllRanges();
+    selection.addRange(this.savedRange);
+    this.savedRange = null;
   }
 
   /** Reflects the caret's formatting on the toolbar. */
@@ -588,6 +607,12 @@ export class XuiRichTextEditor implements ControlValueAccessor {
   setDisabledState(isDisabled: boolean): void {
     this.disabledByForm.set(isDisabled);
   }
+}
+
+function currentRange(): Range | null {
+  const selection = getSelection();
+
+  return selection?.rangeCount ? selection.getRangeAt(0).cloneRange() : null;
 }
 
 /** The nearest ancestor with `tag`, starting at `node` itself. */

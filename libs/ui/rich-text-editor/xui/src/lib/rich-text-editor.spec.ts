@@ -132,6 +132,33 @@ describe('XuiRichTextEditor', () => {
     });
   });
 
+  it('keeps hold of what a link is meant to wrap while the URL field has focus', () => {
+    const result = render(`<xui-rich-text-editor [value]="props().value" />`, {
+      imports: IMPORTS,
+      props: { value: 'one two' }
+    });
+    const text = surface(result as RenderResult<never>).querySelector('p')!.firstChild!;
+    const range = document.createRange();
+    const selection = getSelection()!;
+
+    range.setStart(text, 4);
+    range.setEnd(text, 7);
+    selection.removeAllRanges();
+    selection.addRange(range);
+
+    expect(selection.toString()).toBe('two');
+
+    result.click('[aria-label="Link"]');
+
+    expect(result.query('[aria-label="Link URL"]')).toBeTruthy();
+
+    // Focusing the URL field is what takes the selection away in a browser.
+    selection.removeAllRanges();
+    result.click('[aria-label="Link URL"] ~ button');
+
+    expect(selection.toString()).toBe('two');
+  });
+
   describe('disabled', () => {
     it('stops the surface being editable and greys the toolbar', () => {
       const result = render(`<xui-rich-text-editor disabled />`, { imports: IMPORTS });
