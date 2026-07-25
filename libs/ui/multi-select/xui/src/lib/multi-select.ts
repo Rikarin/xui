@@ -145,7 +145,7 @@ export class XuiMultiSelect<T> {
 
   protected readonly controlClass = computed(() =>
     xui(
-      'border-border bg-surface-inset flex min-h-10 w-full flex-wrap items-center gap-1.5 rounded-lg border px-2 py-1.5 text-sm',
+      'border-border bg-surface-inset flex min-h-(--control-height-md) w-full flex-wrap items-center gap-1.5 rounded-lg border px-(--control-padding-sm) py-1 text-sm',
       'focus-within:border-focus cursor-text transition-colors',
       this.disabled() && 'cursor-not-allowed opacity-50'
     )

@@ -112,7 +112,7 @@ export class XuiDateRangeInput<T = Date> {
   protected readonly computedClass = computed(() => xui('inline-block', this.class()));
   protected readonly groupClass = computed(() =>
     xui(
-      'border-border bg-surface-inset flex h-10 w-full min-w-72 items-center gap-2 rounded-lg border px-3 text-sm',
+      'border-border bg-surface-inset flex h-(--control-height-md) w-full min-w-72 items-center gap-2 rounded-lg border px-(--control-padding-md) text-sm',
       'focus-within:border-focus transition-colors',
       this.disabled() && 'cursor-not-allowed opacity-50'
     )

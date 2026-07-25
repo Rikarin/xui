@@ -149,6 +149,9 @@ export class XuiNumericInput implements ControlValueAccessor {
   protected readonly computedClass = computed(() =>
     xui(
       'border-border bg-surface-inset focus-within:border-focus inline-flex items-stretch overflow-hidden rounded-lg border transition-colors',
+      // The wrapper carries the control height so the stepper column cannot stretch the field
+      // past the shared scale.
+      this.size() === 'sm' ? 'h-(--control-height-sm)' : 'h-(--control-height-md)',
       this.disabledState() && 'cursor-not-allowed opacity-50',
       this.class()
     )
@@ -156,7 +159,7 @@ export class XuiNumericInput implements ControlValueAccessor {
   protected readonly fieldClass = computed(() =>
     xui(
       'text-foreground placeholder:text-foreground-subtle w-full min-w-0 bg-transparent tabular-nums outline-none',
-      this.size() === 'sm' ? 'h-9 px-2 text-sm' : 'h-11 px-2.5 text-base'
+      this.size() === 'sm' ? 'px-(--control-padding-sm) text-xs' : 'px-(--control-padding-md) text-sm'
     )
   );
   protected readonly stepperColumnClass = computed(() => 'border-border flex shrink-0 flex-col border-s');

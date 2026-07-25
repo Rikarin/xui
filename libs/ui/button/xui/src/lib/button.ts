@@ -16,12 +16,11 @@ const alignClass: Record<ButtonAlign, string> = {
 
 const buttonVariants = cva(
   [
-    'inline-flex items-center justify-center gap-2 whitespace-nowrap min-w-18 rounded-lg font-medium transition-[color, background-color, outline] duration-300 cursor-pointer border-1',
+    'inline-flex items-center justify-center whitespace-nowrap rounded-lg font-medium transition-[color, background-color, outline] duration-300 cursor-pointer border-1',
     'focus-visible:outline-5 focus-visible:outline-offset-2 focus-visible:z-1',
     'disabled:pointer-events-none disabled:saturate-30',
 
-    // TODO: I'm not sure about this
-    '[&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0'
+    '[&_svg]:pointer-events-none [&_svg]:shrink-0'
   ],
   {
     variants: {
@@ -32,11 +31,12 @@ const buttonVariants = cva(
         ghost: 'text-foreground hover:shadow-md border-none', // TODO: this is shifted by border size compared to others
         link: 'text-link underline-offset-4 hover:underline'
       },
+      // The shared control scale from `@xui/core/styles/theme.css`. The gap and icon size scale
+      // with the box, so a 24px button does not carry a 16px icon.
       size: {
-        default: 'h-10 px-4 text-sm',
-        sm: 'h-8 px-3 text-sm',
-        lg: 'h-11 px-8 text-md'
-        // icon: 'h-9 w-9',
+        sm: 'h-(--control-height-sm) gap-1 px-(--control-padding-sm) text-xs [&_svg]:size-3',
+        default: 'h-(--control-height-md) gap-1.5 px-(--control-padding-md) text-sm [&_svg]:size-4',
+        lg: 'h-(--control-height-lg) gap-2 px-(--control-padding-lg) text-base [&_svg]:size-5'
       },
       color: {
         primary: '',

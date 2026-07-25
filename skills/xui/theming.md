@@ -15,6 +15,7 @@ Tailwind utility namespaces with `@theme inline`. `--surface` becomes `bg-surfac
 | State     | `focus`, `link`, `link-hover`, `selection`, `hover-overlay`, `active-overlay`                                                                    |
 | Elevation | `elevation-0` … `elevation-4`, `elevation-overlay` (a namespace of its own, separate from Tailwind's `shadow-*`)                                 |
 | Motion    | `duration-fast`, `duration-base`, `duration-slow`                                                                                                |
+| Controls  | `control-height-sm\|md\|lg`, `control-padding-sm\|md\|lg` - the density every control shares                                                     |
 
 ## Which step to use
 
@@ -26,6 +27,31 @@ Tailwind utility namespaces with `@theme inline`. `--surface` becomes `bg-surfac
 
 `subtle`, `muted`, `emphasis`, `darker` and `lighter` are **derived** from the intent base and
 `--background` with `oklch()` and `color-mix()`. Overriding one intent re-colours its whole ramp.
+
+## Control density
+
+Every control - button, input, select, date field, picker - sizes itself from one scale, so
+anything on the same row lines up:
+
+| step         | height | padding | type        |
+| ------------ | ------ | ------- | ----------- |
+| `sm`         | 24px   | 8px     | `text-xs`   |
+| `md` default | 30px   | 12px    | `text-sm`   |
+| `lg`         | 40px   | 16px    | `text-base` |
+
+The steps match Blueprint, and a native browser input is about 30px too, so xUI controls sit level
+with unstyled elements instead of towering over them. Re-tune the whole library's density in one
+place:
+
+```css
+:root {
+  --control-height-md: 2rem; /* a roomier default everywhere */
+  --control-padding-md: 0.875rem;
+}
+```
+
+In library code, never hard-code `h-10`/`h-11` on something a user clicks or types into - use
+`h-(--control-height-md)` and `px-(--control-padding-md)`, and let the size variant swap the step.
 
 ## Dark mode
 

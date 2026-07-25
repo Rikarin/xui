@@ -49,6 +49,23 @@ protected readonly computedClass = computed(() =>
 );
 ```
 
+## Control sizing
+
+Anything a user clicks or types into takes its height and horizontal padding from the shared
+control scale, never from a hand-picked `h-*`:
+
+```ts
+size: {
+  sm: 'h-(--control-height-sm) px-(--control-padding-sm) text-xs',
+  default: 'h-(--control-height-md) px-(--control-padding-md) text-sm',
+  lg: 'h-(--control-height-lg) px-(--control-padding-lg) text-base'
+}
+```
+
+30px is the default step (Blueprint's density, and roughly a native input). A wrapper that contains
+a control - a numeric input's stepper column, a segmented control's track - carries the height
+itself, so a child cannot stretch the box off the scale.
+
 ## Layout conventions
 
 - `gap-*` on a flex/grid parent, not `space-*` on children.

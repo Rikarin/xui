@@ -18,7 +18,13 @@ describe('XuiButton', () => {
   it('defaults to a filled primary button at the default size', () => {
     const { query } = setup('<button xuiButton></button>');
 
-    expectClasses(query('button'), 'bg-primary', 'text-primary-foreground', 'h-10', 'px-4');
+    expectClasses(
+      query('button'),
+      'bg-primary',
+      'text-primary-foreground',
+      'h-(--control-height-md)',
+      'px-(--control-padding-md)'
+    );
   });
 
   it('applies the colour through the variant/colour compound', () => {
@@ -38,8 +44,8 @@ describe('XuiButton', () => {
   it('applies the size variant', () => {
     const { query } = setup('<button xuiButton size="sm"></button>');
 
-    expectClasses(query('button'), 'h-8', 'px-3');
-    expectNoClasses(query('button'), 'h-10');
+    expectClasses(query('button'), 'h-(--control-height-sm)', 'px-(--control-padding-sm)');
+    expectNoClasses(query('button'), 'h-(--control-height-md)');
   });
 
   it('neutralises pointer events while disabled', () => {
@@ -55,7 +61,7 @@ describe('XuiButton', () => {
     ]);
 
     expect(instance(fixture).color()).toBe('success');
-    expectClasses(query('button'), 'bg-success', 'h-11');
+    expectClasses(query('button'), 'bg-success', 'h-(--control-height-lg)');
   });
 
   it('lets an explicit input win over the configured default', () => {

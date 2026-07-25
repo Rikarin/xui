@@ -65,7 +65,7 @@ describe('XuiFileInput', () => {
     const { detect } = render('<xui-file-input fill size="sm" />', { imports: IMPORTS });
     detect();
 
-    expectClasses(document.querySelector('xui-file-input label') as HTMLElement, 'w-full', 'h-9');
+    expectClasses(document.querySelector('xui-file-input label') as HTMLElement, 'w-full', 'h-(--control-height-sm)');
   });
 
   describe('as a form control', () => {

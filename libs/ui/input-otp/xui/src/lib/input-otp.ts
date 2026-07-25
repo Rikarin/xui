@@ -110,7 +110,7 @@ export class XuiInputOtp {
   protected slotClass(index: number): string {
     const active = this.focused() && index === this.value().length;
     return xui(
-      'flex h-11 w-10 items-center justify-center rounded-md border text-lg font-medium tabular-nums transition-colors',
+      'flex size-(--control-height-lg) items-center justify-center rounded-md border text-lg font-medium tabular-nums transition-colors',
       'border-border bg-surface text-foreground',
       active && 'border-primary ring-primary/30 ring-2',
       this.disabled() && 'opacity-50'

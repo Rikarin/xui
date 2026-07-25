@@ -20,7 +20,7 @@ import type { ClassValue } from 'clsx';
 
 export const inputVariants = cva(
   [
-    'flex rounded-lg border border-border font-normal text-base transition-all',
+    'flex rounded-lg border border-border font-normal transition-all',
     'file:border-0 file:text-foreground file:bg-transparent file:font-medium',
     // 'focus-visible:outline-5 focus-visible:outline-offset-2',
     'focus:border-focus focus:outline-none',
@@ -28,11 +28,12 @@ export const inputVariants = cva(
   ],
   {
     variants: {
+      // The shared control scale from `@xui/core/styles/theme.css`, so an input lines up with a
+      // button, a select and a date field of the same size.
       size: {
-        // TODO: check file:
-        default: 'h-11 py-3 px-2.5',
-        sm: 'h-9 px-2 text-sm'
-        // lg: 'h-12 px-8 file:md:py-3 file:max-md:py-2.5' // TODO: support just sm/default
+        sm: 'h-(--control-height-sm) px-(--control-padding-sm) text-xs',
+        default: 'h-(--control-height-md) px-(--control-padding-md) text-sm',
+        lg: 'h-(--control-height-lg) px-(--control-padding-lg) text-base'
       },
       // TODO(phase-4): this axis is a surface choice, not a colour — rename the
       // options to `default`/`subtle` when the InputGroup API lands.

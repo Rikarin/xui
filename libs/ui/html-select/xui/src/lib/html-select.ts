@@ -21,7 +21,7 @@ const wrapperVariants = cva(
   'border-border bg-surface-inset text-foreground focus-within:border-focus relative inline-flex items-center rounded-lg border transition-colors has-disabled:cursor-not-allowed has-disabled:opacity-50',
   {
     variants: {
-      size: { default: 'h-11 text-base', sm: 'h-9 text-sm' },
+      size: { default: 'h-(--control-height-md) text-sm', sm: 'h-(--control-height-sm) text-xs' },
       fill: { true: 'w-full', false: 'w-auto' }
     },
     defaultVariants: { size: 'default', fill: false }
@@ -113,7 +113,7 @@ export class XuiHtmlSelect<T = string> implements ControlValueAccessor {
   protected readonly selectClass = computed(() =>
     xui(
       'w-full cursor-pointer appearance-none bg-transparent pe-8 ps-2.5 outline-none disabled:cursor-not-allowed',
-      this.size() === 'sm' ? 'h-9' : 'h-11'
+      this.size() === 'sm' ? 'h-(--control-height-sm)' : 'h-(--control-height-md)'
     )
   );
 

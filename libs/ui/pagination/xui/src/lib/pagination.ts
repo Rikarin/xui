@@ -151,20 +151,20 @@ export class XuiPagination {
   protected readonly computedClass = computed(() => xui('inline-flex items-center gap-1', this.class()));
   protected readonly selectClass = computed(() =>
     xui(
-      'border-border bg-surface text-foreground ms-2 h-8 rounded-md border px-2 text-sm',
+      'border-border bg-surface text-foreground ms-2 h-(--control-height-md) rounded-md border px-(--control-padding-sm) text-sm',
       'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus'
     )
   );
 
   protected stepClass(): string {
     return xui(
-      'border-border text-foreground hover:bg-surface-inset flex h-8 w-8 items-center justify-center rounded-md border disabled:pointer-events-none disabled:opacity-40'
+      'border-border text-foreground hover:bg-surface-inset flex size-(--control-height-md) items-center justify-center rounded-md border disabled:pointer-events-none disabled:opacity-40'
     );
   }
 
   protected pageClass(active: boolean): string {
     return xui(
-      'flex h-8 min-w-8 items-center justify-center rounded-md border px-2 text-sm tabular-nums disabled:pointer-events-none disabled:opacity-40',
+      'flex h-(--control-height-md) min-w-(--control-height-md) items-center justify-center rounded-md border px-(--control-padding-sm) text-sm tabular-nums disabled:pointer-events-none disabled:opacity-40',
       active
         ? 'border-primary bg-primary text-primary-foreground font-medium'
         : 'border-border text-foreground hover:bg-surface-inset'

@@ -46,11 +46,11 @@ import { XUI_PANEL_DATA, XUI_PANEL_STACK, type XuiPanel } from './panel-stack.ty
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     @if (showPanelHeader()) {
-      <header class="border-border flex h-11 shrink-0 items-center border-b px-1">
+      <header class="border-border flex h-(--control-height-lg) shrink-0 items-center border-b px-1">
         @if (depth() > 1) {
           <button
             type="button"
-            class="text-foreground-muted hover:bg-hover-overlay hover:text-foreground flex h-9 items-center gap-0.5 rounded-md ps-1.5 pe-3 text-sm focus-visible:outline-5 focus-visible:outline-offset-2"
+            class="text-foreground-muted hover:bg-hover-overlay hover:text-foreground flex h-(--control-height-md) items-center gap-0.5 rounded-md ps-1.5 pe-3 text-sm focus-visible:outline-5 focus-visible:outline-offset-2"
             (click)="closePanel()"
           >
             <ng-icon xui size="md" name="matChevronLeftRound" />

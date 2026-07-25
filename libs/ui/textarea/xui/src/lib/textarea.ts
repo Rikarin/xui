@@ -9,8 +9,9 @@ export const textareaVariants = cva(
   {
     variants: {
       size: {
-        default: 'min-h-20 px-2.5 py-2 text-base',
-        sm: 'min-h-16 px-2 py-1.5 text-sm'
+        default: 'min-h-16 px-(--control-padding-md) py-1.5 text-sm',
+        sm: 'min-h-12 px-(--control-padding-sm) py-1 text-xs',
+        lg: 'min-h-20 px-(--control-padding-lg) py-2 text-base'
       },
       resize: {
         true: 'resize-y',

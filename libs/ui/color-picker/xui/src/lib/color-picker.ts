@@ -571,19 +571,19 @@ export class XuiColorPicker {
   );
   protected readonly hexInputClass = computed(() =>
     xui(
-      'border-border bg-surface text-foreground h-8 w-full min-w-0 flex-1 rounded-md border px-2 text-sm uppercase',
+      'border-border bg-surface text-foreground h-(--control-height-sm) w-full min-w-0 flex-1 rounded-md border px-(--control-padding-sm) text-xs uppercase',
       FOCUS_RING
     )
   );
   protected readonly channelInputClass = computed(() =>
     xui(
-      'border-border bg-surface text-foreground h-8 w-full min-w-0 rounded-md border px-1.5 text-center text-sm tabular-nums [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none',
+      'border-border bg-surface text-foreground h-(--control-height-sm) w-full min-w-0 rounded-md border px-1.5 text-center text-xs tabular-nums [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none',
       FOCUS_RING
     )
   );
   protected readonly formatSelectClass = computed(() =>
     xui(
-      'border-border bg-surface text-foreground h-8 shrink-0 rounded-md border px-1.5 text-xs font-medium',
+      'border-border bg-surface text-foreground h-(--control-height-sm) shrink-0 rounded-md border px-1.5 text-xs font-medium',
       FOCUS_RING
     )
   );

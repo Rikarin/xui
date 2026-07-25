@@ -133,6 +133,35 @@
   --text-md--line-height: calc(1.375 / 0.9375);
 }
 
+/**
+ * Control density.
+ *
+ * One scale for everything a user types in or clicks: buttons, inputs, selects, date fields,
+ * pickers. Before these existed each component picked its own height, so a "default" control was
+ * 44px as an input, 40px as a button and 36px as a cascader, sitting next to each other with
+ * different type sizes. The steps match Blueprint's control heights, which is the density this
+ * library targets - a native browser input is around 30px too, so controls no longer tower over
+ * unstyled elements on the same form.
+ *
+ * An application can re-tune the whole library's density by overriding these three values, the
+ * same way overriding one intent re-colours its ramp.
+ *
+ * | step | height | padding | type      |
+ * | ---- | ------ | ------- | --------- |
+ * | sm   | 24px   | 8px     | text-xs   |
+ * | md   | 30px   | 12px    | text-sm   |
+ * | lg   | 40px   | 16px    | text-base |
+ */
+:root {
+  --control-height-sm: 1.5rem;
+  --control-height-md: 1.875rem;
+  --control-height-lg: 2.5rem;
+
+  --control-padding-sm: 0.5rem;
+  --control-padding-md: 0.75rem;
+  --control-padding-lg: 1rem;
+}
+
 /* Light theme. Also matchable on any element so a subtree can be themed
    independently of the document — e.g. a dark toolbar inside a light page. */
 :root,

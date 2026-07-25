@@ -24,14 +24,14 @@ describe('XuiInput', () => {
   it('defaults to the default size', () => {
     const { query } = setup('<input xuiInput />');
 
-    expectClasses(query('input'), 'h-11', 'px-2.5');
+    expectClasses(query('input'), 'h-(--control-height-md)', 'px-(--control-padding-md)');
   });
 
   it('applies the size variant', () => {
     const { query } = setup('<input xuiInput size="sm" />');
 
-    expectClasses(query('input'), 'h-9', 'px-2');
-    expectNoClasses(query('input'), 'h-11');
+    expectClasses(query('input'), 'h-(--control-height-sm)', 'px-(--control-padding-sm)');
+    expectNoClasses(query('input'), 'h-(--control-height-md)');
   });
 
   it('defers the error styling to the control state by default', () => {

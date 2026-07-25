@@ -65,7 +65,7 @@ describe('XuiHtmlSelect', () => {
     const { detect } = render('<xui-html-select fill size="sm" />', { imports: IMPORTS });
     detect();
 
-    expectClasses(document.querySelector('xui-html-select') as HTMLElement, 'w-full', 'h-9');
+    expectClasses(document.querySelector('xui-html-select') as HTMLElement, 'w-full', 'h-(--control-height-sm)');
   });
 
   describe('as a form control', () => {

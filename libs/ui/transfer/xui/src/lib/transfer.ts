@@ -336,7 +336,7 @@ export class XuiTransfer {
   protected readonly panelClass = computed(() => xui('border-border bg-surface flex w-56 flex-col rounded-lg border'));
   protected readonly searchClass = computed(() =>
     xui(
-      'border-border bg-surface text-foreground focus:border-focus h-8 w-full rounded-md border px-2 text-sm focus:outline-none'
+      'border-border bg-surface text-foreground focus:border-focus h-(--control-height-md) w-full rounded-md border px-(--control-padding-sm) text-sm focus:outline-none'
     )
   );
 
@@ -357,7 +357,7 @@ export class XuiTransfer {
   }
   protected moveClass(): string {
     return xui(
-      'border-border text-foreground hover:bg-surface-inset flex h-8 w-8 items-center justify-center rounded-md border disabled:pointer-events-none disabled:opacity-40'
+      'border-border text-foreground hover:bg-surface-inset flex size-(--control-height-md) items-center justify-center rounded-md border disabled:pointer-events-none disabled:opacity-40'
     );
   }
 }

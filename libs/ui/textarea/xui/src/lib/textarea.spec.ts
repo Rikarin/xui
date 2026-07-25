@@ -16,14 +16,14 @@ describe('XuiTextarea', () => {
   it('defaults to a resizable default size', () => {
     const { query } = setup('<textarea xuiTextarea></textarea>');
 
-    expectClasses(query('textarea'), 'min-h-20', 'resize-y');
+    expectClasses(query('textarea'), 'min-h-16', 'resize-y');
   });
 
   it('applies the small size', () => {
     const { query } = setup('<textarea xuiTextarea size="sm"></textarea>');
 
-    expectClasses(query('textarea'), 'min-h-16', 'text-sm');
-    expectNoClasses(query('textarea'), 'min-h-20');
+    expectClasses(query('textarea'), 'min-h-12', 'text-xs');
+    expectNoClasses(query('textarea'), 'min-h-16');
   });
 
   it('turns manual resize off while auto-resizing (the two would fight)', () => {

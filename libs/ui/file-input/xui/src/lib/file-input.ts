@@ -24,8 +24,8 @@ const fileInputVariants = cva(
   {
     variants: {
       size: {
-        default: 'h-11 ps-3 text-base',
-        sm: 'h-9 ps-2.5 text-sm'
+        default: 'h-(--control-height-md) ps-(--control-padding-md) text-sm',
+        sm: 'h-(--control-height-sm) ps-(--control-padding-sm) text-xs'
       },
       fill: {
         true: 'w-full',

@@ -105,7 +105,7 @@ export class XuiSegmentedControl<T = string> implements ControlValueAccessor {
 
   protected segmentClass(selected: boolean): string {
     return xui(
-      'rounded-md px-3 py-1.5 font-medium transition-colors focus-visible:outline-5 focus-visible:outline-offset-1 disabled:pointer-events-none disabled:opacity-40',
+      'inline-flex h-(--control-height-sm) items-center justify-center rounded-md px-(--control-padding-md) font-medium transition-colors focus-visible:outline-5 focus-visible:outline-offset-1 disabled:pointer-events-none disabled:opacity-40',
       this.fill() && 'flex-1',
       selected ? 'bg-surface-raised text-foreground shadow-elevation-1' : 'text-foreground-muted hover:text-foreground'
     );

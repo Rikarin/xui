@@ -167,7 +167,7 @@ export class XuiCascader {
   protected readonly computedClass = computed(() => xui('relative inline-block', this.class()));
   protected readonly triggerClass = computed(() =>
     xui(
-      'border-border bg-surface text-foreground flex h-9 w-full min-w-48 items-center gap-1 rounded-md border px-2.5 text-sm outline-none focus-visible:border-primary disabled:opacity-50'
+      'border-border bg-surface text-foreground flex h-(--control-height-md) w-full min-w-48 items-center gap-1 rounded-md border px-(--control-padding-md) text-sm outline-none focus-visible:border-primary disabled:opacity-50'
     )
   );
   protected readonly panelClass = computed(() =>
