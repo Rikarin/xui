@@ -8,7 +8,8 @@ export const doc: ComponentDoc = {
   package: '@xui/panel-stack',
   kind: 'ui',
   group: 'Navigation',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description:
+    'A stack of screens with a back-navigating header — a drill-down in a fixed space. Only the top panel renders; pushing slides in from the right, popping slides back. The slide and focus are not testable in jsdom, so this story is the real check.',
   importsConst: 'XuiPanelStackImports',
   exports: [
     'XuiPanelStack',

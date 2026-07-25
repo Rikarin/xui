@@ -54,7 +54,7 @@ export const doc: ComponentDoc = {
   package: '@xui/skeleton',
   kind: 'ui',
   group: 'Feedback',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description: 'Turn an existing element into a loading placeholder in place.',
   importsConst: 'XuiSkeletonImports',
   exports: ['XuiSkeletonDirective', 'XuiSkeleton', 'XuiSkeletonImports'],
   peerDependencies: {

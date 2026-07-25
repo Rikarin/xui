@@ -81,7 +81,8 @@ export const doc: ComponentDoc = {
   package: '@xui/slider',
   kind: 'ui',
   group: 'Forms',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description:
+    'A draggable handle along a track for choosing a number in a range. Drag the handle or click the track; arrow keys step, Home/End jump to the bounds, and PageUp/PageDown take larger strides. Full ControlValueAccessor.',
   importsConst: 'XuiSliderImports',
   exports: ['XuiSlider', 'XuiSliderImports', 'SliderLabelRenderer', 'SliderIntent', 'XUI_SLIDER_VALUE_ACCESSOR'],
   peerDependencies: {

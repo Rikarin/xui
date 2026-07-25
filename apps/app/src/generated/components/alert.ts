@@ -50,7 +50,8 @@ export const doc: ComponentDoc = {
   package: '@xui/alert',
   kind: 'ui',
   group: 'Overlays',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description:
+    'A small confirm/cancel modal for irreversible actions. A preset over @xui/dialog; dismissing it any way counts as a cancel. The overlay behaviour is not testable in jsdom, so these stories verify it.',
   importsConst: 'XuiAlertImports',
   exports: [
     'XuiConfirmDialog',

@@ -40,7 +40,8 @@ export const doc: ComponentDoc = {
   package: '@xui/timeline',
   kind: 'ui',
   group: 'Data display',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description:
+    'A vertical timeline of events — colored dots on a connecting axis with projected content and optional labels. Place the axis on the left or right.',
   importsConst: 'XuiTimelineImports',
   exports: ['XuiTimelineItem', 'XuiTimeline', 'XuiTimelineImports', 'TimelineColor', 'TimelineMode'],
   peerDependencies: {

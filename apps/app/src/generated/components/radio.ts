@@ -57,7 +57,8 @@ export const doc: ComponentDoc = {
   package: '@xui/radio',
   kind: 'ui',
   group: 'Forms',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description:
+    'A single-choice group. The group owns the value, the shared name and a single tab stop — arrow keys move between options per the WAI-ARIA radio pattern. Bind forms to the group, never to individual radios.',
   importsConst: 'XuiRadioImports',
   exports: [
     'XuiRadioGroup',

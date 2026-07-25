@@ -58,7 +58,7 @@ export const doc: ComponentDoc = {
   package: '@xui/callout',
   kind: 'ui',
   group: 'Feedback',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description: 'A boxed note that draws attention to a piece of text.',
   importsConst: 'XuiCalloutImports',
   exports: ['XuiCallout', 'XuiCalloutImports', 'calloutVariants', 'CalloutVariants', 'CalloutColor'],
   peerDependencies: {
@@ -150,13 +150,6 @@ export const doc: ComponentDoc = {
   Saving will overwrite the existing draft.
 </xui-callout>`,
       preview: PreviewDefault
-    },
-    {
-      name: 'Colors',
-      title: 'Colors',
-      code: `<div class="flex max-w-md flex-col gap-3">
-
-</div>`
     },
     {
       name: 'WithoutTitle',

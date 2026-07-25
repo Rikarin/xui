@@ -93,7 +93,7 @@ export const doc: ComponentDoc = {
   package: '@xui/section',
   kind: 'ui',
   group: 'Layout',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description: 'A titled container for a group of related content.',
   importsConst: 'XuiSectionImports',
   exports: ['XuiSection', 'XuiSectionCard', 'XuiSectionImports', 'sectionVariants', 'SectionVariants'],
   peerDependencies: {

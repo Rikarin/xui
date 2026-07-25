@@ -25,7 +25,7 @@ export const doc: ComponentDoc = {
   package: '@xui/status',
   kind: 'ui',
   group: 'Data display',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description: 'A coloured dot with a label, for the state of a thing — online, degraded, failed.',
   importsConst: 'XuiStatusImports',
   exports: ['XuiStatus', 'XuiStatusImports', 'StatusVariants'],
   peerDependencies: {

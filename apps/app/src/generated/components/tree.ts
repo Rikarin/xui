@@ -23,7 +23,8 @@ export const doc: ComponentDoc = {
   package: '@xui/tree',
   kind: 'ui',
   group: 'Data display',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description:
+    'A hierarchical tree with expand/collapse carets, single selection, optional icons and secondary labels. Full keyboard support: Up/Down move, Right/Left expand/collapse or step in/out, Enter/Space select. [(selectedId)] binding.',
   importsConst: 'XuiTreeImports',
   exports: ['XuiTree', 'XuiTreeImports', 'XuiTreeNode'],
   peerDependencies: {

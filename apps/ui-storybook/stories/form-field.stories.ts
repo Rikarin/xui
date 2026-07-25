@@ -4,6 +4,10 @@ import { moduleMetadata } from '@storybook/angular-vite';
 import { XuiFormField, XuiFormFieldImports } from '@xui/form-field';
 import { XuiInputImports } from '@xui/input';
 
+/**
+ * The wrapper that gives a control its label, hint and error text, and wires the `aria`
+ * relationships between them so a screen reader announces the three together.
+ */
 export default {
   title: 'Forms/Form field',
   component: XuiFormField,

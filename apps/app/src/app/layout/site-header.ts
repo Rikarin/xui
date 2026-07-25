@@ -54,7 +54,7 @@ const NAV = [
             variant="ghost"
             size="sm"
             [routerLink]="item.path"
-            routerLinkActive="text-foreground bg-surface-raised"
+            routerLinkActive="text-foreground bg-surface-inset"
             >{{ item.label }}</a
           >
         }

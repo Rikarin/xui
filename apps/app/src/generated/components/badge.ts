@@ -75,7 +75,7 @@ export const doc: ComponentDoc = {
   package: '@xui/badge',
   kind: 'ui',
   group: 'Data display',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description: 'A small count or status marker, anchored to the corner of whatever it wraps.',
   importsConst: 'XuiBadgeImports',
   exports: ['XuiBadge', 'XuiBadgeImports', 'badgeVariants', 'BadgeVariants'],
   peerDependencies: {

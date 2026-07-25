@@ -37,7 +37,8 @@ export const doc: ComponentDoc = {
   package: '@xui/cascader',
   kind: 'ui',
   group: 'Forms',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description:
+    'A cascading column select — each level opens the next column of children; choosing a leaf commits the whole path. value is the array of chosen values.',
   importsConst: 'XuiCascaderImports',
   exports: ['XuiCascader', 'XuiCascaderImports', 'XuiCascaderOption'],
   peerDependencies: {

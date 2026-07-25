@@ -3,6 +3,10 @@ import { NgIcon } from '@ng-icons/core';
 import { argsToTemplate, Meta, moduleMetadata, StoryObj } from '@storybook/angular-vite';
 import { XuiCheckbox, XuiCheckboxImports } from '@xui/checkbox';
 
+/**
+ * A tri-state checkbox. It is a `ControlValueAccessor`, so `ngModel` and reactive forms bind
+ * straight to it, and `indeterminate` renders the mixed state a parent checkbox needs.
+ */
 const meta: Meta<XuiCheckbox> = {
   title: 'Forms/Checkbox',
   component: XuiCheckbox,

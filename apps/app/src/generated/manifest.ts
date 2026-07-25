@@ -34,7 +34,8 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/accordion',
     kind: 'ui',
     group: 'Layout',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description:
+      'A vertical stack of expandable sections. One panel opens at a time by default; multiple lets several stay open. value is the two-way list of open items.',
     hasPreview: true
   },
   {
@@ -44,7 +45,8 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/alert',
     kind: 'ui',
     group: 'Overlays',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description:
+      'A small confirm/cancel modal for irreversible actions. A preset over @xui/dialog; dismissing it any way counts as a cancel. The overlay behaviour is not testable in jsdom, so these stories verify it.',
     hasPreview: true
   },
   {
@@ -54,7 +56,8 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/alert-dialog',
     kind: 'ui',
     group: 'Overlays',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description:
+      'A modal confirmation for a consequential choice. It takes focus, blocks the page and asks for an explicit Confirm / Cancel. open is two-way bindable; confirmed / cancelled report the outcome.',
     hasPreview: true
   },
   {
@@ -64,7 +67,8 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/aspect-ratio',
     kind: 'ui',
     group: 'Layout',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description:
+      'Locks content to a fixed width : height ratio. Give it a width; the height follows. Handy for images, video embeds and placeholder tiles.',
     hasPreview: true
   },
   {
@@ -74,7 +78,8 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/avatar',
     kind: 'ui',
     group: 'Data display',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description:
+      'A compact user/entity representation — image, text initials, or a projected icon, with an automatic fallback when the image fails. Group several with <xui-avatar-group> to overlap them, optionally collapsing past max.',
     hasPreview: true
   },
   {
@@ -84,7 +89,7 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/badge',
     kind: 'ui',
     group: 'Data display',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description: 'A small count or status marker, anchored to the corner of whatever it wraps.',
     hasPreview: true
   },
   {
@@ -94,7 +99,7 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/breadcrumb',
     kind: 'ui',
     group: 'Navigation',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description: 'A navigable crumb.',
     hasPreview: true
   },
   {
@@ -104,7 +109,8 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/button',
     kind: 'ui',
     group: 'Actions',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description:
+      'A clickable action. A directive rather than a component, so it styles a real <button> or <a> and keeps their semantics — including disabled, form submission and link navigation.',
     hasPreview: true
   },
   {
@@ -114,7 +120,8 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/button-group',
     kind: 'ui',
     group: 'Actions',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description:
+      'A row of buttons that read as one control. The group squares off the inner corners and collapses the shared borders, so the segments meet cleanly at any size.',
     hasPreview: true
   },
   {
@@ -133,7 +140,7 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/callout',
     kind: 'ui',
     group: 'Feedback',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description: 'A boxed note that draws attention to a piece of text.',
     hasPreview: true
   },
   {
@@ -143,7 +150,7 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/card',
     kind: 'ui',
     group: 'Data display',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description: 'A bounded, elevated container for a single piece of content.',
     hasPreview: true
   },
   {
@@ -153,7 +160,7 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/card-list',
     kind: 'ui',
     group: 'Data display',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description: 'A vertical list of cards rendered as flush rows.',
     hasPreview: false
   },
   {
@@ -163,7 +170,8 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/carousel',
     kind: 'ui',
     group: 'Data display',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description:
+      'A slideshow with arrows, dot indicators, keyboard support and optional autoplay (paused on hover). Choose the sliding (scrollx) or crossfade (fade) transition.',
     hasPreview: true
   },
   {
@@ -173,7 +181,8 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/cascader',
     kind: 'ui',
     group: 'Forms',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description:
+      'A cascading column select — each level opens the next column of children; choosing a leaf commits the whole path. value is the array of chosen values.',
     hasPreview: true
   },
   {
@@ -183,7 +192,8 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/checkbox',
     kind: 'ui',
     group: 'Forms',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description:
+      'A tri-state checkbox. It is a ControlValueAccessor, so ngModel and reactive forms bind straight to it, and indeterminate renders the mixed state a parent checkbox needs.',
     hasPreview: true
   },
   {
@@ -193,6 +203,8 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/core/checkbox',
     kind: 'core',
     group: 'Headless primitives',
+    description:
+      'A tri-state checkbox. It is a ControlValueAccessor, so ngModel and reactive forms bind straight to it, and indeterminate renders the mixed state a parent checkbox needs.',
     hasPreview: false
   },
   {
@@ -202,7 +214,7 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/collapse',
     kind: 'ui',
     group: 'Layout',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description: 'Animates its content open and closed.',
     hasPreview: true
   },
   {
@@ -212,7 +224,8 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/color-picker',
     kind: 'ui',
     group: 'Forms',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description:
+      'A color picker — the swatch trigger opens a panel with a saturation/value square, hue slider, optional alpha slider, a channel input row and preset swatches. value is a two-way bindable hex string; the input row switches between HEX, HSL and LCH via the format selector.',
     hasPreview: true
   },
   {
@@ -222,7 +235,8 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/context-menu',
     kind: 'ui',
     group: 'Overlays',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description:
+      "Opens the same @xui/menu panel where the user right-clicks. Built on CdkContextMenuTrigger, so it shares the menu's keyboard model, submenu aim and dismissal — only the way it opens differs. Right-click is not something jsdom exercises, so this story is the real check.",
     hasPreview: true
   },
   {
@@ -232,7 +246,8 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/control-card',
     kind: 'ui',
     group: 'Forms',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description:
+      'A selectable card wrapping a label and a checkbox/radio/switch indicator. The whole card is the control — click or press Space/Enter to toggle — and it shows an accented "selected" style while checked. Full ControlValueAccessor.',
     hasPreview: true
   },
   {
@@ -242,7 +257,8 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/control-group',
     kind: 'ui',
     group: 'Forms',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description:
+      'Groups adjacent inputs and buttons into one seamless unit — the rounding and doubled borders between neighbours collapse, and the shared 1px border is overlapped so it never reads as double-width.',
     hasPreview: true
   },
   {
@@ -252,7 +268,8 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/data-table',
     kind: 'ui',
     group: 'Data display',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description:
+      'A virtualized data grid — only the visible rows are in the DOM, so it stays smooth at 100k+ rows. Columns resize (drag the header divider), auto-fit (double-click the divider), reorder (drag the header) and sort (click the header). Cells select as regions (click, shift-click for a range, ⌘/Ctrl-click for disjoint blocks, ⌘/Ctrl+A for all), the focused cell moves with the arrow keys (hold Shift to extend), and ⌘/Ctrl+C copies the selection as TSV. Built on the pure @xui/core/grid region/size/locator model.',
     hasPreview: true
   },
   {
@@ -262,7 +279,8 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/date-input',
     kind: 'ui',
     group: 'Date & time',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description:
+      'A date field: a text input paired with a popover calendar. Type a date or pick one from the calendar. [(value)] two-way binding.',
     hasPreview: true
   },
   {
@@ -272,7 +290,8 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/date-picker',
     kind: 'ui',
     group: 'Date & time',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description:
+      "An inline month calendar. Click a day to select it; arrow keys move by day/week, PageUp/PageDown by month, Home/End to the week ends, Enter/Space select. [(selected)] two-way binding, min/max/dateFilter, an optional Today/Clear action bar. Uses the app's DateAdapter (native Date by default).",
     hasPreview: true
   },
   {
@@ -282,7 +301,8 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/date-range-input',
     kind: 'ui',
     group: 'Date & time',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description:
+      'A date-range field: two text inputs (start → end) that share one popover calendar. Focusing either field opens the range picker; typing a boundary parses just that end. [(range)] two-way binding.',
     hasPreview: false
   },
   {
@@ -292,7 +312,8 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/date-range-picker',
     kind: 'ui',
     group: 'Date & time',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description:
+      'A multi-month calendar for choosing a date range. First click sets the start, the second the end (hovering previews the span); clicking again starts over. [(range)] two-way binding, months (1 or 2), min/max/dateFilter, allowSingleDayRange.',
     hasPreview: true
   },
   {
@@ -320,7 +341,8 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/descriptions',
     kind: 'ui',
     group: 'Data display',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description:
+      'A key/value description list on a responsive grid — set column, switch layout between inline and stacked, and toggle the bordered table variant.',
     hasPreview: true
   },
   {
@@ -330,7 +352,8 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/dialog',
     kind: 'ui',
     group: 'Overlays',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description:
+      'A modal surface over a dimmed backdrop. Backdrop, focus trap, scroll lock and focus restore come from @xui/core/overlay; none of that is exercised in jsdom, so these stories are the real check.',
     hasPreview: true
   },
   {
@@ -340,7 +363,7 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/divider',
     kind: 'ui',
     group: 'Layout',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description: 'A rule separating two groups of content.',
     hasPreview: true
   },
   {
@@ -350,7 +373,8 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/dock-manager',
     kind: 'ui',
     group: 'Layout',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description:
+      'An IDE-style docking layout driven by one serialisable tree: resizable split panes, tab groups, a document host for editor tabs, panes that collapse to the edges, and floating windows. Drag a pane header or tab and Visual Studio\'s docking targets appear: a five-way joystick over the pane under the pointer — arms to split it, centre to tab with it — plus an outer ring at the edges for docking against the whole layout. The target that would be used lights up and an outline previews the space it would take. Drop outside the layout to float the pane. Every action is also on the header: pin, float, maximize, close. Splitter gutters take arrow keys, and tab strips take arrow/Home/End. A pane\'s body is declared once as <ng-template xuiDockContent="id"> and then *moved* rather than rebuilt, so scroll position and half-typed input survive a drag.',
     hasPreview: true
   },
   {
@@ -360,7 +384,8 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/drawer',
     kind: 'ui',
     group: 'Overlays',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description:
+      'A panel that slides in from an edge. Same modal overlay as the dialog, pinned to a side and sized on its sliding axis, with a Web-Animations slide-in. Position, animation and focus are not testable in jsdom — verify here.',
     hasPreview: true
   },
   {
@@ -370,7 +395,8 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/echarts',
     kind: 'ui',
     group: 'Visualisation',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description:
+      'Apache ECharts behind one component. The whole chart is the option input, every ECharts event is an output, and the wrapper owns the fiddly parts: merging option changes instead of redrawing, resizing with the container, theming from the @xui/core tokens in light *and* dark, and disposing with the component. ECharts itself is provided by the app, so the choice between the full build and a tree-shaken one stays where it belongs:',
     hasPreview: true
   },
   {
@@ -380,7 +406,8 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/editable-text',
     kind: 'ui',
     group: 'Forms',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description:
+      'Inline click-to-edit text. Click (or focus + Enter) to edit; Enter or blur confirms, Escape reverts. multiline uses a textarea. Full ControlValueAccessor and [(value)] two-way binding.',
     hasPreview: true
   },
   {
@@ -390,7 +417,7 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/entity-title',
     kind: 'ui',
     group: 'Data display',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description: 'The name of a thing, with its supporting detail.',
     hasPreview: true
   },
   {
@@ -400,7 +427,8 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/file-input',
     kind: 'ui',
     group: 'Forms',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description:
+      'A styled file picker over a real hidden <input type="file">, so the native picker, accept and multiple all work. Its value is the FileList (or null); a file input is write-only, so a form can only clear it.',
     hasPreview: true
   },
   {
@@ -410,7 +438,8 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/form-field',
     kind: 'ui',
     group: 'Forms',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description:
+      'The wrapper that gives a control its label, hint and error text, and wires the aria relationships between them so a screen reader announces the three together.',
     hasPreview: true
   },
   {
@@ -420,6 +449,8 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/core/form-field',
     kind: 'core',
     group: 'Headless primitives',
+    description:
+      'The wrapper that gives a control its label, hint and error text, and wires the aria relationships between them so a screen reader announces the three together.',
     hasPreview: false
   },
   {
@@ -447,7 +478,8 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/hotkeys',
     kind: 'ui',
     group: 'Actions',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description:
+      'The ?-triggered help overlay listing every registered hotkey, grouped. Mounted by {@link XuiHotkeysService.openHelp}; not intended to be used directly.',
     hasPreview: false
   },
   {
@@ -457,7 +489,8 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/html-select',
     kind: 'ui',
     group: 'Forms',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description:
+      'A styled native <select> — the platform dropdown, keyboard and mobile behaviour kept, only framed with a chevron. Options as data or projected <option> elements. Full ControlValueAccessor.',
     hasPreview: true
   },
   {
@@ -467,7 +500,7 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/icon',
     kind: 'ui',
     group: 'Foundations',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description: 'Sizing and colour for an @ng-icons icon.',
     hasPreview: false
   },
   {
@@ -477,7 +510,8 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/input',
     kind: 'ui',
     group: 'Forms',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description:
+      'A non-interactive adornment pinned to the leading edge of an input — an icon, a currency symbol, a short prefix. Pointer events pass through to the input.',
     hasPreview: true
   },
   {
@@ -487,7 +521,8 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/input-otp',
     kind: 'ui',
     group: 'Forms',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description:
+      'A segmented one-time-code / PIN field. A single hidden input drives the row, so native caret, paste and one-time-code autofill all work. value is two-way bindable; completed fires when every slot is filled.',
     hasPreview: true
   },
   {
@@ -497,6 +532,7 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/core/interactions',
     kind: 'core',
     group: 'Headless primitives',
+    description: "Emit whenever the host element's size changes.",
     hasPreview: false
   },
   {
@@ -506,7 +542,8 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/kbd',
     kind: 'ui',
     group: 'Data display',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description:
+      'A keyboard-key cap. Put xuiKbd on a <kbd> and chain several to spell a shortcut — the natural label for a @xui/hotkeys binding.',
     hasPreview: true
   },
   {
@@ -516,7 +553,8 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/konva',
     kind: 'ui',
     group: 'Visualisation',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description:
+      'Konva scenes written as Angular templates. <xui-konva-stage> is the canvas, <xui-konva-layer> a drawing surface on it, and every other tag — rect, circle, star, text … — a node inside. Everything Konva accepts goes through config; every Konva event is an Angular output.',
     hasPreview: true
   },
   {
@@ -526,7 +564,6 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/label',
     kind: 'ui',
     group: 'Forms',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
     hasPreview: false
   },
   {
@@ -545,7 +582,7 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/link',
     kind: 'ui',
     group: 'Foundations',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description: 'A styled anchor.',
     hasPreview: true
   },
   {
@@ -555,7 +592,8 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/menu',
     kind: 'ui',
     group: 'Overlays',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description:
+      "A list of commands, opened from a trigger. Built on the Angular CDK's menu primitives, so arrow-key navigation, typeahead, submenu aim, Escape and close-on-select all work — none of which jsdom exercises, so these stories are the real check.",
     hasPreview: true
   },
   {
@@ -565,7 +603,8 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/menubar',
     kind: 'ui',
     group: 'Navigation',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description:
+      "A desktop-style application menu bar. Built on the Angular CDK's CdkMenuBar: roving focus, arrow keys move between menus, and once one is open, hovering a sibling switches to it. Dropdowns are @xui/menu.",
     hasPreview: true
   },
   {
@@ -575,7 +614,8 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/multi-select',
     kind: 'ui',
     group: 'Forms',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description:
+      'A filterable multi-select: removable chips + a query input open a popover of options with a check on the chosen ones. Clicking an option toggles it and the popover stays open; Backspace on an empty query removes the last chip. [(selectedItems)] two-way binding.',
     hasPreview: true
   },
   {
@@ -585,7 +625,7 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/navbar',
     kind: 'ui',
     group: 'Navigation',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description: 'The bar across the top of an application.',
     hasPreview: true
   },
   {
@@ -595,7 +635,8 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/navigation-menu',
     kind: 'ui',
     group: 'Navigation',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description:
+      'A horizontal nav where items open a rich dropdown "mega menu". Panels open on hover or focus and share one viewport under the bar; items with an href and no template are plain links.',
     hasPreview: true
   },
   {
@@ -605,7 +646,7 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/node-graph',
     kind: 'ui',
     group: 'Visualisation',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description: 'Zoom and framing buttons for the enclosing canvas.',
     hasPreview: true
   },
   {
@@ -615,7 +656,7 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/non-ideal-state',
     kind: 'ui',
     group: 'Feedback',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description: 'The placeholder shown when there is nothing to show: an empty list, a failed search, an error.',
     hasPreview: true
   },
   {
@@ -625,7 +666,8 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/numeric-input',
     kind: 'ui',
     group: 'Forms',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description:
+      'A number field with steppers and keyboard increment. The value is a number | null (empty is null, not 0). ArrowUp/Down step; Shift is the coarse jump, Alt the fine nudge. Full ControlValueAccessor.',
     hasPreview: true
   },
   {
@@ -635,7 +677,8 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/omnibar',
     kind: 'ui',
     group: 'Overlays',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description:
+      'A ⌘K-style command palette: a top-centred overlay with a search field and a keyboard-navigable result list. Toggle with [(isOpen)]; Escape or a backdrop click closes. Items render with a custom [xuiSelectOption] template.',
     hasPreview: false
   },
   {
@@ -645,7 +688,7 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/overflow-list',
     kind: 'ui',
     group: 'Layout',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description: 'Marks the template used to render each visible item.',
     hasPreview: false
   },
   {
@@ -664,7 +707,8 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/pagination',
     kind: 'ui',
     group: 'Navigation',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description:
+      'Page navigation with prev/next, numbered pages with ellipses, an optional size changer and an item-count summary. pageIndex (1-based) and pageSize are two-way bindable.',
     hasPreview: true
   },
   {
@@ -674,7 +718,8 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/panel-stack',
     kind: 'ui',
     group: 'Navigation',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description:
+      'A stack of screens with a back-navigating header — a drill-down in a fixed space. Only the top panel renders; pushing slides in from the right, popping slides back. The slide and focus are not testable in jsdom, so this story is the real check.',
     hasPreview: false
   },
   {
@@ -684,7 +729,8 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/popover',
     kind: 'ui',
     group: 'Overlays',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description:
+      'A floating panel anchored to its trigger. The base of every Phase 3 overlay preset: tooltip is a hover popover, menu a click popover holding a menu. Positioning, Escape, outside-click and focus all come from @xui/core/overlay, so they cannot be checked in jsdom — these stories are where that behaviour is verified.',
     hasPreview: true
   },
   {
@@ -694,7 +740,7 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/progress-bar',
     kind: 'ui',
     group: 'Feedback',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description: 'A horizontal bar showing how far along an operation is.',
     hasPreview: true
   },
   {
@@ -713,7 +759,8 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/radio',
     kind: 'ui',
     group: 'Forms',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description:
+      'A single-choice group. The group owns the value, the shared name and a single tab stop — arrow keys move between options per the WAI-ARIA radio pattern. Bind forms to the group, never to individual radios.',
     hasPreview: true
   },
   {
@@ -723,7 +770,8 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/rate',
     kind: 'ui',
     group: 'Forms',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description:
+      'A star-rating input — hover to preview, click to set, click again to clear. Supports half stars and arrow-key adjustment; readonly renders a static score.',
     hasPreview: true
   },
   {
@@ -733,7 +781,8 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/result',
     kind: 'ui',
     group: 'Feedback',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description:
+      'A result / status page — status glyph, title, subtitle, body content and an [xuiResultExtra] action slot. Covers success/error/warning/info and the 404/403/500 HTTP codes.',
     hasPreview: true
   },
   {
@@ -743,7 +792,8 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/rich-text-editor',
     kind: 'ui',
     group: 'Forms',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description:
+      "A WYSIWYG editor whose value is source text: the user formats content, the binding is the Markdown or BBCode you store. The toolbar is the format's capabilities — Markdown gets headings, a divider and inline code; BBCode gets underline instead. </> swaps the formatted view for the source text, editable, and back.",
     hasPreview: true
   },
   {
@@ -753,7 +803,8 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/scroll-area',
     kind: 'ui',
     group: 'Layout',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description:
+      'A scroll container with slim, theme-aware scrollbars. Give the host a bound — a height for vertical scrolling, a width for horizontal.',
     hasPreview: true
   },
   {
@@ -763,7 +814,7 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/section',
     kind: 'ui',
     group: 'Layout',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description: 'A titled container for a group of related content.',
     hasPreview: true
   },
   {
@@ -773,7 +824,8 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/segmented-control',
     kind: 'ui',
     group: 'Forms',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description:
+      'A single-choice control as a row of segments — a compact toggle between a few mutually exclusive options. role="radiogroup" with one tab stop; arrow keys move between segments. Full ControlValueAccessor.',
     hasPreview: true
   },
   {
@@ -783,7 +835,8 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/select',
     kind: 'ui',
     group: 'Forms',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description:
+      'A filterable single-select. The trigger opens a popover with a search field and a keyboard-navigable list (Arrow keys + Enter, Escape closes). Items render with a custom [xuiSelectOption] template. [(selectedItem)] two-way binding.',
     hasPreview: true
   },
   {
@@ -793,7 +846,7 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/skeleton',
     kind: 'ui',
     group: 'Feedback',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description: 'Turn an existing element into a loading placeholder in place.',
     hasPreview: true
   },
   {
@@ -803,7 +856,8 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/slider',
     kind: 'ui',
     group: 'Forms',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description:
+      'A draggable handle along a track for choosing a number in a range. Drag the handle or click the track; arrow keys step, Home/End jump to the bounds, and PageUp/PageDown take larger strides. Full ControlValueAccessor.',
     hasPreview: true
   },
   {
@@ -813,7 +867,7 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/spinner',
     kind: 'ui',
     group: 'Feedback',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description: 'A circular progress indicator.',
     hasPreview: true
   },
   {
@@ -823,7 +877,8 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/splitter',
     kind: 'ui',
     group: 'Layout',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description:
+      'Resizable split panes — drag the gutter between two panels to resize them. Panels take percentage sizes with optional min/max; nest splitters for grids.',
     hasPreview: true
   },
   {
@@ -833,7 +888,8 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/statistic',
     kind: 'ui',
     group: 'Data display',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description:
+      'A single numeric statistic with an optional title, prefix/suffix and decimal precision — plus a live <xui-countdown> variant.',
     hasPreview: true
   },
   {
@@ -843,7 +899,7 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/status',
     kind: 'ui',
     group: 'Data display',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description: 'A coloured dot with a label, for the state of a thing — online, degraded, failed.',
     hasPreview: true
   },
   {
@@ -853,7 +909,8 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/steps',
     kind: 'ui',
     group: 'Navigation',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description:
+      "A step / wizard progress indicator. Bind current to the active index; each step's status (finish / process / wait) is derived automatically, or overridden per step. clickable lets the user jump between steps.",
     hasPreview: true
   },
   {
@@ -863,7 +920,8 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/suggest',
     kind: 'ui',
     group: 'Forms',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description:
+      'A typeahead autocomplete: the text input itself is the target. Typing filters a popover list; choosing an item fills the input. Arrow/Enter/Escape keyboard. [(selectedItem)] two-way binding.',
     hasPreview: true
   },
   {
@@ -873,7 +931,8 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/switch',
     kind: 'ui',
     group: 'Forms',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description:
+      'A toggle for an immediate on/off setting. A real role="switch" button: Space/Enter toggle it, and it is a ControlValueAccessor, so ngModel and reactive forms bind straight to it.',
     hasPreview: true
   },
   {
@@ -883,7 +942,8 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/table',
     kind: 'ui',
     group: 'Data display',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description:
+      'A data table. Layout is flex rather than table-layout, so a column can grow while the rest stay sized to their content, and the row parts stay addressable for striping and selection.',
     hasPreview: true
   },
   {
@@ -893,6 +953,8 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/core/table',
     kind: 'core',
     group: 'Headless primitives',
+    description:
+      'A data table. Layout is flex rather than table-layout, so a column can grow while the rest stay sized to their content, and the row parts stay addressable for striping and selection.',
     hasPreview: false
   },
   {
@@ -902,7 +964,8 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/tabs',
     kind: 'ui',
     group: 'Navigation',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description:
+      'Tabbed navigation. Arrow keys move between tabs (roving tabindex), Home/End jump to the ends, and disabled tabs are skipped. [(selectedTabId)] two-way binding; animate slides an indicator, vertical/fill/large adjust layout.',
     hasPreview: true
   },
   {
@@ -912,7 +975,8 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/tag',
     kind: 'ui',
     group: 'Data display',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description:
+      'A compact label chip — richer than the static xui-badge. Intents, a subtle minimal variant, round/large/fill, an optional leading icon, and a removable ✕ that emits removed.',
     hasPreview: true
   },
   {
@@ -922,7 +986,8 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/tag-input',
     kind: 'ui',
     group: 'Forms',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description:
+      "A token/chip input. Type and press Enter (or the separator) to add a tag; click a tag's ✕ or press Backspace on an empty field to remove one. Paste splits on the separator. [(values)] two-way binding and ControlValueAccessor.",
     hasPreview: true
   },
   {
@@ -932,7 +997,8 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/textarea',
     kind: 'ui',
     group: 'Forms',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description:
+      "A styled native <textarea>. ngModel/formControl, validation and the invalid-and-touched error styling all come from Angular's own textarea support — the directive only dresses it and, with autoResize, grows it.",
     hasPreview: true
   },
   {
@@ -942,7 +1008,8 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/time-picker',
     kind: 'ui',
     group: 'Date & time',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description:
+      'A time field with hour/minute (and optional second/millisecond) spin buttons. Arrow keys step each field with wrap-around; useAmPm switches to a 12-hour clock with an AM/PM toggle. [(value)] two-way binding.',
     hasPreview: true
   },
   {
@@ -952,7 +1019,8 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/timeline',
     kind: 'ui',
     group: 'Data display',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description:
+      'A vertical timeline of events — colored dots on a connecting axis with projected content and optional labels. Place the axis on the left or right.',
     hasPreview: true
   },
   {
@@ -962,7 +1030,8 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/timezone-select',
     kind: 'ui',
     group: 'Date & time',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description:
+      "A searchable time-zone picker: the runtime's IANA zones (via Intl.supportedValuesOf('timeZone')) fed into xui-select, each labelled with its current GMT offset. [(value)] holds the selected IANA id (a string).",
     hasPreview: false
   },
   {
@@ -972,7 +1041,7 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/toast',
     kind: 'ui',
     group: 'Overlays',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description: 'The stack the toaster renders its live notices into.',
     hasPreview: false
   },
   {
@@ -982,7 +1051,8 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/tooltip',
     kind: 'ui',
     group: 'Overlays',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description:
+      'A hint that floats over an element on hover or focus. A thin preset over the same @xui/core/overlay foundation as the popover — non-interactive, opens on focus for keyboard users, and describes its trigger via aria-describedby. Hover, focus and positioning cannot be exercised in jsdom, so these stories are where that behaviour is verified.',
     hasPreview: true
   },
   {
@@ -992,7 +1062,8 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/transfer',
     kind: 'ui',
     group: 'Forms',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description:
+      'A dual list-box — check items on either side and move them across with the arrow buttons. targetKeys (two-way) holds the keys on the right; each side has a header select-all and an optional search box.',
     hasPreview: true
   },
   {
@@ -1002,7 +1073,8 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/tree',
     kind: 'ui',
     group: 'Data display',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description:
+      'A hierarchical tree with expand/collapse carets, single selection, optional icons and secondary labels. Full keyboard support: Up/Down move, Right/Left expand/collapse or step in/out, Enter/Space select. [(selectedId)] binding.',
     hasPreview: true
   },
   {
@@ -1012,7 +1084,8 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/tree-select',
     kind: 'ui',
     group: 'Forms',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description:
+      'A select whose options form a tree — expand branches and pick nodes. Single mode binds one value; multiple shows removable chips with checkboxes.',
     hasPreview: true
   },
   {
@@ -1022,7 +1095,7 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/text',
     kind: 'ui',
     group: 'Foundations',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description: 'Typographic styling for a heading element.',
     hasPreview: true
   },
   {
@@ -1032,7 +1105,8 @@ export const COMPONENTS: ComponentSummary[] = [
     package: '@xui/upload',
     kind: 'ui',
     group: 'Forms',
-    description: 'Modern Angular 22 UI Library based on TailwindCSS',
+    description:
+      'A file upload — a button or a drag-and-drop zone with a file list showing size, progress and a remove control. files is two-way bindable; selected emits the raw Files for the host to upload.',
     hasPreview: true
   }
 ];

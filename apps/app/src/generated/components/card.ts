@@ -56,7 +56,7 @@ export const doc: ComponentDoc = {
   package: '@xui/card',
   kind: 'ui',
   group: 'Data display',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description: 'A bounded, elevated container for a single piece of content.',
   importsConst: 'XuiCardImports',
   exports: [
     'XuiCard',
@@ -157,13 +157,6 @@ export const doc: ComponentDoc = {
   <p xuiText color="muted" size="sm">Updated 2 hours ago</p>
 </div>`,
       preview: PreviewDefault
-    },
-    {
-      name: 'Elevations',
-      title: 'Elevations',
-      code: `<div class="flex flex-wrap gap-6">
-
-</div>`
     },
     {
       name: 'Interactive',

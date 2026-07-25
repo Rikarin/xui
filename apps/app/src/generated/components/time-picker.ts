@@ -45,7 +45,8 @@ export const doc: ComponentDoc = {
   package: '@xui/time-picker',
   kind: 'ui',
   group: 'Date & time',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description:
+    'A time field with hour/minute (and optional second/millisecond) spin buttons. Arrow keys step each field with wrap-around; useAmPm switches to a 12-hour clock with an AM/PM toggle. [(value)] two-way binding.',
   importsConst: 'XuiTimePickerImports',
   exports: ['XuiTimePicker', 'XuiTimePickerImports', 'TimePrecision'],
   peerDependencies: {

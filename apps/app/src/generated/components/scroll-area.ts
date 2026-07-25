@@ -49,7 +49,8 @@ export const doc: ComponentDoc = {
   package: '@xui/scroll-area',
   kind: 'ui',
   group: 'Layout',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description:
+    'A scroll container with slim, theme-aware scrollbars. Give the host a bound — a height for vertical scrolling, a width for horizontal.',
   importsConst: 'XuiScrollAreaImports',
   exports: ['XuiScrollArea', 'XuiScrollAreaImports', 'ScrollOrientation'],
   peerDependencies: {

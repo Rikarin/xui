@@ -97,7 +97,8 @@ export const doc: ComponentDoc = {
   package: '@xui/menu',
   kind: 'ui',
   group: 'Overlays',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description:
+    "A list of commands, opened from a trigger. Built on the Angular CDK's menu primitives, so arrow-key navigation, typeahead, submenu aim, Escape and close-on-select all work — none of which jsdom exercises, so these stories are the real check.",
   importsConst: 'XuiMenuImports',
   exports: ['XuiMenuDivider', 'XuiMenuItem', 'XuiMenuTrigger', 'XuiMenu', 'XuiMenuImports', 'XuiMenuItemIntent'],
   peerDependencies: {

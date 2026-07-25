@@ -48,7 +48,8 @@ export const doc: ComponentDoc = {
   package: '@xui/rate',
   kind: 'ui',
   group: 'Forms',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description:
+    'A star-rating input — hover to preview, click to set, click again to clear. Supports half stars and arrow-key adjustment; readonly renders a static score.',
   importsConst: 'XuiRateImports',
   exports: ['XuiRate', 'XuiRateImports'],
   peerDependencies: {

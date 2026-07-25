@@ -61,7 +61,8 @@ export const doc: ComponentDoc = {
   package: '@xui/html-select',
   kind: 'ui',
   group: 'Forms',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description:
+    'A styled native <select> — the platform dropdown, keyboard and mobile behaviour kept, only framed with a chevron. Options as data or projected <option> elements. Full ControlValueAccessor.',
   importsConst: 'XuiHtmlSelectImports',
   exports: ['XuiHtmlSelect', 'XuiHtmlSelectImports', 'XuiHtmlSelectVariants', 'XuiHtmlSelectOption'],
   peerDependencies: {

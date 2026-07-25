@@ -37,7 +37,8 @@ export const doc: ComponentDoc = {
   package: '@xui/textarea',
   kind: 'ui',
   group: 'Forms',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description:
+    "A styled native <textarea>. ngModel/formControl, validation and the invalid-and-touched error styling all come from Angular's own textarea support — the directive only dresses it and, with autoResize, grows it.",
   importsConst: 'XuiTextareaImports',
   exports: ['XuiTextarea', 'XuiTextareaImports', 'textareaVariants', 'TextareaVariants'],
   peerDependencies: {

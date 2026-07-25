@@ -52,7 +52,8 @@ export const doc: ComponentDoc = {
   package: '@xui/control-group',
   kind: 'ui',
   group: 'Forms',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description:
+    'Groups adjacent inputs and buttons into one seamless unit — the rounding and doubled borders between neighbours collapse, and the shared 1px border is overlapped so it never reads as double-width.',
   importsConst: 'XuiControlGroupImports',
   exports: ['XuiControlGroup', 'XuiControlGroupImports', 'XuiControlGroupVariants'],
   peerDependencies: {

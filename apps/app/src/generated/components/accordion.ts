@@ -69,7 +69,8 @@ export const doc: ComponentDoc = {
   package: '@xui/accordion',
   kind: 'ui',
   group: 'Layout',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description:
+    'A vertical stack of expandable sections. One panel opens at a time by default; multiple lets several stay open. value is the two-way list of open items.',
   importsConst: 'XuiAccordionImports',
   exports: ['XuiAccordionItem', 'XuiAccordion', 'XuiAccordionImports'],
   peerDependencies: {

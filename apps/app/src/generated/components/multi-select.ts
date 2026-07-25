@@ -35,7 +35,8 @@ export const doc: ComponentDoc = {
   package: '@xui/multi-select',
   kind: 'ui',
   group: 'Forms',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description:
+    'A filterable multi-select: removable chips + a query input open a popover of options with a check on the chosen ones. Clicking an option toggles it and the popover stays open; Backspace on an empty query removes the last chip. [(selectedItems)] two-way binding.',
   importsConst: 'XuiMultiSelectImports',
   exports: ['XuiMultiSelect', 'XuiMultiSelectImports'],
   peerDependencies: {

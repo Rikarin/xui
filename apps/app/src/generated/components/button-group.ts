@@ -270,7 +270,8 @@ export const doc: ComponentDoc = {
   package: '@xui/button-group',
   kind: 'ui',
   group: 'Actions',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description:
+    'A row of buttons that read as one control. The group squares off the inner corners and collapses the shared borders, so the segments meet cleanly at any size.',
   importsConst: 'XuiButtonGroupImports',
   exports: ['XuiButtonGroup', 'XuiButtonGroupImports', 'ButtonGroupAlign', 'ButtonGroupVariants'],
   peerDependencies: {

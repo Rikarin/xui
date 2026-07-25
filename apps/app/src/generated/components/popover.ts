@@ -95,7 +95,8 @@ export const doc: ComponentDoc = {
   package: '@xui/popover',
   kind: 'ui',
   group: 'Overlays',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description:
+    'A floating panel anchored to its trigger. The base of every Phase 3 overlay preset: tooltip is a hover popover, menu a click popover holding a menu. Positioning, Escape, outside-click and focus all come from @xui/core/overlay, so they cannot be checked in jsdom — these stories are where that behaviour is verified.',
   importsConst: 'XuiPopoverImports',
   exports: [
     'XuiPopoverPanel',

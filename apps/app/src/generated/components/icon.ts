@@ -8,7 +8,7 @@ export const doc: ComponentDoc = {
   package: '@xui/icon',
   kind: 'ui',
   group: 'Foundations',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description: 'Sizing and colour for an @ng-icons icon.',
   importsConst: 'XuiIconImports',
   exports: [
     'XuiIcon',

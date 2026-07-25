@@ -8,7 +8,7 @@ export const doc: ComponentDoc = {
   package: '@xui/overflow-list',
   kind: 'ui',
   group: 'Layout',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description: 'Marks the template used to render each visible item.',
   importsConst: 'XuiOverflowListImports',
   exports: [
     'XuiOverflowListItem',

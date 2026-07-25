@@ -8,7 +8,8 @@ export const doc: ComponentDoc = {
   package: '@xui/core/table',
   kind: 'core',
   group: 'Headless primitives',
-  description: undefined,
+  description:
+    'A data table. Layout is flex rather than table-layout, so a column can grow while the rest stay sized to their content, and the row parts stay addressable for striping and selection.',
   importsConst: undefined,
   exports: [
     'XCellDef',

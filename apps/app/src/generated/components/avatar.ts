@@ -69,7 +69,8 @@ export const doc: ComponentDoc = {
   package: '@xui/avatar',
   kind: 'ui',
   group: 'Data display',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description:
+    'A compact user/entity representation — image, text initials, or a projected icon, with an automatic fallback when the image fails. Group several with <xui-avatar-group> to overlap them, optionally collapsing past max.',
   importsConst: 'XuiAvatarImports',
   exports: ['XuiAvatarGroup', 'XuiAvatar', 'XuiAvatarImports', 'avatarVariants', 'AvatarVariants'],
   peerDependencies: {

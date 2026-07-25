@@ -8,7 +8,7 @@ export const doc: ComponentDoc = {
   package: '@xui/core/interactions',
   kind: 'core',
   group: 'Headless primitives',
-  description: undefined,
+  description: "Emit whenever the host element's size changes.",
   importsConst: undefined,
   exports: ['XResizeSensor', 'XElementSize', 'injectElementSize', 'XOutsideClickOptions', 'injectOutsideClick'],
   peerDependencies: {

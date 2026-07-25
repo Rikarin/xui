@@ -32,7 +32,8 @@ export const doc: ComponentDoc = {
   package: '@xui/transfer',
   kind: 'ui',
   group: 'Forms',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description:
+    'A dual list-box — check items on either side and move them across with the arrow buttons. targetKeys (two-way) holds the keys on the right; each side has a header select-all and an optional search box.',
   importsConst: 'XuiTransferImports',
   exports: ['XuiTransfer', 'XuiTransferImports', 'XuiTransferItem'],
   peerDependencies: {

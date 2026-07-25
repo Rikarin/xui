@@ -63,7 +63,8 @@ export const doc: ComponentDoc = {
   package: '@xui/drawer',
   kind: 'ui',
   group: 'Overlays',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description:
+    'A panel that slides in from an edge. Same modal overlay as the dialog, pinned to a side and sized on its sliding axis, with a Web-Animations slide-in. Position, animation and focus are not testable in jsdom — verify here.',
   importsConst: 'XuiDrawerImports',
   exports: [
     'XuiDrawer',

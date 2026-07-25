@@ -2,16 +2,10 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "storybook",
+      "name": "docs",
       "runtimeExecutable": "pnpm",
-      "runtimeArgs": ["exec", "nx", "storybook", "ui-storybook"],
-      "port": 4400
-    },
-    {
-      "name": "storybook-alt",
-      "runtimeExecutable": "pnpm",
-      "runtimeArgs": ["exec", "nx", "storybook", "ui-storybook", "--port", "4401"],
-      "port": 4401
+      "runtimeArgs": ["exec", "nx", "serve", "app"],
+      "port": 4200
     }
   ]
 }

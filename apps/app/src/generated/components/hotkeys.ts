@@ -8,7 +8,8 @@ export const doc: ComponentDoc = {
   package: '@xui/hotkeys',
   kind: 'ui',
   group: 'Actions',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description:
+    'The ?-triggered help overlay listing every registered hotkey, grouped. Mounted by {@link XuiHotkeysService.openHelp}; not intended to be used directly.',
   importsConst: undefined,
   exports: [
     'XuiHotkeysDialog',

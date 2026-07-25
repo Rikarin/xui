@@ -51,7 +51,8 @@ export const doc: ComponentDoc = {
   package: '@xui/editable-text',
   kind: 'ui',
   group: 'Forms',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description:
+    'Inline click-to-edit text. Click (or focus + Enter) to edit; Enter or blur confirms, Escape reverts. multiline uses a textarea. Full ControlValueAccessor and [(value)] two-way binding.',
   importsConst: 'XuiEditableTextImports',
   exports: ['XuiEditableText', 'XuiEditableTextImports', 'EditableTextVariants', 'XUI_EDITABLE_TEXT_VALUE_ACCESSOR'],
   peerDependencies: {

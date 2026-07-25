@@ -18,7 +18,7 @@ export const doc: ComponentDoc = {
   package: '@xui/spinner',
   kind: 'ui',
   group: 'Feedback',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description: 'A circular progress indicator.',
   importsConst: 'XuiSpinnerImports',
   exports: [
     'XuiSpinner',
@@ -92,27 +92,6 @@ export const doc: ComponentDoc = {
       title: 'Default',
       code: `<xui-spinner color="primary" size="md">Loading</xui-spinner>`,
       preview: PreviewDefault
-    },
-    {
-      name: 'Determinate',
-      title: 'Determinate',
-      code: `<div class="flex items-center gap-4">
-
-</div>`
-    },
-    {
-      name: 'Sizes',
-      title: 'Sizes',
-      code: `<div class="flex items-center gap-4">
-
-</div>`
-    },
-    {
-      name: 'Colors',
-      title: 'Colors',
-      code: `<div class="flex items-center gap-4">
-
-</div>`
     }
   ]
 };

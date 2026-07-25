@@ -56,7 +56,7 @@ export const doc: ComponentDoc = {
   package: '@xui/collapse',
   kind: 'ui',
   group: 'Layout',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description: 'Animates its content open and closed.',
   importsConst: 'XuiCollapseImports',
   exports: ['XuiCollapse', 'XuiCollapseImports'],
   peerDependencies: {

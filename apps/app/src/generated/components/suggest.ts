@@ -26,7 +26,8 @@ export const doc: ComponentDoc = {
   package: '@xui/suggest',
   kind: 'ui',
   group: 'Forms',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description:
+    'A typeahead autocomplete: the text input itself is the target. Typing filters a popover list; choosing an item fills the input. Arrow/Enter/Escape keyboard. [(selectedItem)] two-way binding.',
   importsConst: 'XuiSuggestImports',
   exports: ['XuiSuggest', 'XuiSuggestImports'],
   peerDependencies: {

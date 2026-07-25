@@ -76,7 +76,8 @@ export const doc: ComponentDoc = {
   package: '@xui/echarts',
   kind: 'ui',
   group: 'Visualisation',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description:
+    'Apache ECharts behind one component. The whole chart is the option input, every ECharts event is an output, and the wrapper owns the fiddly parts: merging option changes instead of redrawing, resizing with the container, theming from the @xui/core tokens in light *and* dark, and disposing with the component. ECharts itself is provided by the app, so the choice between the full build and a tree-shaken one stays where it belongs:',
   importsConst: 'XuiEChartImports',
   exports: [
     'XuiEChartGroup',

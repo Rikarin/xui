@@ -44,7 +44,8 @@ export const doc: ComponentDoc = {
   package: '@xui/segmented-control',
   kind: 'ui',
   group: 'Forms',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description:
+    'A single-choice control as a row of segments — a compact toggle between a few mutually exclusive options. role="radiogroup" with one tab stop; arrow keys move between segments. Full ControlValueAccessor.',
   importsConst: 'XuiSegmentedControlImports',
   exports: ['XuiSegmentedControl', 'XuiSegmentedControlImports', 'XuiSegmentedControlVariants', 'XuiSegmentedOption'],
   peerDependencies: {

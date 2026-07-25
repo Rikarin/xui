@@ -41,7 +41,8 @@ export const doc: ComponentDoc = {
   package: '@xui/context-menu',
   kind: 'ui',
   group: 'Overlays',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description:
+    "Opens the same @xui/menu panel where the user right-clicks. Built on CdkContextMenuTrigger, so it shares the menu's keyboard model, submenu aim and dismissal — only the way it opens differs. Right-click is not something jsdom exercises, so this story is the real check.",
   importsConst: 'XuiContextMenuImports',
   exports: ['XuiContextMenuTrigger', 'XuiContextMenuImports'],
   peerDependencies: {

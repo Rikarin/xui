@@ -37,7 +37,8 @@ export const doc: ComponentDoc = {
   package: '@xui/date-range-picker',
   kind: 'ui',
   group: 'Date & time',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description:
+    'A multi-month calendar for choosing a date range. First click sets the start, the second the end (hovering previews the span); clicking again starts over. [(range)] two-way binding, months (1 or 2), min/max/dateFilter, allowSingleDayRange.',
   importsConst: 'XuiDateRangePickerImports',
   exports: ['XuiDateRangePicker', 'XuiDateRangePickerImports', 'XuiDateRange'],
   peerDependencies: {

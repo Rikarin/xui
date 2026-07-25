@@ -8,7 +8,7 @@ export const doc: ComponentDoc = {
   package: '@xui/label',
   kind: 'ui',
   group: 'Forms',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description: undefined,
   importsConst: 'XuiLabelImports',
   exports: ['XuiLabel', 'XuiLabelImports', 'labelVariants', 'LabelVariants'],
   peerDependencies: {

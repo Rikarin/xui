@@ -8,7 +8,8 @@ export const doc: ComponentDoc = {
   package: '@xui/core/checkbox',
   kind: 'core',
   group: 'Headless primitives',
-  description: undefined,
+  description:
+    'A tri-state checkbox. It is a ControlValueAccessor, so ngModel and reactive forms bind straight to it, and indeterminate renders the mixed state a parent checkbox needs.',
   importsConst: undefined,
   exports: ['XCheckbox', 'XCheckboxImports', 'X_CHECKBOX_VALUE_ACCESSOR'],
   peerDependencies: {

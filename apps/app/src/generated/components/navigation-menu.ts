@@ -47,7 +47,8 @@ export const doc: ComponentDoc = {
   package: '@xui/navigation-menu',
   kind: 'ui',
   group: 'Navigation',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description:
+    'A horizontal nav where items open a rich dropdown "mega menu". Panels open on hover or focus and share one viewport under the bar; items with an href and no template are plain links.',
   importsConst: 'XuiNavigationMenuImports',
   exports: ['XuiNavigationMenuItem', 'XuiNavigationMenu', 'XuiNavigationMenuImports'],
   peerDependencies: {

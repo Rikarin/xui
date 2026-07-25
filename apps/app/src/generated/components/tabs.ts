@@ -85,7 +85,8 @@ export const doc: ComponentDoc = {
   package: '@xui/tabs',
   kind: 'ui',
   group: 'Navigation',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description:
+    'Tabbed navigation. Arrow keys move between tabs (roving tabindex), Home/End jump to the ends, and disabled tabs are skipped. [(selectedTabId)] two-way binding; animate slides an indicator, vertical/fill/large adjust layout.',
   importsConst: 'XuiTabsImports',
   exports: ['XuiTabTitle', 'XuiTab', 'XuiTabs', 'XuiTabsImports', 'TabsVariants'],
   peerDependencies: {

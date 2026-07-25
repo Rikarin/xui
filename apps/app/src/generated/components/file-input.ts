@@ -42,7 +42,8 @@ export const doc: ComponentDoc = {
   package: '@xui/file-input',
   kind: 'ui',
   group: 'Forms',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description:
+    'A styled file picker over a real hidden <input type="file">, so the native picker, accept and multiple all work. Its value is the FileList (or null); a file input is write-only, so a form can only clear it.',
   importsConst: 'XuiFileInputImports',
   exports: ['XuiFileInput', 'XuiFileInputImports', 'XuiFileInputVariants'],
   peerDependencies: {

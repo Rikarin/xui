@@ -70,7 +70,8 @@ export const doc: ComponentDoc = {
   package: '@xui/control-card',
   kind: 'ui',
   group: 'Forms',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description:
+    'A selectable card wrapping a label and a checkbox/radio/switch indicator. The whole card is the control — click or press Space/Enter to toggle — and it shows an accented "selected" style while checked. Full ControlValueAccessor.',
   importsConst: 'XuiControlCardImports',
   exports: [
     'XuiControlCard',

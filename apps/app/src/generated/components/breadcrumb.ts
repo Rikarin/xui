@@ -69,7 +69,7 @@ export const doc: ComponentDoc = {
   package: '@xui/breadcrumb',
   kind: 'ui',
   group: 'Navigation',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description: 'A navigable crumb.',
   importsConst: 'XuiBreadcrumbImports',
   exports: [
     'XuiBreadcrumbEllipsis',

@@ -8,7 +8,8 @@ export const doc: ComponentDoc = {
   package: '@xui/date-range-input',
   kind: 'ui',
   group: 'Date & time',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description:
+    'A date-range field: two text inputs (start → end) that share one popover calendar. Focusing either field opens the range picker; typing a boundary parses just that end. [(range)] two-way binding.',
   importsConst: 'XuiDateRangeInputImports',
   exports: ['XuiDateRangeInput', 'XuiDateRangeInputImports'],
   peerDependencies: {

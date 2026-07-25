@@ -99,7 +99,8 @@ export const doc: ComponentDoc = {
   package: '@xui/konva',
   kind: 'ui',
   group: 'Visualisation',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description:
+    'Konva scenes written as Angular templates. <xui-konva-stage> is the canvas, <xui-konva-layer> a drawing surface on it, and every other tag — rect, circle, star, text … — a node inside. Everything Konva accepts goes through config; every Konva event is an Angular output.',
   importsConst: 'XuiKonvaImports',
   exports: [
     'XuiKonvaShape',

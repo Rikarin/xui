@@ -1,6 +1,10 @@
 import { argsToTemplate, Meta, moduleMetadata, StoryObj } from '@storybook/angular-vite';
 import { XuiButton, XuiButtonImports } from '@xui/button';
 
+/**
+ * A clickable action. A directive rather than a component, so it styles a real `<button>` or
+ * `<a>` and keeps their semantics — including `disabled`, form submission and link navigation.
+ */
 const meta: Meta<XuiButton> = {
   title: 'Actions/Button',
   component: XuiButton,

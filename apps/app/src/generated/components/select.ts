@@ -42,7 +42,8 @@ export const doc: ComponentDoc = {
   package: '@xui/select',
   kind: 'ui',
   group: 'Forms',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description:
+    'A filterable single-select. The trigger opens a popover with a search field and a keyboard-navigable list (Arrow keys + Enter, Escape closes). Items render with a custom [xuiSelectOption] template. [(selectedItem)] two-way binding.',
   importsConst: 'XuiSelectImports',
   exports: ['XuiSelectOption', 'XuiSelect', 'XuiSelectImports', 'XuiSelectItemContext'],
   peerDependencies: {

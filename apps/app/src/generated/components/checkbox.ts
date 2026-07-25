@@ -101,7 +101,8 @@ export const doc: ComponentDoc = {
   package: '@xui/checkbox',
   kind: 'ui',
   group: 'Forms',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description:
+    'A tri-state checkbox. It is a ControlValueAccessor, so ngModel and reactive forms bind straight to it, and indeterminate renders the mixed state a parent checkbox needs.',
   importsConst: 'XuiCheckboxImports',
   exports: [
     'XuiCheckbox',

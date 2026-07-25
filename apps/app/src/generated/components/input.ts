@@ -102,7 +102,8 @@ export const doc: ComponentDoc = {
   package: '@xui/input',
   kind: 'ui',
   group: 'Forms',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description:
+    'A non-interactive adornment pinned to the leading edge of an input — an icon, a currency symbol, a short prefix. Pointer events pass through to the input.',
   importsConst: 'XuiInputImports',
   exports: [
     'XuiInputLeftElement',

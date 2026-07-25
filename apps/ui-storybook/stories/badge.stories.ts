@@ -1,6 +1,9 @@
 import { type Meta, type StoryObj, argsToTemplate, moduleMetadata } from '@storybook/angular-vite';
 import { XuiBadge, XuiBadgeImports } from '@xui/badge';
 
+/**
+ * A small count or status marker, anchored to the corner of whatever it wraps.
+ */
 const meta: Meta<XuiBadge> = {
   title: 'Data display/Badge',
   component: XuiBadge,

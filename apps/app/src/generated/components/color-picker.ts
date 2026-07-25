@@ -70,7 +70,8 @@ export const doc: ComponentDoc = {
   package: '@xui/color-picker',
   kind: 'ui',
   group: 'Forms',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description:
+    'A color picker — the swatch trigger opens a panel with a saturation/value square, hue slider, optional alpha slider, a channel input row and preset swatches. value is a two-way bindable hex string; the input row switches between HEX, HSL and LCH via the format selector.',
   importsConst: 'XuiColorPickerImports',
   exports: [
     'XuiColorPicker',

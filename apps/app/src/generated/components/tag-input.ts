@@ -55,7 +55,8 @@ export const doc: ComponentDoc = {
   package: '@xui/tag-input',
   kind: 'ui',
   group: 'Forms',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description:
+    "A token/chip input. Type and press Enter (or the separator) to add a tag; click a tag's ✕ or press Backspace on an empty field to remove one. Paste splits on the separator. [(values)] two-way binding and ControlValueAccessor.",
   importsConst: 'XuiTagInputImports',
   exports: ['XuiTagInput', 'XuiTagInputImports', 'TagInputVariants', 'XUI_TAG_INPUT_VALUE_ACCESSOR'],
   peerDependencies: {

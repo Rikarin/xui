@@ -50,7 +50,8 @@ export const doc: ComponentDoc = {
   package: '@xui/splitter',
   kind: 'ui',
   group: 'Layout',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description:
+    'Resizable split panes — drag the gutter between two panels to resize them. Panels take percentage sizes with optional min/max; nest splitters for grids.',
   importsConst: 'XuiSplitterImports',
   exports: ['XuiSplitterPanel', 'XuiSplitter', 'XuiSplitterImports'],
   peerDependencies: {

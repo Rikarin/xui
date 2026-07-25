@@ -1,5 +1,4 @@
 {
-  "$schema": "../../node_modules/wrangler/config-schema.json",
   "name": "xui-docs",
   "compatibility_date": "2025-11-01",
   // Angular's server bundle reaches for a handful of Node built-ins even on the web runtime.

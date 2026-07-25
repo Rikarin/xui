@@ -57,7 +57,8 @@ export const doc: ComponentDoc = {
   package: '@xui/descriptions',
   kind: 'ui',
   group: 'Data display',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description:
+    'A key/value description list on a responsive grid — set column, switch layout between inline and stacked, and toggle the bordered table variant.',
   importsConst: 'XuiDescriptionsImports',
   exports: ['XuiDescriptionsItem', 'XuiDescriptions', 'XuiDescriptionsImports'],
   peerDependencies: {

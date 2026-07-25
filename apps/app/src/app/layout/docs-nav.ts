@@ -36,8 +36,8 @@ const GUIDES = [
           @for (guide of guides; track guide.path) {
             <li>
               <a
-                class="text-foreground-muted hover:bg-surface-raised hover:text-foreground block rounded-md px-2 py-1.5 text-sm transition-colors"
-                routerLinkActive="bg-surface-raised text-foreground font-medium"
+                class="text-foreground-muted hover:bg-surface-inset hover:text-foreground block rounded-md px-2 py-1.5 text-sm transition-colors"
+                routerLinkActive="bg-surface-inset text-foreground font-medium"
                 [routerLink]="guide.path"
                 [routerLinkActiveOptions]="{ exact: true }"
                 (click)="layout.closeMobileNav()"
@@ -56,8 +56,8 @@ const GUIDES = [
           @for (component of group.items; track component.slug) {
             <li>
               <a
-                class="text-foreground-muted hover:bg-surface-raised hover:text-foreground block rounded-md px-2 py-1.5 text-sm transition-colors"
-                routerLinkActive="bg-surface-raised text-foreground font-medium"
+                class="text-foreground-muted hover:bg-surface-inset hover:text-foreground block rounded-md px-2 py-1.5 text-sm transition-colors"
+                routerLinkActive="bg-surface-inset text-foreground font-medium"
                 [routerLink]="['/docs/components', component.slug]"
                 (click)="layout.closeMobileNav()"
                 >{{ component.title }}</a

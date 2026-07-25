@@ -133,7 +133,7 @@ export const doc: ComponentDoc = {
   package: '@xui/node-graph',
   kind: 'ui',
   group: 'Visualisation',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description: 'Zoom and framing buttons for the enclosing canvas.',
   importsConst: 'XuiNodeGraphImports',
   exports: [
     'XuiGraphControls',

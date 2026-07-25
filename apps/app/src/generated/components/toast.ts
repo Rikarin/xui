@@ -8,7 +8,7 @@ export const doc: ComponentDoc = {
   package: '@xui/toast',
   kind: 'ui',
   group: 'Overlays',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description: 'The stack the toaster renders its live notices into.',
   importsConst: 'XuiToastImports',
   exports: [
     'XuiToastContainer',

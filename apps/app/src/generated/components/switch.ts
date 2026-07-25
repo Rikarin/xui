@@ -61,7 +61,8 @@ export const doc: ComponentDoc = {
   package: '@xui/switch',
   kind: 'ui',
   group: 'Forms',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description:
+    'A toggle for an immediate on/off setting. A real role="switch" button: Space/Enter toggle it, and it is a ControlValueAccessor, so ngModel and reactive forms bind straight to it.',
   importsConst: 'XuiSwitchImports',
   exports: [
     'XuiSwitch',

@@ -104,7 +104,7 @@ export const doc: ComponentDoc = {
   package: '@xui/text',
   kind: 'ui',
   group: 'Foundations',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description: 'Typographic styling for a heading element.',
   importsConst: 'XuiTextImports',
   exports: [
     'XuiHeading',

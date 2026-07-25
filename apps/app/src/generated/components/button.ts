@@ -185,7 +185,8 @@ export const doc: ComponentDoc = {
   package: '@xui/button',
   kind: 'ui',
   group: 'Actions',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description:
+    'A clickable action. A directive rather than a component, so it styles a real <button> or <a> and keeps their semantics — including disabled, form submission and link navigation.',
   importsConst: 'XuiButtonImports',
   exports: [
     'XuiButton',

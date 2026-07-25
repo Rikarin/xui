@@ -3,6 +3,10 @@ import { XuiButtonImports } from '@xui/button';
 import { XuiButtonGroup, XuiButtonGroupImports } from '@xui/button-group';
 import { XuiMenuImports } from '@xui/menu';
 
+/**
+ * A row of buttons that read as one control. The group squares off the inner corners and
+ * collapses the shared borders, so the segments meet cleanly at any size.
+ */
 const meta: Meta<XuiButtonGroup> = {
   title: 'Actions/Button group',
   component: XuiButtonGroup,

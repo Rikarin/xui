@@ -8,7 +8,8 @@ export const doc: ComponentDoc = {
   package: '@xui/core/form-field',
   kind: 'core',
   group: 'Headless primitives',
-  description: undefined,
+  description:
+    'The wrapper that gives a control its label, hint and error text, and wires the aria relationships between them so a screen reader announces the three together.',
   importsConst: undefined,
   exports: ['XFormFieldControl'],
   peerDependencies: {

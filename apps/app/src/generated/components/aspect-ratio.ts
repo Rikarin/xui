@@ -45,7 +45,8 @@ export const doc: ComponentDoc = {
   package: '@xui/aspect-ratio',
   kind: 'ui',
   group: 'Layout',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description:
+    'Locks content to a fixed width : height ratio. Give it a width; the height follows. Handy for images, video embeds and placeholder tiles.',
   importsConst: 'XuiAspectRatioImports',
   exports: ['XuiAspectRatio', 'XuiAspectRatioImports'],
   peerDependencies: {

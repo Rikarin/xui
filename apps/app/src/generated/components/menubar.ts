@@ -58,7 +58,8 @@ export const doc: ComponentDoc = {
   package: '@xui/menubar',
   kind: 'ui',
   group: 'Navigation',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description:
+    "A desktop-style application menu bar. Built on the Angular CDK's CdkMenuBar: roving focus, arrow keys move between menus, and once one is open, hovering a sibling switches to it. Dropdowns are @xui/menu.",
   importsConst: 'XuiMenubarImports',
   exports: ['XuiMenubar', 'XuiMenubarTrigger', 'XuiMenubarImports'],
   peerDependencies: {

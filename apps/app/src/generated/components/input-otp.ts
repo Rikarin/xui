@@ -55,7 +55,8 @@ export const doc: ComponentDoc = {
   package: '@xui/input-otp',
   kind: 'ui',
   group: 'Forms',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description:
+    'A segmented one-time-code / PIN field. A single hidden input drives the row, so native caret, paste and one-time-code autofill all work. value is two-way bindable; completed fires when every slot is filled.',
   importsConst: 'XuiInputOtpImports',
   exports: ['XuiInputOtp', 'XuiInputOtpImports'],
   peerDependencies: {

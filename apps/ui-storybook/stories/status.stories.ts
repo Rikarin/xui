@@ -2,6 +2,9 @@ import type { Meta, StoryObj } from '@storybook/angular-vite';
 import { moduleMetadata } from '@storybook/angular-vite';
 import { XuiStatus, XuiStatusImports } from '@xui/status';
 
+/**
+ * A coloured dot with a label, for the state of a thing — online, degraded, failed.
+ */
 export default {
   title: 'Data display/Status',
   component: XuiStatus,

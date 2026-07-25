@@ -8,7 +8,8 @@ export const doc: ComponentDoc = {
   package: '@xui/timezone-select',
   kind: 'ui',
   group: 'Date & time',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description:
+    "A searchable time-zone picker: the runtime's IANA zones (via Intl.supportedValuesOf('timeZone')) fed into xui-select, each labelled with its current GMT offset. [(value)] holds the selected IANA id (a string).",
   importsConst: 'XuiTimezoneSelectImports',
   exports: ['XuiTimezoneSelect', 'XuiTimezoneSelectImports'],
   peerDependencies: {

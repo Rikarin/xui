@@ -75,7 +75,8 @@ export const doc: ComponentDoc = {
   package: '@xui/tooltip',
   kind: 'ui',
   group: 'Overlays',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description:
+    'A hint that floats over an element on hover or focus. A thin preset over the same @xui/core/overlay foundation as the popover — non-interactive, opens on focus for keyboard users, and describes its trigger via aria-describedby. Hover, focus and positioning cannot be exercised in jsdom, so these stories are where that behaviour is verified.',
   importsConst: 'XuiTooltipImports',
   exports: [
     'XuiTooltipPanel',

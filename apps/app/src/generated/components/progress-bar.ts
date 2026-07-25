@@ -58,7 +58,7 @@ export const doc: ComponentDoc = {
   package: '@xui/progress-bar',
   kind: 'ui',
   group: 'Feedback',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description: 'A horizontal bar showing how far along an operation is.',
   importsConst: 'XuiProgressBarImports',
   exports: [
     'XuiProgressBar',
@@ -191,13 +191,6 @@ export const doc: ComponentDoc = {
   <xui-progress-bar size="lg"  />
 </div>`,
       preview: PreviewSizes
-    },
-    {
-      name: 'Colors',
-      title: 'Colors',
-      code: `<div class="flex max-w-sm flex-col gap-4">
-
-</div>`
     },
     {
       name: 'WithoutStripes',

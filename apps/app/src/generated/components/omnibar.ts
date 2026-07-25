@@ -8,7 +8,8 @@ export const doc: ComponentDoc = {
   package: '@xui/omnibar',
   kind: 'ui',
   group: 'Overlays',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description:
+    'A ⌘K-style command palette: a top-centred overlay with a search field and a keyboard-navigable result list. Toggle with [(isOpen)]; Escape or a backdrop click closes. Items render with a custom [xuiSelectOption] template.',
   importsConst: 'XuiOmnibarImports',
   exports: ['XuiOmnibar', 'XuiOmnibarImports'],
   peerDependencies: {

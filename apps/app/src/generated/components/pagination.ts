@@ -47,7 +47,8 @@ export const doc: ComponentDoc = {
   package: '@xui/pagination',
   kind: 'ui',
   group: 'Navigation',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description:
+    'Page navigation with prev/next, numbered pages with ellipses, an optional size changer and an item-count summary. pageIndex (1-based) and pageSize are two-way bindable.',
   importsConst: 'XuiPaginationImports',
   exports: ['XuiPagination', 'XuiPaginationImports', 'paginationRange'],
   peerDependencies: {

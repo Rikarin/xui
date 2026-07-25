@@ -30,7 +30,8 @@ export const doc: ComponentDoc = {
   package: '@xui/upload',
   kind: 'ui',
   group: 'Forms',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description:
+    'A file upload — a button or a drag-and-drop zone with a file list showing size, progress and a remove control. files is two-way bindable; selected emits the raw Files for the host to upload.',
   importsConst: 'XuiUploadImports',
   exports: ['XuiUpload', 'XuiUploadImports', 'UploadStatus', 'XuiUploadFile'],
   peerDependencies: {

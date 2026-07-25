@@ -75,7 +75,8 @@ export const doc: ComponentDoc = {
   package: '@xui/form-field',
   kind: 'ui',
   group: 'Forms',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description:
+    'The wrapper that gives a control its label, hint and error text, and wires the aria relationships between them so a screen reader announces the three together.',
   importsConst: 'XuiFormFieldImports',
   exports: ['XuiError', 'XuiFormField', 'XuiHint', 'XuiFormFieldImports', 'FormFieldIntent'],
   peerDependencies: {

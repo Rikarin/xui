@@ -103,9 +103,9 @@ export class Example {}`;
     <docs-site-header />
 
     <main id="main">
-      <section class="mx-auto max-w-[100rem] px-4 pt-16 pb-12 sm:px-6 sm:pt-24 sm:pb-16">
+      <section class="mx-auto max-w-[100rem] px-4 pt-12 pb-12 sm:px-6 sm:pt-16 sm:pb-16">
         <div class="max-w-3xl">
-          <xui-tag minimal intent="primary" class="mb-5">{{ version }}</xui-tag>
+          <xui-tag minimal intent="primary" class="mb-5">Angular 22 · Tailwind 4 · zoneless</xui-tag>
 
           <h1 xuiHeading [level]="1" class="text-4xl leading-tight sm:text-5xl md:text-6xl">
             {{ componentCount }} Angular components,<br class="hidden sm:block" />

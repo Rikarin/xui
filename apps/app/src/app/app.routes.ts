@@ -1,5 +1,6 @@
 import type { ResolveFn, Routes } from '@angular/router';
 import { LOADERS } from '../generated/loaders';
+import { COMPONENTS } from '../generated/manifest';
 import type { ComponentDoc } from './core/docs.model';
 
 /**
@@ -50,10 +51,13 @@ export const routes: Routes = [
         path: 'components/:slug',
         loadComponent: () => import('./pages/component-detail').then(m => m.ComponentDetail),
         resolve: { doc: componentDoc },
+        // Read from the manifest rather than the resolved data: the title strategy runs against a
+        // snapshot whose `data` does not yet carry the resolver's result.
         title: route => {
-          const doc = route.data['doc'] as ComponentDoc | undefined;
+          const slug = route.paramMap.get('slug');
+          const component = COMPONENTS.find(entry => entry.slug === slug);
 
-          return doc ? `${doc.title} — xUI` : 'Not found — xUI';
+          return component ? `${component.title} — xUI` : 'Not found — xUI';
         }
       }
     ]

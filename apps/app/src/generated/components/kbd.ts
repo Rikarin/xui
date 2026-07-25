@@ -49,7 +49,8 @@ export const doc: ComponentDoc = {
   package: '@xui/kbd',
   kind: 'ui',
   group: 'Data display',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description:
+    'A keyboard-key cap. Put xuiKbd on a <kbd> and chain several to spell a shortcut — the natural label for a @xui/hotkeys binding.',
   importsConst: 'XuiKbdImports',
   exports: ['XuiKbd', 'XuiKbdImports', 'kbdVariants', 'KbdVariants'],
   peerDependencies: {

@@ -52,7 +52,8 @@ export const doc: ComponentDoc = {
   package: '@xui/date-input',
   kind: 'ui',
   group: 'Date & time',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description:
+    'A date field: a text input paired with a popover calendar. Type a date or pick one from the calendar. [(value)] two-way binding.',
   importsConst: 'XuiDateInputImports',
   exports: ['XuiDateInput', 'XuiDateInputImports'],
   peerDependencies: {

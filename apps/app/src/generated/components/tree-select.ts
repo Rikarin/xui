@@ -32,7 +32,8 @@ export const doc: ComponentDoc = {
   package: '@xui/tree-select',
   kind: 'ui',
   group: 'Forms',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description:
+    'A select whose options form a tree — expand branches and pick nodes. Single mode binds one value; multiple shows removable chips with checkboxes.',
   importsConst: 'XuiTreeSelectImports',
   exports: ['XuiTreeSelect', 'XuiTreeSelectImports', 'XuiTreeSelectNode'],
   peerDependencies: {

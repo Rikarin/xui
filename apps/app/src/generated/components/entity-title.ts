@@ -81,7 +81,7 @@ export const doc: ComponentDoc = {
   package: '@xui/entity-title',
   kind: 'ui',
   group: 'Data display',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description: 'The name of a thing, with its supporting detail.',
   importsConst: 'XuiEntityTitleImports',
   exports: ['XuiEntityTitle', 'XuiEntityTitleImports'],
   peerDependencies: {

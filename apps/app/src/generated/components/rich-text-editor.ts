@@ -20,7 +20,8 @@ export const doc: ComponentDoc = {
   package: '@xui/rich-text-editor',
   kind: 'ui',
   group: 'Forms',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description:
+    "A WYSIWYG editor whose value is source text: the user formats content, the binding is the Markdown or BBCode you store. The toolbar is the format's capabilities — Markdown gets headings, a divider and inline code; BBCode gets underline instead. </> swaps the formatted view for the source text, editable, and back.",
   importsConst: 'XuiRichTextEditorImports',
   exports: [
     'XuiRichTextEditor',

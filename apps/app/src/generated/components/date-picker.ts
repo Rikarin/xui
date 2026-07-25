@@ -38,7 +38,8 @@ export const doc: ComponentDoc = {
   package: '@xui/date-picker',
   kind: 'ui',
   group: 'Date & time',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description:
+    "An inline month calendar. Click a day to select it; arrow keys move by day/week, PageUp/PageDown by month, Home/End to the week ends, Enter/Space select. [(selected)] two-way binding, min/max/dateFilter, an optional Today/Clear action bar. Uses the app's DateAdapter (native Date by default).",
   importsConst: 'XuiDatePickerImports',
   exports: ['XuiDatePicker', 'XuiDatePickerImports'],
   peerDependencies: {

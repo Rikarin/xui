@@ -76,7 +76,8 @@ export const doc: ComponentDoc = {
   package: '@xui/table',
   kind: 'ui',
   group: 'Data display',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description:
+    'A data table. Layout is flex rather than table-layout, so a column can grow while the rest stay sized to their content, and the row parts stay addressable for striping and selection.',
   importsConst: 'XuiTableImports',
   exports: [
     'XuiCaption',

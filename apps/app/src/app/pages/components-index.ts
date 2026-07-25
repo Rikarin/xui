@@ -33,7 +33,7 @@ import { COMPONENTS, GROUPS } from '../../generated/manifest';
               >
                 <div class="mb-1 flex items-center gap-2">
                   <span xuiText weight="medium">{{ component.title }}</span>
-                  @if (!component.hasPreview) {
+                  @if (component.kind === 'core') {
                     <xui-tag minimal>headless</xui-tag>
                   }
                 </div>

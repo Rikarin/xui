@@ -60,7 +60,7 @@ export const doc: ComponentDoc = {
   package: '@xui/divider',
   kind: 'ui',
   group: 'Layout',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description: 'A rule separating two groups of content.',
   importsConst: 'XuiDividerImports',
   exports: ['XuiDivider', 'XuiDividerImports', 'dividerVariants', 'DividerVariants'],
   peerDependencies: {

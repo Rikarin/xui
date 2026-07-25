@@ -74,7 +74,8 @@ export const doc: ComponentDoc = {
   package: '@xui/alert-dialog',
   kind: 'ui',
   group: 'Overlays',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description:
+    'A modal confirmation for a consequential choice. It takes focus, blocks the page and asks for an explicit Confirm / Cancel. open is two-way bindable; confirmed / cancelled report the outcome.',
   importsConst: 'XuiAlertDialogImports',
   exports: ['XuiAlertDialog', 'XuiAlertDialogImports'],
   peerDependencies: {

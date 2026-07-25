@@ -66,7 +66,8 @@ export const doc: ComponentDoc = {
   package: '@xui/numeric-input',
   kind: 'ui',
   group: 'Forms',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description:
+    'A number field with steppers and keyboard increment. The value is a number | null (empty is null, not 0). ArrowUp/Down step; Shift is the coarse jump, Alt the fine nudge. Full ControlValueAccessor.',
   importsConst: 'XuiNumericInputImports',
   exports: [
     'XuiNumericInput',

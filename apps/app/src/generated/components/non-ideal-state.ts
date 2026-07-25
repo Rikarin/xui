@@ -72,7 +72,7 @@ export const doc: ComponentDoc = {
   package: '@xui/non-ideal-state',
   kind: 'ui',
   group: 'Feedback',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description: 'The placeholder shown when there is nothing to show: an empty list, a failed search, an error.',
   importsConst: 'XuiNonIdealStateImports',
   exports: ['XuiNonIdealState', 'XuiNonIdealStateImports', 'nonIdealStateVariants', 'NonIdealStateVariants'],
   peerDependencies: {

@@ -74,7 +74,8 @@ export const doc: ComponentDoc = {
   package: '@xui/tag',
   kind: 'ui',
   group: 'Data display',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description:
+    'A compact label chip — richer than the static xui-badge. Intents, a subtle minimal variant, round/large/fill, an optional leading icon, and a removable ✕ that emits removed.',
   importsConst: 'XuiTagImports',
   exports: ['XuiTag', 'XuiTagImports', 'TagVariants', 'TagIntent'],
   peerDependencies: {

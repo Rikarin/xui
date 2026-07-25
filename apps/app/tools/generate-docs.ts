@@ -35,6 +35,9 @@ const GROUP_ORDER = [
   'Headless primitives'
 ];
 
+/** Every package's manifest repeats the workspace blurb, which says nothing about the component. */
+const BOILERPLATE_DESCRIPTION = 'Modern Angular 22 UI Library based on TailwindCSS';
+
 /** Packages with no story of their own still need a home in the sidebar. */
 const GROUP_FALLBACK: Record<string, string> = {
   icon: 'Foundations',
@@ -48,6 +51,8 @@ interface StoryMeta {
   title: string;
   /** Full source of the story file, for pulling icon providers out of. */
   source: string;
+  /** The JSDoc above `const meta` — the one place each component has real prose. */
+  description?: string;
   /** `meta.args`, which every story in the file inherits and may override. */
   args: Record<string, unknown>;
   /** Selectors of demo components the story declares for itself; those cannot be previewed. */
@@ -74,6 +79,7 @@ function readStoryMeta(): Map<string, StoryMeta> {
       group: title.slice(0, separator),
       title: title.slice(separator + 1),
       source,
+      description: readMetaDoc(source),
       args: parseArgs(readMetaArgs(source)),
       // A story file often declares its own host component to drive a demo. Its selector resolves
       // inside the story and nowhere else, so a template using one cannot be compiled here.
@@ -151,6 +157,50 @@ function dropsMarkup(template: string): boolean {
 
     return /<[a-zA-Z]/.test(rest.slice(0, rest.indexOf('}') + 1)) || /`[^`]*</.test(rest.slice(0, 400));
   });
+}
+
+/**
+ * The JSDoc block immediately above the story file's `meta`, unwrapped into a paragraph.
+ *
+ * Every package's `package.json` carries the same generated one-liner, so the story doc is the only
+ * description that actually says what the component is.
+ */
+function readMetaDoc(source: string): string | undefined {
+  const block = /\/\*\*([\s\S]*?)\*\/\s*(?:const meta|export default)/.exec(source)?.[1];
+
+  return block ? firstParagraph(block.replace(/^\s*\*\s?/gm, '')) : undefined;
+}
+
+/**
+ * The lead paragraph of a doc comment.
+ *
+ * A comment usually opens with a sentence about what the thing is and then goes on to a code fence
+ * or a second point. Only the opening belongs under a page heading; the rest is on the page already.
+ */
+function firstParagraph(text: string): string | undefined {
+  const lines: string[] = [];
+
+  for (const line of text.split('\n')) {
+    const trimmed = line.trim();
+
+    if (trimmed.startsWith('```') || trimmed.startsWith('@')) {
+      break;
+    }
+
+    if (trimmed === '') {
+      if (lines.length > 0) {
+        break;
+      }
+
+      continue;
+    }
+
+    lines.push(trimmed);
+  }
+
+  const paragraph = lines.join(' ').replace(/`/g, '').replace(/\s+/g, ' ').trim();
+
+  return paragraph.length > 0 ? paragraph : undefined;
 }
 
 /** Reads the brace-balanced object literal that follows `args:` in the meta declaration. */
@@ -446,9 +496,15 @@ function emitComponent(component: XuiComponent, story: StoryMeta | undefined): E
   // than the folder name to stay unique.
   const slug = component.kind === 'core' ? `core-${component.name}` : component.name;
 
+  const description = [story?.description, component.symbols.find(symbol => symbol.docs)?.docs, component.description]
+    .map(text => (text ? firstParagraph(text) : undefined))
+    .find(text => text && text !== BOILERPLATE_DESCRIPTION);
+
   const examples = component.examples
     .map(example => ({ ...example, template: expandTemplate(example, story?.args ?? {}) }))
-    .filter(example => example.template.length > 0);
+    // An example whose elements were built by a `.map()` in the story keeps its wrapper and loses
+    // its contents. Showing that as "the code" would be worse than not showing the example.
+    .filter(example => example.template.length > 0 && !dropsMarkup(example.code));
 
   const localSelectors = story?.localSelectors ?? [];
   const previewable = examples.filter(example => canPreview(example.template, example.code, localSelectors));
@@ -497,7 +553,7 @@ function emitComponent(component: XuiComponent, story: StoryMeta | undefined): E
     `  package: ${json(component.package)},`,
     `  kind: ${json(component.kind)},`,
     `  group: ${json(group)},`,
-    `  description: ${json(component.description)},`,
+    `  description: ${json(description)},`,
     `  importsConst: ${json(component.importsConst)},`,
     `  exports: ${json(component.exports)},`,
     `  peerDependencies: ${json(component.peerDependencies)},`,
@@ -543,7 +599,7 @@ function emitComponent(component: XuiComponent, story: StoryMeta | undefined): E
       package: component.package,
       kind: component.kind,
       group,
-      description: component.description,
+      description,
       hasPreview: previewable.length > 0
     },
     previews: previewable.length,

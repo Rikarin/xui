@@ -39,7 +39,8 @@ export const doc: ComponentDoc = {
   package: '@xui/statistic',
   kind: 'ui',
   group: 'Data display',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description:
+    'A single numeric statistic with an optional title, prefix/suffix and decimal precision — plus a live <xui-countdown> variant.',
   importsConst: 'XuiStatisticImports',
   exports: ['XuiCountdown', 'XuiStatistic', 'XuiStatisticImports', 'formatDuration', 'formatStatValue'],
   peerDependencies: {

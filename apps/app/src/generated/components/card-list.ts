@@ -8,7 +8,7 @@ export const doc: ComponentDoc = {
   package: '@xui/card-list',
   kind: 'ui',
   group: 'Data display',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description: 'A vertical list of cards rendered as flush rows.',
   importsConst: 'XuiCardListImports',
   exports: ['XuiCardList', 'XuiCardListImports', 'cardListVariants', 'CardListVariants'],
   peerDependencies: {
@@ -67,27 +67,5 @@ export const doc: ComponentDoc = {
       methods: []
     }
   ],
-  examples: [
-    {
-      name: 'Default',
-      title: 'Default',
-      code: `<div xuiCardList class="w-80" [bordered]="true" [compact]="false">
-
-</div>`
-    },
-    {
-      name: 'Compact',
-      title: 'Compact',
-      code: `<div xuiCardList class="w-80" [bordered]="true" [compact]="true">
-
-</div>`
-    },
-    {
-      name: 'Unbordered',
-      title: 'Unbordered',
-      code: `<div xuiCardList class="w-80" [bordered]="false" [compact]="false">
-
-</div>`
-    }
-  ]
+  examples: []
 };

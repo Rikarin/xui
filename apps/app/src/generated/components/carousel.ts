@@ -52,7 +52,8 @@ export const doc: ComponentDoc = {
   package: '@xui/carousel',
   kind: 'ui',
   group: 'Data display',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description:
+    'A slideshow with arrows, dot indicators, keyboard support and optional autoplay (paused on hover). Choose the sliding (scrollx) or crossfade (fade) transition.',
   importsConst: 'XuiCarouselImports',
   exports: ['XuiCarouselItem', 'XuiCarousel', 'XuiCarouselImports'],
   peerDependencies: {

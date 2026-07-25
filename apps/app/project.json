@@ -8,7 +8,12 @@
   "targets": {
     "generate-docs": {
       "executor": "nx:run-commands",
-      "dependsOn": [{ "projects": ["mcp"], "target": "build" }],
+      "dependsOn": [
+        {
+          "projects": ["mcp"],
+          "target": "build"
+        }
+      ],
       "outputs": ["{projectRoot}/src/generated"],
       "options": {
         "command": "node --import @swc-node/register/esm-register apps/app/tools/generate-docs.ts",
@@ -91,16 +96,16 @@
       "executor": "nx:run-commands",
       "dependsOn": ["build"],
       "options": {
-        "command": "wrangler deploy",
-        "cwd": "apps/app"
+        "command": "wrangler deploy --config apps/app/wrangler.jsonc",
+        "cwd": "{workspaceRoot}"
       }
     },
     "preview": {
       "executor": "nx:run-commands",
       "dependsOn": ["build"],
       "options": {
-        "command": "wrangler dev",
-        "cwd": "apps/app"
+        "command": "wrangler dev --config apps/app/wrangler.jsonc",
+        "cwd": "{workspaceRoot}"
       }
     }
   }

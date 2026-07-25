@@ -57,7 +57,8 @@ export const doc: ComponentDoc = {
   package: '@xui/dialog',
   kind: 'ui',
   group: 'Overlays',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description:
+    'A modal surface over a dimmed backdrop. Backdrop, focus trap, scroll lock and focus restore come from @xui/core/overlay; none of that is exercised in jsdom, so these stories are the real check.',
   importsConst: 'XuiDialogImports',
   exports: [
     'XuiDialogBody',

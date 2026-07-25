@@ -36,7 +36,7 @@ export const doc: ComponentDoc = {
   package: '@xui/navbar',
   kind: 'ui',
   group: 'Navigation',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description: 'The bar across the top of an application.',
   importsConst: 'XuiNavbarImports',
   exports: [
     'XuiNavbar',
@@ -179,18 +179,6 @@ export const doc: ComponentDoc = {
   </div>
 </nav>`,
       preview: PreviewDefault
-    },
-    {
-      name: 'FixedToTop',
-      title: 'Fixed to top',
-      code: `<div class="h-64 overflow-y-auto">
-  <nav xuiNavbar fixedToTop>
-    <div xuiNavbarGroup><span xuiNavbarHeading>xUI</span></div>
-  </nav>
-  <div class="text-foreground-muted space-y-4 p-4">
-
-  </div>
-</div>`
     }
   ]
 };

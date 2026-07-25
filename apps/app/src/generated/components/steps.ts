@@ -62,7 +62,8 @@ export const doc: ComponentDoc = {
   package: '@xui/steps',
   kind: 'ui',
   group: 'Navigation',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description:
+    "A step / wizard progress indicator. Bind current to the active index; each step's status (finish / process / wait) is derived automatically, or overridden per step. clickable lets the user jump between steps.",
   importsConst: 'XuiStepsImports',
   exports: ['XuiStep', 'XuiSteps', 'XuiStepsImports', 'StepStatus'],
   peerDependencies: {

@@ -46,7 +46,7 @@ export const doc: ComponentDoc = {
   package: '@xui/link',
   kind: 'ui',
   group: 'Foundations',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description: 'A styled anchor.',
   importsConst: 'XuiLinkImports',
   exports: [
     'XuiLink',
@@ -124,13 +124,6 @@ export const doc: ComponentDoc = {
   <a xuiLink underline="none" >none</a>
 </div>`,
       preview: PreviewUnderline
-    },
-    {
-      name: 'Colors',
-      title: 'Colors',
-      code: `<div class="flex flex-col items-start gap-2">
-
-</div>`
     },
     {
       name: 'InRunningText',

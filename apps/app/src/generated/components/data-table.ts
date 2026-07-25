@@ -92,7 +92,8 @@ export const doc: ComponentDoc = {
   package: '@xui/data-table',
   kind: 'ui',
   group: 'Data display',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description:
+    'A virtualized data grid — only the visible rows are in the DOM, so it stays smooth at 100k+ rows. Columns resize (drag the header divider), auto-fit (double-click the divider), reorder (drag the header) and sort (click the header). Cells select as regions (click, shift-click for a range, ⌘/Ctrl-click for disjoint blocks, ⌘/Ctrl+A for all), the focused cell moves with the arrow keys (hold Shift to extend), and ⌘/Ctrl+C copies the selection as TSV. Built on the pure @xui/core/grid region/size/locator model.',
   importsConst: 'XuiDataTableImports',
   exports: [
     'XuiDataCell',

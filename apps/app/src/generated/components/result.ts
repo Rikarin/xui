@@ -48,7 +48,8 @@ export const doc: ComponentDoc = {
   package: '@xui/result',
   kind: 'ui',
   group: 'Feedback',
-  description: 'Modern Angular 22 UI Library based on TailwindCSS',
+  description:
+    'A result / status page — status glyph, title, subtitle, body content and an [xuiResultExtra] action slot. Covers success/error/warning/info and the 404/403/500 HTTP codes.',
   importsConst: 'XuiResultImports',
   exports: ['XuiResult', 'XuiResultImports', 'ResultStatus'],
   peerDependencies: {

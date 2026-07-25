@@ -177,7 +177,7 @@ The workspace is [Nx](https://nx.dev) + pnpm.
 
 ```bash
 pnpm install
-pnpm start                     # documentation site
+pnpm start                     # documentation site on :4200
 pnpm storybook                 # component gallery on :4400
 pnpm test                      # unit tests
 pnpm nx test-storybook ui-storybook   # render every story in headless Chromium
@@ -186,7 +186,9 @@ pnpm build                     # build every package
 
 Commits follow [Conventional Commits](https://www.conventionalcommits.org) and are linted — the
 release is cut from them. See [docs/releasing.md](docs/releasing.md) for how a version is published,
-and [apps/ui-storybook/README.md](apps/ui-storybook/README.md) before writing stories.
+[apps/ui-storybook/README.md](apps/ui-storybook/README.md) before writing stories, and
+[apps/app/README.md](apps/app/README.md) for the documentation site, whose component pages are
+generated from those same stories.
 
 ## Contributing
 
