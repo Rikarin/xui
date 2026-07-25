@@ -905,6 +905,10 @@ violations fixed:
 | `aria-allowed-attr` (critical)           | `<button xuiCard interactive selected>` | `aria-selected` is invalid on a button — emit `aria-pressed` (button) / `aria-current` (link)      |
 | `aria-input-field-name` (serious)        | `<xui-rate>`                            | `role="slider"` had no name; defaults to "Rating", overridable, plus `aria-valuetext` ("3 of 5")   |
 | `role-img-alt` (serious)                 | `<xui-avatar src>` with no `alt`        | An avatar with no name is decorative: drop `role="img"`, add `aria-hidden`                         |
+| `aria-allowed-attr` (critical, 42/cell)  | date-picker + date-range-picker day cells | `aria-selected` moved from the day `<button>` onto its `<td>`, which is the gridcell               |
+| `aria-allowed-attr` (critical)           | `[xuiPopover]` on a roleless `<div>`     | The directive now only emits `aria-expanded`/`aria-haspopup` when the host has a role that allows them |
+| `button-name` (critical)                 | `<xui-select>` / `<xui-timezone-select>` | A `combobox` takes its *value* from content, so it needs a real label: new `aria-label`/`aria-labelledby` inputs, defaulting to the placeholder |
+| `empty-table-header` (minor)             | data-table row-header corner cell        | Labelled "Row number"                                                                              |
 | `link-name`, `button-name` (story-level) | breadcrumb + checkbox colour matrices   | Icon-only links and colour swatches now carry `aria-label` in the stories                          |
 
 **Still open — `color-contrast`.** ~15 stories report serious contrast failures on the intent

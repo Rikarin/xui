@@ -97,9 +97,27 @@ export class XuiPopover {
   private readonly hoverKind = computed(
     () => this.interactionKind() === 'hover' || this.interactionKind() === 'hover-target'
   );
-  protected readonly hasPopupRole = computed(() => !this.hoverKind());
+  /**
+   * Whether the host element can legally carry `aria-expanded`/`aria-haspopup`.
+   *
+   * Both are only valid on a role that supports them — button, link, combobox,
+   * menuitem and friends. A trigger placed on a bare `<div>` wrapper (as
+   * `date-range-input` does) has no such role, and emitting them anyway is an
+   * `aria-allowed-attr` violation. The overlay still works; only the
+   * announcement moves to whatever focusable control the wrapper contains.
+   */
+  private readonly hostSupportsPopupAria = computed(() => {
+    const tag = this.host.tagName.toLowerCase();
+    if (tag === 'button' || tag === 'a' || tag === 'input' || tag === 'select' || tag === 'textarea') {
+      return true;
+    }
+
+    return this.host.hasAttribute('role');
+  });
+
+  protected readonly hasPopupRole = computed(() => !this.hoverKind() && this.hostSupportsPopupAria());
   protected readonly ariaHasPopup = computed(() => {
-    if (this.hoverKind()) {
+    if (this.hoverKind() || !this.hostSupportsPopupAria()) {
       return null;
     }
 
