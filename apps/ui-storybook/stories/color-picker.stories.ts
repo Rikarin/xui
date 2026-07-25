@@ -49,20 +49,22 @@ export const WithAlpha: Story = {
  */
 export const InputFormats: Story = {
   render: () => ({
-    props: { hex: '#722ED1', hsl: '#722ED1', lch: '#722ED1' },
+    // NB: prop names must not collide with component members (e.g. `hex`) — Storybook
+    // assigns `props` onto the component instance, which would clobber that member.
+    props: { hexColor: '#722ED1', hslColor: '#722ED1', lchColor: '#722ED1' },
     template: `
       <div class="flex gap-8">
         <div class="flex flex-col gap-2">
           <span class="text-foreground text-sm font-medium">HEX</span>
-          <xui-color-picker [(value)]="hex" format="hex" />
+          <xui-color-picker [(value)]="hexColor" format="hex" />
         </div>
         <div class="flex flex-col gap-2">
           <span class="text-foreground text-sm font-medium">HSL</span>
-          <xui-color-picker [(value)]="hsl" format="hsl" />
+          <xui-color-picker [(value)]="hslColor" format="hsl" />
         </div>
         <div class="flex flex-col gap-2">
           <span class="text-foreground text-sm font-medium">LCH</span>
-          <xui-color-picker [(value)]="lch" format="lch" />
+          <xui-color-picker [(value)]="lchColor" format="lch" />
         </div>
       </div>
     `
