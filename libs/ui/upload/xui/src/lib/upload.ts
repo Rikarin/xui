@@ -217,13 +217,13 @@ export class XuiUpload {
   protected readonly buttonClass = computed(() =>
     xui(
       'border-border text-foreground hover:bg-surface-inset inline-flex items-center gap-2 rounded-md border px-3 py-1.5 text-sm disabled:opacity-50',
-      'focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus'
+      'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus'
     )
   );
   protected readonly dropzoneClass = computed(() =>
     xui(
       'cursor-pointer rounded-lg border-2 border-dashed px-6 py-8 text-center transition-colors',
-      'focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus',
+      'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus',
       this.dragging() ? 'border-primary bg-primary/5' : 'border-border hover:border-primary/60',
       this.disabled() && 'pointer-events-none opacity-50'
     )

@@ -15,7 +15,7 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import { xui } from '@xui/core';
-import { arrowDirection, inlineFraction, injectXDirection } from '@xui/core/a11y';
+import { arrowDirection, injectXDirection, inlineFraction } from '@xui/core/a11y';
 import type { ClassValue } from 'clsx';
 import {
   hslToRgb,
@@ -37,7 +37,7 @@ export type ColorFormat = 'hex' | 'hsl' | 'lch';
 const LCH_MAX_C = 132;
 
 /** Keyboard focus ring shared by every control in the panel. */
-const FOCUS_RING = 'focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus';
+const FOCUS_RING = 'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus';
 
 /** Clamp a 0–100 axis value. */
 function clampPercent(value: number): number {
@@ -56,7 +56,14 @@ function clampPercent(value: number): number {
 @Component({
   selector: 'xui-color-picker',
   template: `
-    <button type="button" [class]="triggerClass()" [disabled]="disabled()" (click)="toggle()" aria-haspopup="dialog" [attr.aria-expanded]="open()">
+    <button
+      type="button"
+      [class]="triggerClass()"
+      [disabled]="disabled()"
+      (click)="toggle()"
+      aria-haspopup="dialog"
+      [attr.aria-expanded]="open()"
+    >
       <span class="border-border/60 h-5 w-5 rounded border" [style.background]="value()"></span>
       <span class="text-foreground text-sm tabular-nums">{{ value() }}</span>
     </button>
@@ -76,7 +83,11 @@ function clampPercent(value: number): number {
           (mousedown)="startSquare($event)"
           (keydown)="onSquareKeydown($event)"
         >
-          <div [class]="handleClass()" [style.inset-inline-start.%]="squareHandle().x" [style.top.%]="squareHandle().y"></div>
+          <div
+            [class]="handleClass()"
+            [style.inset-inline-start.%]="squareHandle().x"
+            [style.top.%]="squareHandle().y"
+          ></div>
         </div>
 
         <!-- Hue slider (perceptual LCH strip in LCH mode, sRGB rainbow otherwise) -->
@@ -140,16 +151,64 @@ function clampPercent(value: number): number {
             }
             @case ('hsl') {
               <div class="flex flex-1 gap-1">
-                <input [class]="channelInputClass()" type="number" min="0" max="360" [value]="hslValue().h" (change)="setHsl('h', $any($event.target).value)" aria-label="Hue" />
-                <input [class]="channelInputClass()" type="number" min="0" max="100" [value]="hslValue().s" (change)="setHsl('s', $any($event.target).value)" aria-label="Saturation" />
-                <input [class]="channelInputClass()" type="number" min="0" max="100" [value]="hslValue().l" (change)="setHsl('l', $any($event.target).value)" aria-label="Lightness" />
+                <input
+                  [class]="channelInputClass()"
+                  type="number"
+                  min="0"
+                  max="360"
+                  [value]="hslValue().h"
+                  (change)="setHsl('h', $any($event.target).value)"
+                  aria-label="Hue"
+                />
+                <input
+                  [class]="channelInputClass()"
+                  type="number"
+                  min="0"
+                  max="100"
+                  [value]="hslValue().s"
+                  (change)="setHsl('s', $any($event.target).value)"
+                  aria-label="Saturation"
+                />
+                <input
+                  [class]="channelInputClass()"
+                  type="number"
+                  min="0"
+                  max="100"
+                  [value]="hslValue().l"
+                  (change)="setHsl('l', $any($event.target).value)"
+                  aria-label="Lightness"
+                />
               </div>
             }
             @case ('lch') {
               <div class="flex flex-1 gap-1">
-                <input [class]="channelInputClass()" type="number" min="0" max="100" [value]="lchValue().l" (change)="setLch('l', $any($event.target).value)" aria-label="Lightness" />
-                <input [class]="channelInputClass()" type="number" min="0" max="150" [value]="lchValue().c" (change)="setLch('c', $any($event.target).value)" aria-label="Chroma" />
-                <input [class]="channelInputClass()" type="number" min="0" max="360" [value]="lchValue().h" (change)="setLch('h', $any($event.target).value)" aria-label="Hue" />
+                <input
+                  [class]="channelInputClass()"
+                  type="number"
+                  min="0"
+                  max="100"
+                  [value]="lchValue().l"
+                  (change)="setLch('l', $any($event.target).value)"
+                  aria-label="Lightness"
+                />
+                <input
+                  [class]="channelInputClass()"
+                  type="number"
+                  min="0"
+                  max="150"
+                  [value]="lchValue().c"
+                  (change)="setLch('c', $any($event.target).value)"
+                  aria-label="Chroma"
+                />
+                <input
+                  [class]="channelInputClass()"
+                  type="number"
+                  min="0"
+                  max="360"
+                  [value]="lchValue().h"
+                  (change)="setLch('h', $any($event.target).value)"
+                  aria-label="Hue"
+                />
               </div>
             }
           }
@@ -158,7 +217,13 @@ function clampPercent(value: number): number {
         @if (presets().length) {
           <div class="flex flex-wrap gap-1.5">
             @for (preset of presets(); track preset) {
-              <button type="button" class="border-border/60 h-5 w-5 rounded border" [style.background]="preset" [attr.aria-label]="preset" (click)="applyPreset(preset)"></button>
+              <button
+                type="button"
+                class="border-border/60 h-5 w-5 rounded border"
+                [style.background]="preset"
+                [attr.aria-label]="preset"
+                (click)="applyPreset(preset)"
+              ></button>
             }
           </div>
         }
@@ -505,7 +570,10 @@ export class XuiColorPicker {
     xui('border-border bg-surface-overlay absolute z-50 mt-2 flex w-60 flex-col gap-3 rounded-lg border p-3 shadow-lg')
   );
   protected readonly hexInputClass = computed(() =>
-    xui('border-border bg-surface text-foreground h-8 w-full min-w-0 flex-1 rounded-md border px-2 text-sm uppercase', FOCUS_RING)
+    xui(
+      'border-border bg-surface text-foreground h-8 w-full min-w-0 flex-1 rounded-md border px-2 text-sm uppercase',
+      FOCUS_RING
+    )
   );
   protected readonly channelInputClass = computed(() =>
     xui(
@@ -514,7 +582,10 @@ export class XuiColorPicker {
     )
   );
   protected readonly formatSelectClass = computed(() =>
-    xui('border-border bg-surface text-foreground h-8 shrink-0 rounded-md border px-1.5 text-xs font-medium', FOCUS_RING)
+    xui(
+      'border-border bg-surface text-foreground h-8 shrink-0 rounded-md border px-1.5 text-xs font-medium',
+      FOCUS_RING
+    )
   );
   protected readonly squareClass = computed(() => xui('relative h-36 w-full cursor-crosshair rounded-md', FOCUS_RING));
 
@@ -524,7 +595,10 @@ export class XuiColorPicker {
    */
   private readonly handleShift = computed(() => (this.direction() === 'rtl' ? 'translate-x-1/2' : '-translate-x-1/2'));
   protected readonly handleClass = computed(() =>
-    xui('pointer-events-none absolute h-3 w-3 -translate-y-1/2 rounded-full border-2 border-white shadow', this.handleShift())
+    xui(
+      'pointer-events-none absolute h-3 w-3 -translate-y-1/2 rounded-full border-2 border-white shadow',
+      this.handleShift()
+    )
   );
   protected readonly stripHandleClass = computed(() =>
     xui(

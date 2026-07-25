@@ -1,4 +1,4 @@
-import { expectAttributes, render } from '@xui/testing';
+import { expectAttributes, provideDirection, render } from '@xui/testing';
 import { XuiTreeImports } from '../index';
 import type { XuiTreeNode } from './tree.types';
 
@@ -127,5 +127,37 @@ describe('XuiTree', () => {
       .map(i => i.querySelector('[data-node-id]') as HTMLElement)
       .filter(el => el.tabIndex === 0);
     expect(tabbable.length).toBe(1);
+  });
+
+  describe('RTL', () => {
+    const rtlSetup = () =>
+      render('<xui-tree [nodes]="props().nodes" aria-label="Files" />', {
+        imports: IMPORTS,
+        props: { nodes: NODES },
+        providers: [provideDirection('rtl')]
+      });
+
+    it('expands with the inline-end arrow', () => {
+      const { detect, press } = rtlSetup();
+      detect();
+
+      expectAttributes(itemById('app'), { 'aria-expanded': 'false' });
+
+      // Deeper into the tree is leftwards in RTL.
+      press(rowById('app'), 'ArrowLeft');
+      expectAttributes(itemById('app'), { 'aria-expanded': 'true' });
+
+      press(rowById('app'), 'ArrowRight');
+      expectAttributes(itemById('app'), { 'aria-expanded': 'false' });
+    });
+
+    it('indents on the inline start', () => {
+      const { detect } = rtlSetup();
+      detect();
+
+      // Logical padding so the indent lands on the right edge in RTL.
+      expect(rowById('app').style.getPropertyValue('padding-inline-start')).toBe('1.75rem');
+      expect(rowById('app').style.paddingLeft).toBe('');
+    });
   });
 });

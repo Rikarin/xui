@@ -86,6 +86,11 @@ type Side = 'left' | 'right';
           (keydown)="onListKeydown(side, $event)"
         >
           @for (item of filtered(side); track item.key) {
+            <!-- The keyboard path is the listbox's, not the option's: under
+                 aria-activedescendant the container holds the tab stop and the
+                 key handler, so a per-option one would be a second, conflicting
+                 tab stop. The lint rules only look at this element. -->
+            <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
             <li
               role="option"
               [id]="optionId(side, item.key)"
@@ -330,7 +335,9 @@ export class XuiTransfer {
   protected readonly computedClass = computed(() => xui('flex items-stretch', this.class()));
   protected readonly panelClass = computed(() => xui('border-border bg-surface flex w-56 flex-col rounded-lg border'));
   protected readonly searchClass = computed(() =>
-    xui('border-border bg-surface text-foreground focus:border-focus h-8 w-full rounded-md border px-2 text-sm focus:outline-none')
+    xui(
+      'border-border bg-surface text-foreground focus:border-focus h-8 w-full rounded-md border px-2 text-sm focus:outline-none'
+    )
   );
 
   protected checkboxClass(active: boolean): string {

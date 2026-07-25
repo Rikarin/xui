@@ -28,8 +28,22 @@ import type { ClassValue } from 'clsx';
       <span class="text-foreground-muted me-1 text-sm">{{ totalLabel() }}</span>
     }
 
-    <button type="button" [class]="stepClass()" [disabled]="disabled() || pageIndex() <= 1" (click)="go(pageIndex() - 1)" aria-label="Previous page">
-      <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+    <button
+      type="button"
+      [class]="stepClass()"
+      [disabled]="disabled() || pageIndex() <= 1"
+      (click)="go(pageIndex() - 1)"
+      aria-label="Previous page"
+    >
+      <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none">
+        <path
+          d="M15 6l-6 6 6 6"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
     </button>
 
     @if (simple()) {
@@ -52,8 +66,16 @@ import type { ClassValue } from 'clsx';
       }
     }
 
-    <button type="button" [class]="stepClass()" [disabled]="disabled() || pageIndex() >= totalPages()" (click)="go(pageIndex() + 1)" aria-label="Next page">
-      <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+    <button
+      type="button"
+      [class]="stepClass()"
+      [disabled]="disabled() || pageIndex() >= totalPages()"
+      (click)="go(pageIndex() + 1)"
+      aria-label="Next page"
+    >
+      <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none">
+        <path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
     </button>
 
     @if (showSizeChanger()) {
@@ -130,7 +152,7 @@ export class XuiPagination {
   protected readonly selectClass = computed(() =>
     xui(
       'border-border bg-surface text-foreground ms-2 h-8 rounded-md border px-2 text-sm',
-      'focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus'
+      'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus'
     )
   );
 

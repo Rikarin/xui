@@ -63,7 +63,7 @@ export class XuiMenubarTrigger {
       // The bar's roving focus moves between items with the arrow keys, so the
       // ring is the only thing telling the user where they are. Inset so it is
       // not clipped by the bar's padding.
-      'focus:outline-none focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-focus',
+      'focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-focus',
       this.class()
     )
   );

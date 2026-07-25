@@ -36,7 +36,13 @@ import { XuiStep, type StepStatus } from './step';
           <span [class]="circleClass(statusAt(i))">
             @if (statusAt(i) === 'finish') {
               <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none">
-                <path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+                <path
+                  d="M20 6 9 17l-5-5"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
               </svg>
             } @else if (statusAt(i) === 'error') {
               <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none">
@@ -102,7 +108,7 @@ export class XuiSteps {
   protected readonly headerClass = computed(() =>
     xui(
       'flex items-center gap-3 rounded',
-      'focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus',
+      'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus',
       this.clickable() ? 'cursor-pointer' : 'cursor-default'
     )
   );

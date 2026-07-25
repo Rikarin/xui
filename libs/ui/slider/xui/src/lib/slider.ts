@@ -16,7 +16,7 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { xui } from '@xui/core';
-import { arrowValueDirection, inlineFraction, injectXDirection } from '@xui/core/a11y';
+import { arrowValueDirection, injectXDirection, inlineFraction } from '@xui/core/a11y';
 import type { ChangeFn, TouchFn } from '@xui/core/forms';
 import { cva, VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
@@ -40,7 +40,7 @@ const fillVariants = cva('absolute rounded-full', {
 const handleVariants = cva(
   [
     'absolute z-10 size-4 rounded-full border-2 bg-surface-raised shadow',
-    'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus focus:outline-none',
+    'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus',
     'data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50'
   ],
   {

@@ -33,7 +33,12 @@ import { XuiSplitterPanel } from './splitter-panel';
   imports: [NgTemplateOutlet],
   template: `
     @for (panel of panels(); track $index; let i = $index, last = $last) {
-      <div class="min-h-0 min-w-0 overflow-auto" [style.flex-basis.%]="sizes()[i]" [style.flex-grow]="0" [style.flex-shrink]="1">
+      <div
+        class="min-h-0 min-w-0 overflow-auto"
+        [style.flex-basis.%]="sizes()[i]"
+        [style.flex-grow]="0"
+        [style.flex-shrink]="1"
+      >
         <ng-container [ngTemplateOutlet]="panel.content()" />
       </div>
       @if (!last) {
@@ -180,7 +185,7 @@ export class XuiSplitter {
   protected readonly gutterClass = computed(() =>
     xui(
       'group relative z-10 flex shrink-0 items-center justify-center',
-      'focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-focus',
+      'focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-focus',
       this.layout() === 'vertical' ? 'h-1.5 w-full cursor-row-resize' : 'w-1.5 cursor-col-resize'
     )
   );

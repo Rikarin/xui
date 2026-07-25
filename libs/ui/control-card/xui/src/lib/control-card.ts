@@ -25,7 +25,7 @@ export type ControlCardType = 'checkbox' | 'radio' | 'switch';
 const cardVariants = cva(
   [
     'flex items-center gap-3 rounded-lg border bg-surface-raised px-4 py-3 text-sm transition-colors',
-    'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus focus:outline-none',
+    'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus',
     'data-disabled:cursor-not-allowed data-disabled:opacity-50'
   ],
   {

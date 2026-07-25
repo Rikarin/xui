@@ -25,7 +25,7 @@ const tabVariants = cva(
   [
     'relative inline-flex cursor-pointer items-center gap-2 border-b-2 border-transparent font-medium whitespace-nowrap',
     'text-foreground-muted hover:text-foreground transition-colors',
-    'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus focus:outline-none',
+    'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus',
     'aria-selected:text-foreground disabled:pointer-events-none disabled:opacity-50'
   ],
   {

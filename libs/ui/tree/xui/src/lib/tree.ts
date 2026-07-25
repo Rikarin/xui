@@ -16,6 +16,7 @@ import {
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { matChevronRightRound } from '@ng-icons/material-icons/round';
 import { xui } from '@xui/core';
+import { arrowDirectionOnAxis, injectXDirection } from '@xui/core/a11y';
 import { XuiIcon } from '@xui/icon';
 import type { ClassValue } from 'clsx';
 import type { XuiTreeNode } from './tree.types';
@@ -44,7 +45,7 @@ interface FlatNode {
       >
         <div
           [class]="rowClass(node)"
-          [style.paddingLeft.rem]="0.5 + level * 1.25"
+          [style.padding-inline-start.rem]="0.5 + level * 1.25"
           [attr.data-node-id]="node.id"
           [tabindex]="node.id === focusedId() ? 0 : -1"
           (click)="onRowClick(node)"
@@ -56,7 +57,7 @@ interface FlatNode {
                 xui
                 name="matChevronRightRound"
                 size="sm"
-                [class]="'transition-transform ' + (isExpanded(node) ? 'rotate-90' : '')"
+                [class]="caretClass(isExpanded(node))"
                 (click)="toggle(node); $event.stopPropagation()"
               />
             }
@@ -101,6 +102,7 @@ interface FlatNode {
 })
 export class XuiTree {
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
+  protected readonly direction = injectXDirection();
 
   readonly class = input<ClassValue>('');
   readonly ariaLabel = input<string | null>(null, { alias: 'aria-label' });
@@ -168,11 +170,19 @@ export class XuiTree {
     return this.expanded().has(node.id);
   }
 
+  /**
+   * The expand caret. It is drawn pointing right, so a collapsed node has to be
+   * flipped in RTL to keep pointing "further in"; expanded always points down.
+   */
+  protected caretClass(expanded: boolean): string {
+    return xui('transition-transform', expanded ? 'rotate-90' : this.direction() === 'rtl' && 'rotate-180');
+  }
+
   protected rowClass(node: XuiTreeNode): string {
     return xui(
       'flex items-center gap-1.5 rounded py-1 pe-2 transition-colors',
       node.disabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer hover:bg-surface-inset/60',
-      'focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-focus focus:outline-none',
+      'focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-focus',
       node.id === this.selectedId() && 'bg-primary/10 text-primary'
     );
   }
@@ -219,6 +229,35 @@ export class XuiTree {
     const flat = this.visible();
     const index = flat.findIndex(f => f.node.id === node.id);
 
+    // Expanding walks *into* the tree, which is the inline-end arrow — ArrowLeft
+    // in RTL. Collapsing walks back out.
+    const inline = arrowDirectionOnAxis(event.key, this.direction(), 'horizontal');
+
+    if (inline === 'next') {
+      event.preventDefault();
+      if (this.isExpandable(node) && !this.isExpanded(node)) {
+        this.expand(node);
+      } else if (this.isExpandable(node)) {
+        this.focusIndex(index + 1); // step into the first child
+      }
+      return;
+    }
+
+    if (inline === 'previous') {
+      event.preventDefault();
+      if (this.isExpandable(node) && this.isExpanded(node)) {
+        this.collapse(node);
+      } else {
+        // Step out to the parent.
+        const parentId = flat[index]?.parentId;
+        const parentIndex = flat.findIndex(f => f.node.id === parentId);
+        if (parentIndex >= 0) {
+          this.focusIndex(parentIndex);
+        }
+      }
+      return;
+    }
+
     switch (event.key) {
       case 'ArrowDown':
         event.preventDefault();
@@ -227,27 +266,6 @@ export class XuiTree {
       case 'ArrowUp':
         event.preventDefault();
         this.focusIndex(index - 1);
-        break;
-      case 'ArrowRight':
-        event.preventDefault();
-        if (this.isExpandable(node) && !this.isExpanded(node)) {
-          this.expand(node);
-        } else if (this.isExpandable(node)) {
-          this.focusIndex(index + 1); // step into the first child
-        }
-        break;
-      case 'ArrowLeft':
-        event.preventDefault();
-        if (this.isExpandable(node) && this.isExpanded(node)) {
-          this.collapse(node);
-        } else {
-          // Step out to the parent.
-          const parentId = flat[index]?.parentId;
-          const parentIndex = flat.findIndex(f => f.node.id === parentId);
-          if (parentIndex >= 0) {
-            this.focusIndex(parentIndex);
-          }
-        }
         break;
       case 'Home':
         event.preventDefault();
