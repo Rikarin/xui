@@ -84,11 +84,14 @@ jobs:
         run: pnpm exec nx report
 
       - name: Authenticate with npm
-        # Before the build, so a stale token costs seconds instead of a full workspace build. pnpm
-        # reads credentials from .npmrc rather than NODE_AUTH_TOKEN, and npm reports an
-        # unauthenticated publish as a 404 that looks like a missing package.
+        # Before the build, so a stale token costs seconds instead of a full workspace build: npm
+        # reports an unauthenticated publish as a 404 that looks like a missing package.
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          # actions/setup-node writes an .npmrc whose token line is the literal `${NODE_AUTH_TOKEN}`,
+          # expanded from the environment on every npm call - so the variable has to be present here
+          # too, or npm authenticates as nobody and answers 401.
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
           set -euo pipefail
 
@@ -97,15 +100,20 @@ jobs:
             exit 1
           fi
 
-          echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> "$HOME/.npmrc"
+          # pnpm does not expand NODE_AUTH_TOKEN, so the literal token goes into the same file npm
+          # is reading - setup-node points at it through NPM_CONFIG_USERCONFIG.
+          npmrc="${NPM_CONFIG_USERCONFIG:-$HOME/.npmrc}"
+          echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> "$npmrc"
 
           if ! whoami_output=$(npm whoami 2>&1); then
+            # The whole output, not the last line: npm's parting words are the path to its log file,
+            # while the reason (401, 403, ENEEDAUTH) is further up.
             echo "::error::npm rejected the token: ${whoami_output}"
-            echo "::error::Create an automation token, or a granular token with read/write on the whole @xui scope, and update the NPM_TOKEN secret."
+            echo "::error::Check that NPM_TOKEN is an automation token, or a granular token with read/write on the whole @xui scope."
             exit 1
           fi
 
-          echo "Authenticated with npm as ${whoami_output}."
+          echo "Authenticated with npm as $(printf '%s\n' "${whoami_output}" | tail -n 1)."
 
       - name: Verify the workspace
         run: pnpm exec nx run-many -t lint test --parallel=3
