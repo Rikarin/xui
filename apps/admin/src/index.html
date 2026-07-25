@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Northwind Admin — built with xUI</title>
+    <base href="/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="A worked example of an admin application built entirely from @xui/* packages." />
+    <link rel="icon" href="data:," />
+    <script>
+      // Decided before first paint: a theme applied at bootstrap would flash the wrong one while the
+      // bundle loads. The app reads this class back rather than deciding again.
+      (function () {
+        try {
+          var stored = localStorage.getItem('xui-admin-theme');
+          var dark = stored ? stored === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+          document.documentElement.classList.add(dark ? 'dark' : 'light');
+        } catch (error) {
+          document.documentElement.classList.add('dark');
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <a href="#main" class="skip-link">Skip to content</a>
+    <app-root></app-root>
+  </body>
+</html>

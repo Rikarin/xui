@@ -179,6 +179,7 @@ The workspace is [Nx](https://nx.dev) + pnpm.
 pnpm install
 pnpm start                     # documentation site on :4200
 pnpm storybook                 # component gallery on :4400
+pnpm nx serve admin            # the example admin application
 pnpm test                      # unit tests
 pnpm nx test-storybook ui-storybook   # render every story in headless Chromium
 pnpm build                     # build every package
@@ -188,7 +189,9 @@ Commits follow [Conventional Commits](https://www.conventionalcommits.org) and a
 release is cut from them. See [docs/releasing.md](docs/releasing.md) for how a version is published,
 [apps/ui-storybook/README.md](apps/ui-storybook/README.md) before writing stories, and
 [apps/app/README.md](apps/app/README.md) for the documentation site, whose component pages are
-generated from those same stories.
+generated from those same stories, and [apps/admin/README.md](apps/admin/README.md) for the example
+admin application — a full app built from these packages, which is the fastest way to see how they
+fit together.
 
 ## Contributing
 

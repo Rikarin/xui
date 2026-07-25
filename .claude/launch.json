@@ -12,6 +12,12 @@
       "runtimeExecutable": "python3",
       "runtimeArgs": ["-m", "http.server", "4301", "--directory", "dist/apps/app/browser"],
       "port": 4301
+    },
+    {
+      "name": "admin",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["exec", "nx", "serve", "admin", "--port", "4402"],
+      "port": 4402
     }
   ]
 }

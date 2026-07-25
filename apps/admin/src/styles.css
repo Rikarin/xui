@@ -1,0 +1,35 @@
+@import 'tailwindcss';
+
+/* The design tokens every @xui/* package styles against. Published as
+   `@xui/core/styles/theme.css`; imported by path inside the workspace. */
+@import '../../../libs/core/styles/theme.css';
+
+/* Popovers, tooltips, menus, dialogs, drawers and the omnibar render through the CDK overlay
+   container, which needs its positioning styles to float rather than sit in the document flow. */
+@import '@angular/cdk/overlay-prebuilt.css';
+
+@plugin 'tailwindcss-animate';
+
+/* The component sources, plus this app's own templates. */
+@source '../../../libs';
+@source './app';
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  @apply bg-background text-foreground antialiased;
+  /* iOS Safari counts the URL bar in 100vh; svh keeps the full-height shell from overflowing. */
+  min-height: 100svh;
+}
+
+/* Visible only once focused, so a keyboard user can jump the nav without a visual change for
+   everyone else. */
+.skip-link {
+  @apply sr-only;
+}
+
+.skip-link:focus {
+  @apply bg-surface-raised text-foreground ring-focus not-sr-only absolute start-4 top-4 z-50 rounded-md px-4 py-2 ring-2;
+}

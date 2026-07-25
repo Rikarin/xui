@@ -59,6 +59,7 @@ export default {
         // Published packages that are not components.
         'core',
         'app',
+        'admin',
         'storybook',
         'mcp',
         'tools',
