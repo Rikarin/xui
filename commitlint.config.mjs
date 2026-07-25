@@ -46,7 +46,6 @@ export default {
         'sheet',
         'skeleton',
         'slider',
-        'sonner',
         'spinner',
         'status',
         'switch',

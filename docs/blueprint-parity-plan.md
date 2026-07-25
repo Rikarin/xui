@@ -237,9 +237,6 @@ round-trips. Notable per-package points:
 
 - `form-field` tests against a local fake `XFormFieldControl` rather than importing `@xui/input`,
   so the packages stay decoupled.
-- `sonner` asserts on the `class` input ngx-sonner receives, because ngx-sonner takes `class` as
-  an input and applies it to a toast list it renders lazily — the classes never reach the host.
-  Its `test-setup.ts` stubs `matchMedia`, which jsdom does not implement.
 - CI: add `nx affected -t test lint build` gate; flip Storybook a11y `test: 'todo'` → `'error'`
   once Phase 1 lands.
 
@@ -507,7 +504,7 @@ The last two — **`toast` and `panel-stack`** — closed the phase. Notes:
 | `Dialog`, `DialogBody`, `DialogFooter`, `DialogStep`, `MultistepDialog` | **✅ NEW** `@xui/dialog`       | `<xui-dialog [(isOpen)]>` + `xui-dialog-body`/`-footer`; `title`/`icon`/`size`/`canEscapeKeyClose`/`canOutsideClickClose`/`showCloseButton`. `XuiDialogService.open()` → injectable `XuiDialogRef<R>`. 9 tests, browser-verified. Multistep deferred.                                                |
 | `Alert`                                                                 | **✅ NEW** `@xui/alert`        | `<xui-alert [(isOpen)]>` confirm/cancel over dialog; `intent`(5)+icon, `confirmText`/`cancelText`, any dismissal = cancel. `XuiAlertService.confirm()` → `Promise<boolean>`. 8 tests, browser-verified.                                                                                              |
 | `Drawer`                                                                | **✅ NEW** `@xui/drawer`       | `<xui-drawer [(isOpen)]>` `position` left/right/top/bottom, `size`, `title`, `showCloseButton`; edge-pinned modal (new core `globalPosition`), WAAPI slide-in, reduced-motion aware. 8 tests, browser-verified.                                                                                      |
-| `Toast`, `OverlayToaster`                                               | **✅ NEW** `@xui/toast`        | `XuiToastService.show({message,intent,icon,actionText,onAction,timeout})` → id; `dismiss`/`clear`, `maxToasts`, `position` (6). Corner-pinned overlay, pointer pass-through, auto-dismiss. 9 tests, browser-verified. `@xui/sonner` kept published but frozen.                                       |
+| `Toast`, `OverlayToaster`                                               | **✅ NEW** `@xui/toast`        | `XuiToastService.show({message,intent,icon,actionText,onAction,timeout})` → id; `dismiss`/`clear`, `maxToasts`, `position` (6). Corner-pinned overlay, pointer pass-through, auto-dismiss. 9 tests, browser-verified. `@xui/sonner` has since been removed.                                       |
 | `PanelStack2`                                                           | **✅ NEW** `@xui/panel-stack`  | `<xui-panel-stack [initialPanel]>`; template (`let-stack`) or component (`XUI_PANEL_STACK`/`XUI_PANEL_DATA`) panels, back-navigating header, WAAPI slide, `(opened)`/`(closed)`. 6 tests, browser-verified. Keep-mounted mode deferred.                                                              |
 
 ### Phase 4 — Forms — ✅ COMPLETE (17: textarea, switch, radio, numeric-input, file-input, control-group, html-select, segmented-control, checkbox, input/InputGroup, form-field, slider, button-group (up), button (up), editable-text, tag-input, control-card)
@@ -653,7 +650,7 @@ composition (Angular's `ngProjectAs` covers most cases).
 Beyond Blueprint parity, a gap analysis against `ng-zorro-antd` surfaced components Ant
 Design has that Blueprint (and therefore xui) lacked. Ant-specific layout primitives
 (`grid`/`layout`/`space`/`flex`), infra (`i18n`/`pipes`/`cdk`), `code-editor` (Monaco), and
-components xui already covers (`auto-complete`≈`suggest`, `message`/`notification`≈`sonner`,
+components xui already covers (`auto-complete`≈`suggest`, `message`/`notification`≈`toast`,
 `empty`≈`non-ideal-state`) were **excluded**. All ported components keep xui's
 Blueprint/GitHub theme (Tailwind tokens), signals, OnPush/zoneless, and the standard DoD
 (story + tests + browser-verified). 15 new packages, ~92 tests.
@@ -761,7 +758,7 @@ bump, cut `2.0.0-beta.0` after Phase 5, `2.0.0` after Phase 7.
 
 | #   | Item                                                                                   | Recommendation                                                                                                                                                      |
 | --- | -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1   | **Toast**: `@xui/sonner` (ngx-sonner wrapper) vs a native `@xui/toast`                 | Build native `@xui/toast` on `@xui/core/overlay`; freeze `@xui/sonner` and mark it deprecated in the README. Removes a third-party runtime dep from the core story. |
+| 1   | **Toast**: `@xui/sonner` (ngx-sonner wrapper) vs a native `@xui/toast`                 | Build native `@xui/toast` on `@xui/core/overlay`; drop `@xui/sonner`. **Done** — `@xui/sonner` and its `ngx-sonner` dependency have been removed.                    |
 | 2   | **Icons**: Blueprint ships ~500 custom icons; xUI uses `@ng-icons` (Material)          | Stay on `@ng-icons` — do not port Blueprint's icon set. Document the icon-name mapping for anyone migrating.                                                        |
 | 3   | **Intent naming**: Blueprint `danger`/`none` vs xUI `error`/undefined                  | Keep xUI names; add a doc table. Do not add aliases (double API surface).                                                                                           |
 | 4   | **Popover engine**: `cdk/overlay` vs Floating UI (what Blueprint's `PopoverNext` uses) | `cdk/overlay` — already a dependency, SSR-safe, integrates with `cdk/a11y` focus trapping.                                                                          |
