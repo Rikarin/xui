@@ -1,6 +1,6 @@
 {
   "name": "@xui/date-input",
-  "version": "2.0.0-alpha.10",
+  "version": "2.0.0-alpha.11",
   "description": "Modern Angular 22 UI Library based on TailwindCSS",
   "keywords": [
     "angular",
@@ -25,10 +25,10 @@
     "@angular/core": "22",
     "@ng-icons/core": "34",
     "@ng-icons/material-icons": "34",
-    "@xui/core": "2.0.0-alpha.10",
-    "@xui/date-picker": "2.0.0-alpha.10",
-    "@xui/icon": "2.0.0-alpha.10",
-    "@xui/popover": "2.0.0-alpha.10",
+    "@xui/core": "2.0.0-alpha.11",
+    "@xui/date-picker": "2.0.0-alpha.11",
+    "@xui/icon": "2.0.0-alpha.11",
+    "@xui/popover": "2.0.0-alpha.11",
     "clsx": "^2.1.1"
   },
   "publishConfig": {

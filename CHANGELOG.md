@@ -1,3 +1,19 @@
+## 2.0.0-alpha.11 (2026-07-25)
+
+### 🚀 Features
+
+- **core:** put every control on one density scale ([0d4045a](https://github.com/Rikarin/xui/commit/0d4045a))
+
+### 🩹 Fixes
+
+- **input:** scale adornments, icons and inner buttons with the field ([9a0ceef](https://github.com/Rikarin/xui/commit/9a0ceef))
+- **repo:** authenticate the npm preflight the way npm actually reads credentials ([d31ed7c](https://github.com/Rikarin/xui/commit/d31ed7c))
+
+### ❤️ Thank You
+
+- Claude Opus 5
+- Rikarin @Rikarin
+
 ## 2.0.0-alpha.10 (2026-07-25)
 
 ### 🚀 Features
