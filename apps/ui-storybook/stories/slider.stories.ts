@@ -48,10 +48,10 @@ export const Intents: Story = {
   render: () => ({
     template: `
       <div class="flex w-96 flex-col gap-8">
-        <xui-slider intent="primary" [max]="10" value="3" aria-label="Primary" />
-        <xui-slider intent="success" [max]="10" value="5" aria-label="Success" />
-        <xui-slider intent="warning" [max]="10" value="7" aria-label="Warning" />
-        <xui-slider intent="danger" [max]="10" value="9" aria-label="Danger" />
+        <xui-slider intent="primary" [max]="10" [value]="3" aria-label="Primary" />
+        <xui-slider intent="success" [max]="10" [value]="5" aria-label="Success" />
+        <xui-slider intent="warning" [max]="10" [value]="7" aria-label="Warning" />
+        <xui-slider intent="danger" [max]="10" [value]="9" aria-label="Danger" />
       </div>
     `
   })
@@ -60,7 +60,7 @@ export const Intents: Story = {
 /** Disabled sliders ignore pointer and keyboard input. */
 export const Disabled: Story = {
   render: () => ({
-    template: `<div class="w-96"><xui-slider disabled [max]="10" value="4" aria-label="Disabled" /></div>`
+    template: `<div class="w-96"><xui-slider disabled [max]="10" [value]="4" aria-label="Disabled" /></div>`
   })
 };
 

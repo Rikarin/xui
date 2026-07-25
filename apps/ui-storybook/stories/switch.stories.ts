@@ -14,30 +14,30 @@ const meta: Meta<XuiSwitch> = {
   argTypes: {
     size: { control: 'inline-radio', options: ['default', 'large'] }
   },
-  // `ariaLabel` is aliased to the `aria-label` attribute, so it has to reach the component as
-  // one: handed over in `props` it overwrites the signal input itself and every change-detection
-  // pass then throws `ariaLabel is not a function`.
-  render: ({ ariaLabel, ...args }) => ({
+  // The label is written into the template rather than passed as an arg: `ariaLabel` is aliased to
+  // the `aria-label` attribute, and an arg of that name would be assigned onto the component
+  // instance, overwriting the signal input itself.
+  render: ({ ...args }) => ({
     props: args,
-    template: `<xui-switch ${ariaLabel ? `aria-label="${ariaLabel}"` : ''} ${argsToTemplate(args)} />`
+    template: `<xui-switch aria-label="Wi-Fi" ${argsToTemplate(args)} />`
   })
 };
 
 export default meta;
 type Story = StoryObj<XuiSwitch>;
 
-export const Default: Story = { args: { ariaLabel: 'Wi-Fi' } };
+export const Default: Story = {};
 
-export const Large: Story = { args: { size: 'large', ariaLabel: 'Wi-Fi' } };
+export const Large: Story = { args: { size: 'large' } };
 
-export const Checked: Story = { args: { checked: true, ariaLabel: 'Wi-Fi' } };
+export const Checked: Story = { args: { checked: true } };
 
 export const Disabled: Story = {
   render: () => ({
     template: `
       <div class="flex gap-4">
         <xui-switch aria-label="off" disabled />
-        <xui-switch aria-label="on" checked disabled />
+        <xui-switch aria-label="on" [checked]="true" disabled />
       </div>
     `
   })

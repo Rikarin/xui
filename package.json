@@ -53,11 +53,6 @@
     "@angular/ssr": "22.0.8",
     "@faker-js/faker": "^10.5.0",
     "@modelcontextprotocol/sdk": "^1.29.0",
-    "@ng-doc/app": "^21.1.0",
-    "@ng-doc/builder": "^21.1.0",
-    "@ng-doc/core": "^21.1.0",
-    "@ng-doc/keywords-loaders": "^21.1.0",
-    "@ng-doc/ui-kit": "^21.1.0",
     "@ng-icons/core": "^34.0.0",
     "@ng-icons/material-icons": "^34.0.0",
     "@ng-icons/material-symbols": "^34.0.0",
@@ -151,7 +146,8 @@
     "typescript-eslint": "8.65.0",
     "verdaccio": "6.8.0",
     "vite-tsconfig-paths": "^6.1.1",
-    "vitest": "^4.1.10"
+    "vitest": "^4.1.10",
+    "wrangler": "^4.114.0"
   },
   "packageManager": "pnpm@10.12.1",
   "engines": {
@@ -161,6 +157,11 @@
     "yarn": "please-use-pnpm"
   },
   "engineStrict": true,
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "workerd"
+    ]
+  },
   "nx": {
     "includedScripts": []
   }

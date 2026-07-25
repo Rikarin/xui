@@ -29,8 +29,6 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@ng-doc/generated": ["ng-doc/app/index.ts"],
-      "@ng-doc/generated/*": ["ng-doc/app/*"],
       "@xui/badge": ["libs/ui/badge/xui/src/index.ts"],
       "@xui/breadcrumb": ["libs/ui/breadcrumb/xui/src/index.ts"],
       "@xui/button": ["libs/ui/button/xui/src/index.ts"],

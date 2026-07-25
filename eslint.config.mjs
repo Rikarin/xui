@@ -5,9 +5,10 @@ import nx from '@nx/eslint-plugin';
 
 const moduleBoundaries = {
   enforceBuildableLibDependency: true,
-  // `@ng-doc/generated` is build output under /ng-doc, which Nx resolves
-  // back to the `app` project and would otherwise reject as an app import.
-  allow: ['^.*/eslint(\\.base)?\\.config\\.[cm]?js$', '^@ng-doc/generated$'],
+  // The docs generator reads the compiled `@xui/mcp` extraction rather than its TypeScript source:
+  // it runs under a plain Node loader, where the package's `.js` specifiers do not resolve back to
+  // `.ts` files.
+  allow: ['^.*/eslint(\\.base)?\\.config\\.[cm]?js$', '^.*/dist/libs/mcp/.*$'],
   depConstraints: [
     {
       sourceTag: '*',

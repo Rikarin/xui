@@ -1,43 +1,24 @@
-import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
-import { type ApplicationConfig, provideZonelessChangeDetection } from '@angular/core';
-import { provideClientHydration, withEventReplay, withNoIncrementalHydration } from '@angular/platform-browser';
-import { provideAnimations } from '@angular/platform-browser/animations';
-import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import {
-  NG_DOC_DEFAULT_PAGE_PROCESSORS,
-  NG_DOC_DEFAULT_PAGE_SKELETON,
-  NgDocDefaultSearchEngine,
-  provideMainPageProcessor,
-  provideNgDocApp,
-  providePageSkeleton,
-  provideSearchEngine
-} from '@ng-doc/app';
-import { NG_DOC_ROUTING, provideNgDocContext } from '@ng-doc/generated';
+  type ApplicationConfig,
+  provideBrowserGlobalErrorListeners,
+  provideZonelessChangeDetection
+} from '@angular/core';
+import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
+import { provideRouter, withComponentInputBinding, withInMemoryScrolling } from '@angular/router';
+import { routes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    provideBrowserGlobalErrorListeners(),
     provideZonelessChangeDetection(),
-    provideClientHydration(withEventReplay(), withNoIncrementalHydration()),
-
-    // Provide context of the generated documentation
-    provideNgDocContext(),
-    // Provide default configuration for the documentation app
-    provideNgDocApp(),
-    provideSearchEngine(NgDocDefaultSearchEngine),
-    providePageSkeleton(NG_DOC_DEFAULT_PAGE_SKELETON),
-    provideMainPageProcessor(NG_DOC_DEFAULT_PAGE_PROCESSORS),
-    // Provide animations
-    provideAnimations(),
-    // Provide HttpClient with interceptors (NgDoc uses interceptors)
-    provideHttpClient(withXhr(), withInterceptorsFromDi()),
-    // Add generated routes to the application
+    provideClientHydration(withEventReplay()),
     provideRouter(
-      NG_DOC_ROUTING,
-      // Enable anchor scrolling
-      withInMemoryScrolling({
-        scrollPositionRestoration: 'enabled',
-        anchorScrolling: 'enabled'
-      })
+      routes,
+      // The component page takes its resolved doc as a signal input rather than reading the route.
+      withComponentInputBinding(),
+      // Deep links have to land on the heading they name, and going back to a page has to land
+      // where it was left.
+      withInMemoryScrolling({ scrollPositionRestoration: 'enabled', anchorScrolling: 'enabled' })
     )
   ]
 };

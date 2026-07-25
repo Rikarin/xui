@@ -58,6 +58,8 @@ export default {
         'typography',
         // Published packages that are not components.
         'core',
+        'app',
+        'storybook',
         'mcp',
         'tools',
         'nx',

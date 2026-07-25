@@ -60,7 +60,7 @@ export const Disabled: Story = {
     template: `
       <div class="flex w-80 flex-col gap-2">
         <xui-control-card disabled>Unavailable option</xui-control-card>
-        <xui-control-card disabled checked="true">Locked on</xui-control-card>
+        <xui-control-card disabled [checked]="true">Locked on</xui-control-card>
       </div>
     `
   })

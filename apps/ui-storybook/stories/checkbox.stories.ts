@@ -34,11 +34,11 @@ const meta: Meta<XuiCheckbox> = {
     template: `
       <div class="flex flex-col gap-2">
         <xui-checkbox label="Unchecked" ${argsToTemplate(args)} />
-        <xui-checkbox indeterminate="true" label="Indeterminate" ${argsToTemplate(args)} />
-        <xui-checkbox checked="true" label="Checked" ${argsToTemplate(args)} />
+        <xui-checkbox [indeterminate]="true" label="Indeterminate" ${argsToTemplate(args)} />
+        <xui-checkbox [checked]="true" label="Checked" ${argsToTemplate(args)} />
         <xui-checkbox disabled label="Unchecked Disabled" ${argsToTemplate(args)} />
-        <xui-checkbox indeterminate="true" disabled label="Indeterminate Disabled" ${argsToTemplate(args)} />
-        <xui-checkbox checked="true" disabled label="Checked Disabled" ${argsToTemplate(args)} />
+        <xui-checkbox [indeterminate]="true" disabled label="Indeterminate Disabled" ${argsToTemplate(args)} />
+        <xui-checkbox [checked]="true" disabled label="Checked Disabled" ${argsToTemplate(args)} />
       </div>
     `
   })
@@ -69,7 +69,7 @@ export const Layout: Story = {
       <xui-checkbox class="w-64" alignIndicator="end" label="Indicator at the end" />
 
       <div class="mt-4">
-        <xui-checkbox inline checked="true" label="Comfortable" />
+        <xui-checkbox inline [checked]="true" label="Comfortable" />
         <xui-checkbox inline label="Cozy" />
         <xui-checkbox inline label="Compact" />
       </div>
@@ -84,30 +84,30 @@ export const Colors: Story = {
       props: args,
       template: `
         <div class="flex gap-2">
-          <xui-checkbox checked="true" color="primary" aria-label="primary checked" ${tmp} />
-          <xui-checkbox checked="true" color="secondary" aria-label="secondary checked" ${tmp} />
-          <xui-checkbox checked="true" color="success" aria-label="success checked" ${tmp} />
-          <xui-checkbox checked="true" color="error" aria-label="error checked" ${tmp} />
-          <xui-checkbox checked="true" color="warning" aria-label="warning checked" ${tmp} />
-          <xui-checkbox checked="true" color="info" aria-label="info checked" ${tmp} />
+          <xui-checkbox [checked]="true" color="primary" aria-label="primary checked" ${tmp} />
+          <xui-checkbox [checked]="true" color="secondary" aria-label="secondary checked" ${tmp} />
+          <xui-checkbox [checked]="true" color="success" aria-label="success checked" ${tmp} />
+          <xui-checkbox [checked]="true" color="error" aria-label="error checked" ${tmp} />
+          <xui-checkbox [checked]="true" color="warning" aria-label="warning checked" ${tmp} />
+          <xui-checkbox [checked]="true" color="info" aria-label="info checked" ${tmp} />
         </div>
 
         <div class="flex gap-2 mt-2">
-          <xui-checkbox indeterminate="true" color="primary" aria-label="primary indeterminate" ${tmp} />
-          <xui-checkbox indeterminate="true" color="secondary" aria-label="secondary indeterminate" ${tmp} />
-          <xui-checkbox indeterminate="true" color="success" aria-label="success indeterminate" ${tmp} />
-          <xui-checkbox indeterminate="true" color="error" aria-label="error indeterminate" ${tmp} />
-          <xui-checkbox indeterminate="true" color="warning" aria-label="warning indeterminate" ${tmp} />
-          <xui-checkbox indeterminate="true" color="info" aria-label="info indeterminate" ${tmp} />
+          <xui-checkbox [indeterminate]="true" color="primary" aria-label="primary indeterminate" ${tmp} />
+          <xui-checkbox [indeterminate]="true" color="secondary" aria-label="secondary indeterminate" ${tmp} />
+          <xui-checkbox [indeterminate]="true" color="success" aria-label="success indeterminate" ${tmp} />
+          <xui-checkbox [indeterminate]="true" color="error" aria-label="error indeterminate" ${tmp} />
+          <xui-checkbox [indeterminate]="true" color="warning" aria-label="warning indeterminate" ${tmp} />
+          <xui-checkbox [indeterminate]="true" color="info" aria-label="info indeterminate" ${tmp} />
         </div>
 
         <div class="flex gap-2 mt-2">
-          <xui-checkbox disabled checked="true" color="primary" aria-label="primary disabled checked" ${tmp} />
-          <xui-checkbox disabled checked="true" color="secondary" aria-label="secondary disabled checked" ${tmp} />
-          <xui-checkbox disabled checked="true" color="success" aria-label="success disabled checked" ${tmp} />
-          <xui-checkbox disabled checked="true" color="error" aria-label="error disabled checked" ${tmp} />
-          <xui-checkbox disabled checked="true" color="warning" aria-label="warning disabled checked" ${tmp} />
-          <xui-checkbox disabled checked="true" color="info" aria-label="info disabled checked" ${tmp} />
+          <xui-checkbox disabled [checked]="true" color="primary" aria-label="primary disabled checked" ${tmp} />
+          <xui-checkbox disabled [checked]="true" color="secondary" aria-label="secondary disabled checked" ${tmp} />
+          <xui-checkbox disabled [checked]="true" color="success" aria-label="success disabled checked" ${tmp} />
+          <xui-checkbox disabled [checked]="true" color="error" aria-label="error disabled checked" ${tmp} />
+          <xui-checkbox disabled [checked]="true" color="warning" aria-label="warning disabled checked" ${tmp} />
+          <xui-checkbox disabled [checked]="true" color="info" aria-label="info disabled checked" ${tmp} />
         </div>
 
         <div class="flex gap-2 mt-2">

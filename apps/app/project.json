@@ -6,58 +6,51 @@
   "sourceRoot": "apps/app/src",
   "tags": [],
   "targets": {
+    "generate-docs": {
+      "executor": "nx:run-commands",
+      "dependsOn": [{ "projects": ["mcp"], "target": "build" }],
+      "outputs": ["{projectRoot}/src/generated"],
+      "options": {
+        "command": "node --import @swc-node/register/esm-register apps/app/tools/generate-docs.ts",
+        "cwd": "{workspaceRoot}"
+      }
+    },
     "build": {
-      "executor": "@ng-doc/builder:application",
+      "executor": "@angular-devkit/build-angular:application",
       "outputs": ["{options.outputPath}"],
+      "dependsOn": ["generate-docs"],
       "options": {
         "outputPath": "dist/apps/app",
         "index": "apps/app/src/index.html",
         "browser": "apps/app/src/main.ts",
-        "polyfills": [],
-        "tsConfig": "apps/app/tsconfig.app.json",
-        "inlineStyleLanguage": "scss",
-        "assets": [
-          {
-            "glob": "**/*",
-            "input": "apps/app/public"
-          },
-          {
-            "glob": "**/*",
-            "input": "node_modules/@ng-doc/ui-kit/assets",
-            "output": "assets/ng-doc/ui-kit"
-          },
-          {
-            "glob": "**/*",
-            "input": "node_modules/@ng-doc/app/assets",
-            "output": "assets/ng-doc/app"
-          },
-          {
-            "glob": "**/*",
-            "input": "ng-doc/app/assets",
-            "output": "assets/ng-doc"
-          }
-        ],
-        "styles": ["apps/app/src/styles.css", "node_modules/@ng-doc/app/styles/global.css"],
-        "allowedCommonJsDependencies": ["@ng-doc/core", "dayjs", "@braintree/sanitize-url", "cytoscape-cose-bilkent"],
-        "scripts": [],
         "server": "apps/app/src/main.server.ts",
         "ssr": {
           "entry": "apps/app/src/server.ts"
         },
-        "outputMode": "server"
+        "outputMode": "server",
+        "polyfills": [],
+        "tsConfig": "apps/app/tsconfig.app.json",
+        "assets": [
+          {
+            "glob": "**/*",
+            "input": "apps/app/public"
+          }
+        ],
+        "styles": ["apps/app/src/styles.css"],
+        "scripts": []
       },
       "configurations": {
         "production": {
           "budgets": [
             {
               "type": "initial",
-              "maximumWarning": "500kb",
-              "maximumError": "10mb"
+              "maximumWarning": "700kb",
+              "maximumError": "2mb"
             },
             {
               "type": "anyComponentStyle",
               "maximumWarning": "8kb",
-              "maximumError": "10mb"
+              "maximumError": "16kb"
             }
           ],
           "outputHashing": "all"
@@ -71,7 +64,8 @@
       "defaultConfiguration": "production"
     },
     "serve": {
-      "executor": "@ng-doc/builder:dev-server",
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "dependsOn": ["generate-docs"],
       "configurations": {
         "production": {
           "buildTarget": "app:build:production"
@@ -81,12 +75,6 @@
         }
       },
       "defaultConfiguration": "development"
-    },
-    "extract-i18n": {
-      "executor": "@angular-devkit/build-angular:extract-i18n",
-      "options": {
-        "buildTarget": "app:build"
-      }
     },
     "lint": {
       "executor": "@nx/eslint:lint"
@@ -99,13 +87,20 @@
         "tsConfig": "apps/app/tsconfig.spec.json"
       }
     },
-    "serve-static": {
-      "executor": "@nx/web:file-server",
+    "deploy": {
+      "executor": "nx:run-commands",
+      "dependsOn": ["build"],
       "options": {
-        "buildTarget": "app:build",
-        "port": 4200,
-        "staticFilePath": "dist/apps/app/browser",
-        "spa": true
+        "command": "wrangler deploy",
+        "cwd": "apps/app"
+      }
+    },
+    "preview": {
+      "executor": "nx:run-commands",
+      "dependsOn": ["build"],
+      "options": {
+        "command": "wrangler dev",
+        "cwd": "apps/app"
       }
     }
   }

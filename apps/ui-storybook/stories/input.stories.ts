@@ -37,7 +37,7 @@ export const Default: Story = {
     template: `
       <label xuiLabel class="grid gap-1.5 w-80">
         E-Mail:
-        <input xuiInput error="true" type="email" placeholder="Email" value="Foo Bar" ${argsToTemplate(args)} />
+        <input xuiInput [error]="true" type="email" placeholder="Email" value="Foo Bar" ${argsToTemplate(args)} />
       </label>
       <div xuiInputError>Invalid E-mail!</div>
 

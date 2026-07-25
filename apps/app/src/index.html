@@ -2,12 +2,30 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>xUI Angular Library</title>
+    <title>xUI — Angular components, one package each</title>
     <base href="/" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="xUI is an Angular 22 component library styled with Tailwind CSS 4. Signal inputs, zoneless change detection, and a semantic token layer for light and dark."
+    />
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <script>
+      // Decided before first paint: a theme applied at bootstrap would flash the wrong one while the
+      // bundle loads. The app reads this class back rather than deciding again.
+      (function () {
+        try {
+          var stored = localStorage.getItem('xui-docs-theme');
+          var dark = stored ? stored === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+          document.documentElement.classList.add(dark ? 'dark' : 'light');
+        } catch (error) {
+          document.documentElement.classList.add('dark');
+        }
+      })();
+    </script>
   </head>
   <body>
+    <a href="#main" class="skip-link">Skip to content</a>
     <app-root></app-root>
   </body>
 </html>

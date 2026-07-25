@@ -1,0 +1,17 @@
+{
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  "name": "xui-docs",
+  "compatibility_date": "2025-11-01",
+  // Angular's server bundle reaches for a handful of Node built-ins even on the web runtime.
+  "compatibility_flags": ["nodejs_compat"],
+  "main": "../../dist/apps/app/server/server.mjs",
+  "assets": {
+    // Every prerendered page lands here alongside the bundles, so a documentation request is
+    // usually served from the edge without invoking the Worker at all.
+    "directory": "../../dist/apps/app/browser",
+    "binding": "ASSETS"
+  },
+  "observability": {
+    "enabled": true
+  }
+}
