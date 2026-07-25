@@ -43,6 +43,9 @@ Thumbs.db
 
 .angular
 build-storybook.log
+
+# Failure artifacts (screenshots, diffs) from the Storybook browser tests.
+.vitest-attachments
 .env
 /ng-doc
 .cursor/rules/nx-rules.mdc

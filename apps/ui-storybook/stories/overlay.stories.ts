@@ -115,6 +115,9 @@ export class XuiOverlayModalDemo {
 
 const meta: Meta = {
   title: 'Foundations/Overlay primitive',
+  // The demo components above are exported so the decorator can import them; without this
+  // Storybook reads every named export as a story and tries to render the class itself.
+  excludeStories: /^Xui.*Demo$/,
   decorators: [moduleMetadata({ imports: [XuiOverlayDemo, XuiOverlayModalDemo] })]
 };
 

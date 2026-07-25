@@ -3,9 +3,9 @@ import { XuiMenuImports } from '@xui/menu';
 import { XuiMenubar, XuiMenubarImports } from '@xui/menubar';
 
 /**
- * A desktop-style application menu bar. Built on `@angular/cdk/menu`'s
- * `CdkMenuBar`: roving focus, arrow keys move between menus, and once one is
- * open, hovering a sibling switches to it. Dropdowns are `@xui/menu`.
+ * A desktop-style application menu bar. Built on the Angular CDK's `CdkMenuBar`:
+ * roving focus, arrow keys move between menus, and once one is open, hovering a
+ * sibling switches to it. Dropdowns are `@xui/menu`.
  */
 const meta: Meta<XuiMenubar> = {
   title: 'Navigation/Menubar',

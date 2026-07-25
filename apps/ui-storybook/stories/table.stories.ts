@@ -21,6 +21,9 @@ export default {
   title: 'Data display/Table',
   component: XuiTable,
   tags: ['autodocs'],
+  // `TableStory` below is a host component for the CDK table story, not a story: without this
+  // Storybook reads it as one and tries to render the class itself.
+  excludeStories: ['TableStory'],
   decorators: [
     moduleMetadata({
       imports: [XuiTableImports, XTableImports]

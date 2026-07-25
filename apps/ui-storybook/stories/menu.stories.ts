@@ -11,9 +11,10 @@ import { XuiButtonImports } from '@xui/button';
 import { XuiMenu, XuiMenuImports } from '@xui/menu';
 
 /**
- * A list of commands, opened from a trigger. Built on `@angular/cdk/menu`, so
- * arrow-key navigation, typeahead, submenu aim, Escape and close-on-select all
- * work — none of which jsdom exercises, so these stories are the real check.
+ * A list of commands, opened from a trigger. Built on the Angular CDK's menu
+ * primitives, so arrow-key navigation, typeahead, submenu aim, Escape and
+ * close-on-select all work — none of which jsdom exercises, so these stories
+ * are the real check.
  */
 const meta: Meta<XuiMenu> = {
   title: 'Overlays/Menu',

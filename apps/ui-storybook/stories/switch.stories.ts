@@ -1,5 +1,5 @@
 import { FormsModule } from '@angular/forms';
-import { moduleMetadata, type Meta, type StoryObj } from '@storybook/angular-vite';
+import { argsToTemplate, moduleMetadata, type Meta, type StoryObj } from '@storybook/angular-vite';
 import { XuiSwitch, XuiSwitchImports } from '@xui/switch';
 
 /**
@@ -13,7 +13,14 @@ const meta: Meta<XuiSwitch> = {
   decorators: [moduleMetadata({ imports: [XuiSwitchImports, FormsModule] })],
   argTypes: {
     size: { control: 'inline-radio', options: ['default', 'large'] }
-  }
+  },
+  // `ariaLabel` is aliased to the `aria-label` attribute, so it has to reach the component as
+  // one: handed over in `props` it overwrites the signal input itself and every change-detection
+  // pass then throws `ariaLabel is not a function`.
+  render: ({ ariaLabel, ...args }) => ({
+    props: args,
+    template: `<xui-switch ${ariaLabel ? `aria-label="${ariaLabel}"` : ''} ${argsToTemplate(args)} />`
+  })
 };
 
 export default meta;

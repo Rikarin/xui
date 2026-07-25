@@ -36,6 +36,7 @@
     "start": "nx serve app",
     "storybook": "nx storybook ui-storybook",
     "test": "nx run-many --target test --all",
+    "test-storybook": "nx test-storybook ui-storybook",
     "update-projects": "nx g @xui/tools:update-projects"
   },
   "dependencies": {

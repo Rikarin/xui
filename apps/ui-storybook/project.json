@@ -35,6 +35,13 @@
         }
       }
     },
+    "test-storybook": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "vitest run --config apps/ui-storybook/vitest.config.ts",
+        "cwd": "{workspaceRoot}"
+      }
+    },
     "static-storybook": {
       "executor": "@nx/web:file-server",
       "options": {

@@ -16,6 +16,7 @@ export default defineConfig({
     projects: [
       {
         extends: true,
+        root: dirname,
         plugins: [
           // Forwards Angular build options (styles, assets, zoneless, …) into standalone vitest runs
           storybookAngularVitest({}),
