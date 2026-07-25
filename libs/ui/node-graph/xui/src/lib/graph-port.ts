@@ -13,14 +13,20 @@ import {
   type OnInit,
   signal,
   untracked,
-  ViewEncapsulation,
-  viewChild
+  viewChild,
+  ViewEncapsulation
 } from '@angular/core';
 import { xui } from '@xui/core';
 import type { ClassValue } from 'clsx';
 import { XUI_GRAPH_NODE } from './graph-node.token';
 import { XuiNodeGraphStore } from './node-graph-store';
-import type { XuiGraphPoint, XuiGraphPortDirection, XuiGraphPortHandle, XuiGraphPortShape, XuiGraphPortSide } from './node-graph.types';
+import type {
+  XuiGraphPoint,
+  XuiGraphPortDirection,
+  XuiGraphPortHandle,
+  XuiGraphPortShape,
+  XuiGraphPortSide
+} from './node-graph.types';
 import { xuiGraphPortKey } from './node-graph.types';
 
 /** Side a port takes when the author states only its direction. */
@@ -206,7 +212,9 @@ export class XuiGraphPort implements XuiGraphPortHandle, OnInit {
     return Math.max(index, 0);
   });
 
-  private readonly countOnSide = computed(() => this.node.portSlots().filter(slot => slot.resolvedSide() === this.resolvedSide()).length);
+  private readonly countOnSide = computed(
+    () => this.node.portSlots().filter(slot => slot.resolvedSide() === this.resolvedSide()).length
+  );
 
   /**
    * Top and bottom ports spread evenly along their edge instead of stacking,

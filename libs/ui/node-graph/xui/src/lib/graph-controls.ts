@@ -89,7 +89,7 @@ export class XuiGraphControls {
 
   protected readonly computedClass = computed(() =>
     xui(
-      'bg-surface-overlay border-border shadow-elevation-2 pointer-events-auto absolute z-10 flex gap-0.5 rounded-md border p-1',
+      'bg-surface-overlay border-border shadow-elevation-2 pointer-events-auto absolute z-10 flex gap-0.5 rounded-md border p-1 select-none',
       this.horizontal() ? 'flex-row items-center' : 'flex-col',
       // A sensible default corner; override with `class` to move it.
       'bottom-4 left-4',

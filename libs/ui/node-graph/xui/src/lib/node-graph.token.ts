@@ -1,10 +1,5 @@
 import { inject, InjectionToken, ValueProvider } from '@angular/core';
-import type {
-  XuiGraphBackground,
-  XuiGraphMarker,
-  XuiGraphPortShape,
-  XuiGraphRouting
-} from './node-graph.types';
+import type { XuiGraphBackground, XuiGraphMarker, XuiGraphPortShape, XuiGraphRouting } from './node-graph.types';
 
 /**
  * Presentation attached to a port *data type* — the string that decides which

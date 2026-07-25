@@ -503,7 +503,9 @@ export class XuiNodeGraphStore {
     }
 
     for (const [id, origin] of this.dragOrigins) {
-      this.nodeMap().get(id)?.moveTo(this.snap({ x: origin.x + delta.x, y: origin.y + delta.y }));
+      this.nodeMap()
+        .get(id)
+        ?.moveTo(this.snap({ x: origin.x + delta.x, y: origin.y + delta.y }));
     }
   }
 

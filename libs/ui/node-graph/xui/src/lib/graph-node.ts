@@ -209,9 +209,7 @@ export class XuiGraphNode implements XuiGraphNodeHandle, OnInit {
 
   readonly selected = computed(() => this.store.isNodeSelected(this.nodeId()));
 
-  protected readonly immovable = computed(
-    () => this.locked() || !this.draggable() || this.store.settings().locked
-  );
+  protected readonly immovable = computed(() => this.locked() || !this.draggable() || this.store.settings().locked);
 
   protected readonly transform = computed(() => {
     const { x, y } = this.position();

@@ -18,7 +18,7 @@ import {
 import { xui } from '@xui/core';
 import type { ClassValue } from 'clsx';
 import { XuiNodeGraphStore, type XuiGraphSettings } from './node-graph-store';
-import { xuiGraphEdgePath, xuiGraphEdgeMidpoint, type XuiGraphRouteOptions } from './node-graph.routing';
+import { xuiGraphEdgeMidpoint, xuiGraphEdgePath, type XuiGraphRouteOptions } from './node-graph.routing';
 import { injectXuiNodeGraphConfig, type XuiGraphPortType } from './node-graph.token';
 import type {
   XuiGraphBackground,
@@ -82,18 +82,36 @@ let nextGraphId = 0;
 @Component({
   selector: 'xui-node-graph',
   template: `
-    <div class="pointer-events-none absolute inset-0" [style.background-image]="backgroundImage()"
-         [style.background-size]="backgroundSize()" [style.background-position]="backgroundPosition()"></div>
+    <div
+      class="pointer-events-none absolute inset-0"
+      [style.background-image]="backgroundImage()"
+      [style.background-size]="backgroundSize()"
+      [style.background-position]="backgroundPosition()"
+    ></div>
 
     <div class="absolute top-0 left-0 origin-top-left" [style.transform]="canvasTransform()">
       <svg class="pointer-events-none absolute overflow-visible" width="1" height="1" aria-hidden="true">
         <defs>
-          <marker [id]="arrowId" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto-start-reverse"
-                  markerUnits="userSpaceOnUse">
+          <marker
+            [id]="arrowId"
+            markerWidth="10"
+            markerHeight="10"
+            refX="9"
+            refY="5"
+            orient="auto-start-reverse"
+            markerUnits="userSpaceOnUse"
+          >
             <path d="M 1 1 L 9 5 L 1 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" />
           </marker>
-          <marker [id]="arrowClosedId" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto-start-reverse"
-                  markerUnits="userSpaceOnUse">
+          <marker
+            [id]="arrowClosedId"
+            markerWidth="10"
+            markerHeight="10"
+            refX="9"
+            refY="5"
+            orient="auto-start-reverse"
+            markerUnits="userSpaceOnUse"
+          >
             <path d="M 1 1 L 9 5 L 1 9 Z" fill="context-stroke" stroke="context-stroke" stroke-width="1" />
           </marker>
           <marker [id]="dotId" markerWidth="8" markerHeight="8" refX="4" refY="4" markerUnits="userSpaceOnUse">
@@ -104,8 +122,14 @@ let nextGraphId = 0;
         @for (item of renderedEdges(); track item.edge.id) {
           <g class="pointer-events-auto">
             @if (item.selected) {
-              <path [attr.d]="item.d" fill="none" stroke="var(--color-selection)" [attr.stroke-width]="item.width + 8"
-                    stroke-linecap="round" stroke-linejoin="round" />
+              <path
+                [attr.d]="item.d"
+                fill="none"
+                stroke="var(--color-selection)"
+                [attr.stroke-width]="item.width + 8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
             }
             <path
               class="cursor-pointer"
@@ -551,7 +575,7 @@ export class XuiNodeGraph {
 
     // Middle-drag always pans, whatever the primary gesture is bound to;
     // shift inverts the primary gesture, which is the convention everywhere.
-    const pan = middle || (this.panOnDrag() !== event.shiftKey);
+    const pan = middle || this.panOnDrag() !== event.shiftKey;
 
     if (pan) {
       this.gesture = 'pan';

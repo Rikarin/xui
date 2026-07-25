@@ -46,7 +46,9 @@ export class XuiGraphNodeActions {
 export class XuiGraphNodePreview {
   readonly class = input<ClassValue>('');
 
-  protected readonly computedClass = computed(() => xui('border-border-muted block overflow-hidden border-b', this.class()));
+  protected readonly computedClass = computed(() =>
+    xui('border-border-muted block overflow-hidden border-b', this.class())
+  );
 }
 
 /**

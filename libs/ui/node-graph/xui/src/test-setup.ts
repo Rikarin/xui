@@ -8,13 +8,14 @@ setupZonelessTestEnv({
 // jsdom implements neither of these, and the graph depends on both: nodes watch
 // their own box to know when connectors moved, and every drag gesture captures
 // the pointer so it keeps receiving events once it leaves the element.
+const noop = () => undefined;
+
 globalThis.ResizeObserver ??= class {
-  observe(): void {
-    /* no layout in jsdom, so nothing ever fires */
-  }
-  unobserve(): void {}
-  disconnect(): void {}
+  // jsdom never lays anything out, so an observer here can only ever be inert.
+  readonly observe = noop;
+  readonly unobserve = noop;
+  readonly disconnect = noop;
 } as unknown as typeof ResizeObserver;
 
-Element.prototype.setPointerCapture ??= function setPointerCapture() {};
-Element.prototype.releasePointerCapture ??= function releasePointerCapture() {};
+Element.prototype.setPointerCapture ??= noop;
+Element.prototype.releasePointerCapture ??= noop;

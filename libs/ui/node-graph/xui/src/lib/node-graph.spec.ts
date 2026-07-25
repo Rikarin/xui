@@ -188,9 +188,12 @@ describe('XuiNodeGraph connection rules', () => {
   });
 
   it('gives a host validator the last word over the built-in rules', () => {
-    const { store } = setup(PAIR.replace('<xui-node-graph', '<xui-node-graph [isValidConnection]="props().validator"'), {
-      validator: ({ target }) => target.portId !== 'in'
-    });
+    const { store } = setup(
+      PAIR.replace('<xui-node-graph', '<xui-node-graph [isValidConnection]="props().validator"'),
+      {
+        validator: ({ target }) => target.portId !== 'in'
+      }
+    );
 
     expect(store.canConnect(connection())).toBe(false);
     // The validator only narrows: a pairing the built-in rules already rejected

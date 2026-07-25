@@ -136,7 +136,7 @@ export class XuiGraphMinimap {
   protected readonly computedClass = computed(() =>
     xui(
       'bg-surface-overlay/90 border-border shadow-elevation-2 pointer-events-auto absolute z-10 block h-32 w-48 ' +
-        'overflow-hidden rounded-md border p-1',
+        'overflow-hidden rounded-md border p-1 select-none',
       'right-4 bottom-4',
       this.class()
     )
@@ -186,6 +186,9 @@ export class XuiGraphMinimap {
     const surface = this.store.surfaceSize();
     const { zoom } = this.store.viewport();
 
-    this.store.panBy(surface.width / 2 - (graphX * zoom + this.store.viewport().x), surface.height / 2 - (graphY * zoom + this.store.viewport().y));
+    this.store.panBy(
+      surface.width / 2 - (graphX * zoom + this.store.viewport().x),
+      surface.height / 2 - (graphY * zoom + this.store.viewport().y)
+    );
   }
 }
