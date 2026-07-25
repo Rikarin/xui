@@ -49,7 +49,7 @@ class HotkeysDemo {
 }
 
 const meta: Meta<HotkeysDemo> = {
-  title: 'Utilities/Hotkeys',
+  title: 'Actions/Hotkeys',
   component: HotkeysDemo,
   decorators: [moduleMetadata({ imports: [HotkeysDemo] })]
 };

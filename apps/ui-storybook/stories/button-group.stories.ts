@@ -4,7 +4,7 @@ import { XuiButtonGroup, XuiButtonGroupImports } from '@xui/button-group';
 import { XuiMenuImports } from '@xui/menu';
 
 const meta: Meta<XuiButtonGroup> = {
-  title: 'Button Group',
+  title: 'Actions/Button group',
   component: XuiButtonGroup,
   decorators: [
     moduleMetadata({

@@ -4,7 +4,7 @@ import { XuiLink, XuiLinkImports } from '@xui/link';
 const COLORS = ['link', 'primary', 'secondary', 'success', 'error', 'warning', 'info', 'inherit'] as const;
 
 const meta: Meta<XuiLink> = {
-  title: 'Link',
+  title: 'Foundations/Link',
   component: XuiLink,
   args: {
     color: 'link',

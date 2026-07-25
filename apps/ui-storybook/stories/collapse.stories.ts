@@ -5,7 +5,7 @@ import { XuiCollapse, XuiCollapseImports } from '@xui/collapse';
 import { XuiTextImports } from '@xui/text';
 
 const meta: Meta<XuiCollapse> = {
-  title: 'Collapse',
+  title: 'Layout/Collapse',
   component: XuiCollapse,
   decorators: [moduleMetadata({ imports: [XuiCollapseImports, XuiButtonImports, XuiTextImports] })]
 };

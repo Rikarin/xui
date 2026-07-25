@@ -6,7 +6,7 @@ import { XuiRate, XuiRateImports } from '@xui/rate';
  * Supports half stars and arrow-key adjustment; `readonly` renders a static score.
  */
 const meta: Meta<XuiRate> = {
-  title: 'Data entry/Rate',
+  title: 'Forms/Rate',
   component: XuiRate,
   decorators: [moduleMetadata({ imports: [XuiRateImports] })]
 };

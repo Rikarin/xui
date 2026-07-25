@@ -2,7 +2,7 @@ import { argsToTemplate, moduleMetadata, type Meta, type StoryObj } from '@story
 import { XuiText, XuiTextImports } from '@xui/text';
 
 const meta: Meta<XuiText> = {
-  title: 'Text',
+  title: 'Foundations/Typography',
   component: XuiText,
   args: {
     ellipsize: false

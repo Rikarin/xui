@@ -114,7 +114,7 @@ export class XuiOverlayModalDemo {
 }
 
 const meta: Meta = {
-  title: 'Core/Overlay',
+  title: 'Foundations/Overlay primitive',
   decorators: [moduleMetadata({ imports: [XuiOverlayDemo, XuiOverlayModalDemo] })]
 };
 

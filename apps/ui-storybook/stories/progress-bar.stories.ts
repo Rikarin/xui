@@ -4,7 +4,7 @@ import { XuiProgressBar, XuiProgressBarImports } from '@xui/progress-bar';
 const COLORS = ['primary', 'secondary', 'success', 'error', 'warning', 'info'] as const;
 
 const meta: Meta<XuiProgressBar> = {
-  title: 'Progress Bar',
+  title: 'Feedback/Progress bar',
   component: XuiProgressBar,
   args: {
     value: 0.6,

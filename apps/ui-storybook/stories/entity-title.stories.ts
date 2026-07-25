@@ -6,7 +6,7 @@ import { XuiEntityTitle, XuiEntityTitleImports } from '@xui/entity-title';
 import { XuiIcon } from '@xui/icon';
 
 const meta: Meta<XuiEntityTitle> = {
-  title: 'Entity Title',
+  title: 'Data display/Entity title',
   component: XuiEntityTitle,
   args: { title: 'Quarterly report', subtitle: 'Updated 2 hours ago', ellipsize: false, loading: false, fill: false },
   argTypes: {

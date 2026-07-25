@@ -18,7 +18,7 @@ const createUsers = (numUsers = 5) => {
 };
 
 export default {
-  title: 'Table',
+  title: 'Data display/Table',
   component: XuiTable,
   tags: ['autodocs'],
   decorators: [

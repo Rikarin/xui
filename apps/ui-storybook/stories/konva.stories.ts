@@ -9,7 +9,7 @@ import type { Circle } from 'konva/lib/shapes/Circle';
  * `config`; every Konva event is an Angular output.
  */
 const meta: Meta<XuiKonvaStage> = {
-  title: 'Data display/Konva',
+  title: 'Visualisation/Konva',
   component: XuiKonvaStage,
   decorators: [moduleMetadata({ imports: [XuiKonvaImports] })]
 };

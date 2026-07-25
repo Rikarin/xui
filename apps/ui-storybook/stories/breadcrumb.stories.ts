@@ -16,7 +16,7 @@ const TRAIL: XuiBreadcrumbData[] = [
 ];
 
 const meta: Meta<XuiBreadcrumbs> = {
-  title: 'Breadcrumb',
+  title: 'Navigation/Breadcrumb',
   component: XuiBreadcrumbs,
   tags: ['autodocs'],
   decorators: [

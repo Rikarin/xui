@@ -9,7 +9,7 @@ import { XuiPanelStack, XuiPanelStackImports } from '@xui/panel-stack';
  * the real check.
  */
 const meta: Meta<XuiPanelStack> = {
-  title: 'Overlays/Panel stack',
+  title: 'Navigation/Panel stack',
   component: XuiPanelStack,
   decorators: [moduleMetadata({ imports: [XuiPanelStackImports, XuiButtonImports] })]
 };

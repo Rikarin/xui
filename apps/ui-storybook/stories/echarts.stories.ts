@@ -17,7 +17,7 @@ import type { EChartsOption } from 'echarts';
  * ```
  */
 const meta: Meta<XuiEChart> = {
-  title: 'Data display/ECharts',
+  title: 'Visualisation/ECharts',
   component: XuiEChart,
   decorators: [
     applicationConfig({ providers: [provideXuiECharts({ echarts: () => import('echarts') })] }),

@@ -4,7 +4,7 @@ import { XuiSpinner, XuiSpinnerImports } from '@xui/spinner';
 const COLORS = ['primary', 'secondary', 'success', 'error', 'warning', 'info'] as const;
 
 const meta: Meta<XuiSpinner> = {
-  title: 'Spinner',
+  title: 'Feedback/Spinner',
   component: XuiSpinner,
   args: {
     color: 'primary',

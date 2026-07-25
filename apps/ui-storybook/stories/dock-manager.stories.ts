@@ -20,7 +20,7 @@ import { XuiDockManager, XuiDockManagerImports, type XuiDockManagerLayout } from
  * drag.
  */
 const meta: Meta<XuiDockManager> = {
-  title: 'Layout/Dock Manager',
+  title: 'Layout/Dock manager',
   component: XuiDockManager,
   decorators: [moduleMetadata({ imports: [XuiDockManagerImports] })]
 };

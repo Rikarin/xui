@@ -7,7 +7,7 @@ import { XuiUpload, XuiUploadImports, type XuiUploadFile } from '@xui/upload';
  * the raw `File`s for the host to upload.
  */
 const meta: Meta<XuiUpload> = {
-  title: 'Data entry/Upload',
+  title: 'Forms/Upload',
   component: XuiUpload,
   decorators: [moduleMetadata({ imports: [XuiUploadImports] })]
 };

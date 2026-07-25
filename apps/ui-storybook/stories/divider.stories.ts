@@ -2,7 +2,7 @@ import { argsToTemplate, moduleMetadata, type Meta, type StoryObj } from '@story
 import { XuiDivider, XuiDividerImports } from '@xui/divider';
 
 const meta: Meta<XuiDivider> = {
-  title: 'Divider',
+  title: 'Layout/Divider',
   component: XuiDivider,
   args: {
     orientation: 'horizontal',

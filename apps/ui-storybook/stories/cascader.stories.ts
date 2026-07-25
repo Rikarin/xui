@@ -29,7 +29,7 @@ const OPTIONS: XuiCascaderOption[] = [
  * choosing a leaf commits the whole path. `value` is the array of chosen values.
  */
 const meta: Meta<XuiCascader> = {
-  title: 'Data entry/Cascader',
+  title: 'Forms/Cascader',
   component: XuiCascader,
   decorators: [moduleMetadata({ imports: [XuiCascaderImports] })]
 };

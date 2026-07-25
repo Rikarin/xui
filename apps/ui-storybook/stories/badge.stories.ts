@@ -2,7 +2,7 @@ import { type Meta, type StoryObj, argsToTemplate, moduleMetadata } from '@story
 import { XuiBadge, XuiBadgeImports } from '@xui/badge';
 
 const meta: Meta<XuiBadge> = {
-  title: 'Badge',
+  title: 'Data display/Badge',
   component: XuiBadge,
   tags: ['autodocs'],
   argTypes: {

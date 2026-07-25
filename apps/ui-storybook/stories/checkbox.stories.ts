@@ -4,7 +4,7 @@ import { argsToTemplate, Meta, moduleMetadata, StoryObj } from '@storybook/angul
 import { XuiCheckbox, XuiCheckboxImports } from '@xui/checkbox';
 
 const meta: Meta<XuiCheckbox> = {
-  title: 'Checkbox',
+  title: 'Forms/Checkbox',
   component: XuiCheckbox,
   args: {
     color: 'primary',

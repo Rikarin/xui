@@ -296,7 +296,7 @@ class StoryGraph {
 }
 
 const meta: Meta<XuiNodeGraph> = {
-  title: 'Node Graph',
+  title: 'Visualisation/Node graph',
   component: XuiNodeGraph,
   decorators: [moduleMetadata({ imports: [XuiNodeGraphImports, StoryGraph] })],
   parameters: {

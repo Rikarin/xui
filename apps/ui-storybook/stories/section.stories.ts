@@ -4,7 +4,7 @@ import { XuiSection, XuiSectionImports } from '@xui/section';
 import { XuiTextImports } from '@xui/text';
 
 const meta: Meta<XuiSection> = {
-  title: 'Section',
+  title: 'Layout/Section',
   component: XuiSection,
   args: { title: 'Details', subtitle: 'Everything about this record', collapsible: false, compact: false },
   argTypes: {

@@ -1,0 +1,58 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Foundations/Introduction" />
+
+# xUI
+
+An Angular 22 component library styled with Tailwind 4. Every component is a published package —
+`@xui/button`, `@xui/dialog`, `@xui/data-table` — built on the headless primitives in
+`@xui/core/*`, using signal inputs, `OnPush` and zoneless change detection.
+
+## Getting started
+
+```bash
+ng add @xui/core        # installs the package and wires the stylesheet
+pnpm add @xui/button @xui/dialog @xui/icon
+```
+
+`ng add` patches your global stylesheet with the theme import, the CDK overlay stylesheet and a
+`@source` glob that lets Tailwind see the classes inside the published packages. Getting that last
+one wrong is the usual reason a component renders unstyled.
+
+Each package exports an imports barrel — put it in a standalone component's `imports`:
+
+```ts
+import { XuiButtonImports } from '@xui/button';
+
+@Component({ imports: [XuiButtonImports], template: `<button xuiButton>Save</button>` })
+export class Example {}
+```
+
+## How this Storybook is organised
+
+| Group             | What lives there                                                          |
+| ----------------- | ------------------------------------------------------------------------- |
+| **Foundations**   | Design tokens, typography, links, and the headless overlay primitive      |
+| **Actions**       | Buttons and keyboard shortcuts                                            |
+| **Forms**         | Everything a user types into or chooses from, plus field layout           |
+| **Date & time**   | Date and time entry and pickers                                           |
+| **Data display**  | Tables, cards, tags, avatars and other read-only surfaces                 |
+| **Navigation**    | Bars, menus, tabs, breadcrumbs, pagination, steps                         |
+| **Overlays**      | Anything that floats: dialogs, drawers, popovers, tooltips, menus, toasts |
+| **Feedback**      | Callouts, progress, spinners, skeletons, empty and result states          |
+| **Layout**        | Structure: sections, dividers, splitters, scroll areas, collapsibles      |
+| **Visualisation** | Charts, canvas and node graphs                                            |
+
+## Two things worth knowing
+
+**Colour comes from tokens, never from the palette.** Components style themselves with
+`bg-surface`, `text-foreground-muted`, `border-error-muted`, which resolve through
+`@xui/core/styles/theme.css`. That is what makes the light/dark toggle in the toolbar work without
+a single `dark:` class. See **Foundations → Design tokens**.
+
+**Controls share one density scale.** 24 / 30 / 40px for `sm` / default / `lg`, with padding and
+type stepping alongside — so a button, an input and a date field on the same row line up. Override
+`--control-height-md` to re-tune the whole library.
+
+The toolbar also switches layout direction: every component reads it through `@angular/cdk/bidi`,
+so RTL needs no changes in your own markup.

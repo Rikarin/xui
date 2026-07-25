@@ -44,8 +44,46 @@ const preview = {
 
   parameters: {
     options: {
-      storySort: {
-        method: 'alphabetical'
+      // Sorted by hand rather than with `order` + `method`, because the two built-in choices are
+      // both wrong here: `alphabetical` sorts a component's own stories too, so `Colors` would open
+      // before `Default`, while leaving it off falls back to file-discovery order, which lists
+      // "Button group" before "Button". This keeps groups in build order, components alphabetical
+      // within a group, and every component's stories in the order they were written.
+      // The index builder serialises this function and evaluates it on its own, so it cannot close
+      // over anything in this module - the group list has to live inside it.
+      storySort: (a, b) => {
+        const groups = [
+          'Foundations',
+          'Actions',
+          'Forms',
+          'Date & time',
+          'Data display',
+          'Navigation',
+          'Overlays',
+          'Feedback',
+          'Layout',
+          'Visualisation'
+        ];
+
+        if (a.title === b.title) {
+          return 0;
+        }
+
+        const groupOf = title => {
+          const index = groups.indexOf(title.split('/')[0]);
+
+          // An unlisted group sorts after the known ones instead of silently jumping to the top.
+          return index === -1 ? groups.length : index;
+        };
+
+        // The introduction is the one page that should not be alphabetised into the middle.
+        const rank = title => (title.endsWith('/Introduction') ? 0 : 1);
+
+        return (
+          groupOf(a.title) - groupOf(b.title) ||
+          rank(a.title) - rank(b.title) ||
+          a.title.localeCompare(b.title, undefined, { numeric: true })
+        );
       }
     },
 

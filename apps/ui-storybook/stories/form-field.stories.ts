@@ -5,7 +5,7 @@ import { XuiFormField, XuiFormFieldImports } from '@xui/form-field';
 import { XuiInputImports } from '@xui/input';
 
 export default {
-  title: 'Form Field',
+  title: 'Forms/Form field',
   component: XuiFormField,
   tags: ['autodocs'],
   decorators: [

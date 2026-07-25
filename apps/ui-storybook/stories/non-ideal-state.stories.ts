@@ -6,7 +6,7 @@ import { XuiIcon } from '@xui/icon';
 import { XuiNonIdealState, XuiNonIdealStateImports } from '@xui/non-ideal-state';
 
 const meta: Meta<XuiNonIdealState> = {
-  title: 'Non Ideal State',
+  title: 'Feedback/Non-ideal state',
   component: XuiNonIdealState,
   args: { title: 'No results', description: 'Try a different search term.', layout: 'vertical' },
   argTypes: {

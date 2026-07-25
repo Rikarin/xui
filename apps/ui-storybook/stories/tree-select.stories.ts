@@ -32,7 +32,7 @@ const NODES: XuiTreeSelectNode[] = [
  * mode binds one value; `multiple` shows removable chips with checkboxes.
  */
 const meta: Meta<XuiTreeSelect> = {
-  title: 'Data entry/Tree select',
+  title: 'Forms/Tree select',
   component: XuiTreeSelect,
   decorators: [moduleMetadata({ imports: [XuiTreeSelectImports] })]
 };

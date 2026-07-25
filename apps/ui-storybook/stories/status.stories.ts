@@ -3,7 +3,7 @@ import { moduleMetadata } from '@storybook/angular-vite';
 import { XuiStatus, XuiStatusImports } from '@xui/status';
 
 export default {
-  title: 'Status',
+  title: 'Data display/Status',
   component: XuiStatus,
   tags: ['autodocs'],
   decorators: [

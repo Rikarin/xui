@@ -4,7 +4,7 @@ import { XuiSkeleton, XuiSkeletonImports } from '@xui/skeleton';
 import { XuiTextImports } from '@xui/text';
 
 const meta: Meta<XuiSkeleton> = {
-  title: 'Skeleton',
+  title: 'Feedback/Skeleton',
   component: XuiSkeleton,
   decorators: [
     moduleMetadata({

@@ -7,7 +7,7 @@ import { XuiInput, XuiInputImports } from '@xui/input';
 import { XuiLabelImports } from '@xui/label';
 
 export default {
-  title: 'Input',
+  title: 'Forms/Input',
   component: XuiInput,
   tags: ['autodocs'],
   args: {

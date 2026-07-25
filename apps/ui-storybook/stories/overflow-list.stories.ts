@@ -8,7 +8,7 @@ import { XuiOverflowList, XuiOverflowListImports } from '@xui/overflow-list';
 const CRUMBS = ['Home', 'Projects', 'Rikarin', 'xui', 'libs', 'ui', 'overflow-list'];
 
 const meta: Meta<XuiOverflowList<string>> = {
-  title: 'Overflow List',
+  title: 'Layout/Overflow list',
   component: XuiOverflowList,
   decorators: [
     moduleMetadata({ imports: [XuiOverflowListImports, XuiLinkImports, XuiBadgeImports, XuiBreadcrumbImports] })

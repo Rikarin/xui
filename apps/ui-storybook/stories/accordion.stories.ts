@@ -6,7 +6,7 @@ import { XuiAccordion, XuiAccordionImports } from '@xui/accordion';
  * `multiple` lets several stay open. `value` is the two-way list of open items.
  */
 const meta: Meta<XuiAccordion> = {
-  title: 'Data display/Accordion',
+  title: 'Layout/Accordion',
   component: XuiAccordion,
   decorators: [moduleMetadata({ imports: [XuiAccordionImports] })]
 };

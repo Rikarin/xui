@@ -13,7 +13,7 @@ const ITEMS: XuiTransferItem[] = Array.from({ length: 12 }, (_, i) => ({
  * has a header select-all and an optional search box.
  */
 const meta: Meta<XuiTransfer> = {
-  title: 'Data entry/Transfer',
+  title: 'Forms/Transfer',
   component: XuiTransfer,
   decorators: [moduleMetadata({ imports: [XuiTransferImports] })]
 };

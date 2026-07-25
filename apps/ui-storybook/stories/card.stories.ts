@@ -3,7 +3,7 @@ import { XuiCard, XuiCardImports } from '@xui/card';
 import { XuiTextImports } from '@xui/text';
 
 const meta: Meta<XuiCard> = {
-  title: 'Card',
+  title: 'Data display/Card',
   component: XuiCard,
   args: { elevation: 0, interactive: false, selected: false, compact: false },
   argTypes: {

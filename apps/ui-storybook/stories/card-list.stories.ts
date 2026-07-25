@@ -5,7 +5,7 @@ import { XuiCardList, XuiCardListImports } from '@xui/card-list';
 const ROWS = ['Design review', 'Backend migration', 'Release checklist'];
 
 const meta: Meta<XuiCardList> = {
-  title: 'Card List',
+  title: 'Data display/Card list',
   component: XuiCardList,
   args: { bordered: true, compact: false },
   argTypes: {

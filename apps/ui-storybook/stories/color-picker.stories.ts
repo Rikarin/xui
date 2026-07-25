@@ -8,7 +8,7 @@ import { XuiColorPicker, XuiColorPickerImports } from '@xui/color-picker';
  * between `HEX`, `HSL` and `LCH` via the `format` selector.
  */
 const meta: Meta<XuiColorPicker> = {
-  title: 'Data entry/Color picker',
+  title: 'Forms/Color picker',
   component: XuiColorPicker,
   decorators: [moduleMetadata({ imports: [XuiColorPickerImports] })]
 };

@@ -4,7 +4,7 @@ import { XuiLinkImports } from '@xui/link';
 import { XuiNavbar, XuiNavbarImports } from '@xui/navbar';
 
 const meta: Meta<XuiNavbar> = {
-  title: 'Navbar',
+  title: 'Navigation/Navbar',
   component: XuiNavbar,
   args: { fixedToTop: false },
   argTypes: { fixedToTop: { control: { type: 'boolean' } } },

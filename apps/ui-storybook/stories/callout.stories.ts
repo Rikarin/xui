@@ -4,7 +4,7 @@ import { XuiCallout, XuiCalloutImports } from '@xui/callout';
 const COLORS = ['none', 'primary', 'secondary', 'success', 'error', 'warning', 'info'] as const;
 
 const meta: Meta<XuiCallout> = {
-  title: 'Callout',
+  title: 'Feedback/Callout',
   component: XuiCallout,
   args: { color: 'none', minimal: false, compact: false, title: 'Heads up' },
   argTypes: {

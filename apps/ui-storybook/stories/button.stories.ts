@@ -2,7 +2,7 @@ import { argsToTemplate, Meta, moduleMetadata, StoryObj } from '@storybook/angul
 import { XuiButton, XuiButtonImports } from '@xui/button';
 
 const meta: Meta<XuiButton> = {
-  title: 'Button',
+  title: 'Actions/Button',
   component: XuiButton,
   args: {
     color: 'primary',

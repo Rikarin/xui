@@ -7,7 +7,7 @@ import { XuiInputOtp, XuiInputOtpImports } from '@xui/input-otp';
  * two-way bindable; `completed` fires when every slot is filled.
  */
 const meta: Meta<XuiInputOtp> = {
-  title: 'Data entry/Input OTP',
+  title: 'Forms/Input OTP',
   component: XuiInputOtp,
   decorators: [moduleMetadata({ imports: [XuiInputOtpImports] })]
 };

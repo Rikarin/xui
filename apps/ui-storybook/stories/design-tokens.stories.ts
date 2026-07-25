@@ -9,7 +9,7 @@ import { Meta, StoryObj } from '@storybook/angular-vite';
  * or dropped, its swatch collapses to a transparent box.
  */
 const meta: Meta = {
-  title: 'Design Tokens'
+  title: 'Foundations/Design tokens'
 };
 
 export default meta;
