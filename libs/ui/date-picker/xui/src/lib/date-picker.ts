@@ -58,12 +58,13 @@ import type { ClassValue } from 'clsx';
         @for (week of weeks(); track $index) {
           <tr>
             @for (day of week; track $index) {
-              <td class="p-0 text-center">
+              <!-- The td is the gridcell, so selection is announced there;
+                   aria-selected on the inner button would be invalid. -->
+              <td class="p-0 text-center" [attr.aria-selected]="isSelected(day.date)">
                 <button
                   type="button"
                   [class]="dayClass(day)"
                   [disabled]="day.disabled"
-                  [attr.aria-selected]="isSelected(day.date)"
                   [attr.aria-current]="day.isToday ? 'date' : null"
                   [tabindex]="isFocusable(day.date) ? 0 : -1"
                   (click)="select(day.date)"

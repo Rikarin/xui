@@ -70,6 +70,7 @@ import type { CellCoord, SortState, XuiDataColumn } from './data-table.types';
           <!-- Corner cell: pinned to the top-left over both sticky axes. -->
           <div
             role="columnheader"
+            aria-label="Row number"
             [class]="cornerClass()"
             [style.width.px]="rowHeaderWidth()"
             [style.height.px]="headerHeight()"

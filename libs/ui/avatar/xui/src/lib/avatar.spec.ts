@@ -70,9 +70,7 @@ describe('XuiAvatarGroup', () => {
     ) as HTMLElement[];
 
   it('overlaps its avatars', () => {
-    const { detect } = setup(
-      '<xui-avatar-group><xui-avatar text="A" /><xui-avatar text="B" /></xui-avatar-group>'
-    );
+    const { detect } = setup('<xui-avatar-group><xui-avatar text="A" /><xui-avatar text="B" /></xui-avatar-group>');
     detect();
 
     const group = document.querySelector('xui-avatar-group') as HTMLElement;
@@ -99,5 +97,23 @@ describe('XuiAvatarGroup', () => {
     detect();
 
     expect(visibleAvatars().map(a => a.textContent?.trim())).toEqual(['A', 'B']);
+  });
+
+  it('is decorative when it has no accessible name', () => {
+    const { detect } = setup('<xui-avatar src="/me.png" />');
+    detect();
+
+    // An unnamed role="img" announces as a bare "image"; hide it instead.
+    expect(host().getAttribute('role')).toBeNull();
+    expect(host().getAttribute('aria-hidden')).toBe('true');
+  });
+
+  it('becomes a named image once alt or text is given', () => {
+    const { detect } = setup('<xui-avatar src="/me.png" alt="Ada Lovelace" />');
+    detect();
+
+    expect(host().getAttribute('role')).toBe('img');
+    expect(host().getAttribute('aria-label')).toBe('Ada Lovelace');
+    expect(host().getAttribute('aria-hidden')).toBeNull();
   });
 });

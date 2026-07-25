@@ -82,4 +82,20 @@ describe('XuiRate', () => {
     detect();
     expect(cmp.value()).toBe(2);
   });
+
+  it('names the slider and describes its value', () => {
+    const { detect } = setup();
+    detect();
+
+    // role="slider" with no name is an axe violation and announces as nothing.
+    expect(host().getAttribute('aria-label')).toBe('Rating');
+    expect(host().getAttribute('aria-valuetext')).toBe('0 of 5');
+  });
+
+  it('takes a caller-supplied name', () => {
+    const { detect } = setup('aria-label="Food quality"');
+    detect();
+
+    expect(host().getAttribute('aria-label')).toBe('Food quality');
+  });
 });

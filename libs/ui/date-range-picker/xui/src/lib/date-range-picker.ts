@@ -67,12 +67,12 @@ export interface XuiDateRange<T> {
               @for (week of grids()[offset]; track $index) {
                 <tr>
                   @for (day of week; track $index) {
-                    <td [class]="cellClass(day)">
+                    <!-- Selection belongs on the gridcell, not the button. -->
+                    <td [class]="cellClass(day)" [attr.aria-selected]="isEndpoint(day.date)">
                       <button
                         type="button"
                         [class]="dayClass(day)"
                         [disabled]="day.disabled"
-                        [attr.aria-selected]="isEndpoint(day.date)"
                         (click)="onClick(day.date)"
                         (mouseenter)="hover.set(day.date)"
                       >

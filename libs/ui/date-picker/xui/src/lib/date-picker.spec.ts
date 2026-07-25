@@ -43,11 +43,14 @@ describe('XuiDatePicker', () => {
     expect(document.querySelectorAll('xui-date-picker tbody tr').length).toBe(6);
   });
 
-  it('marks the selected day', () => {
+  it('marks the selected day on its gridcell', () => {
     const { detect } = setup({ selected: d(2024, 3, 15) });
     detect();
 
-    expectAttributes(dayButton(15)!, { 'aria-selected': 'true' });
+    // Selection is announced by the <td> gridcell; `aria-selected` on the inner
+    // button is not a valid role/attribute pairing.
+    expectAttributes(dayButton(15)!.closest('td')!, { 'aria-selected': 'true' });
+    expectAttributes(dayButton(15)!, { 'aria-selected': null });
   });
 
   it('selects a day on click and emits it', () => {

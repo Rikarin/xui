@@ -893,3 +893,24 @@ is still LTR-only. Directional API names (`drawer position="left|right"`, `butto
 `timeline mode`, `data-table align`, the overlay `placement` union) stay physical — renaming them
 to `start`/`end` is a breaking change worth its own pass. The hardcoded English `aria-label`s
 (~38 of them) still have no override hook.
+
+### 8.5 axe findings
+
+axe-core (via the Storybook a11y addon) was run over all 270 stories before and after. Semantic
+violations fixed:
+
+| Violation                                | Where                                  | Fix                                                                                              |
+| ---------------------------------------- | -------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| `button-name` (critical)                 | `<xui-checkbox>projected label</…>`    | Projected label content lives in a sibling span, so the box now points `aria-labelledby` at it     |
+| `aria-allowed-attr` (critical)           | `<button xuiCard interactive selected>` | `aria-selected` is invalid on a button — emit `aria-pressed` (button) / `aria-current` (link)      |
+| `aria-input-field-name` (serious)        | `<xui-rate>`                            | `role="slider"` had no name; defaults to "Rating", overridable, plus `aria-valuetext` ("3 of 5")   |
+| `role-img-alt` (serious)                 | `<xui-avatar src>` with no `alt`        | An avatar with no name is decorative: drop `role="img"`, add `aria-hidden`                         |
+| `link-name`, `button-name` (story-level) | breadcrumb + checkbox colour matrices   | Icon-only links and colour swatches now carry `aria-label` in the stories                          |
+
+**Still open — `color-contrast`.** ~15 stories report serious contrast failures on the intent
+palette (badge, tag, button, checkbox colour matrices, tree secondary labels, data-table
+formatters). These are design-token decisions, not component bugs: the `*-subtle`/`*-emphasis`
+ramp does not clear 4.5:1 for every intent. Fixing them means re-tuning the ramp in
+`libs/core/styles/theme.css` and re-reviewing every Chromatic snapshot, so it is left as its own
+piece of work. It is the last thing standing between the suite and flipping the Storybook a11y
+addon from `test: 'todo'` to `'error'` in CI.

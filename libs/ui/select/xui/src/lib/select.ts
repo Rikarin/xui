@@ -45,6 +45,8 @@ const defaultMatch = (text: string, query: string): boolean => text.toLowerCase(
       [disabled]="disabled()"
       [attr.aria-haspopup]="'listbox'"
       [attr.aria-expanded]="open()"
+      [attr.aria-label]="effectiveAriaLabel()"
+      [attr.aria-labelledby]="ariaLabelledby()"
       [xuiPopover]="panel"
       [(isOpen)]="open"
       [role]="'listbox'"
@@ -142,6 +144,15 @@ export class XuiSelect<T> {
   readonly resetOnClose = input<boolean, BooleanInput>(true, { transform: booleanAttribute });
 
   readonly placeholder = input<string>('Select…');
+
+  /**
+   * Names the control. A `combobox` takes its *value* from its content, so the
+   * name has to come from a label — without one axe reports `button-name` and a
+   * screen reader announces the current value with no idea what it is for. Falls
+   * back to the placeholder, which is at least descriptive.
+   */
+  readonly ariaLabel = input<string | null>(null, { alias: 'aria-label' });
+  readonly ariaLabelledby = input<string | null>(null, { alias: 'aria-labelledby' });
   readonly searchPlaceholder = input<string>('Filter…');
   readonly noResultsText = input<string>('No results.');
 
@@ -178,6 +189,10 @@ export class XuiSelect<T> {
   });
 
   protected readonly computedClass = computed(() => xui('inline-block', this.class()));
+
+  protected readonly effectiveAriaLabel = computed(() =>
+    this.ariaLabelledby() ? null : (this.ariaLabel() ?? this.placeholder())
+  );
 
   protected readonly triggerClass = computed(() =>
     xui(

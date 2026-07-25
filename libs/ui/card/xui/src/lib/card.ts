@@ -96,6 +96,9 @@ export class XuiCard {
   /** Reduce the internal padding. */
   readonly compact = input<boolean, BooleanInput>(this.config.compact, { transform: booleanAttribute });
 
+  /** Only an interactive card has a selected state to announce. */
+  protected readonly selectedState = computed(() => this.interactive() && this.selected());
+
   protected readonly computedClass = computed(() =>
     xui(
       cardVariants({

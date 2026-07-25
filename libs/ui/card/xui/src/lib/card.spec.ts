@@ -41,12 +41,13 @@ describe('XuiCard', () => {
   it('draws the selected ring and reports it only when interactive', () => {
     const { query: selectable } = setup('<button xuiCard interactive selected>Content</button>');
     expectClasses(selectable('button'), 'ring-2', 'ring-primary');
-    expectAttributes(selectable('button'), { 'aria-selected': 'true' });
+    // `aria-selected` is invalid on a button; a toggle button is `aria-pressed`.
+    expectAttributes(selectable('button'), { 'aria-pressed': 'true', 'aria-selected': null });
 
     // A static card cannot be selected by the user, so announcing a selection
     // state would be a lie.
     const { query: plain } = setup('<div xuiCard selected>Content</div>');
-    expectAttributes(plain('div'), { 'aria-selected': null });
+    expectAttributes(plain('div'), { 'aria-pressed': null, 'aria-selected': null });
   });
 
   it('reduces the padding when compact', () => {

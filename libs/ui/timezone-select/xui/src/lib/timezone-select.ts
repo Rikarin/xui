@@ -41,6 +41,7 @@ const offsetLabel = (zone: string, at: Date): string => {
       [selectedItem]="selectedEntry()"
       (selectionChange)="onSelect($event)"
       [placeholder]="placeholder()"
+      [aria-label]="ariaLabel()"
       [disabled]="disabled()"
     />
   `,
@@ -50,6 +51,8 @@ const offsetLabel = (zone: string, at: Date): string => {
 export class XuiTimezoneSelect {
   readonly class = input('');
   readonly placeholder = input('Select a time zone…');
+  /** Names the combobox; the placeholder is only shown until something is picked. */
+  readonly ariaLabel = input<string>('Time zone', { alias: 'aria-label' });
   readonly disabled = input(false);
 
   /** Reference instant used to compute offsets (defaults to "now" at first render). */

@@ -113,7 +113,9 @@ export const Composed: Story = {
       <nav xuiBreadcrumb>
         <ol xuiBreadcrumbList>
           <li xuiBreadcrumbItem>
-            <a xuiBreadcrumbLink href="#"><ng-icon xui size="md" name="matHomeRound" /></a>
+            <!-- The icon is decorative (aria-hidden), so an icon-only link has
+                 to carry the name itself. -->
+            <a xuiBreadcrumbLink href="#" aria-label="Home"><ng-icon xui size="md" name="matHomeRound" /></a>
           </li>
           <li xuiBreadcrumbSeparator></li>
           <li xuiBreadcrumbItem><xui-breadcrumb-ellipsis /></li>
