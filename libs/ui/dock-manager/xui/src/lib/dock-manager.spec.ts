@@ -1,4 +1,4 @@
-import { render } from '@xui/testing';
+import { provideDirection, render } from '@xui/testing';
 import { XuiDockManagerImports } from '../index';
 import { XuiDockManager } from './dock-manager';
 import type {
@@ -24,10 +24,11 @@ const content = (contentId: string, extra: Partial<XuiDockContentPane> = {}): Xu
   ...extra
 });
 
-const setup = (layout: XuiDockManagerLayout, template = TEMPLATE) => {
+const setup = (layout: XuiDockManagerLayout, direction?: 'ltr' | 'rtl', template = TEMPLATE) => {
   const result = render<{ layout: XuiDockManagerLayout }>(template, {
     imports: [XuiDockManagerImports],
-    props: { layout }
+    props: { layout },
+    providers: direction ? [provideDirection(direction)] : []
   });
   const cmp = result.fixture.debugElement.query(node => node.name === 'xui-dock-manager')
     .componentInstance as XuiDockManager;
@@ -349,9 +350,9 @@ describe('XuiDockManager', () => {
     };
 
     /** Two 200×200 frames side by side inside a 400×200 dock manager. */
-    const layoutOut = () => {
+    const layoutOut = (direction?: 'ltr' | 'rtl') => {
       const { a, b, layout } = pair();
-      const result = setup(layout);
+      const result = setup(layout, direction);
       const [frameA, frameB] = result.host.querySelectorAll<HTMLElement>('[data-dock-key]');
 
       stub(result.host.querySelector('xui-dock-manager') as Element, { left: 0, top: 0, width: 400, height: 200 });
@@ -361,8 +362,13 @@ describe('XuiDockManager', () => {
       return { ...result, a, b, layout, frameA, frameB };
     };
 
-    /** Press at `press`, drag through `path`, release at its last point. */
-    const drag = (from: HTMLElement, press: [number, number], path: [number, number][]) => {
+    /**
+     * Press at `press` and drag through `path`, without releasing.
+     *
+     * The suite runs zoneless, so callers that want to read the docking targets
+     * out of the DOM must run change detection first.
+     */
+    const hold = (from: HTMLElement, press: [number, number], path: [number, number][]) => {
       from.dispatchEvent(
         new MouseEvent('pointerdown', { bubbles: true, button: 0, clientX: press[0], clientY: press[1] })
       );
@@ -370,10 +376,43 @@ describe('XuiDockManager', () => {
       for (const [clientX, clientY] of path) {
         document.dispatchEvent(new MouseEvent('pointermove', { bubbles: true, clientX, clientY }));
       }
+    };
+
+    /** Press at `press`, drag through `path`, release at its last point. */
+    const drag = (from: HTMLElement, press: [number, number], path: [number, number][]) => {
+      hold(from, press, path);
 
       const [x, y] = path[path.length - 1] ?? press;
       document.dispatchEvent(new MouseEvent('pointerup', { bubbles: true, clientX: x, clientY: y }));
     };
+
+    /**
+     * The docking targets currently on screen, as `{ side, active, centre }`.
+     *
+     * Mirrors the component's own geometry: 30px squares, 4px apart, so a test can
+     * aim at one without reaching into private state.
+     */
+    const indicators = (host: HTMLElement) =>
+      host.querySelectorAll<HTMLElement>('[aria-hidden="true"].z-55').length
+        ? [...host.querySelectorAll<HTMLElement>('[aria-hidden="true"].z-55')].map(element => ({
+            active: element.className.includes('border-primary'),
+            side: element.firstElementChild?.className.includes('inset-1')
+              ? 'center'
+              : element.firstElementChild?.className.includes('left-1') &&
+                  element.firstElementChild?.className.includes('w-1/3')
+                ? 'left'
+                : element.firstElementChild?.className.includes('right-1') &&
+                    element.firstElementChild?.className.includes('w-1/3')
+                  ? 'right'
+                  : element.firstElementChild?.className.includes('top-1')
+                    ? 'top'
+                    : 'bottom',
+            centre: [
+              Number.parseFloat(element.style.left) + 15,
+              Number.parseFloat(element.style.top) + 15
+            ] as [number, number]
+          }))
+        : [];
 
     it('docks a pane against the edge of the pane it is dropped on', () => {
       const { a, b, layout, frameA, detect } = layoutOut();
@@ -415,7 +454,7 @@ describe('XuiDockManager', () => {
     it('docks against the whole layout near the dock manager frame', () => {
       const { a, b, layout, frameA, detect } = layoutOut();
 
-      // Within 28px of the bottom edge, so the whole layout splits.
+      // Within 28px of the bottom edge, clear of the outer ring's own square.
       drag(
         frameA.firstElementChild as HTMLElement,
         [20, 10],
@@ -461,6 +500,137 @@ describe('XuiDockManager', () => {
       expect(JSON.stringify(layout)).toBe(before);
     });
 
+    describe('docking targets', () => {
+      it('raises a joystick over the hovered pane plus an outer ring', () => {
+        const { host, frameA, detect } = layoutOut();
+
+        expect(indicators(host)).toEqual([]);
+
+        hold(
+          frameA.firstElementChild as HTMLElement,
+          [20, 10],
+          [
+            [50, 20],
+            [300, 100]
+          ]
+        );
+        detect();
+
+        const shown = indicators(host);
+
+        // Four for the layout's own edges, five for the pane under the pointer.
+        expect(shown).toHaveLength(9);
+        expect(shown.filter(target => target.side === 'center')).toHaveLength(1);
+        // The joystick is centred on B, at (300, 100).
+        expect(shown.find(target => target.side === 'center')?.centre).toEqual([300, 100]);
+        // The pointer is on the centre square, so that is the one highlighted.
+        expect(shown.filter(target => target.active).map(target => target.side)).toEqual(['center']);
+      });
+
+      it('follows the pointer from one arm to the next', () => {
+        const { host, frameA, detect } = layoutOut();
+
+        hold(
+          frameA.firstElementChild as HTMLElement,
+          [20, 10],
+          [
+            [50, 20],
+            [300, 100]
+          ]
+        );
+        detect();
+
+        const bottom = indicators(host).find(
+          target => target.side === 'bottom' && target.centre[1] > 100 && target.centre[0] === 300
+        );
+
+        document.dispatchEvent(
+          new MouseEvent('pointermove', { bubbles: true, clientX: bottom?.centre[0], clientY: bottom?.centre[1] })
+        );
+        detect();
+
+        expect(indicators(host).filter(target => target.active).map(target => target.side)).toEqual(['bottom']);
+      });
+
+      it('offers nothing where the dragged pane may not go', () => {
+        const doc = content('b', { documentOnly: true });
+        const documentHost: XuiDockDocumentHost = {
+          type: 'documentHost',
+          rootPane: { type: 'splitPane', orientation: 'horizontal', panes: [doc], allowEmpty: true }
+        };
+        const tool = content('a');
+        const layout: XuiDockManagerLayout = {
+          rootPane: { type: 'splitPane', orientation: 'horizontal', panes: [tool, documentHost] }
+        };
+        const result = setup(layout);
+        const frames = result.host.querySelectorAll<HTMLElement>('[data-dock-key]');
+
+        stub(result.host.querySelector('xui-dock-manager') as Element, { left: 0, top: 0, width: 400, height: 200 });
+        stub(frames[0], { left: 0, top: 0, width: 200, height: 200 });
+        stub(frames[1], { left: 200, top: 0, width: 200, height: 200 });
+        stub(frames[2], { left: 200, top: 0, width: 200, height: 200 });
+
+        // A document held over the tool pane: neither its joystick nor the outer
+        // ring would take it, so no target is drawn at all.
+        hold(
+          frames[2].firstElementChild as HTMLElement,
+          [250, 10],
+          [
+            [250, 20],
+            [100, 100]
+          ]
+        );
+        result.detect();
+
+        expect(indicators(result.host)).toEqual([]);
+      });
+
+      it('mirrors the joystick arms in RTL', () => {
+        const { a, b, layout, host, frameA, detect } = layoutOut('rtl');
+
+        hold(
+          frameA.firstElementChild as HTMLElement,
+          [20, 10],
+          [
+            [50, 20],
+            [300, 100]
+          ]
+        );
+        detect();
+
+        // The arm on the visual left of B's joystick is its *inline end* in RTL,
+        // so A lands after B in the tree rather than before it.
+        const left = indicators(host).find(target => target.side === 'left' && target.centre[0] === 266);
+        expect(left).toBeTruthy();
+
+        document.dispatchEvent(
+          new MouseEvent('pointermove', { bubbles: true, clientX: left?.centre[0], clientY: left?.centre[1] })
+        );
+        document.dispatchEvent(
+          new MouseEvent('pointerup', { bubbles: true, clientX: left?.centre[0], clientY: left?.centre[1] })
+        );
+        detect();
+
+        expect((layout.rootPane as XuiDockSplitPane).panes).toEqual([b, a]);
+      });
+
+      it('clears the targets once the drag ends', () => {
+        const { host, frameA, detect } = layoutOut();
+
+        drag(
+          frameA.firstElementChild as HTMLElement,
+          [20, 10],
+          [
+            [50, 20],
+            [300, 100]
+          ]
+        );
+        detect();
+
+        expect(indicators(host)).toEqual([]);
+      });
+    });
+
     describe('a floating window', () => {
       /** One 200×200 docked pane, plus a floating window holding pane B. */
       const floated = () => {
@@ -501,17 +671,22 @@ describe('XuiDockManager', () => {
         expect(window.floatingLocation).toEqual({ x: 300, y: 90 });
       });
 
-      it('docks when dropped close to a pane edge', () => {
-        const { a, b, layout, titleBar, detect, cmp } = floated();
+      it('docks when dropped on a docking target', () => {
+        const { a, b, layout, host, titleBar, detect, cmp } = floated();
 
-        // 30px from the pane's right edge, inside the 48px band.
-        drag(
-          titleBar as HTMLElement,
-          [220, 30],
-          [
-            [240, 50],
-            [370, 100]
-          ]
+        hold(titleBar as HTMLElement, [220, 30], [[240, 50]]);
+        detect();
+
+        // The remaining docked pane fills the layout, so its joystick sits at the
+        // centre; aim at the arm that puts the window to its right.
+        const right = indicators(host).find(target => target.side === 'right' && target.centre[0] === 234);
+        expect(right).toBeTruthy();
+
+        document.dispatchEvent(
+          new MouseEvent('pointermove', { bubbles: true, clientX: right?.centre[0], clientY: right?.centre[1] })
+        );
+        document.dispatchEvent(
+          new MouseEvent('pointerup', { bubbles: true, clientX: right?.centre[0], clientY: right?.centre[1] })
         );
         detect();
 

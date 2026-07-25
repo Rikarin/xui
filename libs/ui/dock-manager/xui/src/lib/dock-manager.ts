@@ -84,17 +84,32 @@ const DRAG_THRESHOLD = 4;
 /** The centre of a pane is a "tab it here" target; outside it, the nearest edge wins. */
 const CENTRE_ZONE = 0.3;
 
-/**
- * Dragging a floating window is mostly about *moving* it, so it only docks from
- * close to a pane's edge or from a small target at its centre. A header or tab
- * drag has no other purpose, so it docks from anywhere over a pane.
- */
-const DOCK_BAND = 48;
-const DOCK_HOTSPOT = 40;
+/** Size of one docking indicator square, and the gap between them. */
+const INDICATOR_SIZE = 30;
+const INDICATOR_GAP = 4;
+
+/** How far the outer ring of indicators sits from the dock manager's frame. */
+const INDICATOR_INSET = 8;
+
+/** Below this the joystick would not fit inside the pane, so it is not offered. */
+const INDICATOR_MIN_PANE = 96;
 
 interface DropTarget {
   pane: XuiDockPane;
   position: XuiDockPosition;
+}
+
+/**
+ * One square of the docking joystick, positioned in coordinates relative to the
+ * dock manager. `side` is the *visual* half it fills in, which is the mirror of
+ * `position` on the inline axis in RTL.
+ */
+interface DockIndicator extends DropTarget {
+  key: string;
+  side: 'left' | 'right' | 'top' | 'bottom' | 'center';
+  left: number;
+  top: number;
+  active: boolean;
 }
 
 interface DragState {
@@ -139,14 +154,22 @@ interface Rect {
  * before emitting, which is what keeps pane identity stable across a drag. Bind a
  * signal to it and snapshot with `cloneDockLayout()` if you need an undo buffer.
  *
- * Dragging is a pointer gesture. A header or tab drag docks the pane wherever it
- * is dropped over the layout — the centre of a pane tabs it, the edges split it —
- * and floats it if dropped outside. A floating window's title bar mostly *moves*
- * the window, and only docks it from close to a pane's edge or its centre.
+ * Dragging is a pointer gesture. Picking up a pane raises Visual Studio's docking
+ * targets: a five-way joystick over whichever pane is under the pointer — four
+ * arms to split it, the centre to tab with it — and an outer ring at the dock
+ * manager's edges to dock against the whole layout. Only the targets the dragged
+ * pane is allowed to take are drawn, and the one that would be used is
+ * highlighted while an outline previews the space it would claim.
+ *
+ * Off the targets, the two gestures differ. A header or tab drag has no other
+ * purpose, so the whole pane stays live and the nearest edge wins; dropping
+ * outside the layout floats the pane. Dragging a floating window's title bar is
+ * mostly about *moving* the window, so it docks from the targets alone.
  *
  * Every other operation — close, pin, maximize, float, tab selection, splitter
  * resize — is reachable from the keyboard, and the public methods (`closePane`,
- * `unpinPane`, `dockPane`, …) drive the same paths for code.
+ * `unpinPane`, `dockPane`, …) drive the same paths for code. Docking itself has no
+ * keyboard equivalent yet.
  */
 @Component({
   selector: 'xui-dock-manager',
@@ -449,6 +472,20 @@ interface Rect {
       ></div>
     }
 
+    <!-- ─── the docking joystick and the outer ring ─────────────────────── -->
+    @for (indicator of dockIndicators(); track indicator.key) {
+      <div
+        aria-hidden="true"
+        [class]="indicatorClass(indicator)"
+        [style.left.px]="indicator.left"
+        [style.top.px]="indicator.top"
+        [style.width.px]="INDICATOR_SIZE"
+        [style.height.px]="INDICATOR_SIZE"
+      >
+        <span [class]="indicatorFillClass(indicator)"></span>
+      </div>
+    }
+
     @if (dragGhost(); as ghost) {
       <div
         class="bg-surface-overlay border-border text-foreground pointer-events-none fixed z-60 rounded-md border px-2 py-1 text-xs shadow-lg"
@@ -526,6 +563,7 @@ export class XuiDockManager implements XuiDockContentMounter {
   private readonly drag = signal<DragState | null>(null);
   private readonly dropTarget = signal<DropTarget | null>(null);
   protected readonly dropRect = signal<Rect | null>(null);
+  protected readonly dockIndicators = signal<DockIndicator[]>([]);
 
   /** The unpinned pane whose fly-out is open. */
   protected readonly flyout = signal<XuiDockContentPane | null>(null);
@@ -540,6 +578,9 @@ export class XuiDockManager implements XuiDockContentMounter {
     // A floating window drags itself, so it needs no ghost.
     return state && !state.window ? { x: state.x, y: state.y, label: this.headerOf(state.pane) } : null;
   });
+
+  /** Exposed to the template so an indicator's box matches its hit area exactly. */
+  protected readonly INDICATOR_SIZE = INDICATOR_SIZE;
 
   /** Exposed to the template; the ids double as the axis to resize along. */
   protected readonly RESIZE_HANDLES = [
@@ -1089,6 +1130,7 @@ export class XuiDockManager implements XuiDockContentMounter {
     this.drag.set(null);
     this.dropTarget.set(null);
     this.dropRect.set(null);
+    this.dockIndicators.set([]);
   }
 
   private floatAtPointer(pane: XuiDockPane, clientX: number, clientY: number): void {
@@ -1114,20 +1156,114 @@ export class XuiDockManager implements XuiDockContentMounter {
     }
 
     const hostRect = this.el.getBoundingClientRect();
-    const outer = this.outerEdgeAt(clientX, clientY, hostRect);
-    const target = outer ?? this.paneTargetAt(clientX, clientY, state.window !== null);
+    const hovered = this.paneAt(clientX, clientY);
+    const indicators = this.buildIndicators(state.pane, hovered, hostRect);
+    const x = clientX - hostRect.left;
+    const y = clientY - hostRect.top;
 
-    if (!target || !canDockInto(this.layout(), state.pane, target.pane, target.position)) {
+    // Landing on an indicator is an explicit choice and always wins.
+    const hit = indicators.find(
+      indicator =>
+        x >= indicator.left &&
+        x <= indicator.left + INDICATOR_SIZE &&
+        y >= indicator.top &&
+        y <= indicator.top + INDICATOR_SIZE
+    );
+
+    const target = hit ? { pane: hit.pane, position: hit.position } : this.looseTargetAt(state, hovered, clientX, clientY);
+
+    this.dockIndicators.set(
+      indicators.map(indicator => ({
+        ...indicator,
+        active: !!target && indicator.pane === target.pane && indicator.position === target.position
+      }))
+    );
+
+    if (!target) {
       this.dropTarget.set(null);
       this.dropRect.set(null);
       return;
     }
 
-    const element = outer ? this.el : this.elementForPane(target.pane);
-    const rect = element?.getBoundingClientRect() ?? hostRect;
+    const rect = this.elementForPane(target.pane)?.getBoundingClientRect() ?? hostRect;
 
     this.dropTarget.set(target);
     this.dropRect.set(this.previewRect(rect, hostRect, target.position));
+  }
+
+  /**
+   * The target for a drop that missed every indicator.
+   *
+   * A header or tab drag has no purpose other than docking, so the whole pane
+   * stays live and the nearest edge wins. Dragging a floating window is mostly
+   * about *moving* it, so it docks from the indicators alone.
+   */
+  private looseTargetAt(
+    state: DragState,
+    hovered: XuiDockPane | null,
+    clientX: number,
+    clientY: number
+  ): DropTarget | null {
+    if (state.window) {
+      return null;
+    }
+
+    const hostRect = this.el.getBoundingClientRect();
+    const target = this.outerEdgeAt(clientX, clientY, hostRect) ?? this.zoneTargetAt(hovered, clientX, clientY);
+
+    return target && canDockInto(this.layout(), state.pane, target.pane, target.position) ? target : null;
+  }
+
+  /**
+   * The joystick over the pane under the pointer, plus the outer ring that docks
+   * against the whole layout — Visual Studio's docking targets.
+   *
+   * Only the positions the dragged pane is actually allowed to take are built, so
+   * a document dragged over a tool window simply offers nothing.
+   */
+  private buildIndicators(dragged: XuiDockPane, hovered: XuiDockPane | null, hostRect: DOMRect): DockIndicator[] {
+    const ltr = this.direction() !== 'rtl';
+    const root = this.layout().rootPane;
+    const step = INDICATOR_SIZE + INDICATOR_GAP;
+    const half = INDICATOR_SIZE / 2;
+    const far = INDICATOR_INSET + INDICATOR_SIZE;
+    const candidates: Omit<DockIndicator, 'active' | 'key'>[] = [];
+
+    const push = (pane: XuiDockPane, side: DockIndicator['side'], left: number, top: number): void => {
+      const position: XuiDockPosition =
+        side === 'center' ? 'center' : side === 'top' || side === 'bottom' ? side : (side === 'left') === ltr ? 'start' : 'end';
+
+      if (canDockInto(this.layout(), dragged, pane, position)) {
+        candidates.push({ pane, position, side, left, top });
+      }
+    };
+
+    // The outer ring, pinned to the middle of each of the dock manager's edges.
+    push(root, 'top', hostRect.width / 2 - half, INDICATOR_INSET);
+    push(root, 'bottom', hostRect.width / 2 - half, hostRect.height - far);
+    push(root, 'left', INDICATOR_INSET, hostRect.height / 2 - half);
+    push(root, 'right', hostRect.width - far, hostRect.height / 2 - half);
+
+    if (hovered) {
+      const rect = this.elementForPane(hovered)?.getBoundingClientRect();
+
+      if (rect && rect.width >= INDICATOR_MIN_PANE && rect.height >= INDICATOR_MIN_PANE) {
+        const left = rect.left - hostRect.left + rect.width / 2 - half;
+        const top = rect.top - hostRect.top + rect.height / 2 - half;
+
+        push(hovered, 'center', left, top);
+        push(hovered, 'left', left - step, top);
+        push(hovered, 'right', left + step, top);
+        push(hovered, 'top', left, top - step);
+        push(hovered, 'bottom', left, top + step);
+      }
+    }
+
+    return candidates.map(candidate => ({
+      ...candidate,
+      key: `${dockPaneKey(candidate.pane)}-${candidate.position}-${candidate.side}`,
+      active: false
+    }));
   }
 
   /** A drop within `OUTER_EDGE` of the dock manager's frame docks the whole layout. */
@@ -1159,17 +1295,14 @@ export class XuiDockManager implements XuiDockContentMounter {
   }
 
   /**
-   * The pane under the pointer, and which of its edges the pointer is nearest.
+   * The pane under the pointer.
    *
    * Hit-tested against the rendered rectangles rather than `elementFromPoint`, so
-   * the drag ghost, the drop preview and the floating window riding along with
-   * the pointer cannot get in the way. The innermost rectangle wins, and on a tie
-   * the one painted last does.
-   *
-   * `precise` narrows the target to the edge bands and the centre hotspot — see
-   * {@link DOCK_BAND}. Without it the whole pane is live.
+   * the drag ghost, the indicators and the floating window riding along with the
+   * pointer cannot get in the way. The innermost rectangle wins, and on a tie the
+   * one painted last does.
    */
-  private paneTargetAt(clientX: number, clientY: number, precise: boolean): DropTarget | null {
+  private paneAt(clientX: number, clientY: number): XuiDockPane | null {
     const dragged = this.drag()?.window;
     const draggedEl = dragged ? this.el.querySelector(`[data-dock-window="${dockPaneKey(dragged)}"]`) : null;
     let element: HTMLElement | null = null;
@@ -1197,40 +1330,33 @@ export class XuiDockManager implements XuiDockContentMounter {
       smallest = bounds.width * bounds.height;
     }
 
-    const pane = element && this.paneForKey(element.dataset['dockKey'] ?? '');
+    return element ? this.paneForKey(element.dataset['dockKey'] ?? '') : null;
+  }
 
-    if (!element || !pane) {
+  /** Split `pane` along whichever edge the pointer sits nearest, or tab at its centre. */
+  private zoneTargetAt(pane: XuiDockPane | null, clientX: number, clientY: number): DropTarget | null {
+    const rect = pane && this.elementForPane(pane)?.getBoundingClientRect();
+
+    if (!pane || !rect) {
       return null;
     }
 
-    const rect = element.getBoundingClientRect();
     const u = rect.width ? (clientX - rect.left) / rect.width : 0.5;
     const v = rect.height ? (clientY - rect.top) / rect.height : 0.5;
 
-    const centred = precise
-      ? Math.abs(u - 0.5) * rect.width <= DOCK_HOTSPOT && Math.abs(v - 0.5) * rect.height <= DOCK_HOTSPOT
-      : u > CENTRE_ZONE && u < 1 - CENTRE_ZONE && v > CENTRE_ZONE && v < 1 - CENTRE_ZONE;
-
-    if (centred) {
+    if (u > CENTRE_ZONE && u < 1 - CENTRE_ZONE && v > CENTRE_ZONE && v < 1 - CENTRE_ZONE) {
       return { pane, position: 'center' };
     }
 
     const ltr = this.direction() !== 'rtl';
-    // Which edge is nearest is a question of proportion, but whether the pointer
-    // is *near enough* to dock is a question of pixels.
     const edges = [
-      { position: (ltr ? 'start' : 'end') as XuiDockPosition, fraction: u, offset: clientX - rect.left },
-      { position: (ltr ? 'end' : 'start') as XuiDockPosition, fraction: 1 - u, offset: rect.right - clientX },
-      { position: 'top' as XuiDockPosition, fraction: v, offset: clientY - rect.top },
-      { position: 'bottom' as XuiDockPosition, fraction: 1 - v, offset: rect.bottom - clientY }
+      { position: (ltr ? 'start' : 'end') as XuiDockPosition, fraction: u },
+      { position: (ltr ? 'end' : 'start') as XuiDockPosition, fraction: 1 - u },
+      { position: 'top' as XuiDockPosition, fraction: v },
+      { position: 'bottom' as XuiDockPosition, fraction: 1 - v }
     ];
-    const nearest = edges.reduce((a, b) => (b.fraction < a.fraction ? b : a));
 
-    if (precise && nearest.offset > DOCK_BAND) {
-      return null;
-    }
-
-    return { pane, position: nearest.position };
+    return { pane, position: edges.reduce((a, b) => (b.fraction < a.fraction ? b : a)).position };
   }
 
   /** The slice of `rect` a drop would occupy, in coordinates relative to the host. */
@@ -1559,6 +1685,35 @@ export class XuiDockManager implements XuiDockContentMounter {
       width: `${window.floatingWidth ?? 400}px`,
       height: `${window.floatingHeight ?? 300}px`
     };
+  }
+
+  protected indicatorClass(indicator: DockIndicator): string {
+    return xui(
+      // Never interactive: the pointer is already captured by the drag, and the
+      // indicators are hit-tested by rectangle rather than by event target.
+      'bg-surface-overlay pointer-events-none absolute z-55 rounded border shadow-md',
+      indicator.active ? 'border-primary' : 'border-border-strong'
+    );
+  }
+
+  /**
+   * The shaded block inside an indicator, showing which part of the target the
+   * pane will take — the same visual language as Visual Studio's dock targets.
+   */
+  protected indicatorFillClass(indicator: DockIndicator): string {
+    const sides: Record<DockIndicator['side'], string> = {
+      center: 'inset-1',
+      left: 'top-1 bottom-1 left-1 w-1/3',
+      right: 'top-1 bottom-1 right-1 w-1/3',
+      top: 'top-1 right-1 left-1 h-1/3',
+      bottom: 'right-1 bottom-1 left-1 h-1/3'
+    };
+
+    return xui(
+      'absolute rounded-sm',
+      sides[indicator.side],
+      indicator.active ? 'bg-primary' : 'bg-foreground-subtle/50'
+    );
   }
 
   protected titleBarClass(): string {

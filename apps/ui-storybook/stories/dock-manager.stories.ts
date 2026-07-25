@@ -6,10 +6,14 @@ import { XuiDockManager, XuiDockManagerImports, type XuiDockManagerLayout } from
  * panes, tab groups, a document host for editor tabs, panes that collapse to the
  * edges, and floating windows.
  *
- * Drag a pane header or tab to re-dock it — the centre of a pane tabs it, the
- * edges split it, and the outline shows where it will land. Drop it outside the
- * layout to float it. Every action is also on the header: pin, float, maximize,
- * close. Splitter gutters take arrow keys, and tab strips take arrow/Home/End.
+ * Drag a pane header or tab and Visual Studio's docking targets appear: a
+ * five-way joystick over the pane under the pointer — arms to split it, centre to
+ * tab with it — plus an outer ring at the edges for docking against the whole
+ * layout. The target that would be used lights up and an outline previews the
+ * space it would take. Drop outside the layout to float the pane.
+ *
+ * Every action is also on the header: pin, float, maximize, close. Splitter
+ * gutters take arrow keys, and tab strips take arrow/Home/End.
  *
  * A pane's body is declared once as `<ng-template xuiDockContent="id">` and then
  * *moved* rather than rebuilt, so scroll position and half-typed input survive a
