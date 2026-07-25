@@ -1,0 +1,13 @@
+{
+  "name": "@xui/hotkeys",
+  "version": "2.0.0-alpha.8",
+  "sideEffects": false,
+  "peerDependencies": {
+    "@angular/common": "22",
+    "@angular/core": "22",
+    "@xui/dialog": "2.0.0-alpha.8"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

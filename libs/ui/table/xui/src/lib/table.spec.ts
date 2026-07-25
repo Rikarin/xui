@@ -30,6 +30,38 @@ describe('XuiTable', () => {
 
     expectClasses(query('xui-table'), 'w-80', 'flex-col');
   });
+
+  describe('display modifiers', () => {
+    it('has no modifier classes by default', () => {
+      const { query } = setup('<xui-table />');
+
+      expectNoClasses(query('xui-table'), '[&_xui-tr:nth-child(even)]:bg-surface-inset/40', 'border-border');
+    });
+
+    it('stripes alternate rows', () => {
+      const { query } = setup('<xui-table striped />');
+
+      expectClasses(query('xui-table'), '[&_xui-tr:nth-child(even)]:bg-surface-inset/40');
+    });
+
+    it('draws borders around and between cells', () => {
+      const { query } = setup('<xui-table bordered />');
+
+      expectClasses(query('xui-table'), 'border', 'border-border', '[&_xui-td]:border-r');
+    });
+
+    it('marks rows as interactive', () => {
+      const { query } = setup('<xui-table interactive />');
+
+      expectClasses(query('xui-table'), '[&_xui-tr]:cursor-pointer');
+    });
+
+    it('tightens the cell padding when compact', () => {
+      const { query } = setup('<xui-table compact />');
+
+      expectClasses(query('xui-table'), '[&_xui-td]:p-1.5', '[&_xui-th]:p-1.5');
+    });
+  });
 });
 
 describe('XuiCaption', () => {

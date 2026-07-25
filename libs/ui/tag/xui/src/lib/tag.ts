@@ -1,0 +1,133 @@
+import { BooleanInput } from '@angular/cdk/coercion';
+import {
+  booleanAttribute,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+  output,
+  ViewEncapsulation
+} from '@angular/core';
+import { NgIcon, provideIcons } from '@ng-icons/core';
+import { matCloseRound } from '@ng-icons/material-icons/round';
+import { xui } from '@xui/core';
+import { XuiIcon } from '@xui/icon';
+import { cva, VariantProps } from 'class-variance-authority';
+import type { ClassValue } from 'clsx';
+
+const tagVariants = cva('inline-flex items-center gap-1 border font-medium whitespace-nowrap transition-colors', {
+  variants: {
+    intent: {
+      none: '',
+      primary: '',
+      success: '',
+      warning: '',
+      danger: ''
+    },
+    minimal: { true: '', false: 'border-transparent' },
+    large: { true: 'px-3 py-1 text-sm', false: 'px-2 py-0.5 text-xs' },
+    round: { true: 'rounded-full', false: 'rounded' },
+    fill: { true: 'w-full justify-center', false: '' },
+    interactive: { true: 'cursor-pointer', false: '' }
+  },
+  compoundVariants: [
+    // Solid (default) fills.
+    { minimal: false, intent: 'none', class: 'bg-surface-inset text-foreground' },
+    { minimal: false, intent: 'primary', class: 'bg-primary text-primary-foreground' },
+    { minimal: false, intent: 'success', class: 'bg-success text-success-foreground' },
+    { minimal: false, intent: 'warning', class: 'bg-warning text-warning-foreground' },
+    { minimal: false, intent: 'danger', class: 'bg-error text-error-foreground' },
+    // Minimal (subtle) fills.
+    { minimal: true, intent: 'none', class: 'bg-surface-inset/60 border-border text-foreground-muted' },
+    { minimal: true, intent: 'primary', class: 'bg-primary/15 border-primary/30 text-primary' },
+    { minimal: true, intent: 'success', class: 'bg-success/15 border-success/30 text-success' },
+    { minimal: true, intent: 'warning', class: 'bg-warning/15 border-warning/30 text-warning' },
+    { minimal: true, intent: 'danger', class: 'bg-error/15 border-error/30 text-error' },
+    // Hover feedback only when the whole tag is clickable.
+    { interactive: true, minimal: false, class: 'hover:brightness-95' },
+    { interactive: true, minimal: true, class: 'hover:bg-surface-inset' }
+  ],
+  defaultVariants: {
+    intent: 'none',
+    minimal: false,
+    large: false,
+    round: false,
+    fill: false,
+    interactive: false
+  }
+});
+
+export type TagVariants = VariantProps<typeof tagVariants>;
+export type TagIntent = NonNullable<TagVariants['intent']>;
+
+/**
+ * A compact label chip — richer than the static `xui-badge`. Optionally shows a
+ * leading icon, reads as interactive, and can carry a remove ✕ that emits
+ * `removed`.
+ */
+@Component({
+  selector: 'xui-tag',
+  imports: [NgIcon, XuiIcon],
+  template: `
+    @if (icon()) {
+      <ng-icon xui [name]="icon()!" size="sm" />
+    }
+    <span [class]="fill() ? '' : 'truncate'"><ng-content /></span>
+    @if (removable()) {
+      <button
+        type="button"
+        class="-mr-0.5 flex items-center rounded-full opacity-70 transition-opacity hover:opacity-100"
+        aria-label="Remove"
+        (click)="onRemove($event)"
+      >
+        <ng-icon xui name="matCloseRound" size="sm" />
+      </button>
+    }
+  `,
+  host: {
+    '[class]': 'computedClass()'
+  },
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
+  viewProviders: [provideIcons({ matCloseRound })]
+})
+export class XuiTag {
+  readonly class = input<ClassValue>('');
+  readonly intent = input<TagIntent>('none');
+  readonly minimal = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
+  readonly large = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
+  readonly round = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
+  readonly fill = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
+
+  /** Read as clickable (pointer cursor + hover feedback). */
+  readonly interactive = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
+
+  /** Show a trailing remove button. */
+  readonly removable = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
+
+  /** Optional leading icon name (from the app's icon registry). */
+  readonly icon = input<string | null>(null);
+
+  /** Emits when the remove button is pressed. */
+  readonly removed = output<void>();
+
+  protected readonly computedClass = computed(() =>
+    xui(
+      tagVariants({
+        intent: this.intent(),
+        minimal: this.minimal(),
+        large: this.large(),
+        round: this.round(),
+        fill: this.fill(),
+        interactive: this.interactive()
+      }),
+      this.class()
+    )
+  );
+
+  protected onRemove(event: MouseEvent): void {
+    // Don't let the remove click also trigger an interactive tag's own click.
+    event.stopPropagation();
+    this.removed.emit();
+  }
+}

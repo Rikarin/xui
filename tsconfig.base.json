@@ -91,7 +91,11 @@
       "@xui/slider": ["./libs/ui/slider/xui/src/index.ts"],
       "@xui/editable-text": ["./libs/ui/editable-text/xui/src/index.ts"],
       "@xui/tag-input": ["./libs/ui/tag-input/xui/src/index.ts"],
-      "@xui/control-card": ["./libs/ui/control-card/xui/src/index.ts"]
+      "@xui/control-card": ["./libs/ui/control-card/xui/src/index.ts"],
+      "@xui/tabs": ["./libs/ui/tabs/xui/src/index.ts"],
+      "@xui/tag": ["./libs/ui/tag/xui/src/index.ts"],
+      "@xui/tree": ["./libs/ui/tree/xui/src/index.ts"],
+      "@xui/hotkeys": ["./libs/ui/hotkeys/xui/src/index.ts"]
     },
     "strict": false,
     "noUncheckedSideEffectImports": false,

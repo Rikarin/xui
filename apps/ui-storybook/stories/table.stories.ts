@@ -60,6 +60,36 @@ export const Default: Story = {
   })
 };
 
+/** `striped`, `bordered`, `interactive` and `compact` modifiers. */
+export const Modifiers: Story = {
+  render: () => ({
+    template: `
+      <xui-table class="w-96" striped bordered interactive compact>
+        <xui-tr>
+          <xui-th class="grow">Name</xui-th>
+          <xui-th>Role</xui-th>
+          <xui-th>Status</xui-th>
+        </xui-tr>
+        <xui-tr>
+          <xui-td class="grow">Ada Lovelace</xui-td>
+          <xui-td>Owner</xui-td>
+          <xui-td>Active</xui-td>
+        </xui-tr>
+        <xui-tr>
+          <xui-td class="grow">Alan Turing</xui-td>
+          <xui-td>Admin</xui-td>
+          <xui-td>Active</xui-td>
+        </xui-tr>
+        <xui-tr>
+          <xui-td class="grow">Grace Hopper</xui-td>
+          <xui-td>Editor</xui-td>
+          <xui-td>Invited</xui-td>
+        </xui-tr>
+      </xui-table>
+    `
+  })
+};
+
 @Component({
   selector: 'table-story',
   imports: [XuiTableImports, XTableImports, XuiButtonImports, XuiInputImports, NgForOf, FormsModule],
