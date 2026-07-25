@@ -6,7 +6,7 @@ Storybook are not published.
 
 ## How a release happens
 
-Pushing to `develop` runs [`.github/workflows/release.yml`](../.github/workflows/release.yml),
+Pushing to `master` runs [`.github/workflows/release.yml`](../.github/workflows/release.yml),
 which:
 
 1. **Decides whether there is anything to release** - it looks for a `feat`, `fix`, `perf`,
@@ -20,8 +20,8 @@ which:
    creates the GitHub Release.
 5. **Publishes to npm** with provenance, under the dist-tag that matches the version.
 
-`develop` is the release line: every v2 tag was cut from it, while `master` still holds the 1.x
-tree. If that changes, update the branch in `release.yml`.
+`master` is the release line - `develop` was fast-forwarded into it, so every v2 tag is reachable
+from `master`. If that changes, update the branch in `release.yml` and `defaultBase` in `nx.json`.
 
 ## Version bumps
 

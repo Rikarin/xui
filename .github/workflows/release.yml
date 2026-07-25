@@ -2,11 +2,10 @@ name: Release
 
 on:
   push:
-    # The active release line. Every v2 tag (v2.0.0-alpha.0 … alpha.8) was cut from `develop`;
-    # `master` still holds the 1.x tree and has not moved since 2024. Change this branch - and the
-    # one in the Release section of docs/releasing.md - if the release line moves to `master`.
+    # The release line. `develop` was fast-forwarded into `master`, so every v2 tag is reachable
+    # from here. Change this branch - and the one in docs/releasing.md - if it ever moves back.
     branches:
-      - develop
+      - master
   workflow_dispatch:
     inputs:
       specifier:

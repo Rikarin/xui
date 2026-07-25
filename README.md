@@ -4,7 +4,7 @@
 
 ---
 
-![Build Status](https://github.com/rikarin/xui/actions/workflows/publish.yaml/badge.svg?branch=develop)
+![Build Status](https://github.com/rikarin/xui/actions/workflows/release.yml/badge.svg?branch=master)
 [![Demo](https://img.shields.io/badge/demo-online-ed1c46)](https://xuijs.org/)
 [![npm](https://img.shields.io/npm/v/%40xui/core.svg?maxAge=2592000?style=plastic)](https://www.npmjs.com/org/xui)
 [![License](https://img.shields.io/npm/l/express.svg?maxAge=2592000)](/LICENSE)
