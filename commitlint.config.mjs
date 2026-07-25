@@ -56,6 +56,7 @@ export default {
         'toggle-group',
         'tooltip',
         'typography',
+        'mcp',
         'nx',
         'repo'
       ]

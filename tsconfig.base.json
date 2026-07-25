@@ -48,6 +48,7 @@
       "@xui/icon": ["libs/ui/icon/xui/src/index.ts"],
       "@xui/input": ["libs/ui/input/xui/src/index.ts"],
       "@xui/label": ["libs/ui/label/xui/src/index.ts"],
+      "@xui/mcp": ["libs/mcp/src/index.ts"],
       "@xui/skeleton": ["libs/ui/skeleton/xui/src/index.ts"],
       "@xui/spinner": ["libs/ui/spinner/xui/src/index.ts"],
       "@xui/status": ["libs/ui/status/xui/src/index.ts"],

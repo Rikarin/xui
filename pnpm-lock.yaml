@@ -51,6 +51,9 @@ importers:
       '@faker-js/faker':
         specifier: ^10.5.0
         version: 10.5.0
+      '@modelcontextprotocol/sdk':
+        specifier: ^1.29.0
+        version: 1.29.0(zod@4.4.3)
       '@ng-doc/app':
         specifier: ^21.1.0
         version: 21.1.0(c5be9a0886a2ab9e95fa2a115f27de9f)
@@ -120,6 +123,9 @@ importers:
       tailwindcss-animate:
         specifier: ^1.0.7
         version: 1.0.7(tailwindcss@4.3.3)
+      zod:
+        specifier: ^4.4.3
+        version: 4.4.3
     devDependencies:
       '@analogjs/vite-plugin-angular':
         specifier: ^2.6.4
@@ -147,7 +153,7 @@ importers:
         version: 5.2.1(storybook@10.5.4(@types/react@19.2.17)(prettier@3.9.6)(react@19.1.0))
       '@commitlint/cli':
         specifier: ^21.2.1
-        version: 21.2.1(@types/node@26.1.1)(conventional-commits-parser@6.2.1)(typescript@6.0.3)
+        version: 21.2.1(@types/node@26.1.1)(conventional-commits-parser@7.1.0)(typescript@6.0.3)
       '@commitlint/config-conventional':
         specifier: ^21.2.0
         version: 21.2.0
@@ -14004,13 +14010,13 @@ snapshots:
   '@colors/colors@1.5.0':
     optional: true
 
-  '@commitlint/cli@21.2.1(@types/node@26.1.1)(conventional-commits-parser@6.2.1)(typescript@6.0.3)':
+  '@commitlint/cli@21.2.1(@types/node@26.1.1)(conventional-commits-parser@7.1.0)(typescript@6.0.3)':
     dependencies:
       '@commitlint/config-conventional': 21.2.0
       '@commitlint/format': 21.2.0
       '@commitlint/lint': 21.2.0
       '@commitlint/load': 21.2.0(@types/node@26.1.1)(typescript@6.0.3)
-      '@commitlint/read': 21.2.1(conventional-commits-parser@6.2.1)
+      '@commitlint/read': 21.2.1(conventional-commits-parser@7.1.0)
       '@commitlint/types': 21.2.0
       tinyexec: 1.0.1
       yargs: 18.0.0
@@ -14077,11 +14083,11 @@ snapshots:
       conventional-changelog-angular: 9.2.1
       conventional-commits-parser: 7.1.0
 
-  '@commitlint/read@21.2.1(conventional-commits-parser@6.2.1)':
+  '@commitlint/read@21.2.1(conventional-commits-parser@7.1.0)':
     dependencies:
       '@commitlint/top-level': 21.2.0
       '@commitlint/types': 21.2.0
-      '@conventional-changelog/git-client': 3.1.0(conventional-commits-parser@6.2.1)
+      '@conventional-changelog/git-client': 3.1.0(conventional-commits-parser@7.1.0)
       tinyexec: 1.0.1
     transitivePeerDependencies:
       - conventional-commits-filter
@@ -14116,14 +14122,6 @@ snapshots:
   '@conventional-changelog/git-client@1.0.1(conventional-commits-parser@6.2.1)':
     dependencies:
       '@types/semver': 7.7.1
-      semver: 7.8.5
-    optionalDependencies:
-      conventional-commits-parser: 6.2.1
-
-  '@conventional-changelog/git-client@3.1.0(conventional-commits-parser@6.2.1)':
-    dependencies:
-      '@simple-libs/child-process-utils': 2.0.0
-      '@simple-libs/stream-utils': 2.0.0
       semver: 7.8.5
     optionalDependencies:
       conventional-commits-parser: 6.2.1
@@ -15078,6 +15076,28 @@ snapshots:
       raw-body: 3.0.2
       zod: 4.4.2
       zod-to-json-schema: 3.25.2(zod@4.4.2)
+    transitivePeerDependencies:
+      - supports-color
+
+  '@modelcontextprotocol/sdk@1.29.0(zod@4.4.3)':
+    dependencies:
+      '@hono/node-server': 1.19.15(hono@4.12.32)
+      ajv: 8.20.0
+      ajv-formats: 3.0.1(ajv@8.20.0)
+      content-type: 1.0.5
+      cors: 2.8.6
+      cross-spawn: 7.0.6
+      eventsource: 3.0.7
+      eventsource-parser: 3.0.6
+      express: 5.2.1
+      express-rate-limit: 8.6.0(express@5.2.1)
+      hono: 4.12.32
+      jose: 6.2.4
+      json-schema-typed: 8.0.2
+      pkce-challenge: 5.0.0
+      raw-body: 3.0.2
+      zod: 4.4.3
+      zod-to-json-schema: 3.25.2(zod@4.4.3)
     transitivePeerDependencies:
       - supports-color
 
@@ -27105,6 +27125,10 @@ snapshots:
   zod-to-json-schema@3.25.2(zod@4.4.2):
     dependencies:
       zod: 4.4.2
+
+  zod-to-json-schema@3.25.2(zod@4.4.3):
+    dependencies:
+      zod: 4.4.3
 
   zod@4.4.2: {}
 

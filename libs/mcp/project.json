@@ -1,0 +1,40 @@
+{
+  "name": "mcp",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/mcp/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "compile": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/mcp",
+        "main": "libs/mcp/src/index.ts",
+        "tsConfig": "libs/mcp/tsconfig.lib.json",
+        "assets": ["libs/mcp/*.md"]
+      }
+    },
+    "build": {
+      "executor": "nx:run-commands",
+      "dependsOn": ["compile"],
+      "outputs": ["{workspaceRoot}/dist/libs/mcp"],
+      "options": {
+        "command": "node dist/libs/mcp/src/scripts/generate-index.js --out dist/libs/mcp/src/xui-index.json",
+        "cwd": "{workspaceRoot}"
+      }
+    },
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "vitest run --config libs/mcp/vitest.config.ts",
+        "cwd": "{workspaceRoot}"
+      }
+    },
+    "nx-release-publish": {
+      "options": {
+        "packageRoot": "dist/{projectRoot}"
+      }
+    }
+  }
+}

@@ -49,6 +49,7 @@
     "@angular/router": "22.0.8",
     "@angular/ssr": "22.0.8",
     "@faker-js/faker": "^10.5.0",
+    "@modelcontextprotocol/sdk": "^1.29.0",
     "@ng-doc/app": "^21.1.0",
     "@ng-doc/builder": "^21.1.0",
     "@ng-doc/core": "^21.1.0",
@@ -71,7 +72,8 @@
     "storybook": "10.5.4",
     "tailwind-merge": "^3.6.0",
     "tailwindcss": "^4.3.3",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@analogjs/vite-plugin-angular": "^2.6.4",

@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "xui": {
+      "type": "stdio",
+      "command": "node",
+      "args": ["dist/libs/mcp/src/server.js"],
+      "env": {}
+    }
+  }
+}
