@@ -135,7 +135,8 @@
       "@xui/konva": ["./libs/ui/konva/xui/src/index.ts"],
       "@xui/echarts": ["./libs/ui/echarts/xui/src/index.ts"],
       "@xui/rich-text-editor": ["./libs/ui/rich-text-editor/xui/src/index.ts"],
-      "@xui/dock-manager": ["./libs/ui/dock-manager/xui/src/index.ts"]
+      "@xui/dock-manager": ["./libs/ui/dock-manager/xui/src/index.ts"],
+      "@xui/node-graph": ["./libs/ui/node-graph/xui/src/index.ts"]
     },
     "strict": false,
     "noUncheckedSideEffectImports": false,
