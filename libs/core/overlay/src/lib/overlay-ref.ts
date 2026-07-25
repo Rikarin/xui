@@ -29,6 +29,8 @@ export class XOverlayRef<TResult = unknown> {
     private readonly overlayRef: OverlayRef,
     private readonly focusTrap: FocusTrap | null,
     private readonly restoreFocusTo: HTMLElement | null,
+    /** Undoes the modal background `inert`; runs before focus is restored. */
+    private readonly releaseBackground: (() => void) | null,
     // Takes no argument on purpose: a `(ref: XOverlayRef<TResult>) => void`
     // callback makes the class invariant in `TResult` under strictFunctionTypes,
     // so a registry of mixed-result refs would not type-check. The factory closes
@@ -52,6 +54,10 @@ export class XOverlayRef<TResult = unknown> {
 
     this.focusTrap?.destroy();
     this.overlayRef.dispose();
+
+    // Un-inert first: the element focus returns to lives in the background that
+    // a modal overlay just made unfocusable.
+    this.releaseBackground?.();
 
     // Restore focus after disposal so the element is focusable again — while the
     // overlay is attached a modal one may still be trapping focus.

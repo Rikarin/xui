@@ -130,6 +130,50 @@ describe('injectXOverlay', () => {
     expect(pane()?.getAttribute('aria-label')).toBe('Settings');
   });
 
+  it('marks a backdropped focus-trapping dialog as modal and inerts the background', () => {
+    const fixture = setup();
+
+    const ref = fixture.componentInstance.open({
+      role: 'dialog',
+      ariaLabel: 'Settings',
+      hasBackdrop: true,
+      trapFocus: true
+    });
+
+    expect(pane()?.getAttribute('aria-modal')).toBe('true');
+
+    // Everything in the body except the CDK overlay container is hidden from AT.
+    const container = document.querySelector('.cdk-overlay-container')!;
+    const siblings = [...document.body.children].filter(node => node !== container);
+    expect(siblings.length).toBeGreaterThan(0);
+    expect(siblings.every(node => node.hasAttribute('inert'))).toBe(true);
+
+    ref.close();
+    expect(siblings.some(node => node.hasAttribute('inert'))).toBe(false);
+  });
+
+  it('leaves a trapping overlay with no backdrop non-modal', () => {
+    const fixture = setup();
+
+    // A `role="dialog"` popover traps Tab but still closes on outside clicks,
+    // which `inert` would swallow.
+    fixture.componentInstance.open({ role: 'dialog', ariaLabel: 'Filters', trapFocus: true });
+
+    expect(pane()?.getAttribute('aria-modal')).toBeNull();
+
+    const container = document.querySelector('.cdk-overlay-container')!;
+    const siblings = [...document.body.children].filter(node => node !== container);
+    expect(siblings.some(node => node.hasAttribute('inert'))).toBe(false);
+  });
+
+  it('only emits aria-modal on dialog roles', () => {
+    const fixture = setup();
+
+    fixture.componentInstance.open({ role: 'listbox', hasBackdrop: true, trapFocus: true });
+
+    expect(pane()?.getAttribute('aria-modal')).toBeNull();
+  });
+
   it('restores focus to the previously focused element', () => {
     const fixture = setup();
     const trigger = fixture.componentInstance.trigger().nativeElement;

@@ -11,11 +11,12 @@ import {
   input,
   model,
   signal,
+  viewChild,
   viewChildren,
   ViewEncapsulation
 } from '@angular/core';
 import { xui } from '@xui/core';
-import { uniqueId } from '@xui/core/a11y';
+import { arrowDirectionOnAxis, injectXDirection, uniqueId } from '@xui/core/a11y';
 import { cva, VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
 import { XuiTab } from './tab';
@@ -113,6 +114,8 @@ export class XuiTabs {
   readonly renderActiveTabPanelOnly = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
 
   private readonly tabButtons = viewChildren<ElementRef<HTMLButtonElement>>('tabButton');
+  private readonly list = viewChild.required<ElementRef<HTMLElement>>('list');
+  protected readonly direction = injectXDirection();
   protected readonly indicatorStyle = signal<Record<string, string>>({});
 
   protected tabId(id: string): string {
@@ -128,7 +131,9 @@ export class XuiTabs {
   protected readonly listClass = computed(() =>
     xui(
       'relative flex',
-      this.vertical() ? 'flex-col border-r border-border' : 'items-end gap-1 border-b border-border',
+      // `border-e` rather than `border-r`: the rule belongs on the edge the
+      // panel sits against, which swaps sides in RTL.
+      this.vertical() ? 'flex-col border-e border-border' : 'items-end gap-1 border-b border-border',
       this.fill() && !this.vertical() && 'w-full'
     )
   );
@@ -140,11 +145,11 @@ export class XuiTabs {
   protected readonly indicatorClass = computed(() =>
     xui(
       'bg-primary pointer-events-none absolute transition-all duration-200',
-      this.vertical() ? 'right-0 w-0.5' : 'bottom-0 h-0.5'
+      this.vertical() ? 'end-0 w-0.5' : 'bottom-0 h-0.5'
     )
   );
 
-  protected readonly panelClass = computed(() => xui('pt-4', this.vertical() && 'flex-1 pt-0 pl-4'));
+  protected readonly panelClass = computed(() => xui('pt-4', this.vertical() && 'flex-1 pt-0 ps-4'));
 
   constructor() {
     // Default the selection to the first non-disabled tab.
@@ -179,11 +184,18 @@ export class XuiTabs {
         return;
       }
 
-      this.indicatorStyle.set(
-        this.vertical()
-          ? { top: `${el.offsetTop}px`, height: `${el.offsetHeight}px` }
-          : { left: `${el.offsetLeft}px`, width: `${el.offsetWidth}px` }
-      );
+      if (this.vertical()) {
+        this.indicatorStyle.set({ top: `${el.offsetTop}px`, height: `${el.offsetHeight}px` });
+        return;
+      }
+
+      // `offsetLeft` is measured from the list's left edge in both directions,
+      // so in RTL the inline offset is the distance from its *right* edge.
+      const list = this.list().nativeElement;
+      const inlineStart =
+        this.direction() === 'rtl' ? list.offsetWidth - el.offsetLeft - el.offsetWidth : el.offsetLeft;
+
+      this.indicatorStyle.set({ insetInlineStart: `${inlineStart}px`, width: `${el.offsetWidth}px` });
     });
   }
 
@@ -201,25 +213,21 @@ export class XuiTabs {
     }
 
     const currentIndex = enabled.findIndex(t => t.id() === this.selectedTabId());
-    const next = this.vertical() ? 'ArrowDown' : 'ArrowRight';
-    const prev = this.vertical() ? 'ArrowUp' : 'ArrowLeft';
+    // Only the arrows along the list's own axis move the selection, and the
+    // horizontal pair swaps meaning in RTL.
+    const step = arrowDirectionOnAxis(event.key, this.direction(), this.vertical() ? 'vertical' : 'horizontal');
     let target: number;
 
-    switch (event.key) {
-      case next:
-        target = (currentIndex + 1) % enabled.length;
-        break;
-      case prev:
-        target = (currentIndex - 1 + enabled.length) % enabled.length;
-        break;
-      case 'Home':
-        target = 0;
-        break;
-      case 'End':
-        target = enabled.length - 1;
-        break;
-      default:
-        return;
+    if (step === 'next') {
+      target = (currentIndex + 1) % enabled.length;
+    } else if (step === 'previous') {
+      target = (currentIndex - 1 + enabled.length) % enabled.length;
+    } else if (event.key === 'Home') {
+      target = 0;
+    } else if (event.key === 'End') {
+      target = enabled.length - 1;
+    } else {
+      return;
     }
 
     event.preventDefault();

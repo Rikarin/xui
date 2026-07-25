@@ -16,6 +16,7 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { xui } from '@xui/core';
+import { arrowDirection, inlineFraction, injectXDirection } from '@xui/core/a11y';
 import type { ChangeFn, TouchFn } from '@xui/core/forms';
 import { cva, VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
@@ -150,6 +151,7 @@ export class XuiSlider implements ControlValueAccessor {
   readonly valueChange = output<number>();
 
   private readonly track = viewChild.required<ElementRef<HTMLDivElement>>('track');
+  protected readonly direction = injectXDirection();
   private readonly handle = viewChild.required<ElementRef<HTMLDivElement>>('handle');
 
   protected readonly dragging = signal(false);
@@ -230,7 +232,7 @@ export class XuiSlider implements ControlValueAccessor {
   protected readonly computedClass = computed(() =>
     xui(
       'relative select-none touch-none',
-      this.vertical() ? 'inline-flex h-48 pr-8' : 'block w-full pb-6',
+      this.vertical() ? 'inline-flex h-48 pe-8' : 'block w-full pb-6',
       this.disabledState() && 'pointer-events-none opacity-60',
       this.class()
     )
@@ -239,7 +241,7 @@ export class XuiSlider implements ControlValueAccessor {
   protected readonly trackClass = computed(() =>
     xui(
       'bg-surface-inset absolute rounded-full',
-      this.vertical() ? 'top-0 bottom-0 left-2 w-1.5' : 'top-2 right-0 left-0 h-1.5'
+      this.vertical() ? 'top-0 bottom-0 start-2 w-1.5' : 'top-2 end-0 start-0 h-1.5'
     )
   );
 
@@ -250,14 +252,25 @@ export class XuiSlider implements ControlValueAccessor {
   );
 
   protected readonly axisClass = computed(() =>
-    xui('absolute text-xs', this.vertical() ? 'top-0 bottom-0 left-6' : 'top-6 right-0 left-0')
+    xui('absolute text-xs', this.vertical() ? 'top-0 bottom-0 start-6' : 'top-6 end-0 start-0')
   );
+
+  /**
+   * Half a step back along the inline axis, for centring something positioned by
+   * its inline start. `transform` is physical, so the sign flips in RTL where
+   * the inline axis runs right-to-left.
+   */
+  private inlineHalf(): string {
+    return this.direction() === 'rtl' ? '50%' : '-50%';
+  }
 
   protected fillStyle(): Record<string, string> {
     const pct = `${this.fraction() * 100}%`;
+    // `insetInlineStart` grows the fill from the track's start edge, so the bar
+    // fills right-to-left in RTL without any extra maths.
     return this.vertical()
       ? { left: '0', right: '0', bottom: '0', height: pct }
-      : { top: '0', bottom: '0', left: '0', width: pct };
+      : { top: '0', bottom: '0', insetInlineStart: '0', width: pct };
   }
 
   protected handleStyle(): Record<string, string> {
@@ -266,19 +279,19 @@ export class XuiSlider implements ControlValueAccessor {
     // the bar regardless of the track's thickness.
     return this.vertical()
       ? { left: '50%', bottom: pct, transform: 'translate(-50%, 50%)' }
-      : { top: '50%', left: pct, transform: 'translate(-50%, -50%)' };
+      : { top: '50%', insetInlineStart: pct, transform: `translate(${this.inlineHalf()}, -50%)` };
   }
 
   protected tickStyle(fraction: number): Record<string, string> {
     const pct = `${fraction * 100}%`;
-    return this.vertical() ? { left: '50%', bottom: pct } : { top: '50%', left: pct };
+    return this.vertical() ? { left: '50%', bottom: pct } : { top: '50%', insetInlineStart: pct };
   }
 
   protected labelStyle(fraction: number): Record<string, string> {
     const pct = `${fraction * 100}%`;
     return this.vertical()
       ? { bottom: pct, transform: 'translateY(50%)' }
-      : { left: pct, transform: 'translateX(-50%)' };
+      : { insetInlineStart: pct, transform: `translateX(${this.inlineHalf()})` };
   }
 
   // --- interaction ----------------------------------------------------------
@@ -328,7 +341,7 @@ export class XuiSlider implements ControlValueAccessor {
     const rect = this.track().nativeElement.getBoundingClientRect();
     const fraction = this.vertical()
       ? (rect.bottom - event.clientY) / rect.height
-      : (event.clientX - rect.left) / rect.width;
+      : inlineFraction(event.clientX, rect, this.direction());
     const clamped = Math.min(1, Math.max(0, fraction));
 
     return this.min() + clamped * (this.max() - this.min());
@@ -343,15 +356,16 @@ export class XuiSlider implements ControlValueAccessor {
     const page = this.labelStepSize() || step * 10;
     let next: number;
 
+    // Both axes drive the value (APG lets either pair work on a slider), but the
+    // horizontal pair mirrors in RTL: ArrowRight then decreases.
+    const arrow = arrowDirection(event.key, this.direction());
+    if (arrow) {
+      event.preventDefault();
+      this.commit(this.value() + (arrow === 'next' ? step : -step));
+      return;
+    }
+
     switch (event.key) {
-      case 'ArrowRight':
-      case 'ArrowUp':
-        next = this.value() + step;
-        break;
-      case 'ArrowLeft':
-      case 'ArrowDown':
-        next = this.value() - step;
-        break;
       case 'PageUp':
         next = this.value() + page;
         break;

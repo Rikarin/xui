@@ -11,6 +11,7 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import { xui } from '@xui/core';
+import { arrowDirection, injectXDirection } from '@xui/core/a11y';
 import type { ClassValue } from 'clsx';
 
 /**
@@ -41,14 +42,14 @@ import type { ClassValue } from 'clsx';
           @if (allowHalf()) {
             <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
             <span
-              class="absolute inset-y-0 left-0 z-10 w-1/2 cursor-pointer"
+              class="absolute inset-y-0 start-0 z-10 w-1/2 cursor-pointer"
               (click)="pick(star - 0.5)"
               (mouseenter)="hover.set(star - 0.5)"
             ></span>
           }
           <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
           <span
-            class="absolute inset-y-0 right-0 z-10 cursor-pointer"
+            class="absolute inset-y-0 end-0 z-10 cursor-pointer"
             [class]="allowHalf() ? 'w-1/2' : 'w-full'"
             (click)="pick(star)"
             (mouseenter)="hover.set(star)"
@@ -74,6 +75,8 @@ import type { ClassValue } from 'clsx';
 })
 export class XuiRate {
   protected readonly STAR = 'M12 2l2.9 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14l-5-4.87 7.1-1.01z';
+
+  protected readonly direction = injectXDirection();
 
   readonly class = input<ClassValue>('');
 
@@ -120,19 +123,14 @@ export class XuiRate {
       return;
     }
     const step = this.allowHalf() ? 0.5 : 1;
-    let next = this.value();
-    switch (event.key) {
-      case 'ArrowRight':
-      case 'ArrowUp':
-        next = Math.min(this.count(), next + step);
-        break;
-      case 'ArrowLeft':
-      case 'ArrowDown':
-        next = Math.max(0, next - step);
-        break;
-      default:
-        return;
+    const arrow = arrowDirection(event.key, this.direction());
+    if (!arrow) {
+      return;
     }
+
+    const next =
+      arrow === 'next' ? Math.min(this.count(), this.value() + step) : Math.max(0, this.value() - step);
+
     event.preventDefault();
     this.value.set(next);
   }

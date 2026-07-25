@@ -157,8 +157,17 @@ export function injectXOverlay(): XOverlayFactory {
     const overlayRef: OverlayRef = createOverlayRef(injector, overlayConfig);
     const previouslyFocused = resolved.restoreFocus ? (document.activeElement as HTMLElement | null) : null;
 
+    // Trapping Tab without hiding the background still lets a screen reader
+    // browse past the barrier, so anything that traps focus *and* dims the page
+    // behind a backdrop is treated as modal. A focus-trapping popover has no
+    // backdrop and closes on outside clicks, so it stays non-modal — `inert`
+    // would swallow the very clicks it listens for.
+    const modal = resolved.modal ?? Boolean(resolved.trapFocus && resolved.hasBackdrop);
+
     attach(overlayRef, content, resolved);
-    applyAriaAttributes(overlayRef, resolved);
+    applyAriaAttributes(overlayRef, resolved, modal);
+
+    const releaseBackground = modal ? inertBackground(overlayRef) : null;
 
     const focusTrap = resolved.trapFocus ? focusTrapFactory.create(overlayRef.overlayElement) : null;
 
@@ -171,7 +180,7 @@ export function injectXOverlay(): XOverlayFactory {
       }
     }
 
-    const ref: XOverlayRef<TResult> = new XOverlayRef<TResult>(overlayRef, focusTrap, previouslyFocused, () => {
+    const ref: XOverlayRef<TResult> = new XOverlayRef<TResult>(overlayRef, focusTrap, previouslyFocused, releaseBackground, () => {
       const index = refs.indexOf(ref);
 
       if (index !== -1) {
@@ -249,13 +258,15 @@ export function injectXOverlay(): XOverlayFactory {
   };
 }
 
-function applyAriaAttributes(overlayRef: OverlayRef, config: XOverlayConfig): void {
+function applyAriaAttributes(overlayRef: OverlayRef, config: XOverlayConfig, modal: boolean): void {
   const pane = overlayRef.overlayElement;
   const attributes: Record<string, string | null | undefined> = {
     role: config.role,
     'aria-label': config.ariaLabel,
     'aria-labelledby': config.ariaLabelledBy,
-    'aria-describedby': config.ariaDescribedBy
+    'aria-describedby': config.ariaDescribedBy,
+    // Only meaningful on a dialog role; a modal menu or listbox is not a thing.
+    'aria-modal': modal && (config.role === 'dialog' || config.role === 'alertdialog') ? 'true' : null
   };
 
   for (const [name, value] of Object.entries(attributes)) {
@@ -267,4 +278,36 @@ function applyAriaAttributes(overlayRef: OverlayRef, config: XOverlayConfig): vo
   if (isDevMode() && config.role === 'dialog' && !config.ariaLabel && !config.ariaLabelledBy) {
     console.warn('injectXOverlay(): a dialog overlay should set `ariaLabel` or `ariaLabelledBy`.');
   }
+}
+
+/**
+ * Hide everything outside the overlay from assistive tech while a modal is open.
+ *
+ * `aria-modal` alone is not enough — support is uneven, and a screen reader in
+ * browse mode can still walk the page behind the dialog. Marking the overlay's
+ * siblings `inert` removes them from the accessibility tree *and* from the tab
+ * order, which is the behaviour `<dialog>.showModal()` gets for free.
+ *
+ * Returns the undo function. Nested modals stack: the second modal inerts the
+ * first one's container, and unwinding in reverse restores each layer.
+ */
+function inertBackground(overlayRef: OverlayRef): () => void {
+  const container = overlayRef.hostElement.parentElement;
+  const body = container?.ownerDocument.body;
+
+  if (!container || !body) {
+    return () => undefined;
+  }
+
+  // Set the attribute rather than the IDL property: it is what the a11y tree
+  // reads, it round-trips in jsdom, and skipping already-inert siblings keeps
+  // nested modals from clearing an outer one's work on the way out.
+  const inerted = [...body.children].filter(
+    (element): element is HTMLElement =>
+      element !== container && element instanceof HTMLElement && !element.hasAttribute('inert')
+  );
+
+  inerted.forEach(element => element.setAttribute('inert', ''));
+
+  return () => inerted.forEach(element => element.removeAttribute('inert'));
 }

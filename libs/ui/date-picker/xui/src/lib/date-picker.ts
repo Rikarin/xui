@@ -17,6 +17,7 @@ import {
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { matChevronLeftRound, matChevronRightRound } from '@ng-icons/material-icons/round';
 import { xui } from '@xui/core';
+import { arrowDirectionOnAxis, injectXDirection } from '@xui/core/a11y';
 import { buildMonthGrid, type CalendarDay, monthYearLabel, weekdayLabels } from '@xui/core/calendar';
 import { injectDateAdapter } from '@xui/core/date-time';
 import { XuiIcon } from '@xui/icon';
@@ -93,6 +94,7 @@ import type { ClassValue } from 'clsx';
 export class XuiDatePicker<T = Date> {
   private readonly adapter = injectDateAdapter<T>();
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
+  protected readonly direction = injectXDirection();
 
   readonly class = input<ClassValue>('');
 
@@ -197,13 +199,18 @@ export class XuiDatePicker<T = Date> {
     const current = this.focusedDate() ?? this.selected() ?? this.anchorFallback();
     let next: T;
 
+    // The month grid runs inline, so the horizontal arrows step a day in reading
+    // order — which is right-to-left in an RTL calendar — and the vertical pair
+    // always steps a week.
+    const inline = arrowDirectionOnAxis(event.key, this.direction(), 'horizontal');
+    if (inline) {
+      const target =
+        inline === 'next' ? this.adapter.add(current, { days: 1 }) : this.adapter.subtract(current, { days: 1 });
+      this.moveFocusTo(event, target);
+      return;
+    }
+
     switch (event.key) {
-      case 'ArrowLeft':
-        next = this.adapter.subtract(current, { days: 1 });
-        break;
-      case 'ArrowRight':
-        next = this.adapter.add(current, { days: 1 });
-        break;
       case 'ArrowUp':
         next = this.adapter.subtract(current, { days: 7 });
         break;
@@ -231,10 +238,15 @@ export class XuiDatePicker<T = Date> {
         return;
     }
 
+    this.moveFocusTo(event, next);
+  }
+
+  /** Move the roving focus to `target`, paging the view when it leaves the month. */
+  private moveFocusTo(event: KeyboardEvent, target: T): void {
     event.preventDefault();
-    this.focusedDate.set(next);
-    if (!this.adapter.isSameMonth(next, this.viewDate())) {
-      this.viewDate.set(next);
+    this.focusedDate.set(target);
+    if (!this.adapter.isSameMonth(target, this.viewDate())) {
+      this.viewDate.set(target);
     }
     this.focusActiveCell();
   }

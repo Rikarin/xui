@@ -12,6 +12,7 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import { xui } from '@xui/core';
+import { arrowDirectionOnAxis, injectXDirection } from '@xui/core/a11y';
 import type { ClassValue } from 'clsx';
 import { XuiSplitterPanel } from './splitter-panel';
 
@@ -64,6 +65,7 @@ import { XuiSplitterPanel } from './splitter-panel';
 export class XuiSplitter {
   private readonly el = inject(ElementRef).nativeElement as HTMLElement;
   private readonly document = this.el.ownerDocument;
+  private readonly direction = injectXDirection();
 
   readonly class = input<ClassValue>('');
   readonly layout = input<'horizontal' | 'vertical'>('horizontal');
@@ -93,26 +95,21 @@ export class XuiSplitter {
    */
   protected onGutterKeydown(gutter: number, event: KeyboardEvent): void {
     const vertical = this.layout() === 'vertical';
-    const decrease = vertical ? 'ArrowUp' : 'ArrowLeft';
-    const increase = vertical ? 'ArrowDown' : 'ArrowRight';
     const step = event.shiftKey ? 10 : 1;
     let deltaPct: number;
 
-    switch (event.key) {
-      case decrease:
-        deltaPct = -step;
-        break;
-      case increase:
-        deltaPct = step;
-        break;
-      case 'Home':
-        deltaPct = -100;
-        break;
-      case 'End':
-        deltaPct = 100;
-        break;
-      default:
-        return;
+    // Only the arrows along the splitter's own axis move it, and the horizontal
+    // pair mirrors in RTL so the gutter always follows the key you can see.
+    const arrow = arrowDirectionOnAxis(event.key, this.direction(), vertical ? 'vertical' : 'horizontal');
+
+    if (arrow) {
+      deltaPct = arrow === 'next' ? step : -step;
+    } else if (event.key === 'Home') {
+      deltaPct = -100;
+    } else if (event.key === 'End') {
+      deltaPct = 100;
+    } else {
+      return;
     }
 
     event.preventDefault();
@@ -145,9 +142,13 @@ export class XuiSplitter {
     const start = [...this.sizes()];
     const panels = this.panels();
 
+    // Dragging towards the inline end grows the leading panel; in RTL that is
+    // leftwards, so the horizontal delta is negated.
+    const inlineSign = !vertical && this.direction() === 'rtl' ? -1 : 1;
+
     const onMove = (moveEvent: MouseEvent): void => {
       const pos = vertical ? moveEvent.clientY : moveEvent.clientX;
-      let deltaPct = ((pos - startPos) / containerPx) * 100;
+      let deltaPct = (((pos - startPos) * inlineSign) / containerPx) * 100;
 
       // Clamp so neither adjacent panel breaks its min/max.
       const a = gutter;

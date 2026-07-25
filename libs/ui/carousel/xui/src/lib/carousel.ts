@@ -14,6 +14,7 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import { xui } from '@xui/core';
+import { arrowDirectionOnAxis, injectXDirection } from '@xui/core/a11y';
 import type { ClassValue } from 'clsx';
 import { XuiCarouselItem } from './carousel-item';
 
@@ -48,6 +49,7 @@ import { XuiCarouselItem } from './carousel-item';
               [style.opacity]="i === index() ? 1 : 0"
               [style.pointer-events]="i === index() ? 'auto' : 'none'"
               [attr.aria-hidden]="i === index() ? null : true"
+              [attr.inert]="i === index() ? null : ''"
             >
               <ng-container [ngTemplateOutlet]="item.content()" />
             </div>
@@ -56,10 +58,16 @@ import { XuiCarouselItem } from './carousel-item';
       } @else {
         <div
           class="flex h-full transition-transform duration-500 ease-out"
-          [style.transform]="'translateX(' + -index() * 100 + '%)'"
+          [style.transform]="trackTransform()"
         >
           @for (item of items(); track $index; let i = $index) {
-            <div class="h-full w-full shrink-0 grow-0 basis-full" [attr.aria-hidden]="i === index() ? null : true">
+            <!-- inert as well as aria-hidden: an off-screen slide holding a
+                 link or button would otherwise still be a tab stop. -->
+            <div
+              class="h-full w-full shrink-0 grow-0 basis-full"
+              [attr.aria-hidden]="i === index() ? null : true"
+              [attr.inert]="i === index() ? null : ''"
+            >
               <ng-container [ngTemplateOutlet]="item.content()" />
             </div>
           }
@@ -67,10 +75,10 @@ import { XuiCarouselItem } from './carousel-item';
       }
 
       @if (arrows() && count() > 1) {
-        <button type="button" [class]="arrowClass('left')" (click)="prev()" aria-label="Previous slide">
+        <button type="button" [class]="arrowClass('previous')" (click)="prev()" aria-label="Previous slide">
           <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
         </button>
-        <button type="button" [class]="arrowClass('right')" (click)="next()" aria-label="Next slide">
+        <button type="button" [class]="arrowClass('next')" (click)="next()" aria-label="Next slide">
           <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
         </button>
       }
@@ -100,6 +108,8 @@ import { XuiCarouselItem } from './carousel-item';
 })
 export class XuiCarousel {
   readonly class = input<ClassValue>('');
+
+  protected readonly direction = injectXDirection();
 
   readonly index = model<number>(0);
   readonly autoplay = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
@@ -150,22 +160,41 @@ export class XuiCarousel {
   }
 
   protected onKeydown(event: KeyboardEvent): void {
-    if (event.key === 'ArrowRight') {
+    // Arrows follow what the user sees: in RTL slides advance leftwards, so
+    // ArrowLeft is "next".
+    const arrow = arrowDirectionOnAxis(event.key, this.direction(), 'horizontal');
+    if (!arrow) {
+      return;
+    }
+
+    event.preventDefault();
+    if (arrow === 'next') {
       this.next();
-      event.preventDefault();
-    } else if (event.key === 'ArrowLeft') {
+    } else {
       this.prev();
-      event.preventDefault();
     }
   }
 
   protected readonly computedClass = computed(() => xui('bg-surface-inset relative block overflow-hidden rounded-lg', this.class()));
 
-  protected arrowClass(side: 'left' | 'right'): string {
+  /** `previous` sits at the inline start, `next` at the inline end. */
+  protected arrowClass(side: 'previous' | 'next'): string {
     return xui(
       'bg-surface-overlay/70 text-foreground hover:bg-surface-overlay absolute top-1/2 z-10 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full backdrop-blur transition-colors',
-      side === 'left' ? 'left-3' : 'right-3'
+      side === 'previous' ? 'start-3' : 'end-3',
+      // The chevrons are drawn pointing left/right; mirror them so "previous"
+      // still points back towards the start of the line.
+      this.direction() === 'rtl' && '-scale-x-100'
     );
+  }
+
+  /**
+   * How far to slide the track. `translateX` is physical while the flex row
+   * lays slides out inline, so RTL needs the opposite sign.
+   */
+  protected trackTransform(): string {
+    const offset = this.index() * 100 * (this.direction() === 'rtl' ? 1 : -1);
+    return `translateX(${offset}%)`;
   }
 
   protected dotClass(active: boolean): string {

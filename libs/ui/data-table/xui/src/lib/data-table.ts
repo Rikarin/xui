@@ -21,6 +21,7 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import { xui } from '@xui/core';
+import { arrowDirectionOnAxis, injectXDirection } from '@xui/core/a11y';
 import {
   anyRegionContainsCell,
   cellRegion,
@@ -187,6 +188,7 @@ import type { CellCoord, SortState, XuiDataColumn } from './data-table.types';
 })
 export class XuiDataTable<T> {
   private readonly document = inject(ElementRef).nativeElement.ownerDocument as Document;
+  protected readonly direction = injectXDirection();
 
   readonly class = input<ClassValue>('');
 
@@ -590,21 +592,18 @@ export class XuiDataTable<T> {
     const colMax = this.orderedColumns().length - 1;
     let { row, col } = focused;
 
-    switch (event.key) {
-      case 'ArrowUp':
-        row = Math.max(0, row - 1);
-        break;
-      case 'ArrowDown':
-        row = Math.min(rowMax, row + 1);
-        break;
-      case 'ArrowLeft':
-        col = Math.max(0, col - 1);
-        break;
-      case 'ArrowRight':
-        col = Math.min(colMax, col + 1);
-        break;
-      default:
-        return;
+    // Columns run inline, so the horizontal arrows walk them in reading order:
+    // in RTL, ArrowLeft moves to the *next* column.
+    const inline = arrowDirectionOnAxis(event.key, this.direction(), 'horizontal');
+
+    if (inline) {
+      col = inline === 'next' ? Math.min(colMax, col + 1) : Math.max(0, col - 1);
+    } else if (event.key === 'ArrowUp') {
+      row = Math.max(0, row - 1);
+    } else if (event.key === 'ArrowDown') {
+      row = Math.min(rowMax, row + 1);
+    } else {
+      return;
     }
 
     event.preventDefault();

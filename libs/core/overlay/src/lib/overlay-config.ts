@@ -68,8 +68,10 @@ export interface XOverlayConfig {
   /**
    * Treat the overlay as modal: emit `aria-modal="true"` and mark the rest of
    * the document `inert` so assistive tech cannot browse the page behind it.
-   * Defaults to whatever `trapFocus` is — trapping Tab without hiding the
-   * background leaves screen-reader users able to read past the barrier.
+   * Defaults to `trapFocus && hasBackdrop` — trapping Tab without hiding the
+   * background leaves screen-reader users able to read past the barrier, while
+   * a trapping overlay with no backdrop (a `role="dialog"` popover) still wants
+   * outside clicks to land.
    */
   modal?: boolean;
   /** Move focus into the overlay when it opens. */
