@@ -36,12 +36,19 @@ import { XuiSplitterPanel } from './splitter-panel';
         <ng-container [ngTemplateOutlet]="panel.content()" />
       </div>
       @if (!last) {
-        <!-- Gutter: drag to resize the two adjacent panels. -->
+        <!-- Gutter: drag or arrow-key to resize the two adjacent panels. A
+             focusable separator carries the size of the panel before it. -->
         <div
           role="separator"
+          tabindex="0"
           [attr.aria-orientation]="layout() === 'vertical' ? 'horizontal' : 'vertical'"
+          [attr.aria-label]="'Resize panel ' + (i + 1)"
+          [attr.aria-valuenow]="Math.round(sizes()[i])"
+          [attr.aria-valuemin]="Math.round(panels()[i].min())"
+          [attr.aria-valuemax]="Math.round(panels()[i].max())"
           [class]="gutterClass()"
           (mousedown)="startDrag(i, $event)"
+          (keydown)="onGutterKeydown(i, $event)"
         >
           <span [class]="gutterHandleClass()"></span>
         </div>
@@ -76,6 +83,59 @@ export class XuiSplitter {
 
   /** Current pane sizes (percentages); resets when the panel set changes. */
   protected readonly sizes = linkedSignal(() => this.initialSizes());
+
+  /** Exposed for the `aria-value*` rounding in the template. */
+  protected readonly Math = Math;
+
+  /**
+   * Move the gutter by a step, clamped the same way a drag is. Arrow keys step
+   * by 1%, Shift by 10%, Home/End collapse to the adjacent panel's bound.
+   */
+  protected onGutterKeydown(gutter: number, event: KeyboardEvent): void {
+    const vertical = this.layout() === 'vertical';
+    const decrease = vertical ? 'ArrowUp' : 'ArrowLeft';
+    const increase = vertical ? 'ArrowDown' : 'ArrowRight';
+    const step = event.shiftKey ? 10 : 1;
+    let deltaPct: number;
+
+    switch (event.key) {
+      case decrease:
+        deltaPct = -step;
+        break;
+      case increase:
+        deltaPct = step;
+        break;
+      case 'Home':
+        deltaPct = -100;
+        break;
+      case 'End':
+        deltaPct = 100;
+        break;
+      default:
+        return;
+    }
+
+    event.preventDefault();
+    this.resize(gutter, deltaPct);
+  }
+
+  /** Apply a delta to the two panels either side of `gutter`, honouring min/max. */
+  private resize(gutter: number, requested: number): void {
+    const start = [...this.sizes()];
+    const panels = this.panels();
+    const a = gutter;
+    const b = gutter + 1;
+
+    let deltaPct = requested;
+    deltaPct = Math.max(deltaPct, panels[a].min() - start[a], start[b] - panels[b].max());
+    deltaPct = Math.min(deltaPct, panels[a].max() - start[a], start[b] - panels[b].min());
+
+    const next = [...start];
+    next[a] = start[a] + deltaPct;
+    next[b] = start[b] - deltaPct;
+    this.sizes.set(next);
+    this.sizeChange.emit(next);
+  }
 
   protected startDrag(gutter: number, event: MouseEvent): void {
     event.preventDefault();
@@ -119,6 +179,7 @@ export class XuiSplitter {
   protected readonly gutterClass = computed(() =>
     xui(
       'group relative z-10 flex shrink-0 items-center justify-center',
+      'focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-focus',
       this.layout() === 'vertical' ? 'h-1.5 w-full cursor-row-resize' : 'w-1.5 cursor-col-resize'
     )
   );

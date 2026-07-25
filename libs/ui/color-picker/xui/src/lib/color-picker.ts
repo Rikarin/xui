@@ -35,6 +35,14 @@ export type ColorFormat = 'hex' | 'hsl' | 'lch';
 /** Upper bound of the LCH chroma axis in the square. */
 const LCH_MAX_C = 132;
 
+/** Keyboard focus ring shared by every control in the panel. */
+const FOCUS_RING = 'focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus';
+
+/** Clamp a 0–100 axis value. */
+function clampPercent(value: number): number {
+  return Math.max(0, Math.min(100, value));
+}
+
 /**
  * A color picker: a swatch trigger opens a panel with a saturation/value square,
  * a hue slider, an optional alpha slider, a hex field and preset swatches.
@@ -54,18 +62,54 @@ const LCH_MAX_C = 132;
 
     @if (open()) {
       <div [class]="panelClass()" role="dialog" aria-label="Color picker">
-        <!-- 2D area — its axes depend on the format: S×V (hex/RGB), S×L (HSL), C×L (LCH). -->
-        <div class="relative h-36 w-full cursor-crosshair rounded-md" [style.background]="squareBg()" (mousedown)="startSquare($event)">
+        <!-- 2D area — its axes depend on the format: S×V (hex/RGB), S×L (HSL), C×L (LCH).
+             A two-axis control has no single ARIA role, so it is a focusable group
+             the arrow keys drive; the labelled channel inputs below expose and
+             announce the exact numbers. -->
+        <div
+          role="group"
+          tabindex="0"
+          [attr.aria-label]="squareLabel()"
+          [class]="squareClass()"
+          [style.background]="squareBg()"
+          (mousedown)="startSquare($event)"
+          (keydown)="onSquareKeydown($event)"
+        >
           <div class="pointer-events-none absolute h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-white shadow" [style.left.%]="squareHandle().x" [style.top.%]="squareHandle().y"></div>
         </div>
 
         <!-- Hue slider (perceptual LCH strip in LCH mode, sRGB rainbow otherwise) -->
-        <div class="relative h-3 w-full cursor-pointer rounded-full" [style.background]="hueGradient()" (mousedown)="startHue($event)">
+        <div
+          role="slider"
+          tabindex="0"
+          aria-label="Hue"
+          aria-valuemin="0"
+          aria-valuemax="360"
+          [attr.aria-valuenow]="hueDegrees()"
+          [attr.aria-orientation]="'horizontal'"
+          [class]="stripClass()"
+          [style.background]="hueGradient()"
+          (mousedown)="startHue($event)"
+          (keydown)="onHueKeydown($event)"
+        >
           <div class="pointer-events-none absolute top-1/2 h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-white shadow" [style.left.%]="huePos()"></div>
         </div>
 
         @if (showAlpha()) {
-          <div #alpha class="relative h-3 w-full cursor-pointer rounded-full bg-[length:8px_8px] [background-image:linear-gradient(45deg,#ccc_25%,transparent_25%),linear-gradient(-45deg,#ccc_25%,transparent_25%),linear-gradient(45deg,transparent_75%,#ccc_75%),linear-gradient(-45deg,transparent_75%,#ccc_75%)]" (mousedown)="startAlpha($event)">
+          <div
+            #alpha
+            role="slider"
+            tabindex="0"
+            aria-label="Alpha"
+            aria-valuemin="0"
+            aria-valuemax="100"
+            [attr.aria-valuenow]="alphaPercent()"
+            [attr.aria-valuetext]="alphaPercent() + '%'"
+            [attr.aria-orientation]="'horizontal'"
+            [class]="alphaStripClass()"
+            (mousedown)="startAlpha($event)"
+            (keydown)="onAlphaKeydown($event)"
+          >
             <div class="absolute inset-0 rounded-full" [style.background]="alphaGradient()"></div>
             <div class="pointer-events-none absolute top-1/2 h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-white shadow" [style.left.%]="alphaValue() * 100"></div>
           </div>
@@ -293,46 +337,128 @@ export class XuiColorPicker {
     this.commit();
   }
 
+  // --- value updates (shared by pointer and keyboard) ---
+
+  /** Set the square's two axes from normalized [0,1] coordinates (`y` is top-down). */
+  private applySquare(x: number, y: number): void {
+    switch (this.format()) {
+      case 'hsl': {
+        // HSL hue == HSV hue; preserve it so dragging to grey/white/black doesn't lose the hue.
+        const h = this.hsv().h;
+        const conv = rgbToHsv(hslToRgb({ h, s: Math.round(x * 100), l: Math.round((1 - y) * 100) }));
+        this.hsv.set({ h, s: conv.s, v: conv.v });
+        break;
+      }
+      case 'lch': {
+        const h = this.lchHue();
+        this.hsv.set(rgbToHsv(lchToRgb({ h, c: Math.round(x * LCH_MAX_C), l: Math.round((1 - y) * 100) })));
+        break;
+      }
+      default:
+        this.hsv.update(hsv => ({ ...hsv, s: Math.round(x * 100), v: Math.round((1 - y) * 100) }));
+    }
+    this.commit();
+  }
+
+  private applyHue(deg: number): void {
+    if (this.format() === 'lch') {
+      this.lchHue.set(deg);
+      const { l, c } = this.lchValue();
+      this.hsv.set(rgbToHsv(lchToRgb({ l, c, h: deg })));
+    } else {
+      this.hsv.update(hsv => ({ ...hsv, h: deg }));
+    }
+    this.commit();
+  }
+
   // --- drag interactions ---
   protected startSquare(event: MouseEvent): void {
-    this.drag(event, (x, y) => {
-      switch (this.format()) {
-        case 'hsl': {
-          // HSL hue == HSV hue; preserve it so dragging to grey/white/black doesn't lose the hue.
-          const h = this.hsv().h;
-          const conv = rgbToHsv(hslToRgb({ h, s: Math.round(x * 100), l: Math.round((1 - y) * 100) }));
-          this.hsv.set({ h, s: conv.s, v: conv.v });
-          break;
-        }
-        case 'lch': {
-          const h = this.lchHue();
-          this.hsv.set(rgbToHsv(lchToRgb({ h, c: Math.round(x * LCH_MAX_C), l: Math.round((1 - y) * 100) })));
-          break;
-        }
-        default:
-          this.hsv.update(hsv => ({ ...hsv, s: Math.round(x * 100), v: Math.round((1 - y) * 100) }));
-      }
-      this.commit();
-    });
+    this.drag(event, (x, y) => this.applySquare(x, y));
   }
   protected startHue(event: MouseEvent): void {
-    this.drag(event, x => {
-      const deg = Math.round(x * 360);
-      if (this.format() === 'lch') {
-        this.lchHue.set(deg);
-        const { l, c } = this.lchValue();
-        this.hsv.set(rgbToHsv(lchToRgb({ l, c, h: deg })));
-      } else {
-        this.hsv.update(hsv => ({ ...hsv, h: deg }));
-      }
-      this.commit();
-    });
+    this.drag(event, x => this.applyHue(Math.round(x * 360)));
   }
   protected startAlpha(event: MouseEvent): void {
     this.drag(event, x => {
       this.alphaValue.set(Math.round(x * 100) / 100);
       this.commit();
     });
+  }
+
+  // --- keyboard interactions ---
+
+  /** The hue in degrees, whichever model owns it. */
+  protected readonly hueDegrees = computed(() => Math.round(this.format() === 'lch' ? this.lchHue() : this.hsv().h));
+
+  protected readonly alphaPercent = computed(() => Math.round(this.alphaValue() * 100));
+
+  protected readonly squareLabel = computed(() => {
+    switch (this.format()) {
+      case 'hsl':
+        return 'Saturation and lightness';
+      case 'lch':
+        return 'Chroma and lightness';
+      default:
+        return 'Saturation and value';
+    }
+  });
+
+  /**
+   * Map an arrow key to a step along one axis. `null` means "not ours" so the
+   * event keeps bubbling. Shift multiplies the step by 10, matching the slider.
+   */
+  private arrowStep(event: KeyboardEvent): { dx: number; dy: number } | null {
+    const size = event.shiftKey ? 10 : 1;
+    switch (event.key) {
+      case 'ArrowRight':
+        return { dx: size, dy: 0 };
+      case 'ArrowLeft':
+        return { dx: -size, dy: 0 };
+      case 'ArrowUp':
+        return { dx: 0, dy: -size };
+      case 'ArrowDown':
+        return { dx: 0, dy: size };
+      default:
+        return null;
+    }
+  }
+
+  protected onSquareKeydown(event: KeyboardEvent): void {
+    const step = this.arrowStep(event);
+    if (!step) {
+      return;
+    }
+    event.preventDefault();
+
+    const handle = this.squareHandle();
+    // `squareHandle` is in percent with y inverted, the same space the drag
+    // handler works in, so reuse it and hand the result back as [0,1].
+    const x = clampPercent(handle.x + step.dx) / 100;
+    const y = clampPercent(handle.y + step.dy) / 100;
+    this.applySquare(x, y);
+  }
+
+  protected onHueKeydown(event: KeyboardEvent): void {
+    const step = this.arrowStep(event);
+    if (!step) {
+      return;
+    }
+    event.preventDefault();
+    // Both axes drive hue so the strip responds to all four arrows; up/right
+    // increase it. Hue wraps rather than clamps.
+    const delta = step.dx || -step.dy;
+    this.applyHue((this.hueDegrees() + delta + 360) % 360);
+  }
+
+  protected onAlphaKeydown(event: KeyboardEvent): void {
+    const step = this.arrowStep(event);
+    if (!step) {
+      return;
+    }
+    event.preventDefault();
+    const delta = step.dx || -step.dy;
+    this.alphaValue.set(clampPercent(this.alphaPercent() + delta) / 100);
+    this.commit();
   }
 
   /** Track a pointer inside the event target, reporting normalized [0,1] x/y. */
@@ -357,7 +483,8 @@ export class XuiColorPicker {
   protected readonly computedClass = computed(() => xui('relative inline-block', this.class()));
   protected readonly triggerClass = computed(() =>
     xui(
-      'border-border bg-surface hover:bg-surface-inset flex items-center gap-2 rounded-md border px-2 py-1.5 outline-none disabled:opacity-50',
+      'border-border bg-surface hover:bg-surface-inset flex items-center gap-2 rounded-md border px-2 py-1.5 disabled:opacity-50',
+      FOCUS_RING,
       this.class()
     )
   );
@@ -365,14 +492,23 @@ export class XuiColorPicker {
     xui('border-border bg-surface-overlay absolute z-50 mt-2 flex w-60 flex-col gap-3 rounded-lg border p-3 shadow-lg')
   );
   protected readonly hexInputClass = computed(() =>
-    xui('border-border bg-surface text-foreground h-8 w-full min-w-0 flex-1 rounded-md border px-2 text-sm outline-none uppercase')
+    xui('border-border bg-surface text-foreground h-8 w-full min-w-0 flex-1 rounded-md border px-2 text-sm uppercase', FOCUS_RING)
   );
   protected readonly channelInputClass = computed(() =>
     xui(
-      'border-border bg-surface text-foreground h-8 w-full min-w-0 rounded-md border px-1.5 text-center text-sm tabular-nums outline-none [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none'
+      'border-border bg-surface text-foreground h-8 w-full min-w-0 rounded-md border px-1.5 text-center text-sm tabular-nums [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none',
+      FOCUS_RING
     )
   );
   protected readonly formatSelectClass = computed(() =>
-    xui('border-border bg-surface text-foreground h-8 shrink-0 rounded-md border px-1.5 text-xs font-medium outline-none')
+    xui('border-border bg-surface text-foreground h-8 shrink-0 rounded-md border px-1.5 text-xs font-medium', FOCUS_RING)
+  );
+  protected readonly squareClass = computed(() => xui('relative h-36 w-full cursor-crosshair rounded-md', FOCUS_RING));
+  protected readonly stripClass = computed(() => xui('relative h-3 w-full cursor-pointer rounded-full', FOCUS_RING));
+  protected readonly alphaStripClass = computed(() =>
+    xui(
+      'relative h-3 w-full cursor-pointer rounded-full bg-[length:8px_8px] [background-image:linear-gradient(45deg,#ccc_25%,transparent_25%),linear-gradient(-45deg,#ccc_25%,transparent_25%),linear-gradient(45deg,transparent_75%,#ccc_75%),linear-gradient(-45deg,transparent_75%,#ccc_75%)]',
+      FOCUS_RING
+    )
   );
 }

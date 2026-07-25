@@ -100,7 +100,11 @@ export class XuiSteps {
     xui('flex', this.vertical ? 'flex-col' : 'flex-1 items-center gap-3 last:flex-none')
   );
   protected readonly headerClass = computed(() =>
-    xui('flex items-center gap-3 outline-none', this.clickable() ? 'cursor-pointer' : 'cursor-default')
+    xui(
+      'flex items-center gap-3 rounded',
+      'focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus',
+      this.clickable() ? 'cursor-pointer' : 'cursor-default'
+    )
   );
 
   protected circleClass(status: StepStatus): string {

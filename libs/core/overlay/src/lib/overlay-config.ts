@@ -65,6 +65,13 @@ export interface XOverlayConfig {
 
   /** Keep Tab focus inside the overlay while it is open. */
   trapFocus?: boolean;
+  /**
+   * Treat the overlay as modal: emit `aria-modal="true"` and mark the rest of
+   * the document `inert` so assistive tech cannot browse the page behind it.
+   * Defaults to whatever `trapFocus` is — trapping Tab without hiding the
+   * background leaves screen-reader users able to read past the barrier.
+   */
+  modal?: boolean;
   /** Move focus into the overlay when it opens. */
   autoFocus?: boolean;
   /** Return focus to whatever had it before the overlay opened. */

@@ -12,6 +12,11 @@ const setup = (attrs = '', props: Record<string, unknown> = {}) => {
 
 const trigger = () => document.querySelector('xui-color-picker button') as HTMLButtonElement;
 const panel = () => document.querySelector('xui-color-picker [role="dialog"]') as HTMLElement | null;
+const sliderByLabel = (label: string) =>
+  document.querySelector(`xui-color-picker [role="slider"][aria-label="${label}"]`) as HTMLElement;
+const square = () => document.querySelector('xui-color-picker [role="group"]') as HTMLElement;
+const press = (el: HTMLElement, key: string, init: KeyboardEventInit = {}) =>
+  el.dispatchEvent(new KeyboardEvent('keydown', { key, bubbles: true, ...init }));
 
 describe('XuiColorPicker', () => {
   it('shows the current value on the trigger', () => {
@@ -103,6 +108,80 @@ describe('XuiColorPicker', () => {
     detect();
 
     expect(cmp.value()).toBe('#0000FF');
+  });
+
+  it('exposes the hue and alpha strips as focusable sliders', () => {
+    const { detect } = setup('showAlpha', { value: '#FF0000' });
+    detect();
+    trigger().click();
+    detect();
+
+    const hue = sliderByLabel('Hue');
+    expect(hue.tabIndex).toBe(0);
+    expect(hue.getAttribute('aria-valuemin')).toBe('0');
+    expect(hue.getAttribute('aria-valuemax')).toBe('360');
+    expect(hue.getAttribute('aria-valuenow')).toBe('0');
+
+    const alpha = sliderByLabel('Alpha');
+    expect(alpha.tabIndex).toBe(0);
+    expect(alpha.getAttribute('aria-valuenow')).toBe('100');
+    expect(alpha.getAttribute('aria-valuetext')).toBe('100%');
+  });
+
+  it('steps the hue with the arrow keys', () => {
+    const { detect, cmp } = setup('', { value: '#FF0000' });
+    detect();
+    trigger().click();
+    detect();
+
+    press(sliderByLabel('Hue'), 'ArrowRight');
+    detect();
+    expect(sliderByLabel('Hue').getAttribute('aria-valuenow')).toBe('1');
+
+    // Shift takes a 10° stride; ArrowLeft wraps back past 0.
+    press(sliderByLabel('Hue'), 'ArrowLeft', { shiftKey: true });
+    detect();
+    expect(sliderByLabel('Hue').getAttribute('aria-valuenow')).toBe('351');
+    expect(cmp.value()).not.toBe('#FF0000');
+  });
+
+  it('steps alpha with the arrow keys and clamps at the ends', () => {
+    const { detect, cmp } = setup('showAlpha', { value: '#FF0000FF' });
+    detect();
+    trigger().click();
+    detect();
+
+    press(sliderByLabel('Alpha'), 'ArrowDown');
+    detect();
+    expect(sliderByLabel('Alpha').getAttribute('aria-valuenow')).toBe('99');
+    expect(cmp.value()).toBe('#FF0000FC');
+
+    press(sliderByLabel('Alpha'), 'ArrowUp');
+    press(sliderByLabel('Alpha'), 'ArrowUp');
+    detect();
+    expect(sliderByLabel('Alpha').getAttribute('aria-valuenow')).toBe('100');
+  });
+
+  it('moves the square with the arrow keys', () => {
+    const { detect, cmp } = setup('', { value: '#FF0000' });
+    detect();
+    trigger().click();
+    detect();
+
+    const area = square();
+    expect(area.tabIndex).toBe(0);
+    expect(area.getAttribute('aria-label')).toBe('Saturation and value');
+
+    // Full red is saturation 100 / value 100 — the square's top-right corner —
+    // so left steps saturation down and down steps value down.
+    press(area, 'ArrowLeft', { shiftKey: true });
+    detect();
+    const afterSaturation = cmp.value();
+    expect(afterSaturation).not.toBe('#FF0000');
+
+    press(area, 'ArrowDown', { shiftKey: true });
+    detect();
+    expect(cmp.value()).not.toBe(afterSaturation);
   });
 
   it('switches to LCH and edits a channel', () => {

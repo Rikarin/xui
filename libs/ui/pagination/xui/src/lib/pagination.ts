@@ -128,7 +128,10 @@ export class XuiPagination {
 
   protected readonly computedClass = computed(() => xui('inline-flex items-center gap-1', this.class()));
   protected readonly selectClass = computed(() =>
-    xui('border-border bg-surface text-foreground ml-2 h-8 rounded-md border px-2 text-sm outline-none')
+    xui(
+      'border-border bg-surface text-foreground ms-2 h-8 rounded-md border px-2 text-sm',
+      'focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus'
+    )
   );
 
   protected stepClass(): string {

@@ -59,7 +59,11 @@ export class XuiMenubarTrigger {
 
   protected readonly computedClass = computed(() =>
     xui(
-      'text-foreground hover:bg-surface-inset flex items-center gap-1.5 rounded px-3 py-1.5 text-sm font-medium outline-none select-none aria-expanded:bg-surface-inset',
+      'text-foreground hover:bg-surface-inset flex items-center gap-1.5 rounded px-3 py-1.5 text-sm font-medium select-none aria-expanded:bg-surface-inset',
+      // The bar's roving focus moves between items with the arrow keys, so the
+      // ring is the only thing telling the user where they are. Inset so it is
+      // not clipped by the bar's padding.
+      'focus:outline-none focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-focus',
       this.class()
     )
   );

@@ -10,6 +10,7 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import { xui } from '@xui/core';
+import { uniqueId } from '@xui/core/a11y';
 import type { ClassValue } from 'clsx';
 
 export interface XuiTransferItem {
@@ -35,8 +36,14 @@ type Side = 'left' | 'right';
     @for (side of SIDES; track side) {
       <div [class]="panelClass()">
         <div class="border-border flex items-center gap-2 border-b px-3 py-2">
-          <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
-          <span [class]="checkboxClass(allChecked(side))" (click)="toggleAll(side)">
+          <button
+            type="button"
+            role="checkbox"
+            [class]="checkboxClass(allChecked(side))"
+            [attr.aria-checked]="allChecked(side) ? 'true' : someChecked(side) ? 'mixed' : 'false'"
+            [attr.aria-label]="'Select all in ' + title(side)"
+            (click)="toggleAll(side)"
+          >
             @if (allChecked(side)) {
               <svg viewBox="0 0 24 24" class="h-3 w-3" fill="none">
                 <path
@@ -50,7 +57,7 @@ type Side = 'left' | 'right';
             } @else if (someChecked(side)) {
               <span class="bg-primary-foreground h-0.5 w-2"></span>
             }
-          </span>
+          </button>
           <span class="text-foreground text-sm font-medium">{{ title(side) }}</span>
           <span class="text-foreground-muted ml-auto text-xs">{{ checkedCount(side) }}/{{ list(side).length }}</span>
         </div>
@@ -67,10 +74,26 @@ type Side = 'left' | 'right';
           </div>
         }
 
-        <ul class="min-h-40 flex-1 overflow-auto p-1">
+        <!-- A multi-select listbox: one tab stop per side, arrow keys move the
+             active option, Space/Enter checks it. -->
+        <ul
+          role="listbox"
+          aria-multiselectable="true"
+          [attr.aria-label]="title(side)"
+          [attr.aria-activedescendant]="activeOptionId(side)"
+          class="min-h-40 flex-1 overflow-auto p-1"
+          [tabindex]="filtered(side).length ? 0 : -1"
+          (keydown)="onListKeydown(side, $event)"
+        >
           @for (item of filtered(side); track item.key) {
-            <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
-            <li [class]="itemClass(item)" (click)="toggle(side, item)">
+            <li
+              role="option"
+              [id]="optionId(side, item.key)"
+              [class]="itemClass(item, activeKey(side) === item.key)"
+              [attr.aria-selected]="checked(side).has(item.key)"
+              [attr.aria-disabled]="item.disabled ? true : null"
+              (click)="activate(side, item)"
+            >
               <span [class]="checkboxClass(checked(side).has(item.key))">
                 @if (checked(side).has(item.key)) {
                   <svg viewBox="0 0 24 24" class="h-3 w-3" fill="none">
@@ -152,6 +175,11 @@ export class XuiTransfer {
   protected readonly searchLeft = signal('');
   protected readonly searchRight = signal('');
 
+  /** The option the arrow keys are on, per side — see `aria-activedescendant`. */
+  private readonly activeLeft = signal<string | null>(null);
+  private readonly activeRight = signal<string | null>(null);
+  private readonly idPrefix = uniqueId('xui-transfer');
+
   private readonly targetSet = computed(() => new Set(this.targetKeys()));
   protected readonly leftItems = computed(() => this.items().filter(item => !this.targetSet().has(item.key)));
   protected readonly rightItems = computed(() => this.items().filter(item => this.targetSet().has(item.key)));
@@ -186,6 +214,73 @@ export class XuiTransfer {
 
   protected setSearch(side: Side, value: string): void {
     (side === 'left' ? this.searchLeft : this.searchRight).set(value);
+    // The old active option may have been filtered away.
+    (side === 'left' ? this.activeLeft : this.activeRight).set(null);
+  }
+
+  // --- keyboard -------------------------------------------------------------
+
+  protected optionId(side: Side, key: string): string {
+    return `${this.idPrefix}-${side}-${key}`;
+  }
+
+  /** The active option's key, defaulting to the first one so a fresh Tab lands somewhere. */
+  protected activeKey(side: Side): string | null {
+    const active = side === 'left' ? this.activeLeft() : this.activeRight();
+    const options = this.filtered(side);
+    if (active && options.some(item => item.key === active)) {
+      return active;
+    }
+    return options[0]?.key ?? null;
+  }
+
+  protected activeOptionId(side: Side): string | null {
+    const key = this.activeKey(side);
+    return key === null ? null : this.optionId(side, key);
+  }
+
+  /** Move the active option and check it — clicking does both, so keys match. */
+  protected activate(side: Side, item: XuiTransferItem): void {
+    (side === 'left' ? this.activeLeft : this.activeRight).set(item.key);
+    this.toggle(side, item);
+  }
+
+  protected onListKeydown(side: Side, event: KeyboardEvent): void {
+    const options = this.filtered(side);
+    if (!options.length) {
+      return;
+    }
+
+    const current = Math.max(
+      0,
+      options.findIndex(item => item.key === this.activeKey(side))
+    );
+    let next: number;
+
+    switch (event.key) {
+      case 'ArrowDown':
+        next = Math.min(options.length - 1, current + 1);
+        break;
+      case 'ArrowUp':
+        next = Math.max(0, current - 1);
+        break;
+      case 'Home':
+        next = 0;
+        break;
+      case 'End':
+        next = options.length - 1;
+        break;
+      case ' ':
+      case 'Enter':
+        event.preventDefault();
+        this.toggle(side, options[current]);
+        return;
+      default:
+        return;
+    }
+
+    event.preventDefault();
+    (side === 'left' ? this.activeLeft : this.activeRight).set(options[next].key);
   }
 
   protected toggle(side: Side, item: XuiTransferItem): void {
@@ -235,7 +330,7 @@ export class XuiTransfer {
   protected readonly computedClass = computed(() => xui('flex items-stretch', this.class()));
   protected readonly panelClass = computed(() => xui('border-border bg-surface flex w-56 flex-col rounded-lg border'));
   protected readonly searchClass = computed(() =>
-    xui('border-border bg-surface text-foreground h-8 w-full rounded-md border px-2 text-sm outline-none')
+    xui('border-border bg-surface text-foreground focus:border-focus h-8 w-full rounded-md border px-2 text-sm focus:outline-none')
   );
 
   protected checkboxClass(active: boolean): string {
@@ -244,10 +339,13 @@ export class XuiTransfer {
       active ? 'bg-primary border-primary text-primary-foreground' : 'border-border'
     );
   }
-  protected itemClass(item: XuiTransferItem): string {
+  protected itemClass(item: XuiTransferItem, active: boolean): string {
     return xui(
       'flex cursor-pointer items-center gap-2 rounded px-2 py-1.5 text-sm select-none',
-      item.disabled ? 'text-foreground-subtle cursor-not-allowed' : 'hover:bg-surface-inset'
+      item.disabled ? 'text-foreground-subtle cursor-not-allowed' : 'hover:bg-surface-inset',
+      // The list owns the tab stop, so the active option is marked here rather
+      // than by a focus ring on the option itself.
+      active && 'bg-surface-inset'
     );
   }
   protected moveClass(): string {

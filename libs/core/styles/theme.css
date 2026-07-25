@@ -381,6 +381,18 @@
     @apply outline-focus;
   }
 
+  /* Baseline keyboard focus ring, so a focusable element gets a themed, visible
+     indicator without every component having to opt in. `:focus-visible` only
+     matches keyboard/AT focus, so pointer interaction is unaffected. Utilities
+     outrank this layer, so a component that draws its own ring (or deliberately
+     suppresses it with `outline-none` plus a `focus-visible:` replacement) still
+     wins — but dropping a bare `outline-none` now falls back here instead of
+     leaving keyboard users with nothing. */
+  :focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 2px;
+  }
+
   ::selection {
     background-color: var(--selection);
   }

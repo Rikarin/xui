@@ -10,6 +10,8 @@ const setup = (template: string) => {
 };
 
 const gutters = () => [...document.querySelectorAll('xui-splitter [role="separator"]')] as HTMLElement[];
+const press = (el: HTMLElement, key: string, init: KeyboardEventInit = {}) =>
+  el.dispatchEvent(new KeyboardEvent('keydown', { key, bubbles: true, ...init }));
 
 describe('XuiSplitter', () => {
   it('distributes leftover space to auto panels', () => {
@@ -56,6 +58,70 @@ describe('XuiSplitter', () => {
     detect();
 
     expect(cmp['sizes']()).toEqual([70, 30]);
+  });
+
+  it('exposes each gutter as a focusable separator carrying its panel size', () => {
+    const { detect } = setup(
+      `<xui-splitter>
+         <xui-splitter-panel [defaultSize]="30" [min]="10" [max]="80">A</xui-splitter-panel>
+         <xui-splitter-panel [defaultSize]="70">B</xui-splitter-panel>
+       </xui-splitter>`
+    );
+    detect();
+
+    const gutter = gutters()[0];
+    expect(gutter.tabIndex).toBe(0);
+    expect(gutter.getAttribute('aria-orientation')).toBe('vertical');
+    expect(gutter.getAttribute('aria-valuenow')).toBe('30');
+    expect(gutter.getAttribute('aria-valuemin')).toBe('10');
+    expect(gutter.getAttribute('aria-valuemax')).toBe('80');
+  });
+
+  it('resizes with the arrow keys', () => {
+    const emitted: number[][] = [];
+    const { detect, cmp } = setup(
+      `<xui-splitter>
+         <xui-splitter-panel [defaultSize]="50">A</xui-splitter-panel>
+         <xui-splitter-panel [defaultSize]="50">B</xui-splitter-panel>
+       </xui-splitter>`
+    );
+    detect();
+    cmp.sizeChange.subscribe(sizes => emitted.push(sizes));
+
+    press(gutters()[0], 'ArrowRight');
+    detect();
+    expect(cmp['sizes']()).toEqual([51, 49]);
+
+    // Shift takes a 10% stride, and Home collapses to the left panel's minimum.
+    press(gutters()[0], 'ArrowLeft', { shiftKey: true });
+    detect();
+    expect(cmp['sizes']()).toEqual([41, 59]);
+
+    press(gutters()[0], 'Home');
+    detect();
+    expect(cmp['sizes']()).toEqual([0, 100]);
+    expect(emitted.at(-1)).toEqual([0, 100]);
+  });
+
+  it('steps along the block axis when vertical', () => {
+    const { detect, cmp } = setup(
+      `<xui-splitter layout="vertical">
+         <xui-splitter-panel [defaultSize]="50">A</xui-splitter-panel>
+         <xui-splitter-panel [defaultSize]="50">B</xui-splitter-panel>
+       </xui-splitter>`
+    );
+    detect();
+
+    expect(gutters()[0].getAttribute('aria-orientation')).toBe('horizontal');
+
+    // Left/right do nothing on a vertical splitter; down/up drive it.
+    press(gutters()[0], 'ArrowRight');
+    detect();
+    expect(cmp['sizes']()).toEqual([50, 50]);
+
+    press(gutters()[0], 'ArrowDown');
+    detect();
+    expect(cmp['sizes']()).toEqual([51, 49]);
   });
 
   it('respects a panel minimum while dragging', () => {

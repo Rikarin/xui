@@ -115,12 +115,16 @@ export class XuiNavigationMenu {
 
   protected triggerClass(open: boolean): string {
     return xui(
-      'text-foreground hover:bg-surface-inset flex items-center gap-1 rounded px-3 py-1.5 text-sm font-medium outline-none select-none',
+      'text-foreground hover:bg-surface-inset flex items-center gap-1 rounded px-3 py-1.5 text-sm font-medium select-none',
+      'focus:outline-none focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-focus',
       open && 'bg-surface-inset'
     );
   }
   protected readonly linkClass = computed(() =>
-    xui('text-foreground hover:bg-surface-inset flex items-center rounded px-3 py-1.5 text-sm font-medium outline-none')
+    xui(
+      'text-foreground hover:bg-surface-inset flex items-center rounded px-3 py-1.5 text-sm font-medium',
+      'focus:outline-none focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-focus'
+    )
   );
 
   // `pt-2` (not margin) keeps the panel's hitbox contiguous with the bar, so the
