@@ -133,7 +133,8 @@
       "@xui/menubar": ["./libs/ui/menubar/xui/src/index.ts"],
       "@xui/navigation-menu": ["./libs/ui/navigation-menu/xui/src/index.ts"],
       "@xui/konva": ["./libs/ui/konva/xui/src/index.ts"],
-      "@xui/echarts": ["./libs/ui/echarts/xui/src/index.ts"]
+      "@xui/echarts": ["./libs/ui/echarts/xui/src/index.ts"],
+      "@xui/rich-text-editor": ["./libs/ui/rich-text-editor/xui/src/index.ts"]
     },
     "strict": false,
     "noUncheckedSideEffectImports": false,
