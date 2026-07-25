@@ -3,7 +3,7 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/mcp/src",
   "projectType": "library",
-  "tags": [],
+  "tags": ["tooling"],
   "targets": {
     "compile": {
       "executor": "@nx/js:tsc",
@@ -18,7 +18,7 @@
     "build": {
       "executor": "nx:run-commands",
       "dependsOn": ["compile"],
-      "outputs": ["{workspaceRoot}/dist/libs/mcp"],
+      "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
       "options": {
         "command": "node dist/libs/mcp/src/scripts/generate-index.js --out dist/libs/mcp/src/xui-index.json",
         "cwd": "{workspaceRoot}"

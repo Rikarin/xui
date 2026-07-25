@@ -1,0 +1,182 @@
+name: Release
+
+on:
+  push:
+    # The active release line. Every v2 tag (v2.0.0-alpha.0 … alpha.8) was cut from `develop`;
+    # `master` still holds the 1.x tree and has not moved since 2024. Change this branch - and the
+    # one in the Release section of docs/releasing.md - if the release line moves to `master`.
+    branches:
+      - develop
+  workflow_dispatch:
+    inputs:
+      specifier:
+        description: 'Version bump: prerelease, patch, minor, major, or an exact version. Leave empty to derive it (prerelease line continues, otherwise conventional commits decide).'
+        required: false
+        type: string
+      dryRun:
+        description: 'Run the whole pipeline without writing tags, pushing or publishing.'
+        required: false
+        default: false
+        type: boolean
+
+# One release at a time, and never cancel a run that may already have published.
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    name: Version, tag and publish
+    runs-on: ubuntu-latest
+    # The release commit is pushed back to master; skip the run it triggers.
+    if: github.event_name == 'workflow_dispatch' || !startsWith(github.event.head_commit.message, 'chore(release):')
+    permissions:
+      contents: write # push the release commit, tag and GitHub Release
+      id-token: write # npm provenance
+    timeout-minutes: 45
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          # Full history so conventional commits and the previous release tag resolve.
+          fetch-depth: 0
+          ref: ${{ github.ref_name }}
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Install Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          registry-url: https://registry.npmjs.org/
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Print environment info
+        run: pnpm exec nx report
+
+      - name: Decide whether there is anything to release
+        id: changes
+        run: |
+          set -euo pipefail
+
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "release=true" >> "$GITHUB_OUTPUT"
+            echo "Manual run: releasing regardless of commit types."
+            exit 0
+          fi
+
+          last_tag=$(git tag --list 'v*' --sort=-v:refname | head -n 1 || true)
+          range=${last_tag:+$last_tag..HEAD}
+
+          # `grep -c` rather than `grep -q`: under `pipefail`, a short-circuiting `grep -q` kills
+          # `git log` with SIGPIPE and the whole condition reads as "nothing to release".
+          releasable=$(git log ${range:-HEAD} --format='%s%n%b' \
+            | grep -cE '^(feat|fix|perf|revert)(\(.+\))?!?:|^BREAKING[ -]CHANGE:' || true)
+
+          if [ "${releasable:-0}" -gt 0 ]; then
+            echo "release=true" >> "$GITHUB_OUTPUT"
+            echo "$releasable releasable commit(s) since ${last_tag:-the beginning of history}."
+          else
+            echo "release=false" >> "$GITHUB_OUTPUT"
+            echo "Nothing releasable since ${last_tag:-the beginning of history}; skipping."
+          fi
+
+      - name: Verify the workspace
+        if: steps.changes.outputs.release == 'true'
+        run: pnpm exec nx run-many -t lint test --parallel=3
+
+      - name: Configure git identity
+        if: steps.changes.outputs.release == 'true'
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+
+      - name: Version, changelog and tag
+        if: steps.changes.outputs.release == 'true'
+        id: version
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Workflow inputs reach the script through the environment, never through template
+          # interpolation, so their contents can never be parsed as shell.
+          INPUT_SPECIFIER: ${{ inputs.specifier }}
+          INPUT_DRY_RUN: ${{ inputs.dryRun }}
+        run: |
+          set -euo pipefail
+
+          before=$(node -p "require('./libs/core/package.json').version")
+
+          specifier="${INPUT_SPECIFIER:-}"
+          dry_run_flag=''
+          [ "${INPUT_DRY_RUN:-false}" = 'true' ] && dry_run_flag='--dry-run'
+
+          if [ -z "$specifier" ]; then
+            # Stay on the prerelease line while the current version has one; otherwise let the
+            # conventional commits decide the bump. Graduating to a stable release is a deliberate
+            # act: run this workflow manually with an explicit specifier.
+            case "$before" in
+              *-*) specifier='prerelease' ;;
+              *) specifier='' ;;
+            esac
+          fi
+
+          # `nx release` builds every package first (release.version.preVersionCommand) and then
+          # writes the new version into both the source and the dist manifests, so the artifacts
+          # that get published carry the version that was just tagged. It also commits, tags,
+          # pushes and creates the GitHub Release, in that order.
+          # `--skip-publish` already answers the only interactive prompt, and Nx rejects it
+          # together with `--yes`. Publishing happens in its own step below.
+          pnpm exec nx release $specifier --preid alpha --skip-publish $dry_run_flag
+
+          after=$(node -p "require('./libs/core/package.json').version")
+
+          if [ "$before" = "$after" ] && [ "${INPUT_DRY_RUN:-false}" != 'true' ]; then
+            echo "No version change; nothing to publish."
+            echo "published=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          case "$after" in
+            *-*) dist_tag='next' ;;
+            *) dist_tag='latest' ;;
+          esac
+
+          echo "version=$after" >> "$GITHUB_OUTPUT"
+          echo "distTag=$dist_tag" >> "$GITHUB_OUTPUT"
+          echo "published=true" >> "$GITHUB_OUTPUT"
+          echo "Releasing $after under the '$dist_tag' dist-tag."
+
+      - name: Publish to npm
+        if: steps.changes.outputs.release == 'true' && steps.version.outputs.published == 'true'
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_CONFIG_PROVENANCE: true
+          DIST_TAG: ${{ steps.version.outputs.distTag }}
+          INPUT_DRY_RUN: ${{ inputs.dryRun }}
+        run: |
+          set -euo pipefail
+
+          dry_run_flag=''
+          [ "${INPUT_DRY_RUN:-false}" = 'true' ] && dry_run_flag='--dry-run'
+
+          pnpm exec nx release publish --tag "$DIST_TAG" $dry_run_flag
+
+      - name: Summary
+        if: always()
+        run: |
+          {
+            if [ "${{ steps.changes.outputs.release }}" != "true" ]; then
+              echo '### No release'
+              echo 'No `feat`, `fix`, `perf`, `revert` or breaking-change commit since the last tag.'
+            elif [ "${{ steps.version.outputs.published }}" != "true" ]; then
+              echo '### No release'
+              echo 'Versioning produced no change.'
+            else
+              echo "### Released \`${{ steps.version.outputs.version }}\`"
+              echo "- dist-tag: \`${{ steps.version.outputs.distTag }}\`"
+              echo "- dry run: \`${{ inputs.dryRun == true }}\`"
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"

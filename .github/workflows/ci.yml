@@ -12,6 +12,40 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  commitlint:
+    name: Commit messages
+    # Releases are cut from the commit messages on master, so a non-conventional message is a
+    # release bug, not a style nit.
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    timeout-minutes: 5
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install PNPM
+        uses: pnpm/action-setup@v4
+
+      - name: Install Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: 'pnpm'
+
+      - name: Install Dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint Commit Messages
+        run: |
+          pnpm exec commitlint \
+            --from ${{ github.event.pull_request.base.sha }} \
+            --to ${{ github.event.pull_request.head.sha }} \
+            --verbose
+
   ci:
     name: Lint, test and build
     runs-on: ubuntu-latest
@@ -28,13 +62,11 @@ jobs:
 
       - name: Install PNPM
         uses: pnpm/action-setup@v4
-        with:
-          version: 10.12.1
 
       - name: Install Node
         uses: actions/setup-node@v4
         with:
-          node-version: 24
+          node-version-file: .node-version
           cache: 'pnpm'
 
       - name: Install Dependencies
@@ -45,13 +77,13 @@ jobs:
         uses: nrwl/nx-set-shas@v4
 
       - name: Check Formatting
-        run: pnpx nx format:check
+        run: pnpm exec nx format:check
         shell: bash
 
       - name: Lint, Test and Build Affected Projects
-        run: pnpx nx affected -t lint test build --parallel=3
+        run: pnpm exec nx affected -t lint test build --parallel=3
         shell: bash
 
       - name: Build Storybook
-        run: pnpx nx build-storybook ui-storybook
+        run: pnpm exec nx build-storybook ui-storybook
         shell: bash

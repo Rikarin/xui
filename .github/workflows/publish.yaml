@@ -1,51 +1,113 @@
 name: Publish
 
+# Fallback publisher for a tag created outside the Release workflow - e.g. a local
+# `pnpm release` followed by `git push --follow-tags`. The Release workflow publishes on its own;
+# tags it pushes use GITHUB_TOKEN and therefore never trigger this workflow, so the two cannot
+# publish the same version twice.
 on:
   push:
     tags:
       - v*.*.*
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Existing release tag to publish, e.g. v2.0.0-alpha.9.'
+        required: true
+        type: string
+      dryRun:
+        description: 'Build and resolve everything without publishing.'
+        required: false
+        default: false
+        type: boolean
+
+concurrency:
+  group: publish-${{ inputs.tag || github.ref_name }}
+  cancel-in-progress: false
 
 jobs:
-  test:
-    name: Publish
+  publish:
+    name: Publish packages
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      id-token: write # needed for provenance data generation
-    timeout-minutes: 10
+      id-token: write # npm provenance
+    timeout-minutes: 30
     steps:
-      - name: Checkout Repository
+      - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          ref: ${{ inputs.tag || github.ref }}
 
-      - name: Install PNPM
+      - name: Install pnpm
         uses: pnpm/action-setup@v4
-        with:
-          version: 10.12.1
 
       - name: Install Node
         uses: actions/setup-node@v4
         with:
-          node-version: 24
+          node-version-file: .node-version
           registry-url: https://registry.npmjs.org/
           cache: 'pnpm'
 
-      - name: Install Dependencies
+      - name: Install dependencies
         run: pnpm install --frozen-lockfile
-        shell: bash
 
-      - name: Print Environment Info
-        run: pnpx nx report
-        shell: bash
+      - name: Resolve and verify the version
+        id: version
+        env:
+          # Through the environment rather than template interpolation, so the value can never be
+          # parsed as shell.
+          RELEASE_TAG: ${{ inputs.tag || github.ref_name }}
+        run: |
+          set -euo pipefail
 
-      - name: Build Packages
-        run: pnpx nx run-many -t build
-        shell: bash
+          tag="$RELEASE_TAG"
+          version=$(node -p "require('./libs/core/package.json').version")
 
-      - name: Publish Packages
-        run: pnpm run publish
-        shell: bash
+          # Publishing a tag whose checkout carries a different version would push the wrong
+          # artifacts to npm under a name nobody can trace back.
+          if [ "$tag" != "v$version" ]; then
+            echo "::error::Tag $tag does not match the workspace version $version."
+            exit 1
+          fi
+
+          case "$version" in
+            *-*) dist_tag='next' ;;
+            *) dist_tag='latest' ;;
+          esac
+
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "distTag=$dist_tag" >> "$GITHUB_OUTPUT"
+          echo "Publishing $version under the '$dist_tag' dist-tag."
+
+      - name: Print environment info
+        run: pnpm exec nx report
+
+      - name: Verify the workspace
+        run: pnpm exec nx run-many -t lint test --parallel=3
+
+      - name: Build packages
+        run: pnpm exec nx run-many -t build
+
+      - name: Publish to npm
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           NPM_CONFIG_PROVENANCE: true
+          DIST_TAG: ${{ steps.version.outputs.distTag }}
+          INPUT_DRY_RUN: ${{ inputs.dryRun }}
+        run: |
+          set -euo pipefail
+
+          dry_run_flag=''
+          [ "${INPUT_DRY_RUN:-false}" = 'true' ] && dry_run_flag='--dry-run'
+
+          pnpm exec nx release publish --tag "$DIST_TAG" $dry_run_flag
+
+      - name: Summary
+        if: always()
+        run: |
+          {
+            echo "### Publish \`${{ steps.version.outputs.version }}\`"
+            echo "- dist-tag: \`${{ steps.version.outputs.distTag }}\`"
+            echo "- dry run: \`${{ inputs.dryRun == true }}\`"
+          } >> "$GITHUB_STEP_SUMMARY"
