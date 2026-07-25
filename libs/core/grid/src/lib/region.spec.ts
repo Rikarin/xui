@@ -93,3 +93,22 @@ describe('equality and toggling', () => {
     expect(regionsEqual(result[0], cellRegion(1, 1))).toBe(true);
   });
 });
+
+describe('regionBounds', () => {
+  it('materializes a cell-block region', () => {
+    expect(regionBounds(cellRegion(1, 2, 3, 4), 100, 100)).toEqual([1, 3, 2, 4]);
+  });
+
+  it('expands a full-row region across every column', () => {
+    expect(regionBounds(rowRegion(2, 4), 100, 5)).toEqual([2, 4, 0, 4]);
+  });
+
+  it('expands a full-column region across every row', () => {
+    expect(regionBounds(columnRegion(1), 10, 5)).toEqual([0, 9, 1, 1]);
+  });
+
+  it('expands a full-table region and clamps to the grid size', () => {
+    expect(regionBounds(tableRegion(), 3, 2)).toEqual([0, 2, 0, 1]);
+    expect(regionBounds(cellRegion(-5, -5, 99, 99), 3, 2)).toEqual([0, 2, 0, 1]);
+  });
+});

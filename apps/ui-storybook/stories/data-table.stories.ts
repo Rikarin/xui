@@ -29,9 +29,12 @@ const COLUMNS: XuiDataColumn<Row>[] = [
 
 /**
  * A virtualized data grid — only the visible rows are in the DOM, so it stays
- * smooth at 100k+ rows. Columns resize (drag the header divider) and sort (click
- * the header); the focused cell moves with the arrow keys. Built on the pure
- * `@xui/core/grid` region/size/locator model.
+ * smooth at 100k+ rows. Columns resize (drag the header divider), auto-fit
+ * (double-click the divider), reorder (drag the header) and sort (click the
+ * header). Cells select as regions (click, shift-click for a range, ⌘/Ctrl-click
+ * for disjoint blocks, ⌘/Ctrl+A for all), the focused cell moves with the arrow
+ * keys (hold Shift to extend), and ⌘/Ctrl+C copies the selection as TSV. Built on
+ * the pure `@xui/core/grid` region/size/locator model.
  */
 const meta: Meta<XuiDataTable<Row>> = {
   title: 'Data display/Data table',
@@ -59,6 +62,30 @@ export const HundredThousandRows: Story = {
     template: `
       <xui-data-table class="w-[760px]" [data]="rows" [columns]="columns" [height]="400" />
       <p class="text-foreground-muted mt-2 text-sm">100,000 rows.</p>
+    `
+  })
+};
+
+/**
+ * Region selection + copy. Click a cell, shift-click for a range, ⌘/Ctrl-click
+ * for disjoint blocks; press ⌘/Ctrl+C to copy the selection as tab-separated text
+ * (shown below). Drag a header to reorder; double-click a divider to auto-fit.
+ */
+export const SelectionAndCopy: Story = {
+  render: () => ({
+    props: { rows: makeRows(200), columns: COLUMNS, copied: '' },
+    template: `
+      <xui-data-table
+        class="w-[760px]"
+        [data]="rows"
+        [columns]="columns"
+        [height]="360"
+        (copied)="copied = $event"
+      />
+      <p class="text-foreground-muted mt-2 text-sm">
+        Select cells, then press <kbd>⌘/Ctrl</kbd>+<kbd>C</kbd>. Copied text:
+      </p>
+      <pre class="bg-surface-inset text-foreground mt-1 max-w-[760px] overflow-auto rounded-md p-2 text-xs">{{ copied || '—' }}</pre>
     `
   })
 };
