@@ -131,7 +131,7 @@ export class XuiTabs {
   protected readonly listClass = computed(() =>
     xui(
       'relative flex',
-      // `border-e` rather than `border-r`: the rule belongs on the edge the
+      // `border-e` rather than `border-e`: the rule belongs on the edge the
       // panel sits against, which swaps sides in RTL.
       this.vertical() ? 'flex-col border-e border-border' : 'items-end gap-1 border-b border-border',
       this.fill() && !this.vertical() && 'w-full'

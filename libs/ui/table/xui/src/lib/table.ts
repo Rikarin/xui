@@ -20,7 +20,7 @@ const tableVariants = cva('flex flex-col text-sm [&_xui-tr:last-child]:border-0'
   variants: {
     striped: { true: '[&_xui-tr:nth-child(even)]:bg-surface-inset/40', false: '' },
     bordered: {
-      true: 'rounded-md border border-border [&_xui-td]:border-r [&_xui-th]:border-r [&_xui-td:last-child]:border-r-0 [&_xui-th:last-child]:border-r-0 [&_xui-td]:border-border [&_xui-th]:border-border',
+      true: 'rounded-md border border-border [&_xui-td]:border-e [&_xui-th]:border-e [&_xui-td:last-child]:border-e-0 [&_xui-th:last-child]:border-e-0 [&_xui-td]:border-border [&_xui-th]:border-border',
       false: ''
     },
     interactive: { true: '[&_xui-tr]:cursor-pointer', false: '' },

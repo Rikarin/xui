@@ -54,7 +54,7 @@ export type SectionVariants = VariantProps<typeof sectionVariants>;
         @if (collapsible()) {
           <button
             type="button"
-            class="-m-1 flex min-w-0 flex-1 items-center gap-2 rounded p-1 text-left focus-visible:outline-5 focus-visible:outline-offset-2"
+            class="-m-1 flex min-w-0 flex-1 items-center gap-2 rounded p-1 text-start focus-visible:outline-5 focus-visible:outline-offset-2"
             [attr.aria-expanded]="isOpen()"
             [attr.aria-controls]="panelId"
             (click)="isOpen.set(!isOpen())"

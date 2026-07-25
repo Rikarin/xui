@@ -61,7 +61,7 @@ const wrapperVariants = cva('items-center gap-x-2 data-disabled:cursor-not-allow
       // Non-inline controls take a full row so several stack vertically; inline
       // ones sit side by side with a little breathing room to their right.
       false: 'flex',
-      true: 'mr-5 inline-flex align-middle'
+      true: 'me-5 inline-flex align-middle'
     },
     alignIndicator: {
       // `end` flips the box to the trailing edge, label leading.

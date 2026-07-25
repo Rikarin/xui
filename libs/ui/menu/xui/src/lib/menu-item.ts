@@ -8,7 +8,7 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
 
 const itemVariants = cva(
-  'flex w-full cursor-pointer items-center gap-2 rounded-md px-2 py-1.5 text-left text-sm outline-none select-none aria-disabled:pointer-events-none aria-disabled:opacity-50',
+  'flex w-full cursor-pointer items-center gap-2 rounded-md px-2 py-1.5 text-start text-sm outline-none select-none aria-disabled:pointer-events-none aria-disabled:opacity-50',
   {
     variants: {
       intent: {
@@ -63,12 +63,12 @@ export type XuiMenuItemIntent = NonNullable<VariantProps<typeof itemVariants>['i
     <span class="flex-1 truncate"><ng-content /></span>
 
     <!-- Right rail: a shortcut/label, then a chevron when this opens a submenu. -->
-    <span class="text-foreground-subtle ml-2 shrink-0 text-xs empty:hidden">
+    <span class="text-foreground-subtle ms-2 shrink-0 text-xs empty:hidden">
       <ng-content select="[menuItemLabel]" />
     </span>
 
     @if (hasSubmenu()) {
-      <ng-icon xui size="sm" name="matChevronRightRound" class="text-foreground-muted -mr-1 shrink-0" />
+      <ng-icon xui size="sm" name="matChevronRightRound" class="text-foreground-muted -me-1 shrink-0" />
     }
   `,
   host: {

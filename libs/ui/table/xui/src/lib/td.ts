@@ -40,6 +40,6 @@ export class XuiTd {
   readonly class = input<ClassValue>('');
 
   protected readonly computedClass = computed(() =>
-    xui('flex flex-none p-3 items-center [&:has([role=checkbox])]:pr-0', this.columnDef?.class(), this.class())
+    xui('flex flex-none p-3 items-center [&:has([role=checkbox])]:pe-0', this.columnDef?.class(), this.class())
   );
 }

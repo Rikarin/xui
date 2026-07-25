@@ -40,8 +40,8 @@ describe('XuiBadge', () => {
   });
 
   it('merges the class input with the variant classes', () => {
-    const { query } = setup('<span xuiBadge class="ml-2"></span>');
+    const { query } = setup('<span xuiBadge class="ms-2"></span>');
 
-    expectClasses(query('span'), 'ml-2', 'bg-primary');
+    expectClasses(query('span'), 'ms-2', 'bg-primary');
   });
 });

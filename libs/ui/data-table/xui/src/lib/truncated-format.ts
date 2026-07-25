@@ -60,7 +60,7 @@ export class XuiTruncatedFormat {
   protected readonly computedClass = computed(() => xui('inline items-baseline', this.class()));
   protected readonly textClass = computed(() => xui('whitespace-pre-wrap'));
   protected readonly toggleClass = computed(() =>
-    xui('text-primary hover:text-primary/80 ml-1 cursor-pointer text-xs font-medium')
+    xui('text-primary hover:text-primary/80 ms-1 cursor-pointer text-xs font-medium')
   );
 
   protected toggle(): void {

@@ -10,9 +10,9 @@ describe('XuiButtonGroup', () => {
     expectClasses(
       query('div'),
       'inline-flex',
-      '*:not-first:rounded-l-none',
-      '*:not-last:rounded-r-none',
-      '*:not-first:border-l-0'
+      '*:not-first:rounded-s-none',
+      '*:not-last:rounded-e-none',
+      '*:not-first:border-s-0'
     );
   });
 
@@ -35,7 +35,7 @@ describe('XuiButtonGroup', () => {
     const { query } = setup('<div xuiButtonGroup vertical></div>');
 
     expectClasses(query('div'), 'flex-col', '*:not-first:rounded-t-none', '*:not-first:border-t-0');
-    expectNoClasses(query('div'), '*:not-first:border-l-0');
+    expectNoClasses(query('div'), '*:not-first:border-s-0');
   });
 
   it('shares the width equally when filling', () => {

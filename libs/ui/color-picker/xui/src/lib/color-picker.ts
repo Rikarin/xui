@@ -15,6 +15,7 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import { xui } from '@xui/core';
+import { arrowDirection, inlineFraction, injectXDirection } from '@xui/core/a11y';
 import type { ClassValue } from 'clsx';
 import {
   hslToRgb,
@@ -75,7 +76,7 @@ function clampPercent(value: number): number {
           (mousedown)="startSquare($event)"
           (keydown)="onSquareKeydown($event)"
         >
-          <div class="pointer-events-none absolute h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-white shadow" [style.left.%]="squareHandle().x" [style.top.%]="squareHandle().y"></div>
+          <div [class]="handleClass()" [style.inset-inline-start.%]="squareHandle().x" [style.top.%]="squareHandle().y"></div>
         </div>
 
         <!-- Hue slider (perceptual LCH strip in LCH mode, sRGB rainbow otherwise) -->
@@ -92,7 +93,7 @@ function clampPercent(value: number): number {
           (mousedown)="startHue($event)"
           (keydown)="onHueKeydown($event)"
         >
-          <div class="pointer-events-none absolute top-1/2 h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-white shadow" [style.left.%]="huePos()"></div>
+          <div [class]="stripHandleClass()" [style.inset-inline-start.%]="huePos()"></div>
         </div>
 
         @if (showAlpha()) {
@@ -111,7 +112,7 @@ function clampPercent(value: number): number {
             (keydown)="onAlphaKeydown($event)"
           >
             <div class="absolute inset-0 rounded-full" [style.background]="alphaGradient()"></div>
-            <div class="pointer-events-none absolute top-1/2 h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-white shadow" [style.left.%]="alphaValue() * 100"></div>
+            <div [class]="stripHandleClass()" [style.inset-inline-start.%]="alphaValue() * 100"></div>
           </div>
         }
 
@@ -171,11 +172,20 @@ function clampPercent(value: number): number {
   encapsulation: ViewEncapsulation.None
 })
 export class XuiColorPicker {
-  protected readonly HUE_GRADIENT =
-    'linear-gradient(to right, #f00 0%, #ff0 17%, #0f0 33%, #0ff 50%, #00f 67%, #f0f 83%, #f00 100%)';
+  protected readonly HUE_STOPS = '#f00 0%, #ff0 17%, #0f0 33%, #0ff 50%, #00f 67%, #f0f 83%, #f00 100%';
+
+  /**
+   * The gradient axis for every strip and for the square's horizontal ramp. CSS
+   * gradients take physical keywords, so 0% has to be pinned to the edge the
+   * inline axis actually starts at.
+   */
+  private inlineGradient(): string {
+    return this.direction() === 'rtl' ? 'to left' : 'to right';
+  }
 
   private readonly el = inject(ElementRef).nativeElement as HTMLElement;
   private readonly document = this.el.ownerDocument;
+  private readonly direction = injectXDirection();
 
   readonly class = input<ClassValue>('');
   readonly value = model<string>('#1677FF');
@@ -204,16 +214,16 @@ export class XuiColorPicker {
     switch (this.format()) {
       case 'hsl': {
         const h = this.hsv().h;
-        return `${lightness}, linear-gradient(to right, hsl(${h} 0% 50%), hsl(${h} 100% 50%))`;
+        return `${lightness}, linear-gradient(${this.inlineGradient()}, hsl(${h} 0% 50%), hsl(${h} 100% 50%))`;
       }
       case 'lch': {
         const h = this.lchHue();
         const grey = rgbToHex(lchToRgb({ l: 50, c: 0, h }));
         const vivid = rgbToHex(lchToRgb({ l: 50, c: LCH_MAX_C, h }));
-        return `${lightness}, linear-gradient(to right, ${grey}, ${vivid})`;
+        return `${lightness}, linear-gradient(${this.inlineGradient()}, ${grey}, ${vivid})`;
       }
       default:
-        return `linear-gradient(to top, #000, transparent), linear-gradient(to right, #fff, hsl(${this.hsv().h} 100% 50%))`;
+        return `linear-gradient(to top, #000, transparent), linear-gradient(${this.inlineGradient()}, #fff, hsl(${this.hsv().h} 100% 50%))`;
     }
   });
 
@@ -238,13 +248,13 @@ export class XuiColorPicker {
   /** The hue slider gradient — a perceptual LCH strip in LCH mode, the sRGB rainbow otherwise. */
   protected readonly hueGradient = computed(() => {
     if (this.format() !== 'lch') {
-      return this.HUE_GRADIENT;
+      return `linear-gradient(${this.inlineGradient()}, ${this.HUE_STOPS})`;
     }
     const stops: string[] = [];
     for (let h = 0; h <= 360; h += 30) {
       stops.push(rgbToHex(lchToRgb({ l: 60, c: 90, h })));
     }
-    return `linear-gradient(to right, ${stops.join(', ')})`;
+    return `linear-gradient(${this.inlineGradient()}, ${stops.join(', ')})`;
   });
 
   /** The hue slider handle position (percent). */
@@ -252,7 +262,7 @@ export class XuiColorPicker {
 
   protected readonly alphaGradient = computed(() => {
     const rgb = hsvToRgb(this.hsv());
-    return `linear-gradient(to right, rgba(${rgb.r},${rgb.g},${rgb.b},0), rgb(${rgb.r},${rgb.g},${rgb.b}))`;
+    return `linear-gradient(${this.inlineGradient()}, rgba(${rgb.r},${rgb.g},${rgb.b},0), rgb(${rgb.r},${rgb.g},${rgb.b}))`;
   });
 
   constructor() {
@@ -409,18 +419,19 @@ export class XuiColorPicker {
    */
   private arrowStep(event: KeyboardEvent): { dx: number; dy: number } | null {
     const size = event.shiftKey ? 10 : 1;
-    switch (event.key) {
-      case 'ArrowRight':
-        return { dx: size, dy: 0 };
-      case 'ArrowLeft':
-        return { dx: -size, dy: 0 };
-      case 'ArrowUp':
-        return { dx: 0, dy: -size };
-      case 'ArrowDown':
-        return { dx: 0, dy: size };
-      default:
-        return null;
+    const horizontal = event.key === 'ArrowLeft' || event.key === 'ArrowRight';
+    // The inline axis mirrors in RTL, so ArrowRight lowers saturation there.
+    const step = arrowDirection(event.key, this.direction());
+
+    if (!step) {
+      return null;
     }
+
+    const delta = step === 'next' ? size : -size;
+
+    // `dy` is a screen offset: ArrowDown ("next") moves down the square, which
+    // is towards lower brightness because the y axis is inverted (top = max).
+    return horizontal ? { dx: delta, dy: 0 } : { dx: 0, dy: delta };
   }
 
   protected onSquareKeydown(event: KeyboardEvent): void {
@@ -467,7 +478,9 @@ export class XuiColorPicker {
     const rect = (event.currentTarget as HTMLElement).getBoundingClientRect();
     const clamp01 = (value: number): number => Math.max(0, Math.min(1, value));
     const apply = (moveEvent: MouseEvent): void => {
-      const x = rect.width ? clamp01((moveEvent.clientX - rect.left) / rect.width) : 0;
+      // The strips and the square run along the inline axis, which starts at the
+      // right edge in RTL.
+      const x = clamp01(inlineFraction(moveEvent.clientX, rect, this.direction()));
       const y = rect.height ? clamp01((moveEvent.clientY - rect.top) / rect.height) : 0;
       update(x, y);
     };
@@ -504,6 +517,21 @@ export class XuiColorPicker {
     xui('border-border bg-surface text-foreground h-8 shrink-0 rounded-md border px-1.5 text-xs font-medium', FOCUS_RING)
   );
   protected readonly squareClass = computed(() => xui('relative h-36 w-full cursor-crosshair rounded-md', FOCUS_RING));
+
+  /**
+   * The draggable dots. They are positioned by their inline start, so the
+   * centring shift is physical and flips with the direction.
+   */
+  private readonly handleShift = computed(() => (this.direction() === 'rtl' ? 'translate-x-1/2' : '-translate-x-1/2'));
+  protected readonly handleClass = computed(() =>
+    xui('pointer-events-none absolute h-3 w-3 -translate-y-1/2 rounded-full border-2 border-white shadow', this.handleShift())
+  );
+  protected readonly stripHandleClass = computed(() =>
+    xui(
+      'pointer-events-none absolute top-1/2 h-4 w-4 -translate-y-1/2 rounded-full border-2 border-white shadow',
+      this.handleShift()
+    )
+  );
   protected readonly stripClass = computed(() => xui('relative h-3 w-full cursor-pointer rounded-full', FOCUS_RING));
   protected readonly alphaStripClass = computed(() =>
     xui(

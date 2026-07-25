@@ -82,7 +82,7 @@ export interface XuiHtmlSelectOption<T = string> {
       xui
       size="sm"
       name="matExpandMoreRound"
-      class="text-foreground-muted pointer-events-none absolute right-2.5"
+      class="text-foreground-muted pointer-events-none absolute end-2.5"
     />
   `,
   host: {
@@ -112,7 +112,7 @@ export class XuiHtmlSelect<T = string> implements ControlValueAccessor {
   );
   protected readonly selectClass = computed(() =>
     xui(
-      'w-full cursor-pointer appearance-none bg-transparent pr-8 pl-2.5 outline-none disabled:cursor-not-allowed',
+      'w-full cursor-pointer appearance-none bg-transparent pe-8 ps-2.5 outline-none disabled:cursor-not-allowed',
       this.size() === 'sm' ? 'h-9' : 'h-11'
     )
   );

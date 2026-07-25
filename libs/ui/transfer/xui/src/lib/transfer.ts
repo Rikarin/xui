@@ -59,7 +59,7 @@ type Side = 'left' | 'right';
             }
           </button>
           <span class="text-foreground text-sm font-medium">{{ title(side) }}</span>
-          <span class="text-foreground-muted ml-auto text-xs">{{ checkedCount(side) }}/{{ list(side).length }}</span>
+          <span class="text-foreground-muted ms-auto text-xs">{{ checkedCount(side) }}/{{ list(side).length }}</span>
         </div>
 
         @if (searchable()) {

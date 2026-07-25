@@ -7,7 +7,7 @@ export const nonIdealStateVariants = cva('flex text-center', {
   variants: {
     layout: {
       vertical: 'flex-col items-center justify-center gap-3 p-8',
-      horizontal: 'flex-row items-center gap-4 p-6 text-left'
+      horizontal: 'flex-row items-center gap-4 p-6 text-start'
     }
   },
   defaultVariants: {

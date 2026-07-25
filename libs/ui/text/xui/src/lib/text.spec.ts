@@ -130,7 +130,7 @@ describe('html elements', () => {
   it('styles a blockquote', () => {
     const { query } = setup('<blockquote xuiBlockquote>Quote</blockquote>');
 
-    expectClasses(query('blockquote'), 'border-l-4', 'italic', 'text-foreground-muted');
+    expectClasses(query('blockquote'), 'border-s-4', 'italic', 'text-foreground-muted');
   });
 
   it('styles inline code', () => {

@@ -26,8 +26,8 @@ const SIZE: Record<'horizontal' | 'vertical', Record<XuiDrawerSize, string>> = {
 };
 
 const EDGE: Record<XuiDrawerPosition, { cross: string; border: string; pin: XGlobalPosition; from: string }> = {
-  right: { cross: 'h-screen', border: 'border-l', pin: { top: '0', right: '0' }, from: 'translateX(100%)' },
-  left: { cross: 'h-screen', border: 'border-r', pin: { top: '0', left: '0' }, from: 'translateX(-100%)' },
+  right: { cross: 'h-screen', border: 'border-s', pin: { top: '0', right: '0' }, from: 'translateX(100%)' },
+  left: { cross: 'h-screen', border: 'border-e', pin: { top: '0', left: '0' }, from: 'translateX(-100%)' },
   top: { cross: 'w-screen', border: 'border-b', pin: { top: '0', left: '0' }, from: 'translateY(-100%)' },
   bottom: { cross: 'w-screen', border: 'border-t', pin: { bottom: '0', left: '0' }, from: 'translateY(100%)' }
 };
@@ -62,7 +62,7 @@ const EDGE: Record<XuiDrawerPosition, { cross: string; border: string; pin: XGlo
             @if (showCloseButton()) {
               <button
                 type="button"
-                class="text-foreground-muted hover:bg-hover-overlay hover:text-foreground -mr-2 grid size-8 shrink-0 place-items-center rounded-md focus-visible:outline-5 focus-visible:outline-offset-2"
+                class="text-foreground-muted hover:bg-hover-overlay hover:text-foreground -me-2 grid size-8 shrink-0 place-items-center rounded-md focus-visible:outline-5 focus-visible:outline-offset-2"
                 aria-label="Close"
                 (click)="close()"
               >

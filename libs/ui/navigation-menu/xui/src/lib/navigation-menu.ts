@@ -129,7 +129,7 @@ export class XuiNavigationMenu {
 
   // `pt-2` (not margin) keeps the panel's hitbox contiguous with the bar, so the
   // pointer can cross the visual gap without the menu closing.
-  protected readonly viewportClass = computed(() => xui('absolute top-full left-0 z-50 pt-2'));
+  protected readonly viewportClass = computed(() => xui('absolute top-full start-0 z-50 pt-2'));
   protected readonly panelClass = computed(() =>
     xui('border-border bg-surface-overlay shadow-overlay rounded-lg border p-3')
   );

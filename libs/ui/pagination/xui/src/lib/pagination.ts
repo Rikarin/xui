@@ -25,7 +25,7 @@ import type { ClassValue } from 'clsx';
   selector: 'xui-pagination',
   template: `
     @if (showTotal()) {
-      <span class="text-foreground-muted mr-1 text-sm">{{ totalLabel() }}</span>
+      <span class="text-foreground-muted me-1 text-sm">{{ totalLabel() }}</span>
     }
 
     <button type="button" [class]="stepClass()" [disabled]="disabled() || pageIndex() <= 1" (click)="go(pageIndex() - 1)" aria-label="Previous page">

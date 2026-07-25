@@ -55,7 +55,7 @@ const defaultMatch = (text: string, query: string): boolean => text.toLowerCase(
       <span [class]="selectedItem() ? 'truncate' : 'text-foreground-subtle truncate'">{{
         selectedItem() ? displayText(selectedItem()!) : placeholder()
       }}</span>
-      <ng-icon xui name="matExpandMoreRound" size="sm" class="text-foreground-muted ml-2 shrink-0" />
+      <ng-icon xui name="matExpandMoreRound" size="sm" class="text-foreground-muted ms-2 shrink-0" />
     </button>
 
     <ng-template #panel>
@@ -66,12 +66,12 @@ const defaultMatch = (text: string, query: string): boolean => text.toLowerCase(
               xui
               name="matSearchRound"
               size="sm"
-              class="text-foreground-muted pointer-events-none absolute top-1/2 left-2.5 -translate-y-1/2"
+              class="text-foreground-muted pointer-events-none absolute top-1/2 start-2.5 -translate-y-1/2"
             />
             <input
               [id]="searchId"
               type="text"
-              class="text-foreground placeholder:text-foreground-subtle w-full bg-transparent py-2 pr-2 pl-8 outline-none"
+              class="text-foreground placeholder:text-foreground-subtle w-full bg-transparent py-2 pe-2 ps-8 outline-none"
               [placeholder]="searchPlaceholder()"
               [value]="query()"
               (input)="onQuery($event)"

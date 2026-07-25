@@ -8,9 +8,9 @@ import { ClassValue } from 'clsx';
 export type ButtonGroupAlign = 'left' | 'center' | 'right';
 
 const alignClass: Record<ButtonGroupAlign, string> = {
-  left: '[&>*]:justify-start [&>*]:text-left',
+  left: '[&>*]:justify-start [&>*]:text-start',
   center: '',
-  right: '[&>*]:justify-end [&>*]:text-right'
+  right: '[&>*]:justify-end [&>*]:text-end'
 };
 
 const buttonGroupVariants = cva('inline-flex', {
@@ -18,7 +18,7 @@ const buttonGroupVariants = cva('inline-flex', {
     vertical: {
       // Collapse the radii and drop the doubled border between neighbours, on
       // whichever axis the group runs.
-      false: 'flex-row *:not-first:rounded-l-none *:not-last:rounded-r-none *:not-first:border-l-0',
+      false: 'flex-row *:not-first:rounded-s-none *:not-last:rounded-e-none *:not-first:border-s-0',
       true: 'flex-col *:not-first:rounded-t-none *:not-last:rounded-b-none *:not-first:border-t-0'
     },
     fill: {

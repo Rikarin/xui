@@ -63,7 +63,7 @@ export const XUI_TAG_INPUT_VALUE_ACCESSOR = {
           @if (!isDisabled()) {
             <button
               type="button"
-              class="text-foreground-muted hover:text-foreground -mr-0.5 flex items-center"
+              class="text-foreground-muted hover:text-foreground -me-0.5 flex items-center"
               [attr.aria-label]="'Remove ' + tag"
               (click)="removeAt($index); $event.stopPropagation()"
             >

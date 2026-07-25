@@ -20,12 +20,12 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
 
 const fileInputVariants = cva(
-  'border-border bg-surface-inset text-foreground-muted focus-within:border-focus flex cursor-pointer items-center gap-2 rounded-lg border pr-1 transition-colors has-disabled:cursor-not-allowed has-disabled:opacity-50',
+  'border-border bg-surface-inset text-foreground-muted focus-within:border-focus flex cursor-pointer items-center gap-2 rounded-lg border pe-1 transition-colors has-disabled:cursor-not-allowed has-disabled:opacity-50',
   {
     variants: {
       size: {
-        default: 'h-11 pl-3 text-base',
-        sm: 'h-9 pl-2.5 text-sm'
+        default: 'h-11 ps-3 text-base',
+        sm: 'h-9 ps-2.5 text-sm'
       },
       fill: {
         true: 'w-full',

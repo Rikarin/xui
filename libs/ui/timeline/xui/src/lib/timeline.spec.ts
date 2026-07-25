@@ -41,6 +41,6 @@ describe('XuiTimeline', () => {
     );
     detect();
 
-    expectClasses(items()[0], 'flex-row-reverse', 'text-right');
+    expectClasses(items()[0], 'flex-row-reverse', 'text-end');
   });
 });

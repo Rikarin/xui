@@ -153,7 +153,7 @@ export class XuiTimePicker<T = Date> {
     xui('text-foreground w-7 bg-transparent text-center text-sm tabular-nums outline-none')
   );
   protected readonly ampmClass = computed(() =>
-    xui('text-foreground-muted hover:bg-surface-raised ml-1 rounded px-1.5 py-0.5 text-xs font-medium')
+    xui('text-foreground-muted hover:bg-surface-raised ms-1 rounded px-1.5 py-0.5 text-xs font-medium')
   );
 
   private readonly ranges: Record<string, number> = { hour: 24, minute: 60, second: 60, millisecond: 1000 };

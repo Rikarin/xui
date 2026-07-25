@@ -69,7 +69,7 @@ interface FlatNode {
           <span class="flex-1 truncate">{{ node.label }}</span>
 
           @if (node.secondaryLabel) {
-            <span class="text-foreground-muted ml-2 shrink-0 text-xs">{{ node.secondaryLabel }}</span>
+            <span class="text-foreground-muted ms-2 shrink-0 text-xs">{{ node.secondaryLabel }}</span>
           }
         </div>
 
@@ -170,7 +170,7 @@ export class XuiTree {
 
   protected rowClass(node: XuiTreeNode): string {
     return xui(
-      'flex items-center gap-1.5 rounded py-1 pr-2 transition-colors',
+      'flex items-center gap-1.5 rounded py-1 pe-2 transition-colors',
       node.disabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer hover:bg-surface-inset/60',
       'focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-focus focus:outline-none',
       node.id === this.selectedId() && 'bg-primary/10 text-primary'

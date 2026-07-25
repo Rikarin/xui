@@ -3,6 +3,14 @@ import { withThemeByClassName } from '@storybook/addon-themes';
 // injects that option as a workspace-relative path Rollup cannot resolve.
 import './tailwind.css';
 
+// Components read the layout direction through `@angular/cdk/bidi`, which walks
+// up to the nearest `dir` attribute — so setting it on <html> is enough to put
+// every story into RTL without touching the stories themselves.
+const withDirection = (story, context) => {
+  document.documentElement.dir = context.globals.direction ?? 'ltr';
+  return story();
+};
+
 export const decorators = [
   withThemeByClassName({
     themes: {
@@ -10,11 +18,29 @@ export const decorators = [
       dark: 'dark'
     },
     defaultTheme: 'dark'
-  })
+  }),
+  withDirection
 ];
+
+export const globalTypes = {
+  direction: {
+    description: 'Layout direction',
+    defaultValue: 'ltr',
+    toolbar: {
+      title: 'Direction',
+      icon: 'transfer',
+      items: [
+        { value: 'ltr', title: 'LTR' },
+        { value: 'rtl', title: 'RTL' }
+      ],
+      dynamicTitle: true
+    }
+  }
+};
 
 const preview = {
   decorators,
+  globalTypes,
 
   parameters: {
     options: {

@@ -47,7 +47,7 @@ describe('XuiTable', () => {
     it('draws borders around and between cells', () => {
       const { query } = setup('<xui-table bordered />');
 
-      expectClasses(query('xui-table'), 'border', 'border-border', '[&_xui-td]:border-r');
+      expectClasses(query('xui-table'), 'border', 'border-border', '[&_xui-td]:border-e');
     });
 
     it('marks rows as interactive', () => {

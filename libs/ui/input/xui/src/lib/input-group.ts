@@ -30,7 +30,7 @@ import { XuiInput } from './input';
   selector: '[xuiInputLeftElement]',
   host: {
     class:
-      'absolute left-0 top-1/2 z-10 flex -translate-y-1/2 items-center pl-2.5 text-foreground-muted [&:has(button)]:pointer-events-auto pointer-events-none'
+      'absolute start-0 top-1/2 z-10 flex -translate-y-1/2 items-center ps-2.5 text-foreground-muted [&:has(button)]:pointer-events-auto pointer-events-none'
   }
 })
 export class XuiInputLeftElement {}
@@ -40,7 +40,7 @@ export class XuiInputLeftElement {}
   selector: '[xuiInputRightElement]',
   host: {
     class:
-      'absolute right-0 top-1/2 z-10 flex -translate-y-1/2 items-center pr-2.5 text-foreground-muted [&:has(button)]:pointer-events-auto pointer-events-none'
+      'absolute end-0 top-1/2 z-10 flex -translate-y-1/2 items-center pe-2.5 text-foreground-muted [&:has(button)]:pointer-events-auto pointer-events-none'
   }
 })
 export class XuiInputRightElement {}
@@ -65,7 +65,7 @@ export class XuiInputRightElement {}
     @if (clearable() && hasValue() && !disabled()) {
       <button
         type="button"
-        class="text-foreground-muted hover:text-foreground absolute top-1/2 right-0 z-10 flex -translate-y-1/2 items-center pr-2.5 transition-colors"
+        class="text-foreground-muted hover:text-foreground absolute top-1/2 end-0 z-10 flex -translate-y-1/2 items-center pe-2.5 transition-colors"
         aria-label="Clear"
         (click)="clear()"
       >

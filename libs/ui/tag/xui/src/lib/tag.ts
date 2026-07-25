@@ -76,7 +76,7 @@ export type TagIntent = NonNullable<TagVariants['intent']>;
     @if (removable()) {
       <button
         type="button"
-        class="-mr-0.5 flex items-center rounded-full opacity-70 transition-opacity hover:opacity-100"
+        class="-me-0.5 flex items-center rounded-full opacity-70 transition-opacity hover:opacity-100"
         aria-label="Remove"
         (click)="onRemove($event)"
       >

@@ -57,8 +57,8 @@ export class XuiNavbar {
 export const navbarGroupVariants = cva('flex h-full items-center gap-2', {
   variants: {
     align: {
-      start: 'mr-auto',
-      end: 'ml-auto',
+      start: 'me-auto',
+      end: 'ms-auto',
       center: 'mx-auto'
     }
   },
@@ -98,7 +98,7 @@ export class XuiNavbarHeading {
   readonly class = input<ClassValue>('');
 
   protected readonly computedClass = computed(() =>
-    xui('text-foreground mr-2 font-semibold whitespace-nowrap', this.class())
+    xui('text-foreground me-2 font-semibold whitespace-nowrap', this.class())
   );
 }
 
@@ -121,5 +121,5 @@ export class XuiNavbarDivider {
   /** The user-defined classes. Merged last so they win over the base classes. */
   readonly class = input<ClassValue>('');
 
-  protected readonly computedClass = computed(() => xui('border-border mx-2 h-5 self-center border-l', this.class()));
+  protected readonly computedClass = computed(() => xui('border-border mx-2 h-5 self-center border-s', this.class()));
 }

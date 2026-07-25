@@ -27,7 +27,7 @@ import { XuiAccordion } from './accordion';
         [attr.aria-expanded]="open()"
         (click)="toggle()"
       >
-        <span class="flex-1 text-left">{{ title() }}<ng-content select="[xuiAccordionTitle]" /></span>
+        <span class="flex-1 text-start">{{ title() }}<ng-content select="[xuiAccordionTitle]" /></span>
         <svg
           viewBox="0 0 24 24"
           class="text-foreground-muted h-4 w-4 shrink-0 transition-transform duration-200"

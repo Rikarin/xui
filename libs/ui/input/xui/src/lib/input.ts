@@ -102,8 +102,8 @@ export class XuiInput implements XFormFieldControl, DoCheck {
   protected readonly computedClass = computed(() =>
     xui(
       inputVariants({ size: this.size(), color: this.color(), intent: this.intent(), error: this.state().error }),
-      this.padStart() && 'pl-9',
-      this.padEnd() && 'pr-9',
+      this.padStart() && 'ps-9',
+      this.padEnd() && 'pe-9',
       this.class()
     )
   );

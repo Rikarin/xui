@@ -11,11 +11,11 @@ describe('XuiDivider', () => {
     expectClasses(query('div'), 'block', 'border-t', 'border-border');
   });
 
-  it('draws a left border and stretches when vertical', () => {
+  it('draws an inline-start border and stretches when vertical', () => {
     const { query } = setup('<div xuiDivider orientation="vertical"></div>');
 
     expectAttributes(query('div'), { 'aria-orientation': 'vertical' });
-    expectClasses(query('div'), 'inline-block', 'border-l', 'self-stretch');
+    expectClasses(query('div'), 'inline-block', 'border-s', 'self-stretch');
     expectNoClasses(query('div'), 'border-t');
   });
 

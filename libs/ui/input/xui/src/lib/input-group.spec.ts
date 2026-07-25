@@ -24,8 +24,8 @@ describe('XuiInputGroup', () => {
     );
     detect();
 
-    expectClasses(input(), 'pl-9');
-    expectNoClasses(input(), 'pr-9');
+    expectClasses(input(), 'ps-9');
+    expectNoClasses(input(), 'pe-9');
   });
 
   it('pads the trailing edge when a right element is present', () => {
@@ -38,7 +38,7 @@ describe('XuiInputGroup', () => {
     );
     detect();
 
-    expectClasses(input(), 'pr-9');
+    expectClasses(input(), 'pe-9');
   });
 
   it('reserves the trailing edge for the clear button', () => {
@@ -47,7 +47,7 @@ describe('XuiInputGroup', () => {
     });
     detect();
 
-    expectClasses(input(), 'pr-9');
+    expectClasses(input(), 'pe-9');
   });
 
   it('shows the clear button only once the input holds a value', () => {
@@ -85,6 +85,6 @@ describe('XuiInputGroup', () => {
     const { detect } = render(`<xui-input-group><input xuiInput /></xui-input-group>`, { imports: IMPORTS });
     detect();
 
-    expectNoClasses(input(), 'pl-9', 'pr-9');
+    expectNoClasses(input(), 'ps-9', 'pe-9');
   });
 });

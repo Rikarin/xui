@@ -40,8 +40,8 @@ describe('XuiNavbar', () => {
 
 describe('XuiNavbarGroup', () => {
   it.each([
-    ['start', 'mr-auto'],
-    ['end', 'ml-auto'],
+    ['start', 'me-auto'],
+    ['end', 'ms-auto'],
     ['center', 'mx-auto']
   ])('pushes a %s group with %s', (align, expected) => {
     const { query } = setup(`<div xuiNavbarGroup align="${align}"></div>`);
@@ -52,7 +52,7 @@ describe('XuiNavbarGroup', () => {
   it('aligns to the start by default', () => {
     const { query } = setup('<div xuiNavbarGroup></div>');
 
-    expectClasses(query('div'), 'mr-auto');
+    expectClasses(query('div'), 'me-auto');
   });
 });
 
@@ -71,6 +71,6 @@ describe('XuiNavbarDivider', () => {
     // Inside a navbar the rule is visual grouping; announcing a separator
     // between every cluster would just add noise.
     expectAttributes(query('div'), { role: 'presentation', 'aria-hidden': 'true' });
-    expectClasses(query('div'), 'border-l');
+    expectClasses(query('div'), 'border-s');
   });
 });

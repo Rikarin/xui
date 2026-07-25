@@ -35,7 +35,7 @@ export class XuiTimelineItem {
   readonly label = input<string>('');
 
   protected readonly computedClass = computed(() =>
-    xui('flex gap-3', this.timeline.mode() === 'right' ? 'flex-row-reverse text-right' : '')
+    xui('flex gap-3', this.timeline.mode() === 'right' ? 'flex-row-reverse text-end' : '')
   );
 
   protected readonly dotClass = computed(() => xui('mt-1 h-3 w-3 shrink-0 rounded-full', DOT[this.color()]));

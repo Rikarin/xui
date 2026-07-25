@@ -1,4 +1,5 @@
 import { ConfigurableFocusTrapFactory } from '@angular/cdk/a11y';
+import { Directionality } from '@angular/cdk/bidi';
 import { ESCAPE } from '@angular/cdk/keycodes';
 import {
   createBlockScrollStrategy,
@@ -111,6 +112,7 @@ export function injectXOverlay(): XOverlayFactory {
   const injector = inject(Injector);
   const viewContainerRef = inject(ViewContainerRef, { optional: true });
   const focusTrapFactory = inject(ConfigurableFocusTrapFactory);
+  const directionality = inject(Directionality);
   const document = inject(DOCUMENT);
   const destroyRef = inject(DestroyRef);
 
@@ -147,6 +149,9 @@ export function injectXOverlay(): XOverlayFactory {
               .withPush(resolved.flip)
           : globalPositionStrategy(injector, resolved.globalPosition),
       scrollStrategy: scrollStrategyFor(resolved.scrollStrategy),
+      // Without this the CDK treats every connected position as LTR, so a
+      // `*-start` placement anchors to the left edge even in an RTL page.
+      direction: directionality,
       hasBackdrop: resolved.hasBackdrop,
       backdropClass: resolved.backdropClass,
       panelClass: resolved.panelClass,

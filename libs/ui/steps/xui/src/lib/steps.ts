@@ -46,7 +46,7 @@ import { XuiStep, type StepStatus } from './step';
               {{ i + 1 }}
             }
           </span>
-          <span class="flex flex-col text-left">
+          <span class="flex flex-col text-start">
             <span [class]="titleClass(statusAt(i))">{{ step.title() }}</span>
             @if (step.description()) {
               <span class="text-foreground-muted text-xs">{{ step.description() }}</span>
@@ -130,7 +130,7 @@ export class XuiSteps {
   protected connectorClass(status: StepStatus): string {
     const done = status === 'finish';
     return this.vertical
-      ? xui('ml-4 min-h-4 w-px flex-1 self-stretch', done ? 'bg-primary' : 'bg-border')
+      ? xui('ms-4 min-h-4 w-px flex-1 self-stretch', done ? 'bg-primary' : 'bg-border')
       : xui('h-px flex-1', done ? 'bg-primary' : 'bg-border');
   }
 }

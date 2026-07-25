@@ -91,7 +91,7 @@ describe('XuiButton', () => {
     it('aligns its contents', () => {
       const { query } = setup('<button xuiButton alignText="left"></button>');
 
-      expectClasses(query('button'), 'justify-start', 'text-left');
+      expectClasses(query('button'), 'justify-start', 'text-start');
       expectNoClasses(query('button'), 'justify-center');
     });
 

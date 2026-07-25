@@ -46,7 +46,7 @@ describe('XuiDrawer', () => {
     expect(backdrop()).not.toBeNull();
     // A right drawer runs full-height and draws its divider on the left.
     expect(surface()?.className).toContain('h-screen');
-    expect(surface()?.className).toContain('border-l');
+    expect(surface()?.className).toContain('border-s');
   });
 
   it('takes the cross-axis full size for a top drawer', () => {

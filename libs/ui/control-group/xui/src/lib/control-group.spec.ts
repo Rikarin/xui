@@ -11,9 +11,9 @@ describe('XuiControlGroup', () => {
       query('div'),
       'flex',
       'flex-row',
-      '*:not-first:rounded-l-none',
-      '*:not-last:rounded-r-none',
-      '*:not-first:-ml-px'
+      '*:not-first:rounded-s-none',
+      '*:not-last:rounded-e-none',
+      '*:not-first:-ms-px'
     );
   });
 

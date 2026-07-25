@@ -32,7 +32,7 @@ export abstract class XuiStyledElement {
   host: { '[class]': 'computedClass()' }
 })
 export class XuiBlockquote extends XuiStyledElement {
-  protected readonly baseClass = 'border-border-strong text-foreground-muted my-2 border-l-4 pl-4 italic';
+  protected readonly baseClass = 'border-border-strong text-foreground-muted my-2 border-s-4 ps-4 italic';
 }
 
 @Directive({

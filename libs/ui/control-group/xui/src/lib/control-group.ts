@@ -9,7 +9,7 @@ const controlGroupVariants = cva('flex', {
     vertical: {
       // Collapse the radii and shared borders between adjacent controls so the
       // group reads as one unit, rounded only on its outer ends.
-      false: 'flex-row *:not-first:rounded-l-none *:not-last:rounded-r-none *:not-first:-ml-px',
+      false: 'flex-row *:not-first:rounded-s-none *:not-last:rounded-e-none *:not-first:-ms-px',
       true: 'flex-col *:not-first:rounded-t-none *:not-last:rounded-b-none *:not-first:-mt-px'
     },
     fill: {

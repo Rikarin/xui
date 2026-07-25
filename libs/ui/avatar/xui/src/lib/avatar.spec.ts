@@ -77,7 +77,7 @@ describe('XuiAvatarGroup', () => {
 
     const group = document.querySelector('xui-avatar-group') as HTMLElement;
     expectClasses(group, 'inline-flex');
-    expect(group.className).toContain('-ml-2');
+    expect(group.className).toContain('-ms-2');
   });
 
   it('collapses avatars beyond max into a +N avatar', () => {

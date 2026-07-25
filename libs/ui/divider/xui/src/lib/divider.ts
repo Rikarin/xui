@@ -8,7 +8,7 @@ export const dividerVariants = cva('border-border', {
   variants: {
     orientation: {
       horizontal: 'block w-auto border-t',
-      vertical: 'inline-block h-auto self-stretch border-l'
+      vertical: 'inline-block h-auto self-stretch border-s'
     },
     compact: { true: '', false: '' }
   },

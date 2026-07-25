@@ -44,7 +44,7 @@ export interface XuiCascaderOption {
       <span [class]="selectedLabels().length ? 'text-foreground truncate' : 'text-foreground-muted'">
         {{ selectedLabels().length ? selectedLabels().join(' / ') : placeholder() }}
       </span>
-      <svg viewBox="0 0 24 24" class="text-foreground-muted ml-auto h-4 w-4 shrink-0" fill="none">
+      <svg viewBox="0 0 24 24" class="text-foreground-muted ms-auto h-4 w-4 shrink-0" fill="none">
         <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
       </svg>
     </button>
@@ -52,7 +52,7 @@ export interface XuiCascaderOption {
     @if (open()) {
       <div [class]="panelClass()">
         @for (column of columns(); track $index; let col = $index) {
-          <ul class="border-border max-h-64 min-w-40 overflow-auto border-r last:border-r-0">
+          <ul class="border-border max-h-64 min-w-40 overflow-auto border-e last:border-e-0">
             @for (option of column; track option.value) {
               <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
               <li
@@ -63,7 +63,7 @@ export interface XuiCascaderOption {
               >
                 <span class="truncate">{{ option.label }}</span>
                 @if (option.children?.length) {
-                  <svg viewBox="0 0 24 24" class="ml-auto h-3.5 w-3.5 shrink-0" fill="none">
+                  <svg viewBox="0 0 24 24" class="ms-auto h-3.5 w-3.5 shrink-0" fill="none">
                     <path
                       d="M9 6l6 6-6 6"
                       stroke="currentColor"

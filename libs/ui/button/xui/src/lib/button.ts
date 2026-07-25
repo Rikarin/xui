@@ -9,9 +9,9 @@ import { injectXuiButtonConfig } from './button.token';
 export type ButtonAlign = 'left' | 'center' | 'right';
 
 const alignClass: Record<ButtonAlign, string> = {
-  left: 'justify-start text-left',
+  left: 'justify-start text-start',
   center: 'justify-center text-center',
-  right: 'justify-end text-right'
+  right: 'justify-end text-end'
 };
 
 const buttonVariants = cva(

@@ -60,7 +60,7 @@ import { XUI_DIALOG_SIZES, injectXuiDialogConfig, type XuiDialogSize } from './d
             @if (showCloseButton()) {
               <button
                 type="button"
-                class="text-foreground-muted hover:bg-hover-overlay hover:text-foreground -mr-2 grid size-8 shrink-0 place-items-center rounded-md focus-visible:outline-5 focus-visible:outline-offset-2"
+                class="text-foreground-muted hover:bg-hover-overlay hover:text-foreground -me-2 grid size-8 shrink-0 place-items-center rounded-md focus-visible:outline-5 focus-visible:outline-offset-2"
                 aria-label="Close"
                 (click)="close()"
               >

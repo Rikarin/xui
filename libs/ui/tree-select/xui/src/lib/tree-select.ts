@@ -54,7 +54,7 @@ export interface XuiTreeSelectNode {
       } @else {
         <span [class]="displayLabel() ? 'text-foreground' : 'text-foreground-muted'">{{ displayLabel() || placeholder() }}</span>
       }
-      <svg viewBox="0 0 24 24" class="text-foreground-muted ml-auto h-4 w-4 shrink-0" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+      <svg viewBox="0 0 24 24" class="text-foreground-muted ms-auto h-4 w-4 shrink-0" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
     </button>
 
     @if (open()) {
@@ -76,7 +76,7 @@ export interface XuiTreeSelectNode {
       >
         @if (node.children?.length) {
           <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
-          <span class="hover:text-foreground text-foreground-muted -ml-1 flex h-4 w-4 items-center justify-center" (click)="toggleExpand(node.value, $event)">
+          <span class="hover:text-foreground text-foreground-muted -ms-1 flex h-4 w-4 items-center justify-center" (click)="toggleExpand(node.value, $event)">
             <svg viewBox="0 0 24 24" class="h-3.5 w-3.5 transition-transform" [style.transform]="expanded().has(node.value) ? 'rotate(90deg)' : ''" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
           </span>
         } @else {

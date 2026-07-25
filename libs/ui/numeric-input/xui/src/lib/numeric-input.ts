@@ -159,7 +159,7 @@ export class XuiNumericInput implements ControlValueAccessor {
       this.size() === 'sm' ? 'h-9 px-2 text-sm' : 'h-11 px-2.5 text-base'
     )
   );
-  protected readonly stepperColumnClass = computed(() => 'border-border flex shrink-0 flex-col border-l');
+  protected readonly stepperColumnClass = computed(() => 'border-border flex shrink-0 flex-col border-s');
   protected readonly stepperClass = computed(
     () =>
       'text-foreground-muted hover:bg-hover-overlay hover:text-foreground flex flex-1 items-center justify-center px-1.5 disabled:pointer-events-none disabled:opacity-40'
