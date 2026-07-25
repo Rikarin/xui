@@ -1,6 +1,7 @@
 import { BooleanInput, NumberInput } from '@angular/cdk/coercion';
 import { NgTemplateOutlet } from '@angular/common';
 import {
+  afterNextRender,
   booleanAttribute,
   ChangeDetectionStrategy,
   Component,
@@ -26,11 +27,14 @@ import {
   createGridSizeStore,
   indexAtPosition,
   regionBounds,
+  regionContainsRow,
+  rowRegion,
   tableRegion,
   toggleRegion,
   visibleRange,
   type Region
 } from '@xui/core/grid';
+import { injectElementSize } from '@xui/core/interactions';
 import type { ClassValue } from 'clsx';
 import { XuiDataCell } from './data-cell';
 import type { CellCoord, SortState, XuiDataColumn } from './data-table.types';
@@ -61,21 +65,30 @@ import type { CellCoord, SortState, XuiDataColumn } from './data-table.types';
     >
       <!-- Header row: sticks to the top, scrolls horizontally with the body. -->
       <div role="row" [class]="headerRowClass()" [style.height.px]="headerHeight()" [style.width.px]="totalWidth()">
-        @for (column of orderedColumns(); track column.id; let c = $index) {
+        @if (showRowHeader()) {
+          <!-- Corner cell: pinned to the top-left over both sticky axes. -->
+          <div
+            role="columnheader"
+            [class]="cornerClass()"
+            [style.width.px]="rowHeaderWidth()"
+            [style.height.px]="headerHeight()"
+          ></div>
+        }
+        @for (rc of renderColumns(); track rc.column.id) {
           <!-- Header sort/reorder is a pointer convenience; the grid container owns keyboard interaction. -->
           <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
           <div
             role="columnheader"
-            [attr.data-col]="c"
-            [class]="headerCellClass(column, c)"
-            [style.left.px]="columnOffset(c)"
-            [style.width.px]="columnWidth(c)"
-            [attr.aria-sort]="ariaSort(column)"
-            (mousedown)="startReorder(c, $event)"
-            (click)="onHeaderClick(column)"
+            [attr.data-col]="rc.index"
+            [class]="headerCellClass(rc.column, rc.index, rc.frozen)"
+            [style.left.px]="cellLeft(rc.index, rc.frozen)"
+            [style.width.px]="columnWidth(rc.index)"
+            [attr.aria-sort]="ariaSort(rc.column)"
+            (mousedown)="startReorder(rc.index, $event)"
+            (click)="onHeaderClick(rc.column)"
           >
-            <span class="truncate">{{ column.header }}</span>
-            @if (sort()?.columnId === column.id) {
+            <span class="truncate">{{ rc.column.header }}</span>
+            @if (sort()?.columnId === rc.column.id) {
               <span class="text-foreground-muted ml-1 shrink-0 text-xs">{{
                 sort()!.direction === 'asc' ? '▲' : '▼'
               }}</span>
@@ -83,8 +96,8 @@ import type { CellCoord, SortState, XuiDataColumn } from './data-table.types';
             <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
             <span
               class="hover:bg-primary/40 absolute top-0 right-0 h-full w-1 cursor-col-resize"
-              (mousedown)="startResize(c, $event)"
-              (dblclick)="autoFitColumn(c, $event)"
+              (mousedown)="startResize(rc.index, $event)"
+              (dblclick)="autoFitColumn(rc.index, $event)"
               (click)="$event.stopPropagation()"
             ></span>
           </div>
@@ -99,49 +112,72 @@ import type { CellCoord, SortState, XuiDataColumn } from './data-table.types';
 
       <!-- Body: a full-height spacer with only the visible rows absolutely placed. -->
       <div [class]="bodyClass()" [style.width.px]="totalWidth()" [style.height.px]="totalHeight()">
+        <!-- Frozen rows stay pinned below the header; scrolling rows are windowed. -->
+        @for (rowIndex of frozenRowIndices(); track rowIndex) {
+          <ng-container [ngTemplateOutlet]="rowTpl" [ngTemplateOutletContext]="{ $implicit: rowIndex, frozen: true }" />
+        }
         @for (rowIndex of visibleRows(); track rowIndex) {
+          <ng-container
+            [ngTemplateOutlet]="rowTpl"
+            [ngTemplateOutletContext]="{ $implicit: rowIndex, frozen: false }"
+          />
+        }
+      </div>
+    </div>
+
+    <ng-template #rowTpl let-rowIndex let-frozen="frozen">
+      <div
+        role="row"
+        [attr.aria-rowindex]="rowIndex + 1"
+        [class]="rowClass(frozen)"
+        [style.top.px]="rowTop(rowIndex, frozen)"
+        [style.height.px]="rowHeight()"
+        [style.width.px]="totalWidth()"
+      >
+        @if (showRowHeader()) {
+          <!-- Row-header gutter cell: sticky-left, selects the whole row on click. -->
+          <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
           <div
-            role="row"
-            [attr.aria-rowindex]="rowIndex + 1"
-            class="absolute"
-            [style.top.px]="rowOffset(rowIndex)"
-            [style.height.px]="rowHeight()"
-            [style.width.px]="totalWidth()"
+            role="rowheader"
+            [class]="rowHeaderClass(rowIndex)"
+            [style.width.px]="rowHeaderWidth()"
+            (click)="onRowHeaderClick(rowIndex, $event)"
           >
-            @for (column of orderedColumns(); track column.id; let c = $index) {
-              <!-- Cell focus/selection is a pointer convenience; arrow-key navigation runs on the grid container. -->
-              <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
-              <div
-                role="gridcell"
-                [attr.data-col]="c"
-                [attr.aria-colindex]="c + 1"
-                [attr.aria-selected]="selectable() ? isSelected(rowIndex, c) : null"
-                [class]="cellClass(rowIndex, c, column)"
-                [style.left.px]="columnOffset(c)"
-                [style.width.px]="columnWidth(c)"
-                (click)="onCellClick(rowIndex, c, $event)"
-              >
-                @if (cellTemplate(); as tpl) {
-                  <ng-container
-                    [ngTemplateOutlet]="tpl.template"
-                    [ngTemplateOutletContext]="{
-                      $implicit: displayData()[rowIndex],
-                      row: displayData()[rowIndex],
-                      column: column,
-                      value: cellValue(rowIndex, c),
-                      rowIndex: rowIndex,
-                      colIndex: c
-                    }"
-                  />
-                } @else {
-                  <span class="truncate">{{ cellValue(rowIndex, c) }}</span>
-                }
-              </div>
+            {{ rowIndex + 1 }}
+          </div>
+        }
+        @for (rc of renderColumns(); track rc.column.id) {
+          <!-- Cell focus/selection is a pointer convenience; arrow-key navigation runs on the grid container. -->
+          <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
+          <div
+            role="gridcell"
+            [attr.data-col]="rc.index"
+            [attr.aria-colindex]="rc.index + 1"
+            [attr.aria-selected]="selectable() ? isSelected(rowIndex, rc.index) : null"
+            [class]="cellClass(rowIndex, rc.index, rc.column, rc.frozen)"
+            [style.left.px]="cellLeft(rc.index, rc.frozen)"
+            [style.width.px]="columnWidth(rc.index)"
+            (click)="onCellClick(rowIndex, rc.index, $event)"
+          >
+            @if (cellTemplate(); as tpl) {
+              <ng-container
+                [ngTemplateOutlet]="tpl.template"
+                [ngTemplateOutletContext]="{
+                  $implicit: cellValue(rowIndex, rc.index),
+                  row: displayData()[rowIndex],
+                  column: rc.column,
+                  value: cellValue(rowIndex, rc.index),
+                  rowIndex: rowIndex,
+                  colIndex: rc.index
+                }"
+              />
+            } @else {
+              <span class="truncate">{{ cellValue(rowIndex, rc.index) }}</span>
             }
           </div>
         }
       </div>
-    </div>
+    </ng-template>
   `,
   host: {
     '[class]': 'computedClass()'
@@ -171,6 +207,14 @@ export class XuiDataTable<T> {
   readonly enableMultipleSelection = input<boolean, BooleanInput>(true, { transform: booleanAttribute });
   /** Allow reordering columns by dragging their headers. */
   readonly reorderable = input<boolean, BooleanInput>(true, { transform: booleanAttribute });
+  /** Show a leading row-header gutter (row numbers; click to select the whole row). */
+  readonly showRowHeader = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
+  /** Width of the row-header gutter in pixels. */
+  readonly rowHeaderWidth = input<number, NumberInput>(48, { transform: numberAttribute });
+  /** Number of leading columns to freeze (pinned left while the rest scroll). */
+  readonly numFrozenColumns = input<number, NumberInput>(0, { transform: numberAttribute });
+  /** Number of leading rows to freeze (pinned below the header while the rest scroll). */
+  readonly numFrozenRows = input<number, NumberInput>(0, { transform: numberAttribute });
 
   /** The focused cell. Two-way bindable with `[(focusedCell)]`. */
   readonly focusedCell = model<CellCoord | null>(null);
@@ -188,7 +232,12 @@ export class XuiDataTable<T> {
   protected readonly cellTemplate = contentChild(XuiDataCell<T>);
 
   private readonly scrollTop = signal(0);
+  private readonly scrollLeft = signal(0);
   private readonly viewportHeight = computed(() => this.height() - this.headerHeight());
+  /** Measured scroll-viewport width; drives horizontal (column) virtualization. 0 until measured. */
+  private readonly measuredWidth = signal(0);
+  /** ResizeObserver fallback so the window re-measures on layout changes. */
+  private readonly hostSize = injectElementSize();
   protected readonly sort = signal<SortState | null>(null);
 
   /** The anchor cell for shift-extended range selection. */
@@ -210,6 +259,9 @@ export class XuiDataTable<T> {
   });
 
   constructor() {
+    // Measure the scroll viewport once it exists, so the first paint windows columns correctly.
+    afterNextRender(() => this.measuredWidth.set(this.scrollEl().nativeElement.clientWidth));
+
     // Apply each column's explicit `width` to the size store when columns change.
     // `columnOrder` resets to identity here, so display position == source index.
     effect(() => {
@@ -241,11 +293,61 @@ export class XuiDataTable<T> {
     return [...data].sort((a, b) => factor * compareValues(this.readValue(column, a), this.readValue(column, b)));
   });
 
-  protected readonly totalWidth = computed(() => this.columnStore.total());
+  /** Width of the leading row-header gutter (0 when hidden). */
+  protected readonly gutter = computed(() => (this.showRowHeader() ? this.rowHeaderWidth() : 0));
+  protected readonly totalWidth = computed(() => this.columnStore.total() + this.gutter());
   protected readonly totalHeight = computed(() => this.rowStore.total());
 
-  /** The window of row indices to render, from the scroll position + overscan. */
+  /** Number of leading columns actually frozen (clamped to the column count). */
+  protected readonly frozenCols = computed(() =>
+    Math.max(0, Math.min(this.numFrozenColumns(), this.orderedColumns().length))
+  );
+
+  /**
+   * The columns to render: every frozen column (always) plus the window of
+   * scrolling columns visible at the current horizontal scroll. Until the host is
+   * measured (e.g. under jsdom), the viewport is treated as unbounded so all
+   * columns render.
+   */
+  protected readonly renderColumns = computed<{ column: XuiDataColumn<T>; index: number; frozen: boolean }[]>(() => {
+    const columns = this.orderedColumns();
+    const count = columns.length;
+    const frozen = this.frozenCols();
+    const out: { column: XuiDataColumn<T>; index: number; frozen: boolean }[] = [];
+    for (let i = 0; i < frozen; i++) {
+      out.push({ column: columns[i], index: i, frozen: true });
+    }
+
+    const offsets = this.columnStore.offsets();
+    // Prefer the directly-measured viewport; fall back to the ResizeObserver reading.
+    const measured = this.measuredWidth() || this.hostSize().width;
+    const viewport = measured > 0 ? measured - this.gutter() : Number.POSITIVE_INFINITY;
+
+    let first = frozen;
+    let last = count - 1;
+    if (viewport !== Number.POSITIVE_INFINITY) {
+      // Scrolling columns start past the frozen band, which covers the left edge.
+      const frozenWidth = offsets[frozen];
+      const [f, l] = visibleRange(offsets, this.scrollLeft() + frozenWidth, viewport - frozenWidth, this.overscan());
+      first = Math.max(frozen, f);
+      last = l;
+    }
+    for (let i = first; i <= last; i++) {
+      out.push({ column: columns[i], index: i, frozen: false });
+    }
+    return out;
+  });
+
+  /** Number of leading rows actually frozen (clamped to the row count). */
+  protected readonly frozenRows = computed(() =>
+    Math.max(0, Math.min(this.numFrozenRows(), this.displayData().length))
+  );
+  /** The always-rendered frozen row indices. */
+  protected readonly frozenRowIndices = computed(() => Array.from({ length: this.frozenRows() }, (_, i) => i));
+
+  /** The window of scrolling row indices to render (excludes frozen rows). */
   protected readonly visibleRows = computed(() => {
+    const frozen = this.frozenRows();
     const [first, last] = visibleRange(
       this.rowStore.offsets(),
       this.scrollTop(),
@@ -253,7 +355,7 @@ export class XuiDataTable<T> {
       this.overscan()
     );
     const rows: number[] = [];
-    for (let i = first; i <= last; i++) {
+    for (let i = Math.max(frozen, first); i <= last; i++) {
       rows.push(i);
     }
     return rows;
@@ -267,7 +369,7 @@ export class XuiDataTable<T> {
       'focus-visible:outline-focus relative overflow-auto outline-none focus-visible:outline-2 focus-visible:-outline-offset-2'
     )
   );
-  protected readonly headerRowClass = computed(() => xui('bg-surface-inset border-border sticky top-0 z-10 border-b'));
+  protected readonly headerRowClass = computed(() => xui('bg-surface-inset border-border sticky top-0 z-30 border-b'));
   protected readonly bodyClass = computed(() => xui('relative'));
 
   // --- column reorder drag state ---
@@ -286,7 +388,11 @@ export class XuiDataTable<T> {
   });
 
   protected columnOffset(index: number): number {
-    return this.columnStore.offsets()[index];
+    return this.columnStore.offsets()[index] + this.gutter();
+  }
+  /** Left position of a cell: frozen columns are offset by the scroll so they stay pinned. */
+  protected cellLeft(index: number, frozen: boolean): number {
+    return frozen ? this.columnOffset(index) + this.scrollLeft() : this.columnOffset(index);
   }
   protected columnWidth(index: number): number {
     return this.columnStore.size(index);
@@ -294,29 +400,57 @@ export class XuiDataTable<T> {
   protected rowOffset(index: number): number {
     return this.rowStore.offsets()[index];
   }
+  /** Top position of a row: frozen rows are offset by the scroll so they stay pinned. */
+  protected rowTop(index: number, frozen: boolean): number {
+    return frozen ? this.rowOffset(index) + this.scrollTop() : this.rowOffset(index);
+  }
+  protected rowClass(frozen: boolean): string {
+    // Frozen rows ride above the scrolling rows *and* their pinned frozen-column
+    // cells (z-20), so the frozen-row×frozen-column corner stays on top.
+    return xui('absolute', frozen && 'bg-surface z-[25]');
+  }
 
-  protected headerCellClass(column: XuiDataColumn<T>, colIndex: number): string {
+  protected cornerClass(): string {
+    return xui('bg-surface-inset border-border sticky left-0 top-0 z-40 border-r border-b');
+  }
+
+  protected rowHeaderClass(rowIndex: number): string {
     return xui(
-      'text-foreground-muted absolute top-0 flex h-full items-center border-r border-border px-3 font-medium',
+      'bg-surface-inset text-foreground-muted border-border/60 sticky left-0 z-10 flex h-full cursor-pointer items-center justify-center border-r border-b text-xs tabular-nums select-none',
+      this.isRowSelected(rowIndex) && 'bg-primary/15 text-foreground'
+    );
+  }
+
+  protected headerCellClass(column: XuiDataColumn<T>, colIndex: number, frozen = false): string {
+    return xui(
+      'text-foreground-muted border-border absolute top-0 flex h-full items-center border-r px-3 font-medium',
       alignClass(column.align),
       column.sortable && 'hover:text-foreground cursor-pointer select-none',
       this.reorderable() && 'cursor-grab',
+      // Frozen headers sit above both the scrolling body cells and the sticky header row.
+      frozen && 'bg-surface-inset z-30',
       this.reorderSource() === colIndex && 'opacity-40'
     );
   }
 
-  protected cellClass(rowIndex: number, colIndex: number, column: XuiDataColumn<T>): string {
+  protected cellClass(rowIndex: number, colIndex: number, column: XuiDataColumn<T>, frozen = false): string {
     const focused = this.focusedCell();
     const isFocused = focused?.row === rowIndex && focused?.col === colIndex;
     const isSelected = this.isSelected(rowIndex, colIndex);
     return xui(
       'border-border/60 text-foreground absolute top-0 flex h-full items-center border-r border-b px-3',
       alignClass(column.align),
+      // Frozen cells need an opaque base and a raised layer so scrolling cells pass under them.
+      frozen && 'bg-surface z-20',
       isFocused
         ? 'bg-primary/15 ring-primary ring-inset ring-1'
         : isSelected
-          ? 'bg-primary/10'
-          : 'hover:bg-surface-inset/40'
+          ? frozen
+            ? 'bg-primary/15'
+            : 'bg-primary/10'
+          : frozen
+            ? ''
+            : 'hover:bg-surface-inset/40'
     );
   }
 
@@ -345,7 +479,10 @@ export class XuiDataTable<T> {
   }
 
   protected onScroll(): void {
-    this.scrollTop.set(this.scrollEl().nativeElement.scrollTop);
+    const el = this.scrollEl().nativeElement;
+    this.scrollTop.set(el.scrollTop);
+    this.scrollLeft.set(el.scrollLeft);
+    this.measuredWidth.set(el.clientWidth);
   }
 
   // --- selection ---
@@ -367,6 +504,30 @@ export class XuiDataTable<T> {
       }
     }
     this.focusCell(rowIndex, colIndex);
+  }
+
+  /** Select whole rows by clicking the row-header gutter (shift-range, ctrl/cmd-toggle). */
+  protected onRowHeaderClick(rowIndex: number, event: MouseEvent): void {
+    if (this.selectable()) {
+      const multi = (event.metaKey || event.ctrlKey) && this.enableMultipleSelection();
+      if (event.shiftKey && this.selectionAnchor()) {
+        const anchor = this.selectionAnchor()!;
+        const region = rowRegion(anchor.row, rowIndex);
+        const base = multi ? this.selection().slice(0, -1) : [];
+        this.selection.set([...base, region]);
+      } else if (multi) {
+        this.selection.set(toggleRegion(this.selection(), rowRegion(rowIndex)));
+        this.selectionAnchor.set({ row: rowIndex, col: 0 });
+      } else {
+        this.selection.set([rowRegion(rowIndex)]);
+        this.selectionAnchor.set({ row: rowIndex, col: 0 });
+      }
+    }
+    this.focusCell(rowIndex, 0);
+  }
+
+  protected isRowSelected(rowIndex: number): boolean {
+    return this.selection().some(region => regionContainsRow(region, rowIndex));
   }
 
   protected focusCell(rowIndex: number, colIndex: number): void {
@@ -458,6 +619,7 @@ export class XuiDataTable<T> {
       }
     }
     this.scrollRowIntoView(row);
+    this.scrollColIntoView(col);
   }
 
   // --- copy-to-clipboard ---
@@ -516,6 +678,27 @@ export class XuiDataTable<T> {
       el.scrollTop = top;
     } else if (bottom > viewBottom) {
       el.scrollTop = bottom - this.viewportHeight();
+    }
+  }
+
+  private scrollColIntoView(col: number): void {
+    // Frozen columns are always on screen; nothing to scroll to.
+    if (col < this.frozenCols()) {
+      return;
+    }
+    const el = this.scrollEl().nativeElement;
+    const offsets = this.columnStore.offsets();
+    const left = offsets[col];
+    const right = offsets[col + 1];
+    // The frozen band and the gutter cover the left edge of the viewport.
+    const frozenWidth = offsets[this.frozenCols()];
+    const viewLeft = el.scrollLeft + frozenWidth;
+    const viewRight = el.scrollLeft + el.clientWidth - this.gutter();
+
+    if (left < viewLeft) {
+      el.scrollLeft = left - frozenWidth;
+    } else if (right > viewRight) {
+      el.scrollLeft = right - (el.clientWidth - this.gutter());
     }
   }
 
@@ -585,7 +768,7 @@ export class XuiDataTable<T> {
     event.preventDefault();
 
     const grid = this.scrollEl().nativeElement;
-    const x = event.clientX - grid.getBoundingClientRect().left + grid.scrollLeft;
+    const x = event.clientX - grid.getBoundingClientRect().left + grid.scrollLeft - this.gutter();
     const last = this.orderedColumns().length - 1;
     this.reorderTarget.set(Math.max(0, Math.min(last, indexAtPosition(this.columnStore.offsets(), x))));
   };

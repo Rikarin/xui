@@ -1,11 +1,14 @@
 import { Directive, inject, TemplateRef } from '@angular/core';
 import type { XuiDataColumn } from './data-table.types';
 
-/** Context passed to a `[xuiDataCell]` template. */
+/** Context passed to a `[xuiDataCell]` template. `$implicit` is the cell value. */
 export interface XuiDataCellContext<T> {
-  $implicit: T;
+  /** The cell value (same as `value`); bound by a bare `let-value`. */
+  $implicit: unknown;
+  /** The whole row. */
   row: T;
   column: XuiDataColumn<T>;
+  /** The cell value. */
   value: unknown;
   rowIndex: number;
   colIndex: number;

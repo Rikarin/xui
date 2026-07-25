@@ -143,6 +143,21 @@ describe('XuiDataTable', () => {
     expect(idHeader.style.width).toBe('80px');
   });
 
+  it('passes the cell value to a bare let-value template ($implicit = value)', () => {
+    const { detect } = render(
+      `<xui-data-table [data]="props().data" [columns]="props().columns" [rowHeight]="30" [height]="200">
+         <ng-template xuiDataCell let-value let-column="column">
+           <b class="probe">{{ column.id }}={{ value }}</b>
+         </ng-template>
+       </xui-data-table>`,
+      { imports: IMPORTS, props: { data: makeData(3), columns: COLUMNS } }
+    );
+    detect();
+
+    const first = document.querySelector('.probe') as HTMLElement;
+    expect(first.textContent).toBe('id=0');
+  });
+
   describe('region selection', () => {
     it('selects a single cell on a plain click', () => {
       const { detect, cmp } = setup();
@@ -321,6 +336,116 @@ describe('XuiDataTable', () => {
       detect();
 
       expect(headers()).toEqual(['ID', 'Name', 'Age']);
+    });
+  });
+
+  describe('row headers', () => {
+    const rowHeaders = () => [...document.querySelectorAll('[role="rowheader"]')] as HTMLElement[];
+
+    it('renders no gutter by default', () => {
+      const { detect } = setup();
+      detect();
+
+      expect(rowHeaders()).toHaveLength(0);
+    });
+
+    it('renders a numbered gutter and offsets data columns when enabled', () => {
+      const { detect } = setup({}, '[showRowHeader]="true" [rowHeaderWidth]="40"');
+      detect();
+
+      expect(rowHeaders()[0].textContent?.trim()).toBe('1');
+      // The first data header now starts after the 40px gutter.
+      const idHeader = [...document.querySelectorAll('[role="columnheader"]')].find(h =>
+        h.textContent?.includes('ID')
+      ) as HTMLElement;
+      expect(idHeader.style.left).toBe('40px');
+    });
+
+    it('selects the whole row when its header is clicked', () => {
+      const { detect, cmp } = setup({}, '[showRowHeader]="true"');
+      detect();
+
+      mouseClick(rowHeaders()[2]);
+      detect();
+
+      expect(cmp.selection()).toEqual([{ rows: [2, 2], cols: null }]);
+      // Every data cell in row 2 reads as selected.
+      expect(cellText(rows()[2]).length).toBe(3);
+      expect([...rows()[2].querySelectorAll('[role="gridcell"][aria-selected="true"]')]).toHaveLength(3);
+    });
+
+    it('shift-clicks row headers to select a contiguous range of rows', () => {
+      const { detect, cmp } = setup({}, '[showRowHeader]="true"');
+      detect();
+
+      mouseClick(rowHeaders()[1]);
+      detect();
+      mouseClick(rowHeaders()[4], { shiftKey: true });
+      detect();
+
+      expect(cmp.selection()).toEqual([{ rows: [1, 4], cols: null }]);
+    });
+  });
+
+  describe('frozen columns', () => {
+    const colHeaders = () => [...document.querySelectorAll('[role="columnheader"]')] as HTMLElement[];
+
+    it('pins leading columns onto a raised, opaque layer', () => {
+      const { detect } = setup({}, '[numFrozenColumns]="1"');
+      detect();
+
+      expect(colHeaders()[0].className).toContain('z-30');
+      expect(colHeaders()[0].className).toContain('bg-surface-inset');
+      // Later columns keep scrolling — no raised layer.
+      expect(colHeaders()[1].className).not.toContain('z-30');
+    });
+
+    it('freezes the matching leading body cells with an opaque raised layer', () => {
+      const { detect } = setup({}, '[numFrozenColumns]="2"');
+      detect();
+
+      const firstRowCells = rows()[0].querySelectorAll('[role="gridcell"]');
+      expect((firstRowCells[0] as HTMLElement).className).toContain('z-20');
+      expect((firstRowCells[1] as HTMLElement).className).toContain('z-20');
+      expect((firstRowCells[2] as HTMLElement).className).not.toContain('z-20');
+    });
+
+    it('clamps numFrozenColumns to the column count without error', () => {
+      const { detect } = setup({}, '[numFrozenColumns]="99"');
+      detect();
+
+      // All three columns become frozen; nothing throws.
+      expect(colHeaders().every(h => h.className.includes('z-30'))).toBe(true);
+    });
+  });
+
+  describe('frozen rows', () => {
+    const frozenRowEls = () => rows().filter(r => r.className.includes('z-[25]'));
+
+    it('pins leading rows on a raised layer, separate from the scroll window', () => {
+      const { detect } = setup({}, '[numFrozenRows]="2"');
+      detect();
+
+      // Rows 1 and 2 render as frozen; higher rows are not.
+      expect(frozenRowEls().map(r => r.getAttribute('aria-rowindex'))).toEqual(['1', '2']);
+      // The windowed rows start after the frozen band (no duplicate row 1/2 in the window).
+      const windowed = rows().filter(r => !r.className.includes('z-[25]'));
+      expect(windowed.every(r => Number(r.getAttribute('aria-rowindex')) > 2)).toBe(true);
+    });
+
+    it('keeps frozen rows rendered after scrolling far down', () => {
+      const { detect } = setup({}, '[numFrozenRows]="2"');
+      detect();
+
+      scrollEl().scrollTop = 3000; // row ~100 at 30px each
+      scrollEl().dispatchEvent(new Event('scroll'));
+      detect();
+
+      const present = rows().map(r => Number(r.getAttribute('aria-rowindex')));
+      expect(present).toContain(1);
+      expect(present).toContain(2);
+      // The scroll window is far away from the frozen rows.
+      expect(Math.max(...present)).toBeGreaterThan(90);
     });
   });
 });
