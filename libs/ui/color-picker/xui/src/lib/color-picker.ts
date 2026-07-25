@@ -32,6 +32,9 @@ import {
 /** The channel model shown in the input row. */
 export type ColorFormat = 'hex' | 'hsl' | 'lch';
 
+/** Upper bound of the LCH chroma axis in the square. */
+const LCH_MAX_C = 132;
+
 /**
  * A color picker: a swatch trigger opens a panel with a saturation/value square,
  * a hue slider, an optional alpha slider, a hex field and preset swatches.
@@ -51,14 +54,14 @@ export type ColorFormat = 'hex' | 'hsl' | 'lch';
 
     @if (open()) {
       <div [class]="panelClass()" role="dialog" aria-label="Color picker">
-        <!-- Saturation / value square -->
-        <div #sv class="relative h-36 w-full cursor-crosshair rounded-md" [style.background]="svBackground()" (mousedown)="startSv($event)">
-          <div class="pointer-events-none absolute h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-white shadow" [style.left.%]="hsv().s" [style.top.%]="100 - hsv().v"></div>
+        <!-- 2D area — its axes depend on the format: S×V (hex/RGB), S×L (HSL), C×L (LCH). -->
+        <div class="relative h-36 w-full cursor-crosshair rounded-md" [style.background]="squareBg()" (mousedown)="startSquare($event)">
+          <div class="pointer-events-none absolute h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-white shadow" [style.left.%]="squareHandle().x" [style.top.%]="squareHandle().y"></div>
         </div>
 
-        <!-- Hue slider -->
-        <div #hue class="relative h-3 w-full cursor-pointer rounded-full" [style.background]="HUE_GRADIENT" (mousedown)="startHue($event)">
-          <div class="pointer-events-none absolute top-1/2 h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-white shadow" [style.left.%]="hsv().h / 3.6"></div>
+        <!-- Hue slider (perceptual LCH strip in LCH mode, sRGB rainbow otherwise) -->
+        <div class="relative h-3 w-full cursor-pointer rounded-full" [style.background]="hueGradient()" (mousedown)="startHue($event)">
+          <div class="pointer-events-none absolute top-1/2 h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-white shadow" [style.left.%]="huePos()"></div>
         </div>
 
         @if (showAlpha()) {
@@ -69,7 +72,7 @@ export type ColorFormat = 'hex' | 'hsl' | 'lch';
         }
 
         <!-- Format selector + channel inputs -->
-        <div class="flex items-center gap-1.5">
+        <div class="flex min-w-0 items-center gap-1.5">
           <select
             [class]="formatSelectClass()"
             (change)="format.set($any($event.target).value)"
@@ -141,15 +144,68 @@ export class XuiColorPicker {
   protected readonly open = signal(false);
   protected readonly hsv = signal<HSV>({ h: 215, s: 91, v: 100 });
   protected readonly alphaValue = signal(1);
+  /** Persistent LCH hue — kept separately since it survives greyscale (chroma 0), unlike HSV hue. */
+  private readonly lchHue = signal(215);
 
   private readonly currentRgb = computed(() => hsvToRgb(this.hsv()));
   protected readonly hslValue = computed(() => rgbToHsl(this.currentRgb()));
   protected readonly lchValue = computed(() => rgbToLch(this.currentRgb()));
 
   protected readonly hex = computed(() => rgbToHex(hsvToRgb(this.hsv()), this.showAlpha() ? this.alphaValue() : 1));
-  protected readonly svBackground = computed(
-    () => `linear-gradient(to top, #000, transparent), linear-gradient(to right, #fff, hsl(${this.hsv().h} 100% 50%))`
-  );
+
+  /** The 2D square's background — a lightness overlay over a hue/chroma sweep for HSL/LCH, or the classic HSV square. */
+  protected readonly squareBg = computed(() => {
+    // A hard 50% split keeps the mid row clean (base colour), white above, black below.
+    const lightness = 'linear-gradient(to bottom, #fff, rgba(255,255,255,0) 50%, rgba(0,0,0,0) 50%, #000)';
+    switch (this.format()) {
+      case 'hsl': {
+        const h = this.hsv().h;
+        return `${lightness}, linear-gradient(to right, hsl(${h} 0% 50%), hsl(${h} 100% 50%))`;
+      }
+      case 'lch': {
+        const h = this.lchHue();
+        const grey = rgbToHex(lchToRgb({ l: 50, c: 0, h }));
+        const vivid = rgbToHex(lchToRgb({ l: 50, c: LCH_MAX_C, h }));
+        return `${lightness}, linear-gradient(to right, ${grey}, ${vivid})`;
+      }
+      default:
+        return `linear-gradient(to top, #000, transparent), linear-gradient(to right, #fff, hsl(${this.hsv().h} 100% 50%))`;
+    }
+  });
+
+  /** The square handle position (percent), in the active model's axes. */
+  protected readonly squareHandle = computed(() => {
+    switch (this.format()) {
+      case 'hsl': {
+        const hsl = this.hslValue();
+        return { x: hsl.s, y: 100 - hsl.l };
+      }
+      case 'lch': {
+        const lch = this.lchValue();
+        return { x: Math.min(100, (lch.c / LCH_MAX_C) * 100), y: 100 - lch.l };
+      }
+      default: {
+        const hsv = this.hsv();
+        return { x: hsv.s, y: 100 - hsv.v };
+      }
+    }
+  });
+
+  /** The hue slider gradient — a perceptual LCH strip in LCH mode, the sRGB rainbow otherwise. */
+  protected readonly hueGradient = computed(() => {
+    if (this.format() !== 'lch') {
+      return this.HUE_GRADIENT;
+    }
+    const stops: string[] = [];
+    for (let h = 0; h <= 360; h += 30) {
+      stops.push(rgbToHex(lchToRgb({ l: 60, c: 90, h })));
+    }
+    return `linear-gradient(to right, ${stops.join(', ')})`;
+  });
+
+  /** The hue slider handle position (percent). */
+  protected readonly huePos = computed(() => (this.format() === 'lch' ? this.lchHue() : this.hsv().h) / 3.6);
+
   protected readonly alphaGradient = computed(() => {
     const rgb = hsvToRgb(this.hsv());
     return `linear-gradient(to right, rgba(${rgb.r},${rgb.g},${rgb.b},0), rgb(${rgb.r},${rgb.g},${rgb.b}))`;
@@ -165,8 +221,24 @@ export class XuiColorPicker {
           const rgba = parseHex(normalized)!;
           this.hsv.set(rgbToHsv(rgba));
           this.alphaValue.set(rgba.a);
+          const lch = rgbToLch(rgba);
+          if (lch.c > 1) {
+            this.lchHue.set(lch.h);
+          }
         }
       });
+    });
+
+    // Seed the persistent LCH hue from the current colour whenever LCH mode is entered.
+    effect(() => {
+      if (this.format() === 'lch') {
+        untracked(() => {
+          const lch = this.lchValue();
+          if (lch.c > 1) {
+            this.lchHue.set(lch.h);
+          }
+        });
+      }
     });
 
     // Close on outside click.
@@ -222,15 +294,37 @@ export class XuiColorPicker {
   }
 
   // --- drag interactions ---
-  protected startSv(event: MouseEvent): void {
+  protected startSquare(event: MouseEvent): void {
     this.drag(event, (x, y) => {
-      this.hsv.update(hsv => ({ ...hsv, s: Math.round(x * 100), v: Math.round((1 - y) * 100) }));
+      switch (this.format()) {
+        case 'hsl': {
+          // HSL hue == HSV hue; preserve it so dragging to grey/white/black doesn't lose the hue.
+          const h = this.hsv().h;
+          const conv = rgbToHsv(hslToRgb({ h, s: Math.round(x * 100), l: Math.round((1 - y) * 100) }));
+          this.hsv.set({ h, s: conv.s, v: conv.v });
+          break;
+        }
+        case 'lch': {
+          const h = this.lchHue();
+          this.hsv.set(rgbToHsv(lchToRgb({ h, c: Math.round(x * LCH_MAX_C), l: Math.round((1 - y) * 100) })));
+          break;
+        }
+        default:
+          this.hsv.update(hsv => ({ ...hsv, s: Math.round(x * 100), v: Math.round((1 - y) * 100) }));
+      }
       this.commit();
     });
   }
   protected startHue(event: MouseEvent): void {
     this.drag(event, x => {
-      this.hsv.update(hsv => ({ ...hsv, h: Math.round(x * 360) }));
+      const deg = Math.round(x * 360);
+      if (this.format() === 'lch') {
+        this.lchHue.set(deg);
+        const { l, c } = this.lchValue();
+        this.hsv.set(rgbToHsv(lchToRgb({ l, c, h: deg })));
+      } else {
+        this.hsv.update(hsv => ({ ...hsv, h: deg }));
+      }
       this.commit();
     });
   }
@@ -271,7 +365,7 @@ export class XuiColorPicker {
     xui('border-border bg-surface-overlay absolute z-50 mt-2 flex w-60 flex-col gap-3 rounded-lg border p-3 shadow-lg')
   );
   protected readonly hexInputClass = computed(() =>
-    xui('border-border bg-surface text-foreground h-8 flex-1 rounded-md border px-2 text-sm outline-none uppercase')
+    xui('border-border bg-surface text-foreground h-8 w-full min-w-0 flex-1 rounded-md border px-2 text-sm outline-none uppercase')
   );
   protected readonly channelInputClass = computed(() =>
     xui(
