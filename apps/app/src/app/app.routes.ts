@@ -38,6 +38,11 @@ export const routes: Routes = [
         title: 'Theming — xUI'
       },
       {
+        path: 'theme-builder',
+        loadComponent: () => import('./pages/theme-builder').then(m => m.ThemeBuilderPage),
+        title: 'Theme builder — xUI'
+      },
+      {
         path: 'ai-agents',
         loadComponent: () => import('./pages/ai-agents').then(m => m.AiAgents),
         title: 'MCP server and agent skill — xUI'

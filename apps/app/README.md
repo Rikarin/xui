@@ -34,6 +34,29 @@ variable — none of which survive being lifted out of Storybook.
 The guide pages (`getting-started`, `theming`, `ai-agents`) are hand-written components. The token
 table on the theming page is generated from `theme.css`.
 
+## Theme builder
+
+`/docs/theme-builder` edits the tokens a theme declares and writes the result into one `<style>` in
+the head, so the site you are looking at is the preview — header, sidebar and all — and the CSS it
+offers to copy is the same text it applied.
+
+Three things are worth knowing before changing it:
+
+- **Nothing is re-implemented.** A token's current colour is read back out of the browser through an
+  off-screen probe in each scope and a 1×1 canvas, rather than by parsing `oklch()` and
+  `color-mix()` in TypeScript. Reading a token's _stock_ value means doing that with the override
+  stylesheet `disabled` for the duration.
+- **The emitter is where the subtlety is.** `:root` also matches a dark document, so a token whose
+  scopes differ is written to both blocks even when one side is unchanged, and the dark values are
+  repeated under `prefers-color-scheme` because `theme.css` declares its own at a specificity a bare
+  `.dark` cannot beat. `theme-css.spec.ts` pins all of it.
+- **No clipping ancestors in the swatch column.** `@xui/color-picker` floats its panel with
+  `position: absolute` rather than through the CDK overlay, so an accordion or a scroll container
+  around the rows would cut the panel off.
+
+A theme survives a reload through a second pre-paint script in `index.html`, which applies the
+stored CSS before Angular boots. The builder adopts that element by id rather than adding another.
+
 ## Rendering
 
 Every page the app knows about is prerendered — 109 routes, including one per package — and served

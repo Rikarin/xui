@@ -8,6 +8,7 @@ import { LayoutState } from '../core/layout-state';
 const GUIDES = [
   { label: 'Getting started', path: '/docs/getting-started' },
   { label: 'Theming', path: '/docs/theming' },
+  { label: 'Theme builder', path: '/docs/theme-builder' },
   { label: 'AI agents', path: '/docs/ai-agents' },
   { label: 'All components', path: '/docs/components' }
 ];

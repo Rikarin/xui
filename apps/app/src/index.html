@@ -22,6 +22,33 @@
           document.documentElement.classList.add('dark');
         }
       })();
+
+      // A theme built on /docs/theme-builder, re-applied before first paint for the same reason.
+      // Stored as finished CSS so this stays short; the builder adopts the element by its id.
+      (function () {
+        try {
+          var css = localStorage.getItem('xui-docs-theme-css');
+
+          if (!css) {
+            return;
+          }
+
+          var style = document.createElement('style');
+
+          style.id = 'xui-docs-theme-overrides';
+          style.textContent = css;
+          document.head.appendChild(style);
+
+          // These declarations only outrank theme.css's by coming after it, and the build inlines
+          // the critical CSS below this script. Re-appending once the head is complete moves the
+          // element back to the end.
+          document.addEventListener('DOMContentLoaded', function () {
+            document.head.appendChild(style);
+          });
+        } catch (error) {
+          // No store, or a blocked one. The stock theme is a fine fallback.
+        }
+      })();
     </script>
   </head>
   <body>

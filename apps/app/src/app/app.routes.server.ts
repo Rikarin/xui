@@ -13,6 +13,7 @@ export const serverRoutes: ServerRoute[] = [
   { path: 'docs', renderMode: RenderMode.Prerender },
   { path: 'docs/getting-started', renderMode: RenderMode.Prerender },
   { path: 'docs/theming', renderMode: RenderMode.Prerender },
+  { path: 'docs/theme-builder', renderMode: RenderMode.Prerender },
   { path: 'docs/ai-agents', renderMode: RenderMode.Prerender },
   { path: 'docs/components', renderMode: RenderMode.Prerender },
   {
