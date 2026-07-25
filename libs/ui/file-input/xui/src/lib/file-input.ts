@@ -59,10 +59,10 @@ export type XuiFileInputVariants = VariantProps<typeof fileInputVariants>;
   providers: [{ provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => XuiFileInput), multi: true }],
   template: `
     <label [class]="computedClass()">
-      <ng-icon xui size="md" name="matUploadFileRound" class="shrink-0" />
+      <ng-icon xui size="sm" name="matUploadFileRound" class="shrink-0" />
       <span class="min-w-0 flex-1 truncate" [class.text-foreground]="hasSelection()">{{ label() }}</span>
       <span
-        class="bg-surface-raised border-border text-foreground shrink-0 rounded-md border px-3 py-1 text-sm font-medium"
+        class="bg-surface-raised border-border text-foreground my-0.5 me-0.5 flex shrink-0 items-center rounded-md border px-(--control-padding-sm) text-xs font-medium"
       >
         {{ buttonText() }}
       </span>

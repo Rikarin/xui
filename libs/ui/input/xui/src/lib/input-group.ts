@@ -26,11 +26,13 @@ import { XuiInput } from './input';
 // Centre by translate rather than by stretching `inset-y-0`: a sized adornment
 // (an `ng-icon` with an explicit height) would over-constrain top+bottom and pin
 // itself to the top edge. `top-1/2 -translate-y-1/2` centres it at any height.
+// The adornment sizes its own icon, the way a button does: `<ng-icon xui>` defaults to 24px, which
+// inside a 30px field leaves 3px of air and reads as an icon that outgrew its box.
 @Directive({
   selector: '[xuiInputLeftElement]',
   host: {
     class:
-      'absolute start-0 top-1/2 z-10 flex -translate-y-1/2 items-center ps-2.5 text-foreground-muted [&:has(button)]:pointer-events-auto pointer-events-none'
+      'absolute start-(--control-padding-sm) top-1/2 z-10 flex -translate-y-1/2 items-center text-foreground-muted [--ng-icon__size:1rem]! [&_ng-icon]:[--ng-icon__size:1rem]! [&_svg]:size-4 [&:has(button)]:pointer-events-auto pointer-events-none'
   }
 })
 export class XuiInputLeftElement {}
@@ -40,7 +42,7 @@ export class XuiInputLeftElement {}
   selector: '[xuiInputRightElement]',
   host: {
     class:
-      'absolute end-0 top-1/2 z-10 flex -translate-y-1/2 items-center pe-2.5 text-foreground-muted [&:has(button)]:pointer-events-auto pointer-events-none'
+      'absolute end-(--control-padding-sm) top-1/2 z-10 flex -translate-y-1/2 items-center text-foreground-muted [--ng-icon__size:1rem]! [&_ng-icon]:[--ng-icon__size:1rem]! [&_svg]:size-4 [&:has(button)]:pointer-events-auto pointer-events-none'
   }
 })
 export class XuiInputRightElement {}
@@ -65,7 +67,7 @@ export class XuiInputRightElement {}
     @if (clearable() && hasValue() && !disabled()) {
       <button
         type="button"
-        class="text-foreground-muted hover:text-foreground absolute end-0 top-1/2 z-10 flex -translate-y-1/2 items-center pe-2.5 transition-colors"
+        class="text-foreground-muted hover:text-foreground absolute end-(--control-padding-sm) top-1/2 z-10 flex -translate-y-1/2 items-center transition-colors [--ng-icon__size:1rem]! [&_ng-icon]:[--ng-icon__size:1rem]! [&_svg]:size-4"
         aria-label="Clear"
         (click)="clear()"
       >

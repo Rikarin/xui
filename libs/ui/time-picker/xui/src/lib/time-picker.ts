@@ -42,7 +42,7 @@ const pad = (value: number, length = 2): string => String(value).padStart(length
         (input)="onField('hour', $event)"
         (keydown)="onKeydown('hour', $event)"
       />
-      <span class="text-foreground-muted">:</span>
+      <span class="text-foreground-muted text-sm">:</span>
       <input
         type="text"
         inputmode="numeric"
@@ -58,7 +58,7 @@ const pad = (value: number, length = 2): string => String(value).padStart(length
       />
 
       @if (showSeconds()) {
-        <span class="text-foreground-muted">:</span>
+        <span class="text-foreground-muted text-sm">:</span>
         <input
           type="text"
           inputmode="numeric"
@@ -75,7 +75,7 @@ const pad = (value: number, length = 2): string => String(value).padStart(length
       }
 
       @if (showMillis()) {
-        <span class="text-foreground-muted">.</span>
+        <span class="text-foreground-muted text-sm">.</span>
         <input
           type="text"
           inputmode="numeric"
