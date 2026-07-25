@@ -425,6 +425,89 @@ describe('XuiNodeGraph viewport', () => {
   });
 });
 
+describe('XuiNodeGraph content projection', () => {
+  /**
+   * Angular matches projection selectors against lower-cased attribute names, so
+   * a camelCase `select` silently matches nothing and the element lands in the
+   * default slot instead. For an overlay that means being placed inside the
+   * canvas transform, where it pans and zooms with the content and its `inset-0`
+   * collapses against a zero-sized parent — which is exactly what happened.
+   */
+  it('places overlay content outside the panning canvas', () => {
+    const { host } = setup(
+      `<xui-node-graph>
+         <xui-graph-node nodeId="a" [position]="{ x: 0, y: 0 }" />
+         <xui-graph-overlay id="furniture">controls</xui-graph-overlay>
+       </xui-node-graph>`
+    );
+    const overlay = host.querySelector('#furniture');
+    const canvas = host.querySelector('xui-graph-node')?.parentElement;
+
+    expect(overlay).not.toBeNull();
+    expect(canvas?.contains(overlay!)).toBe(false);
+    expect(overlay?.parentElement?.tagName.toLowerCase()).toBe('xui-node-graph');
+  });
+
+  it('leaves presses on overlay furniture to the overlay', () => {
+    const { host, store } = setup(
+      `<xui-node-graph>
+         <xui-graph-node nodeId="a" [position]="{ x: 0, y: 0 }" />
+         <xui-graph-overlay><button id="act" type="button">Act</button></xui-graph-overlay>
+         <xui-graph-controls />
+       </xui-node-graph>`
+    );
+
+    // Every overlay carries the marker the canvas checks before it claims a
+    // press. Losing it means the canvas captures the pointer for a pan and the
+    // release never reaches the button, so a click never happens at all.
+    for (const selector of ['xui-graph-overlay', 'xui-graph-controls']) {
+      expect(host.querySelector(selector)?.hasAttribute('data-xui-graph-overlay')).toBe(true);
+    }
+
+    const button = host.querySelector('#act') as HTMLElement;
+
+    button.dispatchEvent(new MouseEvent('pointerdown', { bubbles: true, cancelable: true, button: 0 }));
+
+    // A canvas gesture would have started panning and cleared the selection.
+    expect(store.viewport()).toEqual({ x: 0, y: 0, zoom: 1 });
+  });
+
+  it('places the graph controls and minimap in the overlay layer too', () => {
+    const { host } = setup(
+      `<xui-node-graph>
+         <xui-graph-node nodeId="a" [position]="{ x: 0, y: 0 }" />
+         <xui-graph-controls />
+         <xui-graph-minimap />
+       </xui-node-graph>`
+    );
+    const canvas = host.querySelector('xui-graph-node')?.parentElement;
+
+    expect(canvas?.querySelector('xui-graph-controls')).toBeNull();
+    expect(canvas?.querySelector('xui-graph-minimap')).toBeNull();
+  });
+
+  it('slots a node header, preview and actions ahead of the ports', () => {
+    const { host } = setup(
+      `<xui-node-graph>
+         <xui-graph-node nodeId="a" [position]="{ x: 0, y: 0 }">
+           <xui-graph-node-header id="title">Amp</xui-graph-node-header>
+           <xui-graph-node-preview id="preview" />
+           <xui-graph-node-actions id="menu" />
+           <xui-graph-port portId="in" direction="input" />
+         </xui-graph-node>
+       </xui-node-graph>`
+    );
+    const node = host.querySelector('xui-graph-node') as HTMLElement;
+    const order = [...node.querySelectorAll('#title, #menu, #preview, xui-graph-port')].map(
+      el => el.id || el.tagName.toLowerCase()
+    );
+
+    // Header and actions share the title bar; the preview sits between it and
+    // the port rows. Anything mis-projected would fall to the end instead.
+    expect(order).toEqual(['title', 'menu', 'preview', 'xui-graph-port']);
+  });
+});
+
 describe('XuiNodeGraph rendering', () => {
   const paths = (result: RenderResult<Props>) =>
     result.queryAll<SVGPathElement>('svg path').filter(path => path.getAttribute('stroke') !== 'transparent');

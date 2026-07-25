@@ -194,7 +194,7 @@ let nextGraphId = 0;
       ></div>
     }
 
-    <ng-content select="[xuiGraphOverlay], xui-graph-controls, xui-graph-minimap" />
+    <ng-content select="xui-graph-overlay, xui-graph-controls, xui-graph-minimap" />
   `,
   styles: `
     @keyframes xui-graph-edge-flow {
@@ -476,8 +476,10 @@ export class XuiNodeGraph {
 
   protected readonly computedClass = computed(() =>
     xui(
+      // The canvas is focusable so its shortcuts work, but draws no focus ring:
+      // a ring around the whole editor reads as a selection the user did not make,
+      // and every element inside it that can hold focus rings on its own.
       'bg-background relative block touch-none overflow-hidden outline-none',
-      'focus-visible:ring-focus focus-visible:ring-2 focus-visible:-outline-offset-2',
       this.class()
     )
   );

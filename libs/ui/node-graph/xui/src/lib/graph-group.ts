@@ -10,6 +10,7 @@ import {
   input,
   numberAttribute,
   type OnInit,
+  signal,
   ViewEncapsulation
 } from '@angular/core';
 import { xui } from '@xui/core';
@@ -67,7 +68,7 @@ const HEADER_HEIGHT = 26;
     '[style.display]': 'bounds() ? null : "none"',
     '[style.border-color]': 'color()',
     '[style.background]': 'background()',
-    '[style.cursor]': 'immovable() ? null : "grab"',
+    '[style.cursor]': 'cursor()',
     '(pointerdown)': 'onPointerDown($event)',
     '(pointermove)': 'onPointerMove($event)',
     '(pointerup)': 'onPointerUp($event)',
@@ -79,7 +80,7 @@ const HEADER_HEIGHT = 26;
 export class XuiGraphGroup implements XuiGraphGroupHandle, OnInit {
   private readonly store = inject(XuiNodeGraphStore);
   private readonly element = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
-  private dragOrigin: { x: number; y: number } | null = null;
+  private readonly dragOrigin = signal<{ x: number; y: number } | null>(null);
 
   /** Matches the `group` input on the nodes that belong to this frame. */
   readonly groupId = input.required<string>();
@@ -116,8 +117,16 @@ export class XuiGraphGroup implements XuiGraphGroupHandle, OnInit {
    */
   readonly headerHeight = computed(() => (this.label() ? HEADER_HEIGHT : 0));
 
-  /** The frame, in graph space. `null` while the group has no members. */
-  readonly bounds = computed(() => this.store.groupBounds(this.groupId()));
+  /**
+   * The frame, in graph space. `null` while the group has no members.
+   *
+   * Pinned to where it stood at the start of a node drag, so a member dragged out
+   * leaves a box that stays still instead of stretching it and snapping back.
+   */
+  readonly bounds = computed(() => this.store.groupFrame(this.groupId()));
+
+  /** `true` while a dragged node hovers over this frame and would land in it. */
+  readonly dropTarget = computed(() => this.store.dropTargetGroups().has(this.groupId()));
 
   readonly members = computed(() => this.store.nodesInGroup(this.groupId()).map(node => node.nodeId()));
 
@@ -136,14 +145,20 @@ export class XuiGraphGroup implements XuiGraphGroupHandle, OnInit {
     return bounds ? `translate(${bounds.x}px, ${bounds.y}px)` : null;
   });
 
-  protected readonly background = computed(() => `color-mix(in oklab, ${this.color()} 10%, transparent)`);
+  protected readonly cursor = computed(() => (this.dragOrigin() ? 'grabbing' : this.immovable() ? null : 'grab'));
+
+  // Deepen the tint when the frame is about to claim a node, so the answer to
+  // "which group is this going into?" is visible before the button comes up.
+  protected readonly background = computed(
+    () => `color-mix(in oklab, ${this.color()} ${this.dropTarget() ? 22 : 10}%, transparent)`
+  );
 
   protected readonly computedClass = computed(() =>
     xui(
       // z-index 0 puts the frame under every node, so pressing a member still
       // moves that member and only the gaps between them belong to the group.
-      'absolute top-0 left-0 z-0 flex flex-col rounded-xl border-2 border-dashed select-none',
-      this.selected() && 'border-solid',
+      'absolute top-0 left-0 z-0 flex flex-col rounded-xl border-2 border-dashed transition-colors select-none',
+      (this.selected() || this.dropTarget()) && 'border-solid',
       this.class()
     )
   );
@@ -183,29 +198,28 @@ export class XuiGraphGroup implements XuiGraphGroupHandle, OnInit {
 
     event.preventDefault();
     this.element.setPointerCapture(event.pointerId);
-    this.dragOrigin = { x: event.clientX, y: event.clientY };
+    this.dragOrigin.set({ x: event.clientX, y: event.clientY });
     this.store.beginGroupDrag(this.groupId());
   }
 
   protected onPointerMove(event: PointerEvent): void {
-    if (!this.dragOrigin) {
+    const origin = this.dragOrigin();
+
+    if (!origin) {
       return;
     }
 
     const { zoom } = this.store.viewport();
 
-    this.store.dragNodesBy({
-      x: (event.clientX - this.dragOrigin.x) / zoom,
-      y: (event.clientY - this.dragOrigin.y) / zoom
-    });
+    this.store.dragNodesBy({ x: (event.clientX - origin.x) / zoom, y: (event.clientY - origin.y) / zoom });
   }
 
   protected onPointerUp(event: PointerEvent): void {
-    if (!this.dragOrigin) {
+    if (!this.dragOrigin()) {
       return;
     }
 
-    this.dragOrigin = null;
+    this.dragOrigin.set(null);
     this.element.releasePointerCapture(event.pointerId);
     this.store.endNodeDrag();
   }

@@ -97,17 +97,17 @@ export type XuiGraphNodeVariants = VariantProps<typeof graphNodeVariants>;
         </button>
       }
 
-      <ng-content select="[xuiGraphNodeHeader]" />
+      <ng-content select="xui-graph-node-header" />
 
       @if (label()) {
         <span class="min-w-0 flex-1 truncate">{{ label() }}</span>
       }
 
-      <ng-content select="[xuiGraphNodeActions]" />
+      <ng-content select="xui-graph-node-actions" />
     </div>
 
     @if (!collapsed()) {
-      <ng-content select="[xuiGraphNodePreview]" />
+      <ng-content select="xui-graph-node-preview" />
     }
 
     <!--

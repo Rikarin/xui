@@ -66,6 +66,15 @@ export interface XuiGraphLinking {
   hoverKey: string | null;
 }
 
+/** A drag in flight, with the group frames frozen as they stood when it began. @internal */
+export interface XuiGraphDragState {
+  source: 'node' | 'group';
+
+  /** Ids of the nodes actually moving — locked ones are left out. */
+  ids: ReadonlySet<string>;
+  frames: ReadonlyMap<string, XuiGraphRect>;
+}
+
 /** How a port should render while a wire is being dragged. */
 export type XuiGraphPortLinkState = 'idle' | 'source' | 'valid' | 'invalid';
 
@@ -92,17 +101,19 @@ export class XuiNodeGraphStore {
   /** Node top-left positions captured at the start of a drag, keyed by node id. */
   private dragOrigins = new Map<string, XuiGraphPoint>();
   private dragMoved = false;
-  private dragSource: 'node' | 'group' = 'node';
 
   /**
-   * Group frames as they stood when the drag began.
+   * The drag in flight, including every group frame as it stood when the drag
+   * began. Reactive, because those frozen frames are what the groups *render*
+   * while a node is being dragged, not merely what the drop is judged against.
    *
-   * A drop is judged against these rather than against the live frames, because
-   * a frame grows to follow its own members: measured live, a node could never
-   * leave the group it started in, and measured with that node left out, a frame
-   * shrinks to a box the user never saw and ejects members on the slightest nudge.
+   * Both uses come from the same problem: a frame is sized from its members, so
+   * a live frame stretches to follow the very node being dragged out of it and
+   * then snaps back on release. Pinning the frame for the duration makes the
+   * node visibly leave a box that stays put — and makes the box you can see the
+   * box that decides where the node lands.
    */
-  private dragGroupBounds = new Map<string, XuiGraphRect>();
+  private readonly drag = signal<XuiGraphDragState | null>(null);
 
   /**
    * The graph binds its own `viewport` model and `edges` input here, so those
@@ -552,6 +563,56 @@ export class XuiNodeGraphStore {
   }
 
   /**
+   * The box a frame should be drawn at right now: its live bounds, except while a
+   * node drag is in flight, when it is pinned to where it stood as that drag
+   * began. A group being dragged is never pinned — it has to travel with the
+   * members it is carrying.
+   */
+  groupFrame(groupId: string): XuiGraphRect | null {
+    const drag = this.drag();
+
+    if (drag?.source === 'node') {
+      return drag.frames.get(groupId) ?? this.groupBounds(groupId);
+    }
+
+    return this.groupBounds(groupId);
+  }
+
+  /**
+   * Frames that would take one of the nodes being dragged if it were released
+   * now. Groups render this as a highlight, so which frame is about to claim the
+   * node is visible before the button comes up rather than after.
+   */
+  readonly dropTargetGroups = computed<ReadonlySet<string>>(() => {
+    const drag = this.drag();
+
+    if (!drag || drag.source === 'group') {
+      return EMPTY_IDS;
+    }
+
+    const frames = [...drag.frames];
+    const targets = new Set<string>();
+
+    for (const id of drag.ids) {
+      const node = this.nodeMap().get(id);
+
+      if (!node) {
+        continue;
+      }
+
+      const position = node.position();
+      const size = node.size();
+      const hit = smallestContaining({ x: position.x + size.width / 2, y: position.y + size.height / 2 }, frames);
+
+      if (hit) {
+        targets.add(hit);
+      }
+    }
+
+    return targets;
+  });
+
+  /**
    * Innermost group frame containing a point. Smallest-first, so a frame nested
    * inside another wins the node that lands in the overlap.
    */
@@ -591,16 +652,16 @@ export class XuiNodeGraphStore {
   }
 
   private captureDrag(ids: Iterable<string>, source: 'node' | 'group'): void {
+    const frames = new Map<string, XuiGraphRect>();
+
     this.dragOrigins = new Map();
     this.dragMoved = false;
-    this.dragSource = source;
-    this.dragGroupBounds = new Map();
 
     for (const group of this.groups()) {
       const bounds = this.groupBounds(group.groupId());
 
       if (bounds) {
-        this.dragGroupBounds.set(group.groupId(), bounds);
+        frames.set(group.groupId(), bounds);
       }
     }
 
@@ -611,6 +672,8 @@ export class XuiNodeGraphStore {
         this.dragOrigins.set(id, node.position());
       }
     }
+
+    this.drag.set({ source, ids: new Set(this.dragOrigins.keys()), frames });
   }
 
   /** Offset every dragged node from its captured origin, in graph units. */
@@ -629,7 +692,8 @@ export class XuiNodeGraphStore {
   /** Ends the drag and raises `nodeMove`. Returns whether anything actually moved. */
   endNodeDrag(): boolean {
     const moved = this.dragMoved;
-    const source = this.dragSource;
+    const drag = this.drag();
+    const source = drag?.source ?? 'node';
 
     if (moved) {
       const nodes = [...this.dragOrigins.keys()]
@@ -647,7 +711,7 @@ export class XuiNodeGraphStore {
             position,
             // A group drag carries its own members around; none of them can have
             // changed hands, so there is nothing to report.
-            group: source === 'group' ? undefined : smallestContaining(centre, this.dragGroupBounds)
+            group: source === 'group' || !drag ? undefined : smallestContaining(centre, drag.frames)
           };
         });
 
@@ -655,8 +719,8 @@ export class XuiNodeGraphStore {
     }
 
     this.dragOrigins = new Map();
-    this.dragGroupBounds = new Map();
     this.dragMoved = false;
+    this.drag.set(null);
 
     return moved;
   }
@@ -838,6 +902,7 @@ function smallestContaining(
 
 /** Shared so the `edges` computed keeps a stable identity while unbound. */
 const EMPTY_EDGES: readonly XuiGraphEdge[] = [];
+const EMPTY_IDS: ReadonlySet<string> = new Set();
 
 function samePort(a: XuiGraphPortRef, b: XuiGraphPortRef): boolean {
   return a.nodeId === b.nodeId && a.portId === b.portId;

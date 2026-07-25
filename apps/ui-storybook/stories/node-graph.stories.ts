@@ -127,32 +127,39 @@ const SHADER_PORT_TYPES = {
         </xui-graph-node>
       }
 
-      @if (menu(); as open) {
-        <!-- A full-canvas backdrop: anywhere outside the menu dismisses it. -->
-        <div xuiGraphOverlay class="inset-0" (pointerdown)="menu.set(null)"></div>
+      <!--
+        One overlay element, always projected, with the menu conditional *inside*
+        it. Content inside an @if is projected as a single embedded view, so an
+        overlay wrapped in one would fall into the canvas layer instead of this
+        one and pan away with the graph.
+      -->
+      <xui-graph-overlay class="inset-0" [class.pointer-events-none]="!menu()">
+        @if (menu(); as open) {
+          <!-- Backdrop: a press anywhere outside the menu dismisses it. -->
+          <div class="absolute inset-0" (pointerdown)="menu.set(null)"></div>
 
-        <div
-          xuiGraphOverlay
-          class="bg-surface-overlay border-border shadow-elevation-3 w-52 overflow-hidden rounded-md border py-1"
-          [style.left.px]="open.at.x"
-          [style.top.px]="open.at.y"
-        >
-          <p class="text-foreground-subtle px-3 pt-1 pb-1.5 text-[10px] tracking-wide uppercase">
-            {{ open.options.length ? 'Add node' : 'Nothing accepts ' + (open.drop.port.dataType ?? 'this') }}
-          </p>
+          <div
+            class="bg-surface-overlay border-border shadow-elevation-3 absolute w-52 overflow-hidden rounded-md border py-1"
+            [style.left.px]="open.at.x"
+            [style.top.px]="open.at.y"
+          >
+            <p class="text-foreground-subtle px-3 pt-1 pb-1.5 text-[10px] tracking-wide uppercase">
+              {{ open.options.length ? 'Add node' : 'Nothing accepts ' + (open.drop.port.dataType ?? 'this') }}
+            </p>
 
-          @for (option of open.options; track option.label) {
-            <button
-              type="button"
-              class="hover:bg-hover-overlay flex w-full cursor-pointer items-center gap-2 px-3 py-1.5 text-left text-xs"
-              (click)="create(option, open.drop)"
-            >
-              <span class="h-2.5 w-2.5 shrink-0 rounded-full" [style.background]="option.accent"></span>
-              {{ option.label }}
-            </button>
-          }
-        </div>
-      }
+            @for (option of open.options; track option.label) {
+              <button
+                type="button"
+                class="hover:bg-hover-overlay flex w-full cursor-pointer items-center gap-2 px-3 py-1.5 text-left text-xs"
+                (click)="create(option, open.drop)"
+              >
+                <span class="h-2.5 w-2.5 shrink-0 rounded-full" [style.background]="option.accent"></span>
+                {{ option.label }}
+              </button>
+            }
+          </div>
+        }
+      </xui-graph-overlay>
 
       <xui-graph-controls />
       <xui-graph-minimap />
@@ -503,16 +510,23 @@ const GROUPED_EDGES: XuiGraphEdge[] = [
 ];
 
 /**
- * Frames gather nodes and move them together. Drag a frame — anywhere on it, not
- * just the title — and its whole membership travels with it, wires and all.
+ * Frames gather nodes and move them together.
+ *
+ * **Move a group** — drag the frame anywhere on it, not just the title, and its
+ * whole membership travels with it, wires and all.
+ *
+ * **Move a node into or out of one** — just drag the node. While you do, every
+ * frame holds still at the box it had when you started, and the one that would
+ * claim the node lights up, so where it will land is visible before you let go.
+ * Drag `Amp` onto the blue frame to see it join; drag `LFO` out of the pink one
+ * to see it leave.
  *
  * A frame owns no geometry: it is sized from wherever its members are, so it
- * grows and shrinks as they move, and an empty one renders nothing.
+ * re-fits once the drag settles, and an empty one renders nothing.
  *
- * Membership is declared on the node (`group="synth"`), not by nesting, so
- * dragging a node out of a frame is an ordinary node drag. This story also turns
- * on `adoptOnDrop`: the graph reports which frame a node came to rest in, and the
- * host reassigns it — drag `Amp` onto the blue frame to see it join.
+ * Membership is declared on the node (`group="synth"`), not by nesting. The graph
+ * reports the frame a node came to rest in and the host reassigns it — this story
+ * turns that on with `adoptOnDrop`.
  */
 export const Groups: Story = {
   render: () => ({
@@ -669,7 +683,7 @@ export const InlineWidgets: Story = {
       <xui-node-graph class="border-border h-80 rounded-lg border">
         <xui-graph-node nodeId="noise" label="Noise" accent="var(--color-chart-2)"
                         [position]="{ x: 80, y: 60 }" [width]="240">
-          <div xuiGraphNodePreview class="bg-muted h-16"></div>
+          <xui-graph-node-preview class="bg-muted h-16" />
 
           <xui-graph-port portId="scale" direction="input" label="Scale">
             <input type="range" class="ml-auto w-20 accent-[var(--color-primary)]" />
