@@ -1,11 +1,23 @@
-import { ChangeDetectionStrategy, Component, computed, input, signal, type WritableSignal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+  linkedSignal,
+  signal,
+  viewChild,
+  type WritableSignal
+} from '@angular/core';
 import { moduleMetadata, type Meta, type StoryObj } from '@storybook/angular-vite';
 import {
   XuiNodeGraph,
   XuiNodeGraphImports,
   type XuiGraphConnection,
+  type XuiGraphConnectionDrop,
   type XuiGraphEdge,
+  type XuiGraphNodeMove,
   type XuiGraphPoint,
+  type XuiGraphPortDescriptor,
   type XuiGraphPortDirection,
   type XuiGraphPortShape,
   type XuiGraphRouting
@@ -26,11 +38,33 @@ interface DemoNode {
   accent?: string;
   width?: number;
   position: WritableSignal<XuiGraphPoint>;
+
+  /** Writable so a node dropped on a frame can be adopted by it. */
+  group: WritableSignal<string | undefined>;
+  ports: DemoPort[];
+}
+
+interface DemoGroup {
+  id: string;
+  label?: string;
+  color?: string;
+}
+
+/** Menu box metrics, so it can be kept inside the canvas before it is rendered. */
+const MENU_WIDTH = 208;
+const MENU_HEADER = 32;
+const MENU_ROW = 30;
+const MENU_MARGIN = 8;
+
+/** One entry in the palette the create-on-drop menu offers. */
+interface CatalogEntry {
+  label: string;
+  accent?: string;
   ports: DemoPort[];
 }
 
 const node = (id: string, label: string, x: number, y: number, ports: DemoPort[], extra: Partial<DemoNode> = {}) =>
-  ({ id, label, position: signal({ x, y }), ports, ...extra }) satisfies DemoNode;
+  ({ id, label, position: signal({ x, y }), group: signal(undefined), ports, ...extra }) satisfies DemoNode;
 
 /** A shader-style palette: one colour per data type, taken from the chart ramp. */
 const SHADER_PORT_TYPES = {
@@ -41,14 +75,16 @@ const SHADER_PORT_TYPES = {
 };
 
 /**
- * The shared editing behaviour every demo needs: hold the edges, accept
- * approved connections, drop the selection on Delete.
+ * The shared editing behaviour every demo needs: hold the nodes and edges, accept
+ * approved connections, drop the selection on Delete, and — where a catalog is
+ * supplied — offer a create menu when a wire is let go on empty canvas.
  */
 @Component({
   selector: 'xui-story-graph',
   imports: [XuiNodeGraphImports],
   template: `
     <xui-node-graph
+      #graph
       class="border-border h-[560px] rounded-lg border"
       [edges]="edges()"
       [routing]="routing()"
@@ -59,14 +95,21 @@ const SHADER_PORT_TYPES = {
       [portShape]="portShape()"
       [marker]="marker()"
       (connect)="onConnect($event)"
+      (connectionDrop)="onConnectionDrop($event)"
+      (nodeMove)="onNodeMove($event)"
       (deleteSelection)="onDelete($event)"
     >
-      @for (item of nodes(); track item.id) {
+      @for (group of groups(); track group.id) {
+        <xui-graph-group [groupId]="group.id" [label]="group.label ?? ''" [color]="group.color ?? ''" />
+      }
+
+      @for (item of nodeList(); track item.id) {
         <xui-graph-node
           [nodeId]="item.id"
           [label]="item.label"
           [accent]="item.accent"
           [width]="item.width"
+          [group]="item.group()"
           [portLayout]="portLayout()"
           [collapsible]="collapsible()"
           [(position)]="item.position"
@@ -84,6 +127,33 @@ const SHADER_PORT_TYPES = {
         </xui-graph-node>
       }
 
+      @if (menu(); as open) {
+        <!-- A full-canvas backdrop: anywhere outside the menu dismisses it. -->
+        <div xuiGraphOverlay class="inset-0" (pointerdown)="menu.set(null)"></div>
+
+        <div
+          xuiGraphOverlay
+          class="bg-surface-overlay border-border shadow-elevation-3 w-52 overflow-hidden rounded-md border py-1"
+          [style.left.px]="open.at.x"
+          [style.top.px]="open.at.y"
+        >
+          <p class="text-foreground-subtle px-3 pt-1 pb-1.5 text-[10px] tracking-wide uppercase">
+            {{ open.options.length ? 'Add node' : 'Nothing accepts ' + (open.drop.port.dataType ?? 'this') }}
+          </p>
+
+          @for (option of open.options; track option.label) {
+            <button
+              type="button"
+              class="hover:bg-hover-overlay flex w-full cursor-pointer items-center gap-2 px-3 py-1.5 text-left text-xs"
+              (click)="create(option, open.drop)"
+            >
+              <span class="h-2.5 w-2.5 shrink-0 rounded-full" [style.background]="option.accent"></span>
+              {{ option.label }}
+            </button>
+          }
+        </div>
+      }
+
       <xui-graph-controls />
       <xui-graph-minimap />
     </xui-node-graph>
@@ -92,7 +162,9 @@ const SHADER_PORT_TYPES = {
 })
 class StoryGraph {
   readonly nodes = input.required<DemoNode[]>();
+  readonly groups = input<DemoGroup[]>([]);
   readonly initialEdges = input<XuiGraphEdge[]>([]);
+  readonly catalog = input<CatalogEntry[]>([]);
   readonly routing = input<XuiGraphRouting>('bezier');
   readonly background = input<'none' | 'dots' | 'grid'>('dots');
   readonly gridSize = input(16);
@@ -103,21 +175,116 @@ class StoryGraph {
   readonly marker = input<'none' | 'arrow' | 'arrow-closed' | 'dot'>('none');
   readonly collapsible = input(false);
 
+  /** Re-parent a node into whichever frame it was dropped on. */
+  readonly adoptOnDrop = input(false);
+
+  private readonly graph = viewChild.required<XuiNodeGraph>('graph');
+
+  /** Seeded from the input, but writable so the create menu can add to it. */
+  protected readonly nodeList = linkedSignal(() => [...this.nodes()]);
+  protected readonly menu = signal<{ drop: XuiGraphConnectionDrop; at: XuiGraphPoint; options: CatalogEntry[] } | null>(
+    null
+  );
+
   private readonly added = signal<XuiGraphEdge[]>([]);
   private readonly removed = signal<ReadonlySet<string>>(new Set());
+  private created = 0;
 
   protected readonly edges = computed(() =>
     [...this.initialEdges(), ...this.added()].filter(edge => !this.removed().has(edge.id))
   );
 
   protected onConnect(connection: XuiGraphConnection): void {
-    const id = `${connection.source.nodeId}.${connection.source.portId}->${connection.target.nodeId}.${connection.target.portId}`;
+    this.addEdge(connection);
+  }
 
-    this.added.update(edges => [...edges, { id, ...connection }]);
+  /**
+   * A wire let go on empty canvas. The graph reports where it landed and which
+   * port it came from, so the menu can be placed there and filtered to the node
+   * types that would actually accept the connection.
+   */
+  protected onConnectionDrop(drop: XuiGraphConnectionDrop): void {
+    if (this.catalog().length === 0) {
+      return;
+    }
+
+    const options = this.catalog().filter(entry => !!this.matchingPort(entry, drop.port));
+
+    this.menu.set({ drop, at: this.keepOnCanvas(drop.surfacePosition, options.length), options });
+  }
+
+  /**
+   * Nudge the menu back inside the canvas. The graph clips its own overflow, so a
+   * wire released near an edge would otherwise open a menu that is half cut off
+   * and, below the bottom edge, not clickable at all.
+   */
+  private keepOnCanvas(at: XuiGraphPoint, optionCount: number): XuiGraphPoint {
+    const surface = this.graph().store.surfaceSize();
+    const height = MENU_HEADER + optionCount * MENU_ROW;
+
+    return {
+      x: Math.max(0, Math.min(at.x, surface.width - MENU_WIDTH - MENU_MARGIN)),
+      y: Math.max(0, Math.min(at.y, surface.height - height - MENU_MARGIN))
+    };
+  }
+
+  protected create(entry: CatalogEntry, drop: XuiGraphConnectionDrop): void {
+    const port = this.matchingPort(entry, drop.port);
+
+    this.menu.set(null);
+
+    if (!port) {
+      return;
+    }
+
+    const id = `${entry.label.toLowerCase().replace(/\W+/g, '-')}-${++this.created}`;
+    const created = node(id, entry.label, drop.position.x, drop.position.y - 20, entry.ports, {
+      accent: entry.accent,
+      width: 170
+    });
+
+    this.nodeList.update(nodes => [...nodes, created]);
+
+    // The wire keeps the direction it was drawn in: a drag off an input makes
+    // the new node the source.
+    const end = { nodeId: id, portId: port.id };
+
+    this.addEdge(
+      drop.port.direction === 'input' ? { source: end, target: drop.source } : { source: drop.source, target: end }
+    );
+  }
+
+  protected onNodeMove(move: XuiGraphNodeMove): void {
+    if (!this.adoptOnDrop() || move.source === 'group') {
+      return;
+    }
+
+    for (const moved of move.nodes) {
+      this.nodeList()
+        .find(item => item.id === moved.nodeId)
+        ?.group.set(moved.group);
+    }
   }
 
   protected onDelete({ edges }: { nodes: string[]; edges: string[] }): void {
     this.removed.update(current => new Set([...current, ...edges]));
+  }
+
+  /** The first port on a catalog entry that could take the wire being dropped. */
+  private matchingPort(entry: CatalogEntry, from: XuiGraphPortDescriptor): DemoPort | undefined {
+    const wanted = from.direction === 'input' ? 'output' : 'input';
+
+    return entry.ports.find(
+      port =>
+        (port.direction === 'inout' || port.direction === wanted) &&
+        (!port.dataType || !from.dataType || port.dataType === from.dataType)
+    );
+  }
+
+  private addEdge(connection: XuiGraphConnection): void {
+    const id = `${connection.source.nodeId}.${connection.source.portId}->${connection.target.nodeId}.${connection.target.portId}`;
+
+    this.added.update(edges => [...edges, { id, ...connection }]);
   }
 }
 
@@ -288,16 +455,170 @@ export const Schematic: Story = {
   })
 };
 
+const GROUPED_NODES: DemoNode[] = [
+  node(
+    'osc',
+    'Oscillator',
+    80,
+    120,
+    [
+      { id: 'freq', label: 'Freq', direction: 'input', dataType: 'float' },
+      { id: 'out', label: 'Out', direction: 'output', dataType: 'float' }
+    ],
+    { accent: 'var(--color-chart-1)', width: 160, group: signal<string | undefined>('synth') }
+  ),
+  node(
+    'filter',
+    'Low Pass',
+    300,
+    180,
+    [
+      { id: 'in', label: 'In', direction: 'input', dataType: 'float' },
+      { id: 'cutoff', label: 'Cutoff', direction: 'input', dataType: 'float' },
+      { id: 'out', label: 'Out', direction: 'output', dataType: 'float' }
+    ],
+    { accent: 'var(--color-chart-1)', width: 160, group: signal<string | undefined>('synth') }
+  ),
+  node(
+    'lfo',
+    'LFO',
+    80,
+    420,
+    [
+      { id: 'rate', label: 'Rate', direction: 'input', dataType: 'float' },
+      { id: 'out', label: 'Out', direction: 'output', dataType: 'float' }
+    ],
+    { accent: 'var(--color-chart-5)', width: 160, group: signal<string | undefined>('mod') }
+  ),
+  node('amp', 'Amp', 620, 200, [{ id: 'in', label: 'In', direction: 'input', dataType: 'float' }], {
+    accent: 'var(--color-primary)',
+    width: 150
+  })
+];
+
+const GROUPED_EDGES: XuiGraphEdge[] = [
+  { id: 'g1', source: { nodeId: 'osc', portId: 'out' }, target: { nodeId: 'filter', portId: 'in' } },
+  { id: 'g2', source: { nodeId: 'lfo', portId: 'out' }, target: { nodeId: 'filter', portId: 'cutoff' } },
+  { id: 'g3', source: { nodeId: 'filter', portId: 'out' }, target: { nodeId: 'amp', portId: 'in' } }
+];
+
+/**
+ * Frames gather nodes and move them together. Drag a frame — anywhere on it, not
+ * just the title — and its whole membership travels with it, wires and all.
+ *
+ * A frame owns no geometry: it is sized from wherever its members are, so it
+ * grows and shrinks as they move, and an empty one renders nothing.
+ *
+ * Membership is declared on the node (`group="synth"`), not by nesting, so
+ * dragging a node out of a frame is an ordinary node drag. This story also turns
+ * on `adoptOnDrop`: the graph reports which frame a node came to rest in, and the
+ * host reassigns it — drag `Amp` onto the blue frame to see it join.
+ */
+export const Groups: Story = {
+  render: () => ({
+    props: {
+      nodes: GROUPED_NODES,
+      edges: GROUPED_EDGES,
+      types: SHADER_PORT_TYPES,
+      groups: [
+        { id: 'synth', label: 'Voice', color: 'var(--color-chart-1)' },
+        { id: 'mod', label: 'Modulation', color: 'var(--color-chart-5)' }
+      ]
+    },
+    template: `
+      <xui-story-graph
+        [nodes]="nodes"
+        [groups]="groups"
+        [initialEdges]="edges"
+        [portTypes]="types"
+        [adoptOnDrop]="true"
+      />`
+  })
+};
+
+/** The palette the create-on-drop menu offers, one entry per node type. */
+const CATALOG: CatalogEntry[] = [
+  {
+    label: 'Multiply',
+    accent: 'var(--color-chart-2)',
+    ports: [
+      { id: 'a', label: 'A', direction: 'input', dataType: 'float' },
+      { id: 'b', label: 'B', direction: 'input', dataType: 'float' },
+      { id: 'out', label: 'Result', direction: 'output', dataType: 'float' }
+    ]
+  },
+  {
+    label: 'Clamp',
+    accent: 'var(--color-chart-3)',
+    ports: [
+      { id: 'in', label: 'Value', direction: 'input', dataType: 'float' },
+      { id: 'out', label: 'Out', direction: 'output', dataType: 'float' }
+    ]
+  },
+  {
+    label: 'Mix Colour',
+    accent: 'var(--color-chart-4)',
+    ports: [
+      { id: 'a', label: 'A', direction: 'input', dataType: 'color' },
+      { id: 'b', label: 'B', direction: 'input', dataType: 'color' },
+      { id: 'out', label: 'Out', direction: 'output', dataType: 'color' }
+    ]
+  },
+  {
+    label: 'To Vector',
+    accent: 'var(--color-chart-1)',
+    ports: [
+      { id: 'in', label: 'Scalar', direction: 'input', dataType: 'float' },
+      { id: 'out', label: 'Vector', direction: 'output', dataType: 'vector' }
+    ]
+  },
+  {
+    label: 'Material Output',
+    accent: 'var(--color-primary)',
+    ports: [
+      { id: 'base', label: 'Base Colour', direction: 'input', dataType: 'color' },
+      { id: 'rough', label: 'Roughness', direction: 'input', dataType: 'float' }
+    ]
+  }
+];
+
+const DROP_NODES: DemoNode[] = [
+  node(
+    'noise',
+    'Noise',
+    80,
+    140,
+    [
+      { id: 'scale', label: 'Scale', direction: 'input', dataType: 'float' },
+      { id: 'value', label: 'Value', direction: 'output', dataType: 'float' },
+      { id: 'colour', label: 'Colour', direction: 'output', dataType: 'color' }
+    ],
+    { accent: 'var(--color-chart-6)', width: 180 }
+  )
+];
+
+/**
+ * Drag a wire off one of `Noise`'s outputs and let go over empty canvas: the
+ * graph raises `connectionDrop` with the release point and a full description of
+ * the port, and this story turns that into a menu of node types that would
+ * actually accept the wire.
+ *
+ * Note the filtering — dropping from `Value` (float) offers different entries
+ * than dropping from `Colour`, because the menu is built from the same data type
+ * the connection rules use. Dropping backwards off an *input* works too: the new
+ * node becomes the source and the wire keeps its direction.
+ */
+export const CreateOnDrop: Story = {
+  render: () => ({
+    props: { nodes: DROP_NODES, catalog: CATALOG, types: SHADER_PORT_TYPES },
+    template: `<xui-story-graph [nodes]="nodes" [catalog]="catalog" [portTypes]="types" />`
+  })
+};
+
 /** Every routing mode over the same two nodes, so the difference is visible at a glance. */
 export const Routing: Story = {
   render: () => ({
-    props: {
-      modes: ['bezier', 'orthogonal', 'smoothstep', 'straight'] as XuiGraphRouting[],
-      positions: {
-        a: signal({ x: 30, y: 30 }),
-        b: signal({ x: 210, y: 130 })
-      }
-    },
+    props: { modes: ['bezier', 'orthogonal', 'smoothstep', 'straight'] as XuiGraphRouting[] },
     template: `
       <div class="grid grid-cols-2 gap-4">
         @for (mode of modes; track mode) {

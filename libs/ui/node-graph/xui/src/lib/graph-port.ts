@@ -369,6 +369,10 @@ export class XuiGraphPort implements XuiGraphPortHandle, OnInit {
     }
 
     this.connectorRef().nativeElement.releasePointerCapture(event.pointerId);
+
+    // Refresh the pointer before ending: a release with no preceding move would
+    // otherwise report a create-on-drop position one event out of date.
+    this.store.moveLink(this.store.toGraphPoint(event.clientX, event.clientY));
     this.store.endLink(this.portKeyAt(event.clientX, event.clientY));
   }
 

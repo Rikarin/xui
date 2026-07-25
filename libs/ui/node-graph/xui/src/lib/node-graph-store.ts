@@ -5,6 +5,7 @@ import type {
   XuiGraphConnectionDrop,
   XuiGraphConnectionValidator,
   XuiGraphEdge,
+  XuiGraphGroupHandle,
   XuiGraphNodeHandle,
   XuiGraphNodeMove,
   XuiGraphPoint,
@@ -91,6 +92,17 @@ export class XuiNodeGraphStore {
   /** Node top-left positions captured at the start of a drag, keyed by node id. */
   private dragOrigins = new Map<string, XuiGraphPoint>();
   private dragMoved = false;
+  private dragSource: 'node' | 'group' = 'node';
+
+  /**
+   * Group frames as they stood when the drag began.
+   *
+   * A drop is judged against these rather than against the live frames, because
+   * a frame grows to follow its own members: measured live, a node could never
+   * leave the group it started in, and measured with that node left out, a frame
+   * shrinks to a box the user never saw and ejects members on the slightest nudge.
+   */
+  private dragGroupBounds = new Map<string, XuiGraphRect>();
 
   /**
    * The graph binds its own `viewport` model and `edges` input here, so those
@@ -112,9 +124,11 @@ export class XuiNodeGraphStore {
 
   private readonly nodeMap = signal<ReadonlyMap<string, XuiGraphNodeHandle>>(new Map());
   private readonly portMap = signal<ReadonlyMap<string, XuiGraphPortHandle>>(new Map());
+  private readonly groupMap = signal<ReadonlyMap<string, XuiGraphGroupHandle>>(new Map());
 
   readonly nodes = computed(() => [...this.nodeMap().values()]);
   readonly ports = computed(() => [...this.portMap().values()]);
+  readonly groups = computed(() => [...this.groupMap().values()]);
 
   readonly settings = computed<XuiGraphSettings>(() => this.settingsSource?.() ?? FALLBACK_SETTINGS);
 
@@ -196,6 +210,24 @@ export class XuiNodeGraphStore {
 
       if (next.get(port.key) === port) {
         next.delete(port.key);
+      }
+
+      return next;
+    });
+  }
+
+  /** @internal */
+  registerGroup(group: XuiGraphGroupHandle): void {
+    this.groupMap.update(map => new Map(map).set(group.groupId(), group));
+  }
+
+  /** @internal */
+  unregisterGroup(group: XuiGraphGroupHandle): void {
+    this.groupMap.update(map => {
+      const next = new Map(map);
+
+      if (next.get(group.groupId()) === group) {
+        next.delete(group.groupId());
       }
 
       return next;
@@ -472,6 +504,65 @@ export class XuiNodeGraphStore {
     this.setSelection(additive ? [...this.selectedNodes(), ...hits] : hits, additive ? this.selectedEdges() : []);
   }
 
+  // -------------------------------------------------------------------- groups
+
+  /** The nodes that declare themselves members of a group, in registration order. */
+  nodesInGroup(groupId: string): XuiGraphNodeHandle[] {
+    return this.nodes().filter(node => node.group() === groupId);
+  }
+
+  /**
+   * The frame a group draws: its members' bounding box, grown by the group's own
+   * padding and title bar. A group owns no geometry, so an empty one has no box
+   * at all and renders nothing.
+   *
+   */
+  groupBounds(groupId: string): XuiGraphRect | null {
+    const group = this.groupMap().get(groupId);
+    const members = this.nodesInGroup(groupId);
+
+    if (!group || members.length === 0) {
+      return null;
+    }
+
+    let minX = Infinity;
+    let minY = Infinity;
+    let maxX = -Infinity;
+    let maxY = -Infinity;
+
+    for (const node of members) {
+      const { x, y } = node.position();
+      const { width, height } = node.size();
+
+      minX = Math.min(minX, x);
+      minY = Math.min(minY, y);
+      maxX = Math.max(maxX, x + width);
+      maxY = Math.max(maxY, y + height);
+    }
+
+    const padding = group.padding();
+    const header = group.headerHeight();
+
+    return {
+      x: minX - padding,
+      y: minY - padding - header,
+      width: maxX - minX + padding * 2,
+      height: maxY - minY + padding * 2 + header
+    };
+  }
+
+  /**
+   * Innermost group frame containing a point. Smallest-first, so a frame nested
+   * inside another wins the node that lands in the overlap.
+   */
+  groupAt(point: XuiGraphPoint): string | undefined {
+    const frames = this.groups()
+      .map(group => [group.groupId(), this.groupBounds(group.groupId())] as const)
+      .filter((entry): entry is readonly [string, XuiGraphRect] => !!entry[1]);
+
+    return smallestContaining(point, frames);
+  }
+
   // ------------------------------------------------------------------ dragging
 
   /**
@@ -482,12 +573,38 @@ export class XuiNodeGraphStore {
    */
   beginNodeDrag(nodeId: string): void {
     const selected = this.selectedNodes();
-    const moving = selected.has(nodeId) ? [...selected] : [nodeId];
 
+    this.captureDrag(selected.has(nodeId) ? selected : [nodeId], 'node');
+  }
+
+  /**
+   * Drag a whole group: every member moves together, and the frame follows them
+   * because it is sized from where they are.
+   *
+   * @internal
+   */
+  beginGroupDrag(groupId: string): void {
+    this.captureDrag(
+      this.nodesInGroup(groupId).map(node => node.nodeId()),
+      'group'
+    );
+  }
+
+  private captureDrag(ids: Iterable<string>, source: 'node' | 'group'): void {
     this.dragOrigins = new Map();
     this.dragMoved = false;
+    this.dragSource = source;
+    this.dragGroupBounds = new Map();
 
-    for (const id of moving) {
+    for (const group of this.groups()) {
+      const bounds = this.groupBounds(group.groupId());
+
+      if (bounds) {
+        this.dragGroupBounds.set(group.groupId(), bounds);
+      }
+    }
+
+    for (const id of ids) {
       const node = this.nodeMap().get(id);
 
       if (node && !node.locked()) {
@@ -512,17 +629,33 @@ export class XuiNodeGraphStore {
   /** Ends the drag and raises `nodeMove`. Returns whether anything actually moved. */
   endNodeDrag(): boolean {
     const moved = this.dragMoved;
+    const source = this.dragSource;
 
     if (moved) {
       const nodes = [...this.dragOrigins.keys()]
         .map(id => this.nodeMap().get(id))
         .filter((node): node is XuiGraphNodeHandle => !!node)
-        .map(node => ({ nodeId: node.nodeId(), position: node.position() }));
+        .map(node => {
+          const position = node.position();
+          const size = node.size();
+          // The centre, not the corner: a node half over a frame's edge reads as
+          // being wherever the bulk of it sits.
+          const centre = { x: position.x + size.width / 2, y: position.y + size.height / 2 };
 
-      this.listeners?.nodeMove({ nodes });
+          return {
+            nodeId: node.nodeId(),
+            position,
+            // A group drag carries its own members around; none of them can have
+            // changed hands, so there is nothing to report.
+            group: source === 'group' ? undefined : smallestContaining(centre, this.dragGroupBounds)
+          };
+        });
+
+      this.listeners?.nodeMove({ source, nodes });
     }
 
     this.dragOrigins = new Map();
+    this.dragGroupBounds = new Map();
     this.dragMoved = false;
 
     return moved;
@@ -573,7 +706,16 @@ export class XuiNodeGraphStore {
     }
 
     if (!dropKey) {
-      this.listeners?.connectionDrop({ source: state.from, position: state.pointer });
+      const port = this.descriptor(state.fromKey);
+
+      if (port) {
+        this.listeners?.connectionDrop({
+          source: state.from,
+          port,
+          position: state.pointer,
+          surfacePosition: this.toSurfacePoint(state.pointer)
+        });
+      }
     }
   }
 
@@ -664,6 +806,34 @@ export class XuiNodeGraphStore {
 
     return settings.isValidConnection?.(connection, { source, target, edges }) ?? true;
   }
+}
+
+/**
+ * The smallest of the frames containing a point, so a frame nested inside
+ * another wins the node that lands in the overlap.
+ */
+function smallestContaining(
+  point: XuiGraphPoint,
+  frames: Iterable<readonly [string, XuiGraphRect]>
+): string | undefined {
+  let best: string | undefined;
+  let bestArea = Infinity;
+
+  for (const [id, bounds] of frames) {
+    const inside =
+      point.x >= bounds.x &&
+      point.x <= bounds.x + bounds.width &&
+      point.y >= bounds.y &&
+      point.y <= bounds.y + bounds.height;
+    const area = bounds.width * bounds.height;
+
+    if (inside && area < bestArea) {
+      bestArea = area;
+      best = id;
+    }
+  }
+
+  return best;
 }
 
 /** Shared so the `edges` computed keeps a stable identity while unbound. */

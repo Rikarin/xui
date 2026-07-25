@@ -1,4 +1,5 @@
 import { XuiGraphControls } from './lib/graph-controls';
+import { XuiGraphGroup } from './lib/graph-group';
 import { XuiGraphMinimap } from './lib/graph-minimap';
 import { XuiGraphNode } from './lib/graph-node';
 import {
@@ -12,6 +13,7 @@ import { XuiGraphPort } from './lib/graph-port';
 import { XuiNodeGraph } from './lib/node-graph';
 
 export * from './lib/graph-controls';
+export * from './lib/graph-group';
 export * from './lib/graph-minimap';
 export * from './lib/graph-node';
 export * from './lib/graph-node-slots';
@@ -26,6 +28,7 @@ export const XuiNodeGraphImports = [
   XuiNodeGraph,
   XuiGraphNode,
   XuiGraphPort,
+  XuiGraphGroup,
   XuiGraphControls,
   XuiGraphMinimap,
   XuiGraphNodeHeader,

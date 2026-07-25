@@ -171,6 +171,13 @@ export class XuiGraphNode implements XuiGraphNodeHandle, OnInit {
    */
   readonly accent = input<string>();
 
+  /**
+   * Id of the `<xui-graph-group>` this node belongs to. Membership lives on the
+   * node rather than in the frame, so a node never has to move in the template to
+   * join or leave one.
+   */
+  readonly group = input<string>();
+
   /** Arrangement of the port rows. */
   readonly portLayout = input<XuiGraphPortLayout>('stacked');
 

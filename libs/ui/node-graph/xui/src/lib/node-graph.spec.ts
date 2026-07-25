@@ -1,12 +1,18 @@
 import { render, type RenderResult } from '@xui/testing';
 import { XuiNodeGraphImports } from '../index';
 import type { XuiNodeGraph } from './node-graph';
-import type { XuiGraphConnection, XuiGraphConnectionValidator, XuiGraphEdge } from './node-graph.types';
+import type {
+  XuiGraphConnection,
+  XuiGraphConnectionDrop,
+  XuiGraphConnectionValidator,
+  XuiGraphEdge
+} from './node-graph.types';
 import { xuiGraphPortKey } from './node-graph.types';
 
 interface Props {
   edges: XuiGraphEdge[];
   connected: XuiGraphConnection[];
+  drops: XuiGraphConnectionDrop[];
   validator?: XuiGraphConnectionValidator;
 }
 
@@ -15,7 +21,11 @@ interface Props {
  * wired at all, which is what most of these tests need.
  */
 const PAIR = `
-  <xui-node-graph [edges]="props().edges" (connect)="props().connected.push($event)">
+  <xui-node-graph
+    [edges]="props().edges"
+    (connect)="props().connected.push($event)"
+    (connectionDrop)="props().drops.push($event)"
+  >
     <xui-graph-node nodeId="a" [position]="{ x: 0, y: 0 }">
       <xui-graph-port portId="out" direction="output" dataType="float" />
     </xui-graph-node>
@@ -28,7 +38,7 @@ const PAIR = `
 const setup = (template = PAIR, props: Partial<Props> = {}) => {
   const result = render<Props>(template, {
     imports: [XuiNodeGraphImports],
-    props: { edges: [], connected: [], ...props } as Props
+    props: { edges: [], connected: [], drops: [], ...props } as Props
   });
   const graph = result.fixture.debugElement.query(node => node.name === 'xui-node-graph')
     .componentInstance as XuiNodeGraph;
@@ -237,6 +247,55 @@ describe('XuiNodeGraph linking', () => {
     store.endLink(COLOUR);
 
     expect(connected).toEqual([]);
+  });
+
+  it('describes the source port when a wire lands on empty canvas', () => {
+    const { store, fixture } = setup();
+
+    store.beginLink(store.port(OUT)!, { x: 0, y: 0 });
+    store.moveLink({ x: 120, y: 90 });
+    store.endLink(null);
+
+    // The whole descriptor travels with the drop so a create menu can filter
+    // itself to what would actually connect, without a second lookup.
+    expect(fixture.componentInstance.props().drops).toEqual([
+      {
+        source: { nodeId: 'a', portId: 'out' },
+        port: {
+          nodeId: 'a',
+          portId: 'out',
+          direction: 'output',
+          side: 'right',
+          dataType: 'float',
+          maxConnections: Infinity,
+          disabled: false,
+          connections: 0
+        },
+        position: { x: 120, y: 90 },
+        surfacePosition: { x: 120, y: 90 }
+      }
+    ]);
+  });
+
+  it('reports the drop point in surface coordinates through the viewport', () => {
+    const { store, fixture } = setup();
+
+    store.zoomTo(2);
+    store.panBy(30, 10);
+    store.beginLink(store.port(OUT)!, { x: 0, y: 0 });
+    store.moveLink({ x: 50, y: 25 });
+    store.endLink(null);
+
+    expect(fixture.componentInstance.props().drops.at(-1)?.surfacePosition).toEqual({ x: 130, y: 60 });
+  });
+
+  it('reports nothing when the wire lands on a port, even an illegal one', () => {
+    const { store, fixture } = setup();
+
+    store.beginLink(store.port(OUT)!, { x: 0, y: 0 });
+    store.endLink(COLOUR);
+
+    expect(fixture.componentInstance.props().drops).toEqual([]);
   });
 
   it('marks each port valid or invalid while a wire is in flight', () => {
