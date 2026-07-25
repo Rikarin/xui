@@ -2,42 +2,49 @@
 import type { ComponentDoc } from '../../app/core/docs.model';
 
 export const doc: ComponentDoc = {
-  name: 'interactions',
-  slug: 'core-interactions',
-  title: 'Interactions',
-  package: '@xui/core/interactions',
-  kind: 'core',
-  group: 'Headless primitives',
+  name: "interactions",
+  slug: "core-interactions",
+  title: "Interactions",
+  package: "@xui/core/interactions",
+  kind: "core",
+  group: "Headless primitives",
   description: "Emit whenever the host element's size changes.",
   importsConst: undefined,
-  exports: ['XResizeSensor', 'XElementSize', 'injectElementSize', 'XOutsideClickOptions', 'injectOutsideClick'],
+  exports: [
+  "XResizeSensor",
+  "XElementSize",
+  "injectElementSize",
+  "XOutsideClickOptions",
+  "injectOutsideClick"
+],
   peerDependencies: {
-    '@angular/cdk': '22',
-    '@angular/common': '22',
-    '@angular/core': '22',
-    '@angular/forms': '22',
-    clsx: '>=2.0.0',
-    luxon: '>=3.0.0',
-    'tailwind-merge': '>=3.0.0'
-  },
-  sourcePath: 'libs/core/interactions',
+  "@angular/cdk": "22",
+  "@angular/common": "22",
+  "@angular/core": "22",
+  "@angular/forms": "22",
+  "clsx": ">=2.0.0",
+  "luxon": ">=3.0.0",
+  "tailwind-merge": ">=3.0.0"
+},
+  sourcePath: "libs/core/interactions",
   symbols: [
-    {
-      kind: 'directive',
-      name: 'XResizeSensor',
-      selector: '[xResizeSensor]',
-      exportAs: 'xResizeSensor',
-      docs: "Emit whenever the host element's size changes.\n\nThe declarative face of {@link injectElementSize}, and xUI's answer to\nBlueprint's `ResizeSensor`:\n\n```html\n<div xResizeSensor (xResize)=\"onResize($event)\">…</div>\n```",
-      inputs: [],
-      outputs: [
-        {
-          name: 'xResize',
-          type: 'XElementSize'
-        }
-      ],
-      variants: [],
-      methods: []
-    }
-  ],
-  examples: []
+  {
+    "kind": "directive",
+    "name": "XResizeSensor",
+    "selector": "[xResizeSensor]",
+    "exportAs": "xResizeSensor",
+    "docs": "Emit whenever the host element's size changes.",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "xResize",
+        "type": "XElementSize"
+      }
+    ],
+    "variants": [],
+    "methods": []
+  }
+],
+  examples: [
+  ]
 };

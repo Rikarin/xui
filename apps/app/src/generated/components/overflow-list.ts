@@ -2,116 +2,116 @@
 import type { ComponentDoc } from '../../app/core/docs.model';
 
 export const doc: ComponentDoc = {
-  name: 'overflow-list',
-  slug: 'overflow-list',
-  title: 'Overflow list',
-  package: '@xui/overflow-list',
-  kind: 'ui',
-  group: 'Layout',
-  description: 'Marks the template used to render each visible item.',
-  importsConst: 'XuiOverflowListImports',
+  name: "overflow-list",
+  slug: "overflow-list",
+  title: "Overflow list",
+  package: "@xui/overflow-list",
+  kind: "ui",
+  group: "Layout",
+  description: "Marks the template used to render each visible item.",
+  importsConst: "XuiOverflowListImports",
   exports: [
-    'XuiOverflowListItem',
-    'XuiOverflowListOverflow',
-    'XuiOverflowList',
-    'XuiOverflowListImports',
-    'XuiOverflowBoundary',
-    'XuiOverflowItemContext',
-    'XuiOverflowContext'
-  ],
+  "XuiOverflowListItem",
+  "XuiOverflowListOverflow",
+  "XuiOverflowList",
+  "XuiOverflowListImports",
+  "XuiOverflowBoundary",
+  "XuiOverflowItemContext",
+  "XuiOverflowContext"
+],
   peerDependencies: {
-    '@angular/cdk': '22',
-    '@angular/common': '22.0.8',
-    '@angular/core': '22',
-    '@xui/core': '2.0.0-alpha.11',
-    clsx: '^2.1.1'
-  },
-  sourcePath: 'libs/ui/overflow-list/xui',
+  "@angular/cdk": "22",
+  "@angular/common": "22.0.8",
+  "@angular/core": "22",
+  "@xui/core": "2.0.0-alpha.11",
+  "clsx": "^2.1.1"
+},
+  sourcePath: "libs/ui/overflow-list/xui",
   symbols: [
-    {
-      kind: 'directive',
-      name: 'XuiOverflowListItem',
-      selector: 'ng-template[xuiOverflowListItem]',
-      docs: 'Marks the template used to render each visible item.',
-      inputs: [],
-      outputs: [],
-      variants: [],
-      methods: []
-    },
-    {
-      kind: 'directive',
-      name: 'XuiOverflowListOverflow',
-      selector: 'ng-template[xuiOverflowListOverflow]',
-      docs: 'Marks the template used to render the collapsed items.',
-      inputs: [],
-      outputs: [],
-      variants: [],
-      methods: []
-    },
-    {
-      kind: 'component',
-      name: 'XuiOverflowList',
-      selector: 'xui-overflow-list',
-      docs: 'Renders as many items as fit on one line and hands the rest to an overflow\ntemplate.\n\n```html\n<xui-overflow-list [items]="crumbs()">\n  <ng-template xuiOverflowListItem let-crumb>\n    <a xuiLink [routerLink]="crumb.url">{{ crumb.label }}</a>\n  </ng-template>\n  <ng-template xuiOverflowListOverflow let-hidden let-count="count">\n    <button xuiButton size="sm">+{{ count }}</button>\n  </ng-template>\n</xui-overflow-list>\n```\n\nThis is the measurement primitive behind collapsing breadcrumbs and tab bars.\nIt works by rendering every item once, off-screen, to learn each one\'s width,\nthen deciding how many fit — a single measurement pass rather than the\nrender-measure-rerender loop that makes this component janky when done naively.',
-      inputs: [
-        {
-          name: 'class',
-          type: 'ClassValue',
-          default: "''",
-          required: false,
-          docs: 'The user-defined classes. Merged last so they win over the base classes.'
-        },
-        {
-          name: 'items',
-          type: 'readonly T[]',
-          required: true
-        },
-        {
-          name: 'collapseFrom',
-          type: 'XuiOverflowBoundary',
-          default: "'start'",
-          required: false,
-          docs: 'Which end collapses. Breadcrumbs collapse from the start, tab bars from the end.'
-        },
-        {
-          name: 'minVisibleItems',
-          type: 'number',
-          default: '0',
-          required: false,
-          transform: 'numberAttribute',
-          docs: 'Never collapse below this many items, however narrow the container gets.'
-        },
-        {
-          name: 'alwaysRenderOverflow',
-          type: 'boolean',
-          default: 'false',
-          required: false,
-          transform: 'booleanAttribute',
-          docs: 'Render the overflow template even when nothing is hidden.'
-        },
-        {
-          name: 'itemRole',
-          type: 'string | null',
-          default: 'null',
-          required: false,
-          docs: 'Role for the wrapper around each item, including the overflow one.\n\nThe wrappers exist to hold the layout, so by default they are plain\nelements. A list needs them announced: set `role="list"` on the host and\n`itemRole="listitem"` here, and the wrappers stop breaking the chain\nbetween the two.'
-        }
-      ],
-      outputs: [
-        {
-          name: 'overflow',
-          type: 'T[]',
-          docs: 'Emits the hidden items whenever the overflow set changes.'
-        }
-      ],
-      variants: [],
-      methods: []
-    }
-  ],
+  {
+    "kind": "directive",
+    "name": "XuiOverflowListItem",
+    "selector": "ng-template[xuiOverflowListItem]",
+    "docs": "Marks the template used to render each visible item.",
+    "inputs": [],
+    "outputs": [],
+    "variants": [],
+    "methods": []
+  },
+  {
+    "kind": "directive",
+    "name": "XuiOverflowListOverflow",
+    "selector": "ng-template[xuiOverflowListOverflow]",
+    "docs": "Marks the template used to render the collapsed items.",
+    "inputs": [],
+    "outputs": [],
+    "variants": [],
+    "methods": []
+  },
+  {
+    "kind": "component",
+    "name": "XuiOverflowList",
+    "selector": "xui-overflow-list",
+    "docs": "Renders as many items as fit on one line and hands the rest to an overflow template.",
+    "inputs": [
+      {
+        "name": "class",
+        "type": "ClassValue",
+        "default": "''",
+        "required": false,
+        "docs": "The user-defined classes. Merged last so they win over the base classes."
+      },
+      {
+        "name": "items",
+        "type": "readonly T[]",
+        "required": true
+      },
+      {
+        "name": "collapseFrom",
+        "type": "XuiOverflowBoundary",
+        "default": "'start'",
+        "required": false,
+        "docs": "Which end collapses. Breadcrumbs collapse from the start, tab bars from the end."
+      },
+      {
+        "name": "minVisibleItems",
+        "type": "number",
+        "default": "0",
+        "required": false,
+        "transform": "numberAttribute",
+        "docs": "Never collapse below this many items, however narrow the container gets."
+      },
+      {
+        "name": "alwaysRenderOverflow",
+        "type": "boolean",
+        "default": "false",
+        "required": false,
+        "transform": "booleanAttribute",
+        "docs": "Render the overflow template even when nothing is hidden."
+      },
+      {
+        "name": "itemRole",
+        "type": "string | null",
+        "default": "null",
+        "required": false,
+        "docs": "Role for the wrapper around each item, including the overflow one. The wrappers exist to hold the layout, so by default they are plain elements. A list needs them announced: set role=\"list\" on the host and itemRole=\"listitem\" here, and the wrappers stop breaking the chain between the two."
+      }
+    ],
+    "outputs": [
+      {
+        "name": "overflow",
+        "type": "T[]",
+        "docs": "Emits the hidden items whenever the overflow set changes."
+      }
+    ],
+    "variants": [],
+    "methods": []
+  }
+],
   examples: [
     {
-      name: 'Default',
-      title: 'Default',
+      name: "Default",
+      title: "Default",
       code: `<div class="border-border resize-x overflow-auto rounded border p-3" style="width: 32rem">
   <xui-overflow-list [items]="items()">
     <ng-template xuiOverflowListItem let-item>
@@ -121,11 +121,11 @@ export const doc: ComponentDoc = {
       <span xuiBadge static color="secondary">+{{ count }}</span>
     </ng-template>
   </xui-overflow-list>
-</div>`
+</div>`,
     },
     {
-      name: 'CollapseFromEnd',
-      title: 'Collapse from end',
+      name: "CollapseFromEnd",
+      title: "Collapse from end",
       code: `<div class="border-border resize-x overflow-auto rounded border p-3" style="width: 24rem">
   <xui-overflow-list [items]="items()" collapseFrom="end">
     <ng-template xuiOverflowListItem let-item>
@@ -135,11 +135,11 @@ export const doc: ComponentDoc = {
       <span xuiBadge static color="secondary">+{{ count }}</span>
     </ng-template>
   </xui-overflow-list>
-</div>`
+</div>`,
     },
     {
-      name: 'CollapsingBreadcrumbs',
-      title: 'Collapsing breadcrumbs',
+      name: "CollapsingBreadcrumbs",
+      title: "Collapsing breadcrumbs",
       code: `<nav xuiBreadcrumb class="border-border resize-x overflow-auto rounded border p-3" style="width: 28rem">
   <xui-overflow-list [items]="items()" [minVisibleItems]="1">
     <ng-template xuiOverflowListItem let-item let-index="index">
@@ -158,7 +158,7 @@ export const doc: ComponentDoc = {
       <xui-breadcrumb-ellipsis />
     </ng-template>
   </xui-overflow-list>
-</nav>`
-    }
+</nav>`,
+    },
   ]
 };

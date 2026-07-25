@@ -5,6 +5,7 @@ import {
 } from '@angular/core';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import { provideRouter, withComponentInputBinding, withInMemoryScrolling } from '@angular/router';
+import { provideXuiECharts } from '@xui/echarts';
 import { routes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
@@ -12,6 +13,9 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(),
     provideZonelessChangeDetection(),
     provideClientHydration(withEventReplay()),
+    // `@xui/echarts` never imports the library itself, so the chart previews need it handed over.
+    // Loaded on demand, so only a page with a chart on it pays for it.
+    provideXuiECharts({ echarts: () => import('echarts') }),
     provideRouter(
       routes,
       // The component page takes its resolved doc as a signal input rather than reading the route.

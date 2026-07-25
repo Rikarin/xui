@@ -2,25 +2,31 @@
 import type { ComponentDoc } from '../../app/core/docs.model';
 
 export const doc: ComponentDoc = {
-  name: 'query',
-  slug: 'core-query',
-  title: 'Query',
-  package: '@xui/core/query',
-  kind: 'core',
-  group: 'Headless primitives',
+  name: "query",
+  slug: "core-query",
+  title: "Query",
+  package: "@xui/core/query",
+  kind: "core",
+  group: "Headless primitives",
   description: undefined,
   importsConst: undefined,
-  exports: ['QueryListConfig', 'QueryList', 'createQueryList', 'createQuerySignal'],
+  exports: [
+  "QueryListConfig",
+  "QueryList",
+  "createQueryList",
+  "createQuerySignal"
+],
   peerDependencies: {
-    '@angular/cdk': '22',
-    '@angular/common': '22',
-    '@angular/core': '22',
-    '@angular/forms': '22',
-    clsx: '>=2.0.0',
-    luxon: '>=3.0.0',
-    'tailwind-merge': '>=3.0.0'
-  },
-  sourcePath: 'libs/core/query',
+  "@angular/cdk": "22",
+  "@angular/common": "22",
+  "@angular/core": "22",
+  "@angular/forms": "22",
+  "clsx": ">=2.0.0",
+  "luxon": ">=3.0.0",
+  "tailwind-merge": ">=3.0.0"
+},
+  sourcePath: "libs/core/query",
   symbols: [],
-  examples: []
+  examples: [
+  ]
 };

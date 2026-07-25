@@ -2,112 +2,113 @@
 import type { ComponentDoc } from '../../app/core/docs.model';
 
 export const doc: ComponentDoc = {
-  name: 'date-range-input',
-  slug: 'date-range-input',
-  title: 'Date range input',
-  package: '@xui/date-range-input',
-  kind: 'ui',
-  group: 'Date & time',
-  description:
-    'A date-range field: two text inputs (start → end) that share one popover calendar. Focusing either field opens the range picker; typing a boundary parses just that end. [(range)] two-way binding.',
-  importsConst: 'XuiDateRangeInputImports',
-  exports: ['XuiDateRangeInput', 'XuiDateRangeInputImports'],
+  name: "date-range-input",
+  slug: "date-range-input",
+  title: "Date range input",
+  package: "@xui/date-range-input",
+  kind: "ui",
+  group: "Date & time",
+  description: "A date-range field: two text inputs (start → end) that share one popover calendar. Focusing either field opens the range picker; typing a boundary parses just that end. [(range)] two-way binding.",
+  importsConst: "XuiDateRangeInputImports",
+  exports: [
+  "XuiDateRangeInput",
+  "XuiDateRangeInputImports"
+],
   peerDependencies: {
-    '@angular/cdk': '22',
-    '@angular/core': '22',
-    '@ng-icons/core': '34',
-    '@ng-icons/material-icons': '34',
-    '@xui/core': '2.0.0-alpha.11',
-    '@xui/date-range-picker': '2.0.0-alpha.11',
-    '@xui/icon': '2.0.0-alpha.11',
-    '@xui/popover': '2.0.0-alpha.11',
-    clsx: '^2.1.1'
-  },
-  sourcePath: 'libs/ui/date-range-input/xui',
+  "@angular/cdk": "22",
+  "@angular/core": "22",
+  "@ng-icons/core": "34",
+  "@ng-icons/material-icons": "34",
+  "@xui/core": "2.0.0-alpha.11",
+  "@xui/date-range-picker": "2.0.0-alpha.11",
+  "@xui/icon": "2.0.0-alpha.11",
+  "@xui/popover": "2.0.0-alpha.11",
+  "clsx": "^2.1.1"
+},
+  sourcePath: "libs/ui/date-range-input/xui",
   symbols: [
-    {
-      kind: 'component',
-      name: 'XuiDateRangeInput',
-      selector: 'xui-date-range-input',
-      docs: 'A date-range field: two text inputs (start → end) that share one popover\ncalendar. Focusing either field opens the range picker; typing a boundary\nparses just that end. `[(range)]` two-way binding.',
-      inputs: [
-        {
-          name: 'class',
-          type: 'ClassValue',
-          default: "''",
-          required: false
-        },
-        {
-          name: 'range',
-          type: 'XuiDateRange<T>',
-          default: '{ start: null, end: null }',
-          required: false,
-          model: true,
-          docs: 'The chosen range. Two-way bindable with `[(range)]`.'
-        },
-        {
-          name: 'min',
-          type: 'T | null',
-          default: 'null',
-          required: false
-        },
-        {
-          name: 'max',
-          type: 'T | null',
-          default: 'null',
-          required: false
-        },
-        {
-          name: 'allowSingleDayRange',
-          type: 'boolean',
-          default: 'false',
-          required: false,
-          transform: 'booleanAttribute'
-        },
-        {
-          name: 'disabled',
-          type: 'boolean',
-          default: 'false',
-          required: false,
-          transform: 'booleanAttribute'
-        },
-        {
-          name: 'startPlaceholder',
-          type: 'string',
-          default: "'Start date'",
-          required: false
-        },
-        {
-          name: 'endPlaceholder',
-          type: 'string',
-          default: "'End date'",
-          required: false
-        },
-        {
-          name: 'locale',
-          type: 'string | undefined',
-          default: 'undefined',
-          required: false
-        },
-        {
-          name: 'formatDate',
-          type: '(date: T, locale?: string) => string',
-          default:
-            "(date, locale) =>\n    new Intl.DateTimeFormat(locale, { year: 'numeric', month: '2-digit', day: '2-digit' }).format(\n      toJsDate(this.adapter, date)\n    )",
-          required: false
-        },
-        {
-          name: 'parseDate',
-          type: '(text: string) => T | null',
-          default:
-            'text => {\n    const ms = Date.parse(text);\n    return Number.isNaN(ms) ? null : (new Date(ms) as unknown as T);\n  }',
-          required: false
-        }
-      ],
-      outputs: [],
-      variants: [],
-      methods: []
-    }
-  ],
-  examples: []
+  {
+    "kind": "component",
+    "name": "XuiDateRangeInput",
+    "selector": "xui-date-range-input",
+    "docs": "A date-range field: two text inputs (start → end) that share one popover calendar. Focusing either field opens the range picker; typing a boundary parses just that end. [(range)] two-way binding.",
+    "inputs": [
+      {
+        "name": "class",
+        "type": "ClassValue",
+        "default": "''",
+        "required": false
+      },
+      {
+        "name": "range",
+        "type": "XuiDateRange<T>",
+        "default": "{ start: null, end: null }",
+        "required": false,
+        "model": true,
+        "docs": "The chosen range. Two-way bindable with [(range)]."
+      },
+      {
+        "name": "min",
+        "type": "T | null",
+        "default": "null",
+        "required": false
+      },
+      {
+        "name": "max",
+        "type": "T | null",
+        "default": "null",
+        "required": false
+      },
+      {
+        "name": "allowSingleDayRange",
+        "type": "boolean",
+        "default": "false",
+        "required": false,
+        "transform": "booleanAttribute"
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "default": "false",
+        "required": false,
+        "transform": "booleanAttribute"
+      },
+      {
+        "name": "startPlaceholder",
+        "type": "string",
+        "default": "'Start date'",
+        "required": false
+      },
+      {
+        "name": "endPlaceholder",
+        "type": "string",
+        "default": "'End date'",
+        "required": false
+      },
+      {
+        "name": "locale",
+        "type": "string | undefined",
+        "default": "undefined",
+        "required": false
+      },
+      {
+        "name": "formatDate",
+        "type": "(date: T, locale?: string) => string",
+        "default": "(date, locale) =>\n    new Intl.DateTimeFormat(locale, { year: 'numeric', month: '2-digit', day: '2-digit' }).format(\n      toJsDate(this.adapter, date)\n    )",
+        "required": false
+      },
+      {
+        "name": "parseDate",
+        "type": "(text: string) => T | null",
+        "default": "text => {\n    const ms = Date.parse(text);\n    return Number.isNaN(ms) ? null : (new Date(ms) as unknown as T);\n  }",
+        "required": false
+      }
+    ],
+    "outputs": [],
+    "variants": [],
+    "methods": []
+  }
+],
+  examples: [
+  ]
 };

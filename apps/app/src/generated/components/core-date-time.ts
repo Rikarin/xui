@@ -2,25 +2,33 @@
 import type { ComponentDoc } from '../../app/core/docs.model';
 
 export const doc: ComponentDoc = {
-  name: 'date-time',
-  slug: 'core-date-time',
-  title: 'Date time',
-  package: '@xui/core/date-time',
-  kind: 'core',
-  group: 'Headless primitives',
+  name: "date-time",
+  slug: "core-date-time",
+  title: "Date time",
+  package: "@xui/core/date-time",
+  kind: "core",
+  group: "Headless primitives",
   description: undefined,
   importsConst: undefined,
-  exports: ['XDateAdapter', 'XDateUnits', 'XDuration', 'XDateAdapterToken', 'injectDateAdapter', 'provideDateAdapter'],
+  exports: [
+  "XDateAdapter",
+  "XDateUnits",
+  "XDuration",
+  "XDateAdapterToken",
+  "injectDateAdapter",
+  "provideDateAdapter"
+],
   peerDependencies: {
-    '@angular/cdk': '22',
-    '@angular/common': '22',
-    '@angular/core': '22',
-    '@angular/forms': '22',
-    clsx: '>=2.0.0',
-    luxon: '>=3.0.0',
-    'tailwind-merge': '>=3.0.0'
-  },
-  sourcePath: 'libs/core/date-time',
+  "@angular/cdk": "22",
+  "@angular/common": "22",
+  "@angular/core": "22",
+  "@angular/forms": "22",
+  "clsx": ">=2.0.0",
+  "luxon": ">=3.0.0",
+  "tailwind-merge": ">=3.0.0"
+},
+  sourcePath: "libs/core/date-time",
   symbols: [],
-  examples: []
+  examples: [
+  ]
 };

@@ -2,47 +2,46 @@
 import type { ComponentDoc } from '../../app/core/docs.model';
 
 export const doc: ComponentDoc = {
-  name: 'hotkeys',
-  slug: 'hotkeys',
-  title: 'Hotkeys',
-  package: '@xui/hotkeys',
-  kind: 'ui',
-  group: 'Actions',
-  description:
-    'The ?-triggered help overlay listing every registered hotkey, grouped. Mounted by {@link XuiHotkeysService.openHelp}; not intended to be used directly.',
+  name: "hotkeys",
+  slug: "hotkeys",
+  title: "Hotkeys",
+  package: "@xui/hotkeys",
+  kind: "ui",
+  group: "Actions",
+  description: "The ?-triggered help overlay listing every registered hotkey, grouped. Mounted by {@link XuiHotkeysService.openHelp}; not intended to be used directly.",
   importsConst: undefined,
   exports: [
-    'XuiHotkeysDialog',
-    'XuiHotkey',
-    'ParsedCombo',
-    'parseCombo',
-    'comboMatchesEvent',
-    'formatCombo',
-    'injectHotkeys'
-  ],
+  "XuiHotkeysDialog",
+  "XuiHotkey",
+  "ParsedCombo",
+  "parseCombo",
+  "comboMatchesEvent",
+  "formatCombo",
+  "injectHotkeys"
+],
   peerDependencies: {
-    '@angular/common': '22',
-    '@angular/core': '22',
-    '@xui/dialog': '2.0.0-alpha.11'
-  },
-  sourcePath: 'libs/ui/hotkeys/xui',
+  "@angular/common": "22",
+  "@angular/core": "22",
+  "@xui/dialog": "2.0.0-alpha.11"
+},
+  sourcePath: "libs/ui/hotkeys/xui",
   symbols: [
-    {
-      kind: 'component',
-      name: 'XuiHotkeysDialog',
-      selector: 'xui-hotkeys-dialog',
-      docs: 'The `?`-triggered help overlay listing every registered hotkey, grouped. Mounted\nby {@link XuiHotkeysService.openHelp}; not intended to be used directly.',
-      inputs: [],
-      outputs: [],
-      variants: [],
-      methods: []
-    }
-  ],
+  {
+    "kind": "component",
+    "name": "XuiHotkeysDialog",
+    "selector": "xui-hotkeys-dialog",
+    "docs": "The ?-triggered help overlay listing every registered hotkey, grouped. Mounted by {@link XuiHotkeysService.openHelp}; not intended to be used directly.",
+    "inputs": [],
+    "outputs": [],
+    "variants": [],
+    "methods": []
+  }
+],
   examples: [
     {
-      name: 'Default',
-      title: 'Default',
-      code: `<xui-hotkeys-demo />`
-    }
+      name: "Default",
+      title: "Default",
+      code: `<xui-hotkeys-demo />`,
+    },
   ]
 };

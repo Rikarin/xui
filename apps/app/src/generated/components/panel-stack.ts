@@ -2,89 +2,88 @@
 import type { ComponentDoc } from '../../app/core/docs.model';
 
 export const doc: ComponentDoc = {
-  name: 'panel-stack',
-  slug: 'panel-stack',
-  title: 'Panel stack',
-  package: '@xui/panel-stack',
-  kind: 'ui',
-  group: 'Navigation',
-  description:
-    'A stack of screens with a back-navigating header — a drill-down in a fixed space. Only the top panel renders; pushing slides in from the right, popping slides back. The slide and focus are not testable in jsdom, so this story is the real check.',
-  importsConst: 'XuiPanelStackImports',
+  name: "panel-stack",
+  slug: "panel-stack",
+  title: "Panel stack",
+  package: "@xui/panel-stack",
+  kind: "ui",
+  group: "Navigation",
+  description: "A stack of screens with a back-navigating header — a drill-down in a fixed space. Only the top panel renders; pushing slides in from the right, popping slides back. The slide and focus are not testable in jsdom, so this story is the real check.",
+  importsConst: "XuiPanelStackImports",
   exports: [
-    'XuiPanelStack',
-    'XuiPanelStackImports',
-    'XuiPanelStackController',
-    'XuiPanel',
-    'XuiPanelContext',
-    'XUI_PANEL_STACK',
-    'XUI_PANEL_DATA'
-  ],
+  "XuiPanelStack",
+  "XuiPanelStackImports",
+  "XuiPanelStackController",
+  "XuiPanel",
+  "XuiPanelContext",
+  "XUI_PANEL_STACK",
+  "XUI_PANEL_DATA"
+],
   peerDependencies: {
-    '@angular/cdk': '22',
-    '@angular/common': '22.0.8',
-    '@angular/core': '22',
-    '@ng-icons/core': '34',
-    '@ng-icons/material-icons': '34',
-    '@xui/core': '2.0.0-alpha.11',
-    '@xui/icon': '2.0.0-alpha.11',
-    clsx: '^2.1.1'
-  },
-  sourcePath: 'libs/ui/panel-stack/xui',
+  "@angular/cdk": "22",
+  "@angular/common": "22.0.8",
+  "@angular/core": "22",
+  "@ng-icons/core": "34",
+  "@ng-icons/material-icons": "34",
+  "@xui/core": "2.0.0-alpha.11",
+  "@xui/icon": "2.0.0-alpha.11",
+  "clsx": "^2.1.1"
+},
+  sourcePath: "libs/ui/panel-stack/xui",
   symbols: [
-    {
-      kind: 'component',
-      name: 'XuiPanelStack',
-      selector: 'xui-panel-stack',
-      docs: 'A stack of screens with a back-navigating header — a master/detail flow in a\nfixed space, the way a settings drill-down or a wizard reads.\n\n```html\n<xui-panel-stack [initialPanel]="{ title: \'Settings\', content: settingsTpl }" />\n<ng-template #settingsTpl let-stack="stack">\n  <button (click)="stack.openPanel({ title: \'Account\', content: accountTpl })">Account →</button>\n</ng-template>\n```\n\nOnly the top panel renders; pushing slides it in from the right, popping\nslides back from the left (Web Animations API, no `@angular/animations`,\nreduced-motion aware). Panel content drives navigation through the `stack`\nhanded to a template, or injected (`XUI_PANEL_STACK`) by a component panel.',
-      inputs: [
-        {
-          name: 'class',
-          type: 'ClassValue',
-          default: "''",
-          required: false,
-          docs: 'The user-defined classes. Merged last so they win over the base classes.'
-        },
-        {
-          name: 'initialPanel',
-          type: 'XuiPanel<D>',
-          required: true
-        },
-        {
-          name: 'showPanelHeader',
-          type: 'boolean',
-          default: 'true',
-          required: false,
-          transform: 'booleanAttribute'
-        }
-      ],
-      outputs: [
-        {
-          name: 'opened',
-          type: 'XuiPanel'
-        },
-        {
-          name: 'closed',
-          type: 'XuiPanel'
-        }
-      ],
-      variants: [],
-      methods: [
-        {
-          name: 'openPanel',
-          signature: 'openPanel(panel: XuiPanel<P>): void'
-        },
-        {
-          name: 'closePanel',
-          signature: 'closePanel(): void'
-        }
-      ]
-    }
-  ],
+  {
+    "kind": "component",
+    "name": "XuiPanelStack",
+    "selector": "xui-panel-stack",
+    "docs": "A stack of screens with a back-navigating header — a master/detail flow in a fixed space, the way a settings drill-down or a wizard reads.",
+    "inputs": [
+      {
+        "name": "class",
+        "type": "ClassValue",
+        "default": "''",
+        "required": false,
+        "docs": "The user-defined classes. Merged last so they win over the base classes."
+      },
+      {
+        "name": "initialPanel",
+        "type": "XuiPanel<D>",
+        "required": true
+      },
+      {
+        "name": "showPanelHeader",
+        "type": "boolean",
+        "default": "true",
+        "required": false,
+        "transform": "booleanAttribute"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "opened",
+        "type": "XuiPanel"
+      },
+      {
+        "name": "closed",
+        "type": "XuiPanel"
+      }
+    ],
+    "variants": [],
+    "methods": [
+      {
+        "name": "openPanel",
+        "signature": "openPanel(panel: XuiPanel<P>): void"
+      },
+      {
+        "name": "closePanel",
+        "signature": "closePanel(): void"
+      }
+    ]
+  }
+],
   examples: [
     {
-      name: 'Default',
-      title: 'Default',
+      name: "Default",
+      title: "Default",
       code: `<xui-panel-stack class="h-96 w-80" [initialPanel]="{ title: 'Settings', content: settings }" />
 
 <ng-template #settings let-stack="stack">
@@ -134,7 +133,7 @@ export const doc: ComponentDoc = {
     <input class="border-border rounded-md border px-3 py-1.5" placeholder="New password" type="password" />
     <input class="border-border rounded-md border px-3 py-1.5" placeholder="Confirm" type="password" />
   </div>
-</ng-template>`
-    }
+</ng-template>`,
+    },
   ]
 };

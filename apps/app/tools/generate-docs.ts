@@ -203,6 +203,159 @@ function firstParagraph(text: string): string | undefined {
   return paragraph.length > 0 ? paragraph : undefined;
 }
 
+/**
+ * The `props` object a story hands its template, verbatim.
+ *
+ * This is what makes a preview faithful rather than approximate: a story that binds `[nodes]="nodes"`
+ * needs the actual nodes, and a story that reads `open()` needs a real signal. Copying the
+ * expression across — together with the story's own imports — reproduces both, where inferring a
+ * shape from the template can only produce something that renders empty or throws.
+ */
+function readStoryProps(source: string, exportName: string): string | undefined {
+  const declaration = source.indexOf(`export const ${exportName}`);
+
+  if (declaration === -1) {
+    return undefined;
+  }
+
+  const body = readBalanced(source, source.indexOf('{', declaration));
+
+  if (!body) {
+    return undefined;
+  }
+
+  const props = /\bprops:\s*\{/.exec(body);
+
+  return props ? readBalanced(body, body.indexOf('{', props.index)) : undefined;
+}
+
+/** The `{ … }` starting at `open`, brace-balanced and skipping string and template literals. */
+function readBalanced(text: string, open: number): string | undefined {
+  if (open === -1) {
+    return undefined;
+  }
+
+  let depth = 0;
+
+  for (let cursor = open; cursor < text.length; cursor += 1) {
+    const character = text[cursor];
+
+    if (character === "'" || character === '"' || character === '`') {
+      cursor = skipString(text, cursor);
+      continue;
+    }
+
+    if (character === '{') {
+      depth += 1;
+    } else if (character === '}') {
+      depth -= 1;
+
+      if (depth === 0) {
+        return text.slice(open, cursor + 1);
+      }
+    }
+  }
+
+  return undefined;
+}
+
+function skipString(text: string, start: number): number {
+  const quote = text[start];
+
+  for (let cursor = start + 1; cursor < text.length; cursor += 1) {
+    if (text[cursor] === '\\') {
+      cursor += 1;
+      continue;
+    }
+
+    if (text[cursor] === quote) {
+      return cursor;
+    }
+  }
+
+  return text.length;
+}
+
+/**
+ * Rewrites references to sibling props as `this.<name>`.
+ *
+ * In a story they are all properties of one object, so `toggle: () => open.set(…)` resolves. As class
+ * fields they do not — an initialiser that names `open` would reach for a global of that name, which
+ * for `open` is `window.open` and compiles into something baffling.
+ */
+function qualifySiblings(value: string, siblings: Set<string>, self: string): string {
+  const parameters = new Set<string>();
+
+  for (const hit of value.matchAll(/([A-Za-z_]\w*)\s*=>/g)) {
+    parameters.add(hit[1]);
+  }
+
+  for (const hit of value.matchAll(/\(([^)]*)\)\s*=>/g)) {
+    hit[1]
+      .split(',')
+      .map(parameter => /^\s*([A-Za-z_]\w*)/.exec(parameter)?.[1])
+      .forEach(name => name && parameters.add(name));
+  }
+
+  let output = value;
+
+  for (const name of siblings) {
+    if (name === self || parameters.has(name)) {
+      continue;
+    }
+
+    output = output.replace(new RegExp(`(?<![.\\w$'"])${name}\\b`, 'g'), `this.${name}`);
+  }
+
+  return output;
+}
+
+/** Splits an object literal's top-level `key: value` entries. */
+function splitEntries(objectText: string): { key: string; value: string }[] {
+  const inner = objectText.slice(1, -1);
+  const entries: { key: string; value: string }[] = [];
+  let depth = 0;
+  let start = 0;
+
+  const push = (end: number) => {
+    const entry = inner.slice(start, end).trim();
+    const separator = entry.indexOf(':');
+
+    if (separator > 0) {
+      entries.push({ key: entry.slice(0, separator).trim(), value: entry.slice(separator + 1).trim() });
+    }
+  };
+
+  for (let cursor = 0; cursor < inner.length; cursor += 1) {
+    const character = inner[cursor];
+
+    if (character === "'" || character === '"' || character === '`') {
+      cursor = skipString(inner, cursor);
+      continue;
+    }
+
+    if ('{[('.includes(character)) {
+      depth += 1;
+    } else if ('}])'.includes(character)) {
+      depth -= 1;
+    } else if (character === ',' && depth === 0) {
+      push(cursor);
+      start = cursor + 1;
+    }
+  }
+
+  push(inner.length);
+
+  return entries.filter(entry => /^[A-Za-z_]\w*$/.test(entry.key) && entry.value.length > 0);
+}
+
+/** A one-line doc comment, with its markdown flattened for rendering as text. */
+function plainDocs(text: string | undefined): string | undefined {
+  const cleaned = text?.replace(/`/g, '').replace(/\s+/g, ' ').trim();
+
+  return cleaned && cleaned.length > 0 ? cleaned : undefined;
+}
+
 /** Reads the brace-balanced object literal that follows `args:` in the meta declaration. */
 function readMetaArgs(source: string): string | undefined {
   const head = source.slice(0, source.indexOf('export default'));
@@ -274,7 +427,30 @@ function serialiseArgs(args: Record<string, unknown>, excluded: Set<string>): st
  * Locals — `#refs`, `@for` variables, `as` aliases, `$index` and friends — are already in scope, so
  * only what is left has to become a field.
  */
-function templateFields(template: string): string[] {
+function templateFields(template: string, props: string | undefined): string[] {
+  const entries = props ? splitEntries(props) : [];
+  const declared = new Set(entries.map(entry => entry.key));
+
+  // A story's `props` does not always cover everything its template names — a handler written
+  // inline, a value the decorator supplies. Whatever is left still has to be declared.
+  const inferred = inferredFields(template).filter(field => !declared.has(fieldName(field)));
+  const siblings = new Set([...declared, ...inferred.map(fieldName)]);
+
+  // Typed `any`, and not `readonly`: a story's fixtures were written against its own template, where
+  // a loop variable is a `string` and the input wants a union. Keeping the initialiser verbatim
+  // preserves what the preview renders; widening the declared type keeps the docs building as the
+  // library's types tighten, which is not something a generated fixture should be able to break.
+  return [
+    ...entries.map(entry => `  protected ${entry.key}: any = ${qualifySiblings(entry.value, siblings, entry.key)};`),
+    ...inferred
+  ];
+}
+
+function fieldName(field: string): string {
+  return /protected (?:readonly )?(\w+)/.exec(field)?.[1] ?? '';
+}
+
+function inferredFields(template: string): string[] {
   const expressions: string[] = [];
 
   for (const hit of template.matchAll(/\{\{([^}]*)\}\}/g)) {
@@ -299,6 +475,16 @@ function templateFields(template: string): string[] {
     for (const hit of source.matchAll(/@for\s*\(\s*([A-Za-z_]\w*)\s+of\b/g)) {
       locals.add(hit[1]);
     }
+    // `items.map(item => item.name)` — `item` belongs to the lambda, not to the component.
+    for (const hit of source.matchAll(/([A-Za-z_]\w*)\s*=>/g)) {
+      locals.add(hit[1]);
+    }
+    for (const hit of source.matchAll(/\(([^)]*)\)\s*=>/g)) {
+      hit[1]
+        .split(',')
+        .map(parameter => /^\s*([A-Za-z_]\w*)/.exec(parameter)?.[1])
+        .forEach(name => name && locals.add(name));
+    }
     for (const hit of source.matchAll(/\bas\s+([A-Za-z_]\w*)/g)) {
       locals.add(hit[1]);
     }
@@ -322,7 +508,22 @@ function templateFields(template: string): string[] {
     }
   }
 
-  return [...fields].map(name => `  protected ${name}: any;`);
+  // A story hands its template real values through `props`, and the shape matters: a plain field
+  // where the template expects a signal compiles and then throws "is not a function" on the first
+  // render. How the name is used says which it is.
+  return [...fields].map(name => {
+    if (new RegExp(`\\b${name}\\s*\\(\\s*\\)|\\b${name}\\.(set|update)\\b`).test(template)) {
+      return `  protected readonly ${name} = signal<any>(undefined);`;
+    }
+
+    if (new RegExp(`\\b${name}\\s*\\(\\s*[^)\\s]`).test(template)) {
+      // Called with arguments — an event handler. A no-op keeps the preview interactive-ish rather
+      // than throwing the moment someone clicks it.
+      return `  protected readonly ${name} = (..._args: any[]): void => undefined;`;
+    }
+
+    return `  protected ${name}: any;`;
+  });
 }
 
 const RESERVED = new Set([
@@ -423,6 +624,130 @@ function previewImports(component: XuiComponent, templates: string[], story: Sto
   return { declarables: [...declarables], statements: [...statements], providers };
 }
 
+/**
+ * The story's own imports, minus Storybook's.
+ *
+ * A copied `props` expression only compiles if the symbols it names come with it.
+ */
+function storyImports(source: string | undefined): string[] {
+  if (!source) {
+    return [];
+  }
+
+  return [...source.matchAll(/^import\s+(?:type\s+)?\{[^}]*\}\s*from\s*'([^']+)';$/gm)]
+    .filter(hit => !hit[1].startsWith('@storybook/'))
+    .map(hit => hit[0]);
+}
+
+/**
+ * Top-level declarations from the story file that the copied `props` depend on.
+ *
+ * Stories keep their fixtures in module-level consts — `const TRAIL = [...]`, `const OPTIONS = [...]`
+ * — so copying the props alone leaves dangling names. Whatever they reach is copied with them,
+ * following references one hop at a time until nothing new is named.
+ */
+function storyFixtures(source: string | undefined, referencedIn: string[]): string[] {
+  if (!source) {
+    return [];
+  }
+
+  const declarations = new Map<string, string>();
+  const pattern = /^(?:export\s+)?(?:const|let|function|class|type|interface)\s+([A-Za-z_]\w*)/gm;
+
+  for (const hit of [...source.matchAll(pattern)]) {
+    const text = readDeclaration(source, hit.index ?? 0);
+
+    // `type Story = StoryObj<…>` is Storybook plumbing, not a fixture, and its types do not exist here.
+    if (text && !/\b(StoryObj|Meta|Story)\b/.test(text)) {
+      declarations.set(hit[1], text.replace(/^export\s+/, ''));
+    }
+  }
+
+  const wanted = new Set<string>();
+  let frontier = referencedIn.join('\n');
+
+  for (let hop = 0; hop < 5; hop += 1) {
+    const found = [...declarations.keys()].filter(
+      name => !wanted.has(name) && new RegExp(`\\b${name}\\b`).test(frontier)
+    );
+
+    if (found.length === 0) {
+      break;
+    }
+
+    found.forEach(name => wanted.add(name));
+    frontier = found.map(name => declarations.get(name) ?? '').join('\n');
+  }
+
+  return [...wanted].map(name => declarations.get(name) ?? '');
+}
+
+/** A whole `const`/`function`/`type` declaration, from its keyword to the end of its initialiser. */
+function readDeclaration(source: string, start: number): string | undefined {
+  let depth = 0;
+
+  for (let cursor = start; cursor < source.length; cursor += 1) {
+    const character = source[cursor];
+
+    if (character === "'" || character === '"' || character === '`') {
+      cursor = skipString(source, cursor);
+      continue;
+    }
+
+    if ('{[('.includes(character)) {
+      depth += 1;
+    } else if ('}])'.includes(character)) {
+      depth -= 1;
+
+      // A function or class body ends at its closing brace rather than a semicolon.
+      if (
+        depth === 0 &&
+        character === '}' &&
+        !/^(?:export\s+)?(?:const|let|type)\b/.test(source.slice(start, cursor))
+      ) {
+        return source.slice(start, cursor + 1);
+      }
+    } else if (character === ';' && depth === 0) {
+      return source.slice(start, cursor + 1);
+    }
+  }
+
+  return undefined;
+}
+
+/**
+ * Collapses import statements from several sources — the barrels a template needs, the story's own —
+ * into one statement per module, so a generated file never imports the same symbol twice.
+ */
+function mergeImports(statements: string[]): string[] {
+  const modules = new Map<string, { names: Set<string>; typeOnly: boolean }>();
+
+  for (const statement of statements) {
+    const parsed = /^import\s+(type\s+)?\{([^}]*)\}\s*from\s*'([^']+)';$/.exec(statement.trim());
+
+    if (!parsed) {
+      continue;
+    }
+
+    const [, typeKeyword, bindings, module] = parsed;
+    const entry = modules.get(module) ?? { names: new Set<string>(), typeOnly: true };
+
+    bindings
+      .split(',')
+      .map(name => name.trim())
+      .filter(name => name.length > 0)
+      .forEach(name => entry.names.add(name.replace(/^type\s+/, '')));
+
+    entry.typeOnly = entry.typeOnly && Boolean(typeKeyword);
+    modules.set(module, entry);
+  }
+
+  return [...modules].map(
+    ([module, entry]) =>
+      `import ${entry.typeOnly ? 'type ' : ''}{ ${[...entry.names].sort().join(', ')} } from '${module}';`
+  );
+}
+
 /** Lifts a story's `provideIcons({ … })` call and the `@ng-icons/*` imports feeding it. */
 function iconProvider(source: string): { expression: string; imports: string[] } | undefined {
   const call = /provideIcons\(\{([\s\S]*?)\}\)/.exec(source);
@@ -501,7 +826,11 @@ function emitComponent(component: XuiComponent, story: StoryMeta | undefined): E
     .find(text => text && text !== BOILERPLATE_DESCRIPTION);
 
   const examples = component.examples
-    .map(example => ({ ...example, template: expandTemplate(example, story?.args ?? {}) }))
+    .map(example => ({
+      ...example,
+      template: expandTemplate(example, story?.args ?? {}),
+      props: story ? readStoryProps(story.source, example.name) : undefined
+    }))
     // An example whose elements were built by a `.map()` in the story keeps its wrapper and loses
     // its contents. Showing that as "the code" would be worse than not showing the example.
     .filter(example => example.template.length > 0 && !dropsMarkup(example.code));
@@ -514,15 +843,30 @@ function emitComponent(component: XuiComponent, story: StoryMeta | undefined): E
   }));
   const statements = [...new Set(perExample.flatMap(entry => entry.statements))];
 
+  const fieldsFor = (entry: (typeof perExample)[number]) => templateFields(entry.example.template, entry.example.props);
+  const needsSignal = perExample.some(entry => fieldsFor(entry).some(field => field.includes('signal<any>')));
+
   const lines: string[] = [
     '// Generated by apps/app/tools/generate-docs.ts. Do not edit.',
-    // A package with no renderable example emits no preview component, so it must not import the
-    // decorator either.
-    ...(perExample.length > 0 ? [`import { ChangeDetectionStrategy, Component } from '@angular/core';`] : []),
-    `import type { ComponentDoc } from '../../app/core/docs.model';`,
-    ...statements,
+    ...mergeImports([
+      // A package with no renderable example emits no preview component, so it must not import the
+      // decorator either.
+      ...(perExample.length > 0
+        ? [`import { ChangeDetectionStrategy, Component${needsSignal ? ', signal' : ''} } from '@angular/core';`]
+        : []),
+      ...(perExample.some(entry => entry.example.props) ? storyImports(story?.source) : []),
+      `import type { ComponentDoc } from '../../app/core/docs.model';`,
+      ...statements
+    ]),
     ''
   ];
+
+  const fields = perExample.flatMap(entry => fieldsFor(entry));
+  const fixtures = storyFixtures(story?.source, fields);
+
+  if (fixtures.length > 0) {
+    lines.push(...fixtures, '');
+  }
 
   for (const { example, declarables, providers } of perExample) {
     lines.push(
@@ -539,7 +883,7 @@ function emitComponent(component: XuiComponent, story: StoryMeta | undefined): E
       // so the template compiles; they start undefined, so the preview renders the component's own
       // defaults rather than the story's fixture.
       `export class Preview${example.name} {`,
-      ...templateFields(example.template),
+      ...templateFields(example.template, example.props),
       '}',
       ''
     );
@@ -564,11 +908,13 @@ function emitComponent(component: XuiComponent, story: StoryMeta | undefined): E
         name: symbol.name,
         selector: symbol.selector,
         exportAs: symbol.exportAs,
-        docs: symbol.docs,
-        inputs: symbol.inputs,
-        outputs: symbol.outputs,
+        // Doc comments are rendered as plain text in the tables, so the markdown they carry — a code
+        // fence, a backtick, a hard-wrapped line — has to come off here rather than show through.
+        docs: symbol.docs ? firstParagraph(symbol.docs) : undefined,
+        inputs: symbol.inputs.map(field => ({ ...field, docs: plainDocs(field.docs) })),
+        outputs: symbol.outputs.map(event => ({ ...event, docs: plainDocs(event.docs) })),
         variants: symbol.variants,
-        methods: symbol.methods
+        methods: symbol.methods.map(method => ({ ...method, docs: plainDocs(method.docs) }))
       }))
     )},`,
     '  examples: [',

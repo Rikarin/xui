@@ -2,47 +2,51 @@
 import type { ComponentDoc } from '../../app/core/docs.model';
 
 export const doc: ComponentDoc = {
-  name: 'label',
-  slug: 'core-label',
-  title: 'Label',
-  package: '@xui/core/label',
-  kind: 'core',
-  group: 'Headless primitives',
+  name: "label",
+  slug: "core-label",
+  title: "Label",
+  package: "@xui/core/label",
+  kind: "core",
+  group: "Headless primitives",
   description: undefined,
   importsConst: undefined,
-  exports: ['XLabel', 'XLabelImports'],
+  exports: [
+  "XLabel",
+  "XLabelImports"
+],
   peerDependencies: {
-    '@angular/cdk': '22',
-    '@angular/common': '22',
-    '@angular/core': '22',
-    '@angular/forms': '22',
-    clsx: '>=2.0.0',
-    luxon: '>=3.0.0',
-    'tailwind-merge': '>=3.0.0'
-  },
-  sourcePath: 'libs/core/label',
+  "@angular/cdk": "22",
+  "@angular/common": "22",
+  "@angular/core": "22",
+  "@angular/forms": "22",
+  "clsx": ">=2.0.0",
+  "luxon": ">=3.0.0",
+  "tailwind-merge": ">=3.0.0"
+},
+  sourcePath: "libs/core/label",
   symbols: [
-    {
-      kind: 'directive',
-      name: 'XLabel',
-      selector: '[xLabel]',
-      inputs: [
-        {
-          name: 'id',
-          type: 'string',
-          default: '`x-label-${nextId++}`',
-          required: false
-        }
-      ],
-      outputs: [],
-      variants: [],
-      methods: [
-        {
-          name: 'ngOnInit',
-          signature: 'ngOnInit(): void'
-        }
-      ]
-    }
-  ],
-  examples: []
+  {
+    "kind": "directive",
+    "name": "XLabel",
+    "selector": "[xLabel]",
+    "inputs": [
+      {
+        "name": "id",
+        "type": "string",
+        "default": "`x-label-${nextId++}`",
+        "required": false
+      }
+    ],
+    "outputs": [],
+    "variants": [],
+    "methods": [
+      {
+        "name": "ngOnInit",
+        "signature": "ngOnInit(): void"
+      }
+    ]
+  }
+],
+  examples: [
+  ]
 };

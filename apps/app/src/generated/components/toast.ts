@@ -2,79 +2,79 @@
 import type { ComponentDoc } from '../../app/core/docs.model';
 
 export const doc: ComponentDoc = {
-  name: 'toast',
-  slug: 'toast',
-  title: 'Toast',
-  package: '@xui/toast',
-  kind: 'ui',
-  group: 'Overlays',
-  description: 'The stack the toaster renders its live notices into.',
-  importsConst: 'XuiToastImports',
+  name: "toast",
+  slug: "toast",
+  title: "Toast",
+  package: "@xui/toast",
+  kind: "ui",
+  group: "Overlays",
+  description: "The stack the toaster renders its live notices into.",
+  importsConst: "XuiToastImports",
   exports: [
-    'XuiToastContainer',
-    'XuiToast',
-    'XuiToastImports',
-    'XuiToastOptions',
-    'XuiToastPosition',
-    'XuiToastIntent',
-    'XuiToastConfig',
-    'provideXuiToastConfig',
-    'injectXuiToastConfig',
-    'XUI_TOAST_INTENT_ICON',
-    'XUI_TOAST_INTENT_ICON_CLASS',
-    'toastGlobalPosition',
-    'XuiToastData'
-  ],
+  "XuiToastContainer",
+  "XuiToast",
+  "XuiToastImports",
+  "XuiToastOptions",
+  "XuiToastPosition",
+  "XuiToastIntent",
+  "XuiToastConfig",
+  "provideXuiToastConfig",
+  "injectXuiToastConfig",
+  "XUI_TOAST_INTENT_ICON",
+  "XUI_TOAST_INTENT_ICON_CLASS",
+  "toastGlobalPosition",
+  "XuiToastData"
+],
   peerDependencies: {
-    '@angular/core': '22',
-    '@ng-icons/core': '34',
-    '@ng-icons/material-icons': '34',
-    '@xui/core': '2.0.0-alpha.11',
-    '@xui/icon': '2.0.0-alpha.11'
-  },
-  sourcePath: 'libs/ui/toast/xui',
+  "@angular/core": "22",
+  "@ng-icons/core": "34",
+  "@ng-icons/material-icons": "34",
+  "@xui/core": "2.0.0-alpha.11",
+  "@xui/icon": "2.0.0-alpha.11"
+},
+  sourcePath: "libs/ui/toast/xui",
   symbols: [
-    {
-      kind: 'component',
-      name: 'XuiToastContainer',
-      selector: 'xui-toast-container',
-      docs: "The stack the toaster renders its live notices into.\n\nMounted once on a corner-pinned overlay by `XuiToastService`; it reads the\nservice's toast signal and lays the notices out. Bottom positions stack in\nreverse so a new toast appears nearest its edge and pushes the older ones\naway from it — the direction people expect a stack to grow.\n\nThe stack itself ignores the pointer (so it never blocks the page beneath);\neach toast re-enables pointer events for its own buttons.",
-      inputs: [],
-      outputs: [],
-      variants: [],
-      methods: []
-    },
-    {
-      kind: 'component',
-      name: 'XuiToast',
-      selector: 'xui-toast',
-      docs: 'A single toast notice. Presentational — the toaster owns the list, timers and\nplacement; this only renders one entry and reports the two things a user can\ndo to it: run its action, or dismiss it.',
-      inputs: [
-        {
-          name: 'toast',
-          type: 'XuiToastData',
-          required: true
-        }
-      ],
-      outputs: [
-        {
-          name: 'action',
-          type: 'void'
-        },
-        {
-          name: 'dismiss',
-          type: 'void'
-        }
-      ],
-      variants: [],
-      methods: []
-    }
-  ],
+  {
+    "kind": "component",
+    "name": "XuiToastContainer",
+    "selector": "xui-toast-container",
+    "docs": "The stack the toaster renders its live notices into.",
+    "inputs": [],
+    "outputs": [],
+    "variants": [],
+    "methods": []
+  },
+  {
+    "kind": "component",
+    "name": "XuiToast",
+    "selector": "xui-toast",
+    "docs": "A single toast notice. Presentational — the toaster owns the list, timers and placement; this only renders one entry and reports the two things a user can do to it: run its action, or dismiss it.",
+    "inputs": [
+      {
+        "name": "toast",
+        "type": "XuiToastData",
+        "required": true
+      }
+    ],
+    "outputs": [
+      {
+        "name": "action",
+        "type": "void"
+      },
+      {
+        "name": "dismiss",
+        "type": "void"
+      }
+    ],
+    "variants": [],
+    "methods": []
+  }
+],
   examples: [
     {
-      name: 'Default',
-      title: 'Default',
-      code: `<xui-toast-demo />`
-    }
+      name: "Default",
+      title: "Default",
+      code: `<xui-toast-demo />`,
+    },
   ]
 };

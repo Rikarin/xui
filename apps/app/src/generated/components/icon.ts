@@ -2,76 +2,87 @@
 import type { ComponentDoc } from '../../app/core/docs.model';
 
 export const doc: ComponentDoc = {
-  name: 'icon',
-  slug: 'icon',
-  title: 'Icon',
-  package: '@xui/icon',
-  kind: 'ui',
-  group: 'Foundations',
-  description: 'Sizing and colour for an @ng-icons icon.',
-  importsConst: 'XuiIconImports',
+  name: "icon",
+  slug: "icon",
+  title: "Icon",
+  package: "@xui/icon",
+  kind: "ui",
+  group: "Foundations",
+  description: "Sizing and colour for an @ng-icons icon.",
+  importsConst: "XuiIconImports",
   exports: [
-    'XuiIcon',
-    'XuiIconImports',
-    'XuiIconConfig',
-    'provideXuiIconConfig',
-    'injectXuiIconConfig',
-    'IconSize',
-    'iconVariants',
-    'IconVariants'
-  ],
+  "XuiIcon",
+  "XuiIconImports",
+  "XuiIconConfig",
+  "provideXuiIconConfig",
+  "injectXuiIconConfig",
+  "IconSize",
+  "iconVariants",
+  "IconVariants"
+],
   peerDependencies: {
-    '@angular/core': '22',
-    '@xui/core': '2.0.0-alpha.11',
-    'class-variance-authority': '^0.7.1',
-    clsx: '^2.1.1'
-  },
-  sourcePath: 'libs/ui/icon/xui',
+  "@angular/core": "22",
+  "@xui/core": "2.0.0-alpha.11",
+  "class-variance-authority": "^0.7.1",
+  "clsx": "^2.1.1"
+},
+  sourcePath: "libs/ui/icon/xui",
   symbols: [
-    {
-      kind: 'directive',
-      name: 'XuiIcon',
-      selector: 'ng-icon[xui]',
-      exportAs: 'xuiIcon',
-      docs: 'Sizing and colour for an `@ng-icons` icon.\n\n```html\n<ng-icon xui name="matCheckRound" />\n<ng-icon xui size="sm" color="error" name="matCloseRound" title="Remove" />\n```\n\nAn icon is decorative by default and hidden from assistive technology. Give it\na `title` when it carries meaning on its own — an icon-only button, a status\nglyph — and it becomes an `img` with that accessible name instead.',
-      inputs: [
-        {
-          name: 'class',
-          type: 'ClassValue',
-          default: "''",
-          required: false,
-          docs: 'The user-defined classes. Merged last so they win over the variant classes.'
-        },
-        {
-          name: 'size',
-          type: 'IconSize',
-          default: 'this.config.size',
-          required: false
-        },
-        {
-          name: 'color',
-          type: "IconVariants['color']",
-          default: 'this.config.color',
-          required: false
-        },
-        {
-          name: 'title',
-          type: 'string | null',
-          default: 'null',
-          required: false,
-          docs: 'An accessible name. Setting it marks the icon as meaningful content rather\nthan decoration.'
-        }
-      ],
-      outputs: [],
-      variants: [
-        {
-          name: 'color',
-          options: ['inherit', 'muted', 'subtle', 'primary', 'secondary', 'success', 'error', 'warning', 'info'],
-          default: 'inherit'
-        }
-      ],
-      methods: []
-    }
-  ],
-  examples: []
+  {
+    "kind": "directive",
+    "name": "XuiIcon",
+    "selector": "ng-icon[xui]",
+    "exportAs": "xuiIcon",
+    "docs": "Sizing and colour for an @ng-icons icon.",
+    "inputs": [
+      {
+        "name": "class",
+        "type": "ClassValue",
+        "default": "''",
+        "required": false,
+        "docs": "The user-defined classes. Merged last so they win over the variant classes."
+      },
+      {
+        "name": "size",
+        "type": "IconSize",
+        "default": "this.config.size",
+        "required": false
+      },
+      {
+        "name": "color",
+        "type": "IconVariants['color']",
+        "default": "this.config.color",
+        "required": false
+      },
+      {
+        "name": "title",
+        "type": "string | null",
+        "default": "null",
+        "required": false,
+        "docs": "An accessible name. Setting it marks the icon as meaningful content rather than decoration."
+      }
+    ],
+    "outputs": [],
+    "variants": [
+      {
+        "name": "color",
+        "options": [
+          "inherit",
+          "muted",
+          "subtle",
+          "primary",
+          "secondary",
+          "success",
+          "error",
+          "warning",
+          "info"
+        ],
+        "default": "inherit"
+      }
+    ],
+    "methods": []
+  }
+],
+  examples: [
+  ]
 };

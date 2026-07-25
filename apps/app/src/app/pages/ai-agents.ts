@@ -61,15 +61,15 @@ const TOOLS = [
         <h2 xuiHeading [level]="2" class="mt-10 mb-4 scroll-mt-20" id="tools">What it exposes</h2>
         <xui-table bordered compact class="w-full">
           <xui-tr>
-            <xui-th class="w-64">Tool</xui-th>
-            <xui-th class="grow">Answers</xui-th>
+            <xui-th class="w-56 min-w-0 shrink">Tool</xui-th>
+            <xui-th class="min-w-0 flex-1">Answers</xui-th>
           </xui-tr>
           @for (tool of tools; track tool[0]) {
             <xui-tr>
               <xui-td class="w-64"
-                ><code xuiCode class="text-xs">{{ tool[0] }}</code></xui-td
+                ><code xuiCode class="text-xs wrap-anywhere whitespace-normal">{{ tool[0] }}</code></xui-td
               >
-              <xui-td class="grow"
+              <xui-td class="min-w-0 flex-1"
                 ><span xuiText size="sm">{{ tool[1] }}</span></xui-td
               >
             </xui-tr>

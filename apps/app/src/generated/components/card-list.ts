@@ -2,70 +2,82 @@
 import type { ComponentDoc } from '../../app/core/docs.model';
 
 export const doc: ComponentDoc = {
-  name: 'card-list',
-  slug: 'card-list',
-  title: 'Card list',
-  package: '@xui/card-list',
-  kind: 'ui',
-  group: 'Data display',
-  description: 'A vertical list of cards rendered as flush rows.',
-  importsConst: 'XuiCardListImports',
-  exports: ['XuiCardList', 'XuiCardListImports', 'cardListVariants', 'CardListVariants'],
+  name: "card-list",
+  slug: "card-list",
+  title: "Card list",
+  package: "@xui/card-list",
+  kind: "ui",
+  group: "Data display",
+  description: "A vertical list of cards rendered as flush rows.",
+  importsConst: "XuiCardListImports",
+  exports: [
+  "XuiCardList",
+  "XuiCardListImports",
+  "cardListVariants",
+  "CardListVariants"
+],
   peerDependencies: {
-    '@angular/cdk': '22',
-    '@angular/core': '22',
-    '@xui/core': '2.0.0-alpha.11',
-    'class-variance-authority': '^0.7.1',
-    clsx: '^2.1.1'
-  },
-  sourcePath: 'libs/ui/card-list/xui',
+  "@angular/cdk": "22",
+  "@angular/core": "22",
+  "@xui/core": "2.0.0-alpha.11",
+  "class-variance-authority": "^0.7.1",
+  "clsx": "^2.1.1"
+},
+  sourcePath: "libs/ui/card-list/xui",
   symbols: [
-    {
-      kind: 'directive',
-      name: 'XuiCardList',
-      selector: '[xuiCardList]',
-      exportAs: 'xuiCardList',
-      docs: 'A vertical list of cards rendered as flush rows.\n\n```html\n<div xuiCardList>\n  <button xuiCard interactive>First</button>\n  <button xuiCard interactive>Second</button>\n</div>\n```\n\n`compact` applies to every row, so the child cards do not each need setting —\nmatching Blueprint, where `CardList`\'s `compact` cascades.\n\nSet `[bordered]="false"` when nesting inside another bordered container such\nas a section card, which already supplies the frame.',
-      inputs: [
-        {
-          name: 'class',
-          type: 'ClassValue',
-          default: "''",
-          required: false,
-          docs: 'The user-defined classes. Merged last so they win over the variant classes.'
-        },
-        {
-          name: 'bordered',
-          type: 'boolean',
-          default: 'true',
-          required: false,
-          transform: 'booleanAttribute',
-          docs: 'Draw the surrounding frame. Turn it off when nesting inside one.'
-        },
-        {
-          name: 'compact',
-          type: 'boolean',
-          default: 'false',
-          required: false,
-          transform: 'booleanAttribute',
-          docs: 'Reduce the padding of every row.'
-        }
-      ],
-      outputs: [],
-      variants: [
-        {
-          name: 'bordered',
-          options: ['true', 'false'],
-          default: 'true'
-        },
-        {
-          name: 'compact',
-          options: ['true', 'false'],
-          default: 'false'
-        }
-      ],
-      methods: []
-    }
-  ],
-  examples: []
+  {
+    "kind": "directive",
+    "name": "XuiCardList",
+    "selector": "[xuiCardList]",
+    "exportAs": "xuiCardList",
+    "docs": "A vertical list of cards rendered as flush rows.",
+    "inputs": [
+      {
+        "name": "class",
+        "type": "ClassValue",
+        "default": "''",
+        "required": false,
+        "docs": "The user-defined classes. Merged last so they win over the variant classes."
+      },
+      {
+        "name": "bordered",
+        "type": "boolean",
+        "default": "true",
+        "required": false,
+        "transform": "booleanAttribute",
+        "docs": "Draw the surrounding frame. Turn it off when nesting inside one."
+      },
+      {
+        "name": "compact",
+        "type": "boolean",
+        "default": "false",
+        "required": false,
+        "transform": "booleanAttribute",
+        "docs": "Reduce the padding of every row."
+      }
+    ],
+    "outputs": [],
+    "variants": [
+      {
+        "name": "bordered",
+        "options": [
+          "true",
+          "false"
+        ],
+        "default": "true"
+      },
+      {
+        "name": "compact",
+        "options": [
+          "true",
+          "false"
+        ],
+        "default": "false"
+      }
+    ],
+    "methods": []
+  }
+],
+  examples: [
+  ]
 };

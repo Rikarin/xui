@@ -10,6 +10,12 @@ import { CodeBlock } from './code-block';
  *
  * The preview is the compiled component the generator built from the story, so what renders here is
  * the same code the Code tab shows — there is no second, hand-maintained copy to drift.
+ *
+ * It renders on viewport rather than on the server. A preview is a live demo, not content: several
+ * components measure the DOM or construct a `ResizeObserver` on creation and cannot render without a
+ * browser, and the heavy ones (a chart, a canvas, a node graph) have no business in the payload of a
+ * page whose reader may never scroll to them. Everything that is documentation — the description,
+ * the source, the API tables — is still server-rendered.
  */
 @Component({
   selector: 'docs-example',
@@ -27,7 +33,11 @@ import { CodeBlock } from './code-block';
           <div
             class="border-border bg-background flex min-h-24 flex-wrap items-start gap-4 overflow-x-auto rounded-lg border p-6"
           >
-            <ng-container [ngComponentOutlet]="example().preview!" />
+            @defer (on viewport) {
+              <ng-container [ngComponentOutlet]="example().preview!" />
+            } @placeholder {
+              <span class="text-foreground-subtle text-sm">Loading preview…</span>
+            }
           </div>
         </xui-tab>
         <xui-tab [id]="'code-' + anchor()" title="Code">

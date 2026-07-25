@@ -108,30 +108,30 @@ const SWATCH_GROUPS = new Set(['surfaces', 'text', 'borders', 'intents', 'state'
             <xui-table bordered compact class="w-full">
               <xui-tr>
                 @if (group.swatch) {
-                  <xui-th class="w-16">Colour</xui-th>
+                  <xui-th class="w-16 shrink-0">Colour</xui-th>
                 }
-                <xui-th class="grow">Token</xui-th>
-                <xui-th class="w-28">Utility</xui-th>
+                <xui-th class="min-w-0 flex-1">Token</xui-th>
+                <xui-th class="w-28 min-w-0 shrink">Utility</xui-th>
               </xui-tr>
               @for (token of group.tokens; track token.name) {
                 <xui-tr>
                   @if (group.swatch) {
-                    <xui-td class="w-16">
+                    <xui-td class="w-16 shrink-0">
                       <span
                         class="border-border block size-6 rounded border"
                         [style.background]="'var(--' + token.name + ')'"
                       ></span>
                     </xui-td>
                   }
-                  <xui-td class="grow">
-                    <code xuiCode class="text-xs">--{{ token.name }}</code>
+                  <xui-td class="min-w-0 flex-1">
+                    <code xuiCode class="text-xs wrap-anywhere whitespace-normal">--{{ token.name }}</code>
                     @if (token.derived) {
                       <xui-tag minimal class="ms-2">derived</xui-tag>
                     }
                   </xui-td>
-                  <xui-td class="w-28">
+                  <xui-td class="w-28 min-w-0 shrink">
                     @if (token.utility) {
-                      <code xuiCode class="text-xs">{{ token.utility }}</code>
+                      <code xuiCode class="text-xs wrap-anywhere whitespace-normal">{{ token.utility }}</code>
                     } @else {
                       <span xuiText color="subtle">—</span>
                     }

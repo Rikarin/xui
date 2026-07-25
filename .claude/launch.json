@@ -4,8 +4,8 @@
     {
       "name": "docs",
       "runtimeExecutable": "pnpm",
-      "runtimeArgs": ["exec", "nx", "serve", "app"],
-      "port": 4200
+      "runtimeArgs": ["exec", "nx", "serve", "app", "--port", "4300"],
+      "port": 4300
     }
   ]
 }
