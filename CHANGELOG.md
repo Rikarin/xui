@@ -1,3 +1,20 @@
+## 2.0.0-alpha.9 (2026-07-25)
+
+### 🚀 Features
+
+- update packages ([e3c1a13](https://github.com/Rikarin/xui/commit/e3c1a13))
+- update packages ([bfcab74](https://github.com/Rikarin/xui/commit/bfcab74))
+- checkbox improvements ([eec35a5](https://github.com/Rikarin/xui/commit/eec35a5))
+
+### 🩹 Fixes
+
+- versions ([4776746](https://github.com/Rikarin/xui/commit/4776746))
+- update readme ([5ec2b60](https://github.com/Rikarin/xui/commit/5ec2b60))
+
+### ❤️ Thank You
+
+- Rikarin @Rikarin
+
 ## 2.0.0-alpha.8 (2025-06-15)
 
 ### 🚀 Features
