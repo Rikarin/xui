@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { moduleMetadata, type Meta, type StoryObj } from '@storybook/angular-vite';
-import { XuiOmnibar, XuiOmnibarImports } from '@xui/omnibar';
+import { XuiOmnibarImports } from '@xui/omnibar';
 
 const COMMANDS = [
   'New file',
