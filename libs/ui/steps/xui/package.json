@@ -1,6 +1,24 @@
 {
   "name": "@xui/steps",
   "version": "2.0.0-alpha.8",
+  "description": "Modern Angular 22 UI Library based on TailwindCSS",
+  "keywords": [
+    "angular",
+    "ui",
+    "components",
+    "tailwindcss"
+  ],
+  "homepage": "https://xuijs.org",
+  "bugs": {
+    "url": "https://github.com/rikarin/xui/issues"
+  },
+  "repository": "https://github.com/Rikarin/xui",
+  "license": "MIT",
+  "author": "Jiu",
+  "maintainers": [
+    "Jiu",
+    "Rikarin"
+  ],
   "sideEffects": false,
   "peerDependencies": {
     "@angular/cdk": "22",
