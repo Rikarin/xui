@@ -648,6 +648,46 @@ composition (Angular's `ngProjectAs` covers most cases).
 
 ---
 
+## 4b. Phase 10 — ng-zorro-antd (Ant Design) additions — ✅ COMPLETE (Tier 1 + Tier 2)
+
+Beyond Blueprint parity, a gap analysis against `ng-zorro-antd` surfaced components Ant
+Design has that Blueprint (and therefore xui) lacked. Ant-specific layout primitives
+(`grid`/`layout`/`space`/`flex`), infra (`i18n`/`pipes`/`cdk`), `code-editor` (Monaco), and
+components xui already covers (`auto-complete`≈`suggest`, `message`/`notification`≈`sonner`,
+`empty`≈`non-ideal-state`) were **excluded**. All ported components keep xui's
+Blueprint/GitHub theme (Tailwind tokens), signals, OnPush/zoneless, and the standard DoD
+(story + tests + browser-verified). 15 new packages, ~92 tests.
+
+**Tier 1 (common):**
+
+| Package             | Notes                                                                                                      |
+| ------------------- | ---------------------------------------------------------------------------------------------------------- |
+| `@xui/avatar`       | Image / initials / icon avatar with load-error fallback; `XuiAvatarGroup` overlap + `max` → `+N`. 9 tests. |
+| `@xui/statistic`    | Big-number stat (prefix/suffix/precision) + live `XuiCountdown` (token format, `finished`). 11 tests.      |
+| `@xui/descriptions` | Key/value grid, `column`/`layout`/`bordered`, per-item `span`. 5 tests.                                    |
+| `@xui/result`       | Status page (success/error/warning/info + 404/403/500), inline SVG glyphs, `[xuiResultExtra]`. 5 tests.    |
+| `@xui/rate`         | Star rating, `allowHalf`/`allowClear`, hover preview, arrow keys, `role=slider`. 6 tests.                  |
+| `@xui/timeline`     | Vertical timeline, colored dots, left/right axis. 3 tests.                                                 |
+| `@xui/steps`        | Stepper/wizard, derived finish/process/wait + per-step override, clickable, horizontal/vertical. 5 tests.  |
+| `@xui/pagination`   | Prev/next + numbered pages with ellipses (`paginationRange`), size changer, item summary, simple. 9 tests. |
+
+**Tier 2 (heavier):**
+
+| Package             | Notes                                                                                                           |
+| ------------------- | --------------------------------------------------------------------------------------------------------------- |
+| `@xui/splitter`     | Resizable panes, N-panel, min/max, horizontal/vertical, gutter drag, `sizeChange`. 4 tests.                     |
+| `@xui/carousel`     | Slides with arrows/dots/keyboard, autoplay (hover-pause via self-cleaning `effect`), `scrollx`/`fade`. 6 tests. |
+| `@xui/color-picker` | SV square + hue + alpha drag, hex field, presets; pure `color-utils` (hsv/rgb/hex). 11 tests. Browser-verified. |
+| `@xui/tree-select`  | Tree in a dropdown, single value or multi chips, expand/collapse. 4 tests.                                      |
+| `@xui/cascader`     | Cascading column select; leaf commits the path; reopens at the committed path. 4 tests.                         |
+| `@xui/transfer`     | Dual list-box, checkboxes + select-all, move buttons, per-side search. 5 tests.                                 |
+| `@xui/upload`       | Button or drag-drop zone, file list with size/progress/status + remove, `selected` output. 6 tests.             |
+
+**Deferred / possible follow-ups:** checkbox parent/child cascade in `tree-select`, `alternate`
+timeline mode, circular `progress`, and folding `@xui/pagination` into `@xui/data-table`.
+
+---
+
 ## 5. Execution model
 
 **Per-component loop** (repeatable, ~½–1 day for simple, 2–4 days for overlay/date components):
