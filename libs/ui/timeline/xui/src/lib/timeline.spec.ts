@@ -35,10 +35,9 @@ describe('XuiTimeline', () => {
   });
 
   it('reverses the axis in right mode', () => {
-    const { detect } = render(
-      `<xui-timeline mode="right"><xui-timeline-item>A</xui-timeline-item></xui-timeline>`,
-      { imports: IMPORTS }
-    );
+    const { detect } = render(`<xui-timeline mode="right"><xui-timeline-item>A</xui-timeline-item></xui-timeline>`, {
+      imports: IMPORTS
+    });
     detect();
 
     expectClasses(items()[0], 'flex-row-reverse', 'text-end');

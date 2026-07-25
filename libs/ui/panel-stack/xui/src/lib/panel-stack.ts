@@ -50,7 +50,7 @@ import { XUI_PANEL_DATA, XUI_PANEL_STACK, type XuiPanel } from './panel-stack.ty
         @if (depth() > 1) {
           <button
             type="button"
-            class="text-foreground-muted hover:bg-hover-overlay hover:text-foreground flex h-9 items-center gap-0.5 rounded-md pe-3 ps-1.5 text-sm focus-visible:outline-5 focus-visible:outline-offset-2"
+            class="text-foreground-muted hover:bg-hover-overlay hover:text-foreground flex h-9 items-center gap-0.5 rounded-md ps-1.5 pe-3 text-sm focus-visible:outline-5 focus-visible:outline-offset-2"
             (click)="closePanel()"
           >
             <ng-icon xui size="md" name="matChevronLeftRound" />

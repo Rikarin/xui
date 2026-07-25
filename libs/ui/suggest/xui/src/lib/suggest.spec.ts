@@ -1,6 +1,6 @@
 import { render } from '@xui/testing';
-import { XuiSuggest } from './suggest';
 import { XuiSuggestImports } from '../index';
+import { XuiSuggest } from './suggest';
 
 interface City {
   name: string;
@@ -19,7 +19,10 @@ const IMPORTS = [XuiSuggestImports];
 const setup = () => {
   const result = render(
     `<xui-suggest [items]="props().items" [itemText]="props().itemText" [itemDisabled]="props().itemDisabled" />`,
-    { imports: IMPORTS, props: { items: CITIES, itemText: (c: City) => c.name, itemDisabled: (c: City) => !!c.disabled } }
+    {
+      imports: IMPORTS,
+      props: { items: CITIES, itemText: (c: City) => c.name, itemDisabled: (c: City) => !!c.disabled }
+    }
   );
   const cmp = result.fixture.debugElement.query(n => n.name === 'xui-suggest').componentInstance as XuiSuggest<City>;
   return { ...result, cmp };

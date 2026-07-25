@@ -1,6 +1,6 @@
 import { render } from '@xui/testing';
-import { XuiOmnibar } from './omnibar';
 import { XuiOmnibarImports } from '../index';
+import { XuiOmnibar } from './omnibar';
 
 const COMMANDS = ['New file', 'Open file', 'Save', 'Save as…', 'Close tab', 'Toggle theme'];
 

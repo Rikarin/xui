@@ -22,7 +22,13 @@ export type ResultStatus = 'success' | 'error' | 'info' | 'warning' | '404' | '4
       @switch (status()) {
         @case ('success') {
           <svg viewBox="0 0 24 24" [class]="glyphClass()" fill="none">
-            <path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            <path
+              d="M20 6 9 17l-5-5"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
           </svg>
         }
         @case ('error') {

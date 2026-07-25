@@ -7,12 +7,7 @@ interface Item {
   disabled?: boolean;
 }
 
-const ITEMS: Item[] = [
-  { name: 'Apple' },
-  { name: 'Banana', disabled: true },
-  { name: 'Cherry' },
-  { name: 'Date' }
-];
+const ITEMS: Item[] = [{ name: 'Apple' }, { name: 'Banana', disabled: true }, { name: 'Cherry' }, { name: 'Date' }];
 
 // createQueryList builds signals, so run it inside an injection context.
 const make = (query = '', items = ITEMS) =>

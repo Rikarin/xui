@@ -65,7 +65,7 @@ export class XuiInputRightElement {}
     @if (clearable() && hasValue() && !disabled()) {
       <button
         type="button"
-        class="text-foreground-muted hover:text-foreground absolute top-1/2 end-0 z-10 flex -translate-y-1/2 items-center pe-2.5 transition-colors"
+        class="text-foreground-muted hover:text-foreground absolute end-0 top-1/2 z-10 flex -translate-y-1/2 items-center pe-2.5 transition-colors"
         aria-label="Clear"
         (click)="clear()"
       >

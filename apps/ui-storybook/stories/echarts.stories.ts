@@ -104,16 +104,23 @@ export const LinkedGroup: Story = {
     props: {
       visits: {
         grid: { ...GRID, top: 44 },
-        title: { text:'Visits', left: 0, textStyle: { fontSize: 13 } },
+        title: { text: 'Visits', left: 0, textStyle: { fontSize: 13 } },
         tooltip: { trigger: 'axis' },
         axisPointer: { link: [{ xAxisIndex: 'all' }] },
         xAxis: { type: 'category', boundaryGap: false, data: MONTHS },
         yAxis: { type: 'value' },
-        series: [{ type: 'line', name: 'Visits', areaStyle: { opacity: 0.12 }, data: [820, 932, 901, 1290, 1330, 1320, 1450, 1610] }]
+        series: [
+          {
+            type: 'line',
+            name: 'Visits',
+            areaStyle: { opacity: 0.12 },
+            data: [820, 932, 901, 1290, 1330, 1320, 1450, 1610]
+          }
+        ]
       } satisfies EChartsOption,
       errors: {
         grid: { ...GRID, top: 44 },
-        title: { text:'Errors', left: 0, textStyle: { fontSize: 13 } },
+        title: { text: 'Errors', left: 0, textStyle: { fontSize: 13 } },
         tooltip: { trigger: 'axis' },
         axisPointer: { link: [{ xAxisIndex: 'all' }] },
         xAxis: { type: 'category', boundaryGap: false, data: MONTHS },

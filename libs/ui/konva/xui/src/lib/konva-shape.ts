@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, ElementRef, effect, inject, model, output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  ElementRef,
+  effect,
+  inject,
+  model,
+  output
+} from '@angular/core';
 import Konva from 'konva';
 import { Container } from 'konva/lib/Container';
 import type { Node, NodeConfig } from 'konva/lib/Node';
@@ -205,8 +214,7 @@ const ANIMATION_SETTLE_MS = 200;
 
 function createNode(nodeName: string): Node {
   const nodeClass = (Konva as unknown as Record<string, unknown>)[nodeName] as
-    | (new (config?: NodeConfig) => Node)
-    | undefined;
+    (new (config?: NodeConfig) => Node) | undefined;
 
   if (!nodeClass) {
     throw new Error(`@xui/konva: Konva has no "${nodeName}" node.`);

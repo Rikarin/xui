@@ -73,10 +73,7 @@ export class XuiDescriptions {
     xui('grid', this.bordered() ? 'bg-border gap-px [&>*]:bg-surface' : 'gap-x-6 gap-y-3')
   );
   protected readonly cellClass = computed(() =>
-    xui(
-      this.layout() === 'vertical' ? 'flex flex-col gap-1' : 'flex gap-2',
-      this.bordered() && 'px-4 py-2.5'
-    )
+    xui(this.layout() === 'vertical' ? 'flex flex-col gap-1' : 'flex gap-2', this.bordered() && 'px-4 py-2.5')
   );
   protected readonly labelClass = computed(() =>
     xui(

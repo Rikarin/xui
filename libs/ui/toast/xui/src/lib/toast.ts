@@ -51,7 +51,7 @@ export interface XuiToastData {
 
     <button
       type="button"
-      class="text-foreground-muted hover:bg-hover-overlay hover:text-foreground -mt-1 -me-1 grid size-6 shrink-0 place-items-center rounded focus-visible:outline-5 focus-visible:outline-offset-2"
+      class="text-foreground-muted hover:bg-hover-overlay hover:text-foreground -me-1 -mt-1 grid size-6 shrink-0 place-items-center rounded focus-visible:outline-5 focus-visible:outline-offset-2"
       aria-label="Dismiss"
       (click)="dismiss.emit()"
     >

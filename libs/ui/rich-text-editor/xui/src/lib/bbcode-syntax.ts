@@ -56,8 +56,7 @@ const writer: XuiRichTextWriter = {
         return inner;
     }
   },
-  list: (items, ordered) =>
-    [ordered ? '[list=1]' : '[list]', ...items.map(item => `[*]${item}`), '[/list]'].join('\n'),
+  list: (items, ordered) => [ordered ? '[list=1]' : '[list]', ...items.map(item => `[*]${item}`), '[/list]'].join('\n'),
   codeBlock: text => `[code]\n${text.replace(/\n$/, '')}\n[/code]`,
   rule: () => ''
 };
@@ -134,11 +133,14 @@ function paragraphs(source: string): string[] {
 }
 
 function inlineToHtml(text: string): string {
-  let out = escapeHtml(text).replace(/\[url(?:=([^\]]+))?]([\s\S]*?)\[\/url]/gi, (match, href: string, label: string) => {
-    const url = sanitizeUrl(href ?? label);
+  let out = escapeHtml(text).replace(
+    /\[url(?:=([^\]]+))?]([\s\S]*?)\[\/url]/gi,
+    (match, href: string, label: string) => {
+      const url = sanitizeUrl(href ?? label);
 
-    return url ? `<a href="${escapeHtml(url)}">${label || escapeHtml(url)}</a>` : match;
-  });
+      return url ? `<a href="${escapeHtml(url)}">${label || escapeHtml(url)}</a>` : match;
+    }
+  );
 
   for (const [pattern, replacement] of PAIRS) {
     // Non-greedy matches close the innermost pair first, so repeating until the

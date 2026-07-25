@@ -6,14 +6,24 @@ const NODES: XuiTreeSelectNode[] = [
     value: 'eng',
     label: 'Engineering',
     children: [
-      { value: 'fe', label: 'Frontend', children: [{ value: 'web', label: 'Web' }, { value: 'mobile', label: 'Mobile' }] },
+      {
+        value: 'fe',
+        label: 'Frontend',
+        children: [
+          { value: 'web', label: 'Web' },
+          { value: 'mobile', label: 'Mobile' }
+        ]
+      },
       { value: 'be', label: 'Backend' }
     ]
   },
   {
     value: 'design',
     label: 'Design',
-    children: [{ value: 'product', label: 'Product' }, { value: 'brand', label: 'Brand' }]
+    children: [
+      { value: 'product', label: 'Product' },
+      { value: 'brand', label: 'Brand' }
+    ]
   }
 ];
 

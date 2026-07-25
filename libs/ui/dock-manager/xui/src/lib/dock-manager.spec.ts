@@ -407,10 +407,10 @@ describe('XuiDockManager', () => {
                   : element.firstElementChild?.className.includes('top-1')
                     ? 'top'
                     : 'bottom',
-            centre: [
-              Number.parseFloat(element.style.left) + 15,
-              Number.parseFloat(element.style.top) + 15
-            ] as [number, number]
+            centre: [Number.parseFloat(element.style.left) + 15, Number.parseFloat(element.style.top) + 15] as [
+              number,
+              number
+            ]
           }))
         : [];
 
@@ -549,7 +549,11 @@ describe('XuiDockManager', () => {
         );
         detect();
 
-        expect(indicators(host).filter(target => target.active).map(target => target.side)).toEqual(['bottom']);
+        expect(
+          indicators(host)
+            .filter(target => target.active)
+            .map(target => target.side)
+        ).toEqual(['bottom']);
       });
 
       it('offers nothing where the dragged pane may not go', () => {

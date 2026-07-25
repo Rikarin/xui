@@ -18,9 +18,9 @@ import { xui } from '@xui/core';
 import { createQueryList } from '@xui/core/query';
 import { XuiIcon } from '@xui/icon';
 import { XuiPopoverImports } from '@xui/popover';
+import { XuiSelectOption } from '@xui/select';
 import { XuiTag } from '@xui/tag';
 import type { ClassValue } from 'clsx';
-import { XuiSelectOption } from '@xui/select';
 
 const defaultMatch = (text: string, query: string): boolean => text.toLowerCase().includes(query.toLowerCase());
 
@@ -74,12 +74,7 @@ const defaultMatch = (text: string, query: string): boolean => text.toLowerCase(
             (click)="toggle(item)"
             (mouseenter)="list.setActiveItem(item)"
           >
-            <ng-icon
-              xui
-              name="matCheckRound"
-              size="sm"
-              [class]="isSelected(item) ? 'text-primary' : 'invisible'"
-            />
+            <ng-icon xui name="matCheckRound" size="sm" [class]="isSelected(item) ? 'text-primary' : 'invisible'" />
             @if (optionTemplate(); as tpl) {
               <ng-container
                 [ngTemplateOutlet]="tpl.template"

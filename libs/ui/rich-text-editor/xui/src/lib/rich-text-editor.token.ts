@@ -58,7 +58,5 @@ export function provideXuiRichTextSyntax(...syntaxes: XuiRichTextSyntax[]): Prov
 export function injectXuiRichTextSyntaxes(): Map<string, XuiRichTextSyntax> {
   const provided = inject(XuiRichTextSyntaxToken, { optional: true }) as XuiRichTextSyntax[][] | null;
 
-  return new Map(
-    [markdownSyntax, bbcodeSyntax, ...(provided ?? []).flat()].map(syntax => [syntax.name, syntax])
-  );
+  return new Map([markdownSyntax, bbcodeSyntax, ...(provided ?? []).flat()].map(syntax => [syntax.name, syntax]));
 }

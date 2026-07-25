@@ -11,7 +11,9 @@ const setup = (attrs: string, props: Record<string, unknown> = {}) => {
 };
 
 const pageButtons = () =>
-  [...document.querySelectorAll('xui-pagination button')].filter(b => /^\d+$/.test(b.textContent?.trim() ?? '')) as HTMLButtonElement[];
+  [...document.querySelectorAll('xui-pagination button')].filter(b =>
+    /^\d+$/.test(b.textContent?.trim() ?? '')
+  ) as HTMLButtonElement[];
 
 describe('paginationRange', () => {
   it('lists all pages when they fit', () => {
@@ -45,7 +47,9 @@ describe('XuiPagination', () => {
     const { detect, cmp } = setup('[total]="100"', { page: 1 });
     detect();
 
-    pageButtons().find(b => b.textContent?.trim() === '3')!.click();
+    pageButtons()
+      .find(b => b.textContent?.trim() === '3')!
+      .click();
     detect();
 
     expect(cmp.pageIndex()).toBe(3);

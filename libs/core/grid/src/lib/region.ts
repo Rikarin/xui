@@ -103,19 +103,10 @@ export function anyRegionContainsCell(regions: readonly Region[], row: number, c
  * expanding whole-axis (`null`) intervals to the full extent and clamping to the
  * grid size. Used to materialize a region (e.g. copy-to-clipboard).
  */
-export function regionBounds(
-  region: Region,
-  rowCount: number,
-  colCount: number
-): [number, number, number, number] {
+export function regionBounds(region: Region, rowCount: number, colCount: number): [number, number, number, number] {
   const rows = region.rows ? order(region.rows) : ([0, rowCount - 1] as CellInterval);
   const cols = region.cols ? order(region.cols) : ([0, colCount - 1] as CellInterval);
-  return [
-    Math.max(0, rows[0]),
-    Math.min(rowCount - 1, rows[1]),
-    Math.max(0, cols[0]),
-    Math.min(colCount - 1, cols[1])
-  ];
+  return [Math.max(0, rows[0]), Math.min(rowCount - 1, rows[1]), Math.max(0, cols[0]), Math.min(colCount - 1, cols[1])];
 }
 
 /**

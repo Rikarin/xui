@@ -1,17 +1,7 @@
 import { moduleMetadata, type Meta, type StoryObj } from '@storybook/angular-vite';
 import { XuiSuggest, XuiSuggestImports } from '@xui/suggest';
 
-const CITIES = [
-  'Amsterdam',
-  'Berlin',
-  'Copenhagen',
-  'Lisbon',
-  'Madrid',
-  'Prague',
-  'Stockholm',
-  'Vienna',
-  'Warsaw'
-];
+const CITIES = ['Amsterdam', 'Berlin', 'Copenhagen', 'Lisbon', 'Madrid', 'Prague', 'Stockholm', 'Vienna', 'Warsaw'];
 
 /**
  * A typeahead autocomplete: the text input itself is the target. Typing filters a

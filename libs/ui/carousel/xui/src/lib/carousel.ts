@@ -56,10 +56,7 @@ import { XuiCarouselItem } from './carousel-item';
           }
         </div>
       } @else {
-        <div
-          class="flex h-full transition-transform duration-500 ease-out"
-          [style.transform]="trackTransform()"
-        >
+        <div class="flex h-full transition-transform duration-500 ease-out" [style.transform]="trackTransform()">
           @for (item of items(); track $index; let i = $index) {
             <!-- inert as well as aria-hidden: an off-screen slide holding a
                  link or button would otherwise still be a tab stop. -->
@@ -76,10 +73,26 @@ import { XuiCarouselItem } from './carousel-item';
 
       @if (arrows() && count() > 1) {
         <button type="button" [class]="arrowClass('previous')" (click)="prev()" aria-label="Previous slide">
-          <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+          <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none">
+            <path
+              d="M15 6l-6 6 6 6"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
         </button>
         <button type="button" [class]="arrowClass('next')" (click)="next()" aria-label="Next slide">
-          <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+          <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none">
+            <path
+              d="M9 6l6 6-6 6"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
         </button>
       }
 
@@ -175,7 +188,9 @@ export class XuiCarousel {
     }
   }
 
-  protected readonly computedClass = computed(() => xui('bg-surface-inset relative block overflow-hidden rounded-lg', this.class()));
+  protected readonly computedClass = computed(() =>
+    xui('bg-surface-inset relative block overflow-hidden rounded-lg', this.class())
+  );
 
   /** `previous` sits at the inline start, `next` at the inline end. */
   protected arrowClass(side: 'previous' | 'next'): string {

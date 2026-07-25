@@ -185,13 +185,19 @@ export function injectXOverlay(): XOverlayFactory {
       }
     }
 
-    const ref: XOverlayRef<TResult> = new XOverlayRef<TResult>(overlayRef, focusTrap, previouslyFocused, releaseBackground, () => {
-      const index = refs.indexOf(ref);
+    const ref: XOverlayRef<TResult> = new XOverlayRef<TResult>(
+      overlayRef,
+      focusTrap,
+      previouslyFocused,
+      releaseBackground,
+      () => {
+        const index = refs.indexOf(ref);
 
-      if (index !== -1) {
-        refs.splice(index, 1);
+        if (index !== -1) {
+          refs.splice(index, 1);
+        }
       }
-    });
+    );
 
     if (resolved.closeOnEscape) {
       overlayRef.keydownEvents().subscribe(event => {

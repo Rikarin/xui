@@ -6,14 +6,7 @@
 export type XuiRichTextMark = 'bold' | 'italic' | 'underline' | 'strike' | 'code' | 'link';
 
 export type XuiRichTextBlock =
-  | 'heading1'
-  | 'heading2'
-  | 'heading3'
-  | 'bulletList'
-  | 'orderedList'
-  | 'quote'
-  | 'codeBlock'
-  | 'rule';
+  'heading1' | 'heading2' | 'heading3' | 'bulletList' | 'orderedList' | 'quote' | 'codeBlock' | 'rule';
 
 export type XuiRichTextFeature = XuiRichTextMark | XuiRichTextBlock;
 
@@ -171,11 +164,7 @@ function serializeInline(node: Node, writer: XuiRichTextWriter): string {
 
 /** Escapes text for insertion into the editor's HTML. */
 export function escapeHtml(text: string): string {
-  return text
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;');
+  return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
 /**

@@ -69,9 +69,6 @@ export class XuiAvatarGroup {
   }
 
   protected readonly computedClass = computed(() =>
-    xui(
-      'inline-flex items-center [&>*]:ring-2 [&>*]:ring-surface [&>*:not(:first-child)]:-ms-2',
-      this.class()
-    )
+    xui('inline-flex items-center [&>*]:ring-2 [&>*]:ring-surface [&>*:not(:first-child)]:-ms-2', this.class())
   );
 }

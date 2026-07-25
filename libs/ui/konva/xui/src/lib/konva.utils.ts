@@ -42,8 +42,7 @@ export function createListener(component: XuiKonvaComponent): XuiKonvaProps {
     // Typed structurally rather than as `OutputEmitterRef`, whose `listeners`
     // is private — intersecting the two collapses the type to `never`.
     const emitter = (component as unknown as Record<string, unknown>)[eventName] as
-      | { listeners?: unknown[]; emit: (value: unknown) => void }
-      | undefined;
+      { listeners?: unknown[]; emit: (value: unknown) => void } | undefined;
 
     if (emitter?.listeners?.length) {
       listeners[`on${eventName}`] = emitter.emit.bind(emitter);
@@ -65,9 +64,7 @@ export function applyNodeProps(
   oldProps: XuiKonvaProps = {}
 ): void {
   if ('id' in props) {
-    console.warn(
-      '@xui/konva: setting "id" on a Konva node can collide with ids elsewhere on the page. Prefer "name".'
-    );
+    console.warn('@xui/konva: setting "id" on a Konva node can collide with ids elsewhere on the page. Prefer "name".');
   }
 
   const instance = component.getStage();

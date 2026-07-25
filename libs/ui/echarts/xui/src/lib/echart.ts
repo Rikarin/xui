@@ -1,24 +1,24 @@
 import {
-  ChangeDetectionStrategy,
-  Component,
-  DestroyRef,
-  ElementRef,
-  ViewEncapsulation,
   afterNextRender,
   booleanAttribute,
+  ChangeDetectionStrategy,
+  Component,
   computed,
+  DestroyRef,
   effect,
+  ElementRef,
   inject,
   input,
   output,
   signal,
   untracked,
+  ViewEncapsulation,
   type OutputEmitterRef
 } from '@angular/core';
 import { xui } from '@xui/core';
 import type { ClassValue } from 'clsx';
-import type { EChartsInitOpts, EChartsType, ECElementEvent, SetOptionOpts } from 'echarts/core';
 import type { EChartsOption } from 'echarts';
+import type { ECElementEvent, EChartsInitOpts, EChartsType, SetOptionOpts } from 'echarts/core';
 import { XUI_ECHART_GROUP } from './echart-group';
 import { createXuiEChartLoadingOptions, createXuiEChartTheme, readThemeStamp, watchColorScheme } from './echart.theme';
 import { injectXuiEChartConfig, XuiECharts, type XuiEChartsCore, type XuiEChartTheme } from './echart.token';

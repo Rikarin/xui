@@ -1,6 +1,6 @@
 import { render } from '@xui/testing';
-import { XuiMultiSelect } from './multi-select';
 import { XuiMultiSelectImports } from '../index';
+import { XuiMultiSelect } from './multi-select';
 
 interface Tag {
   id: number;

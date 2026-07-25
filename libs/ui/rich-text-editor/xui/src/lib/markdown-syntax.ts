@@ -67,8 +67,7 @@ const writer: XuiRichTextWriter = {
         return inner;
     }
   },
-  list: (items, ordered) =>
-    items.map((item, index) => (ordered ? `${index + 1}. ${item}` : `- ${item}`)).join('\n'),
+  list: (items, ordered) => items.map((item, index) => (ordered ? `${index + 1}. ${item}` : `- ${item}`)).join('\n'),
   codeBlock: text => `\`\`\`\n${text.replace(/\n$/, '')}\n\`\`\``,
   rule: () => '---'
 };
@@ -213,8 +212,5 @@ function inlineToHtml(text: string): string {
 
   return out
     .replace(new RegExp(`${ESCAPED}(\\d+)${ESCAPED}`, 'g'), (_, index: string) => escapes[Number(index)])
-    .replace(
-      new RegExp(`${SPAN}(\\d+)${SPAN}`, 'g'),
-      (_, index: string) => `<code>${codeSpans[Number(index)]}</code>`
-    );
+    .replace(new RegExp(`${SPAN}(\\d+)${SPAN}`, 'g'), (_, index: string) => `<code>${codeSpans[Number(index)]}</code>`);
 }

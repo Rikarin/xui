@@ -36,12 +36,20 @@ export interface XuiTreeSelectNode {
   selector: 'xui-tree-select',
   imports: [NgTemplateOutlet],
   template: `
-    <button type="button" [class]="triggerClass()" [disabled]="disabled()" (click)="toggle()" [attr.aria-expanded]="open()">
+    <button
+      type="button"
+      [class]="triggerClass()"
+      [disabled]="disabled()"
+      (click)="toggle()"
+      [attr.aria-expanded]="open()"
+    >
       @if (multiple()) {
         @if (selectedValues().length) {
           <span class="flex flex-wrap gap-1">
             @for (val of selectedValues(); track val) {
-              <span class="bg-surface-inset text-foreground inline-flex items-center gap-1 rounded px-1.5 py-0.5 text-xs">
+              <span
+                class="bg-surface-inset text-foreground inline-flex items-center gap-1 rounded px-1.5 py-0.5 text-xs"
+              >
                 {{ labelOf(val) }}
                 <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
                 <span class="hover:text-error cursor-pointer" (click)="removeChip(val, $event)">×</span>
@@ -52,9 +60,13 @@ export interface XuiTreeSelectNode {
           <span class="text-foreground-muted">{{ placeholder() }}</span>
         }
       } @else {
-        <span [class]="displayLabel() ? 'text-foreground' : 'text-foreground-muted'">{{ displayLabel() || placeholder() }}</span>
+        <span [class]="displayLabel() ? 'text-foreground' : 'text-foreground-muted'">{{
+          displayLabel() || placeholder()
+        }}</span>
       }
-      <svg viewBox="0 0 24 24" class="text-foreground-muted ms-auto h-4 w-4 shrink-0" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+      <svg viewBox="0 0 24 24" class="text-foreground-muted ms-auto h-4 w-4 shrink-0" fill="none">
+        <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
     </button>
 
     @if (open()) {
@@ -76,8 +88,24 @@ export interface XuiTreeSelectNode {
       >
         @if (node.children?.length) {
           <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
-          <span class="hover:text-foreground text-foreground-muted -ms-1 flex h-4 w-4 items-center justify-center" (click)="toggleExpand(node.value, $event)">
-            <svg viewBox="0 0 24 24" class="h-3.5 w-3.5 transition-transform" [style.transform]="expanded().has(node.value) ? 'rotate(90deg)' : ''" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+          <span
+            class="hover:text-foreground text-foreground-muted -ms-1 flex h-4 w-4 items-center justify-center"
+            (click)="toggleExpand(node.value, $event)"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              class="h-3.5 w-3.5 transition-transform"
+              [style.transform]="expanded().has(node.value) ? 'rotate(90deg)' : ''"
+              fill="none"
+            >
+              <path
+                d="M9 6l6 6-6 6"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
           </span>
         } @else {
           <span class="w-3"></span>
@@ -85,7 +113,15 @@ export interface XuiTreeSelectNode {
         @if (multiple()) {
           <span [class]="checkboxClass(isSelected(node.value))">
             @if (isSelected(node.value)) {
-              <svg viewBox="0 0 24 24" class="h-3 w-3" fill="none"><path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" /></svg>
+              <svg viewBox="0 0 24 24" class="h-3 w-3" fill="none">
+                <path
+                  d="M20 6 9 17l-5-5"
+                  stroke="currentColor"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
             }
           </span>
         }
@@ -93,7 +129,10 @@ export interface XuiTreeSelectNode {
       </div>
       @if (expanded().has(node.value)) {
         @for (child of node.children ?? []; track child.value) {
-          <ng-container [ngTemplateOutlet]="nodeTpl" [ngTemplateOutletContext]="{ $implicit: child, level: level + 1 }" />
+          <ng-container
+            [ngTemplateOutlet]="nodeTpl"
+            [ngTemplateOutletContext]="{ $implicit: child, level: level + 1 }"
+          />
         }
       }
     </ng-template>
@@ -205,7 +244,9 @@ export class XuiTreeSelect {
     )
   );
   protected readonly panelClass = computed(() =>
-    xui('border-border bg-surface-overlay absolute z-50 mt-1 max-h-72 w-full overflow-auto rounded-lg border p-1 shadow-lg')
+    xui(
+      'border-border bg-surface-overlay absolute z-50 mt-1 max-h-72 w-full overflow-auto rounded-lg border p-1 shadow-lg'
+    )
   );
 
   protected rowClass(node: XuiTreeSelectNode): string {

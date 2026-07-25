@@ -78,9 +78,7 @@ describe('XuiRichTextEditor', () => {
       result.setProps({ format: 'bbcode' });
 
       expect(result.fixture.componentInstance.props().value).toBe('[b]bold[/b] and [i]italic[/i]');
-      expect(surface(result as RenderResult<never>).innerHTML).toBe(
-        '<p><strong>bold</strong> and <em>italic</em></p>'
-      );
+      expect(surface(result as RenderResult<never>).innerHTML).toBe('<p><strong>bold</strong> and <em>italic</em></p>');
     });
 
     it('says so when the format is unknown', () => {

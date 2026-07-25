@@ -1170,7 +1170,9 @@ export class XuiDockManager implements XuiDockContentMounter {
         y <= indicator.top + INDICATOR_SIZE
     );
 
-    const target = hit ? { pane: hit.pane, position: hit.position } : this.looseTargetAt(state, hovered, clientX, clientY);
+    const target = hit
+      ? { pane: hit.pane, position: hit.position }
+      : this.looseTargetAt(state, hovered, clientX, clientY);
 
     this.dockIndicators.set(
       indicators.map(indicator => ({
@@ -1231,7 +1233,13 @@ export class XuiDockManager implements XuiDockContentMounter {
 
     const push = (pane: XuiDockPane, side: DockIndicator['side'], left: number, top: number): void => {
       const position: XuiDockPosition =
-        side === 'center' ? 'center' : side === 'top' || side === 'bottom' ? side : (side === 'left') === ltr ? 'start' : 'end';
+        side === 'center'
+          ? 'center'
+          : side === 'top' || side === 'bottom'
+            ? side
+            : (side === 'left') === ltr
+              ? 'start'
+              : 'end';
 
       if (canDockInto(this.layout(), dragged, pane, position)) {
         candidates.push({ pane, position, side, left, top });

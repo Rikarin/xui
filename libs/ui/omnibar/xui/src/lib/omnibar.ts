@@ -47,7 +47,7 @@ const defaultMatch = (text: string, query: string): boolean => text.toLowerCase(
               xui
               name="matSearchRound"
               size="md"
-              class="text-foreground-muted pointer-events-none absolute top-1/2 start-4 -translate-y-1/2"
+              class="text-foreground-muted pointer-events-none absolute start-4 top-1/2 -translate-y-1/2"
             />
             <input
               #search
@@ -55,7 +55,7 @@ const defaultMatch = (text: string, query: string): boolean => text.toLowerCase(
               role="combobox"
               [attr.aria-expanded]="true"
               [attr.aria-controls]="listId"
-              class="text-foreground placeholder:text-foreground-subtle w-full bg-transparent py-4 pe-4 ps-12 text-base outline-none"
+              class="text-foreground placeholder:text-foreground-subtle w-full bg-transparent py-4 ps-12 pe-4 text-base outline-none"
               [placeholder]="placeholder()"
               [value]="query()"
               (input)="onQuery($event)"

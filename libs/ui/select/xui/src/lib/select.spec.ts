@@ -1,6 +1,6 @@
 import { render } from '@xui/testing';
-import { XuiSelect } from './select';
 import { XuiSelectImports } from '../index';
+import { XuiSelect } from './select';
 
 interface Fruit {
   id: number;

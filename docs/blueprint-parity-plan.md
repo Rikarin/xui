@@ -504,7 +504,7 @@ The last two — **`toast` and `panel-stack`** — closed the phase. Notes:
 | `Dialog`, `DialogBody`, `DialogFooter`, `DialogStep`, `MultistepDialog` | **✅ NEW** `@xui/dialog`       | `<xui-dialog [(isOpen)]>` + `xui-dialog-body`/`-footer`; `title`/`icon`/`size`/`canEscapeKeyClose`/`canOutsideClickClose`/`showCloseButton`. `XuiDialogService.open()` → injectable `XuiDialogRef<R>`. 9 tests, browser-verified. Multistep deferred.                                                |
 | `Alert`                                                                 | **✅ NEW** `@xui/alert`        | `<xui-alert [(isOpen)]>` confirm/cancel over dialog; `intent`(5)+icon, `confirmText`/`cancelText`, any dismissal = cancel. `XuiAlertService.confirm()` → `Promise<boolean>`. 8 tests, browser-verified.                                                                                              |
 | `Drawer`                                                                | **✅ NEW** `@xui/drawer`       | `<xui-drawer [(isOpen)]>` `position` left/right/top/bottom, `size`, `title`, `showCloseButton`; edge-pinned modal (new core `globalPosition`), WAAPI slide-in, reduced-motion aware. 8 tests, browser-verified.                                                                                      |
-| `Toast`, `OverlayToaster`                                               | **✅ NEW** `@xui/toast`        | `XuiToastService.show({message,intent,icon,actionText,onAction,timeout})` → id; `dismiss`/`clear`, `maxToasts`, `position` (6). Corner-pinned overlay, pointer pass-through, auto-dismiss. 9 tests, browser-verified. `@xui/sonner` has since been removed.                                       |
+| `Toast`, `OverlayToaster`                                               | **✅ NEW** `@xui/toast`        | `XuiToastService.show({message,intent,icon,actionText,onAction,timeout})` → id; `dismiss`/`clear`, `maxToasts`, `position` (6). Corner-pinned overlay, pointer pass-through, auto-dismiss. 9 tests, browser-verified. `@xui/sonner` has since been removed.                                          |
 | `PanelStack2`                                                           | **✅ NEW** `@xui/panel-stack`  | `<xui-panel-stack [initialPanel]>`; template (`let-stack`) or component (`XUI_PANEL_STACK`/`XUI_PANEL_DATA`) panels, back-navigating header, WAAPI slide, `(opened)`/`(closed)`. 6 tests, browser-verified. Keep-mounted mode deferred.                                                              |
 
 ### Phase 4 — Forms — ✅ COMPLETE (17: textarea, switch, radio, numeric-input, file-input, control-group, html-select, segmented-control, checkbox, input/InputGroup, form-field, slider, button-group (up), button (up), editable-text, tag-input, control-card)
@@ -697,21 +697,21 @@ packages, 33 tests, all browser-verified.
 
 **Tier 1 (clean, high-utility):**
 
-| Package             | Notes                                                                                                            |
-| ------------------- | --------------------------------------------------------------------------------------------------------------- |
-| `@xui/kbd`          | Keyboard-key cap directive (`[xuiKbd]`), sm/md/lg. Pairs with `@xui/hotkeys`. 3 tests.                           |
-| `@xui/aspect-ratio` | Ratio-locked container via CSS `aspect-ratio`; stretches/covers projected media. 3 tests.                       |
-| `@xui/scroll-area`  | Scroll container with slim theme-aware scrollbars (WebKit + Firefox); vertical/horizontal/both. 3 tests.        |
+| Package             | Notes                                                                                                                                 |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| `@xui/kbd`          | Keyboard-key cap directive (`[xuiKbd]`), sm/md/lg. Pairs with `@xui/hotkeys`. 3 tests.                                                |
+| `@xui/aspect-ratio` | Ratio-locked container via CSS `aspect-ratio`; stretches/covers projected media. 3 tests.                                             |
+| `@xui/scroll-area`  | Scroll container with slim theme-aware scrollbars (WebKit + Firefox); vertical/horizontal/both. 3 tests.                              |
 | `@xui/input-otp`    | Segmented OTP/PIN; one hidden input drives native caret/paste/autofill, visual slots, `mask`, `completed`. 7 tests. Browser-verified. |
-| `@xui/accordion`    | Multi-item expand/collapse; single- or `multiple`-open; CSS grid-rows height animation. `value` model. 5 tests. Browser-verified. |
+| `@xui/accordion`    | Multi-item expand/collapse; single- or `multiple`-open; CSS grid-rows height animation. `value` model. 5 tests. Browser-verified.     |
 
 **Tier 2 (heavier):**
 
-| Package               | Notes                                                                                                          |
-| --------------------- | -------------------------------------------------------------------------------------------------------------- |
-| `@xui/alert-dialog`   | Modal confirm/destructive dialog; `open` model, `confirmed`/`cancelled`, Escape/backdrop dismiss, focus. 5 tests. Browser-verified. |
-| `@xui/menubar`        | Desktop menu bar on CDK `CdkMenuBar` (roving focus, arrow-nav, hover-switch); dropdowns reuse `@xui/menu`. 3 tests. Browser-verified. |
-| `@xui/navigation-menu`| Hover mega-menu; items open a shared viewport panel (padded bridge keeps it reachable); `href` items are links. 4 tests. Browser-verified. |
+| Package                | Notes                                                                                                                                      |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| `@xui/alert-dialog`    | Modal confirm/destructive dialog; `open` model, `confirmed`/`cancelled`, Escape/backdrop dismiss, focus. 5 tests. Browser-verified.        |
+| `@xui/menubar`         | Desktop menu bar on CDK `CdkMenuBar` (roving focus, arrow-nav, hover-switch); dropdowns reuse `@xui/menu`. 3 tests. Browser-verified.      |
+| `@xui/navigation-menu` | Hover mega-menu; items open a shared viewport panel (padded bridge keeps it reachable); `href` items are links. 4 tests. Browser-verified. |
 
 **Deferred / not ported:** `sidebar` (app-shell scale), `item` (≈`card-list`), a standalone inline
 `calendar` (already inside `date-picker`), and entrance/exit animations on `alert-dialog` /
@@ -756,16 +756,16 @@ bump, cut `2.0.0-beta.0` after Phase 5, `2.0.0` after Phase 7.
 
 ## 6. Risks & open decisions
 
-| #   | Item                                                                                   | Recommendation                                                                                                                                                      |
-| --- | -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1   | **Toast**: `@xui/sonner` (ngx-sonner wrapper) vs a native `@xui/toast`                 | Build native `@xui/toast` on `@xui/core/overlay`; drop `@xui/sonner`. **Done** — `@xui/sonner` and its `ngx-sonner` dependency have been removed.                    |
-| 2   | **Icons**: Blueprint ships ~500 custom icons; xUI uses `@ng-icons` (Material)          | Stay on `@ng-icons` — do not port Blueprint's icon set. Document the icon-name mapping for anyone migrating.                                                        |
-| 3   | **Intent naming**: Blueprint `danger`/`none` vs xUI `error`/undefined                  | Keep xUI names; add a doc table. Do not add aliases (double API surface).                                                                                           |
-| 4   | **Popover engine**: `cdk/overlay` vs Floating UI (what Blueprint's `PopoverNext` uses) | `cdk/overlay` — already a dependency, SSR-safe, integrates with `cdk/a11y` focus trapping.                                                                          |
-| 5   | **`@angular/animations`**                                                              | Avoid; use Web Animations API / CSS transitions so packages stay dependency-light and zoneless-clean.                                                               |
-| 6   | **Test runner split** — Jest for libs, Vitest for the Storybook addon                  | Keep both: Jest for unit specs (existing infra), Vitest+Playwright only for Storybook interaction/a11y runs. Don't migrate mid-project.                             |
-| 7   | **Phase 8 (data grid)** scope                                                          | Confirmed in scope. Runs as its own sub-project after Phase 5; earlier phases must not paint it into a corner (see Phase 8).                                        |
-| 8   | **Bundle/dep hygiene**                                                                 | Each package declares exact peer deps; add a CI check that a package's `package.json` peers match its actual imports.                                               |
+| #   | Item                                                                                   | Recommendation                                                                                                                                    |
+| --- | -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | **Toast**: `@xui/sonner` (ngx-sonner wrapper) vs a native `@xui/toast`                 | Build native `@xui/toast` on `@xui/core/overlay`; drop `@xui/sonner`. **Done** — `@xui/sonner` and its `ngx-sonner` dependency have been removed. |
+| 2   | **Icons**: Blueprint ships ~500 custom icons; xUI uses `@ng-icons` (Material)          | Stay on `@ng-icons` — do not port Blueprint's icon set. Document the icon-name mapping for anyone migrating.                                      |
+| 3   | **Intent naming**: Blueprint `danger`/`none` vs xUI `error`/undefined                  | Keep xUI names; add a doc table. Do not add aliases (double API surface).                                                                         |
+| 4   | **Popover engine**: `cdk/overlay` vs Floating UI (what Blueprint's `PopoverNext` uses) | `cdk/overlay` — already a dependency, SSR-safe, integrates with `cdk/a11y` focus trapping.                                                        |
+| 5   | **`@angular/animations`**                                                              | Avoid; use Web Animations API / CSS transitions so packages stay dependency-light and zoneless-clean.                                             |
+| 6   | **Test runner split** — Jest for libs, Vitest for the Storybook addon                  | Keep both: Jest for unit specs (existing infra), Vitest+Playwright only for Storybook interaction/a11y runs. Don't migrate mid-project.           |
+| 7   | **Phase 8 (data grid)** scope                                                          | Confirmed in scope. Runs as its own sub-project after Phase 5; earlier phases must not paint it into a corner (see Phase 8).                      |
+| 8   | **Bundle/dep hygiene**                                                                 | Each package declares exact peer deps; add a CI check that a package's `package.json` peers match its actual imports.                             |
 
 ---
 
@@ -848,11 +848,11 @@ produced. Everything below is browser-verified in Storybook plus covered by unit
 
 ### 8.2 Keyboard access
 
-| Component      | Was                                                        | Now                                                                                     |
-| -------------- | ---------------------------------------------------------- | --------------------------------------------------------------------------------------- |
-| `transfer`     | `<li (click)>` — mouse only, a11y lint rules suppressed     | `role="listbox"` + `aria-multiselectable`, one tab stop per side, `aria-activedescendant`, Arrow/Home/End/Space/Enter; select-all is a real tri-state `role="checkbox"` button |
-| `color-picker` | S/V square, hue and alpha strips were `<div (mousedown)>`   | Strips are `role="slider"` with `aria-value*` and arrow keys; the square is a focusable group with two-axis arrow stepping (Shift = ×10) |
-| `splitter`     | `role="separator"` with no tabindex, no keys, no values     | Focusable separator with `aria-valuenow/min/max`, Arrow (Shift = 10%) and Home/End        |
+| Component      | Was                                                       | Now                                                                                                                                                                            |
+| -------------- | --------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `transfer`     | `<li (click)>` — mouse only, a11y lint rules suppressed   | `role="listbox"` + `aria-multiselectable`, one tab stop per side, `aria-activedescendant`, Arrow/Home/End/Space/Enter; select-all is a real tri-state `role="checkbox"` button |
+| `color-picker` | S/V square, hue and alpha strips were `<div (mousedown)>` | Strips are `role="slider"` with `aria-value*` and arrow keys; the square is a focusable group with two-axis arrow stepping (Shift = ×10)                                       |
+| `splitter`     | `role="separator"` with no tabindex, no keys, no values   | Focusable separator with `aria-valuenow/min/max`, Arrow (Shift = 10%) and Home/End                                                                                             |
 
 ### 8.3 Modal semantics
 
@@ -870,7 +870,7 @@ spec, no way to even view RTL in Storybook.
 - **`@xui/core/a11y` gained the direction primitives**: `injectXDirection()` (a signal over
   `@angular/cdk/bidi`), `arrowDirection` / `arrowDirectionOnAxis` (WAI-ARIA's rule that horizontal
   arrows mirror in RTL and vertical ones never do), `arrowValueDirection` (the same for
-  value widgets, where ArrowUp *increases* rather than meaning "previous"), and `inlineFraction`
+  value widgets, where ArrowUp _increases_ rather than meaning "previous"), and `inlineFraction`
   for pointer maths along the inline axis.
 - **Keyboard fixed** in tabs, tree, slider, rate, carousel, date-picker, data-table and splitter.
 - **Geometry fixed**: the tabs indicator (`insetInlineStart` measured from the right edge in RTL),
@@ -885,7 +885,7 @@ spec, no way to even view RTL in Storybook.
   `<html>`, and `@xui/testing` exports `provideDirection('rtl')` for specs.
 
 **Known limits.** `@xui/data-table` positions virtualized cells with JS-computed physical `left`
-and `sticky left-0` frozen columns; its keyboard navigation is direction-aware but the *layout*
+and `sticky left-0` frozen columns; its keyboard navigation is direction-aware but the _layout_
 is still LTR-only. Directional API names (`drawer position="left|right"`, `button align`,
 `timeline mode`, `data-table align`, the overlay `placement` union) stay physical — renaming them
 to `start`/`end` is a breaking change worth its own pass. The hardcoded English `aria-label`s
@@ -896,17 +896,17 @@ to `start`/`end` is a breaking change worth its own pass. The hardcoded English 
 axe-core (via the Storybook a11y addon) was run over all 270 stories before and after. Semantic
 violations fixed:
 
-| Violation                                | Where                                  | Fix                                                                                              |
-| ---------------------------------------- | -------------------------------------- | ------------------------------------------------------------------------------------------------ |
-| `button-name` (critical)                 | `<xui-checkbox>projected label</…>`    | Projected label content lives in a sibling span, so the box now points `aria-labelledby` at it     |
-| `aria-allowed-attr` (critical)           | `<button xuiCard interactive selected>` | `aria-selected` is invalid on a button — emit `aria-pressed` (button) / `aria-current` (link)      |
-| `aria-input-field-name` (serious)        | `<xui-rate>`                            | `role="slider"` had no name; defaults to "Rating", overridable, plus `aria-valuetext` ("3 of 5")   |
-| `role-img-alt` (serious)                 | `<xui-avatar src>` with no `alt`        | An avatar with no name is decorative: drop `role="img"`, add `aria-hidden`                         |
-| `aria-allowed-attr` (critical, 42/cell)  | date-picker + date-range-picker day cells | `aria-selected` moved from the day `<button>` onto its `<td>`, which is the gridcell               |
-| `aria-allowed-attr` (critical)           | `[xuiPopover]` on a roleless `<div>`     | The directive now only emits `aria-expanded`/`aria-haspopup` when the host has a role that allows them |
-| `button-name` (critical)                 | `<xui-select>` / `<xui-timezone-select>` | A `combobox` takes its *value* from content, so it needs a real label: new `aria-label`/`aria-labelledby` inputs, defaulting to the placeholder |
-| `empty-table-header` (minor)             | data-table row-header corner cell        | Labelled "Row number"                                                                              |
-| `link-name`, `button-name` (story-level) | breadcrumb + checkbox colour matrices   | Icon-only links and colour swatches now carry `aria-label` in the stories                          |
+| Violation                                | Where                                     | Fix                                                                                                                                             |
+| ---------------------------------------- | ----------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| `button-name` (critical)                 | `<xui-checkbox>projected label</…>`       | Projected label content lives in a sibling span, so the box now points `aria-labelledby` at it                                                  |
+| `aria-allowed-attr` (critical)           | `<button xuiCard interactive selected>`   | `aria-selected` is invalid on a button — emit `aria-pressed` (button) / `aria-current` (link)                                                   |
+| `aria-input-field-name` (serious)        | `<xui-rate>`                              | `role="slider"` had no name; defaults to "Rating", overridable, plus `aria-valuetext` ("3 of 5")                                                |
+| `role-img-alt` (serious)                 | `<xui-avatar src>` with no `alt`          | An avatar with no name is decorative: drop `role="img"`, add `aria-hidden`                                                                      |
+| `aria-allowed-attr` (critical, 42/cell)  | date-picker + date-range-picker day cells | `aria-selected` moved from the day `<button>` onto its `<td>`, which is the gridcell                                                            |
+| `aria-allowed-attr` (critical)           | `[xuiPopover]` on a roleless `<div>`      | The directive now only emits `aria-expanded`/`aria-haspopup` when the host has a role that allows them                                          |
+| `button-name` (critical)                 | `<xui-select>` / `<xui-timezone-select>`  | A `combobox` takes its _value_ from content, so it needs a real label: new `aria-label`/`aria-labelledby` inputs, defaulting to the placeholder |
+| `empty-table-header` (minor)             | data-table row-header corner cell         | Labelled "Row number"                                                                                                                           |
+| `link-name`, `button-name` (story-level) | breadcrumb + checkbox colour matrices     | Icon-only links and colour swatches now carry `aria-label` in the stories                                                                       |
 
 **Still open — `color-contrast`.** ~15 stories report serious contrast failures on the intent
 palette (badge, tag, button, checkbox colour matrices, tree secondary labels, data-table

@@ -5,8 +5,8 @@ import {
   arrowDirection,
   arrowDirectionOnAxis,
   arrowValueDirection,
-  inlineFraction,
-  injectXDirection
+  injectXDirection,
+  inlineFraction
 } from './direction';
 
 @Component({

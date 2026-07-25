@@ -68,12 +68,12 @@ const defaultMatch = (text: string, query: string): boolean => text.toLowerCase(
               xui
               name="matSearchRound"
               size="sm"
-              class="text-foreground-muted pointer-events-none absolute top-1/2 start-2.5 -translate-y-1/2"
+              class="text-foreground-muted pointer-events-none absolute start-2.5 top-1/2 -translate-y-1/2"
             />
             <input
               [id]="searchId"
               type="text"
-              class="text-foreground placeholder:text-foreground-subtle w-full bg-transparent py-2 pe-2 ps-8 outline-none"
+              class="text-foreground placeholder:text-foreground-subtle w-full bg-transparent py-2 ps-8 pe-2 outline-none"
               [placeholder]="searchPlaceholder()"
               [value]="query()"
               (input)="onQuery($event)"
@@ -211,10 +211,7 @@ export class XuiSelect<T> {
           this.list.activateFirst();
           // The search input renders in the popover's overlay, outside this view's
           // query scope, so focus it by id once it has mounted.
-          afterNextRender(
-            () => this.document.getElementById(this.searchId)?.focus(),
-            { injector: this.injector }
-          );
+          afterNextRender(() => this.document.getElementById(this.searchId)?.focus(), { injector: this.injector });
         } else if (this.resetOnClose()) {
           this.query.set('');
         }

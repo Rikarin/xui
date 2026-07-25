@@ -138,8 +138,7 @@ export class XuiRate {
       return;
     }
 
-    const next =
-      arrow === 'increase' ? Math.min(this.count(), this.value() + step) : Math.max(0, this.value() - step);
+    const next = arrow === 'increase' ? Math.min(this.count(), this.value() + step) : Math.max(0, this.value() - step);
 
     event.preventDefault();
     this.value.set(next);
