@@ -56,7 +56,10 @@ export default {
         'toggle-group',
         'tooltip',
         'typography',
+        // Published packages that are not components.
+        'core',
         'mcp',
+        'tools',
         'nx',
         // `nx release` commits as `chore(release): publish <version>`.
         'release',

@@ -20,9 +20,23 @@ pnpm add @xui/core @xui/button @xui/dialog @xui/icon
 Peer dependencies are `@angular/core`, `@angular/cdk`, `class-variance-authority` and `clsx`;
 `@ng-icons/core` is needed by anything that renders an icon.
 
+## Setup
+
+`ng add` does the stylesheet wiring, which is the step people get wrong:
+
+```bash
+ng add @xui/core          # Angular CLI
+nx add @xui/core          # Nx
+```
+
+It patches the project's global stylesheet with the theme import, the CDK overlay stylesheet and a
+`@source` glob whose depth matches where that stylesheet sits. It is idempotent, adds only what is
+missing, and warns instead of guessing when Tailwind is not set up or no stylesheet can be found.
+Pass `--skip-overlay` if the app will use no overlay surface.
+
 ## Stylesheet
 
-Import the token layer once, after Tailwind:
+If you wire it by hand, import the token layer once, after Tailwind:
 
 ```css
 @import 'tailwindcss';

@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "xui-ng-add",
+  "title": "Add xUI to an application",
+  "type": "object",
+  "properties": {
+    "project": {
+      "type": "string",
+      "description": "Name of the project to add xUI to. Defaults to the workspace's default project, or the only application when there is one.",
+      "$default": {
+        "$source": "projectName"
+      }
+    },
+    "stylesFile": {
+      "type": "string",
+      "description": "Path to the global stylesheet to patch, relative to the workspace root. Detected from the project's build target when omitted."
+    },
+    "skipOverlay": {
+      "type": "boolean",
+      "default": false,
+      "description": "Do not import the CDK overlay stylesheet. Overlay surfaces (dialog, popover, tooltip, menu, drawer, toast) render in the document flow without it."
+    }
+  },
+  "required": []
+}

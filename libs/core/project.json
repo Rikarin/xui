@@ -7,19 +7,17 @@
   "tags": ["core"],
   "targets": {
     "build": {
-      "executor": "@nx/angular:package",
+      "executor": "nx:run-commands",
+      "dependsOn": ["package"],
       "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
       "options": {
-        "project": "libs/core/ng-package.json",
-        "tsConfig": "libs/core/tsconfig.lib.json"
-      },
-      "configurations": {
-        "production": {
-          "tsConfig": "libs/core/tsconfig.lib.prod.json"
-        },
-        "development": {}
-      },
-      "defaultConfiguration": "production"
+        "cwd": "{workspaceRoot}",
+        "parallel": false,
+        "commands": [
+          "tsc -p libs/core/tsconfig.schematics.json",
+          "node -e \"const{cpSync,writeFileSync}=require('node:fs');cpSync('libs/core/schematics','dist/libs/core/schematics',{recursive:true,filter:s=>!s.endsWith('.ts')});writeFileSync('dist/libs/core/schematics/package.json',JSON.stringify({type:'commonjs'}))\""
+        ]
+      }
     },
     "nx-release-publish": {
       "options": {
@@ -36,6 +34,21 @@
     },
     "lint": {
       "executor": "@nx/eslint:lint"
+    },
+    "package": {
+      "executor": "@nx/angular:package",
+      "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
+      "options": {
+        "project": "libs/core/ng-package.json",
+        "tsConfig": "libs/core/tsconfig.lib.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/core/tsconfig.lib.prod.json"
+        },
+        "development": {}
+      },
+      "defaultConfiguration": "production"
     }
   }
 }

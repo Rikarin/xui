@@ -9,7 +9,11 @@ export default [
       '@nx/dependency-checks': [
         'error',
         {
-          ignoredFiles: ['{projectRoot}/eslint.config.{js,cjs,mjs}']
+          ignoredFiles: ['{projectRoot}/eslint.config.{js,cjs,mjs}'],
+          // The ng-add schematic imports `@angular-devkit/schematics` for types only, so nothing
+          // of it survives compilation. Declaring it would put the devkit in every consumer's
+          // dependency tree for a package that never loads it at runtime.
+          ignoredDependencies: ['@angular-devkit/schematics']
         }
       ]
     },

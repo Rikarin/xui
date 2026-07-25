@@ -1,0 +1,21 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    // Schematics are loaded with `require()` by the Angular CLI, so they must be CommonJS even
+    // though the published package is ESM - a `package.json` with `"type": "commonjs"` is written
+    // next to the output to scope that.
+    "module": "commonjs",
+    "moduleResolution": "node10",
+    "target": "es2022",
+    "lib": ["es2023"],
+    "types": ["node"],
+    "strict": true,
+    "declaration": true,
+    "outDir": "../../dist/libs/core/schematics",
+    "rootDir": "schematics",
+    "skipLibCheck": true,
+    "ignoreDeprecations": "6.0"
+  },
+  "include": ["schematics/**/*.ts"],
+  "exclude": ["schematics/**/*.spec.ts"]
+}

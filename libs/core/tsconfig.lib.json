@@ -8,6 +8,7 @@
     "types": []
   },
   "exclude": [
+    "schematics/**/*",
     "**/*.spec.ts",
     "test-setup.ts",
     "jest.config.ts",

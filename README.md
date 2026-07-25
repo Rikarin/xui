@@ -55,11 +55,22 @@ xUI is a customizable Angular 22 UI Library with full support of TailwindCSS sty
 
 ## Installation
 
-Install package with **PNPM**
+```bash
+ng add @xui/core
+```
+
+This installs the core package and wires the stylesheet for you — the theme import, the CDK overlay
+stylesheet, and a `@source` glob matching where your global stylesheet lives. It is idempotent, so
+running it again only adds what is missing. Use `nx add @xui/core` in an Nx workspace, and
+`--skip-overlay` if you will not use dialogs, drawers, popovers, tooltips, menus or toasts.
+
+Then add the components you need:
 
 ```bash
-pnpm i @xui/core ....
+pnpm i @xui/button @xui/dialog @xui/icon
 ```
+
+To wire the styles by hand instead, see [Theming](#theming) below.
 
 ## Theming
 
