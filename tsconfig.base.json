@@ -58,6 +58,7 @@
       "@xui/core/overlay": ["./libs/core/overlay/src/index.ts"],
       "@xui/core/interactions": ["./libs/core/interactions/src/index.ts"],
       "@xui/core/a11y": ["./libs/core/a11y/src/index.ts"],
+      "@xui/core/query": ["./libs/core/query/src/index.ts"],
       "@xui/divider": ["./libs/ui/divider/xui/src/index.ts"],
       "@xui/link": ["./libs/ui/link/xui/src/index.ts"],
       "@xui/progress-bar": ["./libs/ui/progress-bar/xui/src/index.ts"],
@@ -95,7 +96,11 @@
       "@xui/tabs": ["./libs/ui/tabs/xui/src/index.ts"],
       "@xui/tag": ["./libs/ui/tag/xui/src/index.ts"],
       "@xui/tree": ["./libs/ui/tree/xui/src/index.ts"],
-      "@xui/hotkeys": ["./libs/ui/hotkeys/xui/src/index.ts"]
+      "@xui/hotkeys": ["./libs/ui/hotkeys/xui/src/index.ts"],
+      "@xui/select": ["./libs/ui/select/xui/src/index.ts"],
+      "@xui/multi-select": ["./libs/ui/multi-select/xui/src/index.ts"],
+      "@xui/suggest": ["./libs/ui/suggest/xui/src/index.ts"],
+      "@xui/omnibar": ["./libs/ui/omnibar/xui/src/index.ts"]
     },
     "strict": false,
     "noUncheckedSideEffectImports": false,

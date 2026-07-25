@@ -1,0 +1,159 @@
+import { render } from '@xui/testing';
+import { XuiSelect } from './select';
+import { XuiSelectImports } from '../index';
+
+interface Fruit {
+  id: number;
+  name: string;
+  disabled?: boolean;
+}
+
+const FRUITS: Fruit[] = [
+  { id: 1, name: 'Apple' },
+  { id: 2, name: 'Banana' },
+  { id: 3, name: 'Cherry', disabled: true },
+  { id: 4, name: 'Date' }
+];
+
+const IMPORTS = [XuiSelectImports];
+
+const TEMPLATE = `
+  <xui-select
+    [items]="props().items"
+    [itemText]="props().itemText"
+    [itemDisabled]="props().itemDisabled"
+    (selectionChange)="props().onChange($event)"
+  />
+`;
+
+const setup = (extra: Record<string, unknown> = {}) => {
+  const changes: Fruit[] = [];
+  const result = render(TEMPLATE, {
+    imports: IMPORTS,
+    props: {
+      items: FRUITS,
+      itemText: (f: Fruit) => f.name,
+      itemDisabled: (f: Fruit) => !!f.disabled,
+      onChange: (f: Fruit) => changes.push(f),
+      ...extra
+    }
+  });
+  const select = result.fixture.debugElement.query(n => n.name === 'xui-select').componentInstance as XuiSelect<Fruit>;
+  return { ...result, select, changes };
+};
+
+const trigger = () => document.querySelector('xui-select button') as HTMLButtonElement;
+const panel = () => document.querySelector('.cdk-overlay-container [role="listbox"]');
+const options = () => [...document.querySelectorAll('[role="option"]')] as HTMLElement[];
+const search = () => document.querySelector('.cdk-overlay-container input') as HTMLInputElement;
+
+const typeSearch = (value: string, detect: () => void) => {
+  search().value = value;
+  search().dispatchEvent(new Event('input', { bubbles: true }));
+  detect();
+};
+
+describe('XuiSelect', () => {
+  afterEach(() => {
+    document.querySelectorAll('.cdk-overlay-container').forEach(n => n.remove());
+  });
+
+  it('shows the placeholder and stays closed until clicked', () => {
+    const { detect } = setup();
+    detect();
+
+    expect(trigger().textContent).toContain('Select…');
+    expect(panel()).toBeNull();
+  });
+
+  it('opens a listbox of items on click', () => {
+    const { detect, click } = setup();
+    detect();
+
+    click(trigger());
+    detect();
+
+    expect(panel()).toBeTruthy();
+    expect(options().map(o => o.textContent?.trim())).toEqual(['Apple', 'Banana', 'Cherry', 'Date']);
+  });
+
+  it('filters the list from the search field', () => {
+    const { detect, click } = setup();
+    detect();
+    click(trigger());
+    detect();
+
+    typeSearch('a', detect);
+
+    // case-insensitive substring on the name
+    expect(options().map(o => o.textContent?.trim())).toEqual(['Apple', 'Banana', 'Date']);
+  });
+
+  it('shows the empty message when nothing matches', () => {
+    const { detect, click } = setup();
+    detect();
+    click(trigger());
+    detect();
+
+    typeSearch('zzz', detect);
+
+    expect(options().length).toBe(0);
+    expect(panel()?.textContent).toContain('No results.');
+  });
+
+  it('selects an item on click, closes, and reflects it on the trigger', () => {
+    const { detect, click, select, changes } = setup();
+    detect();
+    click(trigger());
+    detect();
+
+    (options()[1] as HTMLElement).click();
+    detect();
+
+    expect(select.selectedItem()?.name).toBe('Banana');
+    expect(changes).toEqual([FRUITS[1]]);
+    expect(trigger().textContent).toContain('Banana');
+    expect(panel()).toBeNull();
+  });
+
+  it('navigates with the arrow keys and selects with Enter, skipping disabled', () => {
+    const { detect, click, select } = setup();
+    detect();
+    click(trigger());
+    detect();
+
+    // active starts at Apple; ArrowDown → Banana, ArrowDown → (Cherry disabled) Date
+    search().dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true, cancelable: true }));
+    search().dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true, cancelable: true }));
+    detect();
+    search().dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true, cancelable: true }));
+    detect();
+
+    expect(select.selectedItem()?.name).toBe('Date');
+  });
+
+  it('does not select a disabled item on click', () => {
+    const { detect, click, select } = setup();
+    detect();
+    click(trigger());
+    detect();
+
+    // Cherry is disabled (index 2).
+    (options()[2] as HTMLElement).click();
+    detect();
+
+    expect(select.selectedItem()).toBeNull();
+  });
+
+  it('closes on Escape', () => {
+    const { detect, click } = setup();
+    detect();
+    click(trigger());
+    detect();
+
+    search().dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true }));
+    detect();
+
+    expect(panel()).toBeNull();
+  });
+});
