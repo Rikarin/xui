@@ -4,6 +4,7 @@ import xuiComponentGenerator from '../xui-component/generator';
 import xuiDirectiveGenerator from '../xui-directive/generator';
 import xuiStoryGenerator from '../xui-story/generator';
 import { XuiLibraryGeneratorSchema } from './schema';
+import { dropDiagnosticSuppressions } from './tsconfig-diagnostics';
 
 export async function xuiLibraryGenerator(tree: Tree, options: XuiLibraryGeneratorSchema) {
   const { fileName: normalizedName, className } = names(options.name);
@@ -46,6 +47,7 @@ export async function xuiLibraryGenerator(tree: Tree, options: XuiLibraryGenerat
   alignPackageJson(tree, projectRoot, normalizedName);
   alignSpecTsConfig(tree, projectRoot);
   alignJestConfig(tree, projectRoot, projectName);
+  dropDiagnosticSuppressions(tree, projectRoot);
 
   if (options.generate === 'component') {
     await xuiComponentGenerator(tree, {

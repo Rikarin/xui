@@ -37,13 +37,5 @@
     "a11y/overlay/**/*.ts",
     "a11y/interactions/**/*.ts",
     "a11y/interactions/overlay/**/*.ts"
-  ],
-  "angularCompilerOptions": {
-    "extendedDiagnostics": {
-      "checks": {
-        "nullishCoalescingNotNullable": "suppress",
-        "optionalChainNotNullable": "suppress"
-      }
-    }
-  }
+  ]
 }
