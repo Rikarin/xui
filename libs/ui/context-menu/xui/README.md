@@ -116,6 +116,31 @@ To start storybook use
 pnpm storybook
 ```
 
+## AI coding agents
+
+Two pieces of tooling teach coding agents how to build with xUI.
+
+**MCP server** — [`@xui/mcp`](https://github.com/Rikarin/xui/blob/HEAD/libs/mcp/README.md) exposes every package's real API (selectors,
+signal inputs, variant axes, outputs), the design tokens, the docs and the Storybook examples as
+MCP tools. It extracts them from the library sources, so all ~90 packages are covered and the
+answers match the installed version.
+
+```json
+{
+  "mcpServers": {
+    "xui": { "command": "npx", "args": ["-y", "@xui/mcp"] }
+  }
+}
+```
+
+In this repo, `.mcp.json` already points at `dist/libs/mcp/src/server.js` — run `pnpm nx build mcp`
+once so it exists.
+
+**Skill** — [`skills/xui`](https://github.com/Rikarin/xui/blob/HEAD/skills/xui/SKILL.md) is the procedural knowledge: the three-layer
+architecture, discovery through the MCP server, composition and styling rules, theming, the
+generators, and the conventions for authoring a package inside the monorepo. `.claude/skills/xui`
+links to it for agents working in this repository.
+
 ## Issues
 
 If you find any issues in the library or have and idea for an improvement feel free to open an [issue](https://github.com/Rikarin/xui/issues).
