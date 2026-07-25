@@ -37,7 +37,12 @@ export default [
           prefix: 'xui',
           style: 'kebab-case'
         }
-      ]
+      ],
+      // Konva events keep the names Konva gives them — `(click)`, `(wheel)`,
+      // `(dragend)` — which is the point of the wrapper, and several collide
+      // with DOM events. `XuiKonvaStage` refuses the native listeners on its
+      // host so a canvas click cannot fire a handler twice.
+      '@angular-eslint/no-output-native': 'off'
     }
   },
   {

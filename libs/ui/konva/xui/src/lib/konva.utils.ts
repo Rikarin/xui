@@ -1,4 +1,3 @@
-import type { OutputEmitterRef } from '@angular/core';
 import type { KonvaEventObject, Node } from 'konva/lib/Node';
 import { XUI_KONVA_EVENTS, type XuiKonvaComponent, type XuiKonvaEventObject } from './konva.types';
 
@@ -40,8 +39,10 @@ export function createListener(component: XuiKonvaComponent): XuiKonvaProps {
   const listeners: XuiKonvaProps = {};
 
   for (const eventName of XUI_KONVA_EVENTS) {
+    // Typed structurally rather than as `OutputEmitterRef`, whose `listeners`
+    // is private — intersecting the two collapses the type to `never`.
     const emitter = (component as unknown as Record<string, unknown>)[eventName] as
-      | (OutputEmitterRef<unknown> & { listeners?: unknown[] })
+      | { listeners?: unknown[]; emit: (value: unknown) => void }
       | undefined;
 
     if (emitter?.listeners?.length) {
@@ -74,8 +75,12 @@ export function applyNodeProps(
   let hasUpdates = false;
 
   for (const key of Object.keys(oldProps)) {
-    if (isEventProp(key) && oldProps[key] !== props[key]) {
-      instance.off(toEventName(key), oldProps[key] as XuiKonvaHandler);
+    if (isEventProp(key)) {
+      if (oldProps[key] !== props[key]) {
+        instance.off(toEventName(key), oldProps[key] as XuiKonvaHandler);
+      }
+
+      continue;
     }
 
     if (!Object.hasOwn(props, key)) {

@@ -94,11 +94,7 @@ export class XuiKonvaStage implements XuiKonvaComponent, XuiKonvaContainer {
   }
 
   private readonly applyConfig = effect(() => {
-    const config = this.config();
-
-    if (!config) {
-      return;
-    }
+    const config = this.config() ?? {};
 
     // Untracked: the effect writes `stage`, and depending on it would make it
     // re-run on its own write.

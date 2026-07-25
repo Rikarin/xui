@@ -57,26 +57,26 @@ export abstract class XuiKonvaComponent {
   /** The config currently bound to the wrapper. */
   abstract getConfig(): NodeConfig;
 
-  mouseover?: OutputEmitterRef<XuiKonvaEventObject<MouseEvent>>;
-  mousemove?: OutputEmitterRef<XuiKonvaEventObject<MouseEvent>>;
-  mouseout?: OutputEmitterRef<XuiKonvaEventObject<MouseEvent>>;
-  mouseenter?: OutputEmitterRef<XuiKonvaEventObject<MouseEvent>>;
-  mouseleave?: OutputEmitterRef<XuiKonvaEventObject<MouseEvent>>;
-  mousedown?: OutputEmitterRef<XuiKonvaEventObject<MouseEvent>>;
-  mouseup?: OutputEmitterRef<XuiKonvaEventObject<MouseEvent>>;
-  wheel?: OutputEmitterRef<XuiKonvaEventObject<WheelEvent>>;
-  contextmenu?: OutputEmitterRef<XuiKonvaEventObject<PointerEvent>>;
-  click?: OutputEmitterRef<XuiKonvaEventObject<MouseEvent>>;
-  dblclick?: OutputEmitterRef<XuiKonvaEventObject<MouseEvent>>;
-  touchstart?: OutputEmitterRef<XuiKonvaEventObject<TouchEvent>>;
-  touchmove?: OutputEmitterRef<XuiKonvaEventObject<TouchEvent>>;
-  touchend?: OutputEmitterRef<XuiKonvaEventObject<TouchEvent>>;
-  tap?: OutputEmitterRef<XuiKonvaEventObject<TouchEvent>>;
-  dbltap?: OutputEmitterRef<XuiKonvaEventObject<TouchEvent>>;
-  dragstart?: OutputEmitterRef<XuiKonvaEventObject<MouseEvent>>;
-  dragmove?: OutputEmitterRef<XuiKonvaEventObject<MouseEvent>>;
-  dragend?: OutputEmitterRef<XuiKonvaEventObject<MouseEvent>>;
-  transformstart?: OutputEmitterRef<XuiKonvaEventObject<MouseEvent>>;
-  transform?: OutputEmitterRef<XuiKonvaEventObject<MouseEvent>>;
-  transformend?: OutputEmitterRef<XuiKonvaEventObject<MouseEvent>>;
+  readonly mouseover?: OutputEmitterRef<XuiKonvaEventObject<MouseEvent>>;
+  readonly mousemove?: OutputEmitterRef<XuiKonvaEventObject<MouseEvent>>;
+  readonly mouseout?: OutputEmitterRef<XuiKonvaEventObject<MouseEvent>>;
+  readonly mouseenter?: OutputEmitterRef<XuiKonvaEventObject<MouseEvent>>;
+  readonly mouseleave?: OutputEmitterRef<XuiKonvaEventObject<MouseEvent>>;
+  readonly mousedown?: OutputEmitterRef<XuiKonvaEventObject<MouseEvent>>;
+  readonly mouseup?: OutputEmitterRef<XuiKonvaEventObject<MouseEvent>>;
+  readonly wheel?: OutputEmitterRef<XuiKonvaEventObject<WheelEvent>>;
+  readonly contextmenu?: OutputEmitterRef<XuiKonvaEventObject<PointerEvent>>;
+  readonly click?: OutputEmitterRef<XuiKonvaEventObject<MouseEvent>>;
+  readonly dblclick?: OutputEmitterRef<XuiKonvaEventObject<MouseEvent>>;
+  readonly touchstart?: OutputEmitterRef<XuiKonvaEventObject<TouchEvent>>;
+  readonly touchmove?: OutputEmitterRef<XuiKonvaEventObject<TouchEvent>>;
+  readonly touchend?: OutputEmitterRef<XuiKonvaEventObject<TouchEvent>>;
+  readonly tap?: OutputEmitterRef<XuiKonvaEventObject<TouchEvent>>;
+  readonly dbltap?: OutputEmitterRef<XuiKonvaEventObject<TouchEvent>>;
+  readonly dragstart?: OutputEmitterRef<XuiKonvaEventObject<MouseEvent>>;
+  readonly dragmove?: OutputEmitterRef<XuiKonvaEventObject<MouseEvent>>;
+  readonly dragend?: OutputEmitterRef<XuiKonvaEventObject<MouseEvent>>;
+  readonly transformstart?: OutputEmitterRef<XuiKonvaEventObject<MouseEvent>>;
+  readonly transform?: OutputEmitterRef<XuiKonvaEventObject<MouseEvent>>;
+  readonly transformend?: OutputEmitterRef<XuiKonvaEventObject<MouseEvent>>;
 }

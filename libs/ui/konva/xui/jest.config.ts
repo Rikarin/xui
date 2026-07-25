@@ -12,7 +12,9 @@ export default {
       }
     ]
   },
-  transformIgnorePatterns: ['node_modules/(?!.*\\.mjs$)'],
+  // Konva ships ESM only, so it has to go through the transform like our own
+  // sources rather than being skipped as a node_modules dependency.
+  transformIgnorePatterns: ['node_modules/(?!(.*\\.mjs$|.*konva))'],
   snapshotSerializers: [
     'jest-preset-angular/build/serializers/no-ng-attributes',
     'jest-preset-angular/build/serializers/ng-snapshot',
