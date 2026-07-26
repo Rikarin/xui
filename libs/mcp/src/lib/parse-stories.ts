@@ -69,7 +69,7 @@ export function parseStoryFile(ts: typeof TS, relativeFile: string, text: string
     imports,
     examples: examples.map(example => ({
       ...example,
-      code: inlineWrapper(example.code || metaTemplate || '', local)
+      ...inlineWrapper(example.code || metaTemplate || '', local)
     }))
   };
 }
@@ -114,11 +114,17 @@ function readLocalComponents(ts: typeof TS, source: TS.SourceFile): Map<string, 
   return templates;
 }
 
-/** A template that is nothing but one of those wrappers, as the markup the wrapper renders. */
-function inlineWrapper(template: string, local: Map<string, string>): string {
+/**
+ * A template that is nothing but one of those wrappers, as the markup the wrapper renders.
+ *
+ * Flagged as `hosted`, because what comes back binds to the wrapper's own members: it documents the
+ * usage, and nothing can render it without the class those bindings name.
+ */
+function inlineWrapper(template: string, local: Map<string, string>): { code: string; hosted?: boolean } {
   const tag = /^<([a-z][\w-]*)\s*(?:\/>|><\/\1>)$/.exec(template.trim())?.[1];
+  const inner = tag ? local.get(tag) : undefined;
 
-  return (tag && local.get(tag)) || template;
+  return inner ? { code: inner, hosted: true } : { code: template };
 }
 
 function hasProperty(ts: typeof TS, node: TS.ObjectLiteralExpression, name: string): boolean {

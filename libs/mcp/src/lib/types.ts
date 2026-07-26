@@ -73,6 +73,12 @@ export interface XuiExample {
   code: string;
   /** Source text of the story's `args`, when it sets any. */
   args?: string;
+  /**
+   * Set when the story was nothing but a host component the story file declares, and this is that
+   * component's template. The markup is real, but its bindings name members of a class that lives
+   * in the story file — so it reads as usage and cannot be rendered on its own.
+   */
+  hosted?: boolean;
 }
 
 export interface XuiComponent {

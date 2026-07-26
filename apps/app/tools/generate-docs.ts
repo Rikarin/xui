@@ -551,12 +551,19 @@ const RESERVED = new Set([
 /**
  * Whether an example can be compiled into a preview, or only shown as source.
  *
- * Three things rule one out: markup that was built by an expression and is therefore no longer in
- * the template, a component the story declared for itself, and an `ng-template` context variable,
- * which the template type-checker types as `unknown` with no way to widen it from here.
+ * Four things rule one out: markup that was built by an expression and is therefore no longer in
+ * the template, a component the story declared for itself, an `ng-template` context variable, which
+ * the template type-checker types as `unknown` with no way to widen it from here — and a template
+ * lifted out of a story's own host component.
+ *
+ * That last one is the markup a reader wants and a preview cannot have: the bindings name fields of
+ * a class in the story file, which a generated preview can only stub. A stubbed `[items]` is
+ * `undefined` where the component expects a list, and the demo throws the moment it is opened.
  */
-function canPreview(template: string, original: string, localSelectors: string[]): boolean {
-  if (template.length === 0 || template.includes('${') || dropsMarkup(original)) {
+function canPreview(example: XuiExample, template: string, localSelectors: string[]): boolean {
+  const original = example.code;
+
+  if (example.hosted || template.length === 0 || template.includes('${') || dropsMarkup(original)) {
     return false;
   }
 
@@ -858,7 +865,7 @@ function emitComponent(component: XuiComponent, story: StoryMeta | undefined): E
     });
 
   const localSelectors = story?.localSelectors ?? [];
-  const previewable = examples.filter(example => canPreview(example.template, example.code, localSelectors));
+  const previewable = examples.filter(example => canPreview(example, example.template, localSelectors));
   const perExample = previewable.map(example => ({
     example,
     ...previewImports(component, [example.template], story)
@@ -946,9 +953,7 @@ function emitComponent(component: XuiComponent, story: StoryMeta | undefined): E
         `      name: ${json(example.name)},`,
         `      title: ${json(sentenceCase(example.name))},`,
         `      code: \`${escapeTemplate(example.template)}\`,`,
-        ...(canPreview(example.template, example.code, localSelectors)
-          ? [`      preview: Preview${example.name}`]
-          : []),
+        ...(canPreview(example, example.template, localSelectors) ? [`      preview: Preview${example.name}`] : []),
         '    },'
       ].join('\n')
     ),
