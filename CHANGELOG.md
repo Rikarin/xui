@@ -1,3 +1,23 @@
+## 2.0.0-alpha.16 (2026-07-26)
+
+### 🩹 Fixes
+
+- **numeric-input:** size the stepper glyphs to the row they sit in ([f03c3c5b](https://github.com/Rikarin/xui/commit/f03c3c5b))
+- **numeric-input:** put the stepper rule on the edge facing the field ([c7528701](https://github.com/Rikarin/xui/commit/c7528701))
+- **radio:** keep the dot on whole pixels ([66391dc6](https://github.com/Rikarin/xui/commit/66391dc6))
+- **repo:** ship the licence with every published package ([5ef440b1](https://github.com/Rikarin/xui/commit/5ef440b1))
+- **segmented-control:** show a not-allowed cursor on a disabled segment ([c8d51a8b](https://github.com/Rikarin/xui/commit/c8d51a8b))
+- **segmented-control:** give the selected segment a visible surface ([2c2afdc1](https://github.com/Rikarin/xui/commit/2c2afdc1))
+- **slider:** draw ticks on the axis, not on every step ([e0c6786e](https://github.com/Rikarin/xui/commit/e0c6786e))
+- **storybook:** fit the input adornments to the control they sit in ([5417d8eb](https://github.com/Rikarin/xui/commit/5417d8eb))
+- **storybook:** let the rich text editor's examples reach the docs ([00842577](https://github.com/Rikarin/xui/commit/00842577))
+- **switch:** rest the thumb the same distance from either edge ([965a7947](https://github.com/Rikarin/xui/commit/965a7947))
+
+### ❤️ Thank You
+
+- Claude Opus 5
+- Rikarin @Rikarin
+
 ## 2.0.0-alpha.15 (2026-07-26)
 
 ### 🩹 Fixes
