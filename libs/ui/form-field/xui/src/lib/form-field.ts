@@ -126,12 +126,20 @@ export class XuiFormField {
   );
 
   /**
-   * The id the `<label>` points at — the control's own id when it has one, else
-   * the id we assign below. Both branches agree with the effect's assignment.
+   * The id the `<label>` points at — the control's declared `controlId` when it
+   * has one (the focusable element inside a wrapping component), else the host
+   * element's own id, else the id we assign below. The fallback branches agree
+   * with the effect's assignment.
    */
   protected readonly labelFor = computed(() => {
     if (!this.label()) {
       return null;
+    }
+
+    const providedId = this.control()?.controlId?.();
+
+    if (providedId) {
+      return providedId;
     }
 
     const el = this.controlEl()?.nativeElement as HTMLElement | undefined;
@@ -149,11 +157,12 @@ export class XuiFormField {
       }
     });
 
-    // Give the projected control our generated id (unless it already has one) so
-    // the rendered <label for> genuinely points at it.
+    // Give the projected control our generated id (unless it already has one, or
+    // it points the label at an inner element via `controlId`) so the rendered
+    // <label for> genuinely points at it.
     effect(() => {
       const el = this.controlEl()?.nativeElement as HTMLElement | undefined;
-      if (this.label() && el && !el.id) {
+      if (this.label() && el && !el.id && !this.control()?.controlId?.()) {
         el.id = this.generatedId;
       }
     });

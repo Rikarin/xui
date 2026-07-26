@@ -8,6 +8,7 @@ import { XuiCardImports } from '@xui/card';
 import { XuiControlCardImports } from '@xui/control-card';
 import { XuiFormFieldImports } from '@xui/form-field';
 import { XuiInputImports } from '@xui/input';
+import { XuiLabelImports } from '@xui/label';
 import { XuiRadioImports } from '@xui/radio';
 import { XuiSelectImports } from '@xui/select';
 import { XuiSwitchImports } from '@xui/switch';
@@ -17,7 +18,6 @@ import { XuiTextareaImports } from '@xui/textarea';
 import { XuiToastService } from '@xui/toast';
 import { Session } from '../core/session';
 import { Theme, type ThemeMode } from '../core/theme';
-import { Field } from '../shell/field';
 import { PageHeader } from '../shell/page-header';
 
 /**
@@ -41,13 +41,13 @@ import { PageHeader } from '../shell/page-header';
     XuiControlCardImports,
     XuiFormFieldImports,
     XuiInputImports,
+    XuiLabelImports,
     XuiRadioImports,
     XuiSelectImports,
     XuiSwitchImports,
     XuiTabsImports,
     XuiTextImports,
     XuiTextareaImports,
-    Field,
     PageHeader
   ],
   template: `
@@ -76,7 +76,7 @@ import { PageHeader } from '../shell/page-header';
               />
             </xui-form-field>
 
-            <app-field label="Role" helperText="Only an owner can change billing.">
+            <xui-form-field label="Role" helperText="Only an owner can change billing.">
               <xui-select
                 class="w-full"
                 aria-label="Role"
@@ -85,21 +85,20 @@ import { PageHeader } from '../shell/page-header';
                 [value]="role()"
                 (valueChange)="onRole($event)"
               />
-            </app-field>
+            </xui-form-field>
 
-            <app-field label="Bio" labelFor="settings-bio" helperText="Optional.">
+            <xui-form-field label="Bio" helperText="Optional.">
               <textarea
                 xuiTextarea
                 autoResize
                 rows="3"
                 class="w-full"
-                id="settings-bio"
                 name="bio"
                 placeholder="What you look after here."
                 [ngModel]="bio()"
                 (ngModelChange)="bio.set($event)"
               ></textarea>
-            </app-field>
+            </xui-form-field>
 
             <button xuiButton type="submit">Save changes</button>
           </form>
@@ -127,18 +126,27 @@ import { PageHeader } from '../shell/page-header';
 
         <xui-tab id="appearance" title="Appearance">
           <div class="max-w-md space-y-4">
-            <app-field label="Theme" helperText="Shared with the toggle in the header — both read one signal.">
-              <xui-radio-group
-                orientation="horizontal"
-                name="theme"
-                aria-label="Theme"
-                [value]="theme.mode()"
-                (valueChange)="onTheme($event)"
-              >
-                <xui-radio value="light">Light</xui-radio>
-                <xui-radio value="dark">Dark</xui-radio>
-              </xui-radio-group>
-            </app-field>
+            <!--
+              A radio group is labelled by its own aria-label, not a <label for> — and it does not
+              provide XFormFieldControl, so it stays outside xui-form-field on the bare-control
+              pattern: an xuiLabel plus an xui-hint.
+            -->
+            <div class="space-y-2">
+              <span xuiLabel class="text-foreground block">Theme</span>
+              <div class="space-y-1.5">
+                <xui-radio-group
+                  orientation="horizontal"
+                  name="theme"
+                  aria-label="Theme"
+                  [value]="theme.mode()"
+                  (valueChange)="onTheme($event)"
+                >
+                  <xui-radio value="light">Light</xui-radio>
+                  <xui-radio value="dark">Dark</xui-radio>
+                </xui-radio-group>
+                <xui-hint>Shared with the toggle in the header — both read one signal.</xui-hint>
+              </div>
+            </div>
 
             <xui-callout color="none">
               <p xuiText size="sm">

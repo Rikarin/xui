@@ -1,6 +1,9 @@
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { By } from '@angular/platform-browser';
+import { XFormFieldControl } from '@xui/core/form-field';
 import { render } from '@xui/testing';
 import { XuiNumericInputImports } from '../index';
+import { XuiNumericInput } from './numeric-input';
 
 const IMPORTS = [XuiNumericInputImports, ReactiveFormsModule];
 
@@ -138,5 +141,16 @@ describe('XuiNumericInput', () => {
       click(incrementBtn());
       expect(control.value).toBe(8);
     });
+  });
+
+  it('provides XFormFieldControl, so xui-form-field accepts it', () => {
+    const { detect, fixture } = render('<xui-numeric-input aria-label="Qty" />', { imports: IMPORTS });
+    detect();
+
+    const control = fixture.debugElement.query(By.css('xui-numeric-input')).injector.get(XFormFieldControl);
+
+    expect(control).toBeInstanceOf(XuiNumericInput);
+    // The label points at the inner text field, not the wrapper.
+    expect(control.controlId?.()).toBe(field().id);
   });
 });

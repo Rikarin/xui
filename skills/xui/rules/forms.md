@@ -16,6 +16,10 @@ as an input rather than as projected content, and projects the control itself:
 - `label`, `labelInfo`, `subLabel`, `helperText`, `color`, `inline` are the field's inputs.
 - `<xui-error>` is for validation messages, `<xui-hint>` for persistent guidance.
 - `color="error"` on the field and `error` on the control keep the two visually in sync.
+- The projected control must provide `XFormFieldControl` (`@xui/core/form-field`) — the field
+  throws otherwise. `xuiInput`, `xuiTextarea`, `xui-select`, `xui-numeric-input`, `xui-file-input`
+  and `xui-html-select` all provide it; anything else (a radio group, a switch) belongs on the
+  bare-control pattern below instead.
 
 For a bare control outside a form field, label it with `[xuiLabel]` (or `aria-label` when the
 visible text already names it):

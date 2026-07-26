@@ -1,6 +1,8 @@
 import { Directive, signal } from '@angular/core';
+import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { XFormFieldControl } from '@xui/core/form-field';
 import { expectClasses, render } from '@xui/testing';
+import { XuiTextareaImports } from '@xui/textarea';
 import { XuiError } from './error';
 import { XuiFormField } from './form-field';
 import { XuiHint } from './hint';
@@ -14,6 +16,7 @@ import { XuiHint } from './hint';
   providers: [{ provide: XFormFieldControl, useExisting: FakeControl }]
 })
 class FakeControl implements XFormFieldControl {
+  readonly ngControl = null;
   readonly errorState = signal(false);
 }
 
@@ -135,6 +138,45 @@ describe('XuiFormField', () => {
       const { query } = setup('<xui-form-field color="error" label="Email"><input xuiFakeControl /></xui-form-field>');
 
       expectClasses(query('label'), 'text-error');
+    });
+  });
+
+  describe('with a real non-input control', () => {
+    const IMPORTS = [XuiFormField, XuiError, XuiHint, XuiTextareaImports, ReactiveFormsModule];
+
+    it('accepts a textarea as its control and points the label at it', () => {
+      const { query } = render('<xui-form-field label="Notes"><textarea xuiTextarea></textarea></xui-form-field>', {
+        imports: IMPORTS
+      });
+
+      const forId = query('label').getAttribute('for');
+      expect(forId).toBeTruthy();
+      expect(query<HTMLTextAreaElement>('textarea').id).toBe(forId);
+    });
+
+    it('swaps the hint for the error once the bound control is invalid and touched', async () => {
+      const control = new FormControl('', Validators.required);
+      const { fixture, host, detect } = render(
+        `
+          <xui-form-field label="Notes">
+            <textarea xuiTextarea [formControl]="props().control"></textarea>
+            <xui-hint>Optional</xui-hint>
+            <xui-error>Required</xui-error>
+          </xui-form-field>
+        `,
+        { imports: IMPORTS, props: { control } }
+      );
+
+      // The control resolves its NgControl after the first render.
+      await fixture.whenStable();
+      expect(host.querySelector('xui-hint')).toBeTruthy();
+      expect(host.querySelector('xui-error')).toBeNull();
+
+      control.markAsTouched();
+      detect();
+
+      expect(host.querySelector('xui-error')).toBeTruthy();
+      expect(host.querySelector('xui-hint')).toBeNull();
     });
   });
 });

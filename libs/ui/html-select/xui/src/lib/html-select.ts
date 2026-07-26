@@ -1,10 +1,21 @@
 import type { BooleanInput } from '@angular/cdk/coercion';
-import { ChangeDetectionStrategy, Component, booleanAttribute, computed, input, signal } from '@angular/core';
-import { ControlValueAccessor } from '@angular/forms';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  booleanAttribute,
+  computed,
+  forwardRef,
+  input,
+  signal,
+  type Signal
+} from '@angular/core';
+import { ControlValueAccessor, type NgControl } from '@angular/forms';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { matExpandMoreRound } from '@ng-icons/material-icons/round';
 import { xui } from '@xui/core';
-import { createXValueAccessor, provideXValueAccessor } from '@xui/core/forms';
+import { uniqueId } from '@xui/core/a11y';
+import { XFormFieldControl } from '@xui/core/form-field';
+import { createXErrorState, createXValueAccessor, provideXValueAccessor } from '@xui/core/forms';
 import { XuiIcon } from '@xui/icon';
 import { cva, type VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
@@ -49,10 +60,17 @@ export interface XuiHtmlSelectOption<T = string> {
   imports: [NgIcon, XuiIcon],
   viewProviders: [provideIcons({ matExpandMoreRound })],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [provideXValueAccessor(() => XuiHtmlSelect)],
+  providers: [
+    provideXValueAccessor(() => XuiHtmlSelect),
+    {
+      provide: XFormFieldControl,
+      useExisting: forwardRef(() => XuiHtmlSelect)
+    }
+  ],
   template: `
     <select
       #field
+      [id]="fieldId"
       [class]="selectClass()"
       [disabled]="isDisabled()"
       [attr.aria-label]="ariaLabel()"
@@ -81,7 +99,20 @@ export interface XuiHtmlSelectOption<T = string> {
     '[class]': 'computedClass()'
   }
 })
-export class XuiHtmlSelect<T = string> implements ControlValueAccessor {
+export class XuiHtmlSelect<T = string> implements ControlValueAccessor, XFormFieldControl {
+  private readonly formState = createXErrorState();
+  protected readonly fieldId = uniqueId('xui-html-select');
+
+  /** Error state for `xui-form-field`, derived from the optional bound form control. */
+  readonly errorState = this.formState.errorState;
+
+  /** Points the form field's `<label for>` at the native select, not the host. */
+  readonly controlId: Signal<string | null> = signal(this.fieldId).asReadonly();
+
+  get ngControl(): NgControl | null {
+    return this.formState.ngControl();
+  }
+
   /** The user-defined classes on the wrapper. Merged last so they win. */
   readonly class = input<ClassValue>('');
   readonly size = input<XuiHtmlSelectVariants['size']>('md');

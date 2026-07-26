@@ -45,7 +45,7 @@ Both should disappear once the underlying packages change; the code says so at e
   finds that token, and only `@xui/input` provides it. The throw takes down the whole view — it is
   what blanked the settings tabs while this was being built. See `shell/field.ts`.
 - **No `g d`-style navigation shortcuts.** `XuiHotkey.combo` documents sequences (`g h` is in its
-  own examples) but `parseCombo` only splits on `+`, so a sequence parses as one key named `"g d"`
+  own examples) but `parseXCombo` only splits on `+`, so a sequence parses as one key named `"g d"`
   and never matches. It would fail silently while still appearing in the generated help dialog.
 
 ## Layout notes

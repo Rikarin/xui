@@ -36,7 +36,6 @@ import { XuiToastService } from '@xui/toast';
 import { DataStore } from '../core/data-store';
 import { money, relativeTime } from '../core/format';
 import type { Customer, CustomerStatus, Plan } from '../core/models';
-import { Field } from '../shell/field';
 import { PageHeader } from '../shell/page-header';
 
 type SortKey = 'name' | 'company' | 'orders' | 'spend';
@@ -84,7 +83,6 @@ const ALL = 'All';
     XuiTagImports,
     XuiTextImports,
     XuiTextareaImports,
-    Field,
     PageHeader
   ],
   providers: [
@@ -281,18 +279,17 @@ const ALL = 'All';
             <xui-descriptions-item label="Last seen">{{ ago(customer.lastSeenAt) }}</xui-descriptions-item>
           </xui-descriptions>
 
-          <app-field label="Internal note" labelFor="customer-note" helperText="Saved against this customer only.">
+          <xui-form-field label="Internal note" helperText="Saved against this customer only.">
             <textarea
               xuiTextarea
               autoResize
               class="w-full"
               rows="3"
-              id="customer-note"
               placeholder="Anything the next person should know…"
               [ngModel]="note()"
               (ngModelChange)="note.set($event)"
             ></textarea>
-          </app-field>
+          </xui-form-field>
 
           <div class="flex justify-end gap-2">
             <button xuiButton variant="ghost" type="button" (click)="onDetailOpen(false)">Close</button>

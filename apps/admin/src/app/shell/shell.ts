@@ -163,7 +163,7 @@ export class Shell {
    * Two shortcuts, not the usual dozen.
    *
    * `g d`-style sequences are what an admin normally binds for navigation, and `XuiHotkey.combo`
-   * lists `g h` among its examples — but `parseCombo` only splits on `+`, so a sequence is parsed
+   * lists `g h` among its examples — but `parseXCombo` only splits on `+`, so a sequence is parsed
    * as one key named "g d" and can never match. It would fail silently while still appearing in the
    * generated help dialog, which is worse than not offering it. The palette covers the same ground:
    * ⌘K, type three letters, Enter.

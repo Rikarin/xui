@@ -1,6 +1,9 @@
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { By } from '@angular/platform-browser';
+import { XFormFieldControl } from '@xui/core/form-field';
 import { expectClasses, render } from '@xui/testing';
 import { XuiHtmlSelectImports } from '../index';
+import { XuiHtmlSelect } from './html-select';
 
 const IMPORTS = [XuiHtmlSelectImports, ReactiveFormsModule];
 
@@ -118,5 +121,19 @@ describe('XuiHtmlSelect', () => {
 
       expect(select().disabled).toBe(true);
     });
+  });
+
+  it('provides XFormFieldControl, so xui-form-field accepts it', () => {
+    const { detect, fixture } = render('<xui-html-select [options]="props().options" />', {
+      imports: IMPORTS,
+      props: { options: [{ value: 'a', label: 'Alpha' }] }
+    });
+    detect();
+
+    const control = fixture.debugElement.query(By.css('xui-html-select')).injector.get(XFormFieldControl);
+
+    expect(control).toBeInstanceOf(XuiHtmlSelect);
+    // The label points at the native select, not the wrapper.
+    expect(control.controlId?.()).toBe(select().id);
   });
 });

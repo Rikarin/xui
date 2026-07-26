@@ -5,16 +5,20 @@ import {
   Component,
   booleanAttribute,
   computed,
+  forwardRef,
   input,
   linkedSignal,
   numberAttribute,
-  signal
+  signal,
+  type Signal
 } from '@angular/core';
-import { ControlValueAccessor } from '@angular/forms';
+import { ControlValueAccessor, type NgControl } from '@angular/forms';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { matKeyboardArrowDownRound, matKeyboardArrowUpRound } from '@ng-icons/material-icons/round';
 import { xui } from '@xui/core';
-import { createXValueAccessor, provideXValueAccessor } from '@xui/core/forms';
+import { uniqueId } from '@xui/core/a11y';
+import { XFormFieldControl } from '@xui/core/form-field';
+import { createXErrorState, createXValueAccessor, provideXValueAccessor } from '@xui/core/forms';
 import { XuiIcon } from '@xui/icon';
 import type { ClassValue } from 'clsx';
 import {
@@ -40,7 +44,13 @@ import {
   imports: [NgTemplateOutlet, NgIcon, XuiIcon],
   viewProviders: [provideIcons({ matKeyboardArrowUpRound, matKeyboardArrowDownRound })],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [provideXValueAccessor(() => XuiNumericInput)],
+  providers: [
+    provideXValueAccessor(() => XuiNumericInput),
+    {
+      provide: XFormFieldControl,
+      useExisting: forwardRef(() => XuiNumericInput)
+    }
+  ],
   template: `
     @if (buttonPosition() === 'left') {
       <ng-container [ngTemplateOutlet]="steppers" />
@@ -48,6 +58,7 @@ import {
 
     <input
       #field
+      [id]="fieldId"
       type="text"
       inputmode="decimal"
       [class]="fieldClass()"
@@ -97,8 +108,20 @@ import {
     '[class]': 'computedClass()'
   }
 })
-export class XuiNumericInput implements ControlValueAccessor {
+export class XuiNumericInput implements ControlValueAccessor, XFormFieldControl {
   private readonly config = injectXuiNumericInputConfig();
+  private readonly formState = createXErrorState();
+  protected readonly fieldId = uniqueId('xui-numeric-input');
+
+  /** Error state for `xui-form-field`, derived from the optional bound form control. */
+  readonly errorState = this.formState.errorState;
+
+  /** Points the form field's `<label for>` at the inner text field, not the host. */
+  readonly controlId: Signal<string | null> = signal(this.fieldId).asReadonly();
+
+  get ngControl(): NgControl | null {
+    return this.formState.ngControl();
+  }
 
   /** The user-defined classes on the wrapper. Merged last so they win. */
   readonly class = input<ClassValue>('');

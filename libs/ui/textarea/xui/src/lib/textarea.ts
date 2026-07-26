@@ -1,6 +1,19 @@
 import type { BooleanInput } from '@angular/cdk/coercion';
-import { Directive, ElementRef, booleanAttribute, computed, effect, inject, input, untracked } from '@angular/core';
+import {
+  Directive,
+  ElementRef,
+  booleanAttribute,
+  computed,
+  effect,
+  forwardRef,
+  inject,
+  input,
+  untracked
+} from '@angular/core';
+import type { NgControl } from '@angular/forms';
 import { xui } from '@xui/core';
+import { XFormFieldControl } from '@xui/core/form-field';
+import { createXErrorState } from '@xui/core/forms';
 import { cva, type VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
 
@@ -43,10 +56,24 @@ export type XuiTextareaVariants = VariantProps<typeof textareaVariants>;
   host: {
     '[class]': 'computedClass()',
     '(input)': 'resize()'
-  }
+  },
+  providers: [
+    {
+      provide: XFormFieldControl,
+      useExisting: forwardRef(() => XuiTextarea)
+    }
+  ]
 })
-export class XuiTextarea {
+export class XuiTextarea implements XFormFieldControl {
   private readonly host: HTMLTextAreaElement = inject(ElementRef).nativeElement;
+  private readonly formState = createXErrorState();
+
+  /** Error state for `xui-form-field`, derived from the optional bound form control. */
+  readonly errorState = this.formState.errorState;
+
+  get ngControl(): NgControl | null {
+    return this.formState.ngControl();
+  }
 
   /** The user-defined classes. Merged last so they win over the variant classes. */
   readonly class = input<ClassValue>('');

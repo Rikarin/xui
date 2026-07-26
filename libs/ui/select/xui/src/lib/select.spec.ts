@@ -1,3 +1,5 @@
+import { By } from '@angular/platform-browser';
+import { XFormFieldControl } from '@xui/core/form-field';
 import { render } from '@xui/testing';
 import { XuiSelectImports } from '../index';
 import { XuiSelect } from './select';
@@ -155,5 +157,17 @@ describe('XuiSelect', () => {
     detect();
 
     expect(panel()).toBeNull();
+  });
+
+  it('provides XFormFieldControl, so xui-form-field accepts it', () => {
+    const { detect, fixture } = setup();
+    detect();
+
+    const debug = fixture.debugElement.query(By.css('xui-select'));
+    const control = debug.injector.get(XFormFieldControl);
+
+    expect(control).toBeInstanceOf(XuiSelect);
+    // The label points at the trigger button, not the host element.
+    expect(control.controlId?.()).toBe(debug.nativeElement.querySelector('button').id);
   });
 });

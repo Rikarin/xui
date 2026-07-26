@@ -5,15 +5,19 @@ import {
   ElementRef,
   booleanAttribute,
   computed,
+  forwardRef,
   input,
   signal,
-  viewChild
+  viewChild,
+  type Signal
 } from '@angular/core';
-import { ControlValueAccessor } from '@angular/forms';
+import { ControlValueAccessor, type NgControl } from '@angular/forms';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { matUploadFileRound } from '@ng-icons/material-icons/round';
 import { xui } from '@xui/core';
-import { createXValueAccessor, provideXValueAccessor } from '@xui/core/forms';
+import { uniqueId } from '@xui/core/a11y';
+import { XFormFieldControl } from '@xui/core/form-field';
+import { createXErrorState, createXValueAccessor, provideXValueAccessor } from '@xui/core/forms';
 import { XuiIcon } from '@xui/icon';
 import { cva, type VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
@@ -55,7 +59,13 @@ export type XuiFileInputVariants = VariantProps<typeof fileInputVariants>;
   imports: [NgIcon, XuiIcon],
   viewProviders: [provideIcons({ matUploadFileRound })],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [provideXValueAccessor(() => XuiFileInput)],
+  providers: [
+    provideXValueAccessor(() => XuiFileInput),
+    {
+      provide: XFormFieldControl,
+      useExisting: forwardRef(() => XuiFileInput)
+    }
+  ],
   template: `
     <label [class]="computedClass()">
       <ng-icon xui size="sm" name="matUploadFileRound" class="shrink-0" />
@@ -67,6 +77,7 @@ export type XuiFileInputVariants = VariantProps<typeof fileInputVariants>;
       </span>
       <input
         #field
+        [id]="fieldId"
         type="file"
         class="sr-only"
         [attr.accept]="accept()"
@@ -82,8 +93,20 @@ export type XuiFileInputVariants = VariantProps<typeof fileInputVariants>;
     class: 'block'
   }
 })
-export class XuiFileInput implements ControlValueAccessor {
+export class XuiFileInput implements ControlValueAccessor, XFormFieldControl {
   private readonly field = viewChild.required<ElementRef<HTMLInputElement>>('field');
+  private readonly formState = createXErrorState();
+  protected readonly fieldId = uniqueId('xui-file-input');
+
+  /** Error state for `xui-form-field`, derived from the optional bound form control. */
+  readonly errorState = this.formState.errorState;
+
+  /** Points the form field's `<label for>` at the real file input, not the host. */
+  readonly controlId: Signal<string | null> = signal(this.fieldId).asReadonly();
+
+  get ngControl(): NgControl | null {
+    return this.formState.ngControl();
+  }
 
   /** The user-defined classes on the trigger. Merged last so they win. */
   readonly class = input<ClassValue>('');

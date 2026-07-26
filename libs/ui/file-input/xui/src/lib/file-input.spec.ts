@@ -1,6 +1,9 @@
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { By } from '@angular/platform-browser';
+import { XFormFieldControl } from '@xui/core/form-field';
 import { expectClasses, render } from '@xui/testing';
 import { XuiFileInputImports } from '../index';
+import { XuiFileInput } from './file-input';
 
 const IMPORTS = [XuiFileInputImports, ReactiveFormsModule];
 
@@ -113,5 +116,16 @@ describe('XuiFileInput', () => {
 
       expect(input().disabled).toBe(true);
     });
+  });
+
+  it('provides XFormFieldControl, so xui-form-field accepts it', () => {
+    const { detect, fixture } = render('<xui-file-input />', { imports: IMPORTS });
+    detect();
+
+    const control = fixture.debugElement.query(By.css('xui-file-input')).injector.get(XFormFieldControl);
+
+    expect(control).toBeInstanceOf(XuiFileInput);
+    // The label points at the real (hidden) file input, not the wrapper.
+    expect(control.controlId?.()).toBe(input().id);
   });
 });

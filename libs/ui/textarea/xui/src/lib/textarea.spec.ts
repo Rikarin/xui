@@ -1,6 +1,9 @@
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { By } from '@angular/platform-browser';
+import { XFormFieldControl } from '@xui/core/form-field';
 import { expectClasses, expectNoClasses, render } from '@xui/testing';
 import { XuiTextareaImports } from '../index';
+import { XuiTextarea } from './textarea';
 
 const IMPORTS = [XuiTextareaImports, ReactiveFormsModule];
 
@@ -74,5 +77,14 @@ describe('XuiTextarea', () => {
     const { query } = setup('<textarea xuiTextarea class="max-w-md"></textarea>');
 
     expectClasses(query('textarea'), 'max-w-md', 'rounded-lg');
+  });
+
+  it('provides XFormFieldControl, so xui-form-field accepts it', () => {
+    const { fixture } = setup('<textarea xuiTextarea></textarea>');
+
+    const control = fixture.debugElement.query(By.css('textarea')).injector.get(XFormFieldControl);
+
+    expect(control).toBeInstanceOf(XuiTextarea);
+    expect(control.errorState()).toBe(false);
   });
 });

@@ -8,18 +8,23 @@ import {
   computed,
   contentChild,
   effect,
+  forwardRef,
   inject,
   Injector,
   input,
   model,
   signal,
+  type Signal,
   untracked,
   ViewEncapsulation
 } from '@angular/core';
+import type { NgControl } from '@angular/forms';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { matExpandMoreRound, matSearchRound } from '@ng-icons/material-icons/round';
 import { xui } from '@xui/core';
 import { uniqueId } from '@xui/core/a11y';
+import { XFormFieldControl } from '@xui/core/form-field';
+import { createXErrorState } from '@xui/core/forms';
 import { createXActiveOption, createXItemListPredicate, createXQueryList, trackXItem } from '@xui/core/query';
 import { XuiIcon } from '@xui/icon';
 import { XuiPopoverImports } from '@xui/popover';
@@ -37,6 +42,7 @@ import { XuiSelectOption } from './select-option';
   template: `
     <button
       type="button"
+      [id]="triggerId"
       [attr.role]="'combobox'"
       [class]="triggerClass()"
       [disabled]="disabled()"
@@ -118,12 +124,30 @@ import { XuiSelectOption } from './select-option';
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  viewProviders: [provideIcons({ matExpandMoreRound, matSearchRound })]
+  viewProviders: [provideIcons({ matExpandMoreRound, matSearchRound })],
+  providers: [
+    {
+      provide: XFormFieldControl,
+      useExisting: forwardRef(() => XuiSelect)
+    }
+  ]
 })
-export class XuiSelect<T> {
+export class XuiSelect<T> implements XFormFieldControl {
   private readonly injector = inject(Injector);
   private readonly document = inject(DOCUMENT);
+  private readonly formState = createXErrorState();
   protected readonly searchId = uniqueId('xui-select-search');
+  protected readonly triggerId = uniqueId('xui-select-trigger');
+
+  /** Error state for `xui-form-field`, derived from the optional bound form control. */
+  readonly errorState = this.formState.errorState;
+
+  /** Points the form field's `<label for>` at the trigger button, not the host. */
+  readonly controlId: Signal<string | null> = signal(this.triggerId).asReadonly();
+
+  get ngControl(): NgControl | null {
+    return this.formState.ngControl();
+  }
 
   readonly class = input<ClassValue>('');
 
