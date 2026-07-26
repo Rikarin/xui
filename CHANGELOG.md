@@ -1,3 +1,17 @@
+## 2.0.0-alpha.21 (2026-07-26)
+
+### 🚀 Features
+
+- **repo:** require doc comments on every exported component API ([a118a8c7](https://github.com/Rikarin/xui/commit/a118a8c7))
+
+### 🩹 Fixes
+
+- **app:** span the API table dividers over the full row height ([b67a644d](https://github.com/Rikarin/xui/commit/b67a644d))
+
+### ❤️ Thank You
+
+- Rikarin @Rikarin
+
 ## 2.0.0-alpha.20 (2026-07-26)
 
 ### 🩹 Fixes

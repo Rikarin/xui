@@ -1,6 +1,6 @@
 {
   "name": "@xui/panel-stack",
-  "version": "2.0.0-alpha.20",
+  "version": "2.0.0-alpha.21",
   "description": "Modern Angular 22 UI Library based on TailwindCSS",
   "keywords": [
     "angular",
@@ -26,8 +26,8 @@
     "@angular/core": "22",
     "@ng-icons/core": "34",
     "@ng-icons/material-icons": "34",
-    "@xui/core": "2.0.0-alpha.20",
-    "@xui/icon": "2.0.0-alpha.20",
+    "@xui/core": "2.0.0-alpha.21",
+    "@xui/icon": "2.0.0-alpha.21",
     "clsx": "^2.1.1"
   },
   "publishConfig": {
