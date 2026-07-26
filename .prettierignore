@@ -8,3 +8,7 @@
 pnpm-lock.yaml
 
 .nx/self-healing
+
+# Written by `nx release`, so a release commit would otherwise fail format:check
+# on markdown no one hand-edits. Unanchored, to cover per-package changelogs too.
+CHANGELOG.md
