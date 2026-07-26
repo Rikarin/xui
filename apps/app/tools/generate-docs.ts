@@ -101,16 +101,43 @@ function readStoryMeta(): Map<string, StoryMeta> {
 function expandTemplate(example: XuiExample, metaArgs: Record<string, unknown>): string {
   const args = { ...metaArgs, ...parseArgs(example.args) };
 
-  const expanded = example.code.replace(/\$\{argsToTemplate\(args(?:,\s*\{[^}]*\})?\)\}/g, match => {
-    const exclude = /exclude:\s*\[([^\]]*)\]/.exec(match)?.[1] ?? '';
-    const excluded = new Set([...exclude.matchAll(/'([^']+)'/g)].map(hit => hit[1]));
+  const expanded = example.code.replace(
+    /\$\{argsToTemplate\((args|\{[^}]*\})(?:,\s*\{[^}]*\})?\)\}/g,
+    (match, subject) => {
+      const exclude = /exclude:\s*\[([^\]]*)\]/.exec(match)?.[1] ?? '';
+      const excluded = new Set([...exclude.matchAll(/'([^']+)'/g)].map(hit => hit[1]));
 
-    return serialiseArgs(args, excluded);
-  });
+      return serialiseArgs(overriddenArgs(subject, args), excluded);
+    }
+  );
 
   return stripExpressions(expanded)
     .replace(/[ \t]+$/gm, '')
     .trim();
+}
+
+/**
+ * What an `argsToTemplate` call was actually handed: `args`, or `{ ...args, orientation: 'vertical' }`
+ * — how a story writes one element differently from the rest without a second set of args.
+ *
+ * Dropped, the override goes with it: the divider's vertical example rendered three horizontal rules
+ * in a flex row, each of them a zero-width flex item, and the page showed nothing at all.
+ */
+function overriddenArgs(subject: string, args: Record<string, unknown>): Record<string, unknown> {
+  if (subject === 'args') {
+    return args;
+  }
+
+  try {
+    // Story sources are trusted workspace files, and this only ever runs at build time.
+    const value = new Function('args', `return (${subject});`)(args) as unknown;
+
+    return typeof value === 'object' && value !== null ? (value as Record<string, unknown>) : args;
+  } catch {
+    // An override built from something the story imports cannot be evaluated in isolation. The
+    // arguments it spread over are still right, so they stand.
+    return args;
+  }
 }
 
 /**
