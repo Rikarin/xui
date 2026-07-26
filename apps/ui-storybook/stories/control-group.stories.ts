@@ -1,7 +1,7 @@
 import { moduleMetadata, type Meta, type StoryObj } from '@storybook/angular-vite';
 import { XuiButtonImports } from '@xui/button';
 import { XuiControlGroup, XuiControlGroupImports } from '@xui/control-group';
-import { XuiInput } from '@xui/input';
+import { XuiInputImports } from '@xui/input';
 
 /**
  * Groups adjacent inputs and buttons into one seamless unit — the rounding and
@@ -11,7 +11,7 @@ import { XuiInput } from '@xui/input';
 const meta: Meta<XuiControlGroup> = {
   title: 'Forms/Control group',
   component: XuiControlGroup,
-  decorators: [moduleMetadata({ imports: [XuiControlGroupImports, XuiButtonImports, XuiInput] })]
+  decorators: [moduleMetadata({ imports: [XuiControlGroupImports, XuiButtonImports, XuiInputImports] })]
 };
 
 export default meta;

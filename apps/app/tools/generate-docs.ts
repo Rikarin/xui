@@ -609,6 +609,14 @@ function previewImports(component: XuiComponent, templates: string[], story: Sto
     } else {
       statements.add(`import { NgIcon } from '@ng-icons/core';`);
     }
+
+    // `<ng-icon xui>` needs the directive that reads `size` and `color`. A story imports `XuiIcon`
+    // by name rather than through the barrel, and only barrels are collected above — so without
+    // this the preview renders an icon at the default size, silently unlike the story.
+    if (/<ng-icon[^>]*\bxui\b/.test(templateText)) {
+      declarables.add('XuiIconImports');
+      statements.add(`import { XuiIconImports } from '@xui/icon';`);
+    }
   }
 
   if (/\bngModel\b/.test(templateText)) {
