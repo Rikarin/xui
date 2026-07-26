@@ -20,7 +20,7 @@ import { xui } from '@xui/core';
 import { uniqueId } from '@xui/core/a11y';
 import { XFormFieldControl } from '@xui/core/form-field';
 import { createXErrorState, createXValueAccessor, provideXValueAccessor } from '@xui/core/forms';
-import { XuiIcon } from '@xui/icon';
+import { XuiIcon, type XuiIconSize } from '@xui/icon';
 import type { ClassValue } from 'clsx';
 import {
   injectXuiNumericInputConfig,
@@ -91,7 +91,7 @@ import {
           [disabled]="!canIncrement()"
           (click)="step(stepSize())"
         >
-          <ng-icon xui size="sm" name="matKeyboardArrowUpRound" />
+          <ng-icon xui [size]="stepperIconSize()" name="matKeyboardArrowUpRound" />
         </button>
         <button
           type="button"
@@ -101,7 +101,7 @@ import {
           [disabled]="!canDecrement()"
           (click)="step(-stepSize())"
         >
-          <ng-icon xui size="sm" name="matKeyboardArrowDownRound" />
+          <ng-icon xui [size]="stepperIconSize()" name="matKeyboardArrowDownRound" />
         </button>
       </div>
     </ng-template>
@@ -194,6 +194,13 @@ export class XuiNumericInput implements ControlValueAccessor, XFormFieldControl 
     )
   );
   protected readonly stepperColumnClass = computed(() => 'border-border flex shrink-0 flex-col border-s');
+
+  /**
+   * The two steppers split the control height between them, so a glyph sized off the icon scale
+   * (`sm` is 16px) makes the column taller than the field — and the wrapper clips the overflow,
+   * taking the bottom arrow with it. Size to the row instead: half of 24px or 30px, less a hair.
+   */
+  protected readonly stepperIconSize = computed<XuiIconSize>(() => (this.size() === 'sm' ? '10px' : '12px'));
   protected readonly stepperClass = computed(
     () =>
       'text-foreground-muted hover:bg-hover-overlay hover:text-foreground flex flex-1 items-center justify-center px-1.5 disabled:pointer-events-none disabled:opacity-40'
