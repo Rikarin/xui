@@ -1,9 +1,9 @@
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { matDescriptionRound } from '@ng-icons/material-icons/round';
 import { argsToTemplate, moduleMetadata, type Meta, type StoryObj } from '@storybook/angular-vite';
-import { XuiBadgeImports } from '@xui/badge';
 import { XuiEntityTitle, XuiEntityTitleImports } from '@xui/entity-title';
 import { XuiIcon } from '@xui/icon';
+import { XuiTagImports } from '@xui/tag';
 
 const meta: Meta<XuiEntityTitle> = {
   title: 'Data display/Entity title',
@@ -16,7 +16,7 @@ const meta: Meta<XuiEntityTitle> = {
   },
   decorators: [
     moduleMetadata({
-      imports: [XuiEntityTitleImports, XuiBadgeImports, NgIcon, XuiIcon],
+      imports: [XuiEntityTitleImports, XuiTagImports, NgIcon, XuiIcon],
       providers: [provideIcons({ matDescriptionRound })]
     })
   ],
@@ -25,7 +25,7 @@ const meta: Meta<XuiEntityTitle> = {
     template: `
       <xui-entity-title ${argsToTemplate(args)}>
         <ng-icon visual xui size="md" name="matDescriptionRound" />
-        <span tags><span xuiBadge size="md">Draft</span></span>
+        <span tags><xui-tag>Draft</xui-tag></span>
       </xui-entity-title>
     `
   })

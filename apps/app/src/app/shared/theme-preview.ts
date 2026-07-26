@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { XuiBadgeImports } from '@xui/badge';
 import { XuiButtonImports } from '@xui/button';
 import { XuiCalloutImports } from '@xui/callout';
 import { XuiCheckboxImports } from '@xui/checkbox';
@@ -28,7 +27,6 @@ const CHARTS = [1, 2, 3, 4, 5, 6, 7, 8];
   selector: 'docs-theme-preview',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    XuiBadgeImports,
     XuiButtonImports,
     XuiCalloutImports,
     XuiCheckboxImports,
@@ -82,8 +80,8 @@ const CHARTS = [1, 2, 3, 4, 5, 6, 7, 8];
           @for (color of tagColors; track color) {
             <xui-tag minimal [color]="color">{{ color }}</xui-tag>
           }
-          <span xuiBadge color="primary">12</span>
-          <span xuiBadge color="error">99+</span>
+          <xui-tag color="primary">12</xui-tag>
+          <xui-tag color="error">99+</xui-tag>
         </div>
       </section>
 

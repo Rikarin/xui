@@ -93,7 +93,7 @@ Some components project into named slots, marked by a bare attribute on the chil
 | A success/error page                    | `xui-result`                                   |
 | A pulsing grey box                      | `xui-skeleton`                                 |
 | A hand-built spinner                    | `xui-spinner`, or `[loading]` on the button    |
-| A coloured pill                         | `xui-tag`, `xui-badge`, `xui-status`           |
+| A coloured pill                         | `xui-tag`, `xui-status`                        |
 | `<hr>` / a border-only divider          | `xui-divider`                                  |
 | Manually styled headings and paragraphs | `xuiHeading`, `xuiText`, `xuiCode`, `xuiList`  |
 | A `<button>` next to an `<input>`       | `[xuiControlGroup]` (joined controls)          |

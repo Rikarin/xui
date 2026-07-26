@@ -18,7 +18,7 @@ import {
  *
  * ```html
  * <xui-tab id="files">
- *   <ng-template xuiTabTitle>Files <xui-badge>3</xui-badge></ng-template>
+ *   <ng-template xuiTabTitle>Files <xui-tag>3</xui-tag></ng-template>
  *   …panel…
  * </xui-tab>
  * ```

@@ -18,7 +18,7 @@ import type { ClassValue } from 'clsx';
  * ```html
  * <xui-entity-title title="Quarterly report" subtitle="Updated 2 hours ago">
  *   <ng-icon xui visual name="matDescriptionRound" />
- *   <span tags><span xuiBadge>Draft</span></span>
+ *   <span tags><xui-tag>Draft</xui-tag></span>
  * </xui-entity-title>
  * ```
  *

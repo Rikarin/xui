@@ -132,7 +132,7 @@ export class Profile {
 | Sliders and ratings    | `slider`, `rate`, `color-picker`                                                                                          |
 | Date and time          | `date-input`, `date-picker`, `date-range-input`, `date-range-picker`, `time-picker`, `timezone-select`                    |
 | Form layout            | `form-field`, `label`, `control-group`, `control-card`                                                                    |
-| Data display           | `table`, `data-table`, `descriptions`, `statistic`, `card`, `card-list`, `tag`, `badge`, `kbd`, `avatar`                  |
+| Data display           | `table`, `data-table`, `descriptions`, `statistic`, `card`, `card-list`, `tag`, `kbd`, `avatar`                           |
 | Navigation             | `navbar`, `navigation-menu`, `menubar`, `breadcrumb`, `tabs`, `pagination`, `steps`, `panel-stack`                        |
 | Overlays               | `dialog`, `alert-dialog`, `alert`, `drawer`, `popover`, `tooltip`, `context-menu`, `menu`, `omnibar`                      |
 | Feedback               | `toast`, `callout`, `progress-bar`, `spinner`, `skeleton`, `result`, `non-ideal-state`, `status`                          |

@@ -9,7 +9,6 @@ import {
   matTerminalRound,
   matWidgetsRound
 } from '@ng-icons/material-icons/round';
-import { XuiBadgeImports } from '@xui/badge';
 import { XuiButtonImports } from '@xui/button';
 import { XuiCalloutImports } from '@xui/callout';
 import { XuiCardImports } from '@xui/card';
@@ -78,7 +77,6 @@ export class Example {}`;
     RouterLink,
     NgIcon,
     XuiIconImports,
-    XuiBadgeImports,
     XuiButtonImports,
     XuiCalloutImports,
     XuiCardImports,
@@ -170,7 +168,7 @@ export class Example {}`;
               class="flex items-center gap-2 no-underline"
             >
               <span xuiText weight="medium" size="sm">{{ group.name }}</span>
-              <span xuiBadge color="secondary" size="md">{{ group.count }}</span>
+              <xui-tag minimal>{{ group.count }}</xui-tag>
             </a>
           }
         </div>

@@ -2,7 +2,7 @@ import { moduleMetadata, type Meta, type StoryObj } from '@storybook/angular-vit
 import { XuiTag, XuiTagImports } from '@xui/tag';
 
 /**
- * A compact label chip — richer than the static `xui-badge`. Colours, a subtle
+ * A compact label chip. Colours, a subtle
  * `minimal` variant, `round`/`large`/`fill`, an optional leading icon, and a
  * removable ✕ that emits `removed`.
  */

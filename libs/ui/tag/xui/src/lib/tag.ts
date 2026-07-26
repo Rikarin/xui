@@ -65,7 +65,7 @@ export type XuiTagVariants = VariantProps<typeof tagVariants>;
 export type XuiTagColor = NonNullable<XuiTagVariants['color']>;
 
 /**
- * A compact label chip — richer than the static `xui-badge`. Optionally shows a
+ * A compact label chip. Optionally shows a
  * leading icon, reads as interactive, and can carry a remove ✕ that emits
  * `removed`.
  */

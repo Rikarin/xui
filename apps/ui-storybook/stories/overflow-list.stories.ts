@@ -1,9 +1,9 @@
 import { signal } from '@angular/core';
 import { moduleMetadata, type Meta, type StoryObj } from '@storybook/angular-vite';
-import { XuiBadgeImports } from '@xui/badge';
 import { XuiBreadcrumbImports } from '@xui/breadcrumb';
 import { XuiLinkImports } from '@xui/link';
 import { XuiOverflowList, XuiOverflowListImports } from '@xui/overflow-list';
+import { XuiTagImports } from '@xui/tag';
 
 const CRUMBS = ['Home', 'Projects', 'Rikarin', 'xui', 'libs', 'ui', 'overflow-list'];
 
@@ -11,7 +11,7 @@ const meta: Meta<XuiOverflowList<string>> = {
   title: 'Layout/Overflow list',
   component: XuiOverflowList,
   decorators: [
-    moduleMetadata({ imports: [XuiOverflowListImports, XuiLinkImports, XuiBadgeImports, XuiBreadcrumbImports] })
+    moduleMetadata({ imports: [XuiOverflowListImports, XuiLinkImports, XuiTagImports, XuiBreadcrumbImports] })
   ]
 };
 
@@ -29,7 +29,7 @@ export const Default: Story = {
             <a xuiLink color="inherit" underline="hover" href="#" class="whitespace-nowrap">{{ item }}</a>
           </ng-template>
           <ng-template xuiOverflowListOverflow let-count="count">
-            <span xuiBadge static color="secondary">+{{ count }}</span>
+            <xui-tag minimal>+{{ count }}</xui-tag>
           </ng-template>
         </xui-overflow-list>
       </div>
@@ -48,7 +48,7 @@ export const CollapseFromEnd: Story = {
             <a xuiLink color="inherit" underline="hover" href="#" class="whitespace-nowrap">{{ item }}</a>
           </ng-template>
           <ng-template xuiOverflowListOverflow let-count="count">
-            <span xuiBadge static color="secondary">+{{ count }}</span>
+            <xui-tag minimal>+{{ count }}</xui-tag>
           </ng-template>
         </xui-overflow-list>
       </div>

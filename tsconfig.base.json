@@ -34,7 +34,6 @@
       "@xui/alert-dialog": ["libs/ui/alert-dialog/xui/src/index.ts"],
       "@xui/aspect-ratio": ["libs/ui/aspect-ratio/xui/src/index.ts"],
       "@xui/avatar": ["libs/ui/avatar/xui/src/index.ts"],
-      "@xui/badge": ["libs/ui/badge/xui/src/index.ts"],
       "@xui/breadcrumb": ["libs/ui/breadcrumb/xui/src/index.ts"],
       "@xui/button": ["libs/ui/button/xui/src/index.ts"],
       "@xui/button-group": ["libs/ui/button-group/xui/src/index.ts"],
