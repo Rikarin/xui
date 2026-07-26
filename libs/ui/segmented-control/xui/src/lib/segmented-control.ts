@@ -113,9 +113,18 @@ export class XuiSegmentedControl<T = string> implements ControlValueAccessor {
     return xui(
       // The base focus ring, but pulled 1px closer: the segment sits inside the
       // track's 2px padding, so the default offset would paint over its border.
-      'inline-flex h-(--control-height-sm) items-center justify-center rounded-md px-(--control-padding-md) font-medium transition-colors focus-visible:outline-offset-1 disabled:pointer-events-none disabled:opacity-40',
+      //
+      // A disabled segment keeps its pointer events so the cursor can say it is unavailable —
+      // `pointer-events-none` would leave the arrow unchanged, since the browser takes no cursor
+      // from an element that receives no pointer events. The native `disabled` already swallows
+      // the click, and `select()` guards the option's own flag on top of that.
+      'inline-flex h-(--control-height-sm) items-center justify-center rounded-md px-(--control-padding-md) font-medium transition-colors focus-visible:outline-offset-1 disabled:cursor-not-allowed disabled:opacity-40',
       this.fill() && 'flex-1',
-      selected ? 'bg-surface-raised text-foreground shadow-elevation-1' : 'text-foreground-muted hover:text-foreground'
+      selected
+        ? 'bg-surface-raised text-foreground shadow-elevation-1'
+        : // `:hover` still matches a disabled button, so the lift has to be scoped to enabled ones
+          // now that the segment is no longer inert.
+          'text-foreground-muted enabled:hover:text-foreground'
     );
   }
 
