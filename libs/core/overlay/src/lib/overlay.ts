@@ -264,7 +264,8 @@ export function injectXOverlay(): XOverlayFactory {
     open,
     closeAll,
     get openRefs() {
-      return refs;
+      // A copy: handing out the live array would let a caller corrupt the registry.
+      return [...refs];
     }
   };
 }

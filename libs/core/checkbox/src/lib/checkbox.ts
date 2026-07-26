@@ -4,7 +4,6 @@ import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import {
   type AfterContentInit,
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   DestroyRef,
   ElementRef,
@@ -26,6 +25,7 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { uniqueId } from '@xui/core/a11y';
 import { ChangeFn, TouchFn } from '@xui/core/forms';
 
 export const X_CHECKBOX_VALUE_ACCESSOR = {
@@ -34,7 +34,6 @@ export const X_CHECKBOX_VALUE_ACCESSOR = {
   multi: true
 };
 
-let uniqueIdCounter = 0;
 const CONTAINER_POST_FIX = '-checkbox';
 
 @Component({
@@ -44,35 +43,35 @@ const CONTAINER_POST_FIX = '-checkbox';
       #checkBox
       type="button"
       role="checkbox"
-      [id]="getCheckboxButtonId(state().id) ?? ''"
-      [name]="getCheckboxButtonId(state().name) ?? ''"
+      [id]="getCheckboxButtonId(resolvedId()) ?? ''"
+      [name]="getCheckboxButtonId(resolvedName()) ?? ''"
       [class]="class()"
       [attr.aria-label]="ariaLabel() || null"
-      [attr.aria-labelledby]="ariaLabelledby() || null"
+      [attr.aria-labelledby]="mutableAriaLabelledby() || null"
       [attr.aria-describedby]="ariaDescribedby() || null"
       [attr.aria-checked]="ariaChecked()"
       [attr.data-state]="dataState()"
       [attr.data-focus-visible]="focusVisible() ? '' : null"
       [attr.data-focus]="focused() ? '' : null"
-      [attr.data-disabled]="state().disabled() ? '' : null"
-      [disabled]="state().disabled()"
-      [tabIndex]="state().disabled() ? -1 : 0"
+      [attr.data-disabled]="isDisabled() ? '' : null"
+      [disabled]="isDisabled()"
+      [tabIndex]="isDisabled() ? -1 : 0"
       (click)="$event.preventDefault(); toggle()"
     >
       <ng-content />
     </button>
   `,
   host: {
-    '[style]': '{display: "contents"}',
-    '[attr.id]': 'state().id',
-    '[attr.name]': 'state().name',
+    style: 'display: contents',
+    '[attr.id]': 'resolvedId()',
+    '[attr.name]': 'resolvedName()',
     '[attr.aria-labelledby]': 'null',
     '[attr.aria-label]': 'null',
     '[attr.aria-describedby]': 'null',
     '[attr.data-state]': 'dataState()',
     '[attr.data-focus-visible]': 'focusVisible() ? "" : null',
     '[attr.data-focus]': 'focused() ? "" : null',
-    '[attr.data-disabled]': 'state().disabled() ? "" : null'
+    '[attr.data-disabled]': 'isDisabled() ? "" : null'
   },
   providers: [X_CHECKBOX_VALUE_ACCESSOR],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -83,7 +82,6 @@ export class XCheckbox implements ControlValueAccessor, AfterContentInit, OnDest
   private readonly renderer = inject(Renderer2);
   private readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly focusMonitor = inject(FocusMonitor);
-  private readonly cdr = inject(ChangeDetectorRef);
   private readonly document = inject(DOCUMENT);
   private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
@@ -133,7 +131,7 @@ export class XCheckbox implements ControlValueAccessor, AfterContentInit, OnDest
    * When provided, the inner button gets ID without '-checkbox' suffix.
    * Auto-generates ID if not provided.
    */
-  readonly id = input<string | null>(uniqueIdCounter++ + '');
+  readonly id = input<string | null>(uniqueId('x-checkbox'));
 
   /**
    * Form control name for checkbox.
@@ -176,17 +174,21 @@ export class XCheckbox implements ControlValueAccessor, AfterContentInit, OnDest
   readonly disabled = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
 
   /**
-   * Computed state for checkbox container and accessibility.
-   * Manages ID, name, and disabled state.
+   * Effective disabled state: follows the `disabled` input until the form
+   * control overrides it through `setDisabledState`.
    */
-  protected readonly state = computed(() => {
-    const name = this.name();
+  protected readonly isDisabled = linkedSignal(this.disabled);
+
+  /** ID applied to the container element ('-checkbox' suffixed). */
+  protected readonly resolvedId = computed(() => {
     const id = this.id();
-    return {
-      disabled: signal(this.disabled()),
-      name: name ? name + CONTAINER_POST_FIX : null,
-      id: id ? id + CONTAINER_POST_FIX : null
-    };
+    return id ? id + CONTAINER_POST_FIX : null;
+  });
+
+  /** Name applied to the container element ('-checkbox' suffixed). */
+  protected readonly resolvedName = computed(() => {
+    const name = this.name();
+    return name ? name + CONTAINER_POST_FIX : null;
   });
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -207,15 +209,15 @@ export class XCheckbox implements ControlValueAccessor, AfterContentInit, OnDest
 
   constructor() {
     effect(() => {
-      const state = this.state();
-      const isDisabled = state.disabled();
+      const id = this.resolvedId();
+      const isDisabled = this.isDisabled();
 
       if (!this.elementRef.nativeElement || !this.isBrowser) {
         return;
       }
 
-      const newLabelId = state.id + '-label';
-      const checkboxButtonId = this.getCheckboxButtonId(state.id);
+      const newLabelId = id + '-label';
+      const checkboxButtonId = this.getCheckboxButtonId(id);
       const labelElement =
         this.elementRef.nativeElement.closest('label') ??
         this.document.querySelector(`label[for="${checkboxButtonId}"]`);
@@ -238,7 +240,7 @@ export class XCheckbox implements ControlValueAccessor, AfterContentInit, OnDest
    * Does nothing if the checkbox is disabled.
    */
   toggle() {
-    if (this.state().disabled()) return;
+    if (this.isDisabled()) return;
 
     this._onTouched();
     this.touched.emit();
@@ -258,7 +260,6 @@ export class XCheckbox implements ControlValueAccessor, AfterContentInit, OnDest
         if (focusOrigin) this.focused.set(true);
         if (focusOrigin === 'keyboard' || focusOrigin === 'program') {
           this.focusVisible.set(true);
-          this.cdr.markForCheck();
         }
         if (!focusOrigin) {
           // When a focused element becomes disabled, the browser *immediately* fires a blur event.
@@ -271,7 +272,6 @@ export class XCheckbox implements ControlValueAccessor, AfterContentInit, OnDest
             this.focused.set(false);
             this._onTouched();
             this.touched.emit();
-            this.cdr.markForCheck();
           });
         }
       });
@@ -330,7 +330,6 @@ export class XCheckbox implements ControlValueAccessor, AfterContentInit, OnDest
    * @param isDisabled - Whether checkbox should be disabled
    */
   setDisabledState(isDisabled: boolean): void {
-    this.state().disabled.set(isDisabled);
-    this.cdr.markForCheck();
+    this.isDisabled.set(isDisabled);
   }
 }

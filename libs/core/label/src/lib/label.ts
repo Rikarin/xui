@@ -1,5 +1,5 @@
 import { isPlatformBrowser } from '@angular/common';
-import { Directive, ElementRef, type OnInit, PLATFORM_ID, inject, input, signal } from '@angular/core';
+import { DestroyRef, Directive, ElementRef, type OnInit, PLATFORM_ID, inject, input, signal } from '@angular/core';
 import { NgControl } from '@angular/forms';
 
 let nextId = 0;
@@ -19,6 +19,10 @@ export class XLabel implements OnInit {
   private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
   private readonly element = inject(ElementRef).nativeElement;
   protected readonly ngControl = inject(NgControl, { optional: true });
+
+  constructor() {
+    inject(DestroyRef).onDestroy(() => this.changes?.disconnect());
+  }
 
   readonly id = input<string>(`x-label-${nextId++}`);
 
@@ -41,8 +45,7 @@ export class XLabel implements OnInit {
 
     this.changes?.observe(this.element, {
       attributes: true,
-      childList: true,
-      characterData: true
+      attributeFilter: ['data-disabled']
     });
   }
 }

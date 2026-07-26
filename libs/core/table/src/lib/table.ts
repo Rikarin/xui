@@ -11,7 +11,8 @@ import {
   type TrackByFunction,
   ViewChild,
   ViewEncapsulation,
-  booleanAttribute
+  booleanAttribute,
+  model
 } from '@angular/core';
 import { type TableClassesSettable, provideTableClassesSettableExisting } from '@xui/core';
 import { XColumnDef } from './column-def';
@@ -25,7 +26,7 @@ export type XTableDataSourceInput<T> = CdkTableDataSourceInput<T>;
   template: `
     <cdk-table
       #cdkTable
-      [class]="tableClasses"
+      [class]="tableClasses()"
       [dataSource]="dataSource"
       [fixedLayout]="fixedLayout"
       [multiTemplateDataRows]="multiTemplateDataRows"
@@ -33,7 +34,7 @@ export type XTableDataSourceInput<T> = CdkTableDataSourceInput<T>;
     >
       <ng-content />
 
-      <cdk-header-row [class]="headerRowClasses" *cdkHeaderRowDef="displayedColumns; sticky: stickyHeader" />
+      <cdk-header-row [class]="headerRowClasses()" *cdkHeaderRowDef="displayedColumns; sticky: stickyHeader" />
       @if (!customTemplateDataRows) {
         <cdk-row
           [tabindex]="!!onRowClick ? 0 : -1"
@@ -41,7 +42,7 @@ export type XTableDataSourceInput<T> = CdkTableDataSourceInput<T>;
           [class.row-interactive]="!!onRowClick"
           (keydown.enter)="!!onRowClick && onRowClick(row)"
           (click)="!!onRowClick && onRowClick(row)"
-          [class]="bodyRowClasses"
+          [class]="bodyRowClasses()"
           *cdkRowDef="let row; columns: displayedColumns"
         />
       }
@@ -97,14 +98,12 @@ export class XTable<T> implements TableClassesSettable, AfterContentInit {
   @Input({ transform: booleanAttribute })
   stickyHeader = false;
 
-  @Input()
-  tableClasses = '';
-
-  @Input()
-  headerRowClasses = '';
-
-  @Input()
-  bodyRowClasses = '';
+  // Written both by the consumer (as inputs) and by the styled layer through
+  // `setTableClasses`, so they must be signals — a plain field mutated after
+  // construction is invisible to zoneless OnPush change detection.
+  readonly tableClasses = model('');
+  readonly headerRowClasses = model('');
+  readonly bodyRowClasses = model('');
 
   @ContentChildren(XColumnDef) columnDefComponents!: QueryList<XColumnDef>;
   @ContentChildren(CdkRowDef) rowDefs!: QueryList<CdkRowDef<T>>;
@@ -127,15 +126,15 @@ export class XTable<T> implements TableClassesSettable, AfterContentInit {
 
   setTableClasses({ table, headerRow, bodyRow }: Partial<{ table: string; headerRow: string; bodyRow: string }>): void {
     if (table) {
-      this.tableClasses = table;
+      this.tableClasses.set(table);
     }
 
     if (headerRow) {
-      this.headerRowClasses = headerRow;
+      this.headerRowClasses.set(headerRow);
     }
 
     if (bodyRow) {
-      this.bodyRowClasses = bodyRow;
+      this.bodyRowClasses.set(bodyRow);
     }
   }
 }

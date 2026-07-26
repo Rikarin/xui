@@ -73,6 +73,8 @@ export interface XDateAdapter<T> {
 
   /**
    * Get the month.
+   *
+   * Returns a value between 0 and 11 where 0 is January.
    */
   getMonth(date: T): number;
 
@@ -119,7 +121,7 @@ export interface XDateAdapter<T> {
   startOfMonth(date: T): T;
 
   /**
-   * Get the last day of the month.
+   * Get the last day of the month, at the start of that day.
    */
   endOfMonth(date: T): T;
 
@@ -141,7 +143,7 @@ export interface XDateUnits {
   year?: number;
 
   /**
-   * The month.
+   * The month, between 0 and 11 where 0 is January.
    */
   month?: number;
 

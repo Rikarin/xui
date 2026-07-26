@@ -7,7 +7,8 @@ export class XLuxonDateAdapter implements XDateAdapter<DateTime> {
   }
 
   set(date: DateTime, values: XDateUnits) {
-    return date.set(values);
+    // XDateUnits.month is 0-based; Luxon months are 1-based.
+    return date.set(values.month === undefined ? values : { ...values, month: values.month + 1 });
   }
 
   add(date: DateTime, duration: XDuration) {
@@ -59,7 +60,8 @@ export class XLuxonDateAdapter implements XDateAdapter<DateTime> {
   }
 
   getMonth(date: DateTime): number {
-    return date.month;
+    // XDateAdapter months are 0-based; Luxon months are 1-based.
+    return date.month - 1;
   }
 
   getDate(date: DateTime): number {
@@ -95,7 +97,7 @@ export class XLuxonDateAdapter implements XDateAdapter<DateTime> {
   }
 
   endOfMonth(date: DateTime) {
-    return date.endOf('month');
+    return date.endOf('month').startOf('day');
   }
 
   startOfDay(date: DateTime) {
@@ -107,6 +109,7 @@ export class XLuxonDateAdapter implements XDateAdapter<DateTime> {
   }
 
   create(values: XDateUnits) {
-    return DateTime.fromObject(values);
+    // XDateUnits.month is 0-based; Luxon months are 1-based.
+    return DateTime.fromObject(values.month === undefined ? values : { ...values, month: values.month + 1 });
   }
 }
