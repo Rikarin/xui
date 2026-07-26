@@ -7,6 +7,9 @@ import { resolveWorkspaceRoot } from './workspace.js';
 /** Index generated at publish time, sitting next to the compiled sources. */
 const BUNDLED_INDEX = new URL('../xui-index.json', import.meta.url);
 
+/** This package's own manifest, one level above the compiled `src`. */
+const OWN_MANIFEST = new URL('../../package.json', import.meta.url);
+
 let cached: Promise<XuiIndex> | undefined;
 
 /**
@@ -38,13 +41,40 @@ async function loadIndex(): Promise<XuiIndex> {
   const bundledPath = fileURLToPath(BUNDLED_INDEX);
 
   if (existsSync(bundledPath)) {
-    return { ...(JSON.parse(readFileSync(bundledPath, 'utf8')) as XuiIndex), source: 'bundled' };
+    const bundled = JSON.parse(readFileSync(bundledPath, 'utf8')) as XuiIndex;
+
+    return { ...bundled, source: 'bundled', version: ownVersion() ?? bundled.version };
   }
 
   throw new Error(
     'No xUI component index available. Run the server from inside an xUI checkout, or set ' +
       'XUI_WORKSPACE_ROOT to one. A published @xui/mcp ships a pre-generated index instead.'
   );
+}
+
+/**
+ * The version of the library this package was published alongside, or `undefined` when the manifest
+ * cannot be read.
+ *
+ * A bundled index carries whatever `libs/core/package.json` said when it was generated, and
+ * `nx release` generates it — through `preVersionCommand` — *before* it bumps the versions. The
+ * stamp inside a published index is therefore always one release behind the package carrying it.
+ * Our own manifest is rewritten by the release, so it is the authority here.
+ *
+ * This holds because the workspace releases under `projectsRelationship: 'fixed'`: `@xui/mcp` and
+ * `@xui/core` always carry the same version. It applies to the bundled index only — in a checkout
+ * the index is built from the tree as it stands, and its own stamp is already right.
+ */
+function ownVersion(): string | undefined {
+  try {
+    const manifest = JSON.parse(readFileSync(fileURLToPath(OWN_MANIFEST), 'utf8')) as { version?: string };
+
+    return manifest.version;
+  } catch {
+    // A malformed or missing manifest is not worth failing the whole index over; the baked stamp is
+    // stale by a release, not wrong in kind.
+    return undefined;
+  }
 }
 
 /** Accepts a folder name (`date-picker`), a package name (`@xui/date-picker`) or a selector. */
