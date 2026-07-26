@@ -61,6 +61,9 @@ export class XuiCountdown {
       this.now.set(Date.now());
       if (!this.hasFinished && this.remaining() <= 0) {
         this.hasFinished = true;
+        // Stop ticking once done — an idle countdown must not keep driving
+        // change detection every second.
+        clearInterval(id);
         this.finished.emit();
       }
     }, 1000);

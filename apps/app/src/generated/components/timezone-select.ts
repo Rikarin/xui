@@ -2,76 +2,78 @@
 import type { ComponentDoc } from '../../app/core/docs.model';
 
 export const doc: ComponentDoc = {
-  name: "timezone-select",
-  slug: "timezone-select",
-  title: "Timezone select",
-  package: "@xui/timezone-select",
-  kind: "ui",
-  group: "Date & time",
-  description: "A searchable time-zone picker: the runtime's IANA zones (via Intl.supportedValuesOf('timeZone')) fed into xui-select, each labelled with its current GMT offset. [(value)] holds the selected IANA id (a string).",
-  importsConst: "XuiTimezoneSelectImports",
-  exports: [
-  "XuiTimezoneSelect",
-  "XuiTimezoneSelectImports"
-],
+  name: 'timezone-select',
+  slug: 'timezone-select',
+  title: 'Timezone select',
+  package: '@xui/timezone-select',
+  kind: 'ui',
+  group: 'Date & time',
+  description:
+    "A searchable time-zone picker: the runtime's IANA zones (via Intl.supportedValuesOf('timeZone')) fed into xui-select, each labelled with its current GMT offset. [(value)] holds the selected IANA id (a string).",
+  importsConst: 'XuiTimezoneSelectImports',
+  exports: ['XuiTimezoneSelect', 'XuiTimezoneSelectImports'],
   peerDependencies: {
-  "@angular/core": "22",
-  "@xui/select": "2.0.0-alpha.11"
-},
-  sourcePath: "libs/ui/timezone-select/xui",
+    '@angular/core': '22',
+    '@xui/select': '2.0.0-alpha.11',
+    '@angular/cdk': '22.0.6',
+    '@xui/core': '2.0.0-alpha.11',
+    clsx: '^2.1.1'
+  },
+  sourcePath: 'libs/ui/timezone-select/xui',
   symbols: [
-  {
-    "kind": "component",
-    "name": "XuiTimezoneSelect",
-    "selector": "xui-timezone-select",
-    "docs": "A searchable time-zone picker: the runtime's IANA zones (via Intl.supportedValuesOf('timeZone')) fed into xui-select, each labelled with its current GMT offset. [(value)] holds the selected IANA id (a string).",
-    "inputs": [
-      {
-        "name": "class",
-        "type": "string",
-        "default": "''",
-        "required": false
-      },
-      {
-        "name": "placeholder",
-        "type": "string",
-        "default": "'Select a time zone…'",
-        "required": false
-      },
-      {
-        "name": "ariaLabel",
-        "type": "string",
-        "default": "'Time zone'",
-        "required": false,
-        "docs": "Names the combobox; the placeholder is only shown until something is picked."
-      },
-      {
-        "name": "disabled",
-        "type": "boolean",
-        "default": "false",
-        "required": false
-      },
-      {
-        "name": "date",
-        "type": "Date",
-        "default": "new Date(0)",
-        "required": false,
-        "docs": "Reference instant used to compute offsets (defaults to \"now\" at first render)."
-      },
-      {
-        "name": "value",
-        "type": "string | null",
-        "default": "null",
-        "required": false,
-        "model": true,
-        "docs": "The selected IANA time-zone id. Two-way bindable with [(value)]."
-      }
-    ],
-    "outputs": [],
-    "variants": [],
-    "methods": []
-  }
-],
-  examples: [
-  ]
+    {
+      kind: 'component',
+      name: 'XuiTimezoneSelect',
+      selector: 'xui-timezone-select',
+      docs: "A searchable time-zone picker: the runtime's IANA zones (via Intl.supportedValuesOf('timeZone')) fed into xui-select, each labelled with its current GMT offset. [(value)] holds the selected IANA id (a string).",
+      inputs: [
+        {
+          name: 'class',
+          type: 'ClassValue',
+          default: "''",
+          required: false,
+          docs: 'The user-defined classes. Merged last so they win over the variant classes.'
+        },
+        {
+          name: 'placeholder',
+          type: 'string',
+          default: "'Select a time zone…'",
+          required: false
+        },
+        {
+          name: 'ariaLabel',
+          type: 'string',
+          default: "'Time zone'",
+          required: false,
+          docs: 'Names the combobox; the placeholder is only shown until something is picked.'
+        },
+        {
+          name: 'disabled',
+          type: 'boolean',
+          default: 'false',
+          required: false,
+          transform: 'booleanAttribute'
+        },
+        {
+          name: 'date',
+          type: 'Date',
+          default: 'new Date(0)',
+          required: false,
+          docs: 'Reference instant used to compute offsets (defaults to "now" at first render).'
+        },
+        {
+          name: 'value',
+          type: 'string | null',
+          default: 'null',
+          required: false,
+          model: true,
+          docs: 'The selected IANA time-zone id. Two-way bindable with [(value)].'
+        }
+      ],
+      outputs: [],
+      variants: [],
+      methods: []
+    }
+  ],
+  examples: []
 };

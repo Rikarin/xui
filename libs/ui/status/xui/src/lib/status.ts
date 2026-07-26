@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { xui } from '@xui/core';
+import { uniqueId } from '@xui/core/a11y';
 import { cva, VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
 
@@ -24,28 +25,25 @@ const statusVariants = cva(['inline-flex aspect-square rounded-[50%]'], {
 
 export type StatusVariants = VariantProps<typeof statusVariants>;
 
+const CLIP_PATHS: Partial<Record<NonNullable<StatusVariants['variant']> & string, string>> = {
+  idle: 'M0.564,0 A0.399,0.399,0,1,1,0,0.564 A0.502,0.502,0,1,0,0.564,0',
+  dnd: 'M0.5,0 a0.5,0.5,0,1,0,0.5,0.5 A0.5,0.5,0,0,0,0.5,0 M0.78,0.603 H0.22 a0.103,0.103,0,0,1,0,-0.205 H0.78 a0.103,0.103,0,1,1,0,0.205',
+  offline:
+    'M0.5,0 a0.5,0.5,0,1,0,0.5,0.5 A0.5,0.5,0,0,0,0.5,0 m0,0.76 A0.26,0.26,0,1,1,0.76,0.5 A0.26,0.26,0,0,1,0.5,0.76'
+};
+
 @Component({
   selector: 'xui-status',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `<svg>
-      <clipPath id="x-status-idle-clip-path" clipPathUnits="objectBoundingBox">
-        <path d="M0.564,0 A0.399,0.399,0,1,1,0,0.564 A0.502,0.502,0,1,0,0.564,0" />
-      </clipPath>
-    </svg>
-    <svg>
-      <clipPath id="x-status-dnd-clip-path" clipPathUnits="objectBoundingBox">
-        <path
-          d="M0.5,0 a0.5,0.5,0,1,0,0.5,0.5 A0.5,0.5,0,0,0,0.5,0 M0.78,0.603 H0.22 a0.103,0.103,0,0,1,0,-0.205 H0.78 a0.103,0.103,0,1,1,0,0.205"
-        />
-      </clipPath>
-    </svg>
-    <svg>
-      <clipPath id="x-status-offline-clip-path" clipPathUnits="objectBoundingBox">
-        <path
-          d="M0.5,0 a0.5,0.5,0,1,0,0.5,0.5 A0.5,0.5,0,0,0,0.5,0 m0,0.76 A0.26,0.26,0,1,1,0.76,0.5 A0.26,0.26,0,0,1,0.5,0.76"
-        />
-      </clipPath>
-    </svg>`,
+  template: `
+    @if (clipPath(); as clip) {
+      <svg width="0" height="0" aria-hidden="true">
+        <clipPath [attr.id]="clip.id" clipPathUnits="objectBoundingBox">
+          <path [attr.d]="clip.d" />
+        </clipPath>
+      </svg>
+    }
+  `,
   host: {
     '[class]': 'computedClass()',
     '[style.clip-path]': 'computedStyle()'
@@ -57,21 +55,25 @@ export class XuiStatus {
   readonly variant = input.required<StatusVariants['variant']>();
   readonly size = input<StatusVariants['size']>('md');
 
+  /**
+   * DOM ids must be unique, so each instance defines its own clip path rather
+   * than sharing fixed ids across every status dot on the page.
+   */
+  private readonly instanceId = uniqueId('xui-status');
+
   /** The classes to apply to the component merged with the user-defined classes */
   protected readonly computedClass = computed(() =>
     xui(statusVariants({ variant: this.variant(), size: this.size() }), this.class())
   );
 
-  protected readonly computedStyle = computed(() => {
-    switch (this.variant()) {
-      case 'idle':
-        return 'url(#x-status-idle-clip-path)';
-      case 'dnd':
-        return 'url(#x-status-dnd-clip-path)';
-      case 'offline':
-        return 'url(#x-status-offline-clip-path)';
-    }
+  protected readonly clipPath = computed(() => {
+    const variant = this.variant();
+    const d = variant ? CLIP_PATHS[variant] : undefined;
+    return d ? { id: `${this.instanceId}-${variant}`, d } : null;
+  });
 
-    return null;
+  protected readonly computedStyle = computed(() => {
+    const clip = this.clipPath();
+    return clip ? `url(#${clip.id})` : null;
   });
 }

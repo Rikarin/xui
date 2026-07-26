@@ -114,9 +114,14 @@ export class XuiAlertDialog {
     }
   }
 
-  protected readonly computedClass = computed(() => xui('contents', this.class()));
+  // The host renders as `contents`, so the caller's classes must land on the
+  // panel to have any effect.
+  protected readonly computedClass = computed(() => xui('contents'));
   protected readonly panelClass = computed(() =>
-    xui('border-border bg-surface-overlay shadow-overlay relative z-10 w-full max-w-sm rounded-lg border p-5')
+    xui(
+      'border-border bg-surface-overlay shadow-overlay relative z-10 w-full max-w-sm rounded-lg border p-5',
+      this.class()
+    )
   );
   protected readonly cancelClass = computed(() =>
     xui(

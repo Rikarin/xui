@@ -1,5 +1,16 @@
-import { ChangeDetectionStrategy, Component, computed, input, model, ViewEncapsulation } from '@angular/core';
+import type { BooleanInput } from '@angular/cdk/coercion';
+import {
+  booleanAttribute,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+  model,
+  ViewEncapsulation
+} from '@angular/core';
+import { xui } from '@xui/core';
 import { XuiSelectImports } from '@xui/select';
+import type { ClassValue } from 'clsx';
 
 interface TimeZoneEntry {
   id: string;
@@ -35,7 +46,7 @@ const offsetLabel = (zone: string, at: Date): string => {
   imports: [XuiSelectImports],
   template: `
     <xui-select
-      [class]="class()"
+      class="w-full"
       [items]="entries()"
       [itemText]="itemText"
       [selectedItem]="selectedEntry()"
@@ -45,15 +56,21 @@ const offsetLabel = (zone: string, at: Date): string => {
       [disabled]="disabled()"
     />
   `,
+  host: {
+    '[class]': 'computedClass()'
+  },
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None
 })
 export class XuiTimezoneSelect {
-  readonly class = input('');
+  /** The user-defined classes. Merged last so they win over the variant classes. */
+  readonly class = input<ClassValue>('');
   readonly placeholder = input('Select a time zone…');
   /** Names the combobox; the placeholder is only shown until something is picked. */
   readonly ariaLabel = input<string>('Time zone', { alias: 'aria-label' });
-  readonly disabled = input(false);
+  readonly disabled = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
+
+  protected readonly computedClass = computed(() => xui('inline-block', this.class()));
 
   /** Reference instant used to compute offsets (defaults to "now" at first render). */
   readonly date = input<Date>(new Date(0));

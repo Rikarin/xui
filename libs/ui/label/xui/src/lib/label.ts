@@ -1,4 +1,4 @@
-import { Directive, computed, inject, input, signal } from '@angular/core';
+import { Directive, computed, inject, input, linkedSignal } from '@angular/core';
 import { xui } from '@xui/core';
 import { XLabel } from '@xui/core/label';
 import { type VariantProps, cva } from 'class-variance-authority';
@@ -55,15 +55,14 @@ export class XuiLabel {
   readonly variant = input<LabelVariants['variant']>('default');
   readonly error = input<LabelVariants['error']>('auto');
 
-  protected readonly state = computed(() => ({
-    error: signal(this.error())
-  }));
+  /** Follows the `error` input until `setError` overrides it. */
+  private readonly errorState = linkedSignal(this.error);
 
   protected readonly computedClass = computed(() =>
     xui(
       labelVariants({
         variant: this.variant(),
-        error: this.state().error(),
+        error: this.errorState(),
         disabled: this.xLabel?.dataDisabled() ?? 'auto'
       }),
       this.class()
@@ -71,6 +70,6 @@ export class XuiLabel {
   );
 
   setError(error: LabelVariants['error']): void {
-    this.state().error.set(error);
+    this.errorState.set(error);
   }
 }

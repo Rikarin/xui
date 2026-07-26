@@ -4,6 +4,7 @@ import {
   Component,
   computed,
   contentChildren,
+  DestroyRef,
   ElementRef,
   inject,
   input,
@@ -171,12 +172,23 @@ export class XuiSplitter {
       this.sizes.set(next);
     };
     const onUp = (): void => {
+      this.stopDrag?.();
+      this.sizeChange.emit(this.sizes());
+    };
+    this.stopDrag = () => {
       this.document.removeEventListener('mousemove', onMove);
       this.document.removeEventListener('mouseup', onUp);
-      this.sizeChange.emit(this.sizes());
+      this.stopDrag = null;
     };
     this.document.addEventListener('mousemove', onMove);
     this.document.addEventListener('mouseup', onUp);
+  }
+
+  /** Removes the active drag listeners; destroying the component mid-drag must not leak them. */
+  private stopDrag: (() => void) | null = null;
+
+  constructor() {
+    inject(DestroyRef).onDestroy(() => this.stopDrag?.());
   }
 
   protected readonly computedClass = computed(() =>

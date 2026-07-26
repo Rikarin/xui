@@ -36,8 +36,17 @@ describe('XuiStatus', () => {
   it('clips the non-online variants to their distinct shapes', () => {
     const { query: online } = setup('<xui-status variant="online" />');
     expect(online('xui-status').style.clipPath).toBe('');
+    expect(online('xui-status').querySelector('clipPath')).toBeNull();
 
     const { query: dnd } = setup('<xui-status variant="dnd" />');
-    expect(dnd('xui-status').style.clipPath).toBe('url(#x-status-dnd-clip-path)');
+    const clip = dnd('xui-status').querySelector('clipPath') as SVGClipPathElement;
+    expect(dnd('xui-status').style.clipPath).toBe(`url(#${clip.id})`);
+  });
+
+  it('gives each instance its own clip-path id', () => {
+    const { queryAll } = setup('<xui-status variant="dnd" /><xui-status variant="dnd" />');
+    const [first, second] = queryAll('clipPath');
+
+    expect(first.id).not.toBe(second.id);
   });
 });
