@@ -1,3 +1,14 @@
+## 2.0.0-alpha.22 (2026-07-26)
+
+### 🩹 Fixes
+
+- **mcp:** key the index build on the sources it actually reads ([24ad831a](https://github.com/Rikarin/xui/commit/24ad831a))
+- **mcp:** report the published version, not the one baked into the index ([1591598e](https://github.com/Rikarin/xui/commit/1591598e))
+
+### ❤️ Thank You
+
+- Rikarin @Rikarin
+
 ## 2.0.0-alpha.21 (2026-07-26)
 
 ### 🚀 Features
