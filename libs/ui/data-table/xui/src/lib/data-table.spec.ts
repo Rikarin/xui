@@ -69,6 +69,20 @@ describe('XuiDataTable', () => {
     expect(cellText(rows()[0])).toEqual(['0', 'Person 0', '20']);
   });
 
+  it('spans the viewport when the columns do not fill it, and rules the row rather than the cell', () => {
+    const { detect } = setup();
+    detect();
+
+    const header = document.querySelector('[role="row"]:not([aria-rowindex])') as HTMLElement;
+
+    // Sized at the column total, floored at the viewport, so the header band and the row rule reach
+    // the scrollbar instead of stopping at the last column.
+    expect(header.classList).toContain('min-w-full');
+    expect(rows()[0].classList).toContain('min-w-full');
+    expect(rows()[0].classList).toContain('border-b');
+    expect(cellAt(0, 0).classList).not.toContain('border-b');
+  });
+
   it('renders a different window after scrolling down', () => {
     const { detect } = setup();
     detect();

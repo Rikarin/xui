@@ -373,9 +373,17 @@ export class XuiDataTable<T> {
       'focus-visible:outline-focus relative overflow-auto outline-none focus-visible:outline-2 focus-visible:-outline-offset-2'
     )
   );
-  // eslint-disable-next-line local/no-hand-z-index -- the sticky header rides above scrolling body cells inside the table’s scroll context
-  protected readonly headerRowClass = computed(() => xui('bg-surface-inset border-border sticky top-0 z-30 border-b'));
-  protected readonly bodyClass = computed(() => xui('relative'));
+  /**
+   * The header, the body and every row are laid out at `totalWidth` but never narrower than the
+   * viewport, so when the columns do not fill it the header band and the row rules still run to
+   * the scrollbar instead of stopping at the last column with a strip of bare background beside
+   * it. The cells keep their own widths; what is past the last one is empty grid.
+   */
+  protected readonly headerRowClass = computed(() =>
+    // eslint-disable-next-line local/no-hand-z-index -- the sticky header rides above scrolling body cells inside the table’s scroll context
+    xui('bg-surface-inset border-border sticky top-0 z-30 min-w-full border-b')
+  );
+  protected readonly bodyClass = computed(() => xui('relative min-w-full'));
 
   // --- column reorder drag state ---
   private readonly reorderSource = signal<number | null>(null);
@@ -412,7 +420,9 @@ export class XuiDataTable<T> {
   protected rowClass(frozen: boolean): string {
     // Frozen rows ride above the scrolling rows *and* their pinned frozen-column
     // cells (z-20), so the frozen-row×frozen-column corner stays on top.
-    return xui('absolute', frozen && 'bg-surface z-[25]');
+    // The rule under the row is the row's own, not the cells', so it carries on
+    // past the last column when the columns are narrower than the viewport.
+    return xui('border-border/60 absolute min-w-full border-b', frozen && 'bg-surface z-[25]');
   }
 
   protected cornerClass(): string {
@@ -423,7 +433,7 @@ export class XuiDataTable<T> {
   protected rowHeaderClass(rowIndex: number): string {
     return xui(
       // eslint-disable-next-line local/no-hand-z-index -- sticky row headers stack above scrolling cells inside the table’s scroll context
-      'bg-surface-inset text-foreground-muted border-border/60 sticky left-0 z-10 flex h-full cursor-pointer items-center justify-center border-r border-b text-xs tabular-nums select-none',
+      'bg-surface-inset text-foreground-muted border-border/60 sticky left-0 z-10 flex h-full cursor-pointer items-center justify-center border-r text-xs tabular-nums select-none',
       this.isRowSelected(rowIndex) && 'bg-primary/15 text-foreground'
     );
   }
@@ -446,7 +456,7 @@ export class XuiDataTable<T> {
     const isFocused = focused?.row === rowIndex && focused?.col === colIndex;
     const isSelected = this.isSelected(rowIndex, colIndex);
     return xui(
-      'border-border/60 text-foreground absolute top-0 flex h-full items-center border-r border-b px-3',
+      'border-border/60 text-foreground absolute top-0 flex h-full items-center border-r px-3',
       alignClass(column.align),
       // Frozen cells need an opaque base and a raised layer so scrolling cells pass under them.
       // eslint-disable-next-line local/no-hand-z-index -- frozen cells ride above scrolling cells inside the table’s scroll context
