@@ -1,3 +1,14 @@
+## 2.0.0-alpha.13 (2026-07-26)
+
+### 🩹 Fixes
+
+- **app:** build the SSR bundle for the edge, not for Node ([7c13cc7a](https://github.com/Rikarin/xui/commit/7c13cc7a))
+
+### ❤️ Thank You
+
+- Claude Opus 5
+- Rikarin @Rikarin
+
 ## 2.0.0-alpha.12 (2026-07-26)
 
 ### 🚀 Features

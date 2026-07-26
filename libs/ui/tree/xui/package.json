@@ -1,6 +1,6 @@
 {
   "name": "@xui/tree",
-  "version": "2.0.0-alpha.12",
+  "version": "2.0.0-alpha.13",
   "description": "Modern Angular 22 UI Library based on TailwindCSS",
   "keywords": [
     "angular",
@@ -25,8 +25,8 @@
     "@angular/core": "22",
     "@ng-icons/core": "34",
     "@ng-icons/material-icons": "34",
-    "@xui/core": "2.0.0-alpha.12",
-    "@xui/icon": "2.0.0-alpha.12",
+    "@xui/core": "2.0.0-alpha.13",
+    "@xui/icon": "2.0.0-alpha.13",
     "clsx": "^2.1.1"
   },
   "publishConfig": {
