@@ -124,6 +124,24 @@ function describeConformance<T>(name: string, adapter: XDateAdapter<T>) {
       expect(adapter.getMonth(minusOneMonth)).toBe(1);
     });
 
+    it.each([
+      // A month after the 31st is the last day of the shorter month, not a roll-over past it —
+      // otherwise a calendar stepping month by month from the 31st skips one entirely.
+      ['adds', 2, 31, { months: 1 }, 3, 30],
+      ['adds', 0, 31, { months: 1 }, 1, 29],
+      ['subtracts', 4, 31, { months: 1 }, 3, 30],
+      ['adds', 0, 31, { years: 1 }, 0, 31]
+    ])(
+      '%s calendar units by clamping into the target month (%i/%i)',
+      (op, month, day, duration, expectedMonth, expectedDay) => {
+        const date = adapter.create({ year: 2024, month, day });
+        const moved = op === 'adds' ? adapter.add(date, duration) : adapter.subtract(date, duration);
+
+        expect(adapter.getMonth(moved)).toBe(expectedMonth);
+        expect(adapter.getDate(moved)).toBe(expectedDay);
+      }
+    );
+
     it('compares dates', () => {
       const earlier = adapter.create({ year: 2024, month: 0, day: 1 });
       const later = adapter.create({ year: 2024, month: 0, day: 2 });

@@ -69,29 +69,41 @@ export class XNativeDateAdapter implements XDateAdapter<Date> {
    * Add a duration to the date time object.
    */
   add(date: Date, duration: XDuration): Date {
-    return new Date(
-      date.getFullYear() + (duration.years ?? 0),
-      date.getMonth() + (duration.months ?? 0),
-      date.getDate() + (duration.days ?? 0),
-      date.getHours() + (duration.hours ?? 0),
-      date.getMinutes() + (duration.minutes ?? 0),
-      date.getSeconds() + (duration.seconds ?? 0),
-      date.getMilliseconds() + (duration.milliseconds ?? 0)
-    );
+    return this.shift(date, duration, 1);
   }
 
   /**
    * Subtract a duration from the date time object
    */
   subtract(date: Date, duration: XDuration): Date {
+    return this.shift(date, duration, -1);
+  }
+
+  /**
+   * Move `date` by `duration`, in the direction `sign` gives.
+   *
+   * Years and months land on a month first and the day is then clamped into it, so a month after
+   * 31 March is 30 April rather than a roll-over into May — which is what `new Date(y, m + 1, 31)`
+   * would have given, and what made a two-month calendar seeded on the 31st skip a month. The
+   * remaining units are true durations and are free to carry into the next day or month.
+   */
+  private shift(date: Date, duration: XDuration, sign: 1 | -1): Date {
+    const anchor = new Date(
+      date.getFullYear() + (duration.years ?? 0) * sign,
+      date.getMonth() + (duration.months ?? 0) * sign,
+      1
+    );
+    // Day 0 of the following month is the last day of this one.
+    const daysInTargetMonth = new Date(anchor.getFullYear(), anchor.getMonth() + 1, 0).getDate();
+
     return new Date(
-      date.getFullYear() - (duration.years ?? 0),
-      date.getMonth() - (duration.months ?? 0),
-      date.getDate() - (duration.days ?? 0),
-      date.getHours() - (duration.hours ?? 0),
-      date.getMinutes() - (duration.minutes ?? 0),
-      date.getSeconds() - (duration.seconds ?? 0),
-      date.getMilliseconds() - (duration.milliseconds ?? 0)
+      anchor.getFullYear(),
+      anchor.getMonth(),
+      Math.min(date.getDate(), daysInTargetMonth) + (duration.days ?? 0) * sign,
+      date.getHours() + (duration.hours ?? 0) * sign,
+      date.getMinutes() + (duration.minutes ?? 0) * sign,
+      date.getSeconds() + (duration.seconds ?? 0) * sign,
+      date.getMilliseconds() + (duration.milliseconds ?? 0) * sign
     );
   }
 

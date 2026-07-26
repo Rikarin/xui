@@ -86,18 +86,28 @@ export interface XuiDateRange<T> {
               @for (week of grids()[offset]; track $index) {
                 <tr>
                   @for (day of week; track $index) {
-                    <!-- Selection belongs on the gridcell, not the button. -->
-                    <td [class]="cellClass(day)" [attr.aria-selected]="isEndpoint(day.date)">
-                      <button
-                        type="button"
-                        [class]="dayClass(day)"
-                        [disabled]="day.disabled || isDisabled()"
-                        (click)="onClick(day.date)"
-                        (mouseenter)="hover.set(day.date)"
-                      >
-                        {{ day.label }}
-                      </button>
-                    </td>
+                    <!-- A day belonging to a neighbouring month is left blank: with the months
+                         side by side it is already on screen in its own grid, and drawing it twice
+                         gave a selected endpoint two circles. -->
+                    @if (!day.inCurrentMonth) {
+                      <td class="p-0"></td>
+                    } @else {
+                      <!-- Selection belongs on the gridcell, not the button. -->
+                      <td [class]="cellClass(day)" [attr.aria-selected]="isEndpoint(day.date)">
+                        @if (stripSide(day.date); as side) {
+                          <span [class]="stripClass(side)"></span>
+                        }
+                        <button
+                          type="button"
+                          [class]="dayClass(day)"
+                          [disabled]="day.disabled || isDisabled()"
+                          (click)="onClick(day.date)"
+                          (mouseenter)="hover.set(day.date)"
+                        >
+                          {{ day.label }}
+                        </button>
+                      </td>
+                    }
                   }
                 </tr>
               }
@@ -213,12 +223,51 @@ export class XuiDateRangePicker<T = Date> implements ControlValueAccessor {
 
   protected cellClass(day: XCalendarDay<T>): string {
     // A continuous highlight strip behind the days that fall inside the range.
-    return xui('p-0 text-center', this.inRange(day.date) && !this.isEndpoint(day.date) && 'bg-primary/10');
+    return xui('relative p-0 text-center', this.inRange(day.date) && !this.isEndpoint(day.date) && 'bg-primary/10');
+  }
+
+  /** The range's two ends as `[earlier, later]`, or null while it is still incomplete. */
+  private bounds(): [T, T] | null {
+    const { start } = this.value();
+    const end = this.effectiveEnd();
+
+    if (start == null || end == null) {
+      return null;
+    }
+
+    return this.adapter.isAfter(start, end) ? [end, start] : [start, end];
+  }
+
+  /**
+   * Which half of an endpoint's cell the strip should cover, if any.
+   *
+   * The strip is a rectangle and the endpoint is a circle, so ending the strip at the cell edge
+   * left a notch above and below, where the circle curves away from it. Carrying it to the circle's
+   * centre instead puts the join underneath the circle, where there is nothing to see.
+   */
+  protected stripSide(date: T): 'start' | 'end' | null {
+    const bounds = this.bounds();
+
+    if (!bounds || this.adapter.isSameDay(bounds[0], bounds[1])) {
+      return null;
+    }
+
+    if (this.adapter.isSameDay(date, bounds[0])) {
+      return 'start';
+    }
+
+    return this.adapter.isSameDay(date, bounds[1]) ? 'end' : null;
+  }
+
+  /** Logical insets, so the half that is covered follows the writing direction. */
+  protected stripClass(side: 'start' | 'end'): string {
+    return xui('bg-primary/10 absolute inset-y-0', side === 'start' ? 'start-1/2 end-0' : 'start-0 end-1/2');
   }
 
   protected dayClass(day: XCalendarDay<T>): string {
     return xui(
-      'flex size-8 items-center justify-center rounded-full text-sm transition-colors',
+      // Above the strip that runs under it.
+      'relative flex size-8 items-center justify-center rounded-full text-sm transition-colors',
       day.inCurrentMonth ? 'text-foreground' : 'text-foreground-subtle',
       !day.disabled && 'hover:bg-surface-inset cursor-pointer',
       day.disabled && 'cursor-not-allowed opacity-40',

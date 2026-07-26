@@ -131,7 +131,9 @@ export class XuiDateInput<T = Date> implements ControlValueAccessor {
   );
   protected readonly triggerClass = computed(() =>
     xui(
-      'text-foreground-muted hover:bg-surface-raised hover:text-foreground flex size-8 items-center justify-center rounded'
+      // 28px, which is what the control height leaves once its border is taken off. At 32px the
+      // hover fill stood proud of the field it sits in, top and bottom.
+      'text-foreground-muted hover:bg-surface-raised hover:text-foreground flex size-7 items-center justify-center rounded'
     )
   );
 
