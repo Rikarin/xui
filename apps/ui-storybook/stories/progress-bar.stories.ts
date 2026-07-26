@@ -51,35 +51,32 @@ export const Indeterminate: Story = {
 };
 
 export const Sizes: Story = {
-  render: ({ ...args }) => {
-    const rest = argsToTemplate(args, { exclude: ['size'] });
-
-    return {
-      props: args,
-      template: `
-        <div class="flex max-w-sm flex-col gap-4">
-          <xui-progress-bar size="sm" ${rest} />
-          <xui-progress-bar size="md" ${rest} />
-          <xui-progress-bar size="lg" ${rest} />
-        </div>
-      `
-    };
-  }
+  render: ({ ...args }) => ({
+    props: args,
+    template: `
+      <div class="flex max-w-sm flex-col gap-4">
+        <xui-progress-bar size="sm" ${argsToTemplate(args, { exclude: ['size'] })} />
+        <xui-progress-bar size="md" ${argsToTemplate(args, { exclude: ['size'] })} />
+        <xui-progress-bar size="lg" ${argsToTemplate(args, { exclude: ['size'] })} />
+      </div>
+    `
+  })
 };
 
 export const Colors: Story = {
-  render: ({ ...args }) => {
-    const rest = argsToTemplate(args, { exclude: ['color'] });
-
-    return {
-      props: args,
-      template: `
-        <div class="flex max-w-sm flex-col gap-4">
-          ${COLORS.map(color => `<xui-progress-bar color="${color}" ${rest} />`).join('\n          ')}
-        </div>
-      `
-    };
-  }
+  render: ({ ...args }) => ({
+    props: args,
+    template: `
+      <div class="flex max-w-sm flex-col gap-4">
+        <xui-progress-bar color="primary" ${argsToTemplate(args, { exclude: ['color'] })} />
+        <xui-progress-bar color="secondary" ${argsToTemplate(args, { exclude: ['color'] })} />
+        <xui-progress-bar color="success" ${argsToTemplate(args, { exclude: ['color'] })} />
+        <xui-progress-bar color="error" ${argsToTemplate(args, { exclude: ['color'] })} />
+        <xui-progress-bar color="warning" ${argsToTemplate(args, { exclude: ['color'] })} />
+        <xui-progress-bar color="info" ${argsToTemplate(args, { exclude: ['color'] })} />
+      </div>
+    `
+  })
 };
 
 /** Flat bars, for dense layouts where the moving stripes would be noise. */

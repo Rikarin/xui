@@ -27,6 +27,11 @@ import { HeadingAnchor } from './heading-anchor';
  * agree on the markup and nothing has to be skipped. Everything that is documentation — the
  * description, the source, the API tables — is still server-rendered.
  *
+ * The frame lays its preview out in normal flow. It used to be a flex row, from when a story's
+ * markup was inlined into it and its roots were the flex items; the outlet puts a single component
+ * element there instead, and a lone flex item is sized by its content — which collapsed anything
+ * sized in percentages, a progress bar or a slider, to nothing at all.
+ *
  * The frame scrolls only when its contents are genuinely too wide, because a scroll container clips
  * on both axes — CSS cannot scroll one and overflow the other. Left scrolling permanently on, a
  * cascader or colour picker (both of which position their panel themselves rather than through the
@@ -48,7 +53,7 @@ import { HeadingAnchor } from './heading-anchor';
         <xui-tab [id]="'preview-' + anchor()" title="Preview">
           <div
             data-preview-frame
-            class="border-border bg-background flex min-h-24 flex-wrap items-start gap-4 rounded-lg border p-6"
+            class="border-border bg-background min-h-24 rounded-lg border p-6"
             [class.overflow-x-auto]="scrollable()"
           >
             @if (rendered()) {

@@ -914,6 +914,10 @@ function emitComponent(component: XuiComponent, story: StoryMeta | undefined): E
       '  changeDetection: ChangeDetectionStrategy.OnPush,',
       `  imports: [${declarables.join(', ')}],`,
       ...(providers.length > 0 ? [`  providers: [${providers.join(', ')}],`] : []),
+      // The outlet renders this element into the preview frame, where an unknown element is inline
+      // by default. A story sizing anything in percentages — `w-full` on a progress bar — then
+      // resolves it against a box that has no width of its own.
+      `  host: { class: 'block' },`,
       '  template: `',
       escapeTemplate(example.template),
       '`',
