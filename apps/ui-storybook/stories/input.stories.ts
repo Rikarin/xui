@@ -51,9 +51,12 @@ export const Default: Story = {
 <!--        <input xuiInput size="lg" type="email" placeholder="Email" />-->
 <!--      </label>-->
 
+      <!-- A sm control inside a md one leaves 3px either side, so centring on the axis beats
+           guessing an offset — and the button keeps the height its own size step gives it. The
+           padding reserves the button's lane, so typed text stops rather than running underneath. -->
       <div class="grid w-80 relative mt-4">
-        <input xuiInput type="email" placeholder="Email" />
-        <button xuiButton class="absolute bottom-1.5 right-1.5 h-8" size="sm" type="button">Search!</button>
+        <input xuiInput class="pr-22" type="email" placeholder="Email" />
+        <button xuiButton class="absolute top-1/2 right-1.5 -translate-y-1/2" size="sm" type="button">Search!</button>
       </div>
 
 <!--      <div class="grid w-80 relative mt-4">-->
@@ -63,18 +66,17 @@ export const Default: Story = {
 
       <div class="grid w-80 relative mt-4">
         <input xuiInput class="pl-22" type="email" placeholder="Email" />
-        <button xuiButton class="absolute bottom-1.5 left-1.5" size="sm" type="button">Search!</button>
+        <button xuiButton class="absolute top-1/2 left-1.5 -translate-y-1/2" size="sm" type="button">Search!</button>
       </div>
 
+      <!-- Same centring for the static affixes, and text-sm so they read at the input's size
+           rather than a step larger. -->
       <div class="grid w-80 relative mt-4">
-        <span class="absolute left-2 top-2 font-semibold">https://</span>
-        <input xuiInput class="pl-17" type="email" placeholder="Website" />
-        <span class="absolute right-2 top-2 font-semibold">.io</span>
+        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-sm font-semibold">https://</span>
+        <input xuiInput class="pl-17 pr-9" type="email" placeholder="Website" />
+        <span class="absolute right-3 top-1/2 -translate-y-1/2 text-sm font-semibold">.io</span>
       </div>
-
-
-      <input xuiInput class="mt-4" type="file" placeholder="File" ${argsToTemplate(args)} />
-		`
+    `
   })
 };
 
