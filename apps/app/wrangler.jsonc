@@ -1,9 +1,16 @@
 {
   "name": "xui-docs",
   "compatibility_date": "2025-11-01",
-  // Angular's server bundle reaches for a handful of Node built-ins even on the web runtime.
+  // The neutral SSR build leaves no Node built-ins behind, but @angular/ssr is free to reach for
+  // one on any given release; the flag costs nothing and keeps an upgrade from breaking a deploy.
   "compatibility_flags": ["nodejs_compat"],
   "main": "../../dist/apps/app/server/server.mjs",
+  // `@angular/platform-server` lazily imports `xhr2` for the HttpClient XHR backend, and a neutral
+  // build leaves that import external rather than bundling a Node module. Nothing here injects
+  // HttpClient, so point it at a stub instead of leaving Wrangler with an unresolvable import.
+  "alias": {
+    "xhr2": "./tools/xhr2-stub.mjs"
+  },
   "assets": {
     // Every prerendered page lands here alongside the bundles, so a documentation request is
     // usually served from the edge without invoking the Worker at all.

@@ -30,7 +30,8 @@
         "browser": "apps/app/src/main.ts",
         "server": "apps/app/src/main.server.ts",
         "ssr": {
-          "entry": "apps/app/src/server.ts"
+          "entry": "apps/app/src/server.ts",
+          "platform": "neutral"
         },
         "outputMode": "server",
         "polyfills": [],
