@@ -6,7 +6,10 @@ import { COMPONENTS } from '../generated/manifest';
  * time and served as a static asset — no worker invocation, no cold start, and the HTML carries the
  * API tables and previews for anything that does not run JavaScript.
  *
- * The catch-all stays on server rendering so an unknown path still gets a real 404 page.
+ * Which is every page there is, so the site ships without a server at all: the catch-all renders in
+ * the browser, and an unknown path gets its 404 from the app once it has booted. Rendering that one
+ * page in a worker cost a worker — and `@angular/ssr` puts a copy of all 111 prerendered pages
+ * inside it, for routes the assets binding serves first.
  */
 export const serverRoutes: ServerRoute[] = [
   { path: '', renderMode: RenderMode.Prerender },
@@ -21,5 +24,6 @@ export const serverRoutes: ServerRoute[] = [
     renderMode: RenderMode.Prerender,
     getPrerenderParams: async () => COMPONENTS.map(component => ({ slug: component.slug }))
   },
-  { path: '**', renderMode: RenderMode.Server }
+  { path: '404', renderMode: RenderMode.Prerender },
+  { path: '**', renderMode: RenderMode.Client }
 ];

@@ -1,21 +1,16 @@
 {
   "name": "xui-docs",
   "compatibility_date": "2025-11-01",
-  // The neutral SSR build leaves no Node built-ins behind, but @angular/ssr is free to reach for
-  // one on any given release; the flag costs nothing and keeps an upgrade from breaking a deploy.
-  "compatibility_flags": ["nodejs_compat"],
-  "main": "../../dist/apps/app/server/server.mjs",
-  // `@angular/platform-server` lazily imports `xhr2` for the HttpClient XHR backend, and a neutral
-  // build leaves that import external rather than bundling a Node module. Nothing here injects
-  // HttpClient, so point it at a stub instead of leaving Wrangler with an unresolvable import.
-  "alias": {
-    "xhr2": "./tools/xhr2-stub.mjs"
-  },
+  // No `main`, and so no Worker: every route the app has is prerendered, and the deployment is the
+  // assets alone. That also takes the site out from under the Worker size limit, which
+  // `@angular/ssr` was filling with a second copy of all 111 prerendered pages — inlined into the
+  // bundle for routes this binding serves first.
   "assets": {
-    // Every prerendered page lands here alongside the bundles, so a documentation request is
-    // usually served from the edge without invoking the Worker at all.
     "directory": "../../dist/apps/app/browser",
-    "binding": "ASSETS"
+    // `404.html` is the prerendered not-found page, copied into place by `nx bundle app`. Served
+    // with a real 404, it reads without JavaScript, and the router renders the same component over
+    // it on boot — so hydration finds the markup it would have built.
+    "not_found_handling": "404-page"
   },
   "observability": {
     "enabled": true

@@ -67,5 +67,9 @@ export const routes: Routes = [
       }
     ]
   },
+  // The same page under a path of its own, so it can be prerendered: the host serves it for
+  // anything it has no file for, and the router renders the catch-all over the top of it. Same
+  // component either way, so the markup the browser hydrates is the markup it would have built.
+  { path: '404', loadComponent: () => import('./pages/not-found').then(m => m.NotFound), title: 'Not found — xUI' },
   { path: '**', loadComponent: () => import('./pages/not-found').then(m => m.NotFound), title: 'Not found — xUI' }
 ];

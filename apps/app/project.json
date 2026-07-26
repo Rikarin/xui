@@ -29,11 +29,7 @@
         "index": "apps/app/src/index.html",
         "browser": "apps/app/src/main.ts",
         "server": "apps/app/src/main.server.ts",
-        "ssr": {
-          "entry": "apps/app/src/server.ts",
-          "platform": "neutral"
-        },
-        "outputMode": "server",
+        "outputMode": "static",
         "polyfills": [],
         "tsConfig": "apps/app/tsconfig.app.json",
         "assets": [
@@ -93,9 +89,18 @@
         "tsConfig": "apps/app/tsconfig.spec.json"
       }
     },
-    "deploy": {
+    "bundle": {
       "executor": "nx:run-commands",
       "dependsOn": ["build"],
+      "outputs": ["{workspaceRoot}/dist/apps/app/browser/404.html"],
+      "options": {
+        "command": "node -e \"require('node:fs').copyFileSync('dist/apps/app/browser/404/index.html', 'dist/apps/app/browser/404.html')\"",
+        "cwd": "{workspaceRoot}"
+      }
+    },
+    "deploy": {
+      "executor": "nx:run-commands",
+      "dependsOn": ["bundle"],
       "options": {
         "command": "wrangler deploy --config apps/app/wrangler.jsonc",
         "cwd": "{workspaceRoot}"
@@ -103,7 +108,7 @@
     },
     "preview": {
       "executor": "nx:run-commands",
-      "dependsOn": ["build"],
+      "dependsOn": ["bundle"],
       "options": {
         "command": "wrangler dev --config apps/app/wrangler.jsonc",
         "cwd": "{workspaceRoot}"
