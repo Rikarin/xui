@@ -1,3 +1,40 @@
+## 2.0.0-alpha.12 (2026-07-26)
+
+### 🚀 Features
+
+- **admin:** add a worked admin application example ([d440c2b1](https://github.com/Rikarin/xui/commit/d440c2b1))
+- **app:** replace ng-doc with a documentation site built from xUI ([69ea65c1](https://github.com/Rikarin/xui/commit/69ea65c1))
+- **app:** add a theme builder ([950e5683](https://github.com/Rikarin/xui/commit/950e5683))
+- **core:** a shared theme store, and the apps practice what xUI preaches ([2dd97ac0](https://github.com/Rikarin/xui/commit/2dd97ac0))
+- **form-field:** accept every field control, not just the input ([5ff96fa9](https://github.com/Rikarin/xui/commit/5ff96fa9))
+- **ui:** a config token for every variant-bearing package ([fc4d81ea](https://github.com/Rikarin/xui/commit/fc4d81ea))
+- **ui:** every value control is a real form control ([0f758c01](https://github.com/Rikarin/xui/commit/0f758c01))
+- ⚠️  **ui:** export every cva variant map ([611f52d3](https://github.com/Rikarin/xui/commit/611f52d3))
+
+### 🩹 Fixes
+
+- **admin:** restore the build by adding the assets directory ([abac017e](https://github.com/Rikarin/xui/commit/abac017e))
+- **app:** correct what the first pass got wrong in the browser ([a77c5137](https://github.com/Rikarin/xui/commit/a77c5137))
+- **app:** stop the API tables overflowing, and give previews their story data ([19fd2476](https://github.com/Rikarin/xui/commit/19fd2476))
+- **app:** render previews again, and stop the frame clipping their popups ([332596fb](https://github.com/Rikarin/xui/commit/332596fb))
+- **app-e2e:** assert the hero copy the home page renders ([a23ae364](https://github.com/Rikarin/xui/commit/a23ae364))
+- **core:** stop the adapters and signal state drifting apart ([0abf31af](https://github.com/Rikarin/xui/commit/0abf31af))
+- **repo:** use the zoneless jest test env in app and admin ([0aa7f9b8](https://github.com/Rikarin/xui/commit/0aa7f9b8))
+- **tools:** survive strict null checks in the generators ([0d40cc93](https://github.com/Rikarin/xui/commit/0d40cc93))
+- **ui:** plug leaks, duplicate ids and class-contract gaps ([7b252170](https://github.com/Rikarin/xui/commit/7b252170))
+
+### ⚠️  Breaking Changes
+
+- **ui:** export every cva variant map  ([611f52d3](https://github.com/Rikarin/xui/commit/611f52d3))
+  tabVariants and actionVariants were renamed while being
+  exported.
+
+### ❤️ Thank You
+
+- Claude Fable 5
+- Claude Opus 5
+- Rikarin @Rikarin
+
 ## 2.0.0-alpha.11 (2026-07-25)
 
 ### 🚀 Features
