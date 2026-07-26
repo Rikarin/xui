@@ -16,7 +16,7 @@
     "rootDir": ".",
     "sourceMap": true,
     "declaration": false,
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "emitDecoratorMetadata": true,
@@ -141,7 +141,6 @@
     },
     "strict": true,
     "noUncheckedSideEffectImports": false,
-    "types": ["*"],
     "ignoreDeprecations": "6.0"
   },
   "exclude": ["node_modules", "tmp"]
