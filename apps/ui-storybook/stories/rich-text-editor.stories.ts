@@ -40,25 +40,33 @@ const BBCODE = [
   '[/list]'
 ].join('\n');
 
-/** The value beneath the editor is the actual binding, updating as you type. */
-const withValue = (template: string) => `
-  <div class="max-w-2xl space-y-3">
-    ${template}
-    <pre class="bg-surface-sunken text-foreground-muted overflow-x-auto rounded-lg p-3 font-mono text-xs">{{ value || '(empty)' }}</pre>
-  </div>
-`;
+// The `<pre>` under each editor echoes the binding as you type, so the example shows the source
+// text it stores rather than only the formatted view. Written out per story rather than shared
+// through a helper: the docs extractor reads `template` as a literal, and a call expression there
+// leaves the example with no markup at all.
 
+/** The value beneath the editor is the actual binding, updating as you type. */
 export const Markdown: Story = {
   render: () => ({
     props: { value: MARKDOWN },
-    template: withValue(`<xui-rich-text-editor [(value)]="value" placeholder="Say something…" />`)
+    template: `
+      <div class="max-w-2xl space-y-3">
+        <xui-rich-text-editor [(value)]="value" placeholder="Say something…" />
+        <pre class="bg-surface-sunken text-foreground-muted overflow-x-auto rounded-lg p-3 font-mono text-xs">{{ value || '(empty)' }}</pre>
+      </div>
+    `
   })
 };
 
 export const BBCode: Story = {
   render: () => ({
     props: { value: BBCODE },
-    template: withValue(`<xui-rich-text-editor [(value)]="value" format="bbcode" />`)
+    template: `
+      <div class="max-w-2xl space-y-3">
+        <xui-rich-text-editor [(value)]="value" format="bbcode" />
+        <pre class="bg-surface-sunken text-foreground-muted overflow-x-auto rounded-lg p-3 font-mono text-xs">{{ value || '(empty)' }}</pre>
+      </div>
+    `
   })
 };
 
@@ -66,7 +74,12 @@ export const BBCode: Story = {
 export const Empty: Story = {
   render: () => ({
     props: { value: '' },
-    template: withValue(`<xui-rich-text-editor [(value)]="value" placeholder="Write a comment…" />`)
+    template: `
+      <div class="max-w-2xl space-y-3">
+        <xui-rich-text-editor [(value)]="value" placeholder="Write a comment…" />
+        <pre class="bg-surface-sunken text-foreground-muted overflow-x-auto rounded-lg p-3 font-mono text-xs">{{ value || '(empty)' }}</pre>
+      </div>
+    `
   })
 };
 
@@ -74,7 +87,12 @@ export const Empty: Story = {
 export const SourceView: Story = {
   render: () => ({
     props: { value: MARKDOWN, source: true },
-    template: withValue(`<xui-rich-text-editor [(value)]="value" [(source)]="source" />`)
+    template: `
+      <div class="max-w-2xl space-y-3">
+        <xui-rich-text-editor [(value)]="value" [(source)]="source" />
+        <pre class="bg-surface-sunken text-foreground-muted overflow-x-auto rounded-lg p-3 font-mono text-xs">{{ value || '(empty)' }}</pre>
+      </div>
+    `
   })
 };
 

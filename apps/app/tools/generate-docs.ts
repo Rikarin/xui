@@ -821,6 +821,9 @@ interface Emitted {
   examples: number;
 }
 
+/** Stories whose template could not be read, reported once the run finishes. */
+const unreadableTemplates: string[] = [];
+
 function emitComponent(component: XuiComponent, story: StoryMeta | undefined): Emitted {
   const group =
     component.kind === 'core' ? 'Headless primitives' : (story?.group ?? GROUP_FALLBACK[component.name] ?? 'Other');
@@ -839,9 +842,20 @@ function emitComponent(component: XuiComponent, story: StoryMeta | undefined): E
       template: expandTemplate(example, story?.args ?? {}),
       props: story ? readStoryProps(story.source, example.name) : undefined
     }))
-    // An example whose elements were built by a `.map()` in the story keeps its wrapper and loses
-    // its contents. Showing that as "the code" would be worse than not showing the example.
-    .filter(example => example.template.length > 0 && !dropsMarkup(example.code));
+    // A story whose `template` is anything but a literal — a call to a helper, say — parses to
+    // nothing, and the example would then disappear from the docs with no sign it ever existed.
+    // Always a story bug, so name it rather than dropping it quietly.
+    .filter(example => {
+      if (example.template.length === 0) {
+        unreadableTemplates.push(`${slug}:${example.name}`);
+
+        return false;
+      }
+
+      // An example whose elements were built by a `.map()` in the story keeps its wrapper and loses
+      // its contents. Showing that as "the code" would be worse than not showing the example.
+      return !dropsMarkup(example.code);
+    });
 
   const localSelectors = story?.localSelectors ?? [];
   const previewable = examples.filter(example => canPreview(example.template, example.code, localSelectors));
@@ -1019,4 +1033,8 @@ console.log(`${emitted.length} components, ${examples} examples, ${previews} ren
 
 if (withoutPreview.length > 0) {
   console.log(`code only (no preview): ${withoutPreview.join(', ')}`);
+}
+
+if (unreadableTemplates.length > 0) {
+  console.warn(`unreadable template, example dropped: ${unreadableTemplates.join(', ')}`);
 }
