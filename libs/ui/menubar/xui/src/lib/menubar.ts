@@ -59,7 +59,10 @@ export class XuiMenubarTrigger {
 
   protected readonly computedClass = computed(() =>
     xui(
-      'text-foreground hover:bg-surface-inset flex items-center gap-1.5 rounded px-3 py-1.5 text-sm font-medium select-none aria-expanded:bg-surface-inset',
+      // Hover and open are the overlay tokens rather than a surface step: the bar is `surface`,
+      // and `surface-inset` is the same colour as it in the dark theme, so an item lit that way
+      // was marked by nothing at all. The overlays are translucent, so they read on either.
+      'text-foreground hover:bg-hover-overlay aria-expanded:bg-active-overlay flex items-center gap-1.5 rounded px-3 py-1.5 text-sm font-medium transition-colors select-none',
       // The bar's roving focus moves between items with the arrow keys, so the
       // ring is the only thing telling the user where they are. Inset so it is
       // not clipped by the bar's padding.
