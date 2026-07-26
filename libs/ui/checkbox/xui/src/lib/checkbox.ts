@@ -133,6 +133,11 @@ export type XuiCheckboxAlignIndicator = NonNullable<WrapperVariants['alignIndica
 export class XuiCheckbox implements ControlValueAccessor {
   private readonly config = injectXuiCheckboxConfig();
 
+  /**
+   * Classes for the box itself, not the control as a whole — a width here reshapes the box rather
+   * than the row. The host is `display: contents`, so to size or space the whole control (which is
+   * what `alignIndicator="end"` needs something to push against) put the class on a wrapper.
+   */
   readonly class = input<ClassValue>('');
   readonly color = input<XuiCheckboxVariants['color']>(this.config.color);
   readonly size = input<XuiCheckboxVariants['size']>(this.config.size);

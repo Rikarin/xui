@@ -66,11 +66,19 @@ export const WithLabel: Story = {
   })
 };
 
-/** The box can sit on either side, and controls can flow inline. */
+/**
+ * The box can sit on either side, and controls can flow inline.
+ *
+ * `alignIndicator="end"` pushes the box to the trailing edge of the row, so the row needs a width
+ * to push against. That width goes on a wrapper: `class` on the checkbox dresses the box itself,
+ * and would stretch it into a rectangle instead.
+ */
 export const Layout: Story = {
   render: () => ({
     template: `
-      <xui-checkbox class="w-64" alignIndicator="end" label="Indicator at the end" />
+      <div class="w-64">
+        <xui-checkbox alignIndicator="end" label="Indicator at the end" />
+      </div>
 
       <div class="mt-4">
         <xui-checkbox inline [checked]="true" label="Comfortable" />
