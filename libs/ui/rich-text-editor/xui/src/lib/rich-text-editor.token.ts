@@ -1,4 +1,5 @@
-import { InjectionToken, inject, type Provider, type ValueProvider } from '@angular/core';
+import { InjectionToken, inject, type Provider } from '@angular/core';
+import { createXConfigToken } from '@xui/core';
 import { bbcodeSyntax } from './bbcode-syntax';
 import { markdownSyntax } from './markdown-syntax';
 import type { XuiRichTextSyntax } from './rich-text-syntax';
@@ -12,22 +13,13 @@ export interface XuiRichTextEditorConfig {
   sourceView: boolean;
 }
 
-const defaultConfig: XuiRichTextEditorConfig = {
-  format: 'markdown',
-  placeholder: '',
-  sourceView: true
-};
-
-const XuiRichTextEditorConfigToken = new InjectionToken<XuiRichTextEditorConfig>('XuiRichTextEditorConfig');
-
 /** Application-wide defaults for every editor. Individual inputs still win. */
-export function provideXuiRichTextEditorConfig(config: Partial<XuiRichTextEditorConfig>): ValueProvider {
-  return { provide: XuiRichTextEditorConfigToken, useValue: { ...defaultConfig, ...config } };
-}
-
-export function injectXuiRichTextEditorConfig(): XuiRichTextEditorConfig {
-  return inject(XuiRichTextEditorConfigToken, { optional: true }) ?? defaultConfig;
-}
+export const [injectXuiRichTextEditorConfig, provideXuiRichTextEditorConfig] =
+  createXConfigToken<XuiRichTextEditorConfig>('XuiRichTextEditorConfig', {
+    format: 'markdown',
+    placeholder: '',
+    sourceView: true
+  });
 
 const XuiRichTextSyntaxToken = new InjectionToken<readonly XuiRichTextSyntax[]>('XuiRichTextSyntax');
 

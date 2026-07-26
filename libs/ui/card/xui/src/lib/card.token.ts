@@ -1,4 +1,4 @@
-import { InjectionToken, ValueProvider, inject } from '@angular/core';
+import { createXConfigToken } from '@xui/core';
 import type { XuiCardElevation } from './card';
 
 /**
@@ -12,17 +12,7 @@ export interface XuiCardConfig {
   compact: boolean;
 }
 
-const defaultConfig: XuiCardConfig = {
+export const [injectXuiCardConfig, provideXuiCardConfig] = createXConfigToken<XuiCardConfig>('XuiCardConfig', {
   elevation: 0,
   compact: false
-};
-
-const XuiCardConfigToken = new InjectionToken<XuiCardConfig>('XuiCardConfig');
-
-export function provideXuiCardConfig(config: Partial<XuiCardConfig>): ValueProvider {
-  return { provide: XuiCardConfigToken, useValue: { ...defaultConfig, ...config } };
-}
-
-export function injectXuiCardConfig(): XuiCardConfig {
-  return inject(XuiCardConfigToken, { optional: true }) ?? defaultConfig;
-}
+});

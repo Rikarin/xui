@@ -29,8 +29,10 @@ Scaffold it with `pnpm nx g @xui/tools:library <name> --generate=component --sto
 - Styling: a `cva()` variant map merged through `xui(...)`, applied with
   `host: { '[class]': 'computedClass()' }`, and always a `class = input<ClassValue>('')` escape
   hatch that merges rather than replaces.
-- Defaults come from an injection token built with `createInjectionToken` (`@xui/core`) so
-  applications can re-theme globally - `button.token.ts` is the reference.
+- Defaults come from a config token built with `createXConfigToken` (`@xui/core`) so applications
+  can re-theme globally - `button.token.ts` is the reference:
+  `export const [injectXui<Name>Config, provideXui<Name>Config] = createXConfigToken<Xui<Name>Config>('Xui<Name>Config', defaults)`.
+  The provide fn merges a `Partial` over the defaults; the inject fn falls back to them.
 - Prefer a directive on a native element (`<button xuiButton>`, `<table xuiTable>`) when the native
   element is semantically correct; use a component when the thing owns structure or state.
 - Behaviour that is non-trivial and reusable - overlay lifecycle, roving tabindex, query/filter

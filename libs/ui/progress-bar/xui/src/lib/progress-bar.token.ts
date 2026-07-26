@@ -1,4 +1,4 @@
-import { InjectionToken, ValueProvider, inject } from '@angular/core';
+import { createXConfigToken } from '@xui/core';
 import type { XuiProgressBarVariants } from './progress-bar';
 
 /**
@@ -14,19 +14,12 @@ export interface XuiProgressBarConfig {
   animate: boolean;
 }
 
-const defaultConfig: XuiProgressBarConfig = {
-  color: 'primary',
-  size: 'md',
-  stripes: true,
-  animate: true
-};
-
-const XuiProgressBarConfigToken = new InjectionToken<XuiProgressBarConfig>('XuiProgressBarConfig');
-
-export function provideXuiProgressBarConfig(config: Partial<XuiProgressBarConfig>): ValueProvider {
-  return { provide: XuiProgressBarConfigToken, useValue: { ...defaultConfig, ...config } };
-}
-
-export function injectXuiProgressBarConfig(): XuiProgressBarConfig {
-  return inject(XuiProgressBarConfigToken, { optional: true }) ?? defaultConfig;
-}
+export const [injectXuiProgressBarConfig, provideXuiProgressBarConfig] = createXConfigToken<XuiProgressBarConfig>(
+  'XuiProgressBarConfig',
+  {
+    color: 'primary',
+    size: 'md',
+    stripes: true,
+    animate: true
+  }
+);

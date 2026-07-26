@@ -1,4 +1,4 @@
-import { InjectionToken, ValueProvider, inject } from '@angular/core';
+import { createXConfigToken } from '@xui/core';
 
 export type XuiNumericInputSize = 'md' | 'sm';
 /** Where the stepper buttons sit. */
@@ -17,22 +17,15 @@ export interface XuiNumericInputConfig {
   clampValueOnBlur: boolean;
 }
 
-const defaultConfig: XuiNumericInputConfig = {
-  size: 'md',
-  buttonPosition: 'right',
-  stepSize: 1,
-  majorStepSize: 10,
-  minorStepSize: 0.1,
-  clampValueOnBlur: true
-};
-
-const XuiNumericInputConfigToken = new InjectionToken<XuiNumericInputConfig>('XuiNumericInputConfig');
-
 /** Application-wide defaults for XuiNumericInput. */
-export function provideXuiNumericInputConfig(config: Partial<XuiNumericInputConfig>): ValueProvider {
-  return { provide: XuiNumericInputConfigToken, useValue: { ...defaultConfig, ...config } };
-}
-
-export function injectXuiNumericInputConfig(): XuiNumericInputConfig {
-  return inject(XuiNumericInputConfigToken, { optional: true }) ?? defaultConfig;
-}
+export const [injectXuiNumericInputConfig, provideXuiNumericInputConfig] = createXConfigToken<XuiNumericInputConfig>(
+  'XuiNumericInputConfig',
+  {
+    size: 'md',
+    buttonPosition: 'right',
+    stepSize: 1,
+    majorStepSize: 10,
+    minorStepSize: 0.1,
+    clampValueOnBlur: true
+  }
+);

@@ -1,4 +1,4 @@
-import { inject, InjectionToken, ValueProvider } from '@angular/core';
+import { createXConfigToken } from '@xui/core';
 import type { XuiGraphBackground, XuiGraphMarker, XuiGraphPortShape, XuiGraphRouting } from './node-graph.types';
 
 /**
@@ -77,37 +77,30 @@ export interface XuiNodeGraphConfig {
   enforcePortTypes: boolean;
 }
 
-const defaultConfig: XuiNodeGraphConfig = {
-  routing: 'bezier',
-  background: 'dots',
-  marker: 'none',
-  gridSize: 16,
-  gridMajorEvery: 5,
-  snapToGrid: false,
-  minZoom: 0.15,
-  maxZoom: 4,
-  zoomStep: 1.15,
-  stubLength: 18,
-  cornerRadius: 8,
-  curvature: 0.5,
-  edgeWidth: 2,
-  portSize: 11,
-  portShape: 'circle',
-  portColor: 'var(--color-foreground-subtle)',
-  portTypes: {},
-  allowSelfConnection: false,
-  enforcePortTypes: true
-};
-
-const XuiNodeGraphConfigToken = new InjectionToken<XuiNodeGraphConfig>('XuiNodeGraphConfig');
-
-export function provideXuiNodeGraphConfig(config: Partial<XuiNodeGraphConfig>): ValueProvider {
-  return { provide: XuiNodeGraphConfigToken, useValue: { ...defaultConfig, ...config } };
-}
-
-export function injectXuiNodeGraphConfig(): XuiNodeGraphConfig {
-  return inject(XuiNodeGraphConfigToken, { optional: true }) ?? defaultConfig;
-}
+export const [injectXuiNodeGraphConfig, provideXuiNodeGraphConfig] = createXConfigToken<XuiNodeGraphConfig>(
+  'XuiNodeGraphConfig',
+  {
+    routing: 'bezier',
+    background: 'dots',
+    marker: 'none',
+    gridSize: 16,
+    gridMajorEvery: 5,
+    snapToGrid: false,
+    minZoom: 0.15,
+    maxZoom: 4,
+    zoomStep: 1.15,
+    stubLength: 18,
+    cornerRadius: 8,
+    curvature: 0.5,
+    edgeWidth: 2,
+    portSize: 11,
+    portShape: 'circle',
+    portColor: 'var(--color-foreground-subtle)',
+    portTypes: {},
+    allowSelfConnection: false,
+    enforcePortTypes: true
+  }
+);
 
 /**
  * A ready-made data-type palette drawn from the categorical chart ramp, for

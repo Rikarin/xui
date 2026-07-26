@@ -1,4 +1,4 @@
-import { InjectionToken, ValueProvider, inject } from '@angular/core';
+import { createXConfigToken } from '@xui/core';
 import type { XPlacement } from '@xui/core/overlay';
 
 /**
@@ -29,26 +29,19 @@ export interface XuiPopoverConfig {
   matchTargetWidth: boolean;
 }
 
-const defaultConfig: XuiPopoverConfig = {
-  interactionKind: 'click',
-  placement: 'bottom',
-  offset: 8,
-  hoverOpenDelay: 150,
-  hoverCloseDelay: 300,
-  minimal: false,
-  matchTargetWidth: false
-};
-
-const XuiPopoverConfigToken = new InjectionToken<XuiPopoverConfig>('XuiPopoverConfig');
-
 /**
  * Application-wide defaults for XuiPopover. Provide once at the app root to set
  * the house style; individual inputs still override the configured value.
  */
-export function provideXuiPopoverConfig(config: Partial<XuiPopoverConfig>): ValueProvider {
-  return { provide: XuiPopoverConfigToken, useValue: { ...defaultConfig, ...config } };
-}
-
-export function injectXuiPopoverConfig(): XuiPopoverConfig {
-  return inject(XuiPopoverConfigToken, { optional: true }) ?? defaultConfig;
-}
+export const [injectXuiPopoverConfig, provideXuiPopoverConfig] = createXConfigToken<XuiPopoverConfig>(
+  'XuiPopoverConfig',
+  {
+    interactionKind: 'click',
+    placement: 'bottom',
+    offset: 8,
+    hoverOpenDelay: 150,
+    hoverCloseDelay: 300,
+    minimal: false,
+    matchTargetWidth: false
+  }
+);

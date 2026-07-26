@@ -1,4 +1,4 @@
-import { InjectionToken, ValueProvider, inject } from '@angular/core';
+import { createXConfigToken } from '@xui/core';
 import type { XPlacement } from '@xui/core/overlay';
 
 /** The colour a tooltip takes. `none` is the neutral inverted style. */
@@ -19,26 +19,19 @@ export interface XuiTooltipConfig {
   offset: number;
 }
 
-const defaultConfig: XuiTooltipConfig = {
-  placement: 'top',
-  color: 'none',
-  compact: false,
-  openOnTargetFocus: true,
-  hoverOpenDelay: 100,
-  hoverCloseDelay: 0,
-  offset: 6
-};
-
-const XuiTooltipConfigToken = new InjectionToken<XuiTooltipConfig>('XuiTooltipConfig');
-
 /**
  * Application-wide defaults for XuiTooltip. Provide once at the app root; each
  * input still overrides the configured value.
  */
-export function provideXuiTooltipConfig(config: Partial<XuiTooltipConfig>): ValueProvider {
-  return { provide: XuiTooltipConfigToken, useValue: { ...defaultConfig, ...config } };
-}
-
-export function injectXuiTooltipConfig(): XuiTooltipConfig {
-  return inject(XuiTooltipConfigToken, { optional: true }) ?? defaultConfig;
-}
+export const [injectXuiTooltipConfig, provideXuiTooltipConfig] = createXConfigToken<XuiTooltipConfig>(
+  'XuiTooltipConfig',
+  {
+    placement: 'top',
+    color: 'none',
+    compact: false,
+    openOnTargetFocus: true,
+    hoverOpenDelay: 100,
+    hoverCloseDelay: 0,
+    offset: 6
+  }
+);

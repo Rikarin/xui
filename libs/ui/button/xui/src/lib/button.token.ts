@@ -1,4 +1,4 @@
-import { InjectionToken, ValueProvider, inject } from '@angular/core';
+import { createXConfigToken } from '@xui/core';
 import { XuiButtonVariants } from './button';
 
 export interface XuiButtonConfig {
@@ -7,18 +7,8 @@ export interface XuiButtonConfig {
   size: XuiButtonVariants['size'];
 }
 
-const defaultConfig: XuiButtonConfig = {
+export const [injectXuiButtonConfig, provideXuiButtonConfig] = createXConfigToken<XuiButtonConfig>('XuiButtonConfig', {
   color: 'primary',
   variant: 'default',
   size: 'md'
-};
-
-const XuiButtonConfigToken = new InjectionToken<XuiButtonConfig>('XuiButtonConfig');
-
-export function provideXuiButtonConfig(config: Partial<XuiButtonConfig>): ValueProvider {
-  return { provide: XuiButtonConfigToken, useValue: { ...defaultConfig, ...config } };
-}
-
-export function injectXuiButtonConfig(): XuiButtonConfig {
-  return inject(XuiButtonConfigToken, { optional: true }) ?? defaultConfig;
-}
+});

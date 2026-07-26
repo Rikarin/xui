@@ -1,4 +1,4 @@
-import { InjectionToken, ValueProvider, inject } from '@angular/core';
+import { createXConfigToken } from '@xui/core';
 import type { XuiLinkVariants } from './link';
 
 /**
@@ -12,17 +12,7 @@ export interface XuiLinkConfig {
   underline: XuiLinkVariants['underline'];
 }
 
-const defaultConfig: XuiLinkConfig = {
+export const [injectXuiLinkConfig, provideXuiLinkConfig] = createXConfigToken<XuiLinkConfig>('XuiLinkConfig', {
   color: 'link',
   underline: 'always'
-};
-
-const XuiLinkConfigToken = new InjectionToken<XuiLinkConfig>('XuiLinkConfig');
-
-export function provideXuiLinkConfig(config: Partial<XuiLinkConfig>): ValueProvider {
-  return { provide: XuiLinkConfigToken, useValue: { ...defaultConfig, ...config } };
-}
-
-export function injectXuiLinkConfig(): XuiLinkConfig {
-  return inject(XuiLinkConfigToken, { optional: true }) ?? defaultConfig;
-}
+});

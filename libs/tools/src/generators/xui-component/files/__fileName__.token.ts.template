@@ -1,4 +1,4 @@
-import { InjectionToken, ValueProvider, inject } from '@angular/core';
+import { createXConfigToken } from '@xui/core';
 import type { <%= variantsName %> } from './<%= fileName %>';
 
 /**
@@ -13,18 +13,8 @@ export interface Xui<%= className %>Config {
   size: <%= variantsName %>['size'];
 }
 
-const defaultConfig: Xui<%= className %>Config = {
+export const [injectXui<%= className %>Config, provideXui<%= className %>Config] = createXConfigToken<Xui<%= className %>Config>('Xui<%= className %>Config', {
   color: 'primary',
   variant: 'default',
   size: 'md'
-};
-
-const Xui<%= className %>ConfigToken = new InjectionToken<Xui<%= className %>Config>('Xui<%= className %>Config');
-
-export function provideXui<%= className %>Config(config: Partial<Xui<%= className %>Config>): ValueProvider {
-  return { provide: Xui<%= className %>ConfigToken, useValue: { ...defaultConfig, ...config } };
-}
-
-export function injectXui<%= className %>Config(): Xui<%= className %>Config {
-  return inject(Xui<%= className %>ConfigToken, { optional: true }) ?? defaultConfig;
-}
+});

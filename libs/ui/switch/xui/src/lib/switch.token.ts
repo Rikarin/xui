@@ -1,4 +1,4 @@
-import { InjectionToken, ValueProvider, inject } from '@angular/core';
+import { createXConfigToken } from '@xui/core';
 
 /** The switch's size. */
 export type XuiSwitchSize = 'md' | 'lg';
@@ -7,15 +7,7 @@ export interface XuiSwitchConfig {
   size: XuiSwitchSize;
 }
 
-const defaultConfig: XuiSwitchConfig = { size: 'md' };
-
-const XuiSwitchConfigToken = new InjectionToken<XuiSwitchConfig>('XuiSwitchConfig');
-
 /** Application-wide defaults for XuiSwitch. */
-export function provideXuiSwitchConfig(config: Partial<XuiSwitchConfig>): ValueProvider {
-  return { provide: XuiSwitchConfigToken, useValue: { ...defaultConfig, ...config } };
-}
-
-export function injectXuiSwitchConfig(): XuiSwitchConfig {
-  return inject(XuiSwitchConfigToken, { optional: true }) ?? defaultConfig;
-}
+export const [injectXuiSwitchConfig, provideXuiSwitchConfig] = createXConfigToken<XuiSwitchConfig>('XuiSwitchConfig', {
+  size: 'md'
+});

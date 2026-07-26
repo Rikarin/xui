@@ -1,4 +1,4 @@
-import { InjectionToken, ValueProvider, inject } from '@angular/core';
+import { createXConfigToken } from '@xui/core';
 import type { XuiSpinnerVariants } from './spinner';
 
 /**
@@ -12,17 +12,10 @@ export interface XuiSpinnerConfig {
   size: XuiSpinnerVariants['size'];
 }
 
-const defaultConfig: XuiSpinnerConfig = {
-  color: 'primary',
-  size: 'md'
-};
-
-const XuiSpinnerConfigToken = new InjectionToken<XuiSpinnerConfig>('XuiSpinnerConfig');
-
-export function provideXuiSpinnerConfig(config: Partial<XuiSpinnerConfig>): ValueProvider {
-  return { provide: XuiSpinnerConfigToken, useValue: { ...defaultConfig, ...config } };
-}
-
-export function injectXuiSpinnerConfig(): XuiSpinnerConfig {
-  return inject(XuiSpinnerConfigToken, { optional: true }) ?? defaultConfig;
-}
+export const [injectXuiSpinnerConfig, provideXuiSpinnerConfig] = createXConfigToken<XuiSpinnerConfig>(
+  'XuiSpinnerConfig',
+  {
+    color: 'primary',
+    size: 'md'
+  }
+);

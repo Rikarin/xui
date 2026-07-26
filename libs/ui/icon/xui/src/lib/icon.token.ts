@@ -1,4 +1,4 @@
-import { InjectionToken, ValueProvider, inject } from '@angular/core';
+import { createXConfigToken } from '@xui/core';
 import type { XuiIconSize, XuiIconVariants } from './icon';
 
 /**
@@ -12,17 +12,7 @@ export interface XuiIconConfig {
   color: XuiIconVariants['color'];
 }
 
-const defaultConfig: XuiIconConfig = {
+export const [injectXuiIconConfig, provideXuiIconConfig] = createXConfigToken<XuiIconConfig>('XuiIconConfig', {
   size: 'md',
   color: 'inherit'
-};
-
-const XuiIconConfigToken = new InjectionToken<XuiIconConfig>('XuiIconConfig');
-
-export function provideXuiIconConfig(config: Partial<XuiIconConfig>): ValueProvider {
-  return { provide: XuiIconConfigToken, useValue: { ...defaultConfig, ...config } };
-}
-
-export function injectXuiIconConfig(): XuiIconConfig {
-  return inject(XuiIconConfigToken, { optional: true }) ?? defaultConfig;
-}
+});

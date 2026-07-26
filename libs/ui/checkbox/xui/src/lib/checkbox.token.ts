@@ -1,4 +1,4 @@
-import { InjectionToken, ValueProvider, inject } from '@angular/core';
+import { createXConfigToken } from '@xui/core';
 import { XuiCheckboxVariants } from './checkbox';
 
 export interface XuiCheckboxConfig {
@@ -6,17 +6,10 @@ export interface XuiCheckboxConfig {
   size: XuiCheckboxVariants['size'];
 }
 
-const defaultConfig: XuiCheckboxConfig = {
-  color: 'primary',
-  size: 'md'
-};
-
-const XuiCheckboxConfigToken = new InjectionToken<XuiCheckboxConfig>('XuiCheckboxConfig');
-
-export function provideXuiCheckboxConfig(config: Partial<XuiCheckboxConfig>): ValueProvider {
-  return { provide: XuiCheckboxConfigToken, useValue: { ...defaultConfig, ...config } };
-}
-
-export function injectXuiCheckboxConfig(): XuiCheckboxConfig {
-  return inject(XuiCheckboxConfigToken, { optional: true }) ?? defaultConfig;
-}
+export const [injectXuiCheckboxConfig, provideXuiCheckboxConfig] = createXConfigToken<XuiCheckboxConfig>(
+  'XuiCheckboxConfig',
+  {
+    color: 'primary',
+    size: 'md'
+  }
+);

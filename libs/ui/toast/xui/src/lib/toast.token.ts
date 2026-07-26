@@ -1,4 +1,4 @@
-import { InjectionToken, ValueProvider, inject } from '@angular/core';
+import { createXConfigToken } from '@xui/core';
 import type { XGlobalPosition } from '@xui/core/overlay';
 
 /** Which corner (or centred edge) the toasts stack in. */
@@ -15,22 +15,12 @@ export interface XuiToastConfig {
   maxToasts: number;
 }
 
-const defaultConfig: XuiToastConfig = {
+/** Application-wide defaults for the toaster. */
+export const [injectXuiToastConfig, provideXuiToastConfig] = createXConfigToken<XuiToastConfig>('XuiToastConfig', {
   position: 'bottom-right',
   timeout: 5000,
   maxToasts: 5
-};
-
-const XuiToastConfigToken = new InjectionToken<XuiToastConfig>('XuiToastConfig');
-
-/** Application-wide defaults for the toaster. */
-export function provideXuiToastConfig(config: Partial<XuiToastConfig>): ValueProvider {
-  return { provide: XuiToastConfigToken, useValue: { ...defaultConfig, ...config } };
-}
-
-export function injectXuiToastConfig(): XuiToastConfig {
-  return inject(XuiToastConfigToken, { optional: true }) ?? defaultConfig;
-}
+});
 
 /** Icon each color implies, unless the caller overrides it. */
 export const XUI_TOAST_COLOR_ICON: Record<XuiToastColor, string | null> = {
