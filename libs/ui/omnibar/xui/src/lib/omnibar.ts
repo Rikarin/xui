@@ -30,14 +30,14 @@ const defaultMatch = (text: string, query: string): boolean => text.toLowerCase(
 
 /**
  * A ⌘K-style command palette: a top-centred overlay with a search field and a
- * keyboard-navigable result list. Toggle with `[(isOpen)]`; Escape or a backdrop
+ * keyboard-navigable result list. Toggle with `[(open)]`; Escape or a backdrop
  * click closes. Items render with a custom `[xuiSelectOption]` template.
  */
 @Component({
   selector: 'xui-omnibar',
   imports: [NgTemplateOutlet, NgIcon, XuiIcon],
   template: `
-    @if (isOpen()) {
+    @if (open()) {
       <!-- Backdrop click closes; keyboard users use Escape. -->
       <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
       <div class="fixed inset-0 z-50 flex justify-center bg-black/40" (click)="onBackdrop($event)">
@@ -119,8 +119,8 @@ export class XuiOmnibar<T> {
   readonly noResultsText = input<string>('No results.');
   readonly resetOnClose = input<boolean>(true);
 
-  /** Whether the palette is showing. Two-way bindable with `[(isOpen)]`. */
-  readonly isOpen = model(false);
+  /** Whether the palette is showing. Two-way bindable with `[(open)]`. */
+  readonly open = model(false);
 
   readonly itemSelect = output<T>();
 
@@ -154,7 +154,7 @@ export class XuiOmnibar<T> {
   constructor() {
     // Focus the field on open; reset the query on close.
     effect(() => {
-      const open = this.isOpen();
+      const open = this.open();
       untracked(() => {
         if (open) {
           this.list.activateFirst();
@@ -231,6 +231,6 @@ export class XuiOmnibar<T> {
   }
 
   protected close(): void {
-    this.isOpen.set(false);
+    this.open.set(false);
   }
 }

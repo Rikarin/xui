@@ -12,7 +12,7 @@ const meta: Meta<XuiSwitch> = {
   component: XuiSwitch,
   decorators: [moduleMetadata({ imports: [XuiSwitchImports, FormsModule] })],
   argTypes: {
-    size: { control: 'inline-radio', options: ['default', 'large'] }
+    size: { control: 'inline-radio', options: ['md', 'lg'] }
   },
   // The label is written into the template rather than passed as an arg: `ariaLabel` is aliased to
   // the `aria-label` attribute, and an arg of that name would be assigned onto the component
@@ -28,7 +28,7 @@ type Story = StoryObj<XuiSwitch>;
 
 export const Default: Story = {};
 
-export const Large: Story = { args: { size: 'large' } };
+export const Large: Story = { args: { size: 'lg' } };
 
 export const Checked: Story = { args: { checked: true } };
 

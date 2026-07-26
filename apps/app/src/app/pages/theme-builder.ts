@@ -90,7 +90,7 @@ const SCOPES: XuiSegmentedOption<ThemeScope>[] = [
 
         <div class="ms-auto flex items-center gap-2">
           @if (builder.isCustomised()) {
-            <xui-tag minimal intent="primary">{{ builder.changeCount() }} changed</xui-tag>
+            <xui-tag minimal color="primary">{{ builder.changeCount() }} changed</xui-tag>
           }
           <button
             xuiButton

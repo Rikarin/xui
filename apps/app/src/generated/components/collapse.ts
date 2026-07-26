@@ -13,7 +13,7 @@ import type { ComponentDoc } from '../../app/core/docs.model';
 <div class="max-w-md">
   <button xuiButton size="sm" (click)="toggle()">{{ open() ? 'Hide' : 'Show' }} details</button>
 
-  <xui-collapse class="mt-2" [isOpen]="open()">
+  <xui-collapse class="mt-2" [open]="open()">
     <div class="border-border rounded-lg border p-4">
       <p xuiText color="muted">
         Content is removed from the DOM while closed, so it cannot be focused or announced.
@@ -36,7 +36,7 @@ export class PreviewDefault {
 <div class="max-w-md">
   <button xuiButton size="sm" (click)="toggle()">Toggle</button>
 
-  <xui-collapse class="mt-2" keepChildrenMounted [isOpen]="open()">
+  <xui-collapse class="mt-2" keepChildrenMounted [open]="open()">
     <div class="border-border rounded-lg border p-4">
       <p xuiText color="muted">Still in the DOM while closed, but inert and aria-hidden.</p>
     </div>
@@ -85,11 +85,11 @@ export const doc: ComponentDoc = {
         "docs": "The user-defined classes. Merged last so they win over the base classes."
       },
       {
-        "name": "isOpen",
+        "name": "open",
         "type": "boolean",
         "default": "false",
         "required": false,
-        "transform": "booleanAttribute"
+        "model": true
       },
       {
         "name": "keepChildrenMounted",
@@ -126,7 +126,7 @@ export const doc: ComponentDoc = {
       code: `<div class="max-w-md">
   <button xuiButton size="sm" (click)="toggle()">{{ open() ? 'Hide' : 'Show' }} details</button>
 
-  <xui-collapse class="mt-2" [isOpen]="open()">
+  <xui-collapse class="mt-2" [open]="open()">
     <div class="border-border rounded-lg border p-4">
       <p xuiText color="muted">
         Content is removed from the DOM while closed, so it cannot be focused or announced.
@@ -142,7 +142,7 @@ export const doc: ComponentDoc = {
       code: `<div class="max-w-md">
   <button xuiButton size="sm" (click)="toggle()">Toggle</button>
 
-  <xui-collapse class="mt-2" keepChildrenMounted [isOpen]="open()">
+  <xui-collapse class="mt-2" keepChildrenMounted [open]="open()">
     <div class="border-border rounded-lg border p-4">
       <p xuiText color="muted">Still in the DOM while closed, but inert and aria-hidden.</p>
     </div>

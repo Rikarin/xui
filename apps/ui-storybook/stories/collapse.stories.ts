@@ -24,7 +24,7 @@ export const Default: Story = {
         <div class="max-w-md">
           <button xuiButton size="sm" (click)="toggle()">{{ open() ? 'Hide' : 'Show' }} details</button>
 
-          <xui-collapse class="mt-2" [isOpen]="open()">
+          <xui-collapse class="mt-2" [open]="open()">
             <div class="border-border rounded-lg border p-4">
               <p xuiText color="muted">
                 Content is removed from the DOM while closed, so it cannot be focused or announced.
@@ -48,7 +48,7 @@ export const KeepChildrenMounted: Story = {
         <div class="max-w-md">
           <button xuiButton size="sm" (click)="toggle()">Toggle</button>
 
-          <xui-collapse class="mt-2" keepChildrenMounted [isOpen]="open()">
+          <xui-collapse class="mt-2" keepChildrenMounted [open]="open()">
             <div class="border-border rounded-lg border p-4">
               <p xuiText color="muted">Still in the DOM while closed, but inert and aria-hidden.</p>
             </div>

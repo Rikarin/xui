@@ -637,7 +637,7 @@ export const COMPONENTS: ComponentSummary[] = [
     "package": "@xui/omnibar",
     "kind": "ui",
     "group": "Overlays",
-    "description": "A ⌘K-style command palette: a top-centred overlay with a search field and a keyboard-navigable result list. Toggle with [(isOpen)]; Escape or a backdrop click closes. Items render with a custom [xuiSelectOption] template.",
+    "description": "A ⌘K-style command palette: a top-centred overlay with a search field and a keyboard-navigable result list. Toggle with [(open)]; Escape or a backdrop click closes. Items render with a custom [xuiSelectOption] template.",
     "hasPreview": false
   },
   {
@@ -915,7 +915,7 @@ export const COMPONENTS: ComponentSummary[] = [
     "package": "@xui/tag",
     "kind": "ui",
     "group": "Data display",
-    "description": "A compact label chip — richer than the static xui-badge. Intents, a subtle minimal variant, round/large/fill, an optional leading icon, and a removable ✕ that emits removed.",
+    "description": "A compact label chip — richer than the static xui-badge. Colours, a subtle minimal variant, round/large/fill, an optional leading icon, and a removable ✕ that emits removed.",
     "hasPreview": true
   },
   {

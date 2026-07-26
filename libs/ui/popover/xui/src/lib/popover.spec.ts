@@ -135,9 +135,9 @@ describe('XuiPopover', () => {
   });
 
   describe('controlled', () => {
-    const CONTROLLED = `<button [xuiPopover]="tpl" [(isOpen)]="props().open">T</button><ng-template #tpl>Body</ng-template>`;
+    const CONTROLLED = `<button [xuiPopover]="tpl" [(open)]="props().open">T</button><ng-template #tpl>Body</ng-template>`;
 
-    it('opens and closes from a bound isOpen', () => {
+    it('opens and closes from a bound open', () => {
       const { setProps } = render<{ open: boolean }>(CONTROLLED, { imports: IMPORTS, props: { open: false } });
 
       expect(panel()).toBeNull();

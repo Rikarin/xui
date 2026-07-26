@@ -38,7 +38,7 @@ overlay opens:
   <xui-menu>
     <button xuiMenuItem icon="matContentCopyRound">Duplicate<span menuItemLabel>⌘D</span></button>
     <xui-menu-divider />
-    <button xuiMenuItem icon="matDeleteRound" intent="error">Delete</button>
+    <button xuiMenuItem icon="matDeleteRound" color="error">Delete</button>
   </xui-menu>
 </ng-template>
 ```
@@ -54,7 +54,7 @@ Dialog, drawer and alert-dialog are declared in the template and driven by a sig
 ```html
 <button xuiButton (click)="open.set(true)">Edit profile</button>
 
-<xui-dialog [(isOpen)]="open" title="Edit profile" icon="matPersonRound">
+<xui-dialog [(open)]="open" title="Edit profile" icon="matPersonRound">
   <xui-dialog-body>…</xui-dialog-body>
   <xui-dialog-footer>
     <button xuiButton variant="ghost" (click)="open.set(false)">Cancel</button>

@@ -235,7 +235,7 @@ export const doc: ComponentDoc = {
         "required": false
       },
       {
-        "name": "isOpen",
+        "name": "open",
         "type": "boolean",
         "default": "false",
         "required": false,
@@ -261,8 +261,8 @@ export const doc: ComponentDoc = {
         "docs": "Toggle from a template, e.g. a dedicated open button."
       },
       {
-        "name": "open",
-        "signature": "open(): void"
+        "name": "show",
+        "signature": "show(): void"
       },
       {
         "name": "close",

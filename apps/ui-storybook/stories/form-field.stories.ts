@@ -53,15 +53,15 @@ export const WithLabel: Story = {
   })
 };
 
-/** `intent` accents the label and helper text. */
-export const Intent: Story = {
+/** `color` accents the label and helper text. */
+export const Color: Story = {
   render: () => ({
     template: `
       <div class="flex flex-col gap-5 w-80">
-        <xui-form-field intent="success" label="Username" helperText="This name is available">
+        <xui-form-field color="success" label="Username" helperText="This name is available">
           <input xuiInput class="w-full" value="octocat" />
         </xui-form-field>
-        <xui-form-field intent="warning" label="Password" helperText="Consider a longer passphrase">
+        <xui-form-field color="warning" label="Password" helperText="Consider a longer passphrase">
           <input xuiInput class="w-full" type="password" value="hunter2" />
         </xui-form-field>
       </div>

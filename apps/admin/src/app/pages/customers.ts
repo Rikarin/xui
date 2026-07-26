@@ -41,10 +41,10 @@ import { PageHeader } from '../shell/page-header';
 
 type SortKey = 'name' | 'company' | 'orders' | 'spend';
 
-const STATUS_INTENT: Record<CustomerStatus, 'success' | 'warning' | 'danger'> = {
+const STATUS_COLOR: Record<CustomerStatus, 'success' | 'warning' | 'error'> = {
   active: 'success',
   invited: 'warning',
-  suspended: 'danger'
+  suspended: 'error'
 };
 
 const ALL = 'All';
@@ -205,12 +205,12 @@ const ALL = 'All';
             </xui-td>
             <xui-td truncate class="hidden w-44 shrink-0 md:flex">{{ customer.company }}</xui-td>
             <xui-td class="hidden w-28 shrink-0 lg:flex">
-              <xui-tag minimal [intent]="customer.plan === 'Enterprise' ? 'primary' : 'none'">
+              <xui-tag minimal [color]="customer.plan === 'Enterprise' ? 'primary' : 'none'">
                 {{ customer.plan }}
               </xui-tag>
             </xui-td>
             <xui-td class="w-28 shrink-0">
-              <xui-tag minimal [intent]="statusIntent(customer.status)">{{ customer.status }}</xui-tag>
+              <xui-tag minimal [color]="statusColor(customer.status)">{{ customer.status }}</xui-tag>
             </xui-td>
             <xui-td class="hidden w-20 shrink-0 justify-end tabular-nums sm:flex">{{ customer.orders }}</xui-td>
             <xui-td class="w-24 shrink-0 justify-end tabular-nums">{{ asMoney(customer.spend) }}</xui-td>
@@ -253,17 +253,11 @@ const ALL = 'All';
           {{ active()?.status === 'suspended' ? 'Reinstate' : 'Suspend' }}
         </button>
         <xui-menu-divider />
-        <button xuiMenuItem icon="matDeleteRound" intent="error" (click)="confirmDelete.set(true)">Delete</button>
+        <button xuiMenuItem icon="matDeleteRound" color="error" (click)="confirmDelete.set(true)">Delete</button>
       </xui-menu>
     </ng-template>
 
-    <xui-drawer
-      position="right"
-      size="md"
-      title="Customer"
-      [isOpen]="detailOpen()"
-      (isOpenChange)="onDetailOpen($event)"
-    >
+    <xui-drawer position="right" size="md" title="Customer" [open]="detailOpen()" (openChange)="onDetailOpen($event)">
       @if (active(); as customer) {
         <div class="space-y-6 p-6">
           <div class="flex items-center gap-3">
@@ -279,7 +273,7 @@ const ALL = 'All';
             <xui-descriptions-item label="Country">{{ customer.country }}</xui-descriptions-item>
             <xui-descriptions-item label="Plan">{{ customer.plan }}</xui-descriptions-item>
             <xui-descriptions-item label="Status">
-              <xui-tag minimal [intent]="statusIntent(customer.status)">{{ customer.status }}</xui-tag>
+              <xui-tag minimal [color]="statusColor(customer.status)">{{ customer.status }}</xui-tag>
             </xui-descriptions-item>
             <xui-descriptions-item label="Orders">{{ customer.orders }}</xui-descriptions-item>
             <xui-descriptions-item label="Lifetime spend">{{ asMoney(customer.spend) }}</xui-descriptions-item>
@@ -308,7 +302,7 @@ const ALL = 'All';
       }
     </xui-drawer>
 
-    <xui-dialog [(isOpen)]="inviteOpen" title="Invite a customer" size="sm">
+    <xui-dialog [(open)]="inviteOpen" title="Invite a customer" size="sm">
       <xui-dialog-body>
         <xui-form-field label="Email" helperText="They will get a link that expires in seven days.">
           <input
@@ -471,8 +465,8 @@ export class Customers {
     return this.sort() === key && !this.descending() ? 'matArrowUpwardRound' : 'matArrowDownwardRound';
   }
 
-  protected statusIntent(status: CustomerStatus): 'success' | 'warning' | 'danger' {
-    return STATUS_INTENT[status];
+  protected statusColor(status: CustomerStatus): 'success' | 'warning' | 'error' {
+    return STATUS_COLOR[status];
   }
 
   protected initials(customer: Customer): string {

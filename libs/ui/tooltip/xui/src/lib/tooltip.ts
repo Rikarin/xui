@@ -8,21 +8,21 @@ import {
   effect,
   inject,
   input,
+  model,
   numberAttribute,
-  signal,
   untracked
 } from '@angular/core';
 import { uniqueId } from '@xui/core/a11y';
 import { injectXOverlay, type XOverlayRef, type XPlacement } from '@xui/core/overlay';
 import { XUI_TOOLTIP_CONTENT } from './tooltip-content';
 import { XuiTooltipPanel } from './tooltip-panel';
-import { injectXuiTooltipConfig, type XuiTooltipIntent } from './tooltip.token';
+import { injectXuiTooltipConfig, type XuiTooltipColor } from './tooltip.token';
 
 /**
  * A hint that floats over an element on hover or focus.
  *
  * ```html
- * <button xuiButton [xuiTooltip]="'Delete forever'" intent="error">Delete</button>
+ * <button xuiButton [xuiTooltip]="'Delete forever'" color="error">Delete</button>
  * ```
  *
  * A preset built on the same `@xui/core/overlay` foundation as `@xui/popover`,
@@ -38,7 +38,7 @@ import { injectXuiTooltipConfig, type XuiTooltipIntent } from './tooltip.token';
   selector: '[xuiTooltip]',
   exportAs: 'xuiTooltip',
   host: {
-    '[attr.aria-describedby]': 'isOpen() ? panelId : null',
+    '[attr.aria-describedby]': 'open() ? panelId : null',
     '(pointerenter)': 'onEnter()',
     '(pointerleave)': 'onLeave()',
     '(focus)': 'onFocus()',
@@ -64,7 +64,7 @@ export class XuiTooltip {
   readonly context = input<Record<string, unknown>>();
 
   readonly placement = input<XPlacement>(this.config.placement);
-  readonly intent = input<XuiTooltipIntent>(this.config.intent);
+  readonly color = input<XuiTooltipColor>(this.config.color);
   readonly compact = input<boolean, BooleanInput>(this.config.compact, { transform: booleanAttribute });
   readonly openOnTargetFocus = input<boolean, BooleanInput>(this.config.openOnTargetFocus, {
     transform: booleanAttribute
@@ -76,12 +76,32 @@ export class XuiTooltip {
   /** A disabled tooltip never opens, and hides if it was showing. */
   readonly disabled = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
 
-  private readonly openState = signal(false);
-
-  /** Whether the tooltip is currently on screen. */
-  readonly isOpen = this.openState.asReadonly();
+  /**
+   * Whether the tooltip is currently on screen. Two-way bindable: an external
+   * write opens or closes the overlay, and hover/focus changes fold back out.
+   */
+  readonly open = model(false);
 
   constructor() {
+    // The `open` model also drives the overlay, so a programmatic write
+    // behaves exactly like hover/focus.
+    effect(() => {
+      const open = this.open();
+
+      untracked(() => {
+        if (open && !this.ref) {
+          this.show();
+
+          // show() refuses while disabled or empty; reflect the refusal back.
+          if (!this.ref) {
+            this.open.set(false);
+          }
+        } else if (!open && this.ref) {
+          this.hide();
+        }
+      });
+    });
+
     // Hide as soon as the tooltip is disabled or its content empties out.
     effect(() => {
       if (this.disabled() || !this.hasContent()) {
@@ -124,7 +144,7 @@ export class XuiTooltip {
           useValue: {
             content: this.content() as string | TemplateRef<unknown>,
             context: this.context(),
-            intent: this.intent(),
+            color: this.color(),
             compact: this.compact(),
             id: this.panelId
           }
@@ -133,14 +153,14 @@ export class XuiTooltip {
     });
 
     this.ref = ref;
-    this.openState.set(true);
+    untracked(() => this.open.set(true));
 
     // Only the current ref folds its dismissal back — a hide-then-show in the
     // same tick replaces it, and the stale ref's late `closed` must not win.
     void ref.closed.then(() => {
       if (this.ref === ref) {
         this.ref = null;
-        untracked(() => this.openState.set(false));
+        untracked(() => this.open.set(false));
       }
     });
   }
@@ -152,6 +172,7 @@ export class XuiTooltip {
     const ref = this.ref;
     this.ref = null;
     ref?.close();
+    untracked(() => this.open.set(false));
   }
 
   // --- Interaction wiring -------------------------------------------------

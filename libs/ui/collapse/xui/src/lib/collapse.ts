@@ -10,6 +10,7 @@ import {
   effect,
   inject,
   input,
+  model,
   numberAttribute,
   output,
   signal,
@@ -22,7 +23,7 @@ import type { ClassValue } from 'clsx';
  * Animates its content open and closed.
  *
  * ```html
- * <xui-collapse [isOpen]="expanded()">
+ * <xui-collapse [open]="expanded()">
  *   <p>Details</p>
  * </xui-collapse>
  * ```
@@ -40,7 +41,7 @@ import type { ClassValue } from 'clsx';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div #content [class]="computedContentClass()">
-      @if (isOpen() || keepChildrenMounted()) {
+      @if (open() || keepChildrenMounted()) {
         <ng-content />
       }
     </div>
@@ -48,8 +49,8 @@ import type { ClassValue } from 'clsx';
   host: {
     '[class]': 'computedClass()',
     '[style.height]': 'height()',
-    '[attr.aria-hidden]': 'isOpen() ? null : "true"',
-    '[attr.inert]': 'isOpen() ? null : ""'
+    '[attr.aria-hidden]': 'open() ? null : "true"',
+    '[attr.inert]': 'open() ? null : ""'
   }
 })
 export class XuiCollapse {
@@ -63,7 +64,7 @@ export class XuiCollapse {
   /** The user-defined classes. Merged last so they win over the base classes. */
   readonly class = input<ClassValue>('');
 
-  readonly isOpen = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
+  readonly open = model(false);
 
   /** Keep the content in the DOM while closed. */
   readonly keepChildrenMounted = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
@@ -86,7 +87,7 @@ export class XuiCollapse {
 
   constructor() {
     effect(() => {
-      const open = this.isOpen();
+      const open = this.open();
 
       if (!this.isBrowser) {
         // On the server there is nothing to measure; render the final state.

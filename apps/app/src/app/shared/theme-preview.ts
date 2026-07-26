@@ -13,7 +13,7 @@ import { XuiTextImports } from '@xui/text';
 const INTENTS = ['primary', 'secondary', 'success', 'error', 'warning', 'info'] as const;
 
 /** The tag's axis is deliberately shorter than the intent set — it has no `secondary` or `info`. */
-const TAG_INTENTS = ['none', 'primary', 'success', 'warning', 'danger'] as const;
+const TAG_COLORS = ['none', 'primary', 'success', 'warning', 'error'] as const;
 
 const CHARTS = [1, 2, 3, 4, 5, 6, 7, 8];
 
@@ -74,13 +74,13 @@ const CHARTS = [1, 2, 3, 4, 5, 6, 7, 8];
       <section>
         <p xuiText size="xs" weight="semibold" color="subtle" class="mb-2 tracking-wide uppercase">Labels</p>
         <div class="flex flex-wrap items-center gap-2">
-          @for (intent of tagIntents; track intent) {
-            <xui-tag [intent]="intent">{{ intent }}</xui-tag>
+          @for (color of tagColors; track color) {
+            <xui-tag [color]="color">{{ color }}</xui-tag>
           }
         </div>
         <div class="mt-2 flex flex-wrap items-center gap-2">
-          @for (intent of tagIntents; track intent) {
-            <xui-tag minimal [intent]="intent">{{ intent }}</xui-tag>
+          @for (color of tagColors; track color) {
+            <xui-tag minimal [color]="color">{{ color }}</xui-tag>
           }
           <span xuiBadge color="primary">12</span>
           <span xuiBadge color="error">99+</span>
@@ -134,7 +134,7 @@ const CHARTS = [1, 2, 3, 4, 5, 6, 7, 8];
             <xui-tr>
               <xui-td class="min-w-0 flex-1">{{ row.name }}</xui-td>
               <xui-td class="w-28 shrink-0"
-                ><xui-tag minimal [intent]="row.intent">{{ row.status }}</xui-tag></xui-td
+                ><xui-tag minimal [color]="row.color">{{ row.status }}</xui-tag></xui-td
               >
             </xui-tr>
           }
@@ -158,13 +158,13 @@ const CHARTS = [1, 2, 3, 4, 5, 6, 7, 8];
 })
 export class ThemePreview {
   protected readonly intents = INTENTS;
-  protected readonly tagIntents = TAG_INTENTS;
+  protected readonly tagColors = TAG_COLORS;
   protected readonly charts = CHARTS;
   protected readonly heights = [92, 70, 84, 55, 66, 40, 78, 48];
 
   protected readonly rows = [
-    { name: 'api-gateway', status: 'Healthy', intent: 'success' as const },
-    { name: 'worker-queue', status: 'Degraded', intent: 'warning' as const },
-    { name: 'image-resize', status: 'Down', intent: 'danger' as const }
+    { name: 'api-gateway', status: 'Healthy', color: 'success' as const },
+    { name: 'worker-queue', status: 'Degraded', color: 'warning' as const },
+    { name: 'image-resize', status: 'Down', color: 'error' as const }
   ];
 }

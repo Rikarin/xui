@@ -30,7 +30,7 @@ export const Default: Story = {
     props: { open: signal(false) },
     template: `
       <button xuiButton (click)="open.set(true)">Edit profile</button>
-      <xui-dialog [(isOpen)]="open" title="Edit profile" icon="matPersonRound">
+      <xui-dialog [(open)]="open" title="Edit profile" icon="matPersonRound">
         <xui-dialog-body>
           <p>Update the details shown on your public profile.</p>
           <p class="text-foreground-muted mt-2">The body scrolls on its own when the content is tall.</p>
@@ -50,7 +50,7 @@ export const Scrolling: Story = {
     props: { open: signal(false), rows: Array.from({ length: 30 }, (_, i) => i + 1) },
     template: `
       <button xuiButton (click)="open.set(true)">Terms</button>
-      <xui-dialog [(isOpen)]="open" title="Terms of service">
+      <xui-dialog [(open)]="open" title="Terms of service">
         <xui-dialog-body>
           @for (row of rows; track row) {
             <p class="py-1">Clause {{ row }} — the body owns the scroll, not the whole card.</p>

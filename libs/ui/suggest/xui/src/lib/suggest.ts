@@ -42,7 +42,7 @@ const defaultMatch = (text: string, query: string): boolean => text.toLowerCase(
       [attr.aria-expanded]="open()"
       [attr.aria-autocomplete]="'list'"
       [xuiPopover]="panel"
-      [(isOpen)]="open"
+      [(open)]="open"
       [role]="'listbox'"
       [matchTargetWidth]="true"
       [minimal]="true"

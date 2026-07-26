@@ -26,15 +26,15 @@ export type SliderLabelRenderer = ((value: number) => string) | false;
 
 const fillVariants = cva('absolute rounded-full', {
   variants: {
-    intent: {
+    color: {
       none: 'bg-foreground-muted',
       primary: 'bg-primary',
       success: 'bg-success',
       warning: 'bg-warning',
-      danger: 'bg-error'
+      error: 'bg-error'
     }
   },
-  defaultVariants: { intent: 'primary' }
+  defaultVariants: { color: 'primary' }
 });
 
 const handleVariants = cva(
@@ -45,20 +45,20 @@ const handleVariants = cva(
   ],
   {
     variants: {
-      intent: {
+      color: {
         none: 'border-foreground-muted',
         primary: 'border-primary',
         success: 'border-success',
         warning: 'border-warning',
-        danger: 'border-error'
+        error: 'border-error'
       },
       dragging: { true: 'cursor-grabbing', false: 'cursor-grab' }
     },
-    defaultVariants: { intent: 'primary', dragging: false }
+    defaultVariants: { color: 'primary', dragging: false }
   }
 );
 
-export type SliderIntent = NonNullable<VariantProps<typeof fillVariants>['intent']>;
+export type SliderColor = NonNullable<VariantProps<typeof fillVariants>['color']>;
 
 export const XUI_SLIDER_VALUE_ACCESSOR = {
   provide: NG_VALUE_ACCESSOR,
@@ -134,7 +134,7 @@ export class XuiSlider implements ControlValueAccessor {
   /** Format a tick value into its label, or `false` to hide the axis entirely. */
   readonly labelRenderer = input<SliderLabelRenderer>((value: number) => String(value));
 
-  readonly intent = input<SliderIntent>('primary');
+  readonly color = input<SliderColor>('primary');
   readonly vertical = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
   readonly showTrackFill = input<boolean, BooleanInput>(true, { transform: booleanAttribute });
 
@@ -245,10 +245,10 @@ export class XuiSlider implements ControlValueAccessor {
     )
   );
 
-  protected readonly fillClass = computed(() => xui(fillVariants({ intent: this.intent() })));
+  protected readonly fillClass = computed(() => xui(fillVariants({ color: this.color() })));
 
   protected readonly handleClass = computed(() =>
-    xui(handleVariants({ intent: this.intent(), dragging: this.dragging() }))
+    xui(handleVariants({ color: this.color(), dragging: this.dragging() }))
   );
 
   protected readonly axisClass = computed(() =>

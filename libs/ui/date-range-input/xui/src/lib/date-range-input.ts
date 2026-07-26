@@ -33,7 +33,7 @@ type Boundary = 'start' | 'end';
     <div
       [class]="groupClass()"
       [xuiPopover]="panel"
-      [(isOpen)]="open"
+      [(open)]="open"
       [role]="'dialog'"
       [minimal]="true"
       [disabled]="disabled()"

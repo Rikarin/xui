@@ -145,8 +145,8 @@ export const doc: ComponentDoc = {
     "variants": [],
     "methods": [
       {
-        "name": "isOpen",
-        "signature": "isOpen(value: string): boolean"
+        "name": "isExpanded",
+        "signature": "isExpanded(value: string): boolean"
       },
       {
         "name": "toggle",

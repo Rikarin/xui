@@ -1,5 +1,5 @@
 import { InjectionToken, type TemplateRef } from '@angular/core';
-import type { XuiTooltipIntent } from './tooltip.token';
+import type { XuiTooltipColor } from './tooltip.token';
 
 /**
  * Everything the tooltip panel needs, handed from the trigger to the panel it
@@ -13,7 +13,7 @@ import type { XuiTooltipIntent } from './tooltip.token';
 export interface XuiTooltipContent {
   content: string | TemplateRef<unknown>;
   context?: Record<string, unknown>;
-  intent: XuiTooltipIntent;
+  color: XuiTooltipColor;
   compact: boolean;
   id: string;
 }

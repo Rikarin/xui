@@ -1,6 +1,6 @@
 import { InjectionToken, ValueProvider, inject } from '@angular/core';
 
-export type XuiNumericInputSize = 'default' | 'sm';
+export type XuiNumericInputSize = 'md' | 'sm';
 /** Where the stepper buttons sit. */
 export type XuiNumericButtonPosition = 'right' | 'left' | 'none';
 
@@ -18,7 +18,7 @@ export interface XuiNumericInputConfig {
 }
 
 const defaultConfig: XuiNumericInputConfig = {
-  size: 'default',
+  size: 'md',
   buttonPosition: 'right',
   stepSize: 1,
   majorStepSize: 10,

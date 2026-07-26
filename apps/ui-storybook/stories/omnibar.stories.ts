@@ -17,7 +17,7 @@ const COMMANDS = [
 
 /**
  * A ⌘K-style command palette: a top-centred overlay with a search field and a
- * keyboard-navigable result list. Toggle with `[(isOpen)]`; Escape or a backdrop
+ * keyboard-navigable result list. Toggle with `[(open)]`; Escape or a backdrop
  * click closes; Arrow keys move, Enter runs the command.
  */
 @Component({
@@ -29,7 +29,7 @@ const COMMANDS = [
     </button>
     <p class="text-foreground-muted mt-3 text-sm">Last command: {{ last() ?? '—' }}</p>
 
-    <xui-omnibar [items]="commands" [(isOpen)]="open" (itemSelect)="last.set($event)" />
+    <xui-omnibar [items]="commands" [(open)]="open" (itemSelect)="last.set($event)" />
   `
 })
 class OmnibarDemo {

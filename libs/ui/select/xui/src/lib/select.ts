@@ -48,7 +48,7 @@ const defaultMatch = (text: string, query: string): boolean => text.toLowerCase(
       [attr.aria-label]="effectiveAriaLabel()"
       [attr.aria-labelledby]="ariaLabelledby()"
       [xuiPopover]="panel"
-      [(isOpen)]="open"
+      [(open)]="open"
       [role]="'listbox'"
       [matchTargetWidth]="matchTargetWidth()"
       [minimal]="true"

@@ -7,7 +7,7 @@ const dialog = () => document.querySelector('[role="dialog"]');
 const backdrop = () => document.querySelector('.cdk-overlay-backdrop');
 
 const DIALOG = `
-  <xui-dialog [(isOpen)]="props().open" title="Edit profile">
+  <xui-dialog [(open)]="props().open" title="Edit profile">
     <xui-dialog-body>Body content</xui-dialog-body>
     <xui-dialog-footer><button>Save</button></xui-dialog-footer>
   </xui-dialog>
@@ -73,7 +73,7 @@ describe('XuiDialog', () => {
 
   it('stays open on Escape when that is turned off', () => {
     const { setProps } = setup(
-      `<xui-dialog [(isOpen)]="props().open" [canEscapeKeyClose]="false">
+      `<xui-dialog [(open)]="props().open" [canEscapeKeyClose]="false">
          <xui-dialog-body>Body</xui-dialog-body>
        </xui-dialog>`
     );
@@ -92,7 +92,7 @@ describe('XuiDialog', () => {
     expect(dialog()).toBeNull();
 
     const two = setup(
-      `<xui-dialog [(isOpen)]="props().open" [canOutsideClickClose]="false">
+      `<xui-dialog [(open)]="props().open" [canOutsideClickClose]="false">
          <xui-dialog-body>Body</xui-dialog-body>
        </xui-dialog>`
     );
@@ -104,7 +104,7 @@ describe('XuiDialog', () => {
 
   it('omits the close button on request', () => {
     const { setProps } = setup(
-      `<xui-dialog [(isOpen)]="props().open" title="T" [showCloseButton]="false">
+      `<xui-dialog [(open)]="props().open" title="T" [showCloseButton]="false">
          <xui-dialog-body>Body</xui-dialog-body>
        </xui-dialog>`
     );

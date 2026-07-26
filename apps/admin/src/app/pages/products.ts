@@ -19,10 +19,10 @@ import { money } from '../core/format';
 import type { Product, StockStatus } from '../core/models';
 import { PageHeader } from '../shell/page-header';
 
-const STOCK: Record<StockStatus, { label: string; intent: 'success' | 'warning' | 'danger' }> = {
-  'in-stock': { label: 'In stock', intent: 'success' },
-  low: { label: 'Low', intent: 'warning' },
-  out: { label: 'Out of stock', intent: 'danger' }
+const STOCK: Record<StockStatus, { label: string; color: 'success' | 'warning' | 'error' }> = {
+  'in-stock': { label: 'In stock', color: 'success' },
+  low: { label: 'Low', color: 'warning' },
+  out: { label: 'Out of stock', color: 'error' }
 };
 
 /**
@@ -101,7 +101,7 @@ const STOCK: Record<StockStatus, { label: string; intent: 'success' | 'warning' 
                 <p class="truncate font-medium">{{ product.name }}</p>
                 <p xuiText size="xs" color="subtle" class="truncate font-mono">{{ product.sku }}</p>
               </div>
-              <xui-tag minimal [intent]="stock(product).intent">{{ stock(product).label }}</xui-tag>
+              <xui-tag minimal [color]="stock(product).color">{{ stock(product).label }}</xui-tag>
             </div>
 
             <xui-echart
@@ -154,7 +154,7 @@ export class Products {
     return count === 1 ? '1 line is low or out.' : `${count} lines are low or out.`;
   });
 
-  protected stock(product: Product): { label: string; intent: 'success' | 'warning' | 'danger' } {
+  protected stock(product: Product): { label: string; color: 'success' | 'warning' | 'error' } {
     return STOCK[product.stockStatus];
   }
 

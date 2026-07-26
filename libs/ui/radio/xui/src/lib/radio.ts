@@ -18,11 +18,11 @@ const radioVariants = cva(
   {
     variants: {
       size: {
-        default: 'size-5',
+        md: 'size-5',
         sm: 'size-4'
       }
     },
-    defaultVariants: { size: 'default' }
+    defaultVariants: { size: 'md' }
   }
 );
 
@@ -69,7 +69,7 @@ export class XuiRadio<T = unknown> implements XuiRadioButtonRef {
 
   /** The user-defined classes. Merged last so they win over the variant classes. */
   readonly class = input<ClassValue>('');
-  readonly size = input<XuiRadioVariants['size']>('default');
+  readonly size = input<XuiRadioVariants['size']>('md');
 
   readonly value = input.required<T>();
   readonly disabled = input<boolean, BooleanInput>(false, { transform: booleanAttribute });

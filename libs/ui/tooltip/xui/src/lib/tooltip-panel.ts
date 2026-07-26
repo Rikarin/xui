@@ -6,7 +6,7 @@ import { XUI_TOOLTIP_CONTENT } from './tooltip-content';
 
 const panelVariants = cva('pointer-events-none block max-w-xs rounded-md text-sm shadow-overlay', {
   variants: {
-    intent: {
+    color: {
       // The neutral tooltip inverts against the page — a dark chip on light, a
       // light chip on dark — so it reads as an annotation rather than a surface.
       none: 'bg-foreground text-background',
@@ -52,7 +52,7 @@ export class XuiTooltipPanel {
   protected readonly content = inject(XUI_TOOLTIP_CONTENT);
 
   protected readonly computedClass = computed(() =>
-    xui(panelVariants({ intent: this.content.intent, compact: this.content.compact }))
+    xui(panelVariants({ color: this.content.color, compact: this.content.compact }))
   );
 
   protected isTemplate(value: string | TemplateRef<unknown>): value is TemplateRef<unknown> {

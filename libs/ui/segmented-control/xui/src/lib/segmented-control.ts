@@ -19,10 +19,10 @@ import type { ClassValue } from 'clsx';
 
 const containerVariants = cva('bg-surface-inset border-border inline-flex gap-0.5 rounded-lg border p-0.5', {
   variants: {
-    size: { default: 'text-sm', sm: 'text-xs' },
+    size: { md: 'text-sm', sm: 'text-xs' },
     fill: { true: 'flex w-full', false: '' }
   },
-  defaultVariants: { size: 'default', fill: false }
+  defaultVariants: { size: 'md', fill: false }
 });
 
 export type XuiSegmentedControlVariants = VariantProps<typeof containerVariants>;
@@ -83,7 +83,7 @@ export class XuiSegmentedControl<T = string> implements ControlValueAccessor {
 
   /** The user-defined classes. Merged last so they win over the variant classes. */
   readonly class = input<ClassValue>('');
-  readonly size = input<XuiSegmentedControlVariants['size']>('default');
+  readonly size = input<XuiSegmentedControlVariants['size']>('md');
   readonly fill = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
 
   readonly options = input<readonly XuiSegmentedOption<T>[]>([]);

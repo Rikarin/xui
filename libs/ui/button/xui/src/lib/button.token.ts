@@ -10,7 +10,7 @@ export interface XuiButtonConfig {
 const defaultConfig: XuiButtonConfig = {
   color: 'primary',
   variant: 'default',
-  size: 'default'
+  size: 'md'
 };
 
 const XuiButtonConfigToken = new InjectionToken<XuiButtonConfig>('XuiButtonConfig');

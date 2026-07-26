@@ -20,7 +20,7 @@ export class PreviewDefault {
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [XuiSwitchImports],
   template: `
-<xui-switch aria-label="Wi-Fi" size="large" />
+<xui-switch aria-label="Wi-Fi" size="lg" />
 `
 })
 export class PreviewLarge {
@@ -152,10 +152,10 @@ export const doc: ComponentDoc = {
       {
         "name": "size",
         "options": [
-          "default",
-          "large"
+          "md",
+          "lg"
         ],
-        "default": "default"
+        "default": "md"
       }
     ],
     "methods": [
@@ -188,7 +188,7 @@ export const doc: ComponentDoc = {
     {
       name: "Large",
       title: "Large",
-      code: `<xui-switch aria-label="Wi-Fi" size="large" />`,
+      code: `<xui-switch aria-label="Wi-Fi" size="lg" />`,
       preview: PreviewLarge
     },
     {

@@ -78,7 +78,7 @@ export const doc: ComponentDoc = {
       {
         "name": "size",
         "type": "TextareaVariants['size']",
-        "default": "'default'",
+        "default": "'md'",
         "required": false
       },
       {
@@ -95,11 +95,11 @@ export const doc: ComponentDoc = {
       {
         "name": "size",
         "options": [
-          "default",
+          "md",
           "sm",
           "lg"
         ],
-        "default": "default"
+        "default": "md"
       },
       {
         "name": "resize",

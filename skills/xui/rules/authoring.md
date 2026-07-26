@@ -48,7 +48,7 @@ Jest + `jest-preset-angular`, run zoneless. Use the `@xui/testing` harness (`ren
 state but leaves the DOM stale in a zoneless suite. Four to eight tests per component:
 
 1. renders and applies its base classes;
-2. each variant/size/intent input maps to the expected class (spot-check, do not snapshot);
+2. each variant/size/color input maps to the expected class (spot-check, do not snapshot);
 3. the `class` input merges rather than replaces;
 4. outputs and `model()` two-way binding fire correctly;
 5. the a11y contract (role, `aria-*`, `data-state`, tabindex, disabled semantics);

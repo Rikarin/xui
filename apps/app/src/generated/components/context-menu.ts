@@ -27,7 +27,7 @@ import { XuiMenuImports } from '@xui/menu';
 <ng-template #more>
   <xui-menu>
     <button xuiMenuItem>Select all</button>
-    <button xuiMenuItem intent="error">Delete</button>
+    <button xuiMenuItem color="error">Delete</button>
   </xui-menu>
 </ng-template>
 `
@@ -88,7 +88,7 @@ export const doc: ComponentDoc = {
 <ng-template #more>
   <xui-menu>
     <button xuiMenuItem>Select all</button>
-    <button xuiMenuItem intent="error">Delete</button>
+    <button xuiMenuItem color="error">Delete</button>
   </xui-menu>
 </ng-template>`,
       preview: PreviewDefault

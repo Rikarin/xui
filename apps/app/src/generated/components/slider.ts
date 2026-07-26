@@ -35,19 +35,19 @@ export class PreviewLabelled {
 }
 
 @Component({
-  selector: 'docs-preview-slider-intents',
+  selector: 'docs-preview-slider-colors',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [XuiSliderImports],
   template: `
 <div class="flex w-96 flex-col gap-8">
-  <xui-slider intent="primary" [max]="10" [value]="3" aria-label="Primary" />
-  <xui-slider intent="success" [max]="10" [value]="5" aria-label="Success" />
-  <xui-slider intent="warning" [max]="10" [value]="7" aria-label="Warning" />
-  <xui-slider intent="danger" [max]="10" [value]="9" aria-label="Danger" />
+  <xui-slider color="primary" [max]="10" [value]="3" aria-label="Primary" />
+  <xui-slider color="success" [max]="10" [value]="5" aria-label="Success" />
+  <xui-slider color="warning" [max]="10" [value]="7" aria-label="Warning" />
+  <xui-slider color="error" [max]="10" [value]="9" aria-label="Error" />
 </div>
 `
 })
-export class PreviewIntents {
+export class PreviewColors {
 }
 
 @Component({
@@ -86,7 +86,7 @@ export const doc: ComponentDoc = {
   "XuiSlider",
   "XuiSliderImports",
   "SliderLabelRenderer",
-  "SliderIntent",
+  "SliderColor",
   "XUI_SLIDER_VALUE_ACCESSOR"
 ],
   peerDependencies: {
@@ -147,8 +147,8 @@ export const doc: ComponentDoc = {
         "docs": "Format a tick value into its label, or false to hide the axis entirely."
       },
       {
-        "name": "intent",
-        "type": "SliderIntent",
+        "name": "color",
+        "type": "SliderColor",
         "default": "'primary'",
         "required": false
       },
@@ -189,13 +189,13 @@ export const doc: ComponentDoc = {
     ],
     "variants": [
       {
-        "name": "intent",
+        "name": "color",
         "options": [
           "none",
           "primary",
           "success",
           "warning",
-          "danger"
+          "error"
         ],
         "default": "primary"
       },
@@ -247,15 +247,15 @@ export const doc: ComponentDoc = {
       preview: PreviewLabelled
     },
     {
-      name: "Intents",
-      title: "Intents",
+      name: "Colors",
+      title: "Colors",
       code: `<div class="flex w-96 flex-col gap-8">
-  <xui-slider intent="primary" [max]="10" [value]="3" aria-label="Primary" />
-  <xui-slider intent="success" [max]="10" [value]="5" aria-label="Success" />
-  <xui-slider intent="warning" [max]="10" [value]="7" aria-label="Warning" />
-  <xui-slider intent="danger" [max]="10" [value]="9" aria-label="Danger" />
+  <xui-slider color="primary" [max]="10" [value]="3" aria-label="Primary" />
+  <xui-slider color="success" [max]="10" [value]="5" aria-label="Success" />
+  <xui-slider color="warning" [max]="10" [value]="7" aria-label="Warning" />
+  <xui-slider color="error" [max]="10" [value]="9" aria-label="Error" />
 </div>`,
-      preview: PreviewIntents
+      preview: PreviewColors
     },
     {
       name: "Disabled",

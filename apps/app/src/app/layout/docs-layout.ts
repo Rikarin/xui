@@ -32,7 +32,7 @@ import { SiteHeader } from './site-header';
 
     <docs-site-footer />
 
-    <xui-drawer title="Documentation" position="left" size="md" [(isOpen)]="layout.mobileNavOpen" class="lg:hidden">
+    <xui-drawer title="Documentation" position="left" size="md" [(open)]="layout.mobileNavOpen" class="lg:hidden">
       <docs-nav class="p-4" />
     </xui-drawer>
   `

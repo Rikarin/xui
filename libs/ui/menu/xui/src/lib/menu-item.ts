@@ -11,7 +11,7 @@ const itemVariants = cva(
   'flex w-full cursor-pointer items-center gap-2 rounded-md px-2 py-1.5 text-start text-sm outline-none select-none aria-disabled:pointer-events-none aria-disabled:opacity-50',
   {
     variants: {
-      intent: {
+      color: {
         none: 'text-foreground hover:bg-hover-overlay focus-visible:bg-hover-overlay',
         primary: 'text-primary-emphasis hover:bg-primary-subtle focus-visible:bg-primary-subtle',
         success: 'text-success-emphasis hover:bg-success-subtle focus-visible:bg-success-subtle',
@@ -20,12 +20,12 @@ const itemVariants = cva(
       }
     },
     defaultVariants: {
-      intent: 'none'
+      color: 'none'
     }
   }
 );
 
-export type XuiMenuItemIntent = NonNullable<VariantProps<typeof itemVariants>['intent']>;
+export type XuiMenuItemColor = NonNullable<VariantProps<typeof itemVariants>['color']>;
 
 /**
  * A command in a menu.
@@ -33,7 +33,7 @@ export type XuiMenuItemIntent = NonNullable<VariantProps<typeof itemVariants>['i
  * Put it on a real `<button>` or `<a>` so activation, focus and disabled
  * semantics are the element's own. `CdkMenuItem` supplies `role="menuitem"`,
  * keyboard activation and the `triggered` output; this component adds the icon,
- * the selected checkmark, intent colour and the submenu affordance.
+ * the selected checkmark, the colour accent and the submenu affordance.
  *
  * A left cell is always reserved — for the icon, or the checkmark when
  * `selected` — so labels line up whether or not a given row has one.
@@ -89,9 +89,9 @@ export class XuiMenuItem {
   /** Draws a checkmark in the left cell — for a chosen option in a menu. */
   readonly selected = input(false, { transform: booleanAttribute });
 
-  readonly intent = input<XuiMenuItemIntent>('none');
+  readonly color = input<XuiMenuItemColor>('none');
 
   protected readonly hasSubmenu = computed(() => this.submenuTrigger != null);
 
-  protected readonly computedClass = computed(() => xui(itemVariants({ intent: this.intent() }), this.class()));
+  protected readonly computedClass = computed(() => xui(itemVariants({ color: this.color() }), this.class()));
 }

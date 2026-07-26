@@ -21,10 +21,10 @@ const wrapperVariants = cva(
   'border-border bg-surface-inset text-foreground focus-within:border-focus relative inline-flex items-center rounded-lg border transition-colors has-disabled:cursor-not-allowed has-disabled:opacity-50',
   {
     variants: {
-      size: { default: 'h-(--control-height-md) text-sm', sm: 'h-(--control-height-sm) text-xs' },
+      size: { md: 'h-(--control-height-md) text-sm', sm: 'h-(--control-height-sm) text-xs' },
       fill: { true: 'w-full', false: 'w-auto' }
     },
-    defaultVariants: { size: 'default', fill: false }
+    defaultVariants: { size: 'md', fill: false }
   }
 );
 
@@ -92,7 +92,7 @@ export interface XuiHtmlSelectOption<T = string> {
 export class XuiHtmlSelect<T = string> implements ControlValueAccessor {
   /** The user-defined classes on the wrapper. Merged last so they win. */
   readonly class = input<ClassValue>('');
-  readonly size = input<XuiHtmlSelectVariants['size']>('default');
+  readonly size = input<XuiHtmlSelectVariants['size']>('md');
   readonly fill = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
 
   /** Options as data; alternatively, project `<option>` elements. */

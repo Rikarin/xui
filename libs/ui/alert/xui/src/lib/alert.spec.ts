@@ -11,22 +11,22 @@ const buttonByText = (text: string) =>
 interface Props {
   open: boolean;
   confirmed: number;
-  canceled: number;
+  cancelled: number;
 }
 
 const ALERT = `
   <xui-alert
-    [(isOpen)]="props().open"
-    intent="error"
+    [(open)]="props().open"
+    color="error"
     confirmText="Delete"
     cancelText="Cancel"
     (confirmed)="props().confirmed = props().confirmed + 1"
-    (canceled)="props().canceled = props().canceled + 1"
+    (cancelled)="props().cancelled = props().cancelled + 1"
   >Delete this project?</xui-alert>
 `;
 
 const setup = (template = ALERT) =>
-  render<Props>(template, { imports: IMPORTS, props: { open: false, confirmed: 0, canceled: 0 } });
+  render<Props>(template, { imports: IMPORTS, props: { open: false, confirmed: 0, cancelled: 0 } });
 
 describe('XuiAlert', () => {
   afterEach(() => {
@@ -57,7 +57,7 @@ describe('XuiAlert', () => {
     fixture.detectChanges();
 
     expect(fixture.componentInstance.props().confirmed).toBe(1);
-    expect(fixture.componentInstance.props().canceled).toBe(0);
+    expect(fixture.componentInstance.props().cancelled).toBe(0);
     expect(dialog()).toBeNull();
   });
 
@@ -68,7 +68,7 @@ describe('XuiAlert', () => {
     buttonByText('Cancel')!.click();
     fixture.detectChanges();
 
-    expect(fixture.componentInstance.props().canceled).toBe(1);
+    expect(fixture.componentInstance.props().cancelled).toBe(1);
     expect(dialog()).toBeNull();
   });
 
@@ -82,13 +82,13 @@ describe('XuiAlert', () => {
     await Promise.resolve();
     fixture.detectChanges();
 
-    // However the user backs out, `(canceled)` must fire exactly once.
-    expect(fixture.componentInstance.props().canceled).toBe(1);
+    // However the user backs out, `(cancelled)` must fire exactly once.
+    expect(fixture.componentInstance.props().cancelled).toBe(1);
     expect(fixture.componentInstance.props().confirmed).toBe(0);
     expect(dialog()).toBeNull();
   });
 
-  it('does not fire canceled again when confirm already settled it', () => {
+  it('does not fire cancelled again when confirm already settled it', () => {
     const { fixture, setProps } = setup();
     setProps({ open: true });
 
@@ -96,18 +96,18 @@ describe('XuiAlert', () => {
     fixture.detectChanges();
 
     // confirm() closes the dialog; the close must not also read as a cancel.
-    expect(fixture.componentInstance.props().canceled).toBe(0);
+    expect(fixture.componentInstance.props().cancelled).toBe(0);
   });
 
   it('drops the cancel button for an acknowledge-only alert', () => {
-    const { setProps } = setup(`<xui-alert [(isOpen)]="props().open" confirmText="OK">Saved.</xui-alert>`);
+    const { setProps } = setup(`<xui-alert [(open)]="props().open" confirmText="OK">Saved.</xui-alert>`);
     setProps({ open: true });
 
     expect(buttonByText('OK')).toBeTruthy();
     expect([...document.querySelectorAll('[role="dialog"] button')].map(b => b.textContent?.trim())).toEqual(['OK']);
   });
 
-  it('gives the error intent a red icon', () => {
+  it('gives the error color a red icon', () => {
     const { setProps } = setup();
     setProps({ open: true });
 

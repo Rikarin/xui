@@ -36,7 +36,7 @@ const defaultMatch = (text: string, query: string): boolean => text.toLowerCase(
     <div
       [class]="controlClass()"
       [xuiPopover]="panel"
-      [(isOpen)]="open"
+      [(open)]="open"
       [role]="'listbox'"
       [matchTargetWidth]="true"
       [minimal]="true"
@@ -44,7 +44,7 @@ const defaultMatch = (text: string, query: string): boolean => text.toLowerCase(
       placement="bottom-start"
     >
       @for (item of selectedItems(); track trackItem($index, item)) {
-        <xui-tag minimal intent="primary" [removable]="!disabled()" (removed)="remove(item)">{{
+        <xui-tag minimal color="primary" [removable]="!disabled()" (removed)="remove(item)">{{
           displayText(item)
         }}</xui-tag>
       }

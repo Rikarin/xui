@@ -24,7 +24,7 @@ import { XUI_DIALOG_SIZES, injectXuiDialogConfig, type XuiDialogSize } from './d
  * A modal surface centred over a dimmed backdrop.
  *
  * ```html
- * <xui-dialog [(isOpen)]="editing" title="Edit profile" icon="matPersonRound">
+ * <xui-dialog [(open)]="editing" title="Edit profile" icon="matPersonRound">
  *   <xui-dialog-body>…</xui-dialog-body>
  *   <xui-dialog-footer>
  *     <button xuiButton variant="ghost" (click)="editing.set(false)">Cancel</button>
@@ -33,12 +33,12 @@ import { XUI_DIALOG_SIZES, injectXuiDialogConfig, type XuiDialogSize } from './d
  * </xui-dialog>
  * ```
  *
- * Declarative and controlled: it renders nothing until `isOpen`, then attaches
+ * Declarative and controlled: it renders nothing until `open`, then attaches
  * its content to a modal overlay from `@xui/core/overlay` — backdrop, focus
  * trap, focus restore and page-scroll lock all come from there. For opening a
  * dialog imperatively from a service, see `XuiDialogService`.
  *
- * `isOpen` is a model, so Escape, the backdrop and the close button fold their
+ * `open` is a model, so Escape, the backdrop and the close button fold their
  * dismissal back into the binding; the surface never contradicts the flag.
  */
 @Component({
@@ -99,8 +99,8 @@ export class XuiDialog {
     transform: booleanAttribute
   });
 
-  /** Open state. Works bound (controlled) or via `open()`/`close()`. */
-  readonly isOpen = model(false);
+  /** Open state. Works bound (controlled) or via `show()`/`close()`. */
+  readonly open = model(false);
 
   protected readonly computedClass = computed(() =>
     xui(
@@ -113,18 +113,18 @@ export class XuiDialog {
   constructor() {
     // The model is the single source of truth; the overlay follows it.
     effect(() => {
-      const shouldOpen = this.isOpen();
+      const shouldOpen = this.open();
 
       untracked(() => (shouldOpen ? this.attach() : this.detach()));
     });
   }
 
-  open(): void {
-    this.isOpen.set(true);
+  show(): void {
+    this.open.set(true);
   }
 
   close(): void {
-    this.isOpen.set(false);
+    this.open.set(false);
   }
 
   private attach(): void {
@@ -158,7 +158,7 @@ export class XuiDialog {
       }
 
       this.ref = null;
-      untracked(() => this.isOpen.set(false));
+      untracked(() => this.open.set(false));
     });
   }
 

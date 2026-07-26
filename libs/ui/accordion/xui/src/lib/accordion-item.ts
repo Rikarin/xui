@@ -66,7 +66,7 @@ export class XuiAccordionItem {
   readonly title = input<string>('');
   readonly disabled = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
 
-  protected readonly open = computed(() => this.accordion.isOpen(this.value()));
+  protected readonly open = computed(() => this.accordion.isExpanded(this.value()));
 
   protected toggle(): void {
     if (!this.disabled()) {

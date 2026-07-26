@@ -131,10 +131,8 @@ describe('XuiFormField', () => {
       expectClasses(query('xui-form-field'), 'flex', 'items-baseline');
     });
 
-    it('tints the label with the intent accent', () => {
-      const { query } = setup(
-        '<xui-form-field intent="danger" label="Email"><input xuiFakeControl /></xui-form-field>'
-      );
+    it('tints the label with the colour accent', () => {
+      const { query } = setup('<xui-form-field color="error" label="Email"><input xuiFakeControl /></xui-form-field>');
 
       expectClasses(query('label'), 'text-error');
     });

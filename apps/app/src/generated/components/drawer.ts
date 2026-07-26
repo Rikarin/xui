@@ -14,7 +14,7 @@ import type { ComponentDoc } from '../../app/core/docs.model';
     <button xuiButton variant="outline" (click)="position.set(p); open.set(true)">From {{ p }}</button>
   }
 </div>
-<xui-drawer [(isOpen)]="open" [position]="position()" title="Filters">
+<xui-drawer [(open)]="open" [position]="position()" title="Filters">
   <div class="flex flex-col gap-3 p-6 text-sm">
     <p class="text-foreground-muted">Sliding in from the {{ position() }} edge.</p>
     <label class="flex items-center gap-2"><input type="checkbox" /> Only starred</label>
@@ -34,7 +34,7 @@ export class PreviewPositions {
   imports: [XuiButtonImports, XuiDrawerImports],
   template: `
 <button xuiButton (click)="open.set(true)">Edit settings</button>
-<xui-drawer [(isOpen)]="open" position="right" size="lg" title="Settings">
+<xui-drawer [(open)]="open" position="right" size="lg" title="Settings">
   <div class="flex h-full flex-col">
     <div class="flex-1 space-y-4 overflow-auto p-6 text-sm">
       @for (n of [1,2,3,4,5,6]; track n) {
@@ -138,7 +138,7 @@ export const doc: ComponentDoc = {
         "transform": "booleanAttribute"
       },
       {
-        "name": "isOpen",
+        "name": "open",
         "type": "boolean",
         "default": "false",
         "required": false,
@@ -149,8 +149,8 @@ export const doc: ComponentDoc = {
     "variants": [],
     "methods": [
       {
-        "name": "open",
-        "signature": "open(): void"
+        "name": "show",
+        "signature": "show(): void"
       },
       {
         "name": "close",
@@ -168,7 +168,7 @@ export const doc: ComponentDoc = {
     <button xuiButton variant="outline" (click)="position.set(p); open.set(true)">From {{ p }}</button>
   }
 </div>
-<xui-drawer [(isOpen)]="open" [position]="position()" title="Filters">
+<xui-drawer [(open)]="open" [position]="position()" title="Filters">
   <div class="flex flex-col gap-3 p-6 text-sm">
     <p class="text-foreground-muted">Sliding in from the {{ position() }} edge.</p>
     <label class="flex items-center gap-2"><input type="checkbox" /> Only starred</label>
@@ -181,7 +181,7 @@ export const doc: ComponentDoc = {
       name: "WithFooter",
       title: "With footer",
       code: `<button xuiButton (click)="open.set(true)">Edit settings</button>
-<xui-drawer [(isOpen)]="open" position="right" size="lg" title="Settings">
+<xui-drawer [(open)]="open" position="right" size="lg" title="Settings">
   <div class="flex h-full flex-col">
     <div class="flex-1 space-y-4 overflow-auto p-6 text-sm">
       @for (n of [1,2,3,4,5,6]; track n) {

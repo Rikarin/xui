@@ -2,11 +2,11 @@ import { InjectionToken, ValueProvider, inject } from '@angular/core';
 import type { XPlacement } from '@xui/core/overlay';
 
 /** The colour a tooltip takes. `none` is the neutral inverted style. */
-export type XuiTooltipIntent = 'none' | 'primary' | 'success' | 'error' | 'warning' | 'info';
+export type XuiTooltipColor = 'none' | 'primary' | 'success' | 'error' | 'warning' | 'info';
 
 export interface XuiTooltipConfig {
   placement: XPlacement;
-  intent: XuiTooltipIntent;
+  color: XuiTooltipColor;
   /** Tighten the padding for dense UIs. */
   compact: boolean;
   /** Also open when the trigger is focused, so keyboard users see the hint. */
@@ -21,7 +21,7 @@ export interface XuiTooltipConfig {
 
 const defaultConfig: XuiTooltipConfig = {
   placement: 'top',
-  intent: 'none',
+  color: 'none',
   compact: false,
   openOnTargetFocus: true,
   hoverOpenDelay: 100,

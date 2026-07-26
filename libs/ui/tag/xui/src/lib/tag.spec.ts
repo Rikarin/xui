@@ -14,14 +14,14 @@ describe('XuiTag', () => {
     expectClasses(query('xui-tag'), 'inline-flex', 'bg-surface-inset', 'rounded');
   });
 
-  it('applies the intent as a solid fill', () => {
-    const { query } = setup('<xui-tag intent="success">Live</xui-tag>');
+  it('applies the colour as a solid fill', () => {
+    const { query } = setup('<xui-tag color="success">Live</xui-tag>');
 
     expectClasses(query('xui-tag'), 'bg-success', 'text-success-foreground');
   });
 
   it('uses a subtle fill when minimal', () => {
-    const { query } = setup('<xui-tag intent="danger" minimal>Error</xui-tag>');
+    const { query } = setup('<xui-tag color="error" minimal>Error</xui-tag>');
 
     expectClasses(query('xui-tag'), 'bg-error/15', 'text-error');
     expectNoClasses(query('xui-tag'), 'bg-error');

@@ -1,10 +1,10 @@
 import { InjectionToken } from '@angular/core';
 
 /** The colour and default icon an alert takes. */
-export type XuiAlertIntent = 'none' | 'primary' | 'success' | 'warning' | 'error';
+export type XuiAlertColor = 'none' | 'primary' | 'success' | 'warning' | 'error';
 
-/** Icon each intent implies, unless the caller overrides it. */
-export const XUI_ALERT_INTENT_ICON: Record<XuiAlertIntent, string | null> = {
+/** Icon each color implies, unless the caller overrides it. */
+export const XUI_ALERT_COLOR_ICON: Record<XuiAlertColor, string | null> = {
   none: null,
   primary: 'matInfoRound',
   success: 'matCheckCircleRound',
@@ -12,8 +12,8 @@ export const XUI_ALERT_INTENT_ICON: Record<XuiAlertIntent, string | null> = {
   error: 'matErrorRound'
 };
 
-/** Colour for the icon, by intent. */
-export const XUI_ALERT_INTENT_ICON_CLASS: Record<XuiAlertIntent, string> = {
+/** Colour class for the icon, per alert colour. */
+export const XUI_ALERT_COLOR_ICON_CLASS: Record<XuiAlertColor, string> = {
   none: 'text-foreground-muted',
   primary: 'text-primary-emphasis',
   success: 'text-success-emphasis',
@@ -21,16 +21,16 @@ export const XUI_ALERT_INTENT_ICON_CLASS: Record<XuiAlertIntent, string> = {
   error: 'text-error-emphasis'
 };
 
-/** Button colour that matches the intent — `none` confirms in the primary colour. */
-export function alertConfirmColor(intent: XuiAlertIntent): 'primary' | 'success' | 'warning' | 'error' {
-  return intent === 'none' ? 'primary' : intent;
+/** Button colour that matches the alert colour — `none` confirms in the primary colour. */
+export function alertConfirmColor(color: XuiAlertColor): 'primary' | 'success' | 'warning' | 'error' {
+  return color === 'none' ? 'primary' : color;
 }
 
 /** Options for the imperative `XuiAlertService.confirm()`. */
 export interface XuiAlertOptions {
   message: string;
-  intent?: XuiAlertIntent;
-  /** Override the icon the intent implies. Pass `null` for none. */
+  color?: XuiAlertColor;
+  /** Override the icon the color implies. Pass `null` for none. */
   icon?: string | null;
   confirmText?: string;
   /** Omit for an acknowledge-only alert with no cancel button. */

@@ -183,7 +183,7 @@ export const doc: ComponentDoc = {
         "docs": "Reduce the header padding."
       },
       {
-        "name": "isOpen",
+        "name": "open",
         "type": "boolean",
         "default": "true",
         "required": false,

@@ -22,11 +22,11 @@ const trackVariants = cva(
   {
     variants: {
       size: {
-        default: 'h-5 w-9',
-        large: 'h-6 w-11'
+        md: 'h-5 w-9',
+        lg: 'h-6 w-11'
       }
     },
-    defaultVariants: { size: 'default' }
+    defaultVariants: { size: 'md' }
   }
 );
 
@@ -35,11 +35,11 @@ const thumbVariants = cva(
   {
     variants: {
       size: {
-        default: 'size-4 data-[state=checked]:translate-x-[1.125rem]',
-        large: 'size-5 data-[state=checked]:translate-x-[1.375rem]'
+        md: 'size-4 data-[state=checked]:translate-x-[1.125rem]',
+        lg: 'size-5 data-[state=checked]:translate-x-[1.375rem]'
       }
     },
-    defaultVariants: { size: 'default' }
+    defaultVariants: { size: 'md' }
   }
 );
 

@@ -12,12 +12,12 @@ import type { ComponentDoc } from '../../app/core/docs.model';
 <button xuiButton color="error" (click)="open.set(true)">Delete project</button>
 @if (result()) { <p class="text-foreground-muted mt-3 text-sm">You chose: {{ result() }}</p> }
 <xui-alert
-  [(isOpen)]="open"
-  intent="error"
+  [(open)]="open"
+  color="error"
   confirmText="Delete"
   cancelText="Cancel"
   (confirmed)="result.set('confirmed')"
-  (canceled)="result.set('canceled')"
+  (cancelled)="result.set('cancelled')"
 >
   Delete <b>warehouse-sync</b>? This permanently removes the project and cannot be undone.
 </xui-alert>
@@ -34,7 +34,7 @@ export class PreviewDefault {
   imports: [XuiAlertImports, XuiButtonImports],
   template: `
 <button xuiButton (click)="open.set(true)">Show notice</button>
-<xui-alert [(isOpen)]="open" intent="success" confirmText="Got it">
+<xui-alert [(open)]="open" color="success" confirmText="Got it">
   Your changes have been published.
 </xui-alert>
 `
@@ -56,9 +56,9 @@ export const doc: ComponentDoc = {
   "XuiConfirmDialog",
   "XuiAlert",
   "XuiAlertImports",
-  "XuiAlertIntent",
-  "XUI_ALERT_INTENT_ICON",
-  "XUI_ALERT_INTENT_ICON_CLASS",
+  "XuiAlertColor",
+  "XUI_ALERT_COLOR_ICON",
+  "XUI_ALERT_COLOR_ICON_CLASS",
   "alertConfirmColor",
   "XuiAlertOptions",
   "XUI_ALERT_OPTIONS"
@@ -91,15 +91,15 @@ export const doc: ComponentDoc = {
     "docs": "A small modal that asks the user to confirm or cancel before something irreversible.",
     "inputs": [
       {
-        "name": "isOpen",
+        "name": "open",
         "type": "boolean",
         "default": "false",
         "required": false,
         "model": true
       },
       {
-        "name": "intent",
-        "type": "XuiAlertIntent",
+        "name": "color",
+        "type": "XuiAlertColor",
         "default": "'none'",
         "required": false
       },
@@ -108,7 +108,7 @@ export const doc: ComponentDoc = {
         "type": "string | null | undefined",
         "default": "undefined",
         "required": false,
-        "docs": "Override the icon the intent implies. Pass null to show none."
+        "docs": "Override the icon the color implies. Pass null to show none."
       },
       {
         "name": "confirmText",
@@ -144,7 +144,7 @@ export const doc: ComponentDoc = {
         "type": "void"
       },
       {
-        "name": "canceled",
+        "name": "cancelled",
         "type": "void"
       }
     ],
@@ -159,12 +159,12 @@ export const doc: ComponentDoc = {
       code: `<button xuiButton color="error" (click)="open.set(true)">Delete project</button>
 @if (result()) { <p class="text-foreground-muted mt-3 text-sm">You chose: {{ result() }}</p> }
 <xui-alert
-  [(isOpen)]="open"
-  intent="error"
+  [(open)]="open"
+  color="error"
   confirmText="Delete"
   cancelText="Cancel"
   (confirmed)="result.set('confirmed')"
-  (canceled)="result.set('canceled')"
+  (cancelled)="result.set('cancelled')"
 >
   Delete <b>warehouse-sync</b>? This permanently removes the project and cannot be undone.
 </xui-alert>`,
@@ -174,7 +174,7 @@ export const doc: ComponentDoc = {
       name: "Acknowledge",
       title: "Acknowledge",
       code: `<button xuiButton (click)="open.set(true)">Show notice</button>
-<xui-alert [(isOpen)]="open" intent="success" confirmText="Got it">
+<xui-alert [(open)]="open" color="success" confirmText="Got it">
   Your changes have been published.
 </xui-alert>`,
       preview: PreviewAcknowledge

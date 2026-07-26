@@ -41,21 +41,21 @@ export class PreviewWithLabel {
 }
 
 @Component({
-  selector: 'docs-preview-form-field-intent',
+  selector: 'docs-preview-form-field-color',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [XuiFormFieldImports, XuiInputImports],
   template: `
 <div class="flex flex-col gap-5 w-80">
-  <xui-form-field intent="success" label="Username" helperText="This name is available">
+  <xui-form-field color="success" label="Username" helperText="This name is available">
     <input xuiInput class="w-full" value="octocat" />
   </xui-form-field>
-  <xui-form-field intent="warning" label="Password" helperText="Consider a longer passphrase">
+  <xui-form-field color="warning" label="Password" helperText="Consider a longer passphrase">
     <input xuiInput class="w-full" type="password" value="hunter2" />
   </xui-form-field>
 </div>
 `
 })
-export class PreviewIntent {
+export class PreviewColor {
 }
 
 @Component({
@@ -85,7 +85,7 @@ export const doc: ComponentDoc = {
   "XuiFormField",
   "XuiHint",
   "XuiFormFieldImports",
-  "FormFieldIntent"
+  "FormFieldColor"
 ],
   peerDependencies: {
   "@angular/cdk": "22",
@@ -152,8 +152,8 @@ export const doc: ComponentDoc = {
         "docs": "Muted helper text under the control, hidden while an error is shown."
       },
       {
-        "name": "intent",
-        "type": "FormFieldIntent",
+        "name": "color",
+        "type": "FormFieldColor",
         "default": "'none'",
         "required": false,
         "docs": "A deliberate accent for the label and helper text."
@@ -178,13 +178,13 @@ export const doc: ComponentDoc = {
         "default": "false"
       },
       {
-        "name": "intent",
+        "name": "color",
         "options": [
           "none",
           "primary",
           "success",
           "warning",
-          "danger"
+          "error"
         ],
         "default": "none"
       }
@@ -234,17 +234,17 @@ export const doc: ComponentDoc = {
       preview: PreviewWithLabel
     },
     {
-      name: "Intent",
-      title: "Intent",
+      name: "Color",
+      title: "Color",
       code: `<div class="flex flex-col gap-5 w-80">
-  <xui-form-field intent="success" label="Username" helperText="This name is available">
+  <xui-form-field color="success" label="Username" helperText="This name is available">
     <input xuiInput class="w-full" value="octocat" />
   </xui-form-field>
-  <xui-form-field intent="warning" label="Password" helperText="Consider a longer passphrase">
+  <xui-form-field color="warning" label="Password" helperText="Consider a longer passphrase">
     <input xuiInput class="w-full" type="password" value="hunter2" />
   </xui-form-field>
 </div>`,
-      preview: PreviewIntent
+      preview: PreviewColor
     },
     {
       name: "Inline",

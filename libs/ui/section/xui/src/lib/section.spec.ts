@@ -77,7 +77,7 @@ describe('XuiSection', () => {
     });
 
     it('honours a bound open state', () => {
-      const { query } = setup('<xui-section title="Details" collapsible [isOpen]="props().open">Body</xui-section>', {
+      const { query } = setup('<xui-section title="Details" collapsible [open]="props().open">Body</xui-section>', {
         open: false
       });
 

@@ -10,7 +10,7 @@ const meta: Meta<XuiFileInput> = {
   title: 'Forms/File input',
   component: XuiFileInput,
   decorators: [moduleMetadata({ imports: [XuiFileInputImports] })],
-  argTypes: { size: { control: 'inline-radio', options: ['default', 'sm'] } }
+  argTypes: { size: { control: 'inline-radio', options: ['md', 'sm'] } }
 };
 
 export default meta;

@@ -38,7 +38,7 @@ export class XuiAccordion {
   /** The values of the currently open items. */
   readonly value = model<string[]>([]);
 
-  isOpen(value: string): boolean {
+  isExpanded(value: string): boolean {
     return this.value().includes(value);
   }
 

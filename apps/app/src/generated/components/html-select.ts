@@ -111,7 +111,7 @@ export const doc: ComponentDoc = {
       {
         "name": "size",
         "type": "XuiHtmlSelectVariants['size']",
-        "default": "'default'",
+        "default": "'md'",
         "required": false
       },
       {
@@ -154,10 +154,10 @@ export const doc: ComponentDoc = {
       {
         "name": "size",
         "options": [
-          "default",
+          "md",
           "sm"
         ],
-        "default": "default"
+        "default": "md"
       },
       {
         "name": "fill",

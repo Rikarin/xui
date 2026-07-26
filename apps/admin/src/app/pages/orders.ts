@@ -18,12 +18,12 @@ import { money } from '../core/format';
 import type { Order, OrderStatus } from '../core/models';
 import { PageHeader } from '../shell/page-header';
 
-const STATUS_INTENT: Record<OrderStatus, 'none' | 'primary' | 'success' | 'warning' | 'danger'> = {
+const STATUS_COLOR: Record<OrderStatus, 'none' | 'primary' | 'success' | 'warning' | 'error'> = {
   paid: 'success',
   shipped: 'primary',
   pending: 'warning',
   refunded: 'none',
-  failed: 'danger'
+  failed: 'error'
 };
 
 const FILTERS: XuiSegmentedOption<string>[] = [
@@ -112,7 +112,7 @@ const FILTERS: XuiSegmentedOption<string>[] = [
         >
           <ng-template xuiDataCell let-value let-column="column">
             @if (column.id === 'status') {
-              <xui-tag minimal [intent]="statusIntent(value)">{{ value }}</xui-tag>
+              <xui-tag minimal [color]="statusColor(value)">{{ value }}</xui-tag>
             } @else {
               <span [class.font-mono]="column.id === 'reference'" [class.tabular-nums]="column.align === 'right'">
                 {{ value }}
@@ -177,8 +177,8 @@ export class Orders {
       : `${this.rowCount()} orders, virtualised. Sort, resize and reorder the columns; select a range and copy it.`
   );
 
-  protected statusIntent(value: unknown): 'none' | 'primary' | 'success' | 'warning' | 'danger' {
-    return STATUS_INTENT[value as OrderStatus] ?? 'none';
+  protected statusColor(value: unknown): 'none' | 'primary' | 'success' | 'warning' | 'error' {
+    return STATUS_COLOR[value as OrderStatus] ?? 'none';
   }
 
   protected exportCsv(): void {

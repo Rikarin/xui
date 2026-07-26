@@ -17,12 +17,12 @@ import type { ClassValue } from 'clsx';
 
 const tagVariants = cva('inline-flex items-center gap-1 border font-medium whitespace-nowrap transition-colors', {
   variants: {
-    intent: {
+    color: {
       none: '',
       primary: '',
       success: '',
       warning: '',
-      danger: ''
+      error: ''
     },
     minimal: { true: '', false: 'border-transparent' },
     large: { true: 'px-3 py-1 text-sm', false: 'px-2 py-0.5 text-xs' },
@@ -32,23 +32,23 @@ const tagVariants = cva('inline-flex items-center gap-1 border font-medium white
   },
   compoundVariants: [
     // Solid (default) fills.
-    { minimal: false, intent: 'none', class: 'bg-surface-inset text-foreground' },
-    { minimal: false, intent: 'primary', class: 'bg-primary text-primary-foreground' },
-    { minimal: false, intent: 'success', class: 'bg-success text-success-foreground' },
-    { minimal: false, intent: 'warning', class: 'bg-warning text-warning-foreground' },
-    { minimal: false, intent: 'danger', class: 'bg-error text-error-foreground' },
+    { minimal: false, color: 'none', class: 'bg-surface-inset text-foreground' },
+    { minimal: false, color: 'primary', class: 'bg-primary text-primary-foreground' },
+    { minimal: false, color: 'success', class: 'bg-success text-success-foreground' },
+    { minimal: false, color: 'warning', class: 'bg-warning text-warning-foreground' },
+    { minimal: false, color: 'error', class: 'bg-error text-error-foreground' },
     // Minimal (subtle) fills.
-    { minimal: true, intent: 'none', class: 'bg-surface-inset/60 border-border text-foreground-muted' },
-    { minimal: true, intent: 'primary', class: 'bg-primary/15 border-primary/30 text-primary' },
-    { minimal: true, intent: 'success', class: 'bg-success/15 border-success/30 text-success' },
-    { minimal: true, intent: 'warning', class: 'bg-warning/15 border-warning/30 text-warning' },
-    { minimal: true, intent: 'danger', class: 'bg-error/15 border-error/30 text-error' },
+    { minimal: true, color: 'none', class: 'bg-surface-inset/60 border-border text-foreground-muted' },
+    { minimal: true, color: 'primary', class: 'bg-primary/15 border-primary/30 text-primary' },
+    { minimal: true, color: 'success', class: 'bg-success/15 border-success/30 text-success' },
+    { minimal: true, color: 'warning', class: 'bg-warning/15 border-warning/30 text-warning' },
+    { minimal: true, color: 'error', class: 'bg-error/15 border-error/30 text-error' },
     // Hover feedback only when the whole tag is clickable.
     { interactive: true, minimal: false, class: 'hover:brightness-95' },
     { interactive: true, minimal: true, class: 'hover:bg-surface-inset' }
   ],
   defaultVariants: {
-    intent: 'none',
+    color: 'none',
     minimal: false,
     large: false,
     round: false,
@@ -58,7 +58,7 @@ const tagVariants = cva('inline-flex items-center gap-1 border font-medium white
 });
 
 export type TagVariants = VariantProps<typeof tagVariants>;
-export type TagIntent = NonNullable<TagVariants['intent']>;
+export type TagColor = NonNullable<TagVariants['color']>;
 
 /**
  * A compact label chip — richer than the static `xui-badge`. Optionally shows a
@@ -93,7 +93,7 @@ export type TagIntent = NonNullable<TagVariants['intent']>;
 })
 export class XuiTag {
   readonly class = input<ClassValue>('');
-  readonly intent = input<TagIntent>('none');
+  readonly color = input<TagColor>('none');
   readonly minimal = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
   readonly large = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
   readonly round = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
@@ -114,7 +114,7 @@ export class XuiTag {
   protected readonly computedClass = computed(() =>
     xui(
       tagVariants({
-        intent: this.intent(),
+        color: this.color(),
         minimal: this.minimal(),
         large: this.large(),
         round: this.round(),

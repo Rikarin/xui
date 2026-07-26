@@ -37,7 +37,7 @@ describe('XuiCollapse', () => {
   });
 
   it('renders the content when open', () => {
-    const { host } = setup('<xui-collapse isOpen><p>Details</p></xui-collapse>');
+    const { host } = setup('<xui-collapse [open]="true"><p>Details</p></xui-collapse>');
 
     expect(host.querySelector('p')?.textContent).toBe('Details');
   });
@@ -55,14 +55,14 @@ describe('XuiCollapse', () => {
   });
 
   it('exposes open content normally', () => {
-    const { query } = setup('<xui-collapse isOpen><p>Details</p></xui-collapse>');
+    const { query } = setup('<xui-collapse [open]="true"><p>Details</p></xui-collapse>');
 
     expectAttributes(query('xui-collapse'), { 'aria-hidden': null, inert: null });
   });
 
   it('does not animate the initial render', () => {
     const { animate } = stubAnimate();
-    setup('<xui-collapse isOpen><p>Details</p></xui-collapse>');
+    setup('<xui-collapse [open]="true"><p>Details</p></xui-collapse>');
 
     expect(animate).not.toHaveBeenCalled();
   });
@@ -70,7 +70,7 @@ describe('XuiCollapse', () => {
   it('animates from zero to the measured height when opened', () => {
     const { animate } = stubAnimate();
     const { query, setProps } = setup<{ open: boolean }>(
-      '<xui-collapse [isOpen]="props().open"><p>Details</p></xui-collapse>',
+      '<xui-collapse [open]="props().open"><p>Details</p></xui-collapse>',
       { open: false }
     );
     Object.defineProperty(query('xui-collapse > div'), 'scrollHeight', { value: 120, configurable: true });
@@ -82,7 +82,7 @@ describe('XuiCollapse', () => {
 
   it('animates back down to zero when closed', () => {
     const { setProps, query } = setup<{ open: boolean }>(
-      '<xui-collapse [isOpen]="props().open"><p>Details</p></xui-collapse>',
+      '<xui-collapse [open]="props().open"><p>Details</p></xui-collapse>',
       { open: true }
     );
     const { animate } = stubAnimate();
@@ -96,7 +96,7 @@ describe('XuiCollapse', () => {
   it('honours the configured duration', () => {
     const { animate } = stubAnimate();
     const { setProps } = setup<{ open: boolean }>(
-      '<xui-collapse duration="500" [isOpen]="props().open"><p>Details</p></xui-collapse>',
+      '<xui-collapse duration="500" [open]="props().open"><p>Details</p></xui-collapse>',
       { open: false }
     );
 
@@ -107,7 +107,7 @@ describe('XuiCollapse', () => {
 
   it('releases the fixed height once open so content can reflow', async () => {
     const { setProps, query, fixture } = setup<{ open: boolean }>(
-      '<xui-collapse [isOpen]="props().open"><p>Details</p></xui-collapse>',
+      '<xui-collapse [open]="props().open"><p>Details</p></xui-collapse>',
       { open: false }
     );
 
@@ -122,7 +122,7 @@ describe('XuiCollapse', () => {
   it('emits once the transition finishes', async () => {
     const finished: boolean[] = [];
     const { fixture, setProps } = render<{ open: boolean }>(
-      '<xui-collapse [isOpen]="props().open" (transitionEnd)="0"><p>Details</p></xui-collapse>',
+      '<xui-collapse [open]="props().open" (transitionEnd)="0"><p>Details</p></xui-collapse>',
       { imports: [XuiCollapse], props: { open: false } }
     );
     fixture.debugElement.children[0].componentInstance.transitionEnd.subscribe((open: boolean) => finished.push(open));

@@ -97,12 +97,12 @@ Read the rule file before doing the related work:
   <xui-menu>
     <button xuiMenuItem icon="matContentCopyRound">Duplicate</button>
     <xui-menu-divider />
-    <button xuiMenuItem icon="matDeleteRound" intent="error">Delete</button>
+    <button xuiMenuItem icon="matDeleteRound" color="error">Delete</button>
   </xui-menu>
 </ng-template>
 
 <!-- Two-way state with model() inputs -->
-<xui-dialog [(isOpen)]="open" title="Edit profile">
+<xui-dialog [(open)]="open" title="Edit profile">
   <xui-dialog-body>…</xui-dialog-body>
   <xui-dialog-footer>
     <button xuiButton variant="ghost" (click)="open.set(false)">Cancel</button>

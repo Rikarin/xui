@@ -9,7 +9,7 @@ export const textareaVariants = cva(
   {
     variants: {
       size: {
-        default: 'min-h-16 px-(--control-padding-md) py-1.5 text-sm',
+        md: 'min-h-16 px-(--control-padding-md) py-1.5 text-sm',
         sm: 'min-h-12 px-(--control-padding-sm) py-1 text-xs',
         lg: 'min-h-20 px-(--control-padding-lg) py-2 text-base'
       },
@@ -18,7 +18,7 @@ export const textareaVariants = cva(
         false: 'resize-none'
       }
     },
-    defaultVariants: { size: 'default', resize: true }
+    defaultVariants: { size: 'md', resize: true }
   }
 );
 
@@ -50,7 +50,7 @@ export class XuiTextarea {
 
   /** The user-defined classes. Merged last so they win over the variant classes. */
   readonly class = input<ClassValue>('');
-  readonly size = input<TextareaVariants['size']>('default');
+  readonly size = input<TextareaVariants['size']>('md');
 
   /** Grow to fit the content instead of scrolling; disables manual resize. */
   readonly autoResize = input<boolean, BooleanInput>(false, { transform: booleanAttribute });

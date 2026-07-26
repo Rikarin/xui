@@ -11,7 +11,7 @@ const meta: Meta<XuiHtmlSelect> = {
   title: 'Forms/HTML select',
   component: XuiHtmlSelect,
   decorators: [moduleMetadata({ imports: [XuiHtmlSelectImports, FormsModule] })],
-  argTypes: { size: { control: 'inline-radio', options: ['default', 'sm'] } }
+  argTypes: { size: { control: 'inline-radio', options: ['md', 'sm'] } }
 };
 
 export default meta;

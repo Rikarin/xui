@@ -96,7 +96,7 @@ export const doc: ComponentDoc = {
       {
         "name": "size",
         "type": "XuiSegmentedControlVariants['size']",
-        "default": "'default'",
+        "default": "'md'",
         "required": false
       },
       {
@@ -139,10 +139,10 @@ export const doc: ComponentDoc = {
       {
         "name": "size",
         "options": [
-          "default",
+          "md",
           "sm"
         ],
-        "default": "default"
+        "default": "md"
       },
       {
         "name": "fill",

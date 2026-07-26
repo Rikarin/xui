@@ -12,7 +12,7 @@ import type { ClassValue } from 'clsx';
  *   <xui-menu>
  *     <button xuiMenuItem (triggered)="rename()">Rename</button>
  *     <xui-menu-divider />
- *     <button xuiMenuItem intent="error" (triggered)="delete()">Delete</button>
+ *     <button xuiMenuItem color="error" (triggered)="delete()">Delete</button>
  *   </xui-menu>
  * </ng-template>
  * ```

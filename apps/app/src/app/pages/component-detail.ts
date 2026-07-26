@@ -31,7 +31,7 @@ import { TableOfContents, type TocEntry } from '../shared/table-of-contents';
           <div class="mb-2 flex flex-wrap items-center gap-2">
             <xui-tag minimal>{{ doc.group }}</xui-tag>
             @if (doc.kind === 'core') {
-              <xui-tag minimal intent="primary">headless</xui-tag>
+              <xui-tag minimal color="primary">headless</xui-tag>
             }
           </div>
 

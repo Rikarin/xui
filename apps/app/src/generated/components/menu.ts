@@ -15,7 +15,7 @@ import { XuiMenuImports } from '@xui/menu';
     <button xuiMenuItem icon="matDriveFileRenameOutlineRound">Rename<span menuItemLabel>⌘R</span></button>
     <button xuiMenuItem icon="matContentCopyRound">Duplicate<span menuItemLabel>⌘D</span></button>
     <xui-menu-divider />
-    <button xuiMenuItem icon="matDeleteRound" intent="error">Delete<span menuItemLabel>⌫</span></button>
+    <button xuiMenuItem icon="matDeleteRound" color="error">Delete<span menuItemLabel>⌫</span></button>
   </xui-menu>
 </ng-template>
 `
@@ -55,7 +55,7 @@ export class PreviewSelection {
     <button xuiMenuItem icon="matDriveFileRenameOutlineRound">Rename</button>
     <button xuiMenuItem [xuiMenuTriggerFor]="copyTo">Copy to…</button>
     <xui-menu-divider />
-    <button xuiMenuItem intent="error" icon="matDeleteRound">Delete</button>
+    <button xuiMenuItem color="error" icon="matDeleteRound">Delete</button>
   </xui-menu>
 </ng-template>
 <ng-template #copyTo>
@@ -109,7 +109,7 @@ export const doc: ComponentDoc = {
   "XuiMenuTrigger",
   "XuiMenu",
   "XuiMenuImports",
-  "XuiMenuItemIntent"
+  "XuiMenuItemColor"
 ],
   peerDependencies: {
   "@angular/cdk": "22",
@@ -176,8 +176,8 @@ export const doc: ComponentDoc = {
         "docs": "Draws a checkmark in the left cell — for a chosen option in a menu."
       },
       {
-        "name": "intent",
-        "type": "XuiMenuItemIntent",
+        "name": "color",
+        "type": "XuiMenuItemColor",
         "default": "'none'",
         "required": false
       }
@@ -185,7 +185,7 @@ export const doc: ComponentDoc = {
     "outputs": [],
     "variants": [
       {
-        "name": "intent",
+        "name": "color",
         "options": [
           "none",
           "primary",
@@ -238,7 +238,7 @@ export const doc: ComponentDoc = {
     <button xuiMenuItem icon="matDriveFileRenameOutlineRound">Rename<span menuItemLabel>⌘R</span></button>
     <button xuiMenuItem icon="matContentCopyRound">Duplicate<span menuItemLabel>⌘D</span></button>
     <xui-menu-divider />
-    <button xuiMenuItem icon="matDeleteRound" intent="error">Delete<span menuItemLabel>⌫</span></button>
+    <button xuiMenuItem icon="matDeleteRound" color="error">Delete<span menuItemLabel>⌫</span></button>
   </xui-menu>
 </ng-template>`,
       preview: PreviewDefault
@@ -268,7 +268,7 @@ export const doc: ComponentDoc = {
     <button xuiMenuItem icon="matDriveFileRenameOutlineRound">Rename</button>
     <button xuiMenuItem [xuiMenuTriggerFor]="copyTo">Copy to…</button>
     <xui-menu-divider />
-    <button xuiMenuItem intent="error" icon="matDeleteRound">Delete</button>
+    <button xuiMenuItem color="error" icon="matDeleteRound">Delete</button>
   </xui-menu>
 </ng-template>
 <ng-template #copyTo>

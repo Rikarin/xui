@@ -11,7 +11,7 @@ const meta: Meta<XuiButton> = {
   args: {
     color: 'primary',
     variant: 'default',
-    size: 'default'
+    size: 'md'
   },
   argTypes: {
     color: {
@@ -27,7 +27,7 @@ const meta: Meta<XuiButton> = {
       }
     },
     size: {
-      options: ['default', 'sm', 'lg', 'icon'],
+      options: ['md', 'sm', 'lg', 'icon'],
       control: {
         type: 'select'
       }
@@ -50,35 +50,35 @@ type Story = StoryObj<XuiButton>;
 export const Default: Story = {
   args: {
     variant: 'default',
-    size: 'default'
+    size: 'md'
   }
 };
 
 export const Dash: Story = {
   args: {
     variant: 'dash',
-    size: 'default'
+    size: 'md'
   }
 };
 
 export const Outline: Story = {
   args: {
     variant: 'outline',
-    size: 'default'
+    size: 'md'
   }
 };
 
 export const Ghost: Story = {
   args: {
     variant: 'ghost',
-    size: 'default'
+    size: 'md'
   }
 };
 
 export const Link: Story = {
   args: {
     variant: 'link',
-    size: 'default'
+    size: 'md'
   }
 };
 

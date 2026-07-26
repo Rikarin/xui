@@ -47,7 +47,7 @@ import type { ClassValue } from 'clsx';
         aria-label="Open calendar"
         [disabled]="disabled()"
         [xuiPopover]="panel"
-        [(isOpen)]="open"
+        [(open)]="open"
         [role]="'dialog'"
         [minimal]="true"
         placement="bottom-end"

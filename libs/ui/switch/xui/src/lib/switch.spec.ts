@@ -52,7 +52,7 @@ describe('XuiSwitch', () => {
   });
 
   it('applies the large size to track and thumb', () => {
-    const { query } = render('<xui-switch size="large" />', { imports: IMPORTS });
+    const { query } = render('<xui-switch size="lg" />', { imports: IMPORTS });
 
     expectClasses(query('xui-switch'), 'h-6', 'w-11');
     expectClasses(query('xui-switch span'), 'size-5');

@@ -12,7 +12,7 @@ import type { ComponentDoc } from '../../app/core/docs.model';
   imports: [XuiButtonImports, XuiDialogImports],
   template: `
 <button xuiButton (click)="open.set(true)">Edit profile</button>
-<xui-dialog [(isOpen)]="open" title="Edit profile" icon="matPersonRound">
+<xui-dialog [(open)]="open" title="Edit profile" icon="matPersonRound">
   <xui-dialog-body>
     <p>Update the details shown on your public profile.</p>
     <p class="text-foreground-muted mt-2">The body scrolls on its own when the content is tall.</p>
@@ -34,7 +34,7 @@ export class PreviewDefault {
   imports: [XuiButtonImports, XuiDialogImports],
   template: `
 <button xuiButton (click)="open.set(true)">Terms</button>
-<xui-dialog [(isOpen)]="open" title="Terms of service">
+<xui-dialog [(open)]="open" title="Terms of service">
   <xui-dialog-body>
     @for (row of rows; track row) {
       <p class="py-1">Clause {{ row }} — the body owns the scroll, not the whole card.</p>
@@ -178,20 +178,20 @@ export const doc: ComponentDoc = {
         "transform": "booleanAttribute"
       },
       {
-        "name": "isOpen",
+        "name": "open",
         "type": "boolean",
         "default": "false",
         "required": false,
         "model": true,
-        "docs": "Open state. Works bound (controlled) or via open()/close()."
+        "docs": "Open state. Works bound (controlled) or via show()/close()."
       }
     ],
     "outputs": [],
     "variants": [],
     "methods": [
       {
-        "name": "open",
-        "signature": "open(): void"
+        "name": "show",
+        "signature": "show(): void"
       },
       {
         "name": "close",
@@ -205,7 +205,7 @@ export const doc: ComponentDoc = {
       name: "Default",
       title: "Default",
       code: `<button xuiButton (click)="open.set(true)">Edit profile</button>
-<xui-dialog [(isOpen)]="open" title="Edit profile" icon="matPersonRound">
+<xui-dialog [(open)]="open" title="Edit profile" icon="matPersonRound">
   <xui-dialog-body>
     <p>Update the details shown on your public profile.</p>
     <p class="text-foreground-muted mt-2">The body scrolls on its own when the content is tall.</p>
@@ -221,7 +221,7 @@ export const doc: ComponentDoc = {
       name: "Scrolling",
       title: "Scrolling",
       code: `<button xuiButton (click)="open.set(true)">Terms</button>
-<xui-dialog [(isOpen)]="open" title="Terms of service">
+<xui-dialog [(open)]="open" title="Terms of service">
   <xui-dialog-body>
     @for (row of rows; track row) {
       <p class="py-1">Clause {{ row }} — the body owns the scroll, not the whole card.</p>

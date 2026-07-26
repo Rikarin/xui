@@ -25,12 +25,12 @@ export const Default: Story = {
       <button xuiButton color="error" (click)="open.set(true)">Delete project</button>
       @if (result()) { <p class="text-foreground-muted mt-3 text-sm">You chose: {{ result() }}</p> }
       <xui-alert
-        [(isOpen)]="open"
-        intent="error"
+        [(open)]="open"
+        color="error"
         confirmText="Delete"
         cancelText="Cancel"
         (confirmed)="result.set('confirmed')"
-        (canceled)="result.set('canceled')"
+        (cancelled)="result.set('cancelled')"
       >
         Delete <b>warehouse-sync</b>? This permanently removes the project and cannot be undone.
       </xui-alert>
@@ -44,7 +44,7 @@ export const Acknowledge: Story = {
     props: { open: signal(false) },
     template: `
       <button xuiButton (click)="open.set(true)">Show notice</button>
-      <xui-alert [(isOpen)]="open" intent="success" confirmText="Got it">
+      <xui-alert [(open)]="open" color="success" confirmText="Got it">
         Your changes have been published.
       </xui-alert>
     `
@@ -68,7 +68,7 @@ class AlertServiceDemo {
   async ask(): Promise<void> {
     const ok = await this.alerts.confirm({
       message: 'Delete this record? This cannot be undone.',
-      intent: 'error',
+      color: 'error',
       confirmText: 'Delete',
       cancelText: 'Cancel'
     });

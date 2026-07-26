@@ -128,8 +128,8 @@ describe('XuiSlider', () => {
   });
 
   describe('variants', () => {
-    it('colours the fill and handle from the intent', () => {
-      const { detect } = render('<xui-slider intent="success" value="5" />', { imports: IMPORTS });
+    it('colours the fill and handle from the colour', () => {
+      const { detect } = render('<xui-slider color="success" value="5" />', { imports: IMPORTS });
       detect();
 
       expectClasses(document.querySelector('xui-slider [class*="bg-success"]') as HTMLElement, 'bg-success');

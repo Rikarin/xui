@@ -43,7 +43,7 @@ import { Session } from '../core/session';
         <p xuiText color="muted" size="sm" class="mb-5">Welcome back. Pick up where you left off.</p>
 
         <form class="space-y-4" (ngSubmit)="submit()">
-          <xui-form-field label="Email" [intent]="emailError() ? 'danger' : 'none'">
+          <xui-form-field label="Email" [color]="emailError() ? 'error' : 'none'">
             <input
               xuiInput
               name="email"

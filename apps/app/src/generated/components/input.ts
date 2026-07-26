@@ -84,19 +84,19 @@ export class PreviewInputGroup {
 }
 
 @Component({
-  selector: 'docs-preview-input-intent',
+  selector: 'docs-preview-input-color',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [XuiButtonImports, XuiInputImports, XuiLabelImports],
   template: `
 <div class="flex flex-col gap-3 w-80">
-  <input xuiInput intent="primary" placeholder="Primary" />
-  <input xuiInput intent="success" placeholder="Success" />
-  <input xuiInput intent="warning" placeholder="Warning" />
-  <input xuiInput intent="danger" placeholder="Danger" />
+  <input xuiInput color="primary" placeholder="Primary" />
+  <input xuiInput color="success" placeholder="Success" />
+  <input xuiInput color="warning" placeholder="Warning" />
+  <input xuiInput color="error" placeholder="Error" />
 </div>
 `
 })
-export class PreviewIntent {
+export class PreviewColor {
 }
 
 export const doc: ComponentDoc = {
@@ -193,14 +193,14 @@ export const doc: ComponentDoc = {
         "required": false
       },
       {
-        "name": "color",
-        "type": "InputVariants['color']",
+        "name": "surface",
+        "type": "InputVariants['surface']",
         "default": "'dark'",
         "required": false
       },
       {
-        "name": "intent",
-        "type": "InputVariants['intent']",
+        "name": "color",
+        "type": "InputVariants['color']",
         "default": "'none'",
         "required": false
       },
@@ -223,7 +223,7 @@ export const doc: ComponentDoc = {
         "default": "default"
       },
       {
-        "name": "color",
+        "name": "surface",
         "options": [
           "dark",
           "light"
@@ -231,13 +231,13 @@ export const doc: ComponentDoc = {
         "default": "dark"
       },
       {
-        "name": "intent",
+        "name": "color",
         "options": [
           "none",
           "primary",
           "success",
           "warning",
-          "danger"
+          "error"
         ],
         "default": "none"
       },
@@ -329,15 +329,15 @@ export const doc: ComponentDoc = {
       preview: PreviewInputGroup
     },
     {
-      name: "Intent",
-      title: "Intent",
+      name: "Color",
+      title: "Color",
       code: `<div class="flex flex-col gap-3 w-80">
-  <input xuiInput intent="primary" placeholder="Primary" />
-  <input xuiInput intent="success" placeholder="Success" />
-  <input xuiInput intent="warning" placeholder="Warning" />
-  <input xuiInput intent="danger" placeholder="Danger" />
+  <input xuiInput color="primary" placeholder="Primary" />
+  <input xuiInput color="success" placeholder="Success" />
+  <input xuiInput color="warning" placeholder="Warning" />
+  <input xuiInput color="error" placeholder="Error" />
 </div>`,
-      preview: PreviewIntent
+      preview: PreviewColor
     },
   ]
 };

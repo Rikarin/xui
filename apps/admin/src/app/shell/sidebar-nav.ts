@@ -52,7 +52,7 @@ import { NAV_SECTIONS, type NavItem } from '../core/navigation';
                 <ng-icon xui [name]="item.icon" size="sm" />
                 <span class="flex-1 truncate">{{ item.label }}</span>
                 @if (badge(item); as count) {
-                  <xui-tag minimal [intent]="item.badge === 'stock' ? 'warning' : 'none'">{{ count }}</xui-tag>
+                  <xui-tag minimal [color]="item.badge === 'stock' ? 'warning' : 'none'">{{ count }}</xui-tag>
                 }
               </a>
             </li>

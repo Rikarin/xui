@@ -29,21 +29,21 @@ const rootVariants = cva('', {
   defaultVariants: { inline: false }
 });
 
-/** `intent` tints the label and helper text with a deliberate accent. */
-const intentText = cva('', {
+/** `color` tints the label and helper text with a deliberate accent. */
+const colorText = cva('', {
   variants: {
-    intent: {
+    color: {
       none: '',
       primary: 'text-primary',
       success: 'text-success',
       warning: 'text-warning',
-      danger: 'text-error'
+      error: 'text-error'
     }
   },
-  defaultVariants: { intent: 'none' }
+  defaultVariants: { color: 'none' }
 });
 
-export type FormFieldIntent = NonNullable<VariantProps<typeof intentText>['intent']>;
+export type FormFieldColor = NonNullable<VariantProps<typeof colorText>['color']>;
 
 @Component({
   selector: 'xui-form-field',
@@ -106,7 +106,7 @@ export class XuiFormField {
   readonly helperText = input<string>('');
 
   /** A deliberate accent for the label and helper text. */
-  readonly intent = input<FormFieldIntent>('none');
+  readonly color = input<FormFieldColor>('none');
 
   /** Lay the label beside the control rather than above it. */
   readonly inline = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
@@ -116,11 +116,11 @@ export class XuiFormField {
   protected readonly computedClass = computed(() => xui(rootVariants({ inline: this.inline() }), this.class()));
 
   protected readonly labelClass = computed(() =>
-    xui('text-foreground block text-sm font-medium', intentText({ intent: this.intent() }))
+    xui('text-foreground block text-sm font-medium', colorText({ color: this.color() }))
   );
 
   protected readonly helperClass = computed(() =>
-    xui('block text-sm text-foreground-subtle', intentText({ intent: this.intent() }))
+    xui('block text-sm text-foreground-subtle', colorText({ color: this.color() }))
   );
 
   /**

@@ -13,9 +13,9 @@ as an input rather than as projected content, and projects the control itself:
 </xui-form-field>
 ```
 
-- `label`, `labelInfo`, `subLabel`, `helperText`, `intent`, `inline` are the field's inputs.
+- `label`, `labelInfo`, `subLabel`, `helperText`, `color`, `inline` are the field's inputs.
 - `<xui-error>` is for validation messages, `<xui-hint>` for persistent guidance.
-- `intent="error"` on the field and `error` on the control keep the two visually in sync.
+- `color="error"` on the field and `error` on the control keep the two visually in sync.
 
 For a bare control outside a form field, label it with `[xuiLabel]` (or `aria-label` when the
 visible text already names it):

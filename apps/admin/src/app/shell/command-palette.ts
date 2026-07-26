@@ -63,7 +63,7 @@ interface Command {
       [items]="commands()"
       [itemText]="text"
       [itemPredicate]="matches"
-      [(isOpen)]="isOpen"
+      [(open)]="open"
       (itemSelect)="run($event)"
     >
       <ng-template xuiSelectOption let-item>
@@ -78,7 +78,7 @@ interface Command {
   `
 })
 export class CommandPalette {
-  readonly isOpen = model(false);
+  readonly open = model(false);
 
   private readonly router = inject(Router);
   private readonly data = inject(DataStore);
@@ -137,7 +137,7 @@ export class CommandPalette {
     command.haystack.includes(query.toLowerCase());
 
   protected run(command: Command): void {
-    this.isOpen.set(false);
+    this.open.set(false);
     command.run();
   }
 }

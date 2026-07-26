@@ -26,14 +26,14 @@ export const Default: Story = {
   })
 };
 
-/** One tooltip per intent, so the colour treatment reads at a glance. */
-export const Intents: Story = {
+/** One tooltip per color, so the colour treatment reads at a glance. */
+export const Colors: Story = {
   render: () => ({
-    props: { intents: ['none', 'primary', 'success', 'error', 'warning', 'info'] },
+    props: { colors: ['none', 'primary', 'success', 'error', 'warning', 'info'] },
     template: `
       <div class="flex flex-wrap gap-3 p-12">
-        @for (intent of intents; track intent) {
-          <button xuiButton variant="outline" [xuiTooltip]="intent + ' hint'" [intent]="intent">{{ intent }}</button>
+        @for (color of colors; track color) {
+          <button xuiButton variant="outline" [xuiTooltip]="color + ' hint'" [color]="color">{{ color }}</button>
         }
       </div>
     `

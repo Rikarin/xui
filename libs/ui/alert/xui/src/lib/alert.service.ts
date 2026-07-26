@@ -5,8 +5,8 @@ import { XuiButtonImports } from '@xui/button';
 import { XuiDialogFooter, XuiDialogRef, XuiDialogService } from '@xui/dialog';
 import { XuiIcon } from '@xui/icon';
 import {
-  XUI_ALERT_INTENT_ICON,
-  XUI_ALERT_INTENT_ICON_CLASS,
+  XUI_ALERT_COLOR_ICON,
+  XUI_ALERT_COLOR_ICON_CLASS,
   XUI_ALERT_OPTIONS,
   alertConfirmColor,
   type XuiAlertOptions
@@ -41,12 +41,12 @@ export class XuiConfirmDialog {
   protected readonly options = inject(XUI_ALERT_OPTIONS);
   private readonly ref = inject<XuiDialogRef<boolean>>(XuiDialogRef);
 
-  private readonly intent = this.options.intent ?? 'none';
+  private readonly color = this.options.color ?? 'none';
   protected readonly resolvedIcon = computed(() =>
-    this.options.icon === undefined ? XUI_ALERT_INTENT_ICON[this.intent] : this.options.icon
+    this.options.icon === undefined ? XUI_ALERT_COLOR_ICON[this.color] : this.options.icon
   );
-  protected readonly iconClass = computed(() => XUI_ALERT_INTENT_ICON_CLASS[this.intent]);
-  protected readonly confirmColor = computed(() => alertConfirmColor(this.intent));
+  protected readonly iconClass = computed(() => XUI_ALERT_COLOR_ICON_CLASS[this.color]);
+  protected readonly confirmColor = computed(() => alertConfirmColor(this.color));
 
   protected close(result: boolean): void {
     this.ref.close(result);
@@ -57,7 +57,7 @@ export class XuiConfirmDialog {
  * Opens a confirmation from code and resolves to the user's answer.
  *
  * ```ts
- * if (await this.alerts.confirm({ message: 'Delete this?', intent: 'error', confirmText: 'Delete', cancelText: 'Cancel' })) {
+ * if (await this.alerts.confirm({ message: 'Delete this?', color: 'error', confirmText: 'Delete', cancelText: 'Cancel' })) {
  *   this.remove();
  * }
  * ```

@@ -35,7 +35,7 @@ const buttonVariants = cva(
       // with the box, so a 24px button does not carry a 16px icon.
       size: {
         sm: 'h-(--control-height-sm) gap-1 px-(--control-padding-sm) text-xs [&_svg]:size-3',
-        default: 'h-(--control-height-md) gap-1.5 px-(--control-padding-md) text-sm [&_svg]:size-4',
+        md: 'h-(--control-height-md) gap-1.5 px-(--control-padding-md) text-sm [&_svg]:size-4',
         lg: 'h-(--control-height-lg) gap-2 px-(--control-padding-lg) text-base [&_svg]:size-5'
       },
       color: {
@@ -118,7 +118,7 @@ const buttonVariants = cva(
     ],
     defaultVariants: {
       variant: 'default',
-      size: 'default',
+      size: 'md',
       color: 'primary'
     }
   }

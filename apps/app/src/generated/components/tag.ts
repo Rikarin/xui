@@ -4,20 +4,20 @@ import { XuiTag, XuiTagImports } from '@xui/tag';
 import type { ComponentDoc } from '../../app/core/docs.model';
 
 @Component({
-  selector: 'docs-preview-tag-intents',
+  selector: 'docs-preview-tag-colors',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [XuiTagImports],
   template: `
 <div class="flex flex-wrap items-center gap-2">
   <xui-tag>None</xui-tag>
-  <xui-tag intent="primary">Primary</xui-tag>
-  <xui-tag intent="success">Success</xui-tag>
-  <xui-tag intent="warning">Warning</xui-tag>
-  <xui-tag intent="danger">Danger</xui-tag>
+  <xui-tag color="primary">Primary</xui-tag>
+  <xui-tag color="success">Success</xui-tag>
+  <xui-tag color="warning">Warning</xui-tag>
+  <xui-tag color="error">Error</xui-tag>
 </div>
 `
 })
-export class PreviewIntents {
+export class PreviewColors {
 }
 
 @Component({
@@ -27,10 +27,10 @@ export class PreviewIntents {
   template: `
 <div class="flex flex-wrap items-center gap-2">
   <xui-tag minimal>None</xui-tag>
-  <xui-tag minimal intent="primary">Primary</xui-tag>
-  <xui-tag minimal intent="success">Success</xui-tag>
-  <xui-tag minimal intent="warning">Warning</xui-tag>
-  <xui-tag minimal intent="danger">Danger</xui-tag>
+  <xui-tag minimal color="primary">Primary</xui-tag>
+  <xui-tag minimal color="success">Success</xui-tag>
+  <xui-tag minimal color="warning">Warning</xui-tag>
+  <xui-tag minimal color="error">Error</xui-tag>
 </div>
 `
 })
@@ -44,7 +44,7 @@ export class PreviewMinimal {
   template: `
 <div class="flex flex-wrap items-center gap-2">
   @for (t of tags; track t) {
-    <xui-tag round large intent="primary" minimal removable (removed)="tags = tags.filter(x => x !== t)">{{ t }}</xui-tag>
+    <xui-tag round large color="primary" minimal removable (removed)="tags = tags.filter(x => x !== t)">{{ t }}</xui-tag>
   }
 </div>
 `
@@ -59,7 +59,7 @@ export class PreviewRemovable {
   imports: [XuiTagImports],
   template: `
 <div class="flex flex-wrap items-center gap-2">
-  <xui-tag interactive intent="primary">Clickable</xui-tag>
+  <xui-tag interactive color="primary">Clickable</xui-tag>
   <xui-tag minimal>v2.0.0-alpha.8</xui-tag>
 </div>
 `
@@ -74,13 +74,13 @@ export const doc: ComponentDoc = {
   package: "@xui/tag",
   kind: "ui",
   group: "Data display",
-  description: "A compact label chip — richer than the static xui-badge. Intents, a subtle minimal variant, round/large/fill, an optional leading icon, and a removable ✕ that emits removed.",
+  description: "A compact label chip — richer than the static xui-badge. Colours, a subtle minimal variant, round/large/fill, an optional leading icon, and a removable ✕ that emits removed.",
   importsConst: "XuiTagImports",
   exports: [
   "XuiTag",
   "XuiTagImports",
   "TagVariants",
-  "TagIntent"
+  "TagColor"
 ],
   peerDependencies: {
   "@angular/cdk": "22",
@@ -107,8 +107,8 @@ export const doc: ComponentDoc = {
         "required": false
       },
       {
-        "name": "intent",
-        "type": "TagIntent",
+        "name": "color",
+        "type": "TagColor",
         "default": "'none'",
         "required": false
       },
@@ -173,13 +173,13 @@ export const doc: ComponentDoc = {
     ],
     "variants": [
       {
-        "name": "intent",
+        "name": "color",
         "options": [
           "none",
           "primary",
           "success",
           "warning",
-          "danger"
+          "error"
         ],
         "default": "none"
       },
@@ -229,26 +229,26 @@ export const doc: ComponentDoc = {
 ],
   examples: [
     {
-      name: "Intents",
-      title: "Intents",
+      name: "Colors",
+      title: "Colors",
       code: `<div class="flex flex-wrap items-center gap-2">
   <xui-tag>None</xui-tag>
-  <xui-tag intent="primary">Primary</xui-tag>
-  <xui-tag intent="success">Success</xui-tag>
-  <xui-tag intent="warning">Warning</xui-tag>
-  <xui-tag intent="danger">Danger</xui-tag>
+  <xui-tag color="primary">Primary</xui-tag>
+  <xui-tag color="success">Success</xui-tag>
+  <xui-tag color="warning">Warning</xui-tag>
+  <xui-tag color="error">Error</xui-tag>
 </div>`,
-      preview: PreviewIntents
+      preview: PreviewColors
     },
     {
       name: "Minimal",
       title: "Minimal",
       code: `<div class="flex flex-wrap items-center gap-2">
   <xui-tag minimal>None</xui-tag>
-  <xui-tag minimal intent="primary">Primary</xui-tag>
-  <xui-tag minimal intent="success">Success</xui-tag>
-  <xui-tag minimal intent="warning">Warning</xui-tag>
-  <xui-tag minimal intent="danger">Danger</xui-tag>
+  <xui-tag minimal color="primary">Primary</xui-tag>
+  <xui-tag minimal color="success">Success</xui-tag>
+  <xui-tag minimal color="warning">Warning</xui-tag>
+  <xui-tag minimal color="error">Error</xui-tag>
 </div>`,
       preview: PreviewMinimal
     },
@@ -257,7 +257,7 @@ export const doc: ComponentDoc = {
       title: "Removable",
       code: `<div class="flex flex-wrap items-center gap-2">
   @for (t of tags; track t) {
-    <xui-tag round large intent="primary" minimal removable (removed)="tags = tags.filter(x => x !== t)">{{ t }}</xui-tag>
+    <xui-tag round large color="primary" minimal removable (removed)="tags = tags.filter(x => x !== t)">{{ t }}</xui-tag>
   }
 </div>`,
       preview: PreviewRemovable
@@ -266,7 +266,7 @@ export const doc: ComponentDoc = {
       name: "IconAndInteractive",
       title: "Icon and interactive",
       code: `<div class="flex flex-wrap items-center gap-2">
-  <xui-tag interactive intent="primary">Clickable</xui-tag>
+  <xui-tag interactive color="primary">Clickable</xui-tag>
   <xui-tag minimal>v2.0.0-alpha.8</xui-tag>
 </div>`,
       preview: PreviewIconAndInteractive

@@ -48,7 +48,7 @@ export const Default: Story = {
           <button xuiMenuItem icon="matDriveFileRenameOutlineRound">Rename<span menuItemLabel>⌘R</span></button>
           <button xuiMenuItem icon="matContentCopyRound">Duplicate<span menuItemLabel>⌘D</span></button>
           <xui-menu-divider />
-          <button xuiMenuItem icon="matDeleteRound" intent="error">Delete<span menuItemLabel>⌫</span></button>
+          <button xuiMenuItem icon="matDeleteRound" color="error">Delete<span menuItemLabel>⌫</span></button>
         </xui-menu>
       </ng-template>
     `
@@ -84,7 +84,7 @@ export const Submenu: Story = {
           <button xuiMenuItem icon="matDriveFileRenameOutlineRound">Rename</button>
           <button xuiMenuItem [xuiMenuTriggerFor]="copyTo">Copy to…</button>
           <xui-menu-divider />
-          <button xuiMenuItem intent="error" icon="matDeleteRound">Delete</button>
+          <button xuiMenuItem color="error" icon="matDeleteRound">Delete</button>
         </xui-menu>
       </ng-template>
       <ng-template #copyTo>

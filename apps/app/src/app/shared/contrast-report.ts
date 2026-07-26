@@ -61,7 +61,7 @@ interface ContrastRow {
               <code class="font-mono text-xs">{{ row.ratio.toFixed(2) }}</code>
             </xui-td>
             <xui-td class="w-24 shrink-0">
-              <xui-tag minimal [intent]="row.passes ? 'success' : 'danger'">
+              <xui-tag minimal [color]="row.passes ? 'success' : 'error'">
                 {{ row.passes ? 'Pass' : 'Fail' }} {{ row.min }}
               </xui-tag>
             </xui-td>

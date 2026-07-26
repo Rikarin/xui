@@ -12,7 +12,7 @@ interface Props {
   position: 'left' | 'right' | 'top' | 'bottom';
 }
 
-const DRAWER = `<xui-drawer [(isOpen)]="props().open" [position]="props().position" title="Filters">Body</xui-drawer>`;
+const DRAWER = `<xui-drawer [(open)]="props().open" [position]="props().position" title="Filters">Body</xui-drawer>`;
 
 const setup = (position: Props['position'] = 'right') =>
   render<Props>(DRAWER, { imports: IMPORTS, props: { open: false, position } });

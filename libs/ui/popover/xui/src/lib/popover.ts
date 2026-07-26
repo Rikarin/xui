@@ -32,8 +32,8 @@ import { injectXuiPopoverConfig, type XuiPopoverInteractionKind } from './popove
  *
  * The trigger is whatever element carries the directive; the content is a
  * template so it stays lazy — nothing renders until the popover opens, and it
- * unmounts on close. `isOpen` is a model, so the popover works uncontrolled
- * (the directive toggles it) or controlled (bind `[isOpen]`).
+ * unmounts on close. `open` is a model, so the popover works uncontrolled
+ * (the directive toggles it) or controlled (bind `[open]`).
  *
  * This is the base every other overlay preset composes: `tooltip` is a `hover`
  * popover with a preset panel, `menu` a `click` popover whose content is a menu.
@@ -44,7 +44,7 @@ import { injectXuiPopoverConfig, type XuiPopoverInteractionKind } from './popove
   selector: '[xuiPopover]',
   exportAs: 'xuiPopover',
   host: {
-    '[attr.aria-expanded]': 'hasPopupRole() ? isOpen() : null',
+    '[attr.aria-expanded]': 'hasPopupRole() ? open() : null',
     '[attr.aria-haspopup]': 'ariaHasPopup()',
     '(click)': 'onClick()',
     '(pointerenter)': 'onPointerEnter()',
@@ -89,7 +89,7 @@ export class XuiPopover {
   readonly ariaLabel = input<string | null>(null);
 
   /** Open state. Works bound (controlled) or unbound (the directive toggles it). */
-  readonly isOpen = model(false);
+  readonly open = model(false);
 
   readonly opened = output<void>();
   readonly closed = output<void>();
@@ -126,9 +126,9 @@ export class XuiPopover {
 
   constructor() {
     // Single source of truth: the model drives the overlay. Interaction handlers
-    // and controlled bindings both just move `isOpen`, and this reconciles.
+    // and controlled bindings both just move `open`, and this reconciles.
     effect(() => {
-      const shouldOpen = this.isOpen() && !this.disabled();
+      const shouldOpen = this.open() && !this.disabled();
 
       untracked(() => (shouldOpen ? this.attach() : this.detach()));
     });
@@ -138,15 +138,15 @@ export class XuiPopover {
 
   /** Toggle from a template, e.g. a dedicated open button. */
   toggle(): void {
-    this.isOpen.set(!this.isOpen());
+    this.open.set(!this.open());
   }
 
-  open(): void {
-    this.isOpen.set(true);
+  show(): void {
+    this.open.set(true);
   }
 
   close(): void {
-    this.isOpen.set(false);
+    this.open.set(false);
   }
 
   private attach(): void {
@@ -189,7 +189,7 @@ export class XuiPopover {
     this.ref = ref;
 
     // The overlay can close itself (Escape, outside click). Fold that back into
-    // the model so `isOpen` never lies about what is on screen. Only the current
+    // the model so `open` never lies about what is on screen. Only the current
     // ref folds — a programmatic close or a synchronous reopen has already moved
     // `this.ref` on, and a stale ref's late `closed` must not clobber it.
     void ref.closed.then(() => {
@@ -197,7 +197,7 @@ export class XuiPopover {
 
       if (this.ref === ref) {
         this.ref = null;
-        untracked(() => this.isOpen.set(false));
+        untracked(() => this.open.set(false));
       }
 
       this.closed.emit();
@@ -231,7 +231,7 @@ export class XuiPopover {
     // `click-target` opens but never toggles shut from the trigger; only an
     // outside click or Escape closes it.
     if (this.interactionKind() === 'click-target') {
-      this.open();
+      this.show();
 
       return;
     }
@@ -276,7 +276,7 @@ export class XuiPopover {
   private scheduleOpen(): void {
     this.openTimer ??= setTimeout(() => {
       this.openTimer = null;
-      this.open();
+      this.show();
     }, this.hoverOpenDelay());
   }
 

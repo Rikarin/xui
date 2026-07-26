@@ -36,7 +36,7 @@ const EDGE: Record<XuiDrawerPosition, { cross: string; border: string; pin: XGlo
  * A panel that slides in from an edge of the screen.
  *
  * ```html
- * <xui-drawer [(isOpen)]="filtersOpen" position="right" title="Filters">
+ * <xui-drawer [(open)]="filtersOpen" position="right" title="Filters">
  *   <div class="p-6">…</div>
  * </xui-drawer>
  * ```
@@ -101,7 +101,7 @@ export class XuiDrawer {
     transform: booleanAttribute
   });
 
-  readonly isOpen = model(false);
+  readonly open = model(false);
 
   private readonly axis = computed<'horizontal' | 'vertical'>(() =>
     this.position() === 'left' || this.position() === 'right' ? 'horizontal' : 'vertical'
@@ -121,18 +121,18 @@ export class XuiDrawer {
 
   constructor() {
     effect(() => {
-      const shouldOpen = this.isOpen();
+      const shouldOpen = this.open();
 
       untracked(() => (shouldOpen ? this.attach() : this.detach()));
     });
   }
 
-  open(): void {
-    this.isOpen.set(true);
+  show(): void {
+    this.open.set(true);
   }
 
   close(): void {
-    this.isOpen.set(false);
+    this.open.set(false);
   }
 
   private attach(): void {
@@ -167,7 +167,7 @@ export class XuiDrawer {
       }
 
       this.ref = null;
-      untracked(() => this.isOpen.set(false));
+      untracked(() => this.open.set(false));
     });
   }
 

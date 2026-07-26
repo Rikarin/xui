@@ -12,7 +12,7 @@ const meta: Meta<XuiNumericInput> = {
   component: XuiNumericInput,
   decorators: [moduleMetadata({ imports: [XuiNumericInputImports, FormsModule] })],
   argTypes: {
-    size: { control: 'inline-radio', options: ['default', 'sm'] },
+    size: { control: 'inline-radio', options: ['md', 'sm'] },
     buttonPosition: { control: 'inline-radio', options: ['right', 'left', 'none'] }
   }
 };

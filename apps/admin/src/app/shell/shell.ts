@@ -123,7 +123,7 @@ import { SidebarNav } from './sidebar-nav';
             <a xuiMenuItem icon="matPersonRound" routerLink="/settings">Profile</a>
             <a xuiMenuItem icon="matSettingsRound" routerLink="/settings">Settings</a>
             <xui-menu-divider />
-            <button xuiMenuItem icon="matLogoutRound" intent="error" (click)="signOut()">Sign out</button>
+            <button xuiMenuItem icon="matLogoutRound" color="error" (click)="signOut()">Sign out</button>
           </xui-menu>
         </ng-template>
       </div>
@@ -141,13 +141,13 @@ import { SidebarNav } from './sidebar-nav';
       </main>
     </div>
 
-    <xui-drawer [(isOpen)]="mobileNav" position="left" size="sm" title="Northwind">
+    <xui-drawer [(open)]="mobileNav" position="left" size="sm" title="Northwind">
       <div class="p-3">
         <app-sidebar-nav (navigate)="mobileNav.set(false)" />
       </div>
     </xui-drawer>
 
-    <app-command-palette [(isOpen)]="palette" />
+    <app-command-palette [(open)]="palette" />
   `
 })
 export class Shell {

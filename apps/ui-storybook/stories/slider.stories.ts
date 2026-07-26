@@ -12,7 +12,7 @@ const meta: Meta<XuiSlider> = {
   component: XuiSlider,
   decorators: [moduleMetadata({ imports: [XuiSliderImports, FormsModule] })],
   argTypes: {
-    intent: { control: 'inline-radio', options: ['none', 'primary', 'success', 'warning', 'danger'] }
+    color: { control: 'inline-radio', options: ['none', 'primary', 'success', 'warning', 'error'] }
   }
 };
 
@@ -43,15 +43,15 @@ export const Labelled: Story = {
   })
 };
 
-/** Intent colours the track fill and handle border. */
-export const Intents: Story = {
+/** `color` tints the track fill and handle border. */
+export const Colors: Story = {
   render: () => ({
     template: `
       <div class="flex w-96 flex-col gap-8">
-        <xui-slider intent="primary" [max]="10" [value]="3" aria-label="Primary" />
-        <xui-slider intent="success" [max]="10" [value]="5" aria-label="Success" />
-        <xui-slider intent="warning" [max]="10" [value]="7" aria-label="Warning" />
-        <xui-slider intent="danger" [max]="10" [value]="9" aria-label="Danger" />
+        <xui-slider color="primary" [max]="10" [value]="3" aria-label="Primary" />
+        <xui-slider color="success" [max]="10" [value]="5" aria-label="Success" />
+        <xui-slider color="warning" [max]="10" [value]="7" aria-label="Warning" />
+        <xui-slider color="error" [max]="10" [value]="9" aria-label="Error" />
       </div>
     `
   })

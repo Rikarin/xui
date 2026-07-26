@@ -36,7 +36,7 @@ export type SectionVariants = VariantProps<typeof sectionVariants>;
  *
  * When `collapsible`, the header becomes a button wired to the panel with
  * `aria-expanded`/`aria-controls`, so the disclosure is operable by keyboard and
- * announced correctly. `isOpen` is a model, so it works both uncontrolled and
+ * announced correctly. `open` is a model, so it works both uncontrolled and
  * bound.
  *
  * The projected body goes through a single `ng-template` rendered into one of
@@ -55,16 +55,16 @@ export type SectionVariants = VariantProps<typeof sectionVariants>;
           <button
             type="button"
             class="-m-1 flex min-w-0 flex-1 items-center gap-2 rounded p-1 text-start focus-visible:outline-5 focus-visible:outline-offset-2"
-            [attr.aria-expanded]="isOpen()"
+            [attr.aria-expanded]="open()"
             [attr.aria-controls]="panelId"
-            (click)="isOpen.set(!isOpen())"
+            (click)="open.set(!open())"
           >
             <ng-icon
               xui
               size="sm"
               name="matExpandMoreRound"
               class="text-foreground-muted shrink-0 transition-transform duration-200"
-              [class.-rotate-90]="!isOpen()"
+              [class.-rotate-90]="!open()"
             />
             <ng-container *ngTemplateOutlet="titleBlock" />
           </button>
@@ -93,7 +93,7 @@ export type SectionVariants = VariantProps<typeof sectionVariants>;
     <ng-template #body><ng-content /></ng-template>
 
     @if (collapsible()) {
-      <xui-collapse [id]="panelId" [isOpen]="isOpen()">
+      <xui-collapse [id]="panelId" [open]="open()">
         <ng-container *ngTemplateOutlet="body" />
       </xui-collapse>
     } @else {
@@ -121,7 +121,7 @@ export class XuiSection {
   readonly compact = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
 
   /** Open state of a collapsible section. Works bound or unbound. */
-  readonly isOpen = model(true);
+  readonly open = model(true);
 
   protected readonly computedClass = computed(() =>
     xui(sectionVariants({ elevation: this.elevation() }), this.class())

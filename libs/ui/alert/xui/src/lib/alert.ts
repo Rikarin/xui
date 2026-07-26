@@ -16,10 +16,10 @@ import { XuiButtonImports } from '@xui/button';
 import { XuiDialogImports } from '@xui/dialog';
 import { XuiIcon } from '@xui/icon';
 import {
-  XUI_ALERT_INTENT_ICON,
-  XUI_ALERT_INTENT_ICON_CLASS,
+  XUI_ALERT_COLOR_ICON,
+  XUI_ALERT_COLOR_ICON_CLASS,
   alertConfirmColor,
-  type XuiAlertIntent
+  type XuiAlertColor
 } from './alert-config';
 
 /**
@@ -27,7 +27,7 @@ import {
  * irreversible.
  *
  * ```html
- * <xui-alert [(isOpen)]="confirming" intent="error" confirmText="Delete"
+ * <xui-alert [(open)]="confirming" color="error" confirmText="Delete"
  *            cancelText="Cancel" (confirmed)="remove()">
  *   Delete this project? This cannot be undone.
  * </xui-alert>
@@ -35,7 +35,7 @@ import {
  *
  * A preset over `@xui/dialog`: no title bar, no close button, and a fixed pair
  * of actions. Dismissing it any other way — Escape, the backdrop — counts as a
- * cancel, so `(canceled)` fires however the user backs out. For a promise-based
+ * cancel, so `(cancelled)` fires however the user backs out. For a promise-based
  * confirmation opened from code, use `XuiAlertService`.
  */
 @Component({
@@ -45,7 +45,7 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <xui-dialog
-      [(isOpen)]="isOpen"
+      [(open)]="open"
       size="sm"
       [showCloseButton]="false"
       [canEscapeKeyClose]="canEscapeKeyClose()"
@@ -70,10 +70,10 @@ export class XuiAlert {
   private wasOpen = false;
   private settled = false;
 
-  readonly isOpen = model(false);
+  readonly open = model(false);
 
-  readonly intent = input<XuiAlertIntent>('none');
-  /** Override the icon the intent implies. Pass `null` to show none. */
+  readonly color = input<XuiAlertColor>('none');
+  /** Override the icon the color implies. Pass `null` to show none. */
   readonly icon = input<string | null | undefined>(undefined);
 
   readonly confirmText = input('Confirm');
@@ -84,27 +84,27 @@ export class XuiAlert {
   readonly canOutsideClickClose = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
 
   readonly confirmed = output<void>();
-  readonly canceled = output<void>();
+  readonly cancelled = output<void>();
 
   protected readonly resolvedIcon = computed(() => {
     const override = this.icon();
 
-    return override === undefined ? XUI_ALERT_INTENT_ICON[this.intent()] : override;
+    return override === undefined ? XUI_ALERT_COLOR_ICON[this.color()] : override;
   });
-  protected readonly iconClass = computed(() => XUI_ALERT_INTENT_ICON_CLASS[this.intent()]);
-  protected readonly confirmColor = computed(() => alertConfirmColor(this.intent()));
+  protected readonly iconClass = computed(() => XUI_ALERT_COLOR_ICON_CLASS[this.color()]);
+  protected readonly confirmColor = computed(() => alertConfirmColor(this.color()));
 
   constructor() {
     // A close that is neither confirm nor cancel — Escape, the backdrop — is
     // still the user backing out, so report it as a cancel.
     effect(() => {
-      const open = this.isOpen();
+      const open = this.open();
 
       untracked(() => {
         if (open) {
           this.settled = false;
         } else if (this.wasOpen && !this.settled) {
-          this.canceled.emit();
+          this.cancelled.emit();
         }
 
         this.wasOpen = open;
@@ -115,12 +115,12 @@ export class XuiAlert {
   protected confirm(): void {
     this.settled = true;
     this.confirmed.emit();
-    this.isOpen.set(false);
+    this.open.set(false);
   }
 
   protected cancel(): void {
     this.settled = true;
-    this.canceled.emit();
-    this.isOpen.set(false);
+    this.cancelled.emit();
+    this.open.set(false);
   }
 }

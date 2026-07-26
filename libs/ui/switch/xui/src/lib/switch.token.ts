@@ -1,13 +1,13 @@
 import { InjectionToken, ValueProvider, inject } from '@angular/core';
 
 /** The switch's size. */
-export type XuiSwitchSize = 'default' | 'large';
+export type XuiSwitchSize = 'md' | 'lg';
 
 export interface XuiSwitchConfig {
   size: XuiSwitchSize;
 }
 
-const defaultConfig: XuiSwitchConfig = { size: 'default' };
+const defaultConfig: XuiSwitchConfig = { size: 'md' };
 
 const XuiSwitchConfigToken = new InjectionToken<XuiSwitchConfig>('XuiSwitchConfig');
 

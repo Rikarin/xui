@@ -16,19 +16,19 @@ export class PreviewDefault {
 }
 
 @Component({
-  selector: 'docs-preview-tooltip-intents',
+  selector: 'docs-preview-tooltip-colors',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [XuiButtonImports, XuiTooltipImports],
   template: `
 <div class="flex flex-wrap gap-3 p-12">
-  @for (intent of intents; track intent) {
-    <button xuiButton variant="outline" [xuiTooltip]="intent + ' hint'" [intent]="intent">{{ intent }}</button>
+  @for (color of colors; track color) {
+    <button xuiButton variant="outline" [xuiTooltip]="color + ' hint'" [color]="color">{{ color }}</button>
   }
 </div>
 `
 })
-export class PreviewIntents {
-  protected intents: any = ['none', 'primary', 'success', 'error', 'warning', 'info'];
+export class PreviewColors {
+  protected colors: any = ['none', 'primary', 'success', 'error', 'warning', 'info'];
 }
 
 @Component({
@@ -103,7 +103,7 @@ export const doc: ComponentDoc = {
   "XuiTooltipImports",
   "XuiTooltipContent",
   "XUI_TOOLTIP_CONTENT",
-  "XuiTooltipIntent",
+  "XuiTooltipColor",
   "XuiTooltipConfig",
   "provideXuiTooltipConfig",
   "injectXuiTooltipConfig"
@@ -126,7 +126,7 @@ export const doc: ComponentDoc = {
     "outputs": [],
     "variants": [
       {
-        "name": "intent",
+        "name": "color",
         "options": [
           "none",
           "primary",
@@ -172,9 +172,9 @@ export const doc: ComponentDoc = {
         "required": false
       },
       {
-        "name": "intent",
-        "type": "XuiTooltipIntent",
-        "default": "this.config.intent",
+        "name": "color",
+        "type": "XuiTooltipColor",
+        "default": "this.config.color",
         "required": false
       },
       {
@@ -219,6 +219,14 @@ export const doc: ComponentDoc = {
         "required": false,
         "transform": "booleanAttribute",
         "docs": "A disabled tooltip never opens, and hides if it was showing."
+      },
+      {
+        "name": "open",
+        "type": "boolean",
+        "default": "false",
+        "required": false,
+        "model": true,
+        "docs": "Whether the tooltip is currently on screen. Two-way bindable: an external write opens or closes the overlay, and hover/focus changes fold back out."
       }
     ],
     "outputs": [],
@@ -234,14 +242,14 @@ export const doc: ComponentDoc = {
       preview: PreviewDefault
     },
     {
-      name: "Intents",
-      title: "Intents",
+      name: "Colors",
+      title: "Colors",
       code: `<div class="flex flex-wrap gap-3 p-12">
-  @for (intent of intents; track intent) {
-    <button xuiButton variant="outline" [xuiTooltip]="intent + ' hint'" [intent]="intent">{{ intent }}</button>
+  @for (color of colors; track color) {
+    <button xuiButton variant="outline" [xuiTooltip]="color + ' hint'" [color]="color">{{ color }}</button>
   }
 </div>`,
-      preview: PreviewIntents
+      preview: PreviewColors
     },
     {
       name: "Compact",

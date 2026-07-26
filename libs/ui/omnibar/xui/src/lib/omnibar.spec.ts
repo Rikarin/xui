@@ -9,7 +9,7 @@ const IMPORTS = [XuiOmnibarImports];
 const setup = (open = true) => {
   const selected: string[] = [];
   const result = render(
-    `<xui-omnibar [items]="props().items" [(isOpen)]="props().open" (itemSelect)="props().onSelect($event)" />`,
+    `<xui-omnibar [items]="props().items" [(open)]="props().open" (itemSelect)="props().onSelect($event)" />`,
     { imports: IMPORTS, props: { items: COMMANDS, open, onSelect: (c: string) => selected.push(c) } }
   );
   const cmp = result.fixture.debugElement.query(n => n.name === 'xui-omnibar').componentInstance as XuiOmnibar<string>;
@@ -70,7 +70,7 @@ describe('XuiOmnibar', () => {
     detect();
 
     expect(selected).toEqual(['Toggle theme']);
-    expect(cmp.isOpen()).toBe(false);
+    expect(cmp.open()).toBe(false);
     expect(dialog()).toBeNull();
   });
 
@@ -91,7 +91,7 @@ describe('XuiOmnibar', () => {
     input().dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true }));
     detect();
 
-    expect(cmp.isOpen()).toBe(false);
+    expect(cmp.open()).toBe(false);
   });
 
   it('navigates with the arrow keys', () => {

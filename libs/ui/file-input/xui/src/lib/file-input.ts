@@ -24,7 +24,7 @@ const fileInputVariants = cva(
   {
     variants: {
       size: {
-        default: 'h-(--control-height-md) ps-(--control-padding-md) text-sm',
+        md: 'h-(--control-height-md) ps-(--control-padding-md) text-sm',
         sm: 'h-(--control-height-sm) ps-(--control-padding-sm) text-xs'
       },
       fill: {
@@ -32,7 +32,7 @@ const fileInputVariants = cva(
         false: 'w-auto'
       }
     },
-    defaultVariants: { size: 'default', fill: false }
+    defaultVariants: { size: 'md', fill: false }
   }
 );
 
@@ -88,7 +88,7 @@ export class XuiFileInput implements ControlValueAccessor {
 
   /** The user-defined classes on the trigger. Merged last so they win. */
   readonly class = input<ClassValue>('');
-  readonly size = input<XuiFileInputVariants['size']>('default');
+  readonly size = input<XuiFileInputVariants['size']>('md');
   readonly fill = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
 
   /** Placeholder shown before anything is chosen. */

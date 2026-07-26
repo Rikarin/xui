@@ -14,7 +14,7 @@ const MENU = `
       <button xuiMenuItem>Rename</button>
       <button xuiMenuItem disabled>Locked</button>
       <xui-menu-divider />
-      <button xuiMenuItem intent="error">Delete</button>
+      <button xuiMenuItem color="error">Delete</button>
     </xui-menu>
   </ng-template>
 `;
@@ -72,7 +72,7 @@ describe('XuiMenu', () => {
     expect(menu()).not.toBeNull();
   });
 
-  it('colours an item by intent', () => {
+  it('colours an item by colour', () => {
     const { click } = render(MENU, { imports: IMPORTS });
 
     click('button');

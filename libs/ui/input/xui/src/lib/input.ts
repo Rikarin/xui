@@ -42,19 +42,19 @@ export const inputVariants = cva(
         default: 'h-(--control-height-md) px-(--control-padding-md) text-sm',
         lg: 'h-(--control-height-lg) px-(--control-padding-lg) text-base'
       },
-      // TODO(phase-4): this axis is a surface choice, not a colour — rename the
-      // options to `default`/`subtle` when the InputGroup API lands.
-      color: {
+      // TODO(phase-4): rename the options to `default`/`subtle` when the
+      // InputGroup API lands.
+      surface: {
         dark: 'bg-surface-inset text-foreground placeholder:text-foreground-subtle',
         light: 'bg-surface-raised text-foreground placeholder:text-foreground-subtle'
       },
       // A deliberate accent border, distinct from the automatic invalid state.
-      intent: {
+      color: {
         none: '',
         primary: 'border-primary focus:border-primary',
         success: 'border-success focus:border-success',
         warning: 'border-warning focus:border-warning',
-        danger: 'border-error focus:border-error'
+        error: 'border-error focus:border-error'
       },
       error: {
         auto: '[&.ng-invalid.ng-touched]:text-error [&.ng-invalid.ng-touched]:border-2 [&.ng-invalid.ng-touched]:border-error',
@@ -63,8 +63,8 @@ export const inputVariants = cva(
     },
     defaultVariants: {
       size: 'default',
-      color: 'dark',
-      intent: 'none',
+      surface: 'dark',
+      color: 'none',
       error: 'auto'
     }
   }
@@ -93,8 +93,8 @@ export class XuiInput implements XFormFieldControl, DoCheck {
   /** The user-defined classes */
   readonly class = input<ClassValue>('');
   readonly size = input<InputVariants['size']>('default');
-  readonly color = input<InputVariants['color']>('dark');
-  readonly intent = input<InputVariants['intent']>('none');
+  readonly surface = input<InputVariants['surface']>('dark');
+  readonly color = input<InputVariants['color']>('none');
   readonly error = input<InputVariants['error']>('auto');
   readonly ngControl: NgControl | null = this.injector.get(NgControl, null);
   readonly errorState = computed(() => this.errorStateTracker.errorState());
@@ -109,7 +109,7 @@ export class XuiInput implements XFormFieldControl, DoCheck {
   /** The classes to apply to the component merged with the user-defined classes */
   protected readonly computedClass = computed(() =>
     xui(
-      inputVariants({ size: this.size(), color: this.color(), intent: this.intent(), error: this.state().error }),
+      inputVariants({ size: this.size(), surface: this.surface(), color: this.color(), error: this.state().error }),
       // The lane an adornment occupies is one control height wide, so it scales with the field
       // instead of the flat 36px that was tuned for the old 44px input - which on a 30px field
       // reserved more space than the control was tall.

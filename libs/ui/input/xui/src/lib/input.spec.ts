@@ -62,8 +62,8 @@ describe('XuiInput', () => {
     expectClasses(query('input'), 'w-full', 'rounded-lg');
   });
 
-  it('applies the intent accent border, independent of the invalid state', () => {
-    const { query } = setup('<input xuiInput intent="success" />');
+  it('applies the colour accent border, independent of the invalid state', () => {
+    const { query } = setup('<input xuiInput color="success" />');
 
     expectClasses(query('input'), 'border-success');
     expectNoClasses(query('input'), 'border-error');

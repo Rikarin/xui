@@ -123,8 +123,50 @@ describe('XuiTooltip', () => {
     expect(panel()).toBeNull();
   });
 
-  it('carries the intent onto the chip', () => {
-    const result = render(`<button [xuiTooltip]="'Danger'" intent="error">S</button>`, { imports: IMPORTS });
+  it('opens and closes through the two-way open binding', () => {
+    const result = render<{ open: boolean }>(`<button [xuiTooltip]="'Save'" [(open)]="props().open">S</button>`, {
+      imports: IMPORTS,
+      props: { open: false }
+    });
+
+    expect(panel()).toBeNull();
+
+    result.setProps({ open: true });
+    expect(panelText()).toBe('Save');
+
+    result.setProps({ open: false });
+    expect(panel()).toBeNull();
+  });
+
+  it('folds hover state back out through the open binding', () => {
+    const result = render<{ open: boolean }>(`<button [xuiTooltip]="'Save'" [(open)]="props().open">S</button>`, {
+      imports: IMPORTS,
+      props: { open: false }
+    });
+
+    hover(result as never);
+    expect(result.fixture.componentInstance.props().open).toBe(true);
+
+    fire(result.query('button'), 'pointerleave');
+    result.detect();
+    expect(result.fixture.componentInstance.props().open).toBe(false);
+  });
+
+  it('snaps the open binding back when a write cannot show anything', () => {
+    const result = render<{ open: boolean }>(
+      `<button [xuiTooltip]="'Save'" disabled [(open)]="props().open">S</button>`,
+      { imports: IMPORTS, props: { open: false } }
+    );
+
+    result.setProps({ open: true });
+
+    // A disabled tooltip refuses to open, and the binding must reflect that.
+    expect(panel()).toBeNull();
+    expect(result.fixture.componentInstance.props().open).toBe(false);
+  });
+
+  it('carries the color onto the chip', () => {
+    const result = render(`<button [xuiTooltip]="'Danger'" color="error">S</button>`, { imports: IMPORTS });
 
     hover(result);
 

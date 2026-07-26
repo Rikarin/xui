@@ -8,7 +8,7 @@ export const doc: ComponentDoc = {
   package: "@xui/omnibar",
   kind: "ui",
   group: "Overlays",
-  description: "A ⌘K-style command palette: a top-centred overlay with a search field and a keyboard-navigable result list. Toggle with [(isOpen)]; Escape or a backdrop click closes. Items render with a custom [xuiSelectOption] template.",
+  description: "A ⌘K-style command palette: a top-centred overlay with a search field and a keyboard-navigable result list. Toggle with [(open)]; Escape or a backdrop click closes. Items render with a custom [xuiSelectOption] template.",
   importsConst: "XuiOmnibarImports",
   exports: [
   "XuiOmnibar",
@@ -30,7 +30,7 @@ export const doc: ComponentDoc = {
     "kind": "component",
     "name": "XuiOmnibar",
     "selector": "xui-omnibar",
-    "docs": "A ⌘K-style command palette: a top-centred overlay with a search field and a keyboard-navigable result list. Toggle with [(isOpen)]; Escape or a backdrop click closes. Items render with a custom [xuiSelectOption] template.",
+    "docs": "A ⌘K-style command palette: a top-centred overlay with a search field and a keyboard-navigable result list. Toggle with [(open)]; Escape or a backdrop click closes. Items render with a custom [xuiSelectOption] template.",
     "inputs": [
       {
         "name": "class",
@@ -86,12 +86,12 @@ export const doc: ComponentDoc = {
         "required": false
       },
       {
-        "name": "isOpen",
+        "name": "open",
         "type": "boolean",
         "default": "false",
         "required": false,
         "model": true,
-        "docs": "Whether the palette is showing. Two-way bindable with [(isOpen)]."
+        "docs": "Whether the palette is showing. Two-way bindable with [(open)]."
       }
     ],
     "outputs": [

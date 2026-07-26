@@ -11,10 +11,10 @@ export default {
   component: XuiInput,
   tags: ['autodocs'],
   args: {
-    color: 'dark'
+    surface: 'dark'
   },
   argTypes: {
-    color: {
+    surface: {
       options: ['dark', 'light'],
       control: {
         type: 'select'
@@ -105,15 +105,15 @@ export const InputGroup: Story = {
   })
 };
 
-/** A deliberate accent border via `intent`, separate from the invalid state. */
-export const Intent: Story = {
+/** A deliberate accent border via `color`, separate from the invalid state. */
+export const Color: Story = {
   render: () => ({
     template: `
       <div class="flex flex-col gap-3 w-80">
-        <input xuiInput intent="primary" placeholder="Primary" />
-        <input xuiInput intent="success" placeholder="Success" />
-        <input xuiInput intent="warning" placeholder="Warning" />
-        <input xuiInput intent="danger" placeholder="Danger" />
+        <input xuiInput color="primary" placeholder="Primary" />
+        <input xuiInput color="success" placeholder="Success" />
+        <input xuiInput color="warning" placeholder="Warning" />
+        <input xuiInput color="error" placeholder="Error" />
       </div>
     `
   })

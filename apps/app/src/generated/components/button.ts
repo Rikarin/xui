@@ -8,7 +8,7 @@ import { XuiButtonImports } from '@xui/button';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [XuiButtonImports],
   template: `
-<button xuiButton color="primary" variant="default" size="default">Click me!</button>
+<button xuiButton color="primary" variant="default" size="md">Click me!</button>
 `
 })
 export class PreviewDefault {
@@ -19,7 +19,7 @@ export class PreviewDefault {
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [XuiButtonImports],
   template: `
-<button xuiButton color="primary" variant="dash" size="default">Click me!</button>
+<button xuiButton color="primary" variant="dash" size="md">Click me!</button>
 `
 })
 export class PreviewDash {
@@ -30,7 +30,7 @@ export class PreviewDash {
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [XuiButtonImports],
   template: `
-<button xuiButton color="primary" variant="outline" size="default">Click me!</button>
+<button xuiButton color="primary" variant="outline" size="md">Click me!</button>
 `
 })
 export class PreviewOutline {
@@ -41,7 +41,7 @@ export class PreviewOutline {
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [XuiButtonImports],
   template: `
-<button xuiButton color="primary" variant="ghost" size="default">Click me!</button>
+<button xuiButton color="primary" variant="ghost" size="md">Click me!</button>
 `
 })
 export class PreviewGhost {
@@ -52,7 +52,7 @@ export class PreviewGhost {
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [XuiButtonImports],
   template: `
-<button xuiButton color="primary" variant="link" size="default">Click me!</button>
+<button xuiButton color="primary" variant="link" size="md">Click me!</button>
 `
 })
 export class PreviewLink {
@@ -313,10 +313,10 @@ export const doc: ComponentDoc = {
         "name": "size",
         "options": [
           "sm",
-          "default",
+          "md",
           "lg"
         ],
-        "default": "default"
+        "default": "md"
       },
       {
         "name": "color",
@@ -343,31 +343,31 @@ export const doc: ComponentDoc = {
     {
       name: "Default",
       title: "Default",
-      code: `<button xuiButton color="primary" variant="default" size="default">Click me!</button>`,
+      code: `<button xuiButton color="primary" variant="default" size="md">Click me!</button>`,
       preview: PreviewDefault
     },
     {
       name: "Dash",
       title: "Dash",
-      code: `<button xuiButton color="primary" variant="dash" size="default">Click me!</button>`,
+      code: `<button xuiButton color="primary" variant="dash" size="md">Click me!</button>`,
       preview: PreviewDash
     },
     {
       name: "Outline",
       title: "Outline",
-      code: `<button xuiButton color="primary" variant="outline" size="default">Click me!</button>`,
+      code: `<button xuiButton color="primary" variant="outline" size="md">Click me!</button>`,
       preview: PreviewOutline
     },
     {
       name: "Ghost",
       title: "Ghost",
-      code: `<button xuiButton color="primary" variant="ghost" size="default">Click me!</button>`,
+      code: `<button xuiButton color="primary" variant="ghost" size="md">Click me!</button>`,
       preview: PreviewGhost
     },
     {
       name: "Link",
       title: "Link",
-      code: `<button xuiButton color="primary" variant="link" size="default">Click me!</button>`,
+      code: `<button xuiButton color="primary" variant="link" size="md">Click me!</button>`,
       preview: PreviewLink
     },
     {

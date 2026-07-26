@@ -16,12 +16,12 @@ import type { Order, OrderStatus } from '../core/models';
 import { PageHeader } from '../shell/page-header';
 import { StatCard } from '../shell/stat-card';
 
-const STATUS_INTENT: Record<OrderStatus, 'none' | 'primary' | 'success' | 'warning' | 'danger'> = {
+const STATUS_COLOR: Record<OrderStatus, 'none' | 'primary' | 'success' | 'warning' | 'error'> = {
   paid: 'success',
   shipped: 'primary',
   pending: 'warning',
   refunded: 'none',
-  failed: 'danger'
+  failed: 'error'
 };
 
 /**
@@ -121,7 +121,7 @@ const STATUS_INTENT: Record<OrderStatus, 'none' | 'primary' | 'success' | 'warni
                 </xui-td>
                 <xui-td truncate class="min-w-0 flex-1">{{ order.customerName }}</xui-td>
                 <xui-td class="w-24 shrink-0">
-                  <xui-tag minimal [intent]="statusIntent(order.status)">{{ order.status }}</xui-tag>
+                  <xui-tag minimal [color]="statusColor(order.status)">{{ order.status }}</xui-tag>
                 </xui-td>
                 <xui-td class="w-24 shrink-0 justify-end tabular-nums">{{ total(order) }}</xui-td>
               </xui-tr>
@@ -243,8 +243,8 @@ export class Dashboard {
     ]
   }));
 
-  protected statusIntent(status: OrderStatus): 'none' | 'primary' | 'success' | 'warning' | 'danger' {
-    return STATUS_INTENT[status];
+  protected statusColor(status: OrderStatus): 'none' | 'primary' | 'success' | 'warning' | 'error' {
+    return STATUS_COLOR[status];
   }
 
   protected total(order: Order): string {
