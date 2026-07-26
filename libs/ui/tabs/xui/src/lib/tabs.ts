@@ -25,9 +25,15 @@ import { injectXuiTabsConfig } from './tabs.token';
 export const tabsTabVariants = cva(
   [
     'relative inline-flex cursor-pointer items-center gap-2 border-b-2 border-transparent font-medium whitespace-nowrap',
-    'text-foreground-muted hover:text-foreground transition-colors',
+    // `:hover` matches a disabled button too, so the lift is scoped to the enabled ones now that
+    // the tab is no longer inert.
+    'text-foreground-muted enabled:hover:text-foreground transition-colors',
     'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus',
-    'aria-selected:text-foreground disabled:pointer-events-none disabled:opacity-50'
+    // A disabled tab keeps its pointer events so the cursor can say it is unavailable —
+    // `pointer-events-none` would leave the arrow unchanged, since the browser takes no cursor from
+    // an element that receives no pointer events. The native `disabled` already swallows the click,
+    // and `select()` guards the tab's own flag on top of that.
+    'aria-selected:text-foreground disabled:cursor-not-allowed disabled:opacity-50'
   ],
   {
     variants: {
