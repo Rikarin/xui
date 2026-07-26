@@ -4,10 +4,12 @@ import {
   ChangeDetectionStrategy,
   Component,
   DestroyRef,
+  effect,
   ElementRef,
   inject,
   input,
   signal,
+  untracked,
   type Type
 } from '@angular/core';
 import { XuiTabsImports } from '@xui/tabs';
@@ -88,21 +90,31 @@ export class Example {
   private readonly destroyRef = inject(DestroyRef);
   private readonly modules = inject(PREVIEW_MODULES, { optional: true });
 
+  private readonly hydrated = signal(false);
+
   protected readonly preview = signal<Type<unknown> | null>(null);
   protected readonly scrollable = signal(false);
 
   constructor() {
     afterNextRender(() => {
-      void this.load();
-
-      // One frame later: the preview mounts during the change detection this very call schedules,
-      // so measuring now would always report that it fits.
-      requestAnimationFrame(() => this.measure());
+      this.hydrated.set(true);
 
       const remeasure = () => this.measure();
 
       window.addEventListener('resize', remeasure, { passive: true });
       this.destroyRef.onDestroy(() => window.removeEventListener('resize', remeasure));
+    });
+
+    // Per example *and* per navigation: the list tracks by story name, so walking from one component
+    // to the next hands this same instance a new example — "Default" on both pages is one component
+    // that changed its input. Loading once, on render, left the page before last on screen.
+    effect(() => {
+      const slug = this.slug();
+      const name = this.example().previewName;
+
+      if (this.hydrated()) {
+        untracked(() => void this.load(slug, name));
+      }
     });
   }
 
@@ -112,9 +124,12 @@ export class Example {
    * The registry is browser-only, so on the server there is nothing to load and the frame keeps its
    * placeholder — which is what it did before hydration anyway.
    */
-  private async load(): Promise<void> {
-    const name = this.example().previewName;
-    const loader = this.modules?.[this.slug()];
+  private async load(slug: string, name: string | undefined): Promise<void> {
+    // Down first, so the previous page's demo goes with the navigation rather than lingering under
+    // the new heading until its replacement arrives.
+    this.preview.set(null);
+
+    const loader = this.modules?.[slug];
 
     if (!name || !loader) {
       return;
@@ -122,7 +137,15 @@ export class Example {
 
     const module = await loader();
 
+    // The chunk was in flight; anything could have happened to the page since.
+    if (this.slug() !== slug || this.example().previewName !== name) {
+      return;
+    }
+
     this.preview.set(module[name] ?? null);
+
+    // One frame later: the preview mounts during the change detection this very call schedules, so
+    // measuring now would always report that it fits.
     requestAnimationFrame(() => this.measure());
   }
 
