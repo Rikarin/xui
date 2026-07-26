@@ -81,7 +81,7 @@ export type XuiTagColor = NonNullable<XuiTagVariants['color']>;
       <button
         type="button"
         class="-me-0.5 flex items-center rounded-full opacity-70 transition-opacity hover:opacity-100"
-        aria-label="Remove"
+        [attr.aria-label]="removeLabel()"
         (click)="onRemove($event)"
       >
         <ng-icon xui name="matCloseRound" size="sm" />
@@ -110,6 +110,14 @@ export class XuiTag {
 
   /** Show a trailing remove button. */
   readonly removable = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
+
+  /**
+   * The remove button's accessible name.
+   *
+   * A bare "Remove" is ambiguous once several tags sit together, so name the tag it belongs to —
+   * `removeLabel="Remove design"` — when they do.
+   */
+  readonly removeLabel = input<string>('Remove');
 
   /** Optional leading icon name (from the app's icon registry). */
   readonly icon = input<string | null>(null);

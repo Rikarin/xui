@@ -13,11 +13,9 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
-import { NgIcon, provideIcons } from '@ng-icons/core';
-import { matCloseRound } from '@ng-icons/material-icons/round';
 import { xui } from '@xui/core';
 import { createXValueAccessor, provideXValueAccessor } from '@xui/core/forms';
-import { XuiIcon } from '@xui/icon';
+import { XuiTag } from '@xui/tag';
 import { cva, VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
 
@@ -41,29 +39,23 @@ export type XuiTagInputVariants = VariantProps<typeof tagInputContainerVariants>
  * A token/chip input: type and press Enter (or the separator) to add a tag, click
  * a tag's ✕ or press Backspace on an empty field to remove one. `[(values)]`
  * two-way binding and `ControlValueAccessor` over a `string[]`.
+ *
+ * The tokens are real `xui-tag`s rather than a look-alike, so they cannot drift from what a tag
+ * looks like. `minimal` is the variant that carries a border, which is what marks a chip out
+ * against the filled field it sits in.
  */
 @Component({
   selector: 'xui-tag-input',
-  imports: [NgIcon, XuiIcon],
+  imports: [XuiTag],
   template: `
     <!-- Clicking empty container space focuses the real input, which is itself
          focusable and keyboard-operable, so no separate key handler is needed. -->
     <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
     <div [class]="containerClass()" (click)="focusInput($event)">
       @for (tag of values(); track $index) {
-        <span class="bg-surface-raised text-foreground inline-flex items-center gap-1 rounded px-2 py-0.5">
-          {{ tag }}
-          @if (!isDisabled()) {
-            <button
-              type="button"
-              class="text-foreground-muted hover:text-foreground -me-0.5 flex items-center"
-              [attr.aria-label]="'Remove ' + tag"
-              (click)="removeAt($index); $event.stopPropagation()"
-            >
-              <ng-icon xui size="xs" name="matCloseRound" />
-            </button>
-          }
-        </span>
+        <xui-tag minimal [removable]="!isDisabled()" [removeLabel]="'Remove ' + tag" (removed)="removeAt($index)">{{
+          tag
+        }}</xui-tag>
       }
 
       <input
@@ -86,8 +78,7 @@ export type XuiTagInputVariants = VariantProps<typeof tagInputContainerVariants>
   },
   providers: [provideXValueAccessor(() => XuiTagInput)],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
-  viewProviders: [provideIcons({ matCloseRound })]
+  encapsulation: ViewEncapsulation.None
 })
 export class XuiTagInput implements ControlValueAccessor {
   readonly class = input<ClassValue>('');
