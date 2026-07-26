@@ -5,18 +5,21 @@ import {
   Component,
   computed,
   effect,
+  ElementRef,
   input,
   linkedSignal,
   model,
   signal,
+  TemplateRef,
   untracked,
+  viewChild,
   ViewEncapsulation
 } from '@angular/core';
 import type { ControlValueAccessor } from '@angular/forms';
 import { xui } from '@xui/core';
 import { injectXDirection, uniqueId } from '@xui/core/a11y';
 import { createXValueAccessor, provideXValueAccessor } from '@xui/core/forms';
-import { injectXOutsideClick } from '@xui/core/interactions';
+import { injectXOverlay, type XOverlayRef } from '@xui/core/overlay';
 import {
   collectExpandedIds,
   flattenVisibleTree,
@@ -68,6 +71,7 @@ const toTreeNode = (node: XuiTreeSelectNode): PanelNode => ({
   selector: 'xui-tree-select',
   template: `
     <button
+      #trigger
       type="button"
       role="combobox"
       aria-haspopup="tree"
@@ -105,7 +109,7 @@ const toTreeNode = (node: XuiTreeSelectNode): PanelNode => ({
       </svg>
     </button>
 
-    @if (open()) {
+    <ng-template #panel>
       <div [class]="panelClass()" role="tree" [id]="panelId">
         @for (row of rows(); track row.node.id; let i = $index) {
           <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
@@ -158,7 +162,7 @@ const toTreeNode = (node: XuiTreeSelectNode): PanelNode => ({
           </div>
         }
       </div>
-    }
+    </ng-template>
   `,
   host: {
     '[class]': 'computedClass()'
@@ -170,6 +174,10 @@ const toTreeNode = (node: XuiTreeSelectNode): PanelNode => ({
 export class XuiTreeSelect implements ControlValueAccessor {
   protected readonly direction = injectXDirection();
   protected readonly panelId = uniqueId('xui-tree-select-panel');
+  private readonly overlay = injectXOverlay();
+  private readonly trigger = viewChild.required<ElementRef<HTMLElement>>('trigger');
+  private readonly panel = viewChild.required<TemplateRef<unknown>>('panel');
+  private ref: XOverlayRef | null = null;
 
   readonly class = input<ClassValue>('');
   readonly nodes = input<XuiTreeSelectNode[]>([]);
@@ -238,16 +246,12 @@ export class XuiTreeSelect implements ControlValueAccessor {
   });
 
   constructor() {
-    // `click` (not the default `pointerdown`), so an outside press that starts a
-    // drag does not dismiss the panel before the user commits to it.
-    injectXOutsideClick(
-      () => {
-        if (this.open()) {
-          this.open.set(false);
-        }
-      },
-      { event: 'click' }
-    );
+    // The `open` signal is the single source of truth; the overlay follows it.
+    effect(() => {
+      const open = this.open();
+
+      untracked(() => (open ? this.attach() : this.detach()));
+    });
 
     // Mark the control touched once the panel closes after having been open.
     effect(() => {
@@ -257,6 +261,43 @@ export class XuiTreeSelect implements ControlValueAccessor {
         untracked(() => this.cva.markTouched());
       }
     });
+  }
+
+  private attach(): void {
+    if (this.ref) {
+      return;
+    }
+
+    // DOM focus stays on the trigger (the combobox contract points at rows via
+    // `aria-activedescendant`), so the overlay must not trap, steal or restore
+    // focus. Outside clicks dismiss through the overlay's click-phase check, so
+    // an outside press that starts a drag does not close the panel early.
+    const ref = this.overlay.open(this.panel(), {
+      origin: this.trigger().nativeElement,
+      placement: 'bottom-start',
+      offset: 4,
+      matchOriginWidth: true,
+      restoreFocus: false
+    });
+
+    this.ref = ref;
+
+    // The overlay can close itself (Escape, outside click). Fold that back into
+    // `open` so the model never lies about what is on screen; a stale ref's late
+    // close must not clobber a panel that was reopened in the meantime.
+    void ref.closed.then(() => {
+      if (this.ref === ref) {
+        this.ref = null;
+        untracked(() => this.open.set(false));
+      }
+    });
+  }
+
+  private detach(): void {
+    // Null synchronously so a reopen in the same tick does not see a stale ref.
+    const ref = this.ref;
+    this.ref = null;
+    ref?.close();
   }
 
   protected rowId(index: number): string {
@@ -369,16 +410,14 @@ export class XuiTreeSelect implements ControlValueAccessor {
     this.cva.notifyChange(next);
   }
 
-  protected readonly computedClass = computed(() => xui('relative block', this.class()));
+  protected readonly computedClass = computed(() => xui('block', this.class()));
   protected readonly triggerClass = computed(() =>
     xui(
       'border-border bg-surface text-foreground flex min-h-(--control-height-md) w-full items-center gap-1 rounded-md border px-(--control-padding-md) py-1 text-sm outline-none focus-visible:border-primary disabled:opacity-50'
     )
   );
   protected readonly panelClass = computed(() =>
-    xui(
-      'border-border bg-surface-overlay absolute z-50 mt-1 max-h-72 w-full overflow-auto rounded-lg border p-1 shadow-lg'
-    )
+    xui('border-border bg-surface-overlay max-h-72 w-full overflow-auto rounded-lg border p-1 shadow-overlay')
   );
 
   /**

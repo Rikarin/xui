@@ -20,13 +20,18 @@ const setup = (props: Record<string, unknown> = {}) => {
 };
 
 const trigger = () => document.querySelector('xui-cascader > button') as HTMLButtonElement;
-const columns = () => [...document.querySelectorAll('xui-cascader ul')];
+// The column panel renders in the CDK overlay container, not inside the host.
+const columns = () => [...document.querySelectorAll('.cdk-overlay-container ul')];
 const optionByLabel = (label: string) =>
-  [...document.querySelectorAll('xui-cascader [role="option"]')].find(
+  [...document.querySelectorAll('.cdk-overlay-container [role="option"]')].find(
     o => o.textContent?.trim() === label
   ) as HTMLElement;
 
 describe('XuiCascader', () => {
+  afterEach(() => {
+    document.querySelectorAll('.cdk-overlay-container').forEach(n => n.remove());
+  });
+
   it('opens a single column of roots', () => {
     const { detect } = setup();
     detect();
@@ -67,7 +72,7 @@ describe('XuiCascader', () => {
     detect();
 
     expect(cmp.value()).toEqual(['zhejiang', 'hangzhou', 'xihu']);
-    expect(document.querySelector('xui-cascader ul')).toBeNull();
+    expect(document.querySelector('.cdk-overlay-container ul')).toBeNull();
     expect(trigger().textContent).toContain('Zhejiang / Hangzhou / West Lake');
   });
 

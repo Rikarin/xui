@@ -4,13 +4,18 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  effect,
+  ElementRef,
   input,
   model,
   signal,
+  TemplateRef,
+  untracked,
+  viewChild,
   ViewEncapsulation
 } from '@angular/core';
 import { xui } from '@xui/core';
-import { injectXOutsideClick } from '@xui/core/interactions';
+import { injectXOverlay, type XOverlayRef } from '@xui/core/overlay';
 import type { ClassValue } from 'clsx';
 
 export interface XuiCascaderOption {
@@ -25,6 +30,9 @@ export interface XuiCascaderOption {
  * choosing a leaf commits the full path. `value` is a two-way bindable array of
  * values from root to leaf.
  *
+ * The column panel floats on `@xui/core/overlay`, connected to the trigger, so
+ * stacking, Escape and outside-click dismissal behave like every other overlay.
+ *
  * ```html
  * <xui-cascader [options]="regions" [(value)]="path" placeholder="Select region" />
  * ```
@@ -33,6 +41,7 @@ export interface XuiCascaderOption {
   selector: 'xui-cascader',
   template: `
     <button
+      #trigger
       type="button"
       [class]="triggerClass()"
       [disabled]="disabled()"
@@ -47,7 +56,7 @@ export interface XuiCascaderOption {
       </svg>
     </button>
 
-    @if (open()) {
+    <ng-template #panel>
       <div [class]="panelClass()">
         @for (column of columns(); track $index; let col = $index) {
           <ul class="border-border max-h-64 min-w-40 overflow-auto border-e last:border-e-0">
@@ -76,7 +85,7 @@ export interface XuiCascaderOption {
           </ul>
         }
       </div>
-    }
+    </ng-template>
   `,
   host: {
     '[class]': 'computedClass()'
@@ -85,6 +94,11 @@ export interface XuiCascaderOption {
   encapsulation: ViewEncapsulation.None
 })
 export class XuiCascader {
+  private readonly overlay = injectXOverlay();
+  private readonly trigger = viewChild.required<ElementRef<HTMLElement>>('trigger');
+  private readonly panel = viewChild.required<TemplateRef<unknown>>('panel');
+  private ref: XOverlayRef | null = null;
+
   readonly class = input<ClassValue>('');
   readonly options = input<XuiCascaderOption[]>([]);
   readonly value = model<string[]>([]);
@@ -127,16 +141,12 @@ export class XuiCascader {
   });
 
   constructor() {
-    // `click` (not the default `pointerdown`), so an outside press that starts a
-    // drag does not dismiss the panel before the user commits to it.
-    injectXOutsideClick(
-      () => {
-        if (this.open()) {
-          this.open.set(false);
-        }
-      },
-      { event: 'click' }
-    );
+    // The `open` signal is the single source of truth; the overlay follows it.
+    effect(() => {
+      const open = this.open();
+
+      untracked(() => (open ? this.attach() : this.detach()));
+    });
   }
 
   protected toggle(): void {
@@ -162,14 +172,49 @@ export class XuiCascader {
     }
   }
 
-  protected readonly computedClass = computed(() => xui('relative inline-block', this.class()));
+  private attach(): void {
+    if (this.ref) {
+      return;
+    }
+
+    // Outside clicks dismiss through the overlay's own click-phase check, so a
+    // press that starts a drag outside still does not close the panel. Focus is
+    // never moved into the panel, so nothing is trapped or restored.
+    const ref = this.overlay.open(this.panel(), {
+      origin: this.trigger().nativeElement,
+      placement: 'bottom-start',
+      offset: 4,
+      restoreFocus: false
+    });
+
+    this.ref = ref;
+
+    // The overlay can close itself (Escape, outside click). Fold that back into
+    // `open` so the model never lies about what is on screen; a stale ref's late
+    // close must not clobber a panel that was reopened in the meantime.
+    void ref.closed.then(() => {
+      if (this.ref === ref) {
+        this.ref = null;
+        untracked(() => this.open.set(false));
+      }
+    });
+  }
+
+  private detach(): void {
+    // Null synchronously so a reopen in the same tick does not see a stale ref.
+    const ref = this.ref;
+    this.ref = null;
+    ref?.close();
+  }
+
+  protected readonly computedClass = computed(() => xui('inline-block', this.class()));
   protected readonly triggerClass = computed(() =>
     xui(
       'border-border bg-surface text-foreground flex h-(--control-height-md) w-full min-w-48 items-center gap-1 rounded-md border px-(--control-padding-md) text-sm outline-none focus-visible:border-primary disabled:opacity-50'
     )
   );
   protected readonly panelClass = computed(() =>
-    xui('border-border bg-surface-overlay absolute z-50 mt-1 flex rounded-lg border p-1 shadow-lg')
+    xui('border-border bg-surface-overlay flex rounded-lg border p-1 shadow-overlay')
   );
 
   protected optionClass(option: XuiCascaderOption, active: boolean): string {

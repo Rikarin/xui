@@ -16,9 +16,11 @@ const setup = (open = true) => {
   return { ...result, cmp, selected };
 };
 
-const input = () => document.querySelector('xui-omnibar input') as HTMLInputElement;
-const options = () => [...document.querySelectorAll('xui-omnibar [role="option"]')] as HTMLElement[];
-const dialog = () => document.querySelector('xui-omnibar [role="dialog"]');
+// The palette renders in the CDK overlay container, not inside the host.
+const input = () => document.querySelector('.cdk-overlay-container input') as HTMLInputElement;
+const options = () => [...document.querySelectorAll('.cdk-overlay-container [role="option"]')] as HTMLElement[];
+const dialog = () => document.querySelector('.cdk-overlay-container [role="dialog"]');
+const backdrop = () => document.querySelector('.cdk-overlay-backdrop') as HTMLElement | null;
 
 const type = (value: string, detect: () => void) => {
   input().value = value;
@@ -27,6 +29,10 @@ const type = (value: string, detect: () => void) => {
 };
 
 describe('XuiOmnibar', () => {
+  afterEach(() => {
+    document.querySelectorAll('.cdk-overlay-container').forEach(n => n.remove());
+  });
+
   it('renders nothing while closed', () => {
     const { detect } = setup(false);
     detect();
@@ -34,12 +40,26 @@ describe('XuiOmnibar', () => {
     expect(dialog()).toBeNull();
   });
 
-  it('shows a dialog with all commands when open', () => {
+  it('shows a modal dialog with all commands when open', () => {
     const { detect } = setup();
     detect();
 
     expect(dialog()).toBeTruthy();
+    expect(dialog()?.getAttribute('aria-modal')).toBe('true');
     expect(options().map(o => o.textContent?.trim())).toEqual(COMMANDS);
+    // The backdrop comes from the overlay machinery and dims with a semantic token.
+    expect(backdrop()).not.toBeNull();
+    expect(backdrop()!.classList.contains('bg-foreground/40')).toBe(true);
+  });
+
+  it('closes on a backdrop click and folds it into the model', async () => {
+    const { cmp } = setup();
+
+    backdrop()!.click();
+    await Promise.resolve();
+
+    expect(dialog()).toBeNull();
+    expect(cmp.open()).toBe(false);
   });
 
   it('filters the commands as you type', () => {

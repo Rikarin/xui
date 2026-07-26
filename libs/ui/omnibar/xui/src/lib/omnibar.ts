@@ -1,18 +1,19 @@
-import { NgTemplateOutlet } from '@angular/common';
+import { DOCUMENT, NgTemplateOutlet } from '@angular/common';
 import {
   afterNextRender,
   ChangeDetectionStrategy,
   Component,
   computed,
   contentChild,
+  DestroyRef,
   effect,
-  ElementRef,
   inject,
   Injector,
   input,
   model,
   output,
   signal,
+  TemplateRef,
   untracked,
   viewChild,
   ViewEncapsulation
@@ -21,6 +22,7 @@ import { NgIcon, provideIcons } from '@ng-icons/core';
 import { matSearchRound } from '@ng-icons/material-icons/round';
 import { xui } from '@xui/core';
 import { uniqueId } from '@xui/core/a11y';
+import { injectXOverlay, type XOverlayRef } from '@xui/core/overlay';
 import { createXActiveOption, createXItemListPredicate, createXQueryList, trackXItem } from '@xui/core/query';
 import { XuiIcon } from '@xui/icon';
 import { XuiSelectOption } from '@xui/select';
@@ -30,69 +32,69 @@ import type { ClassValue } from 'clsx';
  * A ⌘K-style command palette: a top-centred overlay with a search field and a
  * keyboard-navigable result list. Toggle with `[(open)]`; Escape or a backdrop
  * click closes. Items render with a custom `[xuiSelectOption]` template.
+ *
+ * The palette mounts on the modal `@xui/core/overlay` layer — backdrop, focus
+ * trap, background `inert`, focus restore and page-scroll lock all come from
+ * there, exactly like `xui-dialog`.
  */
 @Component({
   selector: 'xui-omnibar',
   imports: [NgTemplateOutlet, NgIcon, XuiIcon],
   template: `
-    @if (open()) {
-      <!-- Backdrop click closes; keyboard users use Escape. -->
-      <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
-      <div class="fixed inset-0 z-50 flex justify-center bg-black/40" (click)="onBackdrop($event)">
-        <div [class]="panelClass()" role="dialog" aria-modal="true" [attr.aria-label]="ariaLabel()">
-          <div class="border-border relative border-b">
-            <ng-icon
-              xui
-              name="matSearchRound"
-              size="md"
-              class="text-foreground-muted pointer-events-none absolute start-4 top-1/2 -translate-y-1/2"
-            />
-            <input
-              #search
-              type="text"
-              role="combobox"
-              [attr.aria-expanded]="true"
-              [attr.aria-controls]="listId"
-              class="text-foreground placeholder:text-foreground-subtle w-full bg-transparent py-4 ps-12 pe-4 text-base outline-none"
-              [placeholder]="placeholder()"
-              [value]="query()"
-              (input)="onQuery($event)"
-              (keydown)="onKeydown($event)"
-            />
-          </div>
-
-          <ul [id]="listId" role="listbox" class="m-0 max-h-80 list-none overflow-y-auto p-2">
-            @for (item of list.filteredItems(); track trackItem($index, item)) {
-              <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
-              <li
-                role="option"
-                [class]="optionClass(item)"
-                [attr.aria-selected]="list.isActive(item)"
-                (click)="choose(item)"
-                (mouseenter)="list.setActiveItem(item)"
-              >
-                @if (optionTemplate(); as tpl) {
-                  <ng-container
-                    [ngTemplateOutlet]="tpl.template"
-                    [ngTemplateOutletContext]="{
-                      $implicit: item,
-                      item: item,
-                      active: list.isActive(item),
-                      selected: false,
-                      index: $index
-                    }"
-                  />
-                } @else {
-                  {{ displayText(item) }}
-                }
-              </li>
-            } @empty {
-              <li class="text-foreground-muted px-3 py-6 text-center text-sm">{{ noResultsText() }}</li>
-            }
-          </ul>
+    <ng-template #surface>
+      <div [class]="panelClass()">
+        <div class="border-border relative border-b">
+          <ng-icon
+            xui
+            name="matSearchRound"
+            size="md"
+            class="text-foreground-muted pointer-events-none absolute start-4 top-1/2 -translate-y-1/2"
+          />
+          <input
+            [id]="searchId"
+            type="text"
+            role="combobox"
+            [attr.aria-expanded]="true"
+            [attr.aria-controls]="listId"
+            class="text-foreground placeholder:text-foreground-subtle w-full bg-transparent py-4 ps-12 pe-4 text-base outline-none"
+            [placeholder]="placeholder()"
+            [value]="query()"
+            (input)="onQuery($event)"
+            (keydown)="onKeydown($event)"
+          />
         </div>
+
+        <ul [id]="listId" role="listbox" class="m-0 max-h-80 list-none overflow-y-auto p-2">
+          @for (item of list.filteredItems(); track trackItem($index, item)) {
+            <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
+            <li
+              role="option"
+              [class]="optionClass(item)"
+              [attr.aria-selected]="list.isActive(item)"
+              (click)="choose(item)"
+              (mouseenter)="list.setActiveItem(item)"
+            >
+              @if (optionTemplate(); as tpl) {
+                <ng-container
+                  [ngTemplateOutlet]="tpl.template"
+                  [ngTemplateOutletContext]="{
+                    $implicit: item,
+                    item: item,
+                    active: list.isActive(item),
+                    selected: false,
+                    index: $index
+                  }"
+                />
+              } @else {
+                {{ displayText(item) }}
+              }
+            </li>
+          } @empty {
+            <li class="text-foreground-muted px-3 py-6 text-center text-sm">{{ noResultsText() }}</li>
+          }
+        </ul>
       </div>
-    }
+    </ng-template>
   `,
   host: {
     '[class]': 'computedClass()'
@@ -103,7 +105,14 @@ import type { ClassValue } from 'clsx';
 })
 export class XuiOmnibar<T> {
   private readonly injector = inject(Injector);
+  private readonly document = inject(DOCUMENT);
+  private readonly overlay = injectXOverlay();
+  private readonly surface = viewChild.required<TemplateRef<unknown>>('surface');
+  private readonly destroyRef = inject(DestroyRef);
   protected readonly listId = uniqueId('xui-omnibar-list');
+  protected readonly searchId = uniqueId('xui-omnibar-search');
+  private ref: XOverlayRef | null = null;
+  private destroyed = false;
 
   readonly class = input<ClassValue>('');
   readonly ariaLabel = input<string>('Command palette', { alias: 'aria-label' });
@@ -124,7 +133,6 @@ export class XuiOmnibar<T> {
 
   protected readonly query = signal('');
   protected readonly optionTemplate = contentChild(XuiSelectOption<T>);
-  private readonly search = viewChild<ElementRef<HTMLInputElement>>('search');
 
   protected readonly list = createXQueryList<T>({
     items: this.items,
@@ -148,19 +156,28 @@ export class XuiOmnibar<T> {
   protected readonly computedClass = computed(() => xui('contents', this.class()));
 
   protected readonly panelClass = computed(() =>
-    xui(
-      'bg-surface-raised border-border relative mt-[12vh] h-fit w-full max-w-xl overflow-hidden rounded-xl border shadow-2xl'
-    )
+    xui('bg-surface-raised border-border w-full max-w-xl overflow-hidden rounded-xl border shadow-overlay')
   );
 
   constructor() {
+    this.destroyRef.onDestroy(() => (this.destroyed = true));
+
+    // The `open` model is the single source of truth; the overlay follows it.
+    effect(() => {
+      const open = this.open();
+
+      untracked(() => (open ? this.attach() : this.detach()));
+    });
+
     // Focus the field on open; reset the query on close.
     effect(() => {
       const open = this.open();
       untracked(() => {
         if (open) {
           this.list.activateFirst();
-          afterNextRender(() => this.search()?.nativeElement.focus(), { injector: this.injector });
+          // The field renders in the overlay, outside this view's query scope,
+          // so focus it by id once it has mounted.
+          afterNextRender(() => this.document.getElementById(this.searchId)?.focus(), { injector: this.injector });
         } else if (this.resetOnClose()) {
           this.query.set('');
         }
@@ -200,14 +217,52 @@ export class XuiOmnibar<T> {
     this.close();
   }
 
-  protected onBackdrop(event: MouseEvent): void {
-    // Only a click on the backdrop itself (not a child) closes the palette.
-    if (event.target === event.currentTarget) {
-      this.close();
-    }
-  }
-
   protected close(): void {
     this.open.set(false);
+  }
+
+  private attach(): void {
+    if (this.ref) {
+      return;
+    }
+
+    const ref = this.overlay.open(this.surface(), {
+      position: 'global',
+      // Top-centred like a command palette, not viewport-centred like a dialog.
+      globalPosition: { top: '12vh', centerHorizontally: true },
+      hasBackdrop: true,
+      backdropClass: 'bg-foreground/40',
+      scrollStrategy: 'block',
+      closeOnOutsideClick: false,
+      closeOnBackdropClick: true,
+      trapFocus: true,
+      autoFocus: true,
+      restoreFocus: true,
+      role: 'dialog',
+      ariaLabel: this.ariaLabel()
+    });
+
+    this.ref = ref;
+
+    // The overlay can close itself (Escape, backdrop click). Fold that back into
+    // the model so `open` never lies about what is on screen; a stale ref's late
+    // close must not clobber a palette that was reopened in the meantime. On
+    // destroy the factory closes the overlay too — that is teardown, and writing
+    // the model then would emit on a destroyed output.
+    void ref.closed.then(() => {
+      if (this.ref !== ref || this.destroyed) {
+        return;
+      }
+
+      this.ref = null;
+      untracked(() => this.open.set(false));
+    });
+  }
+
+  private detach(): void {
+    // Null synchronously so a reopen in the same tick does not see a stale ref.
+    const ref = this.ref;
+    this.ref = null;
+    ref?.close();
   }
 }

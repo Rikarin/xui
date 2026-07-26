@@ -24,11 +24,17 @@ const setup = (attrs = '', props: Record<string, unknown> = {}) => {
 };
 
 const trigger = () => document.querySelector('xui-tree-select > button') as HTMLButtonElement;
-const rows = () => [...document.querySelectorAll('xui-tree-select [role="treeitem"]')] as HTMLElement[];
+// The tree panel renders in the CDK overlay container, not inside the host.
+const tree = () => document.querySelector('.cdk-overlay-container [role="tree"]');
+const rows = () => [...document.querySelectorAll('.cdk-overlay-container [role="treeitem"]')] as HTMLElement[];
 const rowByLabel = (label: string) => rows().find(r => r.textContent?.trim() === label) as HTMLElement;
 const activeRow = () => document.getElementById(trigger().getAttribute('aria-activedescendant') ?? '');
 
 describe('XuiTreeSelect', () => {
+  afterEach(() => {
+    document.querySelectorAll('.cdk-overlay-container').forEach(n => n.remove());
+  });
+
   it('shows the placeholder and opens the tree', () => {
     const { detect } = setup('placeholder="Pick"');
     detect();
@@ -66,7 +72,7 @@ describe('XuiTreeSelect', () => {
     expect(cmp.value()).toBe('apple');
     expect(trigger().textContent).toContain('Apple');
     // Single-select closes the panel.
-    expect(document.querySelector('xui-tree-select [role="tree"]')).toBeNull();
+    expect(tree()).toBeNull();
   });
 
   it('toggles multiple values with checkboxes', () => {
@@ -104,7 +110,7 @@ describe('XuiTreeSelect', () => {
       detect();
 
       press(trigger(), 'ArrowDown');
-      expect(document.querySelector('xui-tree-select [role="tree"]')).toBeTruthy();
+      expect(tree()).toBeTruthy();
       expect(activeRow()?.textContent?.trim()).toBe('Fruit');
 
       press(trigger(), 'ArrowDown');
@@ -128,7 +134,7 @@ describe('XuiTreeSelect', () => {
 
       press(trigger(), 'Enter');
       expect(cmp.value()).toBe('apple');
-      expect(document.querySelector('xui-tree-select [role="tree"]')).toBeNull();
+      expect(tree()).toBeNull();
     });
 
     it('collapses with ArrowLeft and jumps with Home/End', () => {
@@ -155,7 +161,7 @@ describe('XuiTreeSelect', () => {
       press(trigger(), 'ArrowDown');
       press(trigger(), 'Escape');
 
-      expect(document.querySelector('xui-tree-select [role="tree"]')).toBeNull();
+      expect(tree()).toBeNull();
       expect(cmp.value()).toBeNull();
     });
   });
@@ -200,7 +206,7 @@ describe('XuiTreeSelect', () => {
       expect(trigger().disabled).toBe(true);
       trigger().click();
       detect();
-      expect(document.querySelector('xui-tree-select [role="tree"]')).toBeNull();
+      expect(tree()).toBeNull();
     });
   });
 });
