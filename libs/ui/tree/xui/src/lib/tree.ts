@@ -16,17 +16,18 @@ import {
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { matChevronRightRound } from '@ng-icons/material-icons/round';
 import { xui } from '@xui/core';
-import { arrowDirectionOnAxis, injectXDirection } from '@xui/core/a11y';
+import { injectXDirection } from '@xui/core/a11y';
+import {
+  collectExpandedIds,
+  flattenVisibleTree,
+  isTreeNodeExpandable,
+  toggleExpandedId,
+  treeKeyAction,
+  type XFlatTreeNode
+} from '@xui/core/tree';
 import { XuiIcon } from '@xui/icon';
 import type { ClassValue } from 'clsx';
 import type { XuiTreeNode } from './tree.types';
-
-interface FlatNode {
-  node: XuiTreeNode;
-  level: number;
-  parentId: string | number | null;
-  expandable: boolean;
-}
 
 /**
  * A hierarchical tree of {@link XuiTreeNode}s with expand/collapse carets, single
@@ -76,7 +77,7 @@ interface FlatNode {
 
         @if (isExpandable(node) && isExpanded(node)) {
           <ul role="group" class="m-0 list-none p-0">
-            @for (child of node.childNodes ?? []; track child.id) {
+            @for (child of node.children ?? []; track child.id) {
               <ng-container
                 [ngTemplateOutlet]="nodeTpl"
                 [ngTemplateOutletContext]="{ $implicit: child, level: level + 1 }"
@@ -122,39 +123,16 @@ export class XuiTree {
   protected readonly computedClass = computed(() => xui('block text-sm select-none', this.class()));
 
   /** Every node flattened in visual (depth-first) order, respecting expansion. */
-  private readonly visible = computed<FlatNode[]>(() => {
-    const out: FlatNode[] = [];
-    const walk = (list: XuiTreeNode[], level: number, parentId: string | number | null) => {
-      for (const node of list) {
-        const expandable = this.isExpandable(node);
-        out.push({ node, level, parentId, expandable });
-        if (expandable && this.expanded().has(node.id)) {
-          walk(node.childNodes ?? [], level + 1, node.id);
-        }
-      }
-    };
-    walk(this.nodes(), 0, null);
-    return out;
-  });
+  private readonly visible = computed<XFlatTreeNode<XuiTreeNode>[]>(() =>
+    flattenVisibleTree(this.nodes(), this.expanded())
+  );
 
   constructor() {
     // Seed expansion from each node's `isExpanded` flag, and the initial focus.
     effect(() => {
       const nodes = this.nodes();
       untracked(() => {
-        const set = new Set<string | number>();
-        const seed = (list: XuiTreeNode[]) => {
-          for (const n of list) {
-            if (n.isExpanded) {
-              set.add(n.id);
-            }
-            if (n.childNodes) {
-              seed(n.childNodes);
-            }
-          }
-        };
-        seed(nodes);
-        this.expanded.set(set);
+        this.expanded.set(collectExpandedIds(nodes));
         if (this.focusedId() == null && nodes.length) {
           this.focusedId.set(nodes[0].id);
         }
@@ -163,7 +141,7 @@ export class XuiTree {
   }
 
   protected isExpandable(node: XuiTreeNode): boolean {
-    return !!node.hasCaret || !!node.childNodes?.length;
+    return isTreeNodeExpandable(node);
   }
 
   protected isExpanded(node: XuiTreeNode): boolean {
@@ -192,27 +170,9 @@ export class XuiTree {
       return;
     }
 
-    const set = new Set(this.expanded());
-    if (set.has(node.id)) {
-      set.delete(node.id);
-      this.nodeCollapsed.emit(node);
-    } else {
-      set.add(node.id);
-      this.nodeExpanded.emit(node);
-    }
-    this.expanded.set(set);
-  }
-
-  private expand(node: XuiTreeNode): void {
-    if (!this.isExpanded(node)) {
-      this.toggle(node);
-    }
-  }
-
-  private collapse(node: XuiTreeNode): void {
-    if (this.isExpanded(node)) {
-      this.toggle(node);
-    }
+    const wasExpanded = this.isExpanded(node);
+    this.expanded.update(set => toggleExpandedId(set, node.id));
+    (wasExpanded ? this.nodeCollapsed : this.nodeExpanded).emit(node);
   }
 
   protected onRowClick(node: XuiTreeNode): void {
@@ -228,66 +188,29 @@ export class XuiTree {
   protected onKeydown(event: KeyboardEvent, node: XuiTreeNode): void {
     const flat = this.visible();
     const index = flat.findIndex(f => f.node.id === node.id);
+    const action = treeKeyAction(event.key, this.direction(), flat, index, this.expanded());
 
-    // Expanding walks *into* the tree, which is the inline-end arrow — ArrowLeft
-    // in RTL. Collapsing walks back out.
-    const inline = arrowDirectionOnAxis(event.key, this.direction(), 'horizontal');
-
-    if (inline === 'next') {
-      event.preventDefault();
-      if (this.isExpandable(node) && !this.isExpanded(node)) {
-        this.expand(node);
-      } else if (this.isExpandable(node)) {
-        this.focusIndex(index + 1); // step into the first child
-      }
+    if (!action) {
       return;
     }
+    event.preventDefault();
 
-    if (inline === 'previous') {
-      event.preventDefault();
-      if (this.isExpandable(node) && this.isExpanded(node)) {
-        this.collapse(node);
-      } else {
-        // Step out to the parent.
-        const parentId = flat[index]?.parentId;
-        const parentIndex = flat.findIndex(f => f.node.id === parentId);
-        if (parentIndex >= 0) {
-          this.focusIndex(parentIndex);
-        }
-      }
-      return;
-    }
-
-    switch (event.key) {
-      case 'ArrowDown':
-        event.preventDefault();
-        this.focusIndex(index + 1);
+    switch (action.kind) {
+      case 'expand':
+      case 'collapse':
+        this.toggle(action.node);
         break;
-      case 'ArrowUp':
-        event.preventDefault();
-        this.focusIndex(index - 1);
+      case 'focus':
+        this.focusIndex(action.index);
         break;
-      case 'Home':
-        event.preventDefault();
-        this.focusIndex(0);
+      case 'select':
+        this.onRowClick(action.node);
         break;
-      case 'End':
-        event.preventDefault();
-        this.focusIndex(flat.length - 1);
-        break;
-      case 'Enter':
-      case ' ':
-        event.preventDefault();
-        this.onRowClick(node);
-        break;
-      default:
-        return;
     }
   }
 
   private focusIndex(index: number): void {
-    const flat = this.visible();
-    const target = flat[Math.max(0, Math.min(flat.length - 1, index))];
+    const target = this.visible()[index];
     if (!target) {
       return;
     }

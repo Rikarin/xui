@@ -25,6 +25,7 @@ const setup = (attrs = '', props: Record<string, unknown> = {}) => {
 const trigger = () => document.querySelector('xui-tree-select > button') as HTMLButtonElement;
 const rows = () => [...document.querySelectorAll('xui-tree-select [role="treeitem"]')] as HTMLElement[];
 const rowByLabel = (label: string) => rows().find(r => r.textContent?.trim() === label) as HTMLElement;
+const activeRow = () => document.getElementById(trigger().getAttribute('aria-activedescendant') ?? '');
 
 describe('XuiTreeSelect', () => {
   it('shows the placeholder and opens the tree', () => {
@@ -81,5 +82,80 @@ describe('XuiTreeSelect', () => {
     rowByLabel('Fruit').click();
     detect();
     expect(cmp.value()).toEqual(['veg']);
+  });
+
+  it('indents nested rows with logical padding', () => {
+    const { detect } = setup();
+    detect();
+    trigger().click();
+    detect();
+    (rowByLabel('Fruit').querySelector('span') as HTMLElement).click();
+    detect();
+
+    const apple = rowByLabel('Apple');
+    expect(apple.style.getPropertyValue('padding-inline-start')).toBe('24px');
+    expect(apple.style.paddingLeft).toBe('');
+  });
+
+  describe('keyboard', () => {
+    it('opens with ArrowDown and moves the active row with the vertical arrows', () => {
+      const { detect, press } = setup();
+      detect();
+
+      press(trigger(), 'ArrowDown');
+      expect(document.querySelector('xui-tree-select [role="tree"]')).toBeTruthy();
+      expect(activeRow()?.textContent?.trim()).toBe('Fruit');
+
+      press(trigger(), 'ArrowDown');
+      expect(activeRow()?.textContent?.trim()).toBe('Vegetable');
+
+      press(trigger(), 'ArrowUp');
+      expect(activeRow()?.textContent?.trim()).toBe('Fruit');
+    });
+
+    it('expands with ArrowRight, walks in, and selects with Enter', () => {
+      const { detect, press, cmp } = setup();
+      detect();
+
+      press(trigger(), 'ArrowDown'); // open, Fruit active
+      press(trigger(), 'ArrowRight'); // expand Fruit
+      expect(rowByLabel('Fruit').getAttribute('aria-expanded')).toBe('true');
+      expect(rowByLabel('Apple')).toBeTruthy();
+
+      press(trigger(), 'ArrowRight'); // step into the first child
+      expect(activeRow()?.textContent?.trim()).toBe('Apple');
+
+      press(trigger(), 'Enter');
+      expect(cmp.value()).toBe('apple');
+      expect(document.querySelector('xui-tree-select [role="tree"]')).toBeNull();
+    });
+
+    it('collapses with ArrowLeft and jumps with Home/End', () => {
+      const { detect, press } = setup();
+      detect();
+
+      press(trigger(), 'ArrowDown');
+      press(trigger(), 'ArrowRight'); // expand Fruit
+      press(trigger(), 'End');
+      expect(activeRow()?.textContent?.trim()).toBe('Vegetable');
+
+      press(trigger(), 'Home');
+      expect(activeRow()?.textContent?.trim()).toBe('Fruit');
+
+      press(trigger(), 'ArrowLeft'); // collapse Fruit
+      expect(rowByLabel('Apple')).toBeUndefined();
+      expect(rowByLabel('Fruit').getAttribute('aria-expanded')).toBe('false');
+    });
+
+    it('closes with Escape without changing the value', () => {
+      const { detect, press, cmp } = setup();
+      detect();
+
+      press(trigger(), 'ArrowDown');
+      press(trigger(), 'Escape');
+
+      expect(document.querySelector('xui-tree-select [role="tree"]')).toBeNull();
+      expect(cmp.value()).toBeNull();
+    });
   });
 });

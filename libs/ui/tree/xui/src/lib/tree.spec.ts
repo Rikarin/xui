@@ -7,8 +7,8 @@ const NODES: XuiTreeNode[] = [
     id: 'src',
     label: 'src',
     isExpanded: true,
-    childNodes: [
-      { id: 'app', label: 'app', childNodes: [{ id: 'main', label: 'main.ts' }] },
+    children: [
+      { id: 'app', label: 'app', children: [{ id: 'main', label: 'main.ts' }] },
       { id: 'index', label: 'index.html', secondaryLabel: '2 kB' }
     ]
   },

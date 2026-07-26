@@ -30,6 +30,8 @@ const NODES: XuiTreeSelectNode[] = [
 /**
  * A select whose options form a tree — expand branches and pick nodes. Single
  * mode binds one value; `multiple` shows removable chips with checkboxes.
+ * Fully keyboard-driven from the trigger: Up/Down move, Right/Left (RTL-aware)
+ * expand/collapse or step in/out, Home/End jump, Enter selects, Escape closes.
  */
 const meta: Meta<XuiTreeSelect> = {
   title: 'Forms/Tree select',
