@@ -1,6 +1,8 @@
+import { XTable } from '@xui/core/table';
 import { expectAttributes, expectClasses, expectNoClasses, render } from '@xui/testing';
 import { XuiCaption } from './caption';
 import { XuiTable } from './table';
+import { XuiTableClasses } from './table-classes';
 import { XuiTd } from './td';
 import { XuiTh } from './th';
 import { XuiTr } from './tr';
@@ -61,6 +63,21 @@ describe('XuiTable', () => {
 
       expectClasses(query('xui-table'), '[&_xui-td]:p-1.5', '[&_xui-th]:p-1.5');
     });
+  });
+});
+
+describe('XuiTableClasses', () => {
+  it('styles a headless x-table through its class model inputs', () => {
+    const { query } = render('<x-table xuiTable />', { imports: [XTable, XuiTableClasses] });
+
+    expectClasses(query('cdk-table'), 'flex', 'flex-col', 'text-sm');
+  });
+
+  it('leaves an unstyled x-table alone', () => {
+    const { query } = render('<x-table />', { imports: [XTable] });
+
+    // Only the CdkTable's own host class, none of the xUI styling.
+    expectNoClasses(query('cdk-table'), 'flex', 'flex-col', 'text-sm');
   });
 });
 

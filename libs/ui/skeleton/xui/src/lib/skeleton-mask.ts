@@ -28,7 +28,7 @@ import { xui } from '@xui/core';
     '[attr.tabindex]': 'active() ? "-1" : null'
   }
 })
-export class XuiSkeletonDirective {
+export class XuiSkeletonMask {
   /**
    * Whether the placeholder is showing. Bare `xuiSkeleton` means always on;
    * bind it to toggle.

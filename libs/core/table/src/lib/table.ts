@@ -1,20 +1,25 @@
-import { CdkRowDef, CdkTable, type CdkTableDataSourceInput, CdkTableModule } from '@angular/cdk/table';
+import type { BooleanInput } from '@angular/cdk/coercion';
 import {
-  type AfterContentInit,
+  type CdkColumnDef,
+  CdkRowDef,
+  CdkTable,
+  type CdkTableDataSourceInput,
+  CdkTableModule
+} from '@angular/cdk/table';
+import {
   ChangeDetectionStrategy,
   Component,
-  ContentChildren,
-  EventEmitter,
-  Input,
-  Output,
-  type QueryList,
   type TrackByFunction,
-  ViewChild,
   ViewEncapsulation,
   booleanAttribute,
-  model
+  contentChildren,
+  effect,
+  input,
+  model,
+  output,
+  untracked,
+  viewChild
 } from '@angular/core';
-import { type XTableClassesSettable, provideXTableClassesSettableExisting } from '@xui/core';
 import { XColumnDef } from './column-def';
 
 export type XTableDataSourceInput<T> = CdkTableDataSourceInput<T>;
@@ -22,28 +27,28 @@ export type XTableDataSourceInput<T> = CdkTableDataSourceInput<T>;
 @Component({
   selector: 'x-table',
   imports: [CdkTableModule],
-  providers: [provideXTableClassesSettableExisting(<T>() => XTable<T>)],
   template: `
     <cdk-table
       #cdkTable
       [class]="tableClasses()"
-      [dataSource]="dataSource"
-      [fixedLayout]="fixedLayout"
-      [multiTemplateDataRows]="multiTemplateDataRows"
+      [dataSource]="dataSource()"
+      [fixedLayout]="fixedLayout()"
+      [multiTemplateDataRows]="multiTemplateDataRows()"
+      [trackBy]="trackBy()"
       (contentChanged)="contentChanged.emit()"
     >
       <ng-content />
 
-      <cdk-header-row [class]="headerRowClasses()" *cdkHeaderRowDef="displayedColumns; sticky: stickyHeader" />
-      @if (!customTemplateDataRows) {
+      <cdk-header-row [class]="headerRowClasses()" *cdkHeaderRowDef="displayedColumns(); sticky: stickyHeader()" />
+      @if (!customTemplateDataRows()) {
         <cdk-row
-          [tabindex]="!!onRowClick ? 0 : -1"
-          [attr.role]="!!onRowClick ? 'button' : 'row'"
-          [class.row-interactive]="!!onRowClick"
-          (keydown.enter)="!!onRowClick && onRowClick(row)"
-          (click)="!!onRowClick && onRowClick(row)"
+          [tabindex]="interactiveRows() ? 0 : -1"
+          [attr.role]="interactiveRows() ? 'button' : 'row'"
+          [class.row-interactive]="interactiveRows()"
+          (keydown.enter)="rowClick.emit(row)"
+          (click)="rowClick.emit(row)"
           [class]="bodyRowClasses()"
-          *cdkRowDef="let row; columns: displayedColumns"
+          *cdkRowDef="let row; columns: displayedColumns()"
         />
       }
 
@@ -55,86 +60,84 @@ export type XTableDataSourceInput<T> = CdkTableDataSourceInput<T>;
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None
 })
-export class XTable<T> implements XTableClassesSettable, AfterContentInit {
-  @ViewChild('cdkTable', { read: CdkTable, static: true })
-  private readonly cdkTable?: CdkTable<T>;
+export class XTable<T> {
+  private readonly cdkTable = viewChild.required('cdkTable', { read: CdkTable });
 
   // Cdk Table Inputs / Outputs
-  @Input()
-  dataSource: XTableDataSourceInput<T> = [];
+  readonly dataSource = input<XTableDataSourceInput<T>>([]);
+  readonly fixedLayout = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
+  readonly multiTemplateDataRows = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
+  readonly displayedColumns = input<string[]>([]);
+  // Mirrors the CDK default: without an explicit trackBy, rows are tracked by
+  // item identity.
+  readonly trackBy = input<TrackByFunction<T>>((_index, item) => item);
 
-  @Input({ transform: booleanAttribute })
-  fixedLayout = false;
-
-  @Input({ transform: booleanAttribute })
-  multiTemplateDataRows = false;
-
-  @Input()
-  displayedColumns: string[] = [];
-
-  private _trackBy?: TrackByFunction<T>;
-  get trackBy(): TrackByFunction<T> | undefined {
-    return this._trackBy;
-  }
-
-  @Input()
-  set trackBy(value: TrackByFunction<T>) {
-    this._trackBy = value;
-    if (this.cdkTable) {
-      this.cdkTable.trackBy = this._trackBy;
-    }
-  }
-
-  @Output()
-  readonly contentChanged: EventEmitter<void> = new EventEmitter<void>();
+  readonly contentChanged = output<void>();
 
   // X Inputs / Outputs
-  @Input({ transform: booleanAttribute })
-  customTemplateDataRows = false;
+  readonly customTemplateDataRows = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
+  /**
+   * Marks the default body rows as clickable: they become focusable, get
+   * `role="button"` and the `row-interactive` class. `rowClick` emits
+   * regardless, so a listener without the visual affordance is possible —
+   * but usually these two go together.
+   */
+  readonly interactiveRows = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
+  readonly rowClick = output<T>();
+  readonly stickyHeader = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
 
-  @Input()
-  onRowClick: ((element: T) => void) | undefined;
-
-  @Input({ transform: booleanAttribute })
-  stickyHeader = false;
-
-  // Written both by the consumer (as inputs) and by the styled layer through
-  // `setTableClasses`, so they must be signals — a plain field mutated after
-  // construction is invisible to zoneless OnPush change detection.
+  // Written both by the consumer (as inputs) and by the styled layer
+  // (`XuiTableClasses` sets them directly), so they are model signals — a
+  // plain field mutated after construction is invisible to zoneless OnPush
+  // change detection.
   readonly tableClasses = model('');
   readonly headerRowClasses = model('');
   readonly bodyRowClasses = model('');
 
-  @ContentChildren(XColumnDef) columnDefComponents!: QueryList<XColumnDef>;
-  @ContentChildren(CdkRowDef) rowDefs!: QueryList<CdkRowDef<T>>;
+  readonly columnDefComponents = contentChildren(XColumnDef);
+  readonly rowDefs = contentChildren(CdkRowDef);
 
-  // after the <ng-content> has been initialized, the column definitions are available.
-  // All that's left is to add them to the table ourselves:
-  ngAfterContentInit(): void {
-    this.columnDefComponents.forEach(component => {
-      if (!this.cdkTable) return;
-      if (component.cell) {
-        this.cdkTable.addColumnDef(component.columnDef);
-      }
+  private readonly addedColumnDefs = new Set<CdkColumnDef>();
+  private readonly addedRowDefs = new Set<CdkRowDef<T>>();
+
+  constructor() {
+    // The column/row definitions arrive through <ng-content>, which the
+    // CdkTable cannot see — register them ourselves, and keep the
+    // registration in sync when defs are added or removed later.
+    effect(() => {
+      const table = this.cdkTable();
+      const columnDefs = this.columnDefComponents()
+        .filter(component => component.cellDef())
+        .map(component => component.columnDef());
+      const rowDefs = this.rowDefs() as readonly CdkRowDef<T>[];
+
+      untracked(() => {
+        for (const def of this.addedColumnDefs) {
+          if (!columnDefs.includes(def)) {
+            table.removeColumnDef(def);
+            this.addedColumnDefs.delete(def);
+          }
+        }
+        for (const def of columnDefs) {
+          if (!this.addedColumnDefs.has(def)) {
+            table.addColumnDef(def);
+            this.addedColumnDefs.add(def);
+          }
+        }
+
+        for (const def of this.addedRowDefs) {
+          if (!rowDefs.includes(def)) {
+            table.removeRowDef(def);
+            this.addedRowDefs.delete(def);
+          }
+        }
+        for (const def of rowDefs) {
+          if (!this.addedRowDefs.has(def)) {
+            table.addRowDef(def);
+            this.addedRowDefs.add(def);
+          }
+        }
+      });
     });
-
-    this.rowDefs.forEach(rowDef => {
-      if (!this.cdkTable) return;
-      this.cdkTable.addRowDef(rowDef);
-    });
-  }
-
-  setTableClasses({ table, headerRow, bodyRow }: Partial<{ table: string; headerRow: string; bodyRow: string }>): void {
-    if (table) {
-      this.tableClasses.set(table);
-    }
-
-    if (headerRow) {
-      this.headerRowClasses.set(headerRow);
-    }
-
-    if (bodyRow) {
-      this.bodyRowClasses.set(bodyRow);
-    }
   }
 }

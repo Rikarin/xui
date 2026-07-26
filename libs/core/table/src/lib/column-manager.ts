@@ -24,7 +24,6 @@ export class XColumnManager<T extends XColumnVisibility> {
   constructor(initialColumnVisibility: T) {
     this.initialColumnVisibility = initialColumnVisibility;
     this._columnVisibility = signal(this.initialColumnVisibility);
-    this._columnVisibility.set(this.initialColumnVisibility);
     this.columnVisibility = this._columnVisibility.asReadonly();
     this.allColumns = this.createAllColumns(this.initialColumnVisibility);
   }
@@ -73,7 +72,7 @@ export class XColumnManager<T extends XColumnVisibility> {
     }) as AllColumnsPropertyType<T>;
   }
 
-  private isBooleanConfig(config: any): config is Record<string, boolean> {
+  private isBooleanConfig(config: XColumnVisibility): config is Record<string, boolean> {
     return typeof Object.values(config)[0] === 'boolean';
   }
 }

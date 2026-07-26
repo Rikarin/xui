@@ -103,7 +103,7 @@ export const Modifiers: Story = {
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <x-table
-      xui
+      xuiTable
       stickyHeader
       [dataSource]="users()"
       [displayedColumns]="columns.displayedColumns()"
@@ -122,34 +122,39 @@ export const Modifiers: Story = {
         <xui-td *xCellDef="let user">{{ user.weight }}</xui-td>
       </x-column-def>
     </x-table>
-    <div
-      class="mt-2 flex items-center justify-between"
-      *xPaginator="let ctx; totalElements: totalElements(); pageSize: pageSize(); onStateChange: onStateChange"
+    <ng-template
+      xPaginator
+      [xPaginatorTotalElements]="totalElements()"
+      [xPaginatorPageSize]="pageSize()"
+      (xPaginatorStateChange)="onStateChange($event)"
+      let-ctx
     >
-      <span class="text-sm tabular-nums">
-        Showing entries {{ ctx.state().startIndex + 1 }} - {{ ctx.state().endIndex + 1 }} of {{ totalElements() }}
-      </span>
-      <div class="flex">
-        <select
-          [ngModel]="pageSize()"
-          (ngModelChange)="pageSize.set($event)"
-          xuiInput
-          size="sm"
-          class="mr-1 inline-flex pr-8"
-        >
-          <option [value]="size" *ngFor="let size of availablePageSizes">{{ size === 10000 ? 'All' : size }}</option>
-        </select>
+      <div class="mt-2 flex items-center justify-between">
+        <span class="text-sm tabular-nums">
+          Showing entries {{ ctx.state().startIndex + 1 }} - {{ ctx.state().endIndex + 1 }} of {{ totalElements() }}
+        </span>
+        <div class="flex">
+          <select
+            [ngModel]="pageSize()"
+            (ngModelChange)="pageSize.set($event)"
+            xuiInput
+            size="sm"
+            class="mr-1 inline-flex pr-8"
+          >
+            <option [value]="size" *ngFor="let size of availablePageSizes">{{ size === 10000 ? 'All' : size }}</option>
+          </select>
 
-        <div class="flex space-x-1">
-          <button size="sm" variant="outline" xuiButton [disabled]="!ctx.decrementable()" (click)="ctx.decrement()">
-            Previous
-          </button>
-          <button size="sm" variant="outline" xuiButton [disabled]="!ctx.incrementable()" (click)="ctx.increment()">
-            Next
-          </button>
+          <div class="flex space-x-1">
+            <button size="sm" variant="outline" xuiButton [disabled]="!ctx.decrementable()" (click)="ctx.decrement()">
+              Previous
+            </button>
+            <button size="sm" variant="outline" xuiButton [disabled]="!ctx.incrementable()" (click)="ctx.increment()">
+              Next
+            </button>
+          </div>
         </div>
       </div>
-    </div>
+    </ng-template>
   `
 })
 export class TableStory {

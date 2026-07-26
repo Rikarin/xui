@@ -1,7 +1,7 @@
 import type { BooleanInput } from '@angular/cdk/coercion';
 import { ChangeDetectionStrategy, Component, booleanAttribute, computed, input } from '@angular/core';
 import { xui } from '@xui/core';
-import { XuiSkeletonDirective } from '@xui/skeleton';
+import { XuiSkeletonMask } from '@xui/skeleton';
 import { XuiTextImports } from '@xui/text';
 import type { ClassValue } from 'clsx';
 
@@ -21,7 +21,7 @@ import type { ClassValue } from 'clsx';
  */
 @Component({
   selector: 'xui-entity-title',
-  imports: [XuiTextImports, XuiSkeletonDirective],
+  imports: [XuiTextImports, XuiSkeletonMask],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="text-foreground-muted shrink-0 empty:hidden">

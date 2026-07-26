@@ -1,86 +1,62 @@
-import {
-  type CdkCellDef,
-  CdkColumnDef,
-  type CdkFooterCellDef,
-  type CdkHeaderCellDef,
-  CdkTableModule
-} from '@angular/cdk/table';
-import {
-  type AfterContentChecked,
-  ChangeDetectionStrategy,
-  Component,
-  ContentChild,
-  Input,
-  ViewChild,
-  ViewEncapsulation,
-  input
-} from '@angular/core';
+import { CdkColumnDef } from '@angular/cdk/table';
+import { ChangeDetectionStrategy, Component, ViewEncapsulation, computed, contentChild, input } from '@angular/core';
 import { XCellDef } from './cell-def';
 import { XFooterDef } from './footer-def';
 import { XHeaderDef } from './header-def';
 
 @Component({
   selector: 'x-column-def',
-  imports: [CdkTableModule],
   template: `
-    <ng-container [cdkColumnDef]="name">
-      <ng-content select="[xHeaderDef]" />
-      <ng-content select="[xCellDef]" />
-      <ng-content select="[xFooterDef]" />
-    </ng-container>
+    <ng-content select="[xHeaderDef]" />
+    <ng-content select="[xCellDef]" />
+    <ng-content select="[xFooterDef]" />
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None
 })
-export class XColumnDef implements AfterContentChecked {
-  get columnDef() {
-    return this._columnDef;
-  }
+export class XColumnDef {
+  readonly name = input.required<string>();
 
-  get cell() {
-    return this._columnDef.cell;
-  }
-
-  private _name = '';
-
-  @Input()
-  get name(): string {
-    return this._name;
-  }
-
-  set name(value: string) {
-    this._name = value;
-    if (!this._columnDef) return;
-    this._columnDef.name = value;
-  }
-
+  /** Extra classes the styled cells (`xui-th`/`xui-td`) merge into this column. */
   readonly class = input('');
 
-  @ViewChild(CdkColumnDef, { static: true })
-  private readonly _columnDef!: CdkColumnDef;
+  readonly cellDef = contentChild(XCellDef);
+  private readonly footerCellDef = contentChild(XFooterDef);
+  private readonly headerCellDef = contentChild(XHeaderDef);
 
-  @ContentChild(XCellDef, { static: true })
-  private readonly _cellDef?: CdkCellDef;
+  // Constructed directly rather than through an `ng-container [cdkColumnDef]`
+  // in the template: a template-created instance has live content queries that
+  // never match our projected templates, so they would keep resetting the
+  // `cell`/`headerCell`/`footerCell` fields we assign below on every render
+  // pass. Owning the instance makes this class the only writer. The field
+  // initializer runs in the injection context, which `CdkColumnDef` needs for
+  // its optional `CDK_TABLE` injection.
+  private readonly _columnDef = new CdkColumnDef();
 
-  @ContentChild(XFooterDef, { static: true })
-  private readonly _footerCellDef?: CdkFooterCellDef;
+  /**
+   * The CdkColumnDef with the projected cell templates wired in. Reading it
+   * re-wires on demand, so it is complete before `XTable` registers it with
+   * the CdkTable and stays current when the name or a template changes.
+   */
+  readonly columnDef = computed(() => {
+    const columnDef = this._columnDef;
+    columnDef.name = this.name();
 
-  @ContentChild(XHeaderDef, { static: true })
-  private readonly _headerCellDef?: CdkHeaderCellDef;
-
-  ngAfterContentChecked() {
-    this._columnDef.name = this.name;
-
-    if (this._cellDef) {
-      this._columnDef.cell = this._cellDef;
+    const cellDef = this.cellDef();
+    if (cellDef) {
+      columnDef.cell = cellDef;
     }
 
-    if (this._headerCellDef) {
-      this._columnDef.headerCell = this._headerCellDef;
+    const headerCellDef = this.headerCellDef();
+    if (headerCellDef) {
+      columnDef.headerCell = headerCellDef;
     }
 
-    if (this._footerCellDef) {
-      this._columnDef.footerCell = this._footerCellDef;
+    const footerCellDef = this.footerCellDef();
+    if (footerCellDef) {
+      columnDef.footerCell = footerCellDef;
     }
-  }
+
+    return columnDef;
+  });
 }

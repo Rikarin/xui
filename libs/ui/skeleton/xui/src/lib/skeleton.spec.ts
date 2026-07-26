@@ -1,8 +1,8 @@
 import { expectAttributes, expectClasses, render } from '@xui/testing';
 import { XuiSkeleton } from './skeleton';
-import { XuiSkeletonDirective } from './skeleton.directive';
+import { XuiSkeletonMask } from './skeleton-mask';
 
-const setup = (template: string) => render(template, { imports: [XuiSkeleton, XuiSkeletonDirective] });
+const setup = (template: string) => render(template, { imports: [XuiSkeleton, XuiSkeletonMask] });
 
 describe('XuiSkeleton', () => {
   it('renders an animated placeholder hidden from assistive technology', () => {
@@ -27,7 +27,7 @@ describe('XuiSkeleton', () => {
   });
 });
 
-describe('XuiSkeletonDirective', () => {
+describe('XuiSkeletonMask', () => {
   it('masks the host while active', () => {
     const { query } = setup('<h2 xuiSkeleton>Title</h2>');
 
@@ -60,7 +60,7 @@ describe('XuiSkeletonDirective', () => {
 
   it('toggles with its binding', () => {
     const { query, setProps } = render<{ loading: boolean }>('<h2 [xuiSkeleton]="props().loading">Title</h2>', {
-      imports: [XuiSkeletonDirective],
+      imports: [XuiSkeletonMask],
       props: { loading: true }
     });
 

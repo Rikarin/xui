@@ -1,6 +1,5 @@
 import {
   Directive,
-  Input,
   type OnInit,
   type Signal,
   TemplateRef,
@@ -8,9 +7,10 @@ import {
   computed,
   effect,
   inject,
+  input,
+  linkedSignal,
   numberAttribute,
-  signal,
-  untracked
+  output
 } from '@angular/core';
 
 export type XPaginatorState = {
@@ -46,46 +46,59 @@ export class XPaginator implements OnInit {
   private readonly vcr = inject(ViewContainerRef);
   private readonly template = inject(TemplateRef<unknown>);
 
-  private readonly state = signal<XPaginatorState>({
-    currentPage: 0,
-    startIndex: 0,
-    endIndex: 0,
-    pageSize: 10,
-    totalPages: 0,
-    totalElements: null
+  readonly totalElements = input<number | null | undefined>(null, { alias: 'xPaginatorTotalElements' });
+  readonly currentPage = input(0, { alias: 'xPaginatorCurrentPage', transform: numberAttribute });
+  readonly pageSize = input(10, { alias: 'xPaginatorPageSize', transform: numberAttribute });
+
+  readonly stateChange = output<XPaginatorState>({ alias: 'xPaginatorStateChange' });
+
+  // The page the paginator is on: follows the `currentPage` input, resets to
+  // the first page when the data set or the page size changes, and is written
+  // locally by increment/decrement/goTo… navigation.
+  private readonly page = linkedSignal<
+    { totalElements: number | null | undefined; pageSize: number; currentPage: number },
+    number
+  >({
+    source: () => ({
+      totalElements: this.totalElements(),
+      pageSize: this.pageSize(),
+      currentPage: this.currentPage()
+    }),
+    computation: (source, previous) => {
+      if (!previous || source.currentPage !== previous.source.currentPage) {
+        return source.currentPage;
+      }
+      // totalElements or pageSize changed — back to the first page.
+      return 0;
+    }
   });
+
+  private readonly state: Signal<XPaginatorState> = computed(() => {
+    const totalElements = this.totalElements() ?? 0;
+    const pageSize = this.pageSize();
+    let currentPage = this.page();
+
+    const totalPages = totalElements ? Math.floor(totalElements / pageSize) : 0;
+
+    if (totalPages < currentPage - 1) {
+      currentPage = totalPages - 1;
+    }
+
+    return {
+      currentPage,
+      startIndex: totalElements === 0 ? 0 : Math.min(totalElements - 1, currentPage * pageSize),
+      endIndex: Math.min((currentPage + 1) * pageSize - 1, totalElements - 1),
+      pageSize,
+      totalPages,
+      totalElements
+    };
+  });
+
   private readonly decrementable = computed(() => 0 < this.state().startIndex);
   private readonly incrementable = computed(() => this.state().endIndex < (this.state().totalElements ?? 0) - 1);
 
-  @Input({ alias: 'xPaginatorTotalElements' })
-  set totalElements(value: number | null | undefined) {
-    this.calculateNewState({ newTotalElements: value, newPage: 0 });
-  }
-
-  @Input({ alias: 'xPaginatorCurrentPage', transform: numberAttribute })
-  set currentPage(value: number) {
-    this.calculateNewState({ newPage: value });
-  }
-
-  @Input({ alias: 'xPaginatorPageSize', transform: numberAttribute })
-  set pageSize(value: number) {
-    this.calculateNewState({ newPageSize: value, newPage: 0 });
-  }
-
-  @Input({ alias: 'xPaginatorOnStateChange' })
-  onStateChange?: (state: XPaginatorState) => void;
-
   constructor() {
-    effect(() => {
-      const state = this.state();
-      untracked(() => {
-        Promise.resolve().then(() => {
-          if (this.onStateChange) {
-            this.onStateChange(state);
-          }
-        });
-      });
-    });
+    effect(() => this.stateChange.emit(this.state()));
   }
 
   ngOnInit() {
@@ -103,60 +116,24 @@ export class XPaginator implements OnInit {
   }
 
   goToLastPage(): void {
-    this.currentPage = this.state().totalPages;
+    this.page.set(this.state().totalPages);
   }
 
   decrementPage(): void {
     const { currentPage } = this.state();
     if (0 < currentPage) {
-      this.calculateNewState({ newPage: currentPage - 1 });
+      this.page.set(currentPage - 1);
     }
   }
 
   incrementPage(): void {
     const { currentPage, totalPages } = this.state();
     if (totalPages > currentPage) {
-      this.calculateNewState({ newPage: currentPage + 1 });
+      this.page.set(currentPage + 1);
     }
   }
 
   reset(): void {
-    this.currentPage = 0;
-  }
-
-  private calculateNewState({
-    newPage,
-    newPageSize,
-    newTotalElements
-  }: Partial<{
-    newPage: number;
-    newPageSize: number;
-    newTotalElements: number | null | undefined;
-  }>) {
-    const previousState = this.state();
-
-    let currentPage = newPage ?? previousState.currentPage;
-    const pageSize = newPageSize ?? previousState.pageSize;
-    const totalElements = newTotalElements ?? previousState.totalElements ?? 0;
-
-    const newTotalPages = totalElements ? Math.floor(totalElements / pageSize) : 0;
-
-    if (newTotalPages < currentPage - 1) {
-      currentPage = newTotalPages - 1;
-    }
-
-    const newStartIndex = totalElements === 0 ? 0 : Math.min(totalElements - 1, currentPage * pageSize);
-    const newEndIndex = Math.min((currentPage + 1) * pageSize - 1, totalElements - 1);
-
-    const newState = {
-      currentPage: currentPage,
-      startIndex: newStartIndex,
-      endIndex: newEndIndex,
-      pageSize: pageSize,
-      totalPages: newTotalPages,
-      totalElements: totalElements
-    };
-
-    this.state.set(newState);
+    this.page.set(0);
   }
 }
