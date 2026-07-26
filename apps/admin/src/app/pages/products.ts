@@ -187,7 +187,7 @@ export class Products {
     this.notify(`${product.name} restocked to ${product.stock + 120}.`, 'success');
   }
 
-  protected notify(message: string, intent: 'none' | 'success' = 'none'): void {
-    this.toaster.show({ message, intent });
+  protected notify(message: string, color: 'none' | 'success' = 'none'): void {
+    this.toaster.show({ message, color });
   }
 }

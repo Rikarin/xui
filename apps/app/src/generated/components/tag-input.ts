@@ -66,7 +66,7 @@ export const doc: ComponentDoc = {
   exports: [
   "XuiTagInput",
   "XuiTagInputImports",
-  "TagInputVariants",
+  "XuiTagInputVariants",
   "XUI_TAG_INPUT_VALUE_ACCESSOR"
 ],
   peerDependencies: {

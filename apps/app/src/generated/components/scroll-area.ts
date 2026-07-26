@@ -52,7 +52,7 @@ export const doc: ComponentDoc = {
   exports: [
   "XuiScrollArea",
   "XuiScrollAreaImports",
-  "ScrollOrientation"
+  "XuiScrollOrientation"
 ],
   peerDependencies: {
   "@angular/core": "22",
@@ -75,7 +75,7 @@ export const doc: ComponentDoc = {
       },
       {
         "name": "orientation",
-        "type": "ScrollOrientation",
+        "type": "XuiScrollOrientation",
         "default": "'vertical'",
         "required": false
       }

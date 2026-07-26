@@ -60,7 +60,7 @@ export const doc: ComponentDoc = {
   "provideXuiLinkConfig",
   "injectXuiLinkConfig",
   "linkVariants",
-  "LinkVariants"
+  "XuiLinkVariants"
 ],
   peerDependencies: {
   "@angular/core": "22",
@@ -86,13 +86,13 @@ export const doc: ComponentDoc = {
       },
       {
         "name": "color",
-        "type": "LinkVariants['color']",
+        "type": "XuiLinkVariants['color']",
         "default": "this.config.color",
         "required": false
       },
       {
         "name": "underline",
-        "type": "LinkVariants['underline']",
+        "type": "XuiLinkVariants['underline']",
         "default": "this.config.underline",
         "required": false
       }

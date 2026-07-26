@@ -77,8 +77,8 @@ export const doc: ComponentDoc = {
   exports: [
   "XuiControlCard",
   "XuiControlCardImports",
-  "ControlCardType",
-  "ControlCardVariants",
+  "XuiControlCardType",
+  "XuiControlCardVariants",
   "XUI_CONTROL_CARD_VALUE_ACCESSOR"
 ],
   peerDependencies: {
@@ -108,7 +108,7 @@ export const doc: ComponentDoc = {
       },
       {
         "name": "type",
-        "type": "ControlCardType",
+        "type": "XuiControlCardType",
         "default": "'checkbox'",
         "required": false
       },

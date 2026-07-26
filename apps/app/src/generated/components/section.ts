@@ -119,7 +119,7 @@ export const doc: ComponentDoc = {
   "XuiSectionCard",
   "XuiSectionImports",
   "sectionVariants",
-  "SectionVariants"
+  "XuiSectionVariants"
 ],
   peerDependencies: {
   "@angular/cdk": "22",
@@ -150,7 +150,7 @@ export const doc: ComponentDoc = {
       },
       {
         "name": "elevation",
-        "type": "SectionVariants['elevation']",
+        "type": "XuiSectionVariants['elevation']",
         "default": "0",
         "required": false
       },

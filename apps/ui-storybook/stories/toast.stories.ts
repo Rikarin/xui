@@ -14,11 +14,11 @@ import { XuiToastService } from '@xui/toast';
   imports: [XuiButtonImports],
   template: `
     <div class="flex flex-wrap gap-2">
-      <button xuiButton (click)="toaster.show({ message: 'Changes saved.', intent: 'success' })">Success</button>
+      <button xuiButton (click)="toaster.show({ message: 'Changes saved.', color: 'success' })">Success</button>
       <button
         xuiButton
         variant="outline"
-        (click)="toaster.show({ message: 'Heads up — check your input.', intent: 'warning' })"
+        (click)="toaster.show({ message: 'Heads up — check your input.', color: 'warning' })"
       >
         Warning
       </button>
@@ -26,12 +26,12 @@ import { XuiToastService } from '@xui/toast';
         xuiButton
         color="error"
         (click)="
-          toaster.show({ message: 'Upload failed.', intent: 'error', actionText: 'Retry', onAction: retry, timeout: 0 })
+          toaster.show({ message: 'Upload failed.', color: 'error', actionText: 'Retry', onAction: retry, timeout: 0 })
         "
       >
         Error + action
       </button>
-      <button xuiButton variant="ghost" (click)="toaster.show({ message: 'Just so you know.', intent: 'primary' })">
+      <button xuiButton variant="ghost" (click)="toaster.show({ message: 'Just so you know.', color: 'primary' })">
         Info
       </button>
       <button xuiButton variant="ghost" (click)="toaster.clear()">Clear all</button>
@@ -40,7 +40,7 @@ import { XuiToastService } from '@xui/toast';
 })
 class ToastDemo {
   protected readonly toaster = inject(XuiToastService);
-  protected readonly retry = () => this.toaster.show({ message: 'Retrying…', intent: 'primary' });
+  protected readonly retry = () => this.toaster.show({ message: 'Retrying…', color: 'primary' });
 }
 
 const meta: Meta<ToastDemo> = {
@@ -52,5 +52,5 @@ const meta: Meta<ToastDemo> = {
 export default meta;
 type Story = StoryObj<ToastDemo>;
 
-/** Raise one of each intent; the error one carries a Retry action and never auto-dismisses. */
+/** Raise one of each color; the error one carries a Retry action and never auto-dismisses. */
 export const Default: Story = { render: () => ({ template: `<xui-toast-demo />` }) };

@@ -49,7 +49,8 @@ export const progressMeterVariants = cva('block h-full rounded-full transition-[
   }
 });
 
-export type ProgressBarVariants = VariantProps<typeof progressBarVariants> & VariantProps<typeof progressMeterVariants>;
+export type XuiProgressBarVariants = VariantProps<typeof progressBarVariants> &
+  VariantProps<typeof progressMeterVariants>;
 
 /**
  * A horizontal bar showing how far along an operation is.
@@ -82,8 +83,8 @@ export class XuiProgressBar {
 
   /** The user-defined classes. Merged last so they win over the variant classes. */
   readonly class = input<ClassValue>('');
-  readonly color = input<ProgressBarVariants['color']>(this.config.color);
-  readonly size = input<ProgressBarVariants['size']>(this.config.size);
+  readonly color = input<XuiProgressBarVariants['color']>(this.config.color);
+  readonly size = input<XuiProgressBarVariants['size']>(this.config.size);
 
   /**
    * How far along the operation is, between 0 and 1. Out-of-range values are

@@ -39,7 +39,7 @@ const tabVariants = cva(
   }
 );
 
-export type TabsVariants = VariantProps<typeof tabVariants>;
+export type XuiTabsVariants = VariantProps<typeof tabVariants>;
 
 @Component({
   selector: 'xui-tabs',

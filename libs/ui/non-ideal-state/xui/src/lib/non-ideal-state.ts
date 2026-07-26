@@ -15,7 +15,7 @@ export const nonIdealStateVariants = cva('flex text-center', {
   }
 });
 
-export type NonIdealStateVariants = VariantProps<typeof nonIdealStateVariants>;
+export type XuiNonIdealStateVariants = VariantProps<typeof nonIdealStateVariants>;
 
 /**
  * The placeholder shown when there is nothing to show: an empty list, a failed
@@ -60,7 +60,7 @@ export type NonIdealStateVariants = VariantProps<typeof nonIdealStateVariants>;
 export class XuiNonIdealState {
   /** The user-defined classes. Merged last so they win over the variant classes. */
   readonly class = input<ClassValue>('');
-  readonly layout = input<NonIdealStateVariants['layout']>('vertical');
+  readonly layout = input<XuiNonIdealStateVariants['layout']>('vertical');
 
   readonly title = input<string | null>(null);
   readonly description = input<string | null>(null);

@@ -12,7 +12,7 @@ import {
 } from '@angular/core';
 import { xui } from '@xui/core';
 import type { ClassValue } from 'clsx';
-import { XuiAvatar, type AvatarVariants } from './avatar';
+import { XuiAvatar, type XuiAvatarVariants } from './avatar';
 
 /**
  * Overlaps a set of {@link XuiAvatar}s into a stack. With `max`, only the first
@@ -46,8 +46,8 @@ export class XuiAvatarGroup {
   /** Maximum avatars to show before collapsing the rest into `+N` (0 = no limit). */
   readonly max = input<number, NumberInput>(0, { transform: numberAttribute });
   /** Shape/size applied to the trailing `+N` avatar. */
-  readonly shape = input<AvatarVariants['shape']>('circle');
-  readonly size = input<AvatarVariants['size']>('md');
+  readonly shape = input<XuiAvatarVariants['shape']>('circle');
+  readonly size = input<XuiAvatarVariants['size']>('md');
 
   private readonly projected = contentChildren(XuiAvatar, { read: ElementRef });
 

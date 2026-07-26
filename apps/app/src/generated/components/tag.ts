@@ -79,8 +79,8 @@ export const doc: ComponentDoc = {
   exports: [
   "XuiTag",
   "XuiTagImports",
-  "TagVariants",
-  "TagColor"
+  "XuiTagVariants",
+  "XuiTagColor"
 ],
   peerDependencies: {
   "@angular/cdk": "22",
@@ -108,7 +108,7 @@ export const doc: ComponentDoc = {
       },
       {
         "name": "color",
-        "type": "TagColor",
+        "type": "XuiTagColor",
         "default": "'none'",
         "required": false
       },

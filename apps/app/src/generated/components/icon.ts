@@ -16,9 +16,9 @@ export const doc: ComponentDoc = {
   "XuiIconConfig",
   "provideXuiIconConfig",
   "injectXuiIconConfig",
-  "IconSize",
+  "XuiIconSize",
   "iconVariants",
-  "IconVariants"
+  "XuiIconVariants"
 ],
   peerDependencies: {
   "@angular/core": "22",
@@ -44,13 +44,13 @@ export const doc: ComponentDoc = {
       },
       {
         "name": "size",
-        "type": "IconSize",
+        "type": "XuiIconSize",
         "default": "this.config.size",
         "required": false
       },
       {
         "name": "color",
-        "type": "IconVariants['color']",
+        "type": "XuiIconVariants['color']",
         "default": "this.config.color",
         "required": false
       },

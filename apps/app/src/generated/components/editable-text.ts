@@ -65,7 +65,7 @@ export const doc: ComponentDoc = {
   exports: [
   "XuiEditableText",
   "XuiEditableTextImports",
-  "EditableTextVariants",
+  "XuiEditableTextVariants",
   "XUI_EDITABLE_TEXT_VALUE_ACCESSOR"
 ],
   peerDependencies: {

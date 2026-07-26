@@ -68,8 +68,8 @@ export const doc: ComponentDoc = {
   "XuiCallout",
   "XuiCalloutImports",
   "calloutVariants",
-  "CalloutVariants",
-  "CalloutColor"
+  "XuiCalloutVariants",
+  "XuiCalloutColor"
 ],
   peerDependencies: {
   "@angular/cdk": "22",
@@ -98,7 +98,7 @@ export const doc: ComponentDoc = {
       },
       {
         "name": "color",
-        "type": "CalloutColor",
+        "type": "XuiCalloutColor",
         "default": "'none'",
         "required": false
       },

@@ -88,7 +88,7 @@ export const doc: ComponentDoc = {
   "XuiTh",
   "XuiTr",
   "XuiTableImports",
-  "TableVariants"
+  "XuiTableVariants"
 ],
   peerDependencies: {
   "@angular/cdk": "22",

@@ -30,7 +30,7 @@ export const doc: ComponentDoc = {
   "provideXuiSpinnerConfig",
   "injectXuiSpinnerConfig",
   "spinnerVariants",
-  "SpinnerVariants"
+  "XuiSpinnerVariants"
 ],
   peerDependencies: {
   "@angular/core": "22",
@@ -55,13 +55,13 @@ export const doc: ComponentDoc = {
       },
       {
         "name": "color",
-        "type": "SpinnerVariants['color']",
+        "type": "XuiSpinnerVariants['color']",
         "default": "this.config.color",
         "required": false
       },
       {
         "name": "size",
-        "type": "SpinnerVariants['size']",
+        "type": "XuiSpinnerVariants['size']",
         "default": "this.config.size",
         "required": false
       },

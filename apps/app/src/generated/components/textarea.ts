@@ -51,7 +51,7 @@ export const doc: ComponentDoc = {
   "XuiTextarea",
   "XuiTextareaImports",
   "textareaVariants",
-  "TextareaVariants"
+  "XuiTextareaVariants"
 ],
   peerDependencies: {
   "@angular/cdk": "22",
@@ -77,7 +77,7 @@ export const doc: ComponentDoc = {
       },
       {
         "name": "size",
-        "type": "TextareaVariants['size']",
+        "type": "XuiTextareaVariants['size']",
         "default": "'md'",
         "required": false
       },

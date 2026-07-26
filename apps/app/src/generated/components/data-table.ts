@@ -141,8 +141,8 @@ export const doc: ComponentDoc = {
   "XuiDataTableImports",
   "XuiDataCellContext",
   "XuiDataColumn",
-  "SortDirection",
-  "SortState",
+  "XuiSortDirection",
+  "XuiSortState",
   "CellCoord"
 ],
   peerDependencies: {
@@ -311,7 +311,7 @@ export const doc: ComponentDoc = {
       },
       {
         "name": "sortChange",
-        "type": "SortState | null"
+        "type": "XuiSortState | null"
       },
       {
         "name": "copied",

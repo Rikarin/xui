@@ -5,7 +5,7 @@ import type { XGlobalPosition } from '@xui/core/overlay';
 export type XuiToastPosition = 'top-left' | 'top' | 'top-right' | 'bottom-left' | 'bottom' | 'bottom-right';
 
 /** The colour and default icon a toast takes. */
-export type XuiToastIntent = 'none' | 'primary' | 'success' | 'warning' | 'error';
+export type XuiToastColor = 'none' | 'primary' | 'success' | 'warning' | 'error';
 
 export interface XuiToastConfig {
   position: XuiToastPosition;
@@ -32,8 +32,8 @@ export function injectXuiToastConfig(): XuiToastConfig {
   return inject(XuiToastConfigToken, { optional: true }) ?? defaultConfig;
 }
 
-/** Icon each intent implies, unless the caller overrides it. */
-export const XUI_TOAST_INTENT_ICON: Record<XuiToastIntent, string | null> = {
+/** Icon each color implies, unless the caller overrides it. */
+export const XUI_TOAST_COLOR_ICON: Record<XuiToastColor, string | null> = {
   none: null,
   primary: 'matInfoRound',
   success: 'matCheckCircleRound',
@@ -41,8 +41,8 @@ export const XUI_TOAST_INTENT_ICON: Record<XuiToastIntent, string | null> = {
   error: 'matErrorRound'
 };
 
-/** Icon colour by intent. */
-export const XUI_TOAST_INTENT_ICON_CLASS: Record<XuiToastIntent, string> = {
+/** Icon colour by color. */
+export const XUI_TOAST_COLOR_ICON_CLASS: Record<XuiToastColor, string> = {
   none: 'text-foreground-muted',
   primary: 'text-primary-emphasis',
   success: 'text-success-emphasis',

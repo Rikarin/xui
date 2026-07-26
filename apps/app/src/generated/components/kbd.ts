@@ -58,7 +58,7 @@ export const doc: ComponentDoc = {
   "XuiKbd",
   "XuiKbdImports",
   "kbdVariants",
-  "KbdVariants"
+  "XuiKbdVariants"
 ],
   peerDependencies: {
   "@angular/core": "22",
@@ -82,7 +82,7 @@ export const doc: ComponentDoc = {
       },
       {
         "name": "size",
-        "type": "KbdVariants['size']",
+        "type": "XuiKbdVariants['size']",
         "default": "'md'",
         "required": false
       }

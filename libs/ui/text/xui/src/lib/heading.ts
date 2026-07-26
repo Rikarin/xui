@@ -19,8 +19,8 @@ export const headingVariants = cva('text-foreground font-semibold text-balance',
   }
 });
 
-export type HeadingVariants = VariantProps<typeof headingVariants>;
-export type HeadingLevel = NonNullable<HeadingVariants['level']>;
+export type XuiHeadingVariants = VariantProps<typeof headingVariants>;
+export type XuiHeadingLevel = NonNullable<XuiHeadingVariants['level']>;
 
 const HEADING_TAGS = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
 
@@ -50,15 +50,15 @@ export class XuiHeading {
   readonly class = input<ClassValue>('');
 
   /** Overrides the visual size. Defaults to the host element's own level. */
-  readonly level = input<HeadingLevel | null>(null);
+  readonly level = input<XuiHeadingLevel | null>(null);
 
   protected readonly computedClass = computed(() =>
     xui(headingVariants({ level: this.level() ?? this.hostLevel }), this.class())
   );
 }
 
-function levelOf(element: HTMLElement): HeadingLevel {
+function levelOf(element: HTMLElement): XuiHeadingLevel {
   const index = HEADING_TAGS.indexOf(element.tagName.toLowerCase());
 
-  return index === -1 ? 1 : ((index + 1) as HeadingLevel);
+  return index === -1 ? 1 : ((index + 1) as XuiHeadingLevel);
 }

@@ -16,7 +16,7 @@ export const navbarVariants = cva('bg-surface border-border flex h-12 items-cent
   }
 });
 
-export type NavbarVariants = VariantProps<typeof navbarVariants>;
+export type XuiNavbarVariants = VariantProps<typeof navbarVariants>;
 
 /**
  * The bar across the top of an application.
@@ -67,7 +67,7 @@ export const navbarGroupVariants = cva('flex h-full items-center gap-2', {
   }
 });
 
-export type NavbarGroupVariants = VariantProps<typeof navbarGroupVariants>;
+export type XuiNavbarGroupVariants = VariantProps<typeof navbarGroupVariants>;
 
 /** A cluster of navbar items pushed to one side. */
 @Directive({
@@ -80,7 +80,7 @@ export type NavbarGroupVariants = VariantProps<typeof navbarGroupVariants>;
 export class XuiNavbarGroup {
   /** The user-defined classes. Merged last so they win over the variant classes. */
   readonly class = input<ClassValue>('');
-  readonly align = input<NavbarGroupVariants['align']>('start');
+  readonly align = input<XuiNavbarGroupVariants['align']>('start');
 
   protected readonly computedClass = computed(() => xui(navbarGroupVariants({ align: this.align() }), this.class()));
 }

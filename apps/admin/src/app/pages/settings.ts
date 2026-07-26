@@ -217,7 +217,7 @@ export class Settings {
   }
 
   protected save(message: string): void {
-    this.toaster.show({ message, intent: 'success' });
+    this.toaster.show({ message, color: 'success' });
   }
 
   protected closeWorkspace(): void {

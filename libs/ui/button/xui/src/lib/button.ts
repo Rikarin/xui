@@ -6,9 +6,9 @@ import { ClassValue } from 'clsx';
 import { injectXuiButtonConfig } from './button.token';
 
 /** How the button's contents are aligned along its main axis. */
-export type ButtonAlign = 'left' | 'center' | 'right';
+export type XuiButtonAlign = 'left' | 'center' | 'right';
 
-const alignClass: Record<ButtonAlign, string> = {
+const alignClass: Record<XuiButtonAlign, string> = {
   left: 'justify-start text-start',
   center: 'justify-center text-center',
   right: 'justify-end text-end'
@@ -124,7 +124,7 @@ const buttonVariants = cva(
   }
 );
 
-export type ButtonVariants = VariantProps<typeof buttonVariants>;
+export type XuiButtonVariants = VariantProps<typeof buttonVariants>;
 
 @Directive({
   selector: '[xuiButton]',
@@ -140,16 +140,16 @@ export class XuiButton {
   private readonly config = injectXuiButtonConfig();
   private readonly additionalClasses = signal<ClassValue>('');
 
-  readonly color = input<ButtonVariants['color']>(this.config.color);
-  readonly size = input<ButtonVariants['size']>(this.config.size);
-  readonly variant = input<ButtonVariants['variant']>(this.config.variant);
+  readonly color = input<XuiButtonVariants['color']>(this.config.color);
+  readonly size = input<XuiButtonVariants['size']>(this.config.size);
+  readonly variant = input<XuiButtonVariants['variant']>(this.config.variant);
   readonly class = input<ClassValue>('');
 
   /** Stretch to fill the available width instead of hugging its contents. */
   readonly fill = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
 
   /** Alignment of the label/icons along the main axis. Defaults to centred. */
-  readonly alignText = input<ButtonAlign>('center');
+  readonly alignText = input<XuiButtonAlign>('center');
 
   /** Render a pressed/selected appearance (also sets `aria-pressed`). */
   readonly active = input<boolean, BooleanInput>(false, { transform: booleanAttribute });

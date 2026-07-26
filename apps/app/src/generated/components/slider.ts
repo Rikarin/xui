@@ -85,8 +85,8 @@ export const doc: ComponentDoc = {
   exports: [
   "XuiSlider",
   "XuiSliderImports",
-  "SliderLabelRenderer",
-  "SliderColor",
+  "XuiSliderLabelRenderer",
+  "XuiSliderColor",
   "XUI_SLIDER_VALUE_ACCESSOR"
 ],
   peerDependencies: {
@@ -141,14 +141,14 @@ export const doc: ComponentDoc = {
       },
       {
         "name": "labelRenderer",
-        "type": "SliderLabelRenderer",
+        "type": "XuiSliderLabelRenderer",
         "default": "(value: number) => String(value)",
         "required": false,
         "docs": "Format a tick value into its label, or false to hide the axis entirely."
       },
       {
         "name": "color",
-        "type": "SliderColor",
+        "type": "XuiSliderColor",
         "default": "'primary'",
         "required": false
       },

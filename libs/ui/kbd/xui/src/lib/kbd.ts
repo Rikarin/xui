@@ -16,7 +16,7 @@ export const kbdVariants = cva(
     defaultVariants: { size: 'md' }
   }
 );
-export type KbdVariants = VariantProps<typeof kbdVariants>;
+export type XuiKbdVariants = VariantProps<typeof kbdVariants>;
 
 /**
  * A keyboard-key cap. Put it on a `<kbd>` for the right semantics; chain several
@@ -34,7 +34,7 @@ export type KbdVariants = VariantProps<typeof kbdVariants>;
 })
 export class XuiKbd {
   readonly class = input<ClassValue>('');
-  readonly size = input<KbdVariants['size']>('md');
+  readonly size = input<XuiKbdVariants['size']>('md');
 
   protected readonly computedClass = computed(() => xui(kbdVariants({ size: this.size() }), this.class()));
 }

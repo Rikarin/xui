@@ -43,7 +43,7 @@ const colorText = cva('', {
   defaultVariants: { color: 'none' }
 });
 
-export type FormFieldColor = NonNullable<VariantProps<typeof colorText>['color']>;
+export type XuiFormFieldColor = NonNullable<VariantProps<typeof colorText>['color']>;
 
 @Component({
   selector: 'xui-form-field',
@@ -106,7 +106,7 @@ export class XuiFormField {
   readonly helperText = input<string>('');
 
   /** A deliberate accent for the label and helper text. */
-  readonly color = input<FormFieldColor>('none');
+  readonly color = input<XuiFormFieldColor>('none');
 
   /** Lay the label beside the control rather than above it. */
   readonly inline = input<boolean, BooleanInput>(false, { transform: booleanAttribute });

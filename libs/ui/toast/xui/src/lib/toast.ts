@@ -8,14 +8,14 @@ import {
   matWarningRound
 } from '@ng-icons/material-icons/round';
 import { XuiIcon } from '@xui/icon';
-import { XUI_TOAST_INTENT_ICON, XUI_TOAST_INTENT_ICON_CLASS, type XuiToastIntent } from './toast.token';
+import { XUI_TOAST_COLOR_ICON, XUI_TOAST_COLOR_ICON_CLASS, type XuiToastColor } from './toast.token';
 
 /** One live notice, as tracked by the toaster. */
 export interface XuiToastData {
   readonly id: number;
   readonly message: string;
-  readonly intent: XuiToastIntent;
-  /** Override the icon the intent implies. `null` shows none. */
+  readonly color: XuiToastColor;
+  /** Override the icon the color implies. `null` shows none. */
   readonly icon?: string | null;
   /** Label for an optional action button. */
   readonly actionText?: string;
@@ -75,7 +75,7 @@ export class XuiToast {
   protected readonly resolvedIcon = computed(() => {
     const t = this.toast();
 
-    return t.icon === undefined ? XUI_TOAST_INTENT_ICON[t.intent] : t.icon;
+    return t.icon === undefined ? XUI_TOAST_COLOR_ICON[t.color] : t.icon;
   });
-  protected readonly iconClass = computed(() => XUI_TOAST_INTENT_ICON_CLASS[this.toast().intent]);
+  protected readonly iconClass = computed(() => XUI_TOAST_COLOR_ICON_CLASS[this.toast().color]);
 }

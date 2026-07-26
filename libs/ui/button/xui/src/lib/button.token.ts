@@ -1,10 +1,10 @@
 import { InjectionToken, ValueProvider, inject } from '@angular/core';
-import { ButtonVariants } from './button';
+import { XuiButtonVariants } from './button';
 
 export interface XuiButtonConfig {
-  color: ButtonVariants['color'];
-  variant: ButtonVariants['variant'];
-  size: ButtonVariants['size'];
+  color: XuiButtonVariants['color'];
+  variant: XuiButtonVariants['variant'];
+  size: XuiButtonVariants['size'];
 }
 
 const defaultConfig: XuiButtonConfig = {

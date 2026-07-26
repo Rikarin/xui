@@ -118,10 +118,10 @@ describe('XuiToastService', () => {
     expect(messages()).toEqual(['T3', 'T4', 'T5', 'T6', 'T7']);
   });
 
-  it('colours the icon by intent', () => {
+  it('colours the icon by color', () => {
     const { toaster, tick } = setup();
 
-    toaster.show({ message: 'Oops', intent: 'error', timeout: 0 });
+    toaster.show({ message: 'Oops', color: 'error', timeout: 0 });
     tick();
 
     expect(toasts()[0].querySelector('ng-icon')?.className).toContain('text-error-emphasis');

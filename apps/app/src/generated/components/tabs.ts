@@ -95,7 +95,7 @@ export const doc: ComponentDoc = {
   "XuiTab",
   "XuiTabs",
   "XuiTabsImports",
-  "TabsVariants"
+  "XuiTabsVariants"
 ],
   peerDependencies: {
   "@angular/cdk": "22",

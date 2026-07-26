@@ -1,5 +1,5 @@
 import { InjectionToken, ValueProvider, inject } from '@angular/core';
-import type { CardElevation } from './card';
+import type { XuiCardElevation } from './card';
 
 /**
  * Application-wide defaults for XuiCard.
@@ -8,7 +8,7 @@ import type { CardElevation } from './card';
  * sites; individual inputs still override the configured value.
  */
 export interface XuiCardConfig {
-  elevation: CardElevation;
+  elevation: XuiCardElevation;
   compact: boolean;
 }
 

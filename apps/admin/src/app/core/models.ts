@@ -54,7 +54,7 @@ export interface ActivityEntry {
   action: string;
   target: string;
   at: Date;
-  /** Matches `TimelineColor`, so the dashboard's timeline can bind it straight through. */
+  /** Matches `XuiTimelineColor`, so the dashboard's timeline can bind it straight through. */
   intent: 'primary' | 'success' | 'warning' | 'error';
 }
 

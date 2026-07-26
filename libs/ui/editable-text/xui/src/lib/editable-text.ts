@@ -33,7 +33,7 @@ const editableVariants = cva('block w-full rounded-sm bg-transparent transition-
   defaultVariants: { editing: false }
 });
 
-export type EditableTextVariants = VariantProps<typeof editableVariants>;
+export type XuiEditableTextVariants = VariantProps<typeof editableVariants>;
 
 export const XUI_EDITABLE_TEXT_VALUE_ACCESSOR = {
   provide: NG_VALUE_ACCESSOR,

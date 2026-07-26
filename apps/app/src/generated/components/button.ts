@@ -222,8 +222,8 @@ export const doc: ComponentDoc = {
   "XuiButtonConfig",
   "provideXuiButtonConfig",
   "injectXuiButtonConfig",
-  "ButtonAlign",
-  "ButtonVariants"
+  "XuiButtonAlign",
+  "XuiButtonVariants"
 ],
   peerDependencies: {
   "@angular/cdk": "22",
@@ -242,19 +242,19 @@ export const doc: ComponentDoc = {
     "inputs": [
       {
         "name": "color",
-        "type": "ButtonVariants['color']",
+        "type": "XuiButtonVariants['color']",
         "default": "this.config.color",
         "required": false
       },
       {
         "name": "size",
-        "type": "ButtonVariants['size']",
+        "type": "XuiButtonVariants['size']",
         "default": "this.config.size",
         "required": false
       },
       {
         "name": "variant",
-        "type": "ButtonVariants['variant']",
+        "type": "XuiButtonVariants['variant']",
         "default": "this.config.variant",
         "required": false
       },
@@ -274,7 +274,7 @@ export const doc: ComponentDoc = {
       },
       {
         "name": "alignText",
-        "type": "ButtonAlign",
+        "type": "XuiButtonAlign",
         "default": "'center'",
         "required": false,
         "docs": "Alignment of the label/icons along the main axis. Defaults to centred."

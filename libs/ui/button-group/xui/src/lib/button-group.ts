@@ -5,9 +5,9 @@ import { cva, VariantProps } from 'class-variance-authority';
 import { ClassValue } from 'clsx';
 
 /** How each button's contents align — applied to every child. */
-export type ButtonGroupAlign = 'left' | 'center' | 'right';
+export type XuiButtonGroupAlign = 'left' | 'center' | 'right';
 
-const alignClass: Record<ButtonGroupAlign, string> = {
+const alignClass: Record<XuiButtonGroupAlign, string> = {
   left: '[&>*]:justify-start [&>*]:text-start',
   center: '',
   right: '[&>*]:justify-end [&>*]:text-end'
@@ -29,7 +29,7 @@ const buttonGroupVariants = cva('inline-flex', {
   defaultVariants: { vertical: false, fill: false }
 });
 
-export type ButtonGroupVariants = VariantProps<typeof buttonGroupVariants>;
+export type XuiButtonGroupVariants = VariantProps<typeof buttonGroupVariants>;
 
 @Directive({
   selector: '[xuiButtonGroup]',
@@ -50,7 +50,7 @@ export class XuiButtonGroup {
   readonly fill = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
 
   /** Align every button's contents. Defaults to centred. */
-  readonly alignText = input<ButtonGroupAlign>('center');
+  readonly alignText = input<XuiButtonGroupAlign>('center');
 
   protected readonly computedClass = computed(() =>
     xui(

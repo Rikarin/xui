@@ -24,7 +24,7 @@ export const avatarVariants = cva(
     }
   }
 );
-export type AvatarVariants = VariantProps<typeof avatarVariants>;
+export type XuiAvatarVariants = VariantProps<typeof avatarVariants>;
 
 /**
  * A compact user/entity representation: an image, text initials, or projected
@@ -66,8 +66,8 @@ export class XuiAvatar {
   readonly alt = input<string>('');
   /** Initials or short text shown when there is no image. */
   readonly text = input<string>();
-  readonly shape = input<AvatarVariants['shape']>('circle');
-  readonly size = input<AvatarVariants['size']>('md');
+  readonly shape = input<XuiAvatarVariants['shape']>('circle');
+  readonly size = input<XuiAvatarVariants['size']>('md');
 
   /** Whether the image failed to load; resets when `src` changes. */
   readonly imageFailed = linkedSignal<string | undefined, boolean>({

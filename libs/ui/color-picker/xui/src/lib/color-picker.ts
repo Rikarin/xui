@@ -31,7 +31,7 @@ import {
 } from './color-utils';
 
 /** The channel model shown in the input row. */
-export type ColorFormat = 'hex' | 'hsl' | 'lch';
+export type XuiColorFormat = 'hex' | 'hsl' | 'lch';
 
 /** Upper bound of the LCH chroma axis in the square. */
 const LCH_MAX_C = 132;
@@ -258,7 +258,7 @@ export class XuiColorPicker {
   readonly disabled = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
   readonly presets = input<string[]>([]);
   /** Which channel model the input row edits: `hex`, `hsl` or `lch`. Two-way bindable. */
-  readonly format = model<ColorFormat>('hex');
+  readonly format = model<XuiColorFormat>('hex');
 
   protected readonly open = signal(false);
   protected readonly hsv = signal<HSV>({ h: 215, s: 91, v: 100 });

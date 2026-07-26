@@ -64,7 +64,7 @@ export const badgeVariants = cva(
     }
   }
 );
-export type BadgeVariants = VariantProps<typeof badgeVariants>;
+export type XuiBadgeVariants = VariantProps<typeof badgeVariants>;
 
 @Directive({
   selector: '[xuiBadge]',
@@ -78,7 +78,7 @@ export class XuiBadge {
   );
 
   readonly class = input<ClassValue>('');
-  readonly color = input<BadgeVariants['color']>('primary');
-  readonly static = input<BadgeVariants['static'], BooleanInput>(false, { transform: booleanAttribute });
-  readonly size = input<BadgeVariants['size']>('md');
+  readonly color = input<XuiBadgeVariants['color']>('primary');
+  readonly static = input<XuiBadgeVariants['static'], BooleanInput>(false, { transform: booleanAttribute });
+  readonly size = input<XuiBadgeVariants['size']>('md');
 }

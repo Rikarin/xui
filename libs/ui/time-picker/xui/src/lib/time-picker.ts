@@ -14,7 +14,7 @@ import { injectDateAdapter } from '@xui/core/date-time';
 import type { ClassValue } from 'clsx';
 
 /** How fine the picker edits. */
-export type TimePrecision = 'minute' | 'second' | 'millisecond';
+export type XuiTimePrecision = 'minute' | 'second' | 'millisecond';
 
 const pad = (value: number, length = 2): string => String(value).padStart(length, '0');
 
@@ -112,7 +112,7 @@ export class XuiTimePicker<T = Date> {
   /** The current time. Two-way bindable with `[(value)]`. */
   readonly value = model<T | null>(null);
 
-  readonly precision = input<TimePrecision>('minute');
+  readonly precision = input<XuiTimePrecision>('minute');
   readonly useAmPm = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
   readonly disabled = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
 

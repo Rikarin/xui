@@ -1,9 +1,9 @@
 import { InjectionToken, ValueProvider, inject } from '@angular/core';
-import { CheckboxVariants } from './checkbox';
+import { XuiCheckboxVariants } from './checkbox';
 
 export interface XuiCheckboxConfig {
-  color: CheckboxVariants['color'];
-  size: CheckboxVariants['size'];
+  color: XuiCheckboxVariants['color'];
+  size: XuiCheckboxVariants['size'];
 }
 
 const defaultConfig: XuiCheckboxConfig = {

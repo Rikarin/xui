@@ -1,5 +1,5 @@
 import { InjectionToken, ValueProvider, inject } from '@angular/core';
-import type { SpinnerVariants } from './spinner';
+import type { XuiSpinnerVariants } from './spinner';
 
 /**
  * Application-wide defaults for XuiSpinner.
@@ -8,8 +8,8 @@ import type { SpinnerVariants } from './spinner';
  * call sites; individual inputs still override the configured value.
  */
 export interface XuiSpinnerConfig {
-  color: SpinnerVariants['color'];
-  size: SpinnerVariants['size'];
+  color: XuiSpinnerVariants['color'];
+  size: XuiSpinnerVariants['size'];
 }
 
 const defaultConfig: XuiSpinnerConfig = {

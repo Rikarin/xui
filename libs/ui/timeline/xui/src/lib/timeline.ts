@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, input, ViewEncapsulation 
 import { xui } from '@xui/core';
 import type { ClassValue } from 'clsx';
 
-export type TimelineMode = 'left' | 'right';
+export type XuiTimelineMode = 'left' | 'right';
 
 /**
  * A vertical timeline. Wrap `<xui-timeline-item>` entries; each renders a colored
@@ -27,7 +27,7 @@ export type TimelineMode = 'left' | 'right';
 })
 export class XuiTimeline {
   readonly class = input<ClassValue>('');
-  readonly mode = input<TimelineMode>('left');
+  readonly mode = input<XuiTimelineMode>('left');
 
   protected readonly computedClass = computed(() =>
     // Hide the connecting line on the last item so the axis stops at the final dot.

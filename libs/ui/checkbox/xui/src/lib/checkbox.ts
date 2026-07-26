@@ -19,7 +19,7 @@ import { xui } from '@xui/core';
 import { uniqueId } from '@xui/core/a11y';
 import { XCheckbox, XCheckboxImports } from '@xui/core/checkbox';
 import type { ChangeFn, TouchFn } from '@xui/core/forms';
-import { IconSize, XuiIcon } from '@xui/icon';
+import { XuiIcon, XuiIconSize } from '@xui/icon';
 import { cva, VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
 import { injectXuiCheckboxConfig } from './checkbox.token';
@@ -53,7 +53,7 @@ const checkboxVariants = cva(
   }
 );
 
-export type CheckboxVariants = VariantProps<typeof checkboxVariants> & { size: IconSize };
+export type XuiCheckboxVariants = VariantProps<typeof checkboxVariants> & { size: XuiIconSize };
 
 /** The `<label>` that wraps the box and its text, governing layout. */
 const wrapperVariants = cva('items-center gap-x-2 data-disabled:cursor-not-allowed', {
@@ -78,7 +78,7 @@ const wrapperVariants = cva('items-center gap-x-2 data-disabled:cursor-not-allow
 });
 type WrapperVariants = VariantProps<typeof wrapperVariants>;
 
-export type CheckboxAlignIndicator = NonNullable<WrapperVariants['alignIndicator']>;
+export type XuiCheckboxAlignIndicator = NonNullable<WrapperVariants['alignIndicator']>;
 
 export const XUI_CHECKBOX_VALUE_ACCESSOR = {
   provide: NG_VALUE_ACCESSOR,
@@ -142,14 +142,14 @@ export class XuiCheckbox implements ControlValueAccessor {
   private readonly config = injectXuiCheckboxConfig();
 
   readonly class = input<ClassValue>('');
-  readonly color = input<CheckboxVariants['color']>(this.config.color);
-  readonly size = input<CheckboxVariants['size']>(this.config.size);
+  readonly color = input<XuiCheckboxVariants['color']>(this.config.color);
+  readonly size = input<XuiCheckboxVariants['size']>(this.config.size);
 
   /** A plain-text label rendered beside the box, as an alternative to projection. */
   readonly label = input<string>('');
 
   /** Which side the box sits on relative to the label. */
-  readonly alignIndicator = input<CheckboxAlignIndicator>('start');
+  readonly alignIndicator = input<XuiCheckboxAlignIndicator>('start');
 
   /** Lay the control out inline so several sit on one line, rather than stacked. */
   readonly inline = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
@@ -158,7 +158,7 @@ export class XuiCheckbox implements ControlValueAccessor {
   readonly large = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
 
   /** The box grows a step when `large`; otherwise follows the configured size. */
-  protected readonly iconSize = computed<IconSize>(() => (this.large() ? 'lg' : this.size()));
+  protected readonly iconSize = computed<XuiIconSize>(() => (this.large() ? 'lg' : this.size()));
 
   protected readonly computedClass = computed(() =>
     xui(checkboxVariants({ color: this.color() }), this.large() && 'p-0.5', this.class())

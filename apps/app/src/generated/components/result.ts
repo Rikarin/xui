@@ -56,7 +56,7 @@ export const doc: ComponentDoc = {
   exports: [
   "XuiResult",
   "XuiResultImports",
-  "ResultStatus"
+  "XuiResultStatus"
 ],
   peerDependencies: {
   "@angular/core": "22",
@@ -79,7 +79,7 @@ export const doc: ComponentDoc = {
       },
       {
         "name": "status",
-        "type": "ResultStatus",
+        "type": "XuiResultStatus",
         "default": "'info'",
         "required": false
       },

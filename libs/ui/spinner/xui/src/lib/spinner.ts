@@ -30,7 +30,7 @@ export const spinnerVariants = cva('inline-block shrink-0', {
   }
 });
 
-export type SpinnerVariants = VariantProps<typeof spinnerVariants>;
+export type XuiSpinnerVariants = VariantProps<typeof spinnerVariants>;
 
 /** Geometry of the SVG below. The stroke is centred on the radius. */
 const VIEWBOX = 100;
@@ -97,8 +97,8 @@ export class XuiSpinner {
 
   /** The user-defined classes. Merged last so they win over the variant classes. */
   readonly class = input<ClassValue>('');
-  readonly color = input<SpinnerVariants['color']>(this.config.color);
-  readonly size = input<SpinnerVariants['size']>(this.config.size);
+  readonly color = input<XuiSpinnerVariants['color']>(this.config.color);
+  readonly size = input<XuiSpinnerVariants['size']>(this.config.size);
 
   /**
    * How far along the operation is, between 0 and 1. Out-of-range values are

@@ -22,7 +22,7 @@ export const dividerVariants = cva('border-border', {
   }
 });
 
-export type DividerVariants = VariantProps<typeof dividerVariants>;
+export type XuiDividerVariants = VariantProps<typeof dividerVariants>;
 
 /**
  * A rule separating two groups of content.
@@ -48,7 +48,7 @@ export type DividerVariants = VariantProps<typeof dividerVariants>;
 export class XuiDivider {
   /** The user-defined classes. Merged last so they win over the variant classes. */
   readonly class = input<ClassValue>('');
-  readonly orientation = input<NonNullable<DividerVariants['orientation']>>('horizontal');
+  readonly orientation = input<NonNullable<XuiDividerVariants['orientation']>>('horizontal');
 
   /** Drop the surrounding margin so the divider sits flush with its neighbours. */
   readonly compact = input<boolean, BooleanInput>(false, { transform: booleanAttribute });

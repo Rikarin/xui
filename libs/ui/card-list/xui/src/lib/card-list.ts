@@ -30,7 +30,7 @@ export const cardListVariants = cva(
   }
 );
 
-export type CardListVariants = VariantProps<typeof cardListVariants>;
+export type XuiCardListVariants = VariantProps<typeof cardListVariants>;
 
 /**
  * A vertical list of cards rendered as flush rows.

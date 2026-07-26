@@ -68,8 +68,8 @@ export const doc: ComponentDoc = {
   "provideXuiCardConfig",
   "injectXuiCardConfig",
   "cardVariants",
-  "CardVariants",
-  "CardElevation"
+  "XuiCardVariants",
+  "XuiCardElevation"
 ],
   peerDependencies: {
   "@angular/cdk": "22",
@@ -96,7 +96,7 @@ export const doc: ComponentDoc = {
       },
       {
         "name": "elevation",
-        "type": "CardElevation",
+        "type": "XuiCardElevation",
         "default": "this.config.elevation",
         "required": false
       },

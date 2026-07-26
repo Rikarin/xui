@@ -20,7 +20,7 @@ import { cva, VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
 
 /** Which control the card presents — governs the indicator and the ARIA role. */
-export type ControlCardType = 'checkbox' | 'radio' | 'switch';
+export type XuiControlCardType = 'checkbox' | 'radio' | 'switch';
 
 const cardVariants = cva(
   [
@@ -39,7 +39,7 @@ const cardVariants = cva(
   }
 );
 
-export type ControlCardVariants = VariantProps<typeof cardVariants>;
+export type XuiControlCardVariants = VariantProps<typeof cardVariants>;
 
 export const XUI_CONTROL_CARD_VALUE_ACCESSOR = {
   provide: NG_VALUE_ACCESSOR,
@@ -94,7 +94,7 @@ export const XUI_CONTROL_CARD_VALUE_ACCESSOR = {
 })
 export class XuiControlCard implements ControlValueAccessor {
   readonly class = input<ClassValue>('');
-  readonly type = input<ControlCardType>('checkbox');
+  readonly type = input<XuiControlCardType>('checkbox');
 
   /** The checked/selected state. Two-way bindable with `[(checked)]`. */
   readonly checked = model(false);

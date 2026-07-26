@@ -80,7 +80,7 @@ export const doc: ComponentDoc = {
   "XuiAvatar",
   "XuiAvatarImports",
   "avatarVariants",
-  "AvatarVariants"
+  "XuiAvatarVariants"
 ],
   peerDependencies: {
   "@angular/cdk": "22",
@@ -113,14 +113,14 @@ export const doc: ComponentDoc = {
       },
       {
         "name": "shape",
-        "type": "AvatarVariants['shape']",
+        "type": "XuiAvatarVariants['shape']",
         "default": "'circle'",
         "required": false,
         "docs": "Shape/size applied to the trailing +N avatar."
       },
       {
         "name": "size",
-        "type": "AvatarVariants['size']",
+        "type": "XuiAvatarVariants['size']",
         "default": "'md'",
         "required": false
       }
@@ -161,13 +161,13 @@ export const doc: ComponentDoc = {
       },
       {
         "name": "shape",
-        "type": "AvatarVariants['shape']",
+        "type": "XuiAvatarVariants['shape']",
         "default": "'circle'",
         "required": false
       },
       {
         "name": "size",
-        "type": "AvatarVariants['size']",
+        "type": "XuiAvatarVariants['size']",
         "default": "'md'",
         "required": false
       }

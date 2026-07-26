@@ -183,8 +183,8 @@ export const doc: ComponentDoc = {
   exports: [
   "XuiButtonGroup",
   "XuiButtonGroupImports",
-  "ButtonGroupAlign",
-  "ButtonGroupVariants"
+  "XuiButtonGroupAlign",
+  "XuiButtonGroupVariants"
 ],
   peerDependencies: {
   "@angular/cdk": "22",
@@ -225,7 +225,7 @@ export const doc: ComponentDoc = {
       },
       {
         "name": "alignText",
-        "type": "ButtonGroupAlign",
+        "type": "XuiButtonGroupAlign",
         "default": "'center'",
         "required": false,
         "docs": "Align every button's contents. Defaults to centred."

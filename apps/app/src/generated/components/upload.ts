@@ -43,7 +43,7 @@ export const doc: ComponentDoc = {
   exports: [
   "XuiUpload",
   "XuiUploadImports",
-  "UploadStatus",
+  "XuiUploadStatus",
   "XuiUploadFile"
 ],
   peerDependencies: {

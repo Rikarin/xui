@@ -15,13 +15,13 @@ import {
 import { xui } from '@xui/core';
 import type { ClassValue } from 'clsx';
 
-export type UploadStatus = 'uploading' | 'done' | 'error';
+export type XuiUploadStatus = 'uploading' | 'done' | 'error';
 
 export interface XuiUploadFile {
   uid: string;
   name: string;
   size?: number;
-  status?: UploadStatus;
+  status?: XuiUploadStatus;
   /** Upload progress 0–100 (shown while `status` is `uploading`). */
   percent?: number;
 }

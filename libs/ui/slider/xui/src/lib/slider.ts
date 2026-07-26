@@ -22,7 +22,7 @@ import { cva, VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
 
 /** Renders a tick's numeric value into label text, or `false` to hide all labels. */
-export type SliderLabelRenderer = ((value: number) => string) | false;
+export type XuiSliderLabelRenderer = ((value: number) => string) | false;
 
 const fillVariants = cva('absolute rounded-full', {
   variants: {
@@ -58,7 +58,7 @@ const handleVariants = cva(
   }
 );
 
-export type SliderColor = NonNullable<VariantProps<typeof fillVariants>['color']>;
+export type XuiSliderColor = NonNullable<VariantProps<typeof fillVariants>['color']>;
 
 export const XUI_SLIDER_VALUE_ACCESSOR = {
   provide: NG_VALUE_ACCESSOR,
@@ -132,9 +132,9 @@ export class XuiSlider implements ControlValueAccessor {
   readonly labelStepSize = input<number, NumberInput>(1, { transform: numberAttribute });
 
   /** Format a tick value into its label, or `false` to hide the axis entirely. */
-  readonly labelRenderer = input<SliderLabelRenderer>((value: number) => String(value));
+  readonly labelRenderer = input<XuiSliderLabelRenderer>((value: number) => String(value));
 
-  readonly color = input<SliderColor>('primary');
+  readonly color = input<XuiSliderColor>('primary');
   readonly vertical = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
   readonly showTrackFill = input<boolean, BooleanInput>(true, { transform: booleanAttribute });
 

@@ -14,7 +14,7 @@ export const doc: ComponentDoc = {
   "XuiCardList",
   "XuiCardListImports",
   "cardListVariants",
-  "CardListVariants"
+  "XuiCardListVariants"
 ],
   peerDependencies: {
   "@angular/cdk": "22",

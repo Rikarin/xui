@@ -125,10 +125,10 @@ export const doc: ComponentDoc = {
   "XuiText",
   "XuiTextImports",
   "headingVariants",
-  "HeadingVariants",
-  "HeadingLevel",
+  "XuiHeadingVariants",
+  "XuiHeadingLevel",
   "textVariants",
-  "TextVariants"
+  "XuiTextVariants"
 ],
   peerDependencies: {
   "@angular/cdk": "22",
@@ -155,7 +155,7 @@ export const doc: ComponentDoc = {
       },
       {
         "name": "level",
-        "type": "HeadingLevel | null",
+        "type": "XuiHeadingLevel | null",
         "default": "null",
         "required": false,
         "docs": "Overrides the visual size. Defaults to the host element's own level."
@@ -251,17 +251,17 @@ export const doc: ComponentDoc = {
       },
       {
         "name": "color",
-        "type": "TextVariants['color']",
+        "type": "XuiTextVariants['color']",
         "required": false
       },
       {
         "name": "size",
-        "type": "TextVariants['size']",
+        "type": "XuiTextVariants['size']",
         "required": false
       },
       {
         "name": "weight",
-        "type": "TextVariants['weight']",
+        "type": "XuiTextVariants['weight']",
         "required": false
       },
       {

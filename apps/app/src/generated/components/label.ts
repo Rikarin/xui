@@ -14,7 +14,7 @@ export const doc: ComponentDoc = {
   "XuiLabel",
   "XuiLabelImports",
   "labelVariants",
-  "LabelVariants"
+  "XuiLabelVariants"
 ],
   peerDependencies: {
   "@angular/core": "22",
@@ -37,13 +37,13 @@ export const doc: ComponentDoc = {
       },
       {
         "name": "variant",
-        "type": "LabelVariants['variant']",
+        "type": "XuiLabelVariants['variant']",
         "default": "'default'",
         "required": false
       },
       {
         "name": "error",
-        "type": "LabelVariants['error']",
+        "type": "XuiLabelVariants['error']",
         "default": "'auto'",
         "required": false
       }
@@ -77,7 +77,7 @@ export const doc: ComponentDoc = {
     "methods": [
       {
         "name": "setError",
-        "signature": "setError(error: LabelVariants['error']): void"
+        "signature": "setError(error: XuiLabelVariants['error']): void"
       }
     ]
   }

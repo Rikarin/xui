@@ -57,8 +57,8 @@ const tagVariants = cva('inline-flex items-center gap-1 border font-medium white
   }
 });
 
-export type TagVariants = VariantProps<typeof tagVariants>;
-export type TagColor = NonNullable<TagVariants['color']>;
+export type XuiTagVariants = VariantProps<typeof tagVariants>;
+export type XuiTagColor = NonNullable<XuiTagVariants['color']>;
 
 /**
  * A compact label chip — richer than the static `xui-badge`. Optionally shows a
@@ -93,7 +93,7 @@ export type TagColor = NonNullable<TagVariants['color']>;
 })
 export class XuiTag {
   readonly class = input<ClassValue>('');
-  readonly color = input<TagColor>('none');
+  readonly color = input<XuiTagColor>('none');
   readonly minimal = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
   readonly large = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
   readonly round = input<boolean, BooleanInput>(false, { transform: booleanAttribute });

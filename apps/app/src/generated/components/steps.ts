@@ -70,7 +70,7 @@ export const doc: ComponentDoc = {
   "XuiStep",
   "XuiSteps",
   "XuiStepsImports",
-  "StepStatus"
+  "XuiStepStatus"
 ],
   peerDependencies: {
   "@angular/cdk": "22",
@@ -100,7 +100,7 @@ export const doc: ComponentDoc = {
       },
       {
         "name": "status",
-        "type": "StepStatus",
+        "type": "XuiStepStatus",
         "required": false,
         "docs": "Force a status instead of deriving it from the active step."
       }

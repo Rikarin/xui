@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, input, ViewEncapsulation 
 import { xui } from '@xui/core';
 import type { ClassValue } from 'clsx';
 
-export type ResultStatus = 'success' | 'error' | 'info' | 'warning' | '404' | '403' | '500';
+export type XuiResultStatus = 'success' | 'error' | 'info' | 'warning' | '404' | '403' | '500';
 
 /**
  * A result / status page — a large status glyph over a title and subtitle, with
@@ -75,7 +75,7 @@ export type ResultStatus = 'success' | 'error' | 'info' | 'warning' | '404' | '4
 export class XuiResult {
   readonly class = input<ClassValue>('');
 
-  readonly status = input<ResultStatus>('info');
+  readonly status = input<XuiResultStatus>('info');
   readonly title = input<string>('');
   readonly subtitle = input<string>('');
 
@@ -89,7 +89,7 @@ export class XuiResult {
   );
 }
 
-const tintText = (status: ResultStatus): string =>
+const tintText = (status: XuiResultStatus): string =>
   status === 'success'
     ? 'text-success'
     : status === 'error'
@@ -98,7 +98,7 @@ const tintText = (status: ResultStatus): string =>
         ? 'text-warning'
         : 'text-info';
 
-const tintBg = (status: ResultStatus): string =>
+const tintBg = (status: XuiResultStatus): string =>
   status === 'success'
     ? 'bg-success/10'
     : status === 'error'

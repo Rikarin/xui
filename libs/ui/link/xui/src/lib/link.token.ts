@@ -1,5 +1,5 @@
 import { InjectionToken, ValueProvider, inject } from '@angular/core';
-import type { LinkVariants } from './link';
+import type { XuiLinkVariants } from './link';
 
 /**
  * Application-wide defaults for XuiLink.
@@ -8,8 +8,8 @@ import type { LinkVariants } from './link';
  * sites; individual inputs still override the configured value.
  */
 export interface XuiLinkConfig {
-  color: LinkVariants['color'];
-  underline: LinkVariants['underline'];
+  color: XuiLinkVariants['color'];
+  underline: XuiLinkVariants['underline'];
 }
 
 const defaultConfig: XuiLinkConfig = {

@@ -23,9 +23,9 @@ const statusVariants = cva(['inline-flex aspect-square rounded-[50%]'], {
   }
 });
 
-export type StatusVariants = VariantProps<typeof statusVariants>;
+export type XuiStatusVariants = VariantProps<typeof statusVariants>;
 
-const CLIP_PATHS: Partial<Record<NonNullable<StatusVariants['variant']> & string, string>> = {
+const CLIP_PATHS: Partial<Record<NonNullable<XuiStatusVariants['variant']> & string, string>> = {
   idle: 'M0.564,0 A0.399,0.399,0,1,1,0,0.564 A0.502,0.502,0,1,0,0.564,0',
   dnd: 'M0.5,0 a0.5,0.5,0,1,0,0.5,0.5 A0.5,0.5,0,0,0,0.5,0 M0.78,0.603 H0.22 a0.103,0.103,0,0,1,0,-0.205 H0.78 a0.103,0.103,0,1,1,0,0.205',
   offline:
@@ -52,8 +52,8 @@ const CLIP_PATHS: Partial<Record<NonNullable<StatusVariants['variant']> & string
 export class XuiStatus {
   /** The user-defined classes */
   readonly class = input<ClassValue>('');
-  readonly variant = input.required<StatusVariants['variant']>();
-  readonly size = input<StatusVariants['size']>('md');
+  readonly variant = input.required<XuiStatusVariants['variant']>();
+  readonly size = input<XuiStatusVariants['size']>('md');
 
   /**
    * DOM ids must be unique, so each instance defines its own clip path rather

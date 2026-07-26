@@ -22,7 +22,7 @@ export const sectionVariants = cva('bg-surface-raised border-border block overfl
   }
 });
 
-export type SectionVariants = VariantProps<typeof sectionVariants>;
+export type XuiSectionVariants = VariantProps<typeof sectionVariants>;
 
 /**
  * A titled container for a group of related content.
@@ -109,7 +109,7 @@ export class XuiSection {
 
   /** The user-defined classes. Merged last so they win over the variant classes. */
   readonly class = input<ClassValue>('');
-  readonly elevation = input<SectionVariants['elevation']>(0);
+  readonly elevation = input<XuiSectionVariants['elevation']>(0);
 
   /** The header only renders when there is a title. */
   readonly title = input<string | null>(null);

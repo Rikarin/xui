@@ -50,11 +50,11 @@ const calloutIconVariants = cva('mt-0.5 shrink-0', {
   defaultVariants: { color: 'none' }
 });
 
-export type CalloutVariants = VariantProps<typeof calloutVariants>;
-export type CalloutColor = NonNullable<CalloutVariants['color']>;
+export type XuiCalloutVariants = VariantProps<typeof calloutVariants>;
+export type XuiCalloutColor = NonNullable<XuiCalloutVariants['color']>;
 
 /** The glyph each intent implies when no icon is given. */
-const DEFAULT_ICONS: Record<CalloutColor, string | null> = {
+const DEFAULT_ICONS: Record<XuiCalloutColor, string | null> = {
   none: null,
   primary: 'matInfoRound',
   secondary: 'matInfoRound',
@@ -103,7 +103,7 @@ const DEFAULT_ICONS: Record<CalloutColor, string | null> = {
 export class XuiCallout {
   /** The user-defined classes. Merged last so they win over the variant classes. */
   readonly class = input<ClassValue>('');
-  readonly color = input<CalloutColor>('none');
+  readonly color = input<XuiCalloutColor>('none');
 
   /** Optional heading rendered above the content. */
   readonly title = input<string | null>(null);

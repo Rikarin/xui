@@ -48,8 +48,8 @@ export const doc: ComponentDoc = {
   "XuiTimelineItem",
   "XuiTimeline",
   "XuiTimelineImports",
-  "TimelineColor",
-  "TimelineMode"
+  "XuiTimelineColor",
+  "XuiTimelineMode"
 ],
   peerDependencies: {
   "@angular/core": "22",
@@ -66,7 +66,7 @@ export const doc: ComponentDoc = {
     "inputs": [
       {
         "name": "color",
-        "type": "TimelineColor",
+        "type": "XuiTimelineColor",
         "default": "'primary'",
         "required": false
       },
@@ -95,7 +95,7 @@ export const doc: ComponentDoc = {
       },
       {
         "name": "mode",
-        "type": "TimelineMode",
+        "type": "XuiTimelineMode",
         "default": "'left'",
         "required": false
       }

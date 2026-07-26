@@ -1,5 +1,5 @@
 import { InjectionToken, ValueProvider, inject } from '@angular/core';
-import type { ProgressBarVariants } from './progress-bar';
+import type { XuiProgressBarVariants } from './progress-bar';
 
 /**
  * Application-wide defaults for XuiProgressBar.
@@ -8,8 +8,8 @@ import type { ProgressBarVariants } from './progress-bar';
  * touching call sites; individual inputs still override the configured value.
  */
 export interface XuiProgressBarConfig {
-  color: ProgressBarVariants['color'];
-  size: ProgressBarVariants['size'];
+  color: XuiProgressBarVariants['color'];
+  size: XuiProgressBarVariants['size'];
   stripes: boolean;
   animate: boolean;
 }

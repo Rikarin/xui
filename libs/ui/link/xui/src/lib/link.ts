@@ -35,7 +35,7 @@ export const linkVariants = cva(
   }
 );
 
-export type LinkVariants = VariantProps<typeof linkVariants>;
+export type XuiLinkVariants = VariantProps<typeof linkVariants>;
 
 /**
  * A styled anchor.
@@ -61,8 +61,8 @@ export class XuiLink {
 
   /** The user-defined classes. Merged last so they win over the variant classes. */
   readonly class = input<ClassValue>('');
-  readonly color = input<LinkVariants['color']>(this.config.color);
-  readonly underline = input<LinkVariants['underline']>(this.config.underline);
+  readonly color = input<XuiLinkVariants['color']>(this.config.color);
+  readonly underline = input<XuiLinkVariants['underline']>(this.config.underline);
 
   protected readonly computedClass = computed(() =>
     xui(linkVariants({ color: this.color(), underline: this.underline() }), this.class())

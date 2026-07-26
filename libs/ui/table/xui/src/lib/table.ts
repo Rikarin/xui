@@ -29,7 +29,7 @@ const tableVariants = cva('flex flex-col text-sm [&_xui-tr:last-child]:border-0'
   defaultVariants: { striped: false, bordered: false, interactive: false, compact: false }
 });
 
-export type TableVariants = VariantProps<typeof tableVariants>;
+export type XuiTableVariants = VariantProps<typeof tableVariants>;
 
 @Component({
   selector: 'xui-table',

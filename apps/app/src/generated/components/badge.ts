@@ -100,7 +100,7 @@ export const doc: ComponentDoc = {
   "XuiBadge",
   "XuiBadgeImports",
   "badgeVariants",
-  "BadgeVariants"
+  "XuiBadgeVariants"
 ],
   peerDependencies: {
   "@angular/cdk": "22",
@@ -124,20 +124,20 @@ export const doc: ComponentDoc = {
       },
       {
         "name": "color",
-        "type": "BadgeVariants['color']",
+        "type": "XuiBadgeVariants['color']",
         "default": "'primary'",
         "required": false
       },
       {
         "name": "static",
-        "type": "BadgeVariants['static']",
+        "type": "XuiBadgeVariants['static']",
         "default": "false",
         "required": false,
         "transform": "booleanAttribute"
       },
       {
         "name": "size",
-        "type": "BadgeVariants['size']",
+        "type": "XuiBadgeVariants['size']",
         "default": "'md'",
         "required": false
       }

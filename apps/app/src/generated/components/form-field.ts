@@ -85,7 +85,7 @@ export const doc: ComponentDoc = {
   "XuiFormField",
   "XuiHint",
   "XuiFormFieldImports",
-  "FormFieldColor"
+  "XuiFormFieldColor"
 ],
   peerDependencies: {
   "@angular/cdk": "22",
@@ -153,7 +153,7 @@ export const doc: ComponentDoc = {
       },
       {
         "name": "color",
-        "type": "FormFieldColor",
+        "type": "XuiFormFieldColor",
         "default": "'none'",
         "required": false,
         "docs": "A deliberate accent for the label and helper text."

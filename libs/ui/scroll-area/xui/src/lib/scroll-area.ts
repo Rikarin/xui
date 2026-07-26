@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, input, ViewEncapsulation 
 import { xui } from '@xui/core';
 import type { ClassValue } from 'clsx';
 
-export type ScrollOrientation = 'vertical' | 'horizontal' | 'both';
+export type XuiScrollOrientation = 'vertical' | 'horizontal' | 'both';
 
 /**
  * A scroll container with slim, theme-aware scrollbars (WebKit and Firefox),
@@ -30,7 +30,7 @@ export type ScrollOrientation = 'vertical' | 'horizontal' | 'both';
 })
 export class XuiScrollArea {
   readonly class = input<ClassValue>('');
-  readonly orientation = input<ScrollOrientation>('vertical');
+  readonly orientation = input<XuiScrollOrientation>('vertical');
 
   protected readonly computedClass = computed(() => xui('relative block', this.class()));
 

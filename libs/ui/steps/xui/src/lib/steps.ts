@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import { xui } from '@xui/core';
 import type { ClassValue } from 'clsx';
-import { XuiStep, type StepStatus } from './step';
+import { XuiStep, type XuiStepStatus } from './step';
 
 /**
  * A step / wizard progress indicator. Wrap `<xui-step>` entries and bind
@@ -80,7 +80,7 @@ export class XuiSteps {
 
   protected readonly steps = contentChildren(XuiStep);
 
-  protected statusAt(index: number): StepStatus {
+  protected statusAt(index: number): XuiStepStatus {
     const override = this.steps()[index]?.status();
     if (override) {
       return override;
@@ -113,7 +113,7 @@ export class XuiSteps {
     )
   );
 
-  protected circleClass(status: StepStatus): string {
+  protected circleClass(status: XuiStepStatus): string {
     return xui(
       'flex h-8 w-8 shrink-0 items-center justify-center rounded-full border-2 text-sm font-medium transition-colors',
       status === 'process'
@@ -126,14 +126,14 @@ export class XuiSteps {
     );
   }
 
-  protected titleClass(status: StepStatus): string {
+  protected titleClass(status: XuiStepStatus): string {
     return xui(
       'text-sm font-medium',
       status === 'wait' ? 'text-foreground-muted' : status === 'error' ? 'text-error' : 'text-foreground'
     );
   }
 
-  protected connectorClass(status: StepStatus): string {
+  protected connectorClass(status: XuiStepStatus): string {
     const done = status === 'finish';
     return this.vertical
       ? xui('ms-4 min-h-4 w-px flex-1 self-stretch', done ? 'bg-primary' : 'bg-border')

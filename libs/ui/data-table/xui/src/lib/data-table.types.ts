@@ -14,11 +14,11 @@ export interface XuiDataColumn<T> {
   align?: 'left' | 'center' | 'right';
 }
 
-export type SortDirection = 'asc' | 'desc';
+export type XuiSortDirection = 'asc' | 'desc';
 
-export interface SortState {
+export interface XuiSortState {
   columnId: string;
-  direction: SortDirection;
+  direction: XuiSortDirection;
 }
 
 /** The currently focused cell, by data-row and column index. */

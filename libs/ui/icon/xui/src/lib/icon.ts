@@ -10,7 +10,7 @@ import { injectXuiIconConfig } from './icon.token';
  * The scale is built around the two sizes that carry most of the work — 16px
  * beside body text and 20px beside a heading — extended one step at each end.
  */
-export type IconSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'none' | (Record<never, never> & string);
+export type XuiIconSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'none' | (Record<never, never> & string);
 
 export const iconVariants = cva('', {
   variants: {
@@ -31,7 +31,7 @@ export const iconVariants = cva('', {
   }
 });
 
-export type IconVariants = VariantProps<typeof iconVariants>;
+export type XuiIconVariants = VariantProps<typeof iconVariants>;
 
 const SIZES: Record<string, string> = {
   xs: '12px',
@@ -71,8 +71,8 @@ export class XuiIcon {
 
   /** The user-defined classes. Merged last so they win over the variant classes. */
   readonly class = input<ClassValue>('');
-  readonly size = input<IconSize>(this.config.size);
-  readonly color = input<IconVariants['color']>(this.config.color);
+  readonly size = input<XuiIconSize>(this.config.size);
+  readonly color = input<XuiIconVariants['color']>(this.config.color);
 
   /**
    * An accessible name. Setting it marks the icon as meaningful content rather

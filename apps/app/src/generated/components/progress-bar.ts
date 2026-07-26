@@ -68,7 +68,7 @@ export const doc: ComponentDoc = {
   "injectXuiProgressBarConfig",
   "progressBarVariants",
   "progressMeterVariants",
-  "ProgressBarVariants"
+  "XuiProgressBarVariants"
 ],
   peerDependencies: {
   "@angular/cdk": "22",
@@ -94,13 +94,13 @@ export const doc: ComponentDoc = {
       },
       {
         "name": "color",
-        "type": "ProgressBarVariants['color']",
+        "type": "XuiProgressBarVariants['color']",
         "default": "this.config.color",
         "required": false
       },
       {
         "name": "size",
-        "type": "ProgressBarVariants['size']",
+        "type": "XuiProgressBarVariants['size']",
         "default": "this.config.size",
         "required": false
       },

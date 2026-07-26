@@ -552,7 +552,7 @@ export class Customers {
     this.detailOpen.set(false);
     this.toaster.show({
       message: `${customer.name} deleted.`,
-      intent: 'success',
+      color: 'success',
       actionText: 'Undo',
       timeout: 8000,
       onAction: () => this.data.restoreCustomer(customer, index)
@@ -590,7 +590,7 @@ export class Customers {
     this.notify(`${this.filtered().length} rows queued for export.`);
   }
 
-  protected notify(message: string, intent: 'none' | 'success' | 'warning' = 'none'): void {
-    this.toaster.show({ message, intent });
+  protected notify(message: string, color: 'none' | 'success' | 'warning' = 'none'): void {
+    this.toaster.show({ message, color });
   }
 }

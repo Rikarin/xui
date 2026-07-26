@@ -22,7 +22,7 @@ export const textareaVariants = cva(
   }
 );
 
-export type TextareaVariants = VariantProps<typeof textareaVariants>;
+export type XuiTextareaVariants = VariantProps<typeof textareaVariants>;
 
 /**
  * Styles a native `<textarea>` and, on request, grows it to fit its content.
@@ -50,7 +50,7 @@ export class XuiTextarea {
 
   /** The user-defined classes. Merged last so they win over the variant classes. */
   readonly class = input<ClassValue>('');
-  readonly size = input<TextareaVariants['size']>('md');
+  readonly size = input<XuiTextareaVariants['size']>('md');
 
   /** Grow to fit the content instead of scrolling; disables manual resize. */
   readonly autoResize = input<boolean, BooleanInput>(false, { transform: booleanAttribute });

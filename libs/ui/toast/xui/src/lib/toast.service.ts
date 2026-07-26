@@ -2,13 +2,13 @@ import { DestroyRef, Injectable, inject, signal } from '@angular/core';
 import { injectXOverlay, type XOverlayRef } from '@xui/core/overlay';
 import type { XuiToastData } from './toast';
 import { XuiToastContainer } from './toast-container';
-import { injectXuiToastConfig, toastGlobalPosition, type XuiToastIntent, type XuiToastPosition } from './toast.token';
+import { injectXuiToastConfig, toastGlobalPosition, type XuiToastColor, type XuiToastPosition } from './toast.token';
 
 /** What a caller passes to raise a toast. */
 export interface XuiToastOptions {
   message: string;
-  intent?: XuiToastIntent;
-  /** Override the icon the intent implies. `null` shows none. */
+  color?: XuiToastColor;
+  /** Override the icon the color implies. `null` shows none. */
   icon?: string | null;
   /** Add an action button with this label. */
   actionText?: string;
@@ -22,8 +22,8 @@ export interface XuiToastOptions {
  * Raises transient notices that stack in a corner and dismiss themselves.
  *
  * ```ts
- * this.toaster.show({ message: 'Saved', intent: 'success' });
- * this.toaster.show({ message: 'Upload failed', intent: 'error', actionText: 'Retry', onAction: () => this.retry() });
+ * this.toaster.show({ message: 'Saved', color: 'success' });
+ * this.toaster.show({ message: 'Upload failed', color: 'error', actionText: 'Retry', onAction: () => this.retry() });
  * ```
  *
  * The toaster keeps its list in a signal and mounts a single corner-pinned
@@ -59,7 +59,7 @@ export class XuiToastService {
     const toast: XuiToastData = {
       id,
       message: options.message,
-      intent: options.intent ?? 'none',
+      color: options.color ?? 'none',
       icon: options.icon,
       actionText: options.actionText,
       onAction: options.onAction

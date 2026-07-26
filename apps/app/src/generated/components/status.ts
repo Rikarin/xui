@@ -31,7 +31,7 @@ export const doc: ComponentDoc = {
   exports: [
   "XuiStatus",
   "XuiStatusImports",
-  "StatusVariants"
+  "XuiStatusVariants"
 ],
   peerDependencies: {
   "@angular/core": "22",
@@ -55,12 +55,12 @@ export const doc: ComponentDoc = {
       },
       {
         "name": "variant",
-        "type": "StatusVariants['variant']",
+        "type": "XuiStatusVariants['variant']",
         "required": true
       },
       {
         "name": "size",
-        "type": "StatusVariants['size']",
+        "type": "XuiStatusVariants['size']",
         "default": "'md'",
         "required": false
       }

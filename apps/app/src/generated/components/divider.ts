@@ -69,7 +69,7 @@ export const doc: ComponentDoc = {
   "XuiDivider",
   "XuiDividerImports",
   "dividerVariants",
-  "DividerVariants"
+  "XuiDividerVariants"
 ],
   peerDependencies: {
   "@angular/cdk": "22",
@@ -96,7 +96,7 @@ export const doc: ComponentDoc = {
       },
       {
         "name": "orientation",
-        "type": "NonNullable<DividerVariants['orientation']>",
+        "type": "NonNullable<XuiDividerVariants['orientation']>",
         "default": "'horizontal'",
         "required": false
       },

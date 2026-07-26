@@ -68,7 +68,7 @@ export const doc: ComponentDoc = {
   "XuiNonIdealState",
   "XuiNonIdealStateImports",
   "nonIdealStateVariants",
-  "NonIdealStateVariants"
+  "XuiNonIdealStateVariants"
 ],
   peerDependencies: {
   "@angular/core": "22",
@@ -93,7 +93,7 @@ export const doc: ComponentDoc = {
       },
       {
         "name": "layout",
-        "type": "NonIdealStateVariants['layout']",
+        "type": "XuiNonIdealStateVariants['layout']",
         "default": "'vertical'",
         "required": false
       },

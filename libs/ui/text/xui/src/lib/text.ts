@@ -40,7 +40,7 @@ export const textVariants = cva('', {
   }
 });
 
-export type TextVariants = VariantProps<typeof textVariants>;
+export type XuiTextVariants = VariantProps<typeof textVariants>;
 
 /**
  * Body text with optional truncation.
@@ -70,9 +70,9 @@ export class XuiText {
 
   /** The user-defined classes. Merged last so they win over the variant classes. */
   readonly class = input<ClassValue>('');
-  readonly color = input<TextVariants['color']>();
-  readonly size = input<TextVariants['size']>();
-  readonly weight = input<TextVariants['weight']>();
+  readonly color = input<XuiTextVariants['color']>();
+  readonly size = input<XuiTextVariants['size']>();
+  readonly weight = input<XuiTextVariants['weight']>();
 
   /** Truncate with an ellipsis instead of wrapping. */
   readonly ellipsize = input<boolean, BooleanInput>(false, { transform: booleanAttribute });

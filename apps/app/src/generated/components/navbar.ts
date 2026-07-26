@@ -45,9 +45,9 @@ export const doc: ComponentDoc = {
   "XuiNavbarDivider",
   "XuiNavbarImports",
   "navbarVariants",
-  "NavbarVariants",
+  "XuiNavbarVariants",
   "navbarGroupVariants",
-  "NavbarGroupVariants"
+  "XuiNavbarGroupVariants"
 ],
   peerDependencies: {
   "@angular/cdk": "22",
@@ -110,7 +110,7 @@ export const doc: ComponentDoc = {
       },
       {
         "name": "align",
-        "type": "NavbarGroupVariants['align']",
+        "type": "XuiNavbarGroupVariants['align']",
         "default": "'start'",
         "required": false
       }

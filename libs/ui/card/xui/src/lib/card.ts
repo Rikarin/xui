@@ -45,8 +45,8 @@ export const cardVariants = cva('bg-surface-raised text-foreground block rounded
   }
 });
 
-export type CardVariants = VariantProps<typeof cardVariants>;
-export type CardElevation = NonNullable<CardVariants['elevation']>;
+export type XuiCardVariants = VariantProps<typeof cardVariants>;
+export type XuiCardElevation = NonNullable<XuiCardVariants['elevation']>;
 
 /**
  * A bounded, elevated container for a single piece of content.
@@ -85,7 +85,7 @@ export class XuiCard {
 
   /** The user-defined classes. Merged last so they win over the variant classes. */
   readonly class = input<ClassValue>('');
-  readonly elevation = input<CardElevation>(this.config.elevation);
+  readonly elevation = input<XuiCardElevation>(this.config.elevation);
 
   /** Respond to hover and focus. Pair it with a `<button>` or `<a>` host. */
   readonly interactive = input<boolean, BooleanInput>(false, { transform: booleanAttribute });

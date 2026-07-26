@@ -38,7 +38,7 @@ import {
 import { injectElementSize } from '@xui/core/interactions';
 import type { ClassValue } from 'clsx';
 import { XuiDataCell } from './data-cell';
-import type { CellCoord, SortState, XuiDataColumn } from './data-table.types';
+import type { CellCoord, XuiDataColumn, XuiSortState } from './data-table.types';
 
 /**
  * A virtualized data grid: only the visible rows are in the DOM, so it stays
@@ -225,7 +225,7 @@ export class XuiDataTable<T> {
   readonly selection = model<Region[]>([]);
 
   readonly cellClicked = output<{ row: T; rowIndex: number; column: XuiDataColumn<T> }>();
-  readonly sortChange = output<SortState | null>();
+  readonly sortChange = output<XuiSortState | null>();
   /** Emitted with the tab-separated text when the selection is copied. */
   readonly copied = output<string>();
   /** Emitted when a column is dragged to a new position (indices into the displayed order). */
@@ -241,7 +241,7 @@ export class XuiDataTable<T> {
   private readonly measuredWidth = signal(0);
   /** ResizeObserver fallback so the window re-measures on layout changes. */
   private readonly hostSize = injectElementSize();
-  protected readonly sort = signal<SortState | null>(null);
+  protected readonly sort = signal<XuiSortState | null>(null);
 
   /** The anchor cell for shift-extended range selection. */
   private readonly selectionAnchor = signal<CellCoord | null>(null);
@@ -549,7 +549,7 @@ export class XuiDataTable<T> {
     }
 
     const current = this.sort();
-    let next: SortState | null;
+    let next: XuiSortState | null;
     if (current?.columnId !== column.id) {
       next = { columnId: column.id, direction: 'asc' };
     } else if (current.direction === 'asc') {

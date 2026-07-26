@@ -54,7 +54,7 @@ export const doc: ComponentDoc = {
   exports: [
   "XuiTimePicker",
   "XuiTimePickerImports",
-  "TimePrecision"
+  "XuiTimePrecision"
 ],
   peerDependencies: {
   "@angular/cdk": "22",
@@ -86,7 +86,7 @@ export const doc: ComponentDoc = {
       },
       {
         "name": "precision",
-        "type": "TimePrecision",
+        "type": "XuiTimePrecision",
         "default": "'minute'",
         "required": false
       },

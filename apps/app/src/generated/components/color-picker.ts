@@ -75,7 +75,7 @@ export const doc: ComponentDoc = {
   exports: [
   "XuiColorPicker",
   "XuiColorPickerImports",
-  "ColorFormat",
+  "XuiColorFormat",
   "RGB",
   "HSV",
   "HSL",
@@ -140,7 +140,7 @@ export const doc: ComponentDoc = {
       },
       {
         "name": "format",
-        "type": "ColorFormat",
+        "type": "XuiColorFormat",
         "default": "'hex'",
         "required": false,
         "model": true,

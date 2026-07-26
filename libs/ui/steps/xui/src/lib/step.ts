@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, input, ViewEncapsulation } from '@angular/core';
 
-export type StepStatus = 'wait' | 'process' | 'finish' | 'error';
+export type XuiStepStatus = 'wait' | 'process' | 'finish' | 'error';
 
 /**
  * One step inside {@link XuiSteps}. `title`/`description` describe it; `status`
@@ -16,5 +16,5 @@ export class XuiStep {
   readonly title = input<string>('');
   readonly description = input<string>('');
   /** Force a status instead of deriving it from the active step. */
-  readonly status = input<StepStatus>();
+  readonly status = input<XuiStepStatus>();
 }

@@ -36,7 +36,7 @@ const containerVariants = cva(
   }
 );
 
-export type TagInputVariants = VariantProps<typeof containerVariants>;
+export type XuiTagInputVariants = VariantProps<typeof containerVariants>;
 
 export const XUI_TAG_INPUT_VALUE_ACCESSOR = {
   provide: NG_VALUE_ACCESSOR,

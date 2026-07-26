@@ -1,5 +1,5 @@
 import { InjectionToken, ValueProvider, inject } from '@angular/core';
-import type { IconSize, IconVariants } from './icon';
+import type { XuiIconSize, XuiIconVariants } from './icon';
 
 /**
  * Application-wide defaults for XuiIcon.
@@ -8,8 +8,8 @@ import type { IconSize, IconVariants } from './icon';
  * touching call sites; individual inputs still override the configured value.
  */
 export interface XuiIconConfig {
-  size: IconSize;
-  color: IconVariants['color'];
+  size: XuiIconSize;
+  color: XuiIconVariants['color'];
 }
 
 const defaultConfig: XuiIconConfig = {

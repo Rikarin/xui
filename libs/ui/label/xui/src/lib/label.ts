@@ -32,7 +32,7 @@ export const labelVariants = cva(
     }
   }
 );
-export type LabelVariants = VariantProps<typeof labelVariants>;
+export type XuiLabelVariants = VariantProps<typeof labelVariants>;
 
 @Directive({
   selector: '[xuiLabel]',
@@ -52,8 +52,8 @@ export class XuiLabel {
   private readonly xLabel = inject(XLabel, { host: true });
 
   readonly class = input<ClassValue>('');
-  readonly variant = input<LabelVariants['variant']>('default');
-  readonly error = input<LabelVariants['error']>('auto');
+  readonly variant = input<XuiLabelVariants['variant']>('default');
+  readonly error = input<XuiLabelVariants['error']>('auto');
 
   /** Follows the `error` input until `setError` overrides it. */
   private readonly errorState = linkedSignal(this.error);
@@ -69,7 +69,7 @@ export class XuiLabel {
     )
   );
 
-  setError(error: LabelVariants['error']): void {
+  setError(error: XuiLabelVariants['error']): void {
     this.errorState.set(error);
   }
 }

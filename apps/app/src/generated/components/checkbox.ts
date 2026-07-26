@@ -113,8 +113,8 @@ export const doc: ComponentDoc = {
   "XuiCheckboxConfig",
   "provideXuiCheckboxConfig",
   "injectXuiCheckboxConfig",
-  "CheckboxVariants",
-  "CheckboxAlignIndicator",
+  "XuiCheckboxVariants",
+  "XuiCheckboxAlignIndicator",
   "XUI_CHECKBOX_VALUE_ACCESSOR"
 ],
   peerDependencies: {
@@ -143,13 +143,13 @@ export const doc: ComponentDoc = {
       },
       {
         "name": "color",
-        "type": "CheckboxVariants['color']",
+        "type": "XuiCheckboxVariants['color']",
         "default": "this.config.color",
         "required": false
       },
       {
         "name": "size",
-        "type": "CheckboxVariants['size']",
+        "type": "XuiCheckboxVariants['size']",
         "default": "this.config.size",
         "required": false
       },
@@ -162,7 +162,7 @@ export const doc: ComponentDoc = {
       },
       {
         "name": "alignIndicator",
-        "type": "CheckboxAlignIndicator",
+        "type": "XuiCheckboxAlignIndicator",
         "default": "'start'",
         "required": false,
         "docs": "Which side the box sits on relative to the label."
