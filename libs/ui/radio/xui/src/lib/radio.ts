@@ -46,12 +46,7 @@ export type XuiRadioVariants = VariantProps<typeof radioVariants>;
   selector: 'xui-radio',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  template: `
-    <span
-      class="bg-primary size-1/2 rounded-full transition-transform data-[state=unchecked]:scale-0"
-      [attr.data-state]="dataState()"
-    ></span>
-  `,
+  template: ` <span [class]="dotClass()" [attr.data-state]="dataState()"></span> `,
   host: {
     role: 'radio',
     '[attr.aria-checked]': 'checked()',
@@ -97,6 +92,19 @@ export class XuiRadio<T = unknown> implements XuiRadioButtonRef {
   });
 
   protected readonly computedClass = computed(() => xui(radioVariants({ size: this.size() }), this.class()));
+
+  /**
+   * A percentage here resolves against the content box, so `1/2` of a 20px control came out at 9px
+   * — an odd size centred at a half-pixel, which rasterises the circle lopsided however exactly the
+   * grid centres it. Pin it to an even size so both the dot and the ring around it stay on whole
+   * pixels: half the control, measured the way the eye reads it.
+   */
+  protected readonly dotClass = computed(() =>
+    xui(
+      'bg-primary rounded-full transition-transform data-[state=unchecked]:scale-0',
+      this.size() === 'sm' ? 'size-2' : 'size-2.5'
+    )
+  );
 
   protected select(): void {
     if (this.isDisabled()) {
