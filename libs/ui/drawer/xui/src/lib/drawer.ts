@@ -157,7 +157,11 @@ export class XuiDrawer {
       autoFocus: true,
       restoreFocus: true,
       role: 'dialog',
-      ariaLabelledBy: this.title() ? this.titleId : null
+      ariaLabelledBy: this.title() ? this.titleId : null,
+      // Handed to the overlay rather than run in `detach()`, so the drawer leaves
+      // the same way whoever closed it — Escape and the backdrop go through the
+      // overlay's own handlers and never reach this component.
+      exit: surfaces => this.slideOut(surfaces, edge.from)
     });
 
     this.ref = ref;
@@ -181,10 +185,47 @@ export class XuiDrawer {
 
   private slideIn(pane: HTMLElement, from: string): void {
     // A transition from off-screen; skipped when the user asks for less motion.
-    if (globalThis.matchMedia?.('(prefers-reduced-motion: reduce)').matches) {
+    if (this.stillness()) {
       return;
     }
 
     pane.animate([{ transform: from }, { transform: 'none' }], { duration: 200, easing: 'ease-out' });
+  }
+
+  /**
+   * The way back out, with the backdrop fading alongside it.
+   *
+   * Returning nothing tears the overlay down at once, which is what should happen
+   * when the motion is off — and under a test runner, where `animate` is a stub
+   * that returns nothing to wait on.
+   */
+  private slideOut(
+    { pane, backdrop }: { pane: HTMLElement; backdrop: HTMLElement | null },
+    to: string
+  ): Promise<void> | void {
+    if (this.stillness()) {
+      return;
+    }
+
+    const animation = pane.animate?.([{ transform: 'none' }, { transform: to }], {
+      duration: 200,
+      easing: 'ease-in',
+      fill: 'forwards'
+    });
+
+    if (!animation) {
+      return;
+    }
+
+    // The CDK drops the backdrop the moment the overlay is disposed, which would
+    // leave the page dimmed for the whole slide and then snap clear.
+    backdrop?.animate?.([{ opacity: 1 }, { opacity: 0 }], { duration: 200, easing: 'ease-in', fill: 'forwards' });
+
+    return animation.finished.then(() => undefined);
+  }
+
+  /** Whether the user has asked for less motion. */
+  private stillness(): boolean {
+    return Boolean(globalThis.matchMedia?.('(prefers-reduced-motion: reduce)').matches);
   }
 }

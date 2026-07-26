@@ -85,6 +85,17 @@ export interface XOverlayConfig {
   ariaLabelledBy?: string | null;
   ariaDescribedBy?: string | null;
 
+  /**
+   * Plays the overlay out before it is torn down.
+   *
+   * Return a promise and the overlay stays in the DOM — no longer taking pointer
+   * events — until it settles; return nothing and teardown is immediate, which is
+   * what a caller does when the motion is off, or when there is nothing to animate
+   * with. Every way of closing runs it, so Escape and a backdrop click leave the
+   * same way the close button does.
+   */
+  exit?: (surfaces: { pane: HTMLElement; backdrop: HTMLElement | null }) => Promise<unknown> | void;
+
   /** Extra injector-scoped providers for the attached content. */
   providers?: unknown[];
   /**

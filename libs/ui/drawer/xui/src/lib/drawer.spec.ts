@@ -96,6 +96,42 @@ describe('XuiDrawer', () => {
     expect(drawer()).toBeNull();
   });
 
+  it('slides out before it goes, whichever way it was closed', async () => {
+    let land!: () => void;
+    const finished = new Promise<void>(resolve => (land = () => resolve()));
+    const animations: Keyframe[][] = [];
+    const stub = Element.prototype.animate;
+
+    (Element.prototype as unknown as { animate: (frames: Keyframe[]) => unknown }).animate = frames => {
+      animations.push(frames);
+
+      return { finished };
+    };
+
+    try {
+      const { setProps } = setup();
+      setProps({ open: true });
+
+      document.body.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', keyCode: 27, bubbles: true }));
+
+      // Still there, on its way out and no longer taking clicks.
+      expect(drawer()).not.toBeNull();
+      expect((document.querySelector('.cdk-overlay-pane') as HTMLElement).style.pointerEvents).toBe('none');
+      expect(animations.at(-2)).toEqual([{ transform: 'none' }, { transform: 'translateX(100%)' }]);
+      // The backdrop goes with it, rather than being dropped from under the slide.
+      expect(animations.at(-1)).toEqual([{ opacity: 1 }, { opacity: 0 }]);
+
+      land();
+      // A turn of the macrotask queue, which is enough for the promise chain
+      // between the animation settling and the overlay tearing itself down.
+      await new Promise(resolve => setTimeout(resolve, 0));
+
+      expect(drawer()).toBeNull();
+    } finally {
+      Element.prototype.animate = stub;
+    }
+  });
+
   it('reopens after closing', () => {
     const { setProps } = setup();
 

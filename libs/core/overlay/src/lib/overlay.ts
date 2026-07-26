@@ -43,6 +43,8 @@ export type XOverlayContent<T = unknown> = TemplateRef<T> | Type<T>;
  */
 export interface XOverlayHandle {
   close(): void;
+  /** Tear down now, skipping any exit animation. */
+  dispose(): void;
   readonly isOpen: Signal<boolean>;
 }
 
@@ -196,7 +198,8 @@ export function injectXOverlay(): XOverlayFactory {
         if (index !== -1) {
           refs.splice(index, 1);
         }
-      }
+      },
+      resolved.exit
     );
 
     if (resolved.closeOnEscape) {
@@ -234,7 +237,9 @@ export function injectXOverlay(): XOverlayFactory {
     [...refs].reverse().forEach(ref => ref.close());
   };
 
-  destroyRef.onDestroy(closeAll);
+  // Not `closeAll`: the context going away takes the attached content with it, so
+  // an overlay left on screen to play itself out would be playing out an empty pane.
+  destroyRef.onDestroy(() => [...refs].reverse().forEach(ref => ref.dispose()));
 
   function attach(overlayRef: OverlayRef, content: XOverlayContent, resolved: XOverlayConfig) {
     if (content instanceof TemplateRef) {

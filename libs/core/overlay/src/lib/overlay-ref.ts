@@ -1,6 +1,16 @@
 import type { FocusTrap } from '@angular/cdk/a11y';
 import type { OverlayRef } from '@angular/cdk/overlay';
 import { signal, type Signal } from '@angular/core';
+import type { XOverlayConfig } from './overlay-config';
+
+/**
+ * How long an `exit` animation is given before the overlay is torn down anyway.
+ *
+ * An animation only advances while the document is rendering, so one that starts in
+ * a tab the user then leaves never settles — and the overlay would sit there with the
+ * page behind it still inert and still scroll-locked. No dismissal is worth a second.
+ */
+const EXIT_GRACE_MS = 1000;
 
 /**
  * Handle on one open overlay.
@@ -10,6 +20,7 @@ import { signal, type Signal } from '@angular/core';
  * new ref, which keeps reopen paths free of stale positioning state.
  */
 export class XOverlayRef<TResult = unknown> {
+  private disposed = false;
   private readonly _isOpen = signal(true);
   private readonly _result = signal<TResult | undefined>(undefined);
   private resolveClosed!: (result: TResult | undefined) => void;
@@ -35,7 +46,9 @@ export class XOverlayRef<TResult = unknown> {
     // callback makes the class invariant in `TResult` under strictFunctionTypes,
     // so a registry of mixed-result refs would not type-check. The factory closes
     // over the ref it created instead.
-    private readonly onDispose: () => void
+    private readonly onDispose: () => void,
+    /** Plays the overlay out before teardown. See {@link XOverlayConfig.exit}. */
+    private readonly exit: XOverlayConfig['exit'] = undefined
   ) {}
 
   /** The overlay's pane element, for tests and imperative measurement. */
@@ -43,7 +56,18 @@ export class XOverlayRef<TResult = unknown> {
     return this.overlayRef.overlayElement;
   }
 
-  /** Detach and dispose. Calling it more than once is a no-op. */
+  /** The backdrop behind a modal overlay, for an exit animation to fade out. */
+  get backdrop(): HTMLElement | null {
+    return this.overlayRef.backdropElement;
+  }
+
+  /**
+   * Detach and dispose. Calling it more than once is a no-op.
+   *
+   * With an `exit` animation the overlay is closed from this moment — `isOpen` is
+   * false and a second call does nothing — but stays on screen until the animation
+   * settles. `closed` resolves once it is really gone.
+   */
   close(result?: TResult): void {
     if (!this._isOpen()) {
       return;
@@ -51,6 +75,42 @@ export class XOverlayRef<TResult = unknown> {
 
     this._isOpen.set(false);
     this._result.set(result);
+
+    const playingOut = this.exit?.({ pane: this.pane, backdrop: this.backdrop });
+
+    if (!playingOut) {
+      this.dispose(result);
+
+      return;
+    }
+
+    // On its way out it must not take a click meant for the page behind it, and
+    // the trap has to let go before focus is restored to the element outside.
+    this.pane.style.pointerEvents = 'none';
+    this.focusTrap?.destroy();
+
+    // A rejected exit — an animation cancelled by a reopen — still tears down;
+    // leaving the overlay attached forever is the worse failure, which is what the
+    // grace period is there for too.
+    void Promise.race([
+      playingOut.catch(() => undefined),
+      new Promise(settle => setTimeout(settle, EXIT_GRACE_MS))
+    ]).then(() => this.dispose(result));
+  }
+
+  /**
+   * Tear down now, skipping any exit animation.
+   *
+   * For when the overlay cannot outlive what is happening — the view that owns it
+   * being destroyed, say, which takes the content out from under it.
+   */
+  dispose(result?: TResult): void {
+    if (this.disposed) {
+      return;
+    }
+
+    this.disposed = true;
+    this._isOpen.set(false);
 
     this.focusTrap?.destroy();
     this.overlayRef.dispose();
@@ -64,7 +124,7 @@ export class XOverlayRef<TResult = unknown> {
     this.restoreFocusTo?.focus();
 
     this.onDispose();
-    this.resolveClosed(result);
+    this.resolveClosed(result ?? this._result());
   }
 
   /** Recompute the position — call after the content resizes. */

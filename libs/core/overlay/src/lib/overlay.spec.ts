@@ -241,4 +241,64 @@ describe('injectXOverlay', () => {
     expect(ref.isOpen()).toBe(false);
     expect(pane()).toBeNull();
   });
+
+  describe('exit animation', () => {
+    it('keeps the overlay on screen, and inert to the pointer, until the exit settles', async () => {
+      let finish!: () => void;
+      const playing = new Promise<void>(resolve => (finish = () => resolve()));
+      const fixture = setup();
+      const ref = fixture.componentInstance.open({ exit: () => playing });
+
+      ref.close();
+
+      // Closed from this moment, but not yet gone.
+      expect(ref.isOpen()).toBe(false);
+      expect(pane()).not.toBeNull();
+      expect((pane() as HTMLElement).style.pointerEvents).toBe('none');
+
+      finish();
+      await ref.closed;
+
+      expect(pane()).toBeNull();
+    });
+
+    it('tears down at once when the exit returns nothing — reduced motion, or no animation to wait on', () => {
+      const fixture = setup();
+      const ref = fixture.componentInstance.open({ exit: () => undefined });
+
+      ref.close();
+
+      expect(pane()).toBeNull();
+    });
+
+    it('tears down anyway when the exit never settles', async () => {
+      jest.useFakeTimers();
+
+      try {
+        const fixture = setup();
+        const ref = fixture.componentInstance.open({ exit: () => new Promise<void>(() => undefined) });
+
+        ref.close();
+        expect(pane()).not.toBeNull();
+
+        // Async, so the promise the timeout settles gets its microtasks flushed too.
+        await jest.advanceTimersByTimeAsync(1000);
+
+        expect(pane()).toBeNull();
+      } finally {
+        jest.useRealTimers();
+      }
+    });
+
+    it('skips the exit when the host is destroyed, which takes the content with it', () => {
+      const fixture = setup();
+      const exit = jest.fn(() => new Promise<void>(() => undefined));
+      fixture.componentInstance.open({ exit });
+
+      fixture.destroy();
+
+      expect(exit).not.toHaveBeenCalled();
+      expect(pane()).toBeNull();
+    });
+  });
 });
