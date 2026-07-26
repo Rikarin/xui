@@ -1,7 +1,18 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import {
+  afterNextRender,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  DestroyRef,
+  ElementRef,
+  inject,
+  signal
+} from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { XuiInputImports } from '@xui/input';
 import { XuiTextImports } from '@xui/text';
+import { filter } from 'rxjs';
 import { COMPONENTS, GROUPS } from '../../generated/manifest';
 import { LayoutState } from '../core/layout-state';
 
@@ -75,9 +86,26 @@ const GUIDES = [
   `
 })
 export class DocsNav {
+  private readonly host = inject(ElementRef<HTMLElement>);
+  private readonly router = inject(Router);
+  private readonly destroyRef = inject(DestroyRef);
+
   protected readonly layout = inject(LayoutState);
   protected readonly guides = GUIDES;
   protected readonly query = signal('');
+
+  constructor() {
+    afterNextRender(() => {
+      this.revealActive();
+
+      this.router.events
+        .pipe(
+          filter(event => event instanceof NavigationEnd),
+          takeUntilDestroyed(this.destroyRef)
+        )
+        .subscribe(() => this.revealActive());
+    });
+  }
 
   protected readonly visibleGroups = computed(() => {
     const query = this.query().trim().toLowerCase();
@@ -91,4 +119,59 @@ export class DocsNav {
       group => group.items.length > 0
     );
   });
+
+  /**
+   * Brings the entry for the page you are on into view.
+   *
+   * The list is a hundred components in a scroller of its own, so opening one halfway down it —
+   * from a link, a search result, a reload — otherwise leaves the rail sitting at the top with no
+   * sign of where you are.
+   *
+   * The entry is found by its href rather than by the active class: `RouterLinkActive` sets that
+   * during the change detection this navigation schedules, so it is not on the element yet.
+   */
+  private revealActive(retry = true): void {
+    const path = this.router.url.split(/[?#]/)[0];
+    const host = this.host.nativeElement as HTMLElement;
+    const links = [...host.querySelectorAll<HTMLAnchorElement>('a[href]')];
+    const link = links.find(anchor => anchor.getAttribute('href') === path);
+    const scroller = link && scrollParent(link);
+
+    if (!link || !scroller) {
+      return;
+    }
+
+    // Nothing has been laid out yet — a tab that is still hidden, say. Every rect would read zero,
+    // which the check below would take for "already in view", so come back one frame later. Once.
+    if (scroller.clientHeight === 0) {
+      if (retry) {
+        requestAnimationFrame(() => this.revealActive(false));
+      }
+
+      return;
+    }
+
+    const entry = link.getBoundingClientRect();
+    const view = scroller.getBoundingClientRect();
+
+    // Already on screen: leave the list where it is rather than yanking it on every navigation.
+    if (entry.top >= view.top && entry.bottom <= view.bottom) {
+      return;
+    }
+
+    scroller.scrollTop += entry.top - view.top - (scroller.clientHeight - entry.height) / 2;
+  }
+}
+
+/** The nearest ancestor that scrolls: the rail on desktop, the drawer body under `lg`. */
+function scrollParent(element: HTMLElement): HTMLElement | undefined {
+  for (let node = element.parentElement; node; node = node.parentElement) {
+    const overflow = getComputedStyle(node).overflowY;
+
+    if ((overflow === 'auto' || overflow === 'scroll') && node.scrollHeight > node.clientHeight) {
+      return node;
+    }
+  }
+
+  return undefined;
 }
