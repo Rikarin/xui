@@ -1,6 +1,6 @@
 {
   "name": "@xui/hotkeys",
-  "version": "2.0.0-alpha.17",
+  "version": "2.0.0-alpha.18",
   "description": "Modern Angular 22 UI Library based on TailwindCSS",
   "keywords": [
     "angular",
@@ -23,9 +23,9 @@
   "peerDependencies": {
     "@angular/common": "22",
     "@angular/core": "22",
-    "@xui/core": "2.0.0-alpha.17",
-    "@xui/dialog": "2.0.0-alpha.17",
-    "@xui/kbd": "2.0.0-alpha.17"
+    "@xui/core": "2.0.0-alpha.18",
+    "@xui/dialog": "2.0.0-alpha.18",
+    "@xui/kbd": "2.0.0-alpha.18"
   },
   "publishConfig": {
     "access": "public"

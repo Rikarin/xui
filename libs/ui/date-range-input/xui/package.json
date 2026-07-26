@@ -1,6 +1,6 @@
 {
   "name": "@xui/date-range-input",
-  "version": "2.0.0-alpha.17",
+  "version": "2.0.0-alpha.18",
   "description": "Modern Angular 22 UI Library based on TailwindCSS",
   "keywords": [
     "angular",
@@ -26,10 +26,10 @@
     "@angular/forms": "22",
     "@ng-icons/core": "34",
     "@ng-icons/material-icons": "34",
-    "@xui/core": "2.0.0-alpha.17",
-    "@xui/date-range-picker": "2.0.0-alpha.17",
-    "@xui/icon": "2.0.0-alpha.17",
-    "@xui/popover": "2.0.0-alpha.17",
+    "@xui/core": "2.0.0-alpha.18",
+    "@xui/date-range-picker": "2.0.0-alpha.18",
+    "@xui/icon": "2.0.0-alpha.18",
+    "@xui/popover": "2.0.0-alpha.18",
     "clsx": "^2.1.1"
   },
   "publishConfig": {

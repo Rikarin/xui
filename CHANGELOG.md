@@ -1,3 +1,23 @@
+## 2.0.0-alpha.18 (2026-07-26)
+
+### 🚀 Features
+
+- **drawer:** slide the drawer back out when it closes ([52aade04](https://github.com/Rikarin/xui/commit/52aade04))
+
+### 🩹 Fixes
+
+- **docs:** stop rendering a preview of a story's host component ([5a05e05c](https://github.com/Rikarin/xui/commit/5a05e05c))
+- **docs:** give a preview the arguments its story was written with ([72285e97](https://github.com/Rikarin/xui/commit/72285e97))
+- **docs:** give a preview room to be as wide as its frame ([93777352](https://github.com/Rikarin/xui/commit/93777352))
+- **docs:** keep the arguments a story overrode for one element ([c50c62c6](https://github.com/Rikarin/xui/commit/c50c62c6))
+- **tabs:** show a not-allowed cursor on a disabled tab ([28ddeaeb](https://github.com/Rikarin/xui/commit/28ddeaeb))
+- **ui:** show a not-allowed cursor on the rest of the disabled controls ([f1a7c71f](https://github.com/Rikarin/xui/commit/f1a7c71f))
+
+### ❤️ Thank You
+
+- Claude Opus 5
+- Rikarin @Rikarin
+
 ## 2.0.0-alpha.17 (2026-07-26)
 
 ### 🚀 Features
