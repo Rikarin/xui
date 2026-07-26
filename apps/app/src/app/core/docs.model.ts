@@ -1,5 +1,3 @@
-import type { Type } from '@angular/core';
-
 /**
  * The shape of the documentation data.
  *
@@ -57,8 +55,12 @@ export interface DocsExample {
   title: string;
   /** The Angular template, as shown in the Code tab. */
   code: string;
-  /** Absent when the example could not be turned into a compiled preview. */
-  preview?: Type<unknown>;
+  /**
+   * The demo component's class name in the package's preview module, or absent when the example
+   * could not be turned into one. A name rather than the class: the class lives in a chunk only the
+   * browser loads, and this data is what the worker renders the page from.
+   */
+  previewName?: string;
 }
 
 export interface ComponentDoc {

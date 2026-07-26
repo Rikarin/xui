@@ -7,11 +7,13 @@ import {
   ElementRef,
   inject,
   input,
-  signal
+  signal,
+  type Type
 } from '@angular/core';
 import { XuiTabsImports } from '@xui/tabs';
 import { XuiTextImports } from '@xui/text';
 import type { DocsExample } from '../core/docs.model';
+import { PREVIEW_MODULES } from '../core/previews';
 import { CodeBlock } from './code-block';
 import { HeadingAnchor } from './heading-anchor';
 
@@ -48,7 +50,7 @@ import { HeadingAnchor } from './heading-anchor';
       {{ example().title }}
     </h3>
 
-    @if (example().preview) {
+    @if (example().previewName) {
       <xui-tabs [selectedTabId]="'preview-' + anchor()">
         <xui-tab [id]="'preview-' + anchor()" title="Preview">
           <div
@@ -56,8 +58,8 @@ import { HeadingAnchor } from './heading-anchor';
             class="border-border bg-background min-h-24 rounded-lg border p-6"
             [class.overflow-x-auto]="scrollable()"
           >
-            @if (rendered()) {
-              <ng-container [ngComponentOutlet]="example().preview!" />
+            @if (preview(); as component) {
+              <ng-container [ngComponentOutlet]="component" />
             } @else {
               <span class="text-foreground-subtle text-sm">Loading preview…</span>
             }
@@ -79,16 +81,19 @@ export class Example {
   readonly example = input.required<DocsExample>();
   /** Stable id for the heading and the tab group — tab ids have to be unique across the page. */
   readonly anchor = input.required<string>();
+  /** The component's slug, which is the key its demos are keyed by. */
+  readonly slug = input.required<string>();
 
   private readonly host = inject(ElementRef<HTMLElement>);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly modules = inject(PREVIEW_MODULES, { optional: true });
 
-  protected readonly rendered = signal(false);
+  protected readonly preview = signal<Type<unknown> | null>(null);
   protected readonly scrollable = signal(false);
 
   constructor() {
     afterNextRender(() => {
-      this.rendered.set(true);
+      void this.load();
 
       // One frame later: the preview mounts during the change detection this very call schedules,
       // so measuring now would always report that it fits.
@@ -99,6 +104,26 @@ export class Example {
       window.addEventListener('resize', remeasure, { passive: true });
       this.destroyRef.onDestroy(() => window.removeEventListener('resize', remeasure));
     });
+  }
+
+  /**
+   * Fetches the package's demo chunk and picks this example's component out of it.
+   *
+   * The registry is browser-only, so on the server there is nothing to load and the frame keeps its
+   * placeholder — which is what it did before hydration anyway.
+   */
+  private async load(): Promise<void> {
+    const name = this.example().previewName;
+    const loader = this.modules?.[this.slug()];
+
+    if (!name || !loader) {
+      return;
+    }
+
+    const module = await loader();
+
+    this.preview.set(module[name] ?? null);
+    requestAnimationFrame(() => this.measure());
   }
 
   /**

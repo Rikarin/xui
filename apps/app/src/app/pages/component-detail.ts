@@ -58,7 +58,7 @@ import { TableOfContents, type TocEntry } from '../shared/table-of-contents';
             <h2 xuiHeading [level]="2" class="mt-12 mb-4" docsAnchor="examples">Examples</h2>
             <div class="space-y-10">
               @for (example of doc.examples; track example.name) {
-                <docs-example [example]="example" [anchor]="'example-' + example.name" />
+                <docs-example [example]="example" [slug]="doc.slug" [anchor]="'example-' + example.name" />
               }
             </div>
           } @else {
