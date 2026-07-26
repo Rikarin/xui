@@ -52,9 +52,9 @@ describe('XuiSplitter', () => {
     const splitter = document.querySelector('xui-splitter') as HTMLElement;
     Object.defineProperty(splitter, 'clientWidth', { value: 200, configurable: true });
 
-    gutters()[0].dispatchEvent(new MouseEvent('mousedown', { bubbles: true, clientX: 100 }));
-    document.dispatchEvent(new MouseEvent('mousemove', { bubbles: true, clientX: 140 })); // +40px = +20%
-    document.dispatchEvent(new MouseEvent('mouseup', { bubbles: true }));
+    gutters()[0].dispatchEvent(new MouseEvent('pointerdown', { bubbles: true, clientX: 100 }));
+    document.dispatchEvent(new MouseEvent('pointermove', { bubbles: true, clientX: 140 })); // +40px = +20%
+    document.dispatchEvent(new MouseEvent('pointerup', { bubbles: true }));
     detect();
 
     expect(cmp['sizes']()).toEqual([70, 30]);
@@ -138,9 +138,9 @@ describe('XuiSplitter', () => {
     const splitter = document.querySelector('xui-splitter') as HTMLElement;
     Object.defineProperty(splitter, 'clientWidth', { value: 200, configurable: true });
 
-    gutters()[0].dispatchEvent(new MouseEvent('mousedown', { bubbles: true, clientX: 100 }));
-    document.dispatchEvent(new MouseEvent('mousemove', { bubbles: true, clientX: 0 })); // -50% would push A below min
-    document.dispatchEvent(new MouseEvent('mouseup', { bubbles: true }));
+    gutters()[0].dispatchEvent(new MouseEvent('pointerdown', { bubbles: true, clientX: 100 }));
+    document.dispatchEvent(new MouseEvent('pointermove', { bubbles: true, clientX: 0 })); // -50% would push A below min
+    document.dispatchEvent(new MouseEvent('pointerup', { bubbles: true }));
     detect();
 
     // A clamps at its 30% minimum.

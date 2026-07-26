@@ -35,7 +35,7 @@ import {
   visibleRange,
   type XRegion
 } from '@xui/core/grid';
-import { injectXElementSize } from '@xui/core/interactions';
+import { injectXElementSize, injectXPointerDrag } from '@xui/core/interactions';
 import type { ClassValue } from 'clsx';
 import { XuiDataCell } from './data-cell';
 import type { CellCoord, XuiDataColumn, XuiSortState } from './data-table.types';
@@ -86,7 +86,7 @@ import type { CellCoord, XuiDataColumn, XuiSortState } from './data-table.types'
             [style.left.px]="cellLeft(rc.index, rc.frozen)"
             [style.width.px]="columnWidth(rc.index)"
             [attr.aria-sort]="ariaSort(rc.column)"
-            (mousedown)="startReorder(rc.index, $event)"
+            (pointerdown)="startReorder(rc.index, $event)"
             (click)="onHeaderClick(rc.column)"
           >
             <span class="truncate">{{ rc.column.header }}</span>
@@ -97,8 +97,8 @@ import type { CellCoord, XuiDataColumn, XuiSortState } from './data-table.types'
             }
             <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
             <span
-              class="hover:bg-primary/40 absolute top-0 right-0 h-full w-1 cursor-col-resize"
-              (mousedown)="startResize(rc.index, $event)"
+              class="hover:bg-primary/40 absolute top-0 right-0 h-full w-1 cursor-col-resize touch-none"
+              (pointerdown)="startResize(rc.index, $event)"
               (dblclick)="autoFitColumn(rc.index, $event)"
               (click)="$event.stopPropagation()"
             ></span>
@@ -703,17 +703,19 @@ export class XuiDataTable<T> {
   }
 
   // --- column resizing (drag the header divider) ---
+
+  /** Shared pointer-drag plumbing for column resizing and reordering. */
+  private readonly pointerDrag = injectXPointerDrag();
   private resizeState: { index: number; startX: number; startWidth: number } | null = null;
 
-  protected startResize(index: number, event: MouseEvent): void {
+  protected startResize(index: number, event: PointerEvent): void {
     event.preventDefault();
     event.stopPropagation();
     this.resizeState = { index, startX: event.clientX, startWidth: this.columnWidth(index) };
-    this.document.addEventListener('mousemove', this.onResizeMove);
-    this.document.addEventListener('mouseup', this.onResizeEnd);
+    this.pointerDrag(event, { onMove: this.onResizeMove, onEnd: this.onResizeEnd });
   }
 
-  private readonly onResizeMove = (event: MouseEvent): void => {
+  private readonly onResizeMove = (event: PointerEvent): void => {
     if (!this.resizeState) {
       return;
     }
@@ -723,8 +725,6 @@ export class XuiDataTable<T> {
 
   private readonly onResizeEnd = (): void => {
     this.resizeState = null;
-    this.document.removeEventListener('mousemove', this.onResizeMove);
-    this.document.removeEventListener('mouseup', this.onResizeEnd);
   };
 
   /** Fit a column to the widest of its header + currently-rendered cells (double-click the divider). */
@@ -744,16 +744,15 @@ export class XuiDataTable<T> {
   private reorderState: { index: number; startX: number } | null = null;
   private suppressHeaderClick = false;
 
-  protected startReorder(index: number, event: MouseEvent): void {
+  protected startReorder(index: number, event: PointerEvent): void {
     if (!this.reorderable() || event.button !== 0) {
       return;
     }
     this.reorderState = { index, startX: event.clientX };
-    this.document.addEventListener('mousemove', this.onReorderMove);
-    this.document.addEventListener('mouseup', this.onReorderEnd);
+    this.pointerDrag(event, { onMove: this.onReorderMove, onEnd: this.onReorderEnd });
   }
 
-  private readonly onReorderMove = (event: MouseEvent): void => {
+  private readonly onReorderMove = (event: PointerEvent): void => {
     const state = this.reorderState;
     if (!state) {
       return;
@@ -783,8 +782,6 @@ export class XuiDataTable<T> {
     this.reorderState = null;
     this.reorderSource.set(null);
     this.reorderTarget.set(null);
-    this.document.removeEventListener('mousemove', this.onReorderMove);
-    this.document.removeEventListener('mouseup', this.onReorderEnd);
   };
 
   /** Move a column from one displayed position to another, carrying its width. */

@@ -28,6 +28,7 @@ import {
 } from '@ng-icons/material-icons/round';
 import { xui } from '@xui/core';
 import { arrowDirectionOnAxis, injectXDirection } from '@xui/core/a11y';
+import { injectXPointerDrag, type XPointerDragStop } from '@xui/core/interactions';
 import { XuiIcon } from '@xui/icon';
 import type { ClassValue } from 'clsx';
 import {
@@ -966,7 +967,7 @@ export class XuiDockManager implements XuiDockContentMounter {
       this.resizeSiblings(before, after, beforePx + delta, beforePx + afterPx);
     };
 
-    this.trackPointer(onMove);
+    this.trackPointer(event, onMove);
   }
 
   protected onSplitterKeydown(parent: XuiDockSplitPane, gutter: number, event: KeyboardEvent): void {
@@ -1050,7 +1051,7 @@ export class XuiDockManager implements XuiDockContentMounter {
       this.commit({ normalize: false });
     };
 
-    this.trackPointer(onMove);
+    this.trackPointer(event, onMove);
   }
 
   // ─── dragging panes and docking ───────────────────────────────────────────
@@ -1112,7 +1113,7 @@ export class XuiDockManager implements XuiDockContentMounter {
       this.paneDragEnd.emit(pane);
     };
 
-    this.trackPointer(onMove, onUp);
+    this.trackPointer(event, onMove, onUp);
   }
 
   protected cancelDrag(): void {
@@ -1423,27 +1424,16 @@ export class XuiDockManager implements XuiDockContentMounter {
 
   // ─── pointer plumbing ─────────────────────────────────────────────────────
 
-  private release: (() => void) | null = null;
+  private readonly pointerDrag = injectXPointerDrag();
+  private release: XPointerDragStop | null = null;
 
   /** Follow the pointer until it is released, then clean up after ourselves. */
-  private trackPointer(onMove: (event: PointerEvent) => void, onUp?: (event: PointerEvent) => void): void {
-    this.stopPointerTracking();
-
-    const move = (event: PointerEvent): void => onMove(event);
-    const up = (event: PointerEvent): void => {
-      this.stopPointerTracking();
-      onUp?.(event);
-    };
-
-    this.document.addEventListener('pointermove', move);
-    this.document.addEventListener('pointerup', up);
-    this.document.addEventListener('pointercancel', up);
-
-    this.release = () => {
-      this.document.removeEventListener('pointermove', move);
-      this.document.removeEventListener('pointerup', up);
-      this.document.removeEventListener('pointercancel', up);
-    };
+  private trackPointer(
+    event: PointerEvent,
+    onMove: (event: PointerEvent) => void,
+    onUp?: (event: PointerEvent) => void
+  ): void {
+    this.release = this.pointerDrag(event, { onMove, onEnd: onUp });
   }
 
   private stopPointerTracking(): void {

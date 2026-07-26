@@ -315,10 +315,10 @@ describe('XuiDataTable', () => {
       detect();
 
       const nameHeader = document.querySelectorAll('[role="columnheader"]')[1] as HTMLElement;
-      nameHeader.dispatchEvent(new MouseEvent('mousedown', { bubbles: true, button: 0, clientX: 100 }));
+      nameHeader.dispatchEvent(new MouseEvent('pointerdown', { bubbles: true, button: 0, clientX: 100 }));
       // Drag left into the ID column's x-range (ID spans 0-80).
-      document.dispatchEvent(new MouseEvent('mousemove', { bubbles: true, clientX: 20 }));
-      document.dispatchEvent(new MouseEvent('mouseup', { bubbles: true }));
+      document.dispatchEvent(new MouseEvent('pointermove', { bubbles: true, clientX: 20 }));
+      document.dispatchEvent(new MouseEvent('pointerup', { bubbles: true }));
       detect();
 
       expect(cmp.focusedCell()).toBeDefined();
@@ -330,9 +330,9 @@ describe('XuiDataTable', () => {
       detect();
 
       const nameHeader = document.querySelectorAll('[role="columnheader"]')[1] as HTMLElement;
-      nameHeader.dispatchEvent(new MouseEvent('mousedown', { bubbles: true, button: 0, clientX: 100 }));
-      document.dispatchEvent(new MouseEvent('mousemove', { bubbles: true, clientX: 20 }));
-      document.dispatchEvent(new MouseEvent('mouseup', { bubbles: true }));
+      nameHeader.dispatchEvent(new MouseEvent('pointerdown', { bubbles: true, button: 0, clientX: 100 }));
+      document.dispatchEvent(new MouseEvent('pointermove', { bubbles: true, clientX: 20 }));
+      document.dispatchEvent(new MouseEvent('pointerup', { bubbles: true }));
       detect();
 
       expect(headers()).toEqual(['ID', 'Name', 'Age']);

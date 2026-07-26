@@ -1,6 +1,5 @@
 import type { BooleanInput, NumberInput } from '@angular/cdk/coercion';
 import {
-  DestroyRef,
   Directive,
   ElementRef,
   booleanAttribute,
@@ -14,7 +13,7 @@ import {
   untracked,
   type TemplateRef
 } from '@angular/core';
-import { injectXOverlay, type XOverlayRef, type XPlacement } from '@xui/core/overlay';
+import { createXHoverGate, injectXOverlay, type XOverlayRef, type XPlacement } from '@xui/core/overlay';
 import type { ClassValue } from 'clsx';
 import { XUI_POPOVER_CONTENT } from './popover-content';
 import { XuiPopoverPanel } from './popover-panel';
@@ -57,8 +56,6 @@ export class XuiPopover {
   private readonly config = injectXuiPopoverConfig();
 
   private ref: XOverlayRef | null = null;
-  private openTimer: ReturnType<typeof setTimeout> | null = null;
-  private closeTimer: ReturnType<typeof setTimeout> | null = null;
   /** True while a hover is over the pane, so a trigger-leave does not close it. */
   private overPane = false;
 
@@ -93,6 +90,19 @@ export class XuiPopover {
 
   readonly opened = output<void>();
   readonly closed = output<void>();
+
+  /** Debounces hover open/close so crossing the trigger–pane gap never flickers. */
+  private readonly hoverGate = createXHoverGate({
+    openDelay: () => this.hoverOpenDelay(),
+    closeDelay: () => this.hoverCloseDelay(),
+    open: () => this.show(),
+    close: () => {
+      // The pointer may have crossed the gap into the pane in the meantime.
+      if (!this.overPane) {
+        this.close();
+      }
+    }
+  });
 
   private readonly hoverKind = computed(
     () => this.interactionKind() === 'hover' || this.interactionKind() === 'hover-target'
@@ -132,8 +142,6 @@ export class XuiPopover {
 
       untracked(() => (shouldOpen ? this.attach() : this.detach()));
     });
-
-    inject(DestroyRef).onDestroy(() => this.clearTimers());
   }
 
   /** Toggle from a template, e.g. a dedicated open button. */
@@ -213,7 +221,7 @@ export class XuiPopover {
   }
 
   private detach(): void {
-    this.clearTimers();
+    this.hoverGate.cancelPending();
 
     // Null synchronously so a reopen in the same tick does not see a stale ref.
     const ref = this.ref;
@@ -244,8 +252,7 @@ export class XuiPopover {
       return;
     }
 
-    this.cancelClose();
-    this.scheduleOpen();
+    this.hoverGate.scheduleOpen();
   }
 
   protected onPointerLeave(): void {
@@ -253,8 +260,7 @@ export class XuiPopover {
       return;
     }
 
-    this.cancelOpen();
-    this.scheduleClose();
+    this.hoverGate.scheduleClose();
   }
 
   private readonly onPaneEnter = (): void => {
@@ -265,49 +271,11 @@ export class XuiPopover {
     }
 
     this.overPane = true;
-    this.cancelClose();
+    this.hoverGate.cancelPending();
   };
 
   private readonly onPaneLeave = (): void => {
     this.overPane = false;
-    this.scheduleClose();
+    this.hoverGate.scheduleClose();
   };
-
-  private scheduleOpen(): void {
-    this.openTimer ??= setTimeout(() => {
-      this.openTimer = null;
-      this.show();
-    }, this.hoverOpenDelay());
-  }
-
-  private scheduleClose(): void {
-    this.cancelClose();
-    this.closeTimer = setTimeout(() => {
-      this.closeTimer = null;
-
-      // The pointer may have crossed the gap into the pane in the meantime.
-      if (!this.overPane) {
-        this.close();
-      }
-    }, this.hoverCloseDelay());
-  }
-
-  private cancelOpen(): void {
-    if (this.openTimer) {
-      clearTimeout(this.openTimer);
-      this.openTimer = null;
-    }
-  }
-
-  private cancelClose(): void {
-    if (this.closeTimer) {
-      clearTimeout(this.closeTimer);
-      this.closeTimer = null;
-    }
-  }
-
-  private clearTimers(): void {
-    this.cancelOpen();
-    this.cancelClose();
-  }
 }

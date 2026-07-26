@@ -4,15 +4,13 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
-  DestroyRef,
-  ElementRef,
-  inject,
   input,
   model,
   signal,
   ViewEncapsulation
 } from '@angular/core';
 import { xui } from '@xui/core';
+import { injectXOutsideClick } from '@xui/core/interactions';
 import type { ClassValue } from 'clsx';
 
 export interface XuiCascaderOption {
@@ -87,9 +85,6 @@ export interface XuiCascaderOption {
   encapsulation: ViewEncapsulation.None
 })
 export class XuiCascader {
-  private readonly el = inject(ElementRef).nativeElement as HTMLElement;
-  private readonly document = this.el.ownerDocument;
-
   readonly class = input<ClassValue>('');
   readonly options = input<XuiCascaderOption[]>([]);
   readonly value = model<string[]>([]);
@@ -132,13 +127,16 @@ export class XuiCascader {
   });
 
   constructor() {
-    const onDocClick = (event: MouseEvent): void => {
-      if (this.open() && !this.el.contains(event.target as Node)) {
-        this.open.set(false);
-      }
-    };
-    this.document.addEventListener('click', onDocClick, true);
-    inject(DestroyRef).onDestroy(() => this.document.removeEventListener('click', onDocClick, true));
+    // `click` (not the default `pointerdown`), so an outside press that starts a
+    // drag does not dismiss the panel before the user commits to it.
+    injectXOutsideClick(
+      () => {
+        if (this.open()) {
+          this.open.set(false);
+        }
+      },
+      { event: 'click' }
+    );
   }
 
   protected toggle(): void {

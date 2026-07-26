@@ -13,7 +13,7 @@ import {
   untracked
 } from '@angular/core';
 import { uniqueId } from '@xui/core/a11y';
-import { injectXOverlay, type XOverlayRef, type XPlacement } from '@xui/core/overlay';
+import { createXHoverGate, injectXOverlay, type XOverlayRef, type XPlacement } from '@xui/core/overlay';
 import { XUI_TOOLTIP_CONTENT } from './tooltip-content';
 import { XuiTooltipPanel } from './tooltip-panel';
 import { injectXuiTooltipConfig, type XuiTooltipColor } from './tooltip.token';
@@ -54,8 +54,6 @@ export class XuiTooltip {
   protected readonly panelId = uniqueId('xui-tooltip');
 
   private ref: XOverlayRef | null = null;
-  private openTimer: ReturnType<typeof setTimeout> | null = null;
-  private closeTimer: ReturnType<typeof setTimeout> | null = null;
 
   /** The hint. A string, or a template for rich content. Aliased to the selector. */
   readonly content = input.required<string | TemplateRef<unknown> | null | undefined>({ alias: 'xuiTooltip' });
@@ -81,6 +79,14 @@ export class XuiTooltip {
    * write opens or closes the overlay, and hover/focus changes fold back out.
    */
   readonly open = model(false);
+
+  /** Debounces hover show/hide; the default zero close delay hides synchronously. */
+  private readonly hoverGate = createXHoverGate({
+    openDelay: () => this.hoverOpenDelay(),
+    closeDelay: () => this.hoverCloseDelay(),
+    open: () => this.show(),
+    close: () => this.hide()
+  });
 
   constructor() {
     // The `open` model also drives the overlay, so a programmatic write
@@ -109,10 +115,7 @@ export class XuiTooltip {
       }
     });
 
-    inject(DestroyRef).onDestroy(() => {
-      this.clearTimers();
-      this.ref?.close();
-    });
+    inject(DestroyRef).onDestroy(() => this.ref?.close());
   }
 
   private hasContent(): boolean {
@@ -166,7 +169,7 @@ export class XuiTooltip {
   }
 
   private hide(): void {
-    this.clearTimers();
+    this.hoverGate.cancelPending();
 
     // Null synchronously so a re-show in the same tick does not see a stale ref.
     const ref = this.ref;
@@ -178,17 +181,21 @@ export class XuiTooltip {
   // --- Interaction wiring -------------------------------------------------
 
   protected onEnter(): void {
-    this.scheduleShow();
+    if (this.disabled()) {
+      return;
+    }
+
+    this.hoverGate.scheduleOpen();
   }
 
   protected onLeave(): void {
-    this.scheduleHide();
+    this.hoverGate.scheduleClose();
   }
 
   protected onFocus(): void {
     if (this.openOnTargetFocus()) {
       // Focus is deliberate; show at once rather than after the hover delay.
-      this.cancelHide();
+      this.hoverGate.cancelPending();
       this.show();
     }
   }
@@ -200,51 +207,5 @@ export class XuiTooltip {
   protected onEscape(): void {
     // WAI-ARIA: Escape dismisses a tooltip without moving focus.
     this.hide();
-  }
-
-  private scheduleShow(): void {
-    if (this.disabled()) {
-      return;
-    }
-
-    this.cancelHide();
-    this.openTimer ??= setTimeout(() => {
-      this.openTimer = null;
-      this.show();
-    }, this.hoverOpenDelay());
-  }
-
-  private scheduleHide(): void {
-    this.cancelShow();
-
-    if (this.hoverCloseDelay() === 0) {
-      this.hide();
-
-      return;
-    }
-
-    this.closeTimer ??= setTimeout(() => {
-      this.closeTimer = null;
-      this.hide();
-    }, this.hoverCloseDelay());
-  }
-
-  private cancelShow(): void {
-    if (this.openTimer) {
-      clearTimeout(this.openTimer);
-      this.openTimer = null;
-    }
-  }
-
-  private cancelHide(): void {
-    if (this.closeTimer) {
-      clearTimeout(this.closeTimer);
-      this.closeTimer = null;
-    }
-  }
-
-  private clearTimers(): void {
-    this.cancelShow();
-    this.cancelHide();
   }
 }

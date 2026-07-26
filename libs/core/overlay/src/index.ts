@@ -1,3 +1,4 @@
+export * from './lib/hover-gate';
 export * from './lib/overlay';
 export * from './lib/overlay-config';
 export * from './lib/overlay-ref';

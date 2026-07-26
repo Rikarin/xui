@@ -2,6 +2,7 @@ import { Component, ElementRef, signal, viewChild } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { injectXElementSize, type XElementSize } from './element-size';
 import { injectXOutsideClick } from './outside-click';
+import { injectXPointerDrag, type XPointerDragStartFn } from './pointer-drag';
 import { XResizeSensor } from './resize-sensor';
 
 /** Captures the observer so a test can drive it, since jsdom has no layout. */
@@ -185,5 +186,127 @@ describe('injectXOutsideClick', () => {
     document.body.dispatchEvent(new MouseEvent('pointerdown', { bubbles: true }));
 
     expect(fixture.componentInstance.outside()).toBe(0);
+  });
+});
+
+describe('injectXPointerDrag', () => {
+  @Component({ selector: 'x-drag-host', template: '' })
+  class DragHost {
+    readonly startDrag: XPointerDragStartFn = injectXPointerDrag();
+  }
+
+  // jsdom has no PointerEvent; the listeners are by name, so a MouseEvent lands.
+  const pointer = (type: string, init: MouseEventInit = {}) =>
+    document.dispatchEvent(new MouseEvent(type, { bubbles: true, ...init }));
+
+  function setup() {
+    TestBed.resetTestingModule();
+    TestBed.configureTestingModule({ imports: [DragHost] });
+
+    const fixture = TestBed.createComponent(DragHost);
+    fixture.detectChanges();
+
+    return fixture;
+  }
+
+  const press = () => new MouseEvent('pointerdown', { bubbles: true });
+
+  it('reports every pointer move until release', () => {
+    const fixture = setup();
+    const moves: number[] = [];
+
+    fixture.componentInstance.startDrag(press(), { onMove: event => moves.push(event.clientX) });
+    pointer('pointermove', { clientX: 10 });
+    pointer('pointermove', { clientX: 20 });
+
+    expect(moves).toEqual([10, 20]);
+  });
+
+  it('fires onEnd on pointerup and stops tracking afterwards', () => {
+    const fixture = setup();
+    const onMove = jest.fn();
+    const onEnd = jest.fn();
+
+    fixture.componentInstance.startDrag(press(), { onMove, onEnd });
+    pointer('pointerup', { clientX: 30 });
+    pointer('pointermove', { clientX: 40 });
+    pointer('pointerup');
+
+    expect(onEnd).toHaveBeenCalledTimes(1);
+    expect(onEnd.mock.calls[0][0].clientX).toBe(30);
+    expect(onMove).not.toHaveBeenCalled();
+  });
+
+  it('treats pointercancel as the end of the drag', () => {
+    const fixture = setup();
+    const onEnd = jest.fn();
+
+    fixture.componentInstance.startDrag(press(), { onMove: jest.fn(), onEnd });
+    pointer('pointercancel');
+
+    expect(onEnd).toHaveBeenCalledTimes(1);
+  });
+
+  it('the returned stop detaches the listeners without firing onEnd', () => {
+    const fixture = setup();
+    const onMove = jest.fn();
+    const onEnd = jest.fn();
+
+    const stop = fixture.componentInstance.startDrag(press(), { onMove, onEnd });
+    stop();
+    pointer('pointermove', { clientX: 10 });
+    pointer('pointerup');
+
+    expect(onMove).not.toHaveBeenCalled();
+    expect(onEnd).not.toHaveBeenCalled();
+  });
+
+  it('starting a new drag replaces the previous one', () => {
+    const fixture = setup();
+    const first = jest.fn();
+    const second = jest.fn();
+
+    fixture.componentInstance.startDrag(press(), { onMove: first });
+    fixture.componentInstance.startDrag(press(), { onMove: second });
+    pointer('pointermove', { clientX: 10 });
+
+    expect(first).not.toHaveBeenCalled();
+    expect(second).toHaveBeenCalledTimes(1);
+  });
+
+  it('tears the drag down when the host is destroyed mid-drag', () => {
+    const fixture = setup();
+    const onMove = jest.fn();
+    const onEnd = jest.fn();
+
+    fixture.componentInstance.startDrag(press(), { onMove, onEnd });
+    fixture.destroy();
+    pointer('pointermove', { clientX: 10 });
+    pointer('pointerup');
+
+    expect(onMove).not.toHaveBeenCalled();
+    expect(onEnd).not.toHaveBeenCalled();
+  });
+
+  it('captures and releases the pointer on the pressed element when supported', () => {
+    const fixture = setup();
+    const target = document.createElement('div');
+    let captured = false;
+    target.setPointerCapture = jest.fn(() => {
+      captured = true;
+    });
+    target.hasPointerCapture = jest.fn(() => captured);
+    target.releasePointerCapture = jest.fn(() => {
+      captured = false;
+    });
+
+    const event = { pointerId: 7, target } as unknown as PointerEvent;
+    fixture.componentInstance.startDrag(event, { onMove: jest.fn() });
+
+    expect(target.setPointerCapture).toHaveBeenCalledWith(7);
+
+    pointer('pointerup');
+
+    expect(target.releasePointerCapture).toHaveBeenCalledWith(7);
   });
 });

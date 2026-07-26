@@ -4,7 +4,6 @@ import {
   Component,
   computed,
   contentChildren,
-  DestroyRef,
   ElementRef,
   inject,
   input,
@@ -14,6 +13,7 @@ import {
 } from '@angular/core';
 import { xui } from '@xui/core';
 import { arrowDirectionOnAxis, injectXDirection } from '@xui/core/a11y';
+import { injectXPointerDrag } from '@xui/core/interactions';
 import type { ClassValue } from 'clsx';
 import { XuiSplitterPanel } from './splitter-panel';
 
@@ -54,7 +54,7 @@ import { XuiSplitterPanel } from './splitter-panel';
           [attr.aria-valuemin]="Math.round(panels()[i].min())"
           [attr.aria-valuemax]="Math.round(panels()[i].max())"
           [class]="gutterClass()"
-          (mousedown)="startDrag(i, $event)"
+          (pointerdown)="startDrag(i, $event)"
           (keydown)="onGutterKeydown(i, $event)"
         >
           <span [class]="gutterHandleClass()"></span>
@@ -70,7 +70,6 @@ import { XuiSplitterPanel } from './splitter-panel';
 })
 export class XuiSplitter {
   private readonly el = inject(ElementRef).nativeElement as HTMLElement;
-  private readonly document = this.el.ownerDocument;
   private readonly direction = injectXDirection();
 
   readonly class = input<ClassValue>('');
@@ -140,7 +139,10 @@ export class XuiSplitter {
     this.sizeChange.emit(next);
   }
 
-  protected startDrag(gutter: number, event: MouseEvent): void {
+  /** Pointer-drag plumbing; tears an in-flight drag down if the splitter is destroyed mid-drag. */
+  private readonly pointerDrag = injectXPointerDrag();
+
+  protected startDrag(gutter: number, event: PointerEvent): void {
     event.preventDefault();
     const vertical = this.orientation() === 'vertical';
     const containerPx = vertical ? this.el.clientHeight : this.el.clientWidth;
@@ -152,43 +154,28 @@ export class XuiSplitter {
     // leftwards, so the horizontal delta is negated.
     const inlineSign = !vertical && this.direction() === 'rtl' ? -1 : 1;
 
-    const onMove = (moveEvent: MouseEvent): void => {
-      const pos = vertical ? moveEvent.clientY : moveEvent.clientX;
-      let deltaPct = (((pos - startPos) * inlineSign) / containerPx) * 100;
+    this.pointerDrag(event, {
+      onMove: moveEvent => {
+        const pos = vertical ? moveEvent.clientY : moveEvent.clientX;
+        let deltaPct = (((pos - startPos) * inlineSign) / containerPx) * 100;
 
-      // Clamp so neither adjacent panel breaks its min/max.
-      const a = gutter;
-      const b = gutter + 1;
-      const aMin = panels[a].min();
-      const aMax = panels[a].max();
-      const bMin = panels[b].min();
-      const bMax = panels[b].max();
-      deltaPct = Math.max(deltaPct, aMin - start[a], start[b] - bMax);
-      deltaPct = Math.min(deltaPct, aMax - start[a], start[b] - bMin);
+        // Clamp so neither adjacent panel breaks its min/max.
+        const a = gutter;
+        const b = gutter + 1;
+        const aMin = panels[a].min();
+        const aMax = panels[a].max();
+        const bMin = panels[b].min();
+        const bMax = panels[b].max();
+        deltaPct = Math.max(deltaPct, aMin - start[a], start[b] - bMax);
+        deltaPct = Math.min(deltaPct, aMax - start[a], start[b] - bMin);
 
-      const next = [...start];
-      next[a] = start[a] + deltaPct;
-      next[b] = start[b] - deltaPct;
-      this.sizes.set(next);
-    };
-    const onUp = (): void => {
-      this.stopDrag?.();
-      this.sizeChange.emit(this.sizes());
-    };
-    this.stopDrag = () => {
-      this.document.removeEventListener('mousemove', onMove);
-      this.document.removeEventListener('mouseup', onUp);
-      this.stopDrag = null;
-    };
-    this.document.addEventListener('mousemove', onMove);
-    this.document.addEventListener('mouseup', onUp);
-  }
-
-  /** Removes the active drag listeners; destroying the component mid-drag must not leak them. */
-  private stopDrag: (() => void) | null = null;
-
-  constructor() {
-    inject(DestroyRef).onDestroy(() => this.stopDrag?.());
+        const next = [...start];
+        next[a] = start[a] + deltaPct;
+        next[b] = start[b] - deltaPct;
+        this.sizes.set(next);
+      },
+      onEnd: () => this.sizeChange.emit(this.sizes())
+    });
   }
 
   protected readonly computedClass = computed(() =>
@@ -196,7 +183,7 @@ export class XuiSplitter {
   );
   protected readonly gutterClass = computed(() =>
     xui(
-      'group relative z-10 flex shrink-0 items-center justify-center',
+      'group relative z-10 flex shrink-0 touch-none items-center justify-center',
       'focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-focus',
       this.orientation() === 'vertical' ? 'h-1.5 w-full cursor-row-resize' : 'w-1.5 cursor-col-resize'
     )

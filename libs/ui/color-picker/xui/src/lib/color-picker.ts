@@ -4,10 +4,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
-  DestroyRef,
   effect,
-  ElementRef,
-  inject,
   input,
   model,
   signal,
@@ -16,6 +13,7 @@ import {
 } from '@angular/core';
 import { xui } from '@xui/core';
 import { arrowDirection, injectXDirection, inlineFraction } from '@xui/core/a11y';
+import { injectXOutsideClick, injectXPointerDrag } from '@xui/core/interactions';
 import type { ClassValue } from 'clsx';
 import {
   hslToRgb,
@@ -80,7 +78,7 @@ function clampPercent(value: number): number {
           [attr.aria-label]="squareLabel()"
           [class]="squareClass()"
           [style.background]="squareBg()"
-          (mousedown)="startSquare($event)"
+          (pointerdown)="startSquare($event)"
           (keydown)="onSquareKeydown($event)"
         >
           <div
@@ -101,7 +99,7 @@ function clampPercent(value: number): number {
           [attr.aria-orientation]="'horizontal'"
           [class]="stripClass()"
           [style.background]="hueGradient()"
-          (mousedown)="startHue($event)"
+          (pointerdown)="startHue($event)"
           (keydown)="onHueKeydown($event)"
         >
           <div [class]="stripHandleClass()" [style.inset-inline-start.%]="huePos()"></div>
@@ -119,7 +117,7 @@ function clampPercent(value: number): number {
             [attr.aria-valuetext]="alphaPercent() + '%'"
             [attr.aria-orientation]="'horizontal'"
             [class]="alphaStripClass()"
-            (mousedown)="startAlpha($event)"
+            (pointerdown)="startAlpha($event)"
             (keydown)="onAlphaKeydown($event)"
           >
             <div class="absolute inset-0 rounded-full" [style.background]="alphaGradient()"></div>
@@ -248,8 +246,6 @@ export class XuiColorPicker {
     return this.direction() === 'rtl' ? 'to left' : 'to right';
   }
 
-  private readonly el = inject(ElementRef).nativeElement as HTMLElement;
-  private readonly document = this.el.ownerDocument;
   private readonly direction = injectXDirection();
 
   readonly class = input<ClassValue>('');
@@ -361,13 +357,14 @@ export class XuiColorPicker {
     });
 
     // Close on outside click.
-    const onDocClick = (event: MouseEvent): void => {
-      if (this.open() && !this.el.contains(event.target as Node)) {
-        this.open.set(false);
-      }
-    };
-    this.document.addEventListener('click', onDocClick, true);
-    inject(DestroyRef).onDestroy(() => this.document.removeEventListener('click', onDocClick, true));
+    injectXOutsideClick(
+      () => {
+        if (this.open()) {
+          this.open.set(false);
+        }
+      },
+      { event: 'click' }
+    );
   }
 
   protected toggle(): void {
@@ -447,13 +444,13 @@ export class XuiColorPicker {
   }
 
   // --- drag interactions ---
-  protected startSquare(event: MouseEvent): void {
+  protected startSquare(event: PointerEvent): void {
     this.drag(event, (x, y) => this.applySquare(x, y));
   }
-  protected startHue(event: MouseEvent): void {
+  protected startHue(event: PointerEvent): void {
     this.drag(event, x => this.applyHue(Math.round(x * 360)));
   }
-  protected startAlpha(event: MouseEvent): void {
+  protected startAlpha(event: PointerEvent): void {
     this.drag(event, x => {
       this.alphaValue.set(Math.round(x * 100) / 100);
       this.commit();
@@ -537,12 +534,15 @@ export class XuiColorPicker {
     this.commit();
   }
 
+  /** Pointer-drag plumbing shared by the square and both strips. */
+  private readonly pointerDrag = injectXPointerDrag();
+
   /** Track a pointer inside the event target, reporting normalized [0,1] x/y. */
-  private drag(event: MouseEvent, update: (x: number, y: number) => void): void {
+  private drag(event: PointerEvent, update: (x: number, y: number) => void): void {
     event.preventDefault();
     const rect = (event.currentTarget as HTMLElement).getBoundingClientRect();
     const clamp01 = (value: number): number => Math.max(0, Math.min(1, value));
-    const apply = (moveEvent: MouseEvent): void => {
+    const apply = (moveEvent: PointerEvent): void => {
       // The strips and the square run along the inline axis, which starts at the
       // right edge in RTL.
       const x = clamp01(inlineFraction(moveEvent.clientX, rect, this.direction()));
@@ -550,12 +550,7 @@ export class XuiColorPicker {
       update(x, y);
     };
     apply(event);
-    const onUp = (): void => {
-      this.document.removeEventListener('mousemove', apply);
-      this.document.removeEventListener('mouseup', onUp);
-    };
-    this.document.addEventListener('mousemove', apply);
-    this.document.addEventListener('mouseup', onUp);
+    this.pointerDrag(event, { onMove: apply });
   }
 
   protected readonly computedClass = computed(() => xui('relative inline-block', this.class()));
@@ -587,7 +582,9 @@ export class XuiColorPicker {
       FOCUS_RING
     )
   );
-  protected readonly squareClass = computed(() => xui('relative h-36 w-full cursor-crosshair rounded-md', FOCUS_RING));
+  protected readonly squareClass = computed(() =>
+    xui('relative h-36 w-full cursor-crosshair touch-none rounded-md', FOCUS_RING)
+  );
 
   /**
    * The draggable dots. They are positioned by their inline start, so the
@@ -606,10 +603,12 @@ export class XuiColorPicker {
       this.handleShift()
     )
   );
-  protected readonly stripClass = computed(() => xui('relative h-3 w-full cursor-pointer rounded-full', FOCUS_RING));
+  protected readonly stripClass = computed(() =>
+    xui('relative h-3 w-full cursor-pointer touch-none rounded-full', FOCUS_RING)
+  );
   protected readonly alphaStripClass = computed(() =>
     xui(
-      'relative h-3 w-full cursor-pointer rounded-full bg-[length:8px_8px] [background-image:linear-gradient(45deg,#ccc_25%,transparent_25%),linear-gradient(-45deg,#ccc_25%,transparent_25%),linear-gradient(45deg,transparent_75%,#ccc_75%),linear-gradient(-45deg,transparent_75%,#ccc_75%)]',
+      'relative h-3 w-full cursor-pointer touch-none rounded-full bg-[length:8px_8px] [background-image:linear-gradient(45deg,#ccc_25%,transparent_25%),linear-gradient(-45deg,#ccc_25%,transparent_25%),linear-gradient(45deg,transparent_75%,#ccc_75%),linear-gradient(-45deg,transparent_75%,#ccc_75%)]',
       FOCUS_RING
     )
   );
