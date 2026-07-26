@@ -25,6 +25,7 @@
     "@angular/core": "22",
     "@angular/forms": "22",
     "@xui/core": "2.0.0-alpha.16",
+    "@xui/tag": "2.0.0-alpha.16",
     "clsx": "^2.1.1"
   },
   "publishConfig": {

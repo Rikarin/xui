@@ -28,6 +28,7 @@ import {
   type XTreeNode,
   type XTreeNodeId
 } from '@xui/core/tree';
+import { tagVariants } from '@xui/tag';
 import type { ClassValue } from 'clsx';
 
 /**
@@ -87,9 +88,7 @@ const toTreeNode = (node: XuiTreeSelectNode): PanelNode => ({
         @if (selectedValues().length) {
           <span class="flex flex-wrap gap-1">
             @for (val of selectedValues(); track val) {
-              <span
-                class="bg-surface-inset text-foreground inline-flex items-center gap-1 rounded px-1.5 py-0.5 text-xs"
-              >
+              <span [class]="chipClass()">
                 {{ labelOf(val) }}
                 <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
                 <span class="hover:text-error cursor-pointer" (click)="removeChip(val, $event)">×</span>
@@ -419,6 +418,16 @@ export class XuiTreeSelect implements ControlValueAccessor {
   protected readonly panelClass = computed(() =>
     xui('border-border bg-surface-overlay max-h-72 w-full overflow-auto rounded-lg border p-1 shadow-overlay')
   );
+
+  /**
+   * A selected value reads as a tag, matching the chips xui-multi-select shows for the same job.
+   *
+   * It borrows the variant map rather than rendering an xui-tag: the trigger is a button, and a
+   * tag's remove control is a button too, which may not nest inside one. What the hand-rolled chip
+   * had instead was bg-surface-inset, the same colour the dark theme gives the trigger's
+   * bg-surface, and no border — so a selection read as bare text.
+   */
+  protected readonly chipClass = computed(() => xui(tagVariants({ minimal: true, color: 'primary' })));
 
   /**
    * The expand caret. It is drawn pointing right, so a collapsed node has to be
