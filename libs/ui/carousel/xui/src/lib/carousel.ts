@@ -46,10 +46,13 @@ import { XuiCarouselItem } from './carousel-item';
       (keydown)="onKeydown($event)"
     >
       @if (effect() === 'fade') {
-        <div class="relative h-full w-full">
+        <!-- A grid with every slide in the one cell, rather than a stack of absolutely positioned
+             ones: they still overlap to crossfade, but they are in flow, so the carousel takes its
+             height from them. Out of flow, nothing gave it a height and it collapsed to nothing. -->
+        <div class="grid h-full w-full">
           @for (item of items(); track $index; let i = $index) {
             <div
-              class="absolute inset-0 transition-opacity duration-500"
+              class="col-start-1 row-start-1 transition-opacity duration-500"
               [style.opacity]="i === index() ? 1 : 0"
               [style.pointer-events]="i === index() ? 'auto' : 'none'"
               [attr.aria-hidden]="i === index() ? null : true"
