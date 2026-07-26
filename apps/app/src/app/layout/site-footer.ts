@@ -13,7 +13,9 @@ import { VERSION } from '../../generated/manifest';
     <div
       class="mx-auto flex max-w-[100rem] flex-col gap-4 px-4 py-8 sm:px-6 md:flex-row md:items-center md:justify-between"
     >
-      <p xuiText color="muted" size="sm">xUI {{ version }} — MIT licensed. Built with Angular and Tailwind CSS.</p>
+      <p xuiText color="muted" size="sm">
+        xUI {{ version }} — Apache 2.0 licensed. Built with Angular and Tailwind CSS.
+      </p>
 
       <nav class="flex flex-wrap gap-x-5 gap-y-2" aria-label="Footer">
         <a xuiLink underline="hover" routerLink="/docs/getting-started" xuiText size="sm">Docs</a>

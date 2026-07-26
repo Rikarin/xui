@@ -19,7 +19,7 @@ describe('update-projects generator', () => {
         repository: 'https://github.com/Rikarin/xui',
         bugs: { url: 'https://github.com/rikarin/xui/issues' },
         homepage: 'https://xuijs.org',
-        license: 'MIT'
+        license: 'Apache-2.0'
       })
     );
     tree.write('README.md', '# xUI root readme\n');
