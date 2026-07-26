@@ -3,6 +3,7 @@ import { XuiTableImports } from '@xui/table';
 import { XuiTagImports } from '@xui/tag';
 import { XuiTextImports } from '@xui/text';
 import type { DocsSymbol } from '../core/docs.model';
+import { HeadingAnchor } from './heading-anchor';
 
 /**
  * The API of one exported class: what you can put in a template and what it accepts.
@@ -19,11 +20,11 @@ import type { DocsSymbol } from '../core/docs.model';
 @Component({
   selector: 'docs-api-table',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [XuiTableImports, XuiTagImports, XuiTextImports],
+  imports: [XuiTableImports, XuiTagImports, XuiTextImports, HeadingAnchor],
   host: { class: 'block' },
   template: `
     <div class="mb-4 flex flex-wrap items-baseline gap-x-3 gap-y-1">
-      <h3 xuiHeading [level]="3" class="scroll-mt-24" [id]="'api-' + symbol().name">{{ symbol().name }}</h3>
+      <h3 xuiHeading [level]="3" [docsAnchor]="'api-' + symbol().name">{{ symbol().name }}</h3>
       <xui-tag minimal [color]="symbol().kind === 'component' ? 'primary' : 'none'">{{ symbol().kind }}</xui-tag>
       @if (symbol().selector) {
         <code xuiCode class="wrap-anywhere whitespace-normal">{{ symbol().selector }}</code>

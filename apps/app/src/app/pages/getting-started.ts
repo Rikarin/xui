@@ -4,6 +4,7 @@ import { XuiCalloutImports } from '@xui/callout';
 import { XuiLinkImports } from '@xui/link';
 import { XuiTextImports } from '@xui/text';
 import { CodeBlock } from '../shared/code-block';
+import { HeadingAnchor } from '../shared/heading-anchor';
 import { TableOfContents, type TocEntry } from '../shared/table-of-contents';
 
 const TOC: TocEntry[] = [
@@ -21,7 +22,7 @@ const TOC: TocEntry[] = [
 @Component({
   selector: 'docs-getting-started',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, XuiCalloutImports, XuiLinkImports, XuiTextImports, CodeBlock, TableOfContents],
+  imports: [RouterLink, XuiCalloutImports, XuiLinkImports, XuiTextImports, CodeBlock, HeadingAnchor, TableOfContents],
   template: `
     <div class="flex gap-8">
       <article class="max-w-3xl min-w-0 flex-1">
@@ -31,7 +32,7 @@ const TOC: TocEntry[] = [
           minutes, and one thing that catches almost everyone — the <code xuiCode>&#64;source</code> glob.
         </p>
 
-        <h2 xuiHeading [level]="2" class="mt-10 mb-3 scroll-mt-20" id="requirements">Requirements</h2>
+        <h2 xuiHeading [level]="2" class="mt-10 mb-3" docsAnchor="requirements">Requirements</h2>
         <ul xuiList class="text-foreground-muted space-y-1">
           <li>Angular 22</li>
           <li>Tailwind CSS 4</li>
@@ -41,7 +42,7 @@ const TOC: TocEntry[] = [
           </li>
         </ul>
 
-        <h2 xuiHeading [level]="2" class="mt-10 mb-3 scroll-mt-20" id="install">Install</h2>
+        <h2 xuiHeading [level]="2" class="mt-10 mb-3" docsAnchor="install">Install</h2>
         <p xuiText color="muted" class="mb-3">
           The schematic installs <code xuiCode>&#64;xui/core</code> and patches your global stylesheet: the theme
           import, the CDK overlay stylesheet, and a <code xuiCode>&#64;source</code> glob that lets Tailwind see the
@@ -58,7 +59,7 @@ const TOC: TocEntry[] = [
           toasts.
         </xui-callout>
 
-        <h2 xuiHeading [level]="2" class="mt-12 mb-3 scroll-mt-20" id="manual">Wiring it by hand</h2>
+        <h2 xuiHeading [level]="2" class="mt-12 mb-3" docsAnchor="manual">Wiring it by hand</h2>
         <p xuiText color="muted" class="mb-3">
           If you would rather not run the schematic, this is everything it writes into your global stylesheet:
         </p>
@@ -71,10 +72,10 @@ const TOC: TocEntry[] = [
           <code xuiCode>../</code> segments to match where yours lives.
         </p>
 
-        <h2 xuiHeading [level]="2" class="mt-12 mb-3 scroll-mt-20" id="first-component">Your first component</h2>
+        <h2 xuiHeading [level]="2" class="mt-12 mb-3" docsAnchor="first-component">Your first component</h2>
         <docs-code [code]="firstComponent" lang="ts" />
 
-        <h2 xuiHeading [level]="2" class="mt-12 mb-3 scroll-mt-20" id="imports-barrel">The imports barrel</h2>
+        <h2 xuiHeading [level]="2" class="mt-12 mb-3" docsAnchor="imports-barrel">The imports barrel</h2>
         <p xuiText color="muted" class="mb-3">
           Every package exports a <code xuiCode>Xui&lt;Name&gt;Imports</code> const holding each declarable it ships —
           the component, its directives, its content projections. Import the barrel rather than the individual classes
@@ -82,7 +83,7 @@ const TOC: TocEntry[] = [
         </p>
         <docs-code [code]="barrel" lang="ts" />
 
-        <h2 xuiHeading [level]="2" class="mt-12 mb-3 scroll-mt-20" id="class-input">The class input</h2>
+        <h2 xuiHeading [level]="2" class="mt-12 mb-3" docsAnchor="class-input">The class input</h2>
         <p xuiText color="muted" class="mb-3">
           Every component takes a <code xuiCode>class</code> input and merges it with its own classes through
           <code xuiCode>tailwind-merge</code>. A conflicting utility replaces the component's instead of fighting it, so
@@ -94,7 +95,7 @@ const TOC: TocEntry[] = [
           visual, check whether the component has a variant input first; it almost always does.
         </p>
 
-        <h2 xuiHeading [level]="2" class="mt-12 mb-3 scroll-mt-20" id="overlays">Overlays</h2>
+        <h2 xuiHeading [level]="2" class="mt-12 mb-3" docsAnchor="overlays">Overlays</h2>
         <p xuiText color="muted" class="mb-3">
           Popovers, tooltips, menus, dialogs, drawers and toasts render through the CDK overlay container, which owns
           stacking. Never set <code xuiCode>z-index</code> on one by hand. If an overlay appears inline in the page
@@ -102,7 +103,7 @@ const TOC: TocEntry[] = [
         </p>
         <docs-code [code]="overlayCss" lang="css" />
 
-        <h2 xuiHeading [level]="2" class="mt-12 mb-3 scroll-mt-20" id="rtl">Right-to-left</h2>
+        <h2 xuiHeading [level]="2" class="mt-12 mb-3" docsAnchor="rtl">Right-to-left</h2>
         <p xuiText color="muted" class="mb-3">
           Components read direction through <code xuiCode>&#64;angular/cdk/bidi</code>, which walks up to the nearest
           <code xuiCode>dir</code> attribute. Set it on <code xuiCode>&lt;html&gt;</code> and the whole library flips —
@@ -111,7 +112,7 @@ const TOC: TocEntry[] = [
         </p>
         <docs-code [code]="rtl" lang="html" />
 
-        <h2 xuiHeading [level]="2" class="mt-12 mb-3 scroll-mt-20" id="troubleshooting">Troubleshooting</h2>
+        <h2 xuiHeading [level]="2" class="mt-12 mb-3" docsAnchor="troubleshooting">Troubleshooting</h2>
 
         <p xuiText weight="medium" class="mt-6 mb-1">Everything renders unstyled</p>
         <p xuiText color="muted" size="sm">

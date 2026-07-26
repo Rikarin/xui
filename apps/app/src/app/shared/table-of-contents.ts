@@ -1,8 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { NavigationEnd, Router, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { XuiTextImports } from '@xui/text';
-import { filter, map } from 'rxjs';
+import { PagePath } from './page-path';
 
 export interface TocEntry {
   id: string;
@@ -40,26 +39,8 @@ export interface TocEntry {
   `
 })
 export class TableOfContents {
-  private readonly router = inject(Router);
-
-  /**
-   * The page's own path, which the links are hung off explicitly.
-   *
-   * A bare `#id` href resolves against the document's base URL, and `<base href="/">` sent every one
-   * of these to the site root instead of down the page. Naming the path keeps the link on this page
-   * — and going through the router is what gets the configured anchor scrolling to run.
-   */
-  protected readonly path = toSignal(
-    this.router.events.pipe(
-      filter(event => event instanceof NavigationEnd),
-      map(() => this.currentPath())
-    ),
-    { initialValue: this.currentPath() }
-  );
+  /** The page's own path, which the links are hung off explicitly. See {@link PagePath}. */
+  protected readonly path = inject(PagePath).value;
 
   readonly entries = input.required<TocEntry[]>();
-
-  private currentPath(): string {
-    return this.router.url.split('#')[0];
-  }
 }

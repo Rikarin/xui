@@ -4,11 +4,12 @@ import { XuiCardImports } from '@xui/card';
 import { XuiTagImports } from '@xui/tag';
 import { XuiTextImports } from '@xui/text';
 import { COMPONENTS, GROUPS } from '../../generated/manifest';
+import { HeadingAnchor } from '../shared/heading-anchor';
 
 @Component({
   selector: 'docs-components-index',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, XuiCardImports, XuiTagImports, XuiTextImports],
+  imports: [RouterLink, XuiCardImports, XuiTagImports, XuiTextImports, HeadingAnchor],
   template: `
     <article class="max-w-4xl">
       <h1 xuiHeading [level]="1">Components</h1>
@@ -19,7 +20,7 @@ import { COMPONENTS, GROUPS } from '../../generated/manifest';
 
       @for (group of groups; track group.name) {
         <section class="mb-12">
-          <h2 xuiHeading [level]="2" class="mb-1 scroll-mt-20" [id]="group.anchor">{{ group.name }}</h2>
+          <h2 xuiHeading [level]="2" class="mb-1" [docsAnchor]="group.anchor">{{ group.name }}</h2>
           <p xuiText color="subtle" size="sm" class="mb-4">{{ group.items.length }} packages</p>
 
           <div class="grid gap-3 sm:grid-cols-2">

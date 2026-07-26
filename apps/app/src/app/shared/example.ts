@@ -13,6 +13,7 @@ import { XuiTabsImports } from '@xui/tabs';
 import { XuiTextImports } from '@xui/text';
 import type { DocsExample } from '../core/docs.model';
 import { CodeBlock } from './code-block';
+import { HeadingAnchor } from './heading-anchor';
 
 /**
  * One story, rendered live and shown as source.
@@ -35,10 +36,10 @@ import { CodeBlock } from './code-block';
 @Component({
   selector: 'docs-example',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgComponentOutlet, XuiTabsImports, XuiTextImports, CodeBlock],
+  imports: [NgComponentOutlet, XuiTabsImports, XuiTextImports, CodeBlock, HeadingAnchor],
   host: { class: 'block' },
   template: `
-    <h3 xuiHeading [level]="3" class="mb-3 scroll-mt-24" [id]="anchor()">
+    <h3 xuiHeading [level]="3" class="mb-3" [docsAnchor]="anchor()">
       {{ example().title }}
     </h3>
 

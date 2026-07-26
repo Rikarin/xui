@@ -8,6 +8,7 @@ import type { ComponentDoc } from '../core/docs.model';
 import { ApiTable } from '../shared/api-table';
 import { CodeBlock } from '../shared/code-block';
 import { Example } from '../shared/example';
+import { HeadingAnchor } from '../shared/heading-anchor';
 import { TableOfContents, type TocEntry } from '../shared/table-of-contents';
 
 @Component({
@@ -22,6 +23,7 @@ import { TableOfContents, type TocEntry } from '../shared/table-of-contents';
     ApiTable,
     CodeBlock,
     Example,
+    HeadingAnchor,
     TableOfContents
   ],
   template: `
@@ -42,7 +44,7 @@ import { TableOfContents, type TocEntry } from '../shared/table-of-contents';
             <p xuiText color="muted" size="lg" class="mt-4 max-w-2xl">{{ description }}</p>
           }
 
-          <h2 xuiHeading [level]="2" class="mt-10 mb-3 scroll-mt-20" id="install">Install</h2>
+          <h2 xuiHeading [level]="2" class="mt-10 mb-3" docsAnchor="install">Install</h2>
           <docs-code [code]="install()" lang="bash" />
 
           @if (doc.importsConst) {
@@ -53,14 +55,14 @@ import { TableOfContents, type TocEntry } from '../shared/table-of-contents';
           }
 
           @if (doc.examples.length > 0) {
-            <h2 xuiHeading [level]="2" class="mt-12 mb-4 scroll-mt-20" id="examples">Examples</h2>
+            <h2 xuiHeading [level]="2" class="mt-12 mb-4" docsAnchor="examples">Examples</h2>
             <div class="space-y-10">
               @for (example of doc.examples; track example.name) {
                 <docs-example [example]="example" [anchor]="'example-' + example.name" />
               }
             </div>
           } @else {
-            <h2 xuiHeading [level]="2" class="mt-12 mb-4 scroll-mt-20" id="examples">Examples</h2>
+            <h2 xuiHeading [level]="2" class="mt-12 mb-4" docsAnchor="examples">Examples</h2>
             <xui-callout minimal>
               This package has no Storybook story yet, so there is nothing to render here. The API below is still
               extracted from the source.
@@ -68,7 +70,7 @@ import { TableOfContents, type TocEntry } from '../shared/table-of-contents';
           }
 
           @if (doc.symbols.length > 0) {
-            <h2 xuiHeading [level]="2" class="mt-12 mb-4 scroll-mt-20" id="api">API</h2>
+            <h2 xuiHeading [level]="2" class="mt-12 mb-4" docsAnchor="api">API</h2>
             <div class="space-y-12">
               @for (symbol of doc.symbols; track symbol.name) {
                 <docs-api-table [symbol]="symbol" />
@@ -76,7 +78,7 @@ import { TableOfContents, type TocEntry } from '../shared/table-of-contents';
             </div>
           }
 
-          <h2 xuiHeading [level]="2" class="mt-12 mb-4 scroll-mt-20" id="source">Source</h2>
+          <h2 xuiHeading [level]="2" class="mt-12 mb-4" docsAnchor="source">Source</h2>
           <p xuiText color="muted" size="sm">
             <a
               xuiLink
