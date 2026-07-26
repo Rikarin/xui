@@ -23,6 +23,7 @@ describe('update-projects generator', () => {
       })
     );
     tree.write('README.md', '# xUI root readme\n');
+    tree.write('LICENSE', 'Apache License\nVersion 2.0\n');
   });
 
   it('syncs metadata and the README into a component package', async () => {
@@ -35,6 +36,18 @@ describe('update-projects generator', () => {
     expect(packageJson.description).toBe('Modern Angular 22 UI Library based on TailwindCSS');
     expect(packageJson.homepage).toBe('https://xuijs.org');
     expect(tree.read('libs/ui/button/xui/README.md', 'utf-8')).toContain('# xUI root readme');
+    // Apache 2.0 §4(a): the licence has to travel with anything published.
+    expect(tree.read('libs/ui/button/xui/LICENSE', 'utf-8')).toBe('Apache License\nVersion 2.0\n');
+  });
+
+  it('gives a package that opts out the licence anyway', async () => {
+    tree.write('libs/mcp/package.json', JSON.stringify({ name: '@xui/mcp', xui: { syncFromRoot: false } }));
+
+    await updateProjectsGenerator(tree);
+
+    // Opting out is about content the package legitimately differs on, not about whether it ships
+    // under the project's licence.
+    expect(tree.read('libs/mcp/LICENSE', 'utf-8')).toBe('Apache License\nVersion 2.0\n');
   });
 
   it('leaves a package that opts out untouched', async () => {

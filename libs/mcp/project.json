@@ -12,7 +12,7 @@
         "outputPath": "dist/libs/mcp",
         "main": "libs/mcp/src/index.ts",
         "tsConfig": "libs/mcp/tsconfig.lib.json",
-        "assets": ["libs/mcp/*.md"]
+        "assets": ["libs/mcp/*.md", "libs/mcp/LICENSE"]
       }
     },
     "build": {
