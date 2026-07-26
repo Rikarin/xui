@@ -24,7 +24,7 @@
   "scripts": {
     "build": "nx run-many --target build --all --parallel",
     "build-storybook": "nx build-storybook ui-storybook",
-    "chromatic": "chromatic --project-token=chpt_a7746db46d5484b",
+    "chromatic": "chromatic",
     "dev": "nx serve app",
     "format": "nx format --write",
     "lint": "nx run-many --target=lint --parallel",

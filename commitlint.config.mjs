@@ -1,3 +1,15 @@
+import { readdirSync } from 'node:fs';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const root = dirname(fileURLToPath(import.meta.url));
+
+/** Directory names one level under `path`, relative to the repo root. */
+const dirs = path =>
+  readdirSync(join(root, path), { withFileTypes: true })
+    .filter(entry => entry.isDirectory())
+    .map(entry => entry.name);
+
 export default {
   extends: ['@commitlint/config-conventional'],
   rules: {
@@ -7,66 +19,18 @@ export default {
       2,
       'always',
       [
-        'accordion',
-        'alert',
-        'alert-dialog',
-        'aspect-ratio',
-        'avatar',
-        'badge',
-        'breadcrumb',
-        'button',
-        'button-group',
-        'calendar',
-        'card',
-        'carousel',
-        'checkbox',
-        'collapsible',
-        'combobox',
-        'command',
-        'context-menu',
-        'data-table',
-        'date-picker',
-        'dialog',
-        'dropdown-menu',
-        'form-field',
-        'hover-card',
-        'icon',
-        'input',
-        'input-otp',
-        'label',
-        'menubar',
-        'navigation-menu',
-        'pagination',
-        'popover',
-        'progress',
-        'radio-group',
-        'scroll-area',
-        'select',
-        'separator',
-        'sheet',
-        'skeleton',
-        'slider',
-        'spinner',
-        'status',
-        'switch',
-        'table',
-        'tabs',
-        'textarea',
-        'toggle',
-        'toggle-group',
-        'tooltip',
-        'typography',
-        // Published packages that are not components.
-        'core',
-        'app',
-        'admin',
+        // One scope per package and project, derived from the tree so the list
+        // can never go stale.
+        ...dirs('libs/ui'),
+        ...dirs('libs'),
+        ...dirs('apps'),
+        // Cross-cutting scopes.
         'storybook',
-        'mcp',
-        'tools',
-        'nx',
-        // `nx release` commits as `chore(release): publish <version>`.
+        'repo',
         'release',
-        'repo'
+        'docs',
+        'deps',
+        'ci'
       ]
     ]
   }

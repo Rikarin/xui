@@ -1,3 +1,4 @@
 #!/bin/sh
 
-pnpx commitlint -e
+# `pnpm exec` uses the workspace's pinned commitlint; `pnpx` would download one.
+pnpm exec commitlint -e

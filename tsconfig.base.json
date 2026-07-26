@@ -137,7 +137,7 @@
       "@xui/dock-manager": ["./libs/ui/dock-manager/xui/src/index.ts"],
       "@xui/node-graph": ["./libs/ui/node-graph/xui/src/index.ts"]
     },
-    "strict": false,
+    "strict": true,
     "noUncheckedSideEffectImports": false,
     "types": ["*"],
     "ignoreDeprecations": "6.0"

@@ -1,3 +1,6 @@
 #!/bin/sh
 
-pnpm nx format:write
+# Format, then re-stage what the formatter touched — otherwise the commit
+# records the unformatted content and CI's format:check fails on it.
+pnpm nx format:write --uncommitted
+git add -u
