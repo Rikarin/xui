@@ -1,20 +1,21 @@
 import type { BooleanInput, NumberInput } from '@angular/cdk/coercion';
 import { isPlatformBrowser } from '@angular/common';
 import {
+  booleanAttribute,
   ChangeDetectionStrategy,
   Component,
-  ElementRef,
-  PLATFORM_ID,
-  booleanAttribute,
   computed,
   effect,
+  ElementRef,
   inject,
   input,
   model,
   numberAttribute,
   output,
+  PLATFORM_ID,
   signal,
-  viewChild
+  viewChild,
+  ViewEncapsulation
 } from '@angular/core';
 import { xui } from '@xui/core';
 import type { ClassValue } from 'clsx';
@@ -39,6 +40,7 @@ import type { ClassValue } from 'clsx';
 @Component({
   selector: 'xui-collapse',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
   template: `
     <div #content [class]="computedContentClass()">
       @if (open() || keepChildrenMounted()) {

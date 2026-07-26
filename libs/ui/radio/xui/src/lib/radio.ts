@@ -1,12 +1,13 @@
 import type { BooleanInput } from '@angular/cdk/coercion';
 import {
+  booleanAttribute,
   ChangeDetectionStrategy,
   Component,
-  ElementRef,
-  booleanAttribute,
   computed,
+  ElementRef,
   inject,
-  input
+  input,
+  ViewEncapsulation
 } from '@angular/core';
 import { xui } from '@xui/core';
 import { cva, type VariantProps } from 'class-variance-authority';
@@ -15,7 +16,7 @@ import { XUI_RADIO_BUTTON_TOKEN, XUI_RADIO_GROUP, type XuiRadioButtonRef } from 
 import { injectXuiRadioConfig } from './radio.token';
 
 const radioVariants = cva(
-  'relative grid shrink-0 place-items-center rounded-full border transition-colors focus-visible:outline-5 focus-visible:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:opacity-50 data-[state=checked]:border-primary data-[state=unchecked]:border-border-strong data-[state=unchecked]:bg-surface-inset',
+  'relative grid shrink-0 place-items-center rounded-full border transition-colors data-disabled:cursor-not-allowed data-disabled:opacity-50 data-[state=checked]:border-primary data-[state=unchecked]:border-border-strong data-[state=unchecked]:bg-surface-inset',
   {
     variants: {
       size: {
@@ -44,6 +45,7 @@ export type XuiRadioVariants = VariantProps<typeof radioVariants>;
 @Component({
   selector: 'xui-radio',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
   template: `
     <span
       class="bg-primary size-1/2 rounded-full transition-transform data-[state=unchecked]:scale-0"

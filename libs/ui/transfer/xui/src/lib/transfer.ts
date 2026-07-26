@@ -373,7 +373,7 @@ export class XuiTransfer implements ControlValueAccessor {
   protected readonly panelClass = computed(() => xui('border-border bg-surface flex w-56 flex-col rounded-lg border'));
   protected readonly searchClass = computed(() =>
     xui(
-      'border-border bg-surface text-foreground focus:border-focus h-(--control-height-md) w-full rounded-md border px-(--control-padding-sm) text-sm focus:outline-none'
+      'border-border bg-surface text-foreground focus-visible:border-focus h-(--control-height-md) w-full rounded-md border px-(--control-padding-sm) text-sm focus-visible:outline-none'
     )
   );
 

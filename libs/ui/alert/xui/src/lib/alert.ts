@@ -2,6 +2,7 @@ import type { BooleanInput } from '@angular/cdk/coercion';
 import {
   ChangeDetectionStrategy,
   Component,
+  ViewEncapsulation,
   booleanAttribute,
   computed,
   effect,
@@ -43,6 +44,7 @@ import {
   imports: [NgIcon, XuiIcon, XuiButtonImports, XuiDialogImports],
   viewProviders: [provideIcons({ matInfoRound, matCheckCircleRound, matWarningRound, matErrorRound })],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
   template: `
     <xui-dialog
       [(open)]="open"

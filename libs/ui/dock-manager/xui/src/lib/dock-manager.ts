@@ -186,6 +186,7 @@ interface Rect {
     })
   ],
   providers: [{ provide: XUI_DOCK_CONTENT_MOUNTER, useExisting: forwardRef(() => XuiDockManager) }],
+  // eslint-disable-next-line local/no-hand-z-index -- maximized pane, drop rect and drag ghost layer on the dock’s internal z scale, not the overlay container
   template: `
     <!-- ─── one content pane: header chrome plus the body outlet ─────────── -->
     <ng-template #contentTpl let-pane let-hideHeader="hideHeader">
@@ -489,7 +490,7 @@ interface Rect {
 
     @if (dragGhost(); as ghost) {
       <div
-        class="bg-surface-overlay border-border text-foreground pointer-events-none fixed z-60 rounded-md border px-2 py-1 text-xs shadow-lg"
+        class="bg-surface-overlay border-border text-foreground shadow-overlay pointer-events-none fixed z-60 rounded-md border px-2 py-1 text-xs"
         [style.left.px]="ghost.x + 12"
         [style.top.px]="ghost.y + 12"
       >
@@ -1610,6 +1611,7 @@ export class XuiDockManager implements XuiDockContentMounter {
 
   protected gutterClass(pane: XuiDockPane): string {
     return xui(
+      // eslint-disable-next-line local/no-hand-z-index -- the resize gutter rides above pane content on the dock’s internal z scale
       'group relative z-10 flex shrink-0 touch-none items-center justify-center',
       'focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-focus',
       isSplitPane(pane) && pane.orientation === 'vertical'
@@ -1650,7 +1652,8 @@ export class XuiDockManager implements XuiDockContentMounter {
   }
 
   protected flyoutClass(): string {
-    return xui('bg-surface border-border absolute z-20 flex overflow-hidden border shadow-lg');
+    // eslint-disable-next-line local/no-hand-z-index -- flyouts stack on the dock manager’s internal z scale
+    return xui('bg-surface border-border shadow-overlay absolute z-20 flex overflow-hidden border');
   }
 
   protected flyoutStyle(pane: XuiDockContentPane): Record<string, string> {
@@ -1671,7 +1674,8 @@ export class XuiDockManager implements XuiDockContentMounter {
   }
 
   protected floatingClass(): string {
-    return xui('bg-surface border-border absolute z-40 flex flex-col overflow-hidden rounded-lg border shadow-xl');
+    // eslint-disable-next-line local/no-hand-z-index -- floating panes stack on the dock manager’s internal z scale
+    return xui('bg-surface border-border shadow-overlay absolute z-40 flex flex-col overflow-hidden rounded-lg border');
   }
 
   protected floatingStyle(window: XuiDockSplitPane): Record<string, string> {
@@ -1689,7 +1693,8 @@ export class XuiDockManager implements XuiDockContentMounter {
     return xui(
       // Never interactive: the pointer is already captured by the drag, and the
       // indicators are hit-tested by rectangle rather than by event target.
-      'bg-surface-overlay pointer-events-none absolute z-55 rounded border shadow-md',
+      // eslint-disable-next-line local/no-hand-z-index -- drop indicators top the dock’s internal z scale during a drag
+      'bg-surface-overlay shadow-elevation-2 pointer-events-none absolute z-55 rounded border',
       indicator.active ? 'border-primary' : 'border-border-strong'
     );
   }

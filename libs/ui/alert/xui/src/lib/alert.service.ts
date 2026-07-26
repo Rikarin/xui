@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Injectable, computed, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Injectable, ViewEncapsulation, computed, inject } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { matCheckCircleRound, matErrorRound, matInfoRound, matWarningRound } from '@ng-icons/material-icons/round';
 import { XuiButtonImports } from '@xui/button';
@@ -22,6 +22,7 @@ import {
   imports: [NgIcon, XuiIcon, XuiButtonImports, XuiDialogFooter],
   viewProviders: [provideIcons({ matInfoRound, matCheckCircleRound, matWarningRound, matErrorRound })],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
   template: `
     <div class="flex gap-3 px-6 py-6">
       @if (resolvedIcon()) {

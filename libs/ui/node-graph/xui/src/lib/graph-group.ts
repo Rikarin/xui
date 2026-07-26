@@ -157,6 +157,7 @@ export class XuiGraphGroup implements XuiGraphGroupHandle, OnInit {
     xui(
       // z-index 0 puts the frame under every node, so pressing a member still
       // moves that member and only the gaps between them belong to the group.
+      // eslint-disable-next-line local/no-hand-z-index -- the group frame sits under its member nodes inside the graph’s stacking context
       'absolute top-0 left-0 z-0 flex flex-col rounded-xl border-2 border-dashed transition-colors select-none',
       (this.selected() || this.dropTarget()) && 'border-solid',
       this.class()

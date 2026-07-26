@@ -1,20 +1,21 @@
 import type { BooleanInput } from '@angular/cdk/coercion';
 import { NgComponentOutlet, NgTemplateOutlet } from '@angular/common';
 import {
+  booleanAttribute,
   ChangeDetectionStrategy,
   Component,
-  ElementRef,
-  Injector,
-  TemplateRef,
-  booleanAttribute,
   computed,
   effect,
+  ElementRef,
   inject,
+  Injector,
   input,
   output,
   signal,
+  TemplateRef,
   untracked,
-  viewChild
+  viewChild,
+  ViewEncapsulation
 } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { matChevronLeftRound } from '@ng-icons/material-icons/round';
@@ -44,13 +45,14 @@ import { XUI_PANEL_DATA, XUI_PANEL_STACK, type XuiPanel } from './panel-stack.ty
   imports: [NgTemplateOutlet, NgComponentOutlet, NgIcon, XuiIcon],
   viewProviders: [provideIcons({ matChevronLeftRound })],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
   template: `
     @if (showPanelHeader()) {
       <header class="border-border flex h-(--control-height-lg) shrink-0 items-center border-b px-1">
         @if (depth() > 1) {
           <button
             type="button"
-            class="text-foreground-muted hover:bg-hover-overlay hover:text-foreground flex h-(--control-height-md) items-center gap-0.5 rounded-md ps-1.5 pe-3 text-sm focus-visible:outline-5 focus-visible:outline-offset-2"
+            class="text-foreground-muted hover:bg-hover-overlay hover:text-foreground flex h-(--control-height-md) items-center gap-0.5 rounded-md ps-1.5 pe-3 text-sm"
             (click)="closePanel()"
           >
             <ng-icon xui size="md" name="matChevronLeftRound" />

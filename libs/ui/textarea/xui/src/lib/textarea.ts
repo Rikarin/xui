@@ -19,7 +19,7 @@ import type { ClassValue } from 'clsx';
 import { injectXuiTextareaConfig } from './textarea.token';
 
 export const textareaVariants = cva(
-  'flex w-full rounded-lg border border-border bg-surface-inset text-foreground placeholder:text-foreground-subtle transition-colors focus:border-focus focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 [&.ng-invalid.ng-touched]:border-error [&.ng-invalid.ng-touched]:border-2',
+  'flex w-full rounded-lg border border-border bg-surface-inset text-foreground placeholder:text-foreground-subtle transition-colors focus-visible:border-focus focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 [&.ng-invalid.ng-touched]:border-error [&.ng-invalid.ng-touched]:border-2',
   {
     variants: {
       size: {
@@ -54,6 +54,7 @@ export type XuiTextareaVariants = VariantProps<typeof textareaVariants>;
  */
 @Directive({
   selector: 'textarea[xuiTextarea]',
+  exportAs: 'xuiTextarea',
   host: {
     '[class]': 'computedClass()',
     '(input)': 'resize()'

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, ViewEncapsulation } from '@angular/core';
 import { xui } from '@xui/core';
 import { cva, VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
@@ -35,6 +35,7 @@ export type <%= variantsName %> = VariantProps<typeof <%= propertyVariantsName %
 @Component({
   selector: '<%= selector %>',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
   template: `<ng-content />`,
   host: {
     '[class]': 'computedClass()'

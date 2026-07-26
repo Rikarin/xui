@@ -35,7 +35,7 @@ describe('XuiBreadcrumbList', () => {
   it('lays the trail out inline and de-emphasises it', () => {
     const { query } = setup('<ol xuiBreadcrumbList></ol>');
 
-    expectClasses(query('ol'), 'flex', 'flex-wrap', 'items-center', 'text-muted-foreground');
+    expectClasses(query('ol'), 'flex', 'flex-wrap', 'items-center', 'text-foreground-subtle');
   });
 });
 

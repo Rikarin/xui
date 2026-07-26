@@ -28,8 +28,9 @@ export const inputVariants = cva(
   [
     'flex rounded-lg border border-border font-normal transition-all',
     'file:border-0 file:text-foreground file:bg-transparent file:font-medium',
-    // 'focus-visible:outline-5 focus-visible:outline-offset-2',
-    'focus:border-focus focus:outline-none',
+    // The focus border replaces the base outline ring. Text-entry controls match
+    // `:focus-visible` for pointer focus too, so mouse users still get it.
+    'focus-visible:border-focus focus-visible:outline-none',
     'disabled:cursor-not-allowed disabled:opacity-50'
   ],
   {
@@ -50,10 +51,10 @@ export const inputVariants = cva(
       // A deliberate accent border, distinct from the automatic invalid state.
       color: {
         none: '',
-        primary: 'border-primary focus:border-primary',
-        success: 'border-success focus:border-success',
-        warning: 'border-warning focus:border-warning',
-        error: 'border-error focus:border-error'
+        primary: 'border-primary focus-visible:border-primary',
+        success: 'border-success focus-visible:border-success',
+        warning: 'border-warning focus-visible:border-warning',
+        error: 'border-error focus-visible:border-error'
       },
       error: {
         auto: '[&.ng-invalid.ng-touched]:text-error [&.ng-invalid.ng-touched]:border-2 [&.ng-invalid.ng-touched]:border-error',
@@ -72,6 +73,7 @@ export type XuiInputVariants = VariantProps<typeof inputVariants>;
 
 @Directive({
   selector: '[xuiInput]',
+  exportAs: 'xuiInput',
   host: {
     '[class]': 'computedClass()'
   },

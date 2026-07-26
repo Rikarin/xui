@@ -12,7 +12,15 @@ import {
   viewChild,
   ViewEncapsulation
 } from '@angular/core';
+import { NgIcon, provideIcons } from '@ng-icons/core';
+import {
+  matArrowUpwardRound,
+  matCloseRound,
+  matInsertDriveFileRound,
+  matUploadRound
+} from '@ng-icons/material-icons/round';
 import { xui } from '@xui/core';
+import { XuiIcon } from '@xui/icon';
 import type { ClassValue } from 'clsx';
 import { injectXuiUploadConfig } from './upload.token';
 
@@ -64,15 +72,7 @@ export interface XuiUploadFile {
         (dragleave)="dragging.set(false)"
         (drop)="onDrop($event)"
       >
-        <svg viewBox="0 0 24 24" class="text-foreground-muted mx-auto h-8 w-8" fill="none">
-          <path
-            d="M12 16V4m0 0-4 4m4-4 4 4M4 20h16"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg>
+        <ng-icon xui size="lg" color="muted" name="matUploadRound" class="mx-auto" />
         <p class="text-foreground mt-2 text-sm">Click or drag files here to upload</p>
         @if (accept()) {
           <p class="text-foreground-muted mt-1 text-xs">Accepted: {{ accept() }}</p>
@@ -80,15 +80,7 @@ export interface XuiUploadFile {
       </div>
     } @else {
       <button type="button" [class]="buttonClass()" [disabled]="disabled()" (click)="openPicker()">
-        <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none">
-          <path
-            d="M12 16V4m0 0-4 4m4-4 4 4"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg>
+        <ng-icon xui size="sm" name="matArrowUpwardRound" />
         Upload
       </button>
     }
@@ -97,15 +89,7 @@ export interface XuiUploadFile {
       <ul class="mt-2 flex flex-col gap-1">
         @for (file of files(); track file.uid) {
           <li [class]="fileRowClass(file)">
-            <svg viewBox="0 0 24 24" class="h-4 w-4 shrink-0" fill="none">
-              <path
-                d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9zM13 2v7h7"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
+            <ng-icon xui size="sm" name="matInsertDriveFileRound" class="shrink-0" />
             <span class="min-w-0 flex-1">
               <span class="flex items-center gap-2">
                 <span class="truncate">{{ file.name }}</span>
@@ -125,7 +109,7 @@ export interface XuiUploadFile {
               (click)="remove(file)"
               [attr.aria-label]="'Remove ' + file.name"
             >
-              ×
+              <ng-icon xui size="sm" name="matCloseRound" />
             </button>
           </li>
         }
@@ -135,6 +119,8 @@ export interface XuiUploadFile {
   host: {
     '[class]': 'computedClass()'
   },
+  imports: [NgIcon, XuiIcon],
+  viewProviders: [provideIcons({ matArrowUpwardRound, matCloseRound, matInsertDriveFileRound, matUploadRound })],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None
 })
@@ -222,14 +208,12 @@ export class XuiUpload {
   protected readonly computedClass = computed(() => xui('block', this.class()));
   protected readonly buttonClass = computed(() =>
     xui(
-      'border-border text-foreground hover:bg-surface-inset inline-flex items-center gap-2 rounded-md border px-3 py-1.5 text-sm disabled:opacity-50',
-      'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus'
+      'border-border text-foreground hover:bg-surface-inset inline-flex items-center gap-2 rounded-md border px-3 py-1.5 text-sm disabled:opacity-50'
     )
   );
   protected readonly dropzoneClass = computed(() =>
     xui(
       'cursor-pointer rounded-lg border-2 border-dashed px-6 py-8 text-center transition-colors',
-      'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus',
       this.dragging() ? 'border-primary bg-primary/5' : 'border-border hover:border-primary/60',
       this.disabled() && 'pointer-events-none opacity-50'
     )

@@ -183,6 +183,7 @@ export class XuiSplitter {
   );
   protected readonly gutterClass = computed(() =>
     xui(
+      // eslint-disable-next-line local/no-hand-z-index -- the grab handle rides above adjacent panes inside the splitter
       'group relative z-10 flex shrink-0 touch-none items-center justify-center',
       'focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-focus',
       this.orientation() === 'vertical' ? 'h-1.5 w-full cursor-row-resize' : 'w-1.5 cursor-col-resize'

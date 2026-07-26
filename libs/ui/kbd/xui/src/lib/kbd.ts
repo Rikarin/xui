@@ -29,6 +29,7 @@ export type XuiKbdVariants = VariantProps<typeof kbdVariants>;
  */
 @Directive({
   selector: 'kbd[xuiKbd], [xuiKbd]',
+  exportAs: 'xuiKbd',
   host: {
     '[class]': 'computedClass()'
   }

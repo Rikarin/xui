@@ -1,5 +1,5 @@
 import { NgTemplateOutlet } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, ViewEncapsulation } from '@angular/core';
 import { xui } from '@xui/core';
 import { XUI_POPOVER_CONTENT } from './popover-content';
 
@@ -18,6 +18,7 @@ import { XUI_POPOVER_CONTENT } from './popover-content';
   selector: 'xui-popover-panel',
   imports: [NgTemplateOutlet],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
   template: `<ng-container *ngTemplateOutlet="content.template; context: content.context ?? {}" />`,
   host: {
     '[class]': 'computedClass()',

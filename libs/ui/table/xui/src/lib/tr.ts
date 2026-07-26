@@ -16,6 +16,9 @@ export class XuiTr {
   readonly class = input<ClassValue>('');
 
   protected computedClass = computed(() =>
-    xui('flex border-b border-border transition-colors hover:bg-muted data-[state=selected]:bg-muted', this.class())
+    xui(
+      'flex border-b border-border transition-colors hover:bg-hover-overlay data-[state=selected]:bg-hover-overlay',
+      this.class()
+    )
   );
 }

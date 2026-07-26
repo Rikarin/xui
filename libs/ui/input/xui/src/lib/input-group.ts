@@ -30,8 +30,10 @@ import { XuiInput } from './input';
 // inside a 30px field leaves 3px of air and reads as an icon that outgrew its box.
 @Directive({
   selector: '[xuiInputLeftElement]',
+  exportAs: 'xuiInputLeftElement',
   host: {
     class:
+      // eslint-disable-next-line local/no-hand-z-index -- the affix floats above the input inside the group, not an overlay
       'absolute start-(--control-padding-sm) top-1/2 z-10 flex -translate-y-1/2 items-center text-foreground-muted [--ng-icon__size:1rem]! [&_ng-icon]:[--ng-icon__size:1rem]! [&_svg]:size-4 [&:has(button)]:pointer-events-auto pointer-events-none'
   }
 })
@@ -40,8 +42,10 @@ export class XuiInputLeftElement {}
 /** The trailing-edge counterpart of {@link XuiInputLeftElement} — often a button. */
 @Directive({
   selector: '[xuiInputRightElement]',
+  exportAs: 'xuiInputRightElement',
   host: {
     class:
+      // eslint-disable-next-line local/no-hand-z-index -- the affix floats above the input inside the group, not an overlay
       'absolute end-(--control-padding-sm) top-1/2 z-10 flex -translate-y-1/2 items-center text-foreground-muted [--ng-icon__size:1rem]! [&_ng-icon]:[--ng-icon__size:1rem]! [&_svg]:size-4 [&:has(button)]:pointer-events-auto pointer-events-none'
   }
 })
@@ -62,6 +66,7 @@ export class XuiInputRightElement {}
 @Component({
   selector: 'xui-input-group',
   imports: [NgIcon, XuiIcon],
+  // eslint-disable-next-line local/no-hand-z-index -- the clear button floats above the input inside the group, not an overlay
   template: `
     <ng-content />
     @if (clearable() && hasValue() && !disabled()) {

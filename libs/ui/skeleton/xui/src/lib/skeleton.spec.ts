@@ -8,7 +8,7 @@ describe('XuiSkeleton', () => {
   it('renders an animated placeholder hidden from assistive technology', () => {
     const { query } = setup('<xui-skeleton />');
 
-    expectClasses(query('xui-skeleton'), 'block', 'animate-pulse', 'rounded-md', 'bg-muted');
+    expectClasses(query('xui-skeleton'), 'block', 'animate-pulse', 'rounded-md', 'bg-border-muted');
     expectAttributes(query('xui-skeleton'), { 'aria-hidden': 'true' });
   });
 
@@ -31,7 +31,7 @@ describe('XuiSkeletonMask', () => {
   it('masks the host while active', () => {
     const { query } = setup('<h2 xuiSkeleton>Title</h2>');
 
-    expectClasses(query('h2'), 'animate-pulse', 'bg-muted!', 'text-transparent!');
+    expectClasses(query('h2'), 'animate-pulse', 'bg-border-muted!', 'text-transparent!');
   });
 
   it('forces the mask over a host that paints its own background', () => {
@@ -40,7 +40,7 @@ describe('XuiSkeletonMask', () => {
     // would keep its own fill.
     const { query } = setup('<button xuiSkeleton class="bg-primary">Save</button>');
 
-    expectClasses(query('button'), 'bg-muted!', 'rounded-md!');
+    expectClasses(query('button'), 'bg-border-muted!', 'rounded-md!');
   });
 
   it('removes masked content from the accessibility tree and the tab order', () => {

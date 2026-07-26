@@ -3,13 +3,14 @@ import { NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  Directive,
-  TemplateRef,
   computed,
   contentChild,
+  Directive,
   input,
   numberAttribute,
-  output
+  output,
+  TemplateRef,
+  ViewEncapsulation
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { NgIcon } from '@ng-icons/core';
@@ -66,15 +67,15 @@ export interface XuiBreadcrumbsOverflowContext<T> {
 }
 
 /** Replaces the default rendering of every crumb. */
-@Directive({ selector: 'ng-template[xuiBreadcrumbsItem]' })
+@Directive({ selector: 'ng-template[xuiBreadcrumbsItem]', exportAs: 'xuiBreadcrumbsItem' })
 export class XuiBreadcrumbsItem {}
 
 /** Replaces the default rendering of the current crumb only. */
-@Directive({ selector: 'ng-template[xuiBreadcrumbsCurrent]' })
+@Directive({ selector: 'ng-template[xuiBreadcrumbsCurrent]', exportAs: 'xuiBreadcrumbsCurrent' })
 export class XuiBreadcrumbsCurrent {}
 
 /** Replaces the ellipsis shown in place of the collapsed crumbs. */
-@Directive({ selector: 'ng-template[xuiBreadcrumbsOverflow]' })
+@Directive({ selector: 'ng-template[xuiBreadcrumbsOverflow]', exportAs: 'xuiBreadcrumbsOverflow' })
 export class XuiBreadcrumbsOverflow {}
 
 /**
@@ -114,6 +115,7 @@ export class XuiBreadcrumbsOverflow {}
   ],
   hostDirectives: [{ directive: XuiBreadcrumb, inputs: ['aria-label'] }],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
   template: `
     <xui-overflow-list
       role="list"

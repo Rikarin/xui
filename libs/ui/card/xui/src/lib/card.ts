@@ -16,7 +16,7 @@ export const cardVariants = cva('bg-surface-raised text-foreground block rounded
       4: 'shadow-elevation-4'
     },
     interactive: {
-      true: 'cursor-pointer focus-visible:outline-5 focus-visible:outline-offset-2',
+      true: 'cursor-pointer',
       false: ''
     },
     selected: {

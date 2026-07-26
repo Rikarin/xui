@@ -1,6 +1,14 @@
 import type { BooleanInput } from '@angular/cdk/coercion';
 import { NgTemplateOutlet } from '@angular/common';
-import { booleanAttribute, ChangeDetectionStrategy, Component, computed, input, model } from '@angular/core';
+import {
+  booleanAttribute,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+  model,
+  ViewEncapsulation
+} from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { matExpandMoreRound } from '@ng-icons/material-icons/round';
 import { XuiCollapseImports } from '@xui/collapse';
@@ -48,6 +56,7 @@ export type XuiSectionVariants = VariantProps<typeof sectionVariants>;
   selector: 'xui-section',
   imports: [NgIcon, NgTemplateOutlet, XuiIcon, XuiCollapseImports],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
   viewProviders: [provideIcons({ matExpandMoreRound })],
   template: `
     @if (title()) {
@@ -55,7 +64,7 @@ export type XuiSectionVariants = VariantProps<typeof sectionVariants>;
         @if (collapsible()) {
           <button
             type="button"
-            class="-m-1 flex min-w-0 flex-1 items-center gap-2 rounded p-1 text-start focus-visible:outline-5 focus-visible:outline-offset-2"
+            class="-m-1 flex min-w-0 flex-1 items-center gap-2 rounded p-1 text-start"
             [attr.aria-expanded]="open()"
             [attr.aria-controls]="panelId"
             (click)="open.set(!open())"
@@ -143,6 +152,7 @@ export class XuiSection {
 @Component({
   selector: 'xui-section-card',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
   template: '<ng-content />',
   host: {
     '[class]': 'computedClass()'

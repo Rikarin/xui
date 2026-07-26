@@ -36,6 +36,7 @@ export type XuiLabelVariants = VariantProps<typeof labelVariants>;
 
 @Directive({
   selector: '[xuiLabel]',
+  exportAs: 'xuiLabel',
   hostDirectives: [
     {
       directive: XLabel,

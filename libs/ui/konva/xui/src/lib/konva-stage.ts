@@ -2,13 +2,14 @@ import {
   ChangeDetectionStrategy,
   Component,
   DestroyRef,
-  ElementRef,
   effect,
+  ElementRef,
   inject,
   input,
   output,
   signal,
-  untracked
+  untracked,
+  ViewEncapsulation
 } from '@angular/core';
 import type { ContainerConfig } from 'konva/lib/Container';
 import { Layer } from 'konva/lib/Layer';
@@ -40,7 +41,8 @@ import { applyNodeProps, createListener, updatePicture, type XuiKonvaProps } fro
   selector: 'xui-konva-stage',
   template: `<ng-content />`,
   providers: [{ provide: XUI_KONVA_CONTAINER, useFactory: () => inject(XuiKonvaStage) }],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None
 })
 export class XuiKonvaStage implements XuiKonvaComponent, XuiKonvaContainer {
   private readonly container: HTMLDivElement;

@@ -1,5 +1,5 @@
 import { NgTemplateOutlet } from '@angular/common';
-import { ChangeDetectionStrategy, Component, TemplateRef, computed, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, TemplateRef, ViewEncapsulation } from '@angular/core';
 import { xui } from '@xui/core';
 import { cva } from 'class-variance-authority';
 import { XUI_TOOLTIP_CONTENT } from './tooltip-content';
@@ -35,6 +35,7 @@ const tooltipPanelVariants = cva('pointer-events-none block max-w-xs rounded-md 
   selector: 'xui-tooltip-panel',
   imports: [NgTemplateOutlet],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
   template: `
     @if (isTemplate(content.content)) {
       <ng-container *ngTemplateOutlet="content.content; context: content.context ?? {}" />

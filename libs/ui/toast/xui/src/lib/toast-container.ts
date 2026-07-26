@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, ViewEncapsulation } from '@angular/core';
 import { XuiToast } from './toast';
 import { XuiToastService } from './toast.service';
 
@@ -17,6 +17,7 @@ import { XuiToastService } from './toast.service';
   selector: 'xui-toast-container',
   imports: [XuiToast],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
   template: `
     @for (toast of service.toasts(); track toast.id) {
       <xui-toast

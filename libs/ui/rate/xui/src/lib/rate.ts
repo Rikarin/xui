@@ -11,9 +11,12 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import type { ControlValueAccessor } from '@angular/forms';
+import { NgIcon, provideIcons } from '@ng-icons/core';
+import { matStarRound } from '@ng-icons/material-icons/round';
 import { xui } from '@xui/core';
 import { arrowValueDirection, injectXDirection } from '@xui/core/a11y';
 import { createXValueAccessor, provideXValueAccessor } from '@xui/core/forms';
+import { XuiIcon } from '@xui/icon';
 import type { ClassValue } from 'clsx';
 
 /**
@@ -27,18 +30,21 @@ import type { ClassValue } from 'clsx';
  */
 @Component({
   selector: 'xui-rate',
+  // eslint-disable-next-line local/no-hand-z-index -- half-star hit areas layer above the star glyph inside the control
   template: `
     @for (star of stars(); track star) {
       <span class="relative inline-block" [style.width.px]="starPx()" [style.height.px]="starPx()">
         <!-- empty base -->
-        <svg viewBox="0 0 24 24" class="text-foreground-subtle absolute inset-0 h-full w-full" fill="currentColor">
-          <path [attr.d]="STAR" />
-        </svg>
+        <ng-icon xui [size]="starPx() + 'px'" color="subtle" name="matStarRound" class="absolute inset-0" />
         <!-- filled overlay, clipped to the fill fraction -->
         <span class="absolute inset-0 overflow-hidden" [style.width.%]="fillPercent(star)">
-          <svg viewBox="0 0 24 24" class="text-warning h-full" [style.width.px]="starPx()" fill="currentColor">
-            <path [attr.d]="STAR" />
-          </svg>
+          <ng-icon
+            xui
+            [size]="starPx() + 'px'"
+            color="warning"
+            name="matStarRound"
+            class="absolute inset-y-0 start-0"
+          />
         </span>
         @if (!readonly() && !isDisabled()) {
           @if (allowHalf()) {
@@ -75,13 +81,13 @@ import type { ClassValue } from 'clsx';
     '(mouseleave)': 'hover.set(null)',
     '(blur)': 'cva.markTouched()'
   },
+  imports: [NgIcon, XuiIcon],
   providers: [provideXValueAccessor(() => XuiRate)],
+  viewProviders: [provideIcons({ matStarRound })],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None
 })
 export class XuiRate implements ControlValueAccessor {
-  protected readonly STAR = 'M12 2l2.9 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14l-5-4.87 7.1-1.01z';
-
   protected readonly direction = injectXDirection();
 
   readonly class = input<ClassValue>('');
@@ -158,7 +164,7 @@ export class XuiRate implements ControlValueAccessor {
 
   protected readonly computedClass = computed(() =>
     xui(
-      'inline-flex items-center gap-1 outline-none focus-visible:outline-focus focus-visible:outline-2 focus-visible:outline-offset-2 rounded',
+      'inline-flex items-center gap-1 rounded',
       (this.readonly() || this.isDisabled()) && 'cursor-default',
       this.isDisabled() && 'opacity-50',
       this.class()

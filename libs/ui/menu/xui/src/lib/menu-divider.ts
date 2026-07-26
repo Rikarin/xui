@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, ViewEncapsulation } from '@angular/core';
 import { xui } from '@xui/core';
 import type { ClassValue } from 'clsx';
 
@@ -12,6 +12,7 @@ import type { ClassValue } from 'clsx';
 @Component({
   selector: 'xui-menu-divider',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
   template: `
     @if (title()) {
       <div class="text-foreground-subtle px-2 pt-1.5 pb-0.5 text-xs font-medium tracking-wide uppercase">

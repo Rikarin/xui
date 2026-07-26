@@ -45,9 +45,10 @@ export class XuiSkeletonMask {
           //
           // Every one of these is `!`: the host's own directive writes to the
           // same `class` attribute, so without it the winner between
-          // `bg-primary` and `bg-muted` is decided by Tailwind's stylesheet
-          // order rather than by us, and a masked button stays blue.
-          'bg-muted! rounded-md! text-transparent! border-transparent! shadow-none! [&_*]:invisible'
+          // `bg-primary` and `bg-border-muted` is decided by Tailwind's
+          // stylesheet order rather than by us, and a masked button stays blue.
+          // `bg-border-muted` matches the old `bg-muted` step in both themes.
+          'bg-border-muted! rounded-md! text-transparent! border-transparent! shadow-none! [&_*]:invisible'
         )
       : ''
   );

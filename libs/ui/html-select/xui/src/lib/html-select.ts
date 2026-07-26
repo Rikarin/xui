@@ -2,6 +2,7 @@ import type { BooleanInput } from '@angular/cdk/coercion';
 import {
   ChangeDetectionStrategy,
   Component,
+  ViewEncapsulation,
   booleanAttribute,
   computed,
   forwardRef,
@@ -61,6 +62,7 @@ export interface XuiHtmlSelectOption<T = string> {
   imports: [NgIcon, XuiIcon],
   viewProviders: [provideIcons({ matExpandMoreRound })],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
   providers: [
     provideXValueAccessor(() => XuiHtmlSelect),
     {

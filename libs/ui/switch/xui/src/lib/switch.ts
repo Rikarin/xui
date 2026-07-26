@@ -1,5 +1,13 @@
 import type { BooleanInput } from '@angular/cdk/coercion';
-import { ChangeDetectionStrategy, Component, booleanAttribute, computed, input, model } from '@angular/core';
+import {
+  booleanAttribute,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+  model,
+  ViewEncapsulation
+} from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 import { xui } from '@xui/core';
 import { uniqueId } from '@xui/core/a11y';
@@ -9,7 +17,7 @@ import type { ClassValue } from 'clsx';
 import { injectXuiSwitchConfig, type XuiSwitchSize } from './switch.token';
 
 const switchTrackVariants = cva(
-  'relative inline-flex shrink-0 cursor-pointer items-center rounded-full border border-transparent transition-colors focus-visible:outline-5 focus-visible:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:opacity-50 data-[state=checked]:bg-primary data-[state=unchecked]:bg-border-strong',
+  'relative inline-flex shrink-0 cursor-pointer items-center rounded-full border border-transparent transition-colors data-disabled:cursor-not-allowed data-disabled:opacity-50 data-[state=checked]:bg-primary data-[state=unchecked]:bg-border-strong',
   {
     variants: {
       size: {
@@ -22,7 +30,10 @@ const switchTrackVariants = cva(
 );
 
 const switchThumbVariants = cva(
-  'pointer-events-none block rounded-full bg-white shadow-sm transition-transform data-[state=unchecked]:translate-x-0.5',
+  // The thumb rides on emphasis-strength fills (the primary track when checked),
+  // so it uses the on-emphasis foreground — white in both built-in themes, and it
+  // follows an application that re-tunes the token, unlike a raw `bg-white`.
+  'pointer-events-none block rounded-full bg-foreground-on-emphasis shadow-elevation-1 transition-transform data-[state=unchecked]:translate-x-0.5',
   {
     variants: {
       size: {
@@ -52,6 +63,7 @@ export type XuiSwitchVariants = VariantProps<typeof switchTrackVariants>;
 @Component({
   selector: 'xui-switch',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
   providers: [provideXValueAccessor(() => XuiSwitch)],
   template: `<span [class]="thumbClass()" [attr.data-state]="dataState()"></span>`,
   host: {

@@ -1,3 +1,4 @@
+import type { BooleanInput } from '@angular/cdk/coercion';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -28,12 +29,12 @@ let captionIdSequence = 0;
 export class XuiCaption {
   private readonly table = inject(XuiTable, { optional: true });
 
-  readonly hidden = input(false, { transform: booleanAttribute });
+  readonly hidden = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
   readonly class = input<ClassValue>('');
 
   protected readonly id = input<string | null | undefined>(`${captionIdSequence++}`);
   protected readonly computedClass = computed(() =>
-    xui('text-center block mt-4 text-sm text-muted-foreground', this.hidden() ? 'sr-only' : 'order-last', this.class())
+    xui('text-center block mt-4 text-sm text-foreground-subtle', this.hidden() ? 'sr-only' : 'order-last', this.class())
   );
 
   constructor() {

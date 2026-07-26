@@ -8,7 +8,10 @@ import {
   input,
   ViewEncapsulation
 } from '@angular/core';
+import { NgIcon, provideIcons } from '@ng-icons/core';
+import { matExpandMoreRound } from '@ng-icons/material-icons/round';
 import { xui } from '@xui/core';
+import { XuiIcon } from '@xui/icon';
 import { XuiAccordion } from './accordion';
 
 /**
@@ -28,20 +31,14 @@ import { XuiAccordion } from './accordion';
         (click)="toggle()"
       >
         <span class="flex-1 text-start">{{ title() }}<ng-content select="[xuiAccordionTitle]" /></span>
-        <svg
-          viewBox="0 0 24 24"
-          class="text-foreground-muted h-4 w-4 shrink-0 transition-transform duration-200"
+        <ng-icon
+          xui
+          size="sm"
+          color="muted"
+          name="matExpandMoreRound"
+          class="duration-base shrink-0 transition-transform"
           [class.rotate-180]="open()"
-          fill="none"
-        >
-          <path
-            d="M6 9l6 6 6-6"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg>
+        />
       </button>
     </h3>
 
@@ -56,6 +53,8 @@ import { XuiAccordion } from './accordion';
   host: {
     class: 'block'
   },
+  imports: [NgIcon, XuiIcon],
+  viewProviders: [provideIcons({ matExpandMoreRound })],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None
 })
@@ -83,6 +82,6 @@ export class XuiAccordionItem {
 
   // A grid collapsing from 1fr → 0fr animates the height without measuring it.
   protected readonly regionClass = computed(() =>
-    xui('grid transition-[grid-template-rows] duration-200', this.open() ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]')
+    xui('grid transition-[grid-template-rows] duration-base', this.open() ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]')
   );
 }

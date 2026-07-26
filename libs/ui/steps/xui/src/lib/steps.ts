@@ -9,7 +9,10 @@ import {
   model,
   ViewEncapsulation
 } from '@angular/core';
+import { NgIcon, provideIcons } from '@ng-icons/core';
+import { matCheckRound, matCloseRound } from '@ng-icons/material-icons/round';
 import { xui } from '@xui/core';
+import { XuiIcon } from '@xui/icon';
 import type { ClassValue } from 'clsx';
 import { XuiStep, type XuiStepStatus } from './step';
 import { injectXuiStepsConfig } from './steps.token';
@@ -36,19 +39,9 @@ import { injectXuiStepsConfig } from './steps.token';
         <button type="button" [class]="headerClass()" [disabled]="!clickable()" (click)="select(i)">
           <span [class]="circleClass(statusAt(i))">
             @if (statusAt(i) === 'finish') {
-              <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none">
-                <path
-                  d="M20 6 9 17l-5-5"
-                  stroke="currentColor"
-                  stroke-width="2.5"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
+              <ng-icon xui size="sm" name="matCheckRound" />
             } @else if (statusAt(i) === 'error') {
-              <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none">
-                <path d="M18 6 6 18M6 6l12 12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
-              </svg>
+              <ng-icon xui size="sm" name="matCloseRound" />
             } @else {
               {{ i + 1 }}
             }
@@ -69,6 +62,8 @@ import { injectXuiStepsConfig } from './steps.token';
   host: {
     '[class]': 'computedClass()'
   },
+  imports: [NgIcon, XuiIcon],
+  viewProviders: [provideIcons({ matCheckRound, matCloseRound })],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None
 })
@@ -109,16 +104,12 @@ export class XuiSteps {
     xui('flex', this.vertical ? 'flex-col' : 'flex-1 items-center gap-3 last:flex-none')
   );
   protected readonly headerClass = computed(() =>
-    xui(
-      'flex items-center gap-3 rounded',
-      'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus',
-      this.clickable() ? 'cursor-pointer' : 'cursor-default'
-    )
+    xui('flex items-center gap-3 rounded', this.clickable() ? 'cursor-pointer' : 'cursor-default')
   );
 
   protected circleClass(status: XuiStepStatus): string {
     return xui(
-      'flex h-8 w-8 shrink-0 items-center justify-center rounded-full border-2 text-sm font-medium transition-colors',
+      'flex size-8 shrink-0 items-center justify-center rounded-full border-2 text-sm font-medium transition-colors',
       status === 'process'
         ? 'bg-primary text-primary-foreground border-primary'
         : status === 'finish'

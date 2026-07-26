@@ -1,5 +1,12 @@
 import type { BooleanInput } from '@angular/cdk/coercion';
-import { booleanAttribute, ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import {
+  booleanAttribute,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+  ViewEncapsulation
+} from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
   matCheckCircleRound,
@@ -81,6 +88,7 @@ const DEFAULT_ICONS: Record<XuiCalloutColor, string | null> = {
   selector: 'xui-callout',
   imports: [NgIcon, XuiIcon],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
   viewProviders: [
     provideIcons({ matCheckCircleRound, matErrorRound, matInfoRound, matLightbulbRound, matWarningRound })
   ],

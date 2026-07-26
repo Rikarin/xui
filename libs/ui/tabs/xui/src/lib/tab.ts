@@ -23,7 +23,7 @@ import {
  * </xui-tab>
  * ```
  */
-@Directive({ selector: '[xuiTabTitle]' })
+@Directive({ selector: '[xuiTabTitle]', exportAs: 'xuiTabTitle' })
 export class XuiTabTitle {
   readonly template = inject(TemplateRef);
 }

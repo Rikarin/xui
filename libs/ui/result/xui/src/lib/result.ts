@@ -1,5 +1,8 @@
 import { ChangeDetectionStrategy, Component, computed, input, ViewEncapsulation } from '@angular/core';
+import { NgIcon, provideIcons } from '@ng-icons/core';
+import { matCheckRound, matCloseRound, matInfoRound, matPriorityHighRound } from '@ng-icons/material-icons/round';
 import { xui } from '@xui/core';
+import { XuiIcon } from '@xui/icon';
 import type { ClassValue } from 'clsx';
 import { injectXuiResultConfig } from './result.token';
 
@@ -22,35 +25,19 @@ export type XuiResultStatus = 'success' | 'error' | 'info' | 'warning' | '404' |
     <div [class]="iconWrapClass()">
       @switch (status()) {
         @case ('success') {
-          <svg viewBox="0 0 24 24" [class]="glyphClass()" fill="none">
-            <path
-              d="M20 6 9 17l-5-5"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
+          <ng-icon xui size="2.25rem" [class]="glyphClass()" name="matCheckRound" />
         }
         @case ('error') {
-          <svg viewBox="0 0 24 24" [class]="glyphClass()" fill="none">
-            <path d="M18 6 6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-          </svg>
+          <ng-icon xui size="2.25rem" [class]="glyphClass()" name="matCloseRound" />
         }
         @case ('warning') {
-          <svg viewBox="0 0 24 24" [class]="glyphClass()" fill="none">
-            <path d="M12 8v5" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-            <circle cx="12" cy="16.5" r="1.1" fill="currentColor" />
-          </svg>
+          <ng-icon xui size="2.25rem" [class]="glyphClass()" name="matPriorityHighRound" />
         }
         @default {
           @if (status() === '404' || status() === '403' || status() === '500') {
             <span class="text-foreground-muted text-3xl font-bold tabular-nums">{{ status() }}</span>
           } @else {
-            <svg viewBox="0 0 24 24" [class]="glyphClass()" fill="none">
-              <path d="M12 11v5" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-              <circle cx="12" cy="7.5" r="1.1" fill="currentColor" />
-            </svg>
+            <ng-icon xui size="2.25rem" [class]="glyphClass()" name="matInfoRound" />
           }
         }
       }
@@ -70,6 +57,8 @@ export type XuiResultStatus = 'success' | 'error' | 'info' | 'warning' | '404' |
   host: {
     '[class]': 'computedClass()'
   },
+  imports: [NgIcon, XuiIcon],
+  viewProviders: [provideIcons({ matCheckRound, matCloseRound, matInfoRound, matPriorityHighRound })],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None
 })
@@ -86,9 +75,9 @@ export class XuiResult {
     xui('flex flex-col items-center gap-3 p-8 text-center', this.class())
   );
 
-  protected readonly glyphClass = computed(() => xui('h-9 w-9', tintText(this.status())));
+  protected readonly glyphClass = computed(() => xui(tintText(this.status())));
   protected readonly iconWrapClass = computed(() =>
-    xui('mb-2 flex h-16 w-16 items-center justify-center rounded-full', tintBg(this.status()))
+    xui('mb-2 flex size-16 items-center justify-center rounded-full', tintBg(this.status()))
   );
 }
 

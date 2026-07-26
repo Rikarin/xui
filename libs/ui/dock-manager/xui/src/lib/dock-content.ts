@@ -19,7 +19,7 @@ import { Directive, ElementRef, InjectionToken, TemplateRef, effect, inject, inp
  * floating, unpinning and tab switching all move its DOM rather than rebuilding
  * it, so scroll offsets, half-typed input and component state survive.
  */
-@Directive({ selector: 'ng-template[xuiDockContent]' })
+@Directive({ selector: 'ng-template[xuiDockContent]', exportAs: 'xuiDockContent' })
 export class XuiDockContent {
   /** Matches the `contentId` of a content pane in the layout. */
   readonly contentId = input.required<string>({ alias: 'xuiDockContent' });
@@ -43,7 +43,7 @@ export const XUI_DOCK_CONTENT_MOUNTER = new InjectionToken<XuiDockContentMounter
  *
  * Used internally by `xui-dock-manager` wherever a pane body is rendered.
  */
-@Directive({ selector: '[xuiDockContentOutlet]' })
+@Directive({ selector: '[xuiDockContentOutlet]', exportAs: 'xuiDockContentOutlet' })
 export class XuiDockContentOutlet {
   private readonly host: HTMLElement = inject(ElementRef).nativeElement;
   private readonly mounter = inject(XUI_DOCK_CONTENT_MOUNTER);

@@ -34,9 +34,6 @@ export type XuiColorFormat = 'hex' | 'hsl' | 'lch';
 /** Upper bound of the LCH chroma axis in the square. */
 const LCH_MAX_C = 132;
 
-/** Keyboard focus ring shared by every control in the panel. */
-const FOCUS_RING = 'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus';
-
 /** Clamp a 0–100 axis value. */
 function clampPercent(value: number): number {
   return Math.max(0, Math.min(100, value));
@@ -557,34 +554,31 @@ export class XuiColorPicker {
   protected readonly triggerClass = computed(() =>
     xui(
       'border-border bg-surface hover:bg-surface-inset flex items-center gap-2 rounded-md border px-2 py-1.5 disabled:opacity-50',
-      FOCUS_RING,
       this.class()
     )
   );
   protected readonly panelClass = computed(() =>
-    xui('border-border bg-surface-overlay absolute z-50 mt-2 flex w-60 flex-col gap-3 rounded-lg border p-3 shadow-lg')
+    xui(
+      // eslint-disable-next-line local/no-hand-z-index -- the swatch panel is anchored inline by design and stacks within the picker, not the overlay container
+      'border-border bg-surface-overlay absolute z-50 mt-2 flex w-60 flex-col gap-3 rounded-lg border p-3 shadow-overlay'
+    )
   );
   protected readonly hexInputClass = computed(() =>
     xui(
-      'border-border bg-surface text-foreground h-(--control-height-sm) w-full min-w-0 flex-1 rounded-md border px-(--control-padding-sm) text-xs uppercase',
-      FOCUS_RING
+      'border-border bg-surface text-foreground h-(--control-height-sm) w-full min-w-0 flex-1 rounded-md border px-(--control-padding-sm) text-xs uppercase'
     )
   );
   protected readonly channelInputClass = computed(() =>
     xui(
-      'border-border bg-surface text-foreground h-(--control-height-sm) w-full min-w-0 rounded-md border px-1.5 text-center text-xs tabular-nums [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none',
-      FOCUS_RING
+      'border-border bg-surface text-foreground h-(--control-height-sm) w-full min-w-0 rounded-md border px-1.5 text-center text-xs tabular-nums [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none'
     )
   );
   protected readonly formatSelectClass = computed(() =>
     xui(
-      'border-border bg-surface text-foreground h-(--control-height-sm) shrink-0 rounded-md border px-1.5 text-xs font-medium',
-      FOCUS_RING
+      'border-border bg-surface text-foreground h-(--control-height-sm) shrink-0 rounded-md border px-1.5 text-xs font-medium'
     )
   );
-  protected readonly squareClass = computed(() =>
-    xui('relative h-36 w-full cursor-crosshair touch-none rounded-md', FOCUS_RING)
-  );
+  protected readonly squareClass = computed(() => xui('relative h-36 w-full cursor-crosshair touch-none rounded-md'));
 
   /**
    * The draggable dots. They are positioned by their inline start, so the
@@ -593,23 +587,20 @@ export class XuiColorPicker {
   private readonly handleShift = computed(() => (this.direction() === 'rtl' ? 'translate-x-1/2' : '-translate-x-1/2'));
   protected readonly handleClass = computed(() =>
     xui(
-      'pointer-events-none absolute h-3 w-3 -translate-y-1/2 rounded-full border-2 border-white shadow',
+      'pointer-events-none absolute h-3 w-3 -translate-y-1/2 rounded-full border-2 border-foreground-on-emphasis shadow-elevation-1',
       this.handleShift()
     )
   );
   protected readonly stripHandleClass = computed(() =>
     xui(
-      'pointer-events-none absolute top-1/2 h-4 w-4 -translate-y-1/2 rounded-full border-2 border-white shadow',
+      'pointer-events-none absolute top-1/2 h-4 w-4 -translate-y-1/2 rounded-full border-2 border-foreground-on-emphasis shadow-elevation-1',
       this.handleShift()
     )
   );
-  protected readonly stripClass = computed(() =>
-    xui('relative h-3 w-full cursor-pointer touch-none rounded-full', FOCUS_RING)
-  );
+  protected readonly stripClass = computed(() => xui('relative h-3 w-full cursor-pointer touch-none rounded-full'));
   protected readonly alphaStripClass = computed(() =>
     xui(
-      'relative h-3 w-full cursor-pointer touch-none rounded-full bg-[length:8px_8px] [background-image:linear-gradient(45deg,#ccc_25%,transparent_25%),linear-gradient(-45deg,#ccc_25%,transparent_25%),linear-gradient(45deg,transparent_75%,#ccc_75%),linear-gradient(-45deg,transparent_75%,#ccc_75%)]',
-      FOCUS_RING
+      'relative h-3 w-full cursor-pointer touch-none rounded-full bg-[length:8px_8px] [background-image:linear-gradient(45deg,#ccc_25%,transparent_25%),linear-gradient(-45deg,#ccc_25%,transparent_25%),linear-gradient(45deg,transparent_75%,#ccc_75%),linear-gradient(-45deg,transparent_75%,#ccc_75%)]'
     )
   );
 }

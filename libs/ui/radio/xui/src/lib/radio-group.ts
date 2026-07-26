@@ -1,14 +1,15 @@
 import type { BooleanInput } from '@angular/cdk/coercion';
 import {
+  booleanAttribute,
   ChangeDetectionStrategy,
   Component,
-  InjectionToken,
-  booleanAttribute,
   computed,
   contentChildren,
   forwardRef,
+  InjectionToken,
   input,
-  model
+  model,
+  ViewEncapsulation
 } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 import { xui } from '@xui/core';
@@ -57,6 +58,7 @@ export const XUI_RADIO_BUTTON_TOKEN = new InjectionToken<XuiRadioButtonRef>('Xui
 @Component({
   selector: 'xui-radio-group',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
   template: '<ng-content />',
   host: {
     role: 'radiogroup',

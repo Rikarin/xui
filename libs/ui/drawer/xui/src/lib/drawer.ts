@@ -1,15 +1,16 @@
 import type { BooleanInput } from '@angular/cdk/coercion';
 import {
+  booleanAttribute,
   ChangeDetectionStrategy,
   Component,
-  TemplateRef,
-  booleanAttribute,
   computed,
   effect,
   input,
   model,
+  TemplateRef,
   untracked,
-  viewChild
+  viewChild,
+  ViewEncapsulation
 } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { matCloseRound } from '@ng-icons/material-icons/round';
@@ -51,6 +52,7 @@ const EDGE: Record<XuiDrawerPosition, { cross: string; border: string; pin: XGlo
   imports: [NgIcon, XuiIcon],
   viewProviders: [provideIcons({ matCloseRound })],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
   template: `
     <ng-template #surface>
       <div [class]="computedClass()">
@@ -62,7 +64,7 @@ const EDGE: Record<XuiDrawerPosition, { cross: string; border: string; pin: XGlo
             @if (showCloseButton()) {
               <button
                 type="button"
-                class="text-foreground-muted hover:bg-hover-overlay hover:text-foreground -me-2 grid size-8 shrink-0 place-items-center rounded-md focus-visible:outline-5 focus-visible:outline-offset-2"
+                class="text-foreground-muted hover:bg-hover-overlay hover:text-foreground -me-2 grid size-8 shrink-0 place-items-center rounded-md"
                 aria-label="Close"
                 (click)="close()"
               >

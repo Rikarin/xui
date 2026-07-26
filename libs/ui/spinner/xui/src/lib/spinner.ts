@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, ViewEncapsulation } from '@angular/core';
 import { xui } from '@xui/core';
 import { cva, VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
@@ -54,6 +54,7 @@ const CENTER = VIEWBOX / 2;
 @Component({
   selector: 'xui-spinner',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
   template: `
     <svg aria-hidden="true" class="size-full" [class.animate-spin]="indeterminate()" viewBox="0 0 100 100" fill="none">
       <circle

@@ -27,7 +27,7 @@ const meta: Meta<XuiButton> = {
       }
     },
     size: {
-      options: ['md', 'sm', 'lg', 'icon'],
+      options: ['md', 'sm', 'lg'],
       control: {
         type: 'select'
       }

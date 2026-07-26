@@ -1,3 +1,4 @@
+import type { BooleanInput } from '@angular/cdk/coercion';
 import { NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
@@ -36,7 +37,7 @@ import type { ClassValue } from 'clsx';
 export class XuiTh {
   private readonly columnDef? = inject(XColumnDef, { optional: true });
 
-  readonly truncate = input(false, { transform: booleanAttribute });
+  readonly truncate = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
   readonly class = input<ClassValue>('');
 
   protected readonly computedClass = computed(() =>

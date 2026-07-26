@@ -1,18 +1,19 @@
 import type { BooleanInput } from '@angular/cdk/coercion';
 import {
+  booleanAttribute,
   ChangeDetectionStrategy,
   Component,
-  DestroyRef,
-  TemplateRef,
-  booleanAttribute,
   computed,
+  DestroyRef,
   effect,
   inject,
   input,
   model,
   output,
+  TemplateRef,
   untracked,
-  viewChild
+  viewChild,
+  ViewEncapsulation
 } from '@angular/core';
 import { xui } from '@xui/core';
 import { uniqueId } from '@xui/core/a11y';
@@ -67,6 +68,7 @@ const actionVariants = cva(
 @Component({
   selector: 'xui-alert-dialog',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
   template: `
     <ng-template #surface>
       <div [class]="computedClass()">

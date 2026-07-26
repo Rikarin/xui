@@ -57,7 +57,7 @@ describe('XuiEntityTitle', () => {
 
     // Masking rather than replacing keeps the row at its final height, so
     // nothing shifts when the values arrive.
-    expectClasses(query('span[xuiText]'), 'animate-pulse', 'bg-muted!');
+    expectClasses(query('span[xuiText]'), 'animate-pulse', 'bg-border-muted!');
     expectAttributes(query('span[xuiText]'), { 'aria-hidden': 'true' });
   });
 

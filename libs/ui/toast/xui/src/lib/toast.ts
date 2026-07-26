@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, output, ViewEncapsulation } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
   matCheckCircleRound,
@@ -32,6 +32,7 @@ export interface XuiToastData {
   imports: [NgIcon, XuiIcon],
   viewProviders: [provideIcons({ matInfoRound, matCheckCircleRound, matWarningRound, matErrorRound, matCloseRound })],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
   template: `
     @if (resolvedIcon()) {
       <ng-icon xui size="md" [name]="resolvedIcon()!" [class]="iconClass()" class="mt-0.5 shrink-0" />
@@ -42,7 +43,7 @@ export interface XuiToastData {
     @if (toast().actionText) {
       <button
         type="button"
-        class="text-link -my-1 shrink-0 self-center rounded px-1 text-sm font-medium hover:underline focus-visible:outline-5 focus-visible:outline-offset-2"
+        class="text-link -my-1 shrink-0 self-center rounded px-1 text-sm font-medium hover:underline"
         (click)="actionClicked.emit()"
       >
         {{ toast().actionText }}
@@ -51,7 +52,7 @@ export interface XuiToastData {
 
     <button
       type="button"
-      class="text-foreground-muted hover:bg-hover-overlay hover:text-foreground -me-1 -mt-1 grid size-6 shrink-0 place-items-center rounded focus-visible:outline-5 focus-visible:outline-offset-2"
+      class="text-foreground-muted hover:bg-hover-overlay hover:text-foreground -me-1 -mt-1 grid size-6 shrink-0 place-items-center rounded"
       aria-label="Dismiss"
       (click)="dismissed.emit()"
     >

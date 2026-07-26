@@ -4,36 +4,30 @@ import { cva, VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
 import { injectXuiLinkConfig } from './link.token';
 
-export const linkVariants = cva(
-  [
-    'cursor-pointer transition-colors',
-    'focus-visible:outline-5 focus-visible:outline-offset-2 focus-visible:rounded-xs'
-  ],
-  {
-    variants: {
-      underline: {
-        always: 'underline underline-offset-4',
-        hover: 'no-underline hover:underline hover:underline-offset-4',
-        none: 'no-underline'
-      },
-      color: {
-        /** Follows the surrounding text — for links inside a paragraph of body copy. */
-        inherit: 'text-inherit',
-        link: 'text-link hover:text-link-hover',
-        primary: 'text-primary hover:text-primary-darker',
-        secondary: 'text-secondary hover:text-secondary-darker',
-        success: 'text-success hover:text-success-darker',
-        error: 'text-error hover:text-error-darker',
-        warning: 'text-warning hover:text-warning-darker',
-        info: 'text-info hover:text-info-darker'
-      }
+export const linkVariants = cva(['cursor-pointer transition-colors', 'focus-visible:rounded-xs'], {
+  variants: {
+    underline: {
+      always: 'underline underline-offset-4',
+      hover: 'no-underline hover:underline hover:underline-offset-4',
+      none: 'no-underline'
     },
-    defaultVariants: {
-      underline: 'always',
-      color: 'link'
+    color: {
+      /** Follows the surrounding text — for links inside a paragraph of body copy. */
+      inherit: 'text-inherit',
+      link: 'text-link hover:text-link-hover',
+      primary: 'text-primary hover:text-primary-darker',
+      secondary: 'text-secondary hover:text-secondary-darker',
+      success: 'text-success hover:text-success-darker',
+      error: 'text-error hover:text-error-darker',
+      warning: 'text-warning hover:text-warning-darker',
+      info: 'text-info hover:text-info-darker'
     }
+  },
+  defaultVariants: {
+    underline: 'always',
+    color: 'link'
   }
-);
+});
 
 export type XuiLinkVariants = VariantProps<typeof linkVariants>;
 

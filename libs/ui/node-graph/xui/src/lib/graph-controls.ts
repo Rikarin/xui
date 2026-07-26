@@ -89,6 +89,7 @@ export class XuiGraphControls {
 
   protected readonly computedClass = computed(() =>
     xui(
+      // eslint-disable-next-line local/no-hand-z-index -- the controls float above the canvas inside the graph’s own stacking context
       'bg-surface-overlay border-border shadow-elevation-2 pointer-events-auto absolute z-10 flex gap-0.5 rounded-md border p-1 select-none',
       this.orientation() === 'horizontal' ? 'flex-row items-center' : 'flex-col',
       // A sensible default corner; override with `class` to move it.

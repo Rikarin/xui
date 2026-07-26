@@ -23,7 +23,10 @@
   "peerDependencies": {
     "@angular/cdk": "22",
     "@angular/core": "22",
+    "@ng-icons/core": "34",
+    "@ng-icons/material-icons": "34",
     "@xui/core": "2.0.0-alpha.11",
+    "@xui/icon": "2.0.0-alpha.11",
     "clsx": "^2.1.1"
   },
   "publishConfig": {

@@ -1,22 +1,23 @@
 import type { BooleanInput, NumberInput } from '@angular/cdk/coercion';
 import { NgTemplateOutlet } from '@angular/common';
 import {
+  booleanAttribute,
   ChangeDetectionStrategy,
   Component,
-  Directive,
-  ElementRef,
-  TemplateRef,
-  booleanAttribute,
   computed,
   contentChild,
+  Directive,
   effect,
+  ElementRef,
   inject,
   input,
   numberAttribute,
   output,
   signal,
+  TemplateRef,
   untracked,
-  viewChild
+  viewChild,
+  ViewEncapsulation
 } from '@angular/core';
 import { xui } from '@xui/core';
 import { injectXElementSize } from '@xui/core/interactions';
@@ -38,11 +39,11 @@ export interface XuiOverflowContext<T> {
 }
 
 /** Marks the template used to render each visible item. */
-@Directive({ selector: 'ng-template[xuiOverflowListItem]' })
+@Directive({ selector: 'ng-template[xuiOverflowListItem]', exportAs: 'xuiOverflowListItem' })
 export class XuiOverflowListItem {}
 
 /** Marks the template used to render the collapsed items. */
-@Directive({ selector: 'ng-template[xuiOverflowListOverflow]' })
+@Directive({ selector: 'ng-template[xuiOverflowListOverflow]', exportAs: 'xuiOverflowListOverflow' })
 export class XuiOverflowListOverflow {}
 
 /**
@@ -69,6 +70,7 @@ export class XuiOverflowListOverflow {}
   selector: 'xui-overflow-list',
   imports: [NgTemplateOutlet],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
   template: `
     @if (collapseFrom() === 'start' && (overflowed().length > 0 || alwaysRenderOverflow())) {
       <div class="shrink-0" [attr.role]="itemRole()">

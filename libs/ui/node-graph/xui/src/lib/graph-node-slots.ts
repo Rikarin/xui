@@ -112,6 +112,7 @@ export class XuiGraphNodePreview {
 export class XuiGraphOverlay {
   readonly class = input<ClassValue>('');
 
+  // eslint-disable-next-line local/no-hand-z-index -- slots overlay their own node inside the graph’s stacking context
   protected readonly computedClass = computed(() => xui('pointer-events-auto absolute z-10 block', this.class()));
 }
 
@@ -124,6 +125,7 @@ export class XuiGraphOverlay {
  */
 @Directive({
   selector: '[xuiGraphNoDrag]',
+  exportAs: 'xuiGraphNoDrag',
   host: { 'data-xui-graph-no-drag': '' }
 })
 export class XuiGraphNoDrag {}

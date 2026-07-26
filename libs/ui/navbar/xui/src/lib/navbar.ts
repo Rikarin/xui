@@ -7,6 +7,7 @@ import type { ClassValue } from 'clsx';
 export const navbarVariants = cva('bg-surface border-border flex h-12 items-center border-b px-4', {
   variants: {
     fixedToTop: {
+      // eslint-disable-next-line local/no-hand-z-index -- a fixed navbar stacks above in-flow page content; it never enters the overlay container
       true: 'sticky top-0 z-10 shadow-elevation-1',
       false: ''
     }

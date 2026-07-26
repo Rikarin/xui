@@ -2,11 +2,12 @@ import {
   ChangeDetectionStrategy,
   Component,
   DestroyRef,
-  ElementRef,
   effect,
+  ElementRef,
   inject,
   model,
-  output
+  output,
+  ViewEncapsulation
 } from '@angular/core';
 import Konva from 'konva';
 import { Container } from 'konva/lib/Container';
@@ -41,7 +42,8 @@ import { applyNodeProps, createListener, getNodeName, updatePicture, type XuiKon
   template: `<ng-content />`,
   host: { style: 'display: contents' },
   providers: [{ provide: XUI_KONVA_CONTAINER, useFactory: () => inject(XuiKonvaShape) }],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None
 })
 export class XuiKonvaShape implements XuiKonvaComponent, XuiKonvaContainer, XuiKonvaChild {
   readonly hostElement: HTMLElement = inject(ElementRef).nativeElement;

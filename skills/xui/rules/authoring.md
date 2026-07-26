@@ -23,6 +23,8 @@ Scaffold it with `pnpm nx g @xui/tools:library <name> --generate=component --sto
 
 - Standalone, `ChangeDetectionStrategy.OnPush`, zoneless-safe (no `setTimeout`-driven change
   detection).
+- Every component sets `encapsulation: ViewEncapsulation.None`; every directive sets
+  `exportAs: 'xui<Name>'` matching its class name.
 - Signal APIs only: `input()`, `input.required()`, `model()`, `output()`, `computed()`,
   `linkedSignal()`, `viewChild()`, `contentChildren()`; `effect()` as a last resort.
 - Boolean inputs: `input<boolean, BooleanInput>(false, { transform: booleanAttribute })`.

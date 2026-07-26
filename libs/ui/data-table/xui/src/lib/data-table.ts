@@ -51,6 +51,7 @@ import type { CellCoord, XuiDataColumn, XuiSortState } from './data-table.types'
 @Component({
   selector: 'xui-data-table',
   imports: [NgTemplateOutlet],
+  // eslint-disable-next-line local/no-hand-z-index -- the reorder indicator stacks above sticky headers inside the table’s own scroll context
   template: `
     <div
       #scroll
@@ -372,6 +373,7 @@ export class XuiDataTable<T> {
       'focus-visible:outline-focus relative overflow-auto outline-none focus-visible:outline-2 focus-visible:-outline-offset-2'
     )
   );
+  // eslint-disable-next-line local/no-hand-z-index -- the sticky header rides above scrolling body cells inside the table’s scroll context
   protected readonly headerRowClass = computed(() => xui('bg-surface-inset border-border sticky top-0 z-30 border-b'));
   protected readonly bodyClass = computed(() => xui('relative'));
 
@@ -414,11 +416,13 @@ export class XuiDataTable<T> {
   }
 
   protected cornerClass(): string {
+    // eslint-disable-next-line local/no-hand-z-index -- the sticky corner sits above both sticky axes inside the table’s scroll context
     return xui('bg-surface-inset border-border sticky left-0 top-0 z-40 border-r border-b');
   }
 
   protected rowHeaderClass(rowIndex: number): string {
     return xui(
+      // eslint-disable-next-line local/no-hand-z-index -- sticky row headers stack above scrolling cells inside the table’s scroll context
       'bg-surface-inset text-foreground-muted border-border/60 sticky left-0 z-10 flex h-full cursor-pointer items-center justify-center border-r border-b text-xs tabular-nums select-none',
       this.isRowSelected(rowIndex) && 'bg-primary/15 text-foreground'
     );
@@ -431,6 +435,7 @@ export class XuiDataTable<T> {
       column.sortable && 'hover:text-foreground cursor-pointer select-none',
       this.reorderable() && 'cursor-grab',
       // Frozen headers sit above both the scrolling body cells and the sticky header row.
+      // eslint-disable-next-line local/no-hand-z-index -- frozen headers sit above body cells and the sticky header row, all inside the table
       frozen && 'bg-surface-inset z-30',
       this.reorderSource() === colIndex && 'opacity-40'
     );
@@ -444,6 +449,7 @@ export class XuiDataTable<T> {
       'border-border/60 text-foreground absolute top-0 flex h-full items-center border-r border-b px-3',
       alignClass(column.align),
       // Frozen cells need an opaque base and a raised layer so scrolling cells pass under them.
+      // eslint-disable-next-line local/no-hand-z-index -- frozen cells ride above scrolling cells inside the table’s scroll context
       frozen && 'bg-surface z-20',
       isFocused
         ? 'bg-primary/15 ring-primary ring-inset ring-1'

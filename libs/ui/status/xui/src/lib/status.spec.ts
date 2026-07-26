@@ -15,7 +15,7 @@ describe('XuiStatus', () => {
     ['online', 'bg-success'],
     ['idle', 'bg-warning'],
     ['dnd', 'bg-error'],
-    ['offline', 'bg-muted-foreground']
+    ['offline', 'bg-foreground-subtle']
   ])('colours the %s presence with %s', (presence, expected) => {
     const { query } = setup(`<xui-status presence="${presence}" />`);
 

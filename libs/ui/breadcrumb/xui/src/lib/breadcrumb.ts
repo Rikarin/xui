@@ -4,6 +4,7 @@ import type { ClassValue } from 'clsx';
 
 @Directive({
   selector: '[xuiBreadcrumb]',
+  exportAs: 'xuiBreadcrumb',
   host: {
     role: 'navigation',
     '[class]': 'computedClass()',

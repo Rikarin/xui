@@ -16,7 +16,7 @@ describe('XuiResult', () => {
   it('shows a status glyph with the matching tint', () => {
     setup('<xui-result status="error" title="Failed" />');
 
-    const glyph = host().querySelector('svg') as SVGElement;
+    const glyph = host().querySelector('ng-icon') as HTMLElement;
     expect(glyph).not.toBeNull();
     expect(glyph.getAttribute('class')).toContain('text-error');
   });
@@ -24,7 +24,7 @@ describe('XuiResult', () => {
   it('renders an HTTP code for 404/403/500 statuses', () => {
     setup('<xui-result status="404" title="Not found" />');
 
-    expect(host().querySelector('svg')).toBeNull();
+    expect(host().querySelector('ng-icon')).toBeNull();
     expect(host().textContent).toContain('404');
   });
 
@@ -37,7 +37,7 @@ describe('XuiResult', () => {
   it('takes its status default from the injected config', () => {
     setup('<xui-result title="Done" />', [provideXuiResultConfig({ status: 'success' })]);
 
-    expect(host().querySelector('svg')?.getAttribute('class')).toContain('text-success');
+    expect(host().querySelector('ng-icon')?.getAttribute('class')).toContain('text-success');
   });
 
   it('centres its layout', () => {

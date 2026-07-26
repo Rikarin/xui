@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  ViewEncapsulation,
   booleanAttribute,
   computed,
   forwardRef,
@@ -60,6 +61,7 @@ export type XuiFileInputVariants = VariantProps<typeof fileInputVariants>;
   imports: [NgIcon, XuiIcon],
   viewProviders: [provideIcons({ matUploadFileRound })],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
   providers: [
     provideXValueAccessor(() => XuiFileInput),
     {

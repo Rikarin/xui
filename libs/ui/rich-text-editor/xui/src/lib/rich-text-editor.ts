@@ -346,8 +346,7 @@ export class XuiRichTextEditor implements ControlValueAccessor {
   protected readonly toolClass = computed(() =>
     xui(
       'text-foreground-muted hover:bg-surface-raised hover:text-foreground flex items-center rounded px-1.5 py-1',
-      'data-active:bg-surface-raised data-active:text-foreground disabled:pointer-events-none disabled:opacity-50',
-      'focus-visible:outline-focus focus-visible:outline-2'
+      'data-active:bg-surface-raised data-active:text-foreground disabled:pointer-events-none disabled:opacity-50'
     )
   );
 

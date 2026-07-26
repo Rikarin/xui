@@ -7,7 +7,7 @@ import { XTable } from '@xui/core/table';
  * `<x-table xuiTable>`. A consumer binding those inputs itself wins, since the
  * input binding is applied after this constructor runs.
  */
-@Directive({ selector: '[xuiTable]' })
+@Directive({ selector: '[xuiTable]', exportAs: 'xuiTableClasses' })
 export class XuiTableClasses {
   constructor() {
     const table = inject(XTable, { host: true, optional: true });
@@ -15,10 +15,11 @@ export class XuiTableClasses {
     table?.tableClasses.set('flex flex-col text-sm [&_cdk-row:last-child]:border-0');
     table?.headerRowClasses.set(
       'flex min-w-[100%] w-fit border-b border-border [&.cdk-table-sticky]:bg-background ' +
-        '[&.cdk-table-sticky>*]:z-[101] [&.cdk-table-sticky]:before:z-0 [&.cdk-table-sticky]:before:block [&.cdk-table-sticky]:hover:before:bg-muted/50 [&.cdk-table-sticky]:before:absolute [&.cdk-table-sticky]:before:inset-0'
+        // eslint-disable-next-line local/no-hand-z-index -- sticky rows layer above scrolling rows inside the table’s scroll context
+        '[&.cdk-table-sticky>*]:z-[101] [&.cdk-table-sticky]:before:z-0 [&.cdk-table-sticky]:before:block [&.cdk-table-sticky]:hover:before:bg-hover-overlay/50 [&.cdk-table-sticky]:before:absolute [&.cdk-table-sticky]:before:inset-0'
     );
     table?.bodyRowClasses.set(
-      'flex min-w-[100%] w-fit border-b border-border transition-[background-color] hover:bg-muted/50 [&:has([role=checkbox][aria-checked=true])]:bg-muted'
+      'flex min-w-[100%] w-fit border-b border-border transition-[background-color] hover:bg-hover-overlay/50 [&:has([role=checkbox][aria-checked=true])]:bg-hover-overlay'
     );
   }
 }

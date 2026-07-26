@@ -4,6 +4,7 @@ import type { ClassValue } from 'clsx';
 
 @Directive({
   selector: '[xuiBreadcrumbList]',
+  exportAs: 'xuiBreadcrumbList',
   host: {
     '[class]': 'computedClass()'
   }
@@ -12,6 +13,6 @@ export class XuiBreadcrumbList {
   readonly class = input<ClassValue>('');
 
   protected readonly computedClass = computed(() =>
-    xui('flex flex-wrap items-center gap-1.5 break-words text-sm text-muted-foreground sm:gap-2.5', this.class())
+    xui('flex flex-wrap items-center gap-1.5 break-words text-sm text-foreground-subtle sm:gap-2.5', this.class())
   );
 }

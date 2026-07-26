@@ -3,6 +3,7 @@ import { NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  ViewEncapsulation,
   booleanAttribute,
   computed,
   forwardRef,
@@ -44,6 +45,7 @@ import {
   imports: [NgTemplateOutlet, NgIcon, XuiIcon],
   viewProviders: [provideIcons({ matKeyboardArrowUpRound, matKeyboardArrowDownRound })],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
   providers: [
     provideXValueAccessor(() => XuiNumericInput),
     {

@@ -1,5 +1,14 @@
+import type { BooleanInput } from '@angular/cdk/coercion';
 import { CdkMenuItem, CdkMenuTrigger } from '@angular/cdk/menu';
-import { ChangeDetectionStrategy, Component, booleanAttribute, computed, inject, input } from '@angular/core';
+import {
+  booleanAttribute,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  input,
+  ViewEncapsulation
+} from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { matCheckRound, matChevronRightRound } from '@ng-icons/material-icons/round';
 import { xui } from '@xui/core';
@@ -52,6 +61,7 @@ export type XuiMenuItemColor = NonNullable<VariantProps<typeof menuItemVariants>
     }
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
   template: `
     <span class="flex w-4 shrink-0 items-center justify-center">
       @if (selected()) {
@@ -89,7 +99,7 @@ export class XuiMenuItem {
   readonly icon = input<string>();
 
   /** Draws a checkmark in the left cell — for a chosen option in a menu. */
-  readonly selected = input(false, { transform: booleanAttribute });
+  readonly selected = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
 
   readonly color = input<XuiMenuItemColor>(this.config.itemColor);
 

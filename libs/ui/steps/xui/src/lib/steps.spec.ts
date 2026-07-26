@@ -25,7 +25,7 @@ describe('XuiSteps', () => {
     detect();
 
     // Step 0 finished (check icon), step 1 in process (primary fill), step 2 waiting.
-    expect(circles()[0].querySelector('svg')).not.toBeNull();
+    expect(circles()[0].querySelector('ng-icon')).not.toBeNull();
     expect(circles()[1].className).toContain('bg-primary');
     expect(circles()[2].textContent?.trim()).toBe('3');
     expect(circles()[2].className).toContain('border-border');
@@ -39,7 +39,7 @@ describe('XuiSteps', () => {
     detect();
 
     expect(circles()[0].className).toContain('border-error');
-    expect(circles()[0].querySelector('svg')).not.toBeNull();
+    expect(circles()[0].querySelector('ng-icon')).not.toBeNull();
   });
 
   it('moves current on click only when clickable', () => {

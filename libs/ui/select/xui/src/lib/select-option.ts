@@ -20,7 +20,7 @@ export interface XuiSelectItemContext<T> {
  * </xui-select>
  * ```
  */
-@Directive({ selector: 'ng-template[xuiSelectOption]' })
+@Directive({ selector: 'ng-template[xuiSelectOption]', exportAs: 'xuiSelectOption' })
 export class XuiSelectOption<T = unknown> {
   readonly template = inject<TemplateRef<XuiSelectItemContext<T>>>(TemplateRef);
 

@@ -19,6 +19,7 @@ import type { ClassValue } from 'clsx';
  */
 @Directive({
   selector: '[xuiBreadcrumbLink]',
+  exportAs: 'xuiBreadcrumbLink',
   host: {
     '[class]': 'computedClass()',
     '[attr.aria-disabled]': 'disabled() || null',
@@ -34,7 +35,7 @@ export class XuiBreadcrumbLink {
 
   protected readonly computedClass = computed(() =>
     xui(
-      'hover:text-foreground rounded-sm transition-colors focus-visible:outline-5 focus-visible:outline-offset-2',
+      'hover:text-foreground rounded-sm transition-colors',
       this.disabled() && 'text-foreground-muted pointer-events-none opacity-60 hover:text-inherit',
       this.class()
     )

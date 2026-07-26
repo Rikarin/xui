@@ -17,7 +17,8 @@ const alignClass: Record<XuiButtonAlign, string> = {
 const buttonVariants = cva(
   [
     'inline-flex items-center justify-center whitespace-nowrap rounded-lg font-medium transition-[color, background-color, outline] duration-300 cursor-pointer border-1',
-    'focus-visible:outline-5 focus-visible:outline-offset-2 focus-visible:z-1',
+    // eslint-disable-next-line local/no-hand-z-index -- the focused control must paint its ring above adjacent siblings in a group, not an overlay
+    'focus-visible:z-1',
     'disabled:pointer-events-none disabled:saturate-30',
 
     '[&_svg]:pointer-events-none [&_svg]:shrink-0'
@@ -25,10 +26,10 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: 'shadow hover:shadow-md',
-        dash: 'shadow text-foreground hover:shadow-md border-dashed',
-        outline: 'text-foreground shadow hover:shadow-md',
-        ghost: 'text-foreground hover:shadow-md border-none', // TODO: this is shifted by border size compared to others
+        default: 'shadow-elevation-1 hover:shadow-elevation-2',
+        dash: 'shadow-elevation-1 text-foreground hover:shadow-elevation-2 border-dashed',
+        outline: 'text-foreground shadow-elevation-1 hover:shadow-elevation-2',
+        ghost: 'text-foreground hover:shadow-elevation-2 border-none', // TODO: this is shifted by border size compared to others
         link: 'text-link underline-offset-4 hover:underline'
       },
       // The shared control scale from `@xui/core/styles/theme.css`. The gap and icon size scale
@@ -165,7 +166,8 @@ export class XuiButton {
       buttonVariants({ color: this.color(), variant: this.variant(), size: this.size() }),
       alignClass[this.alignText() ?? 'center'],
       this.fill() && 'w-full min-w-0',
-      this.active() && 'shadow-inner brightness-95',
+      // Pressed reads as the lowest elevation step plus a slight darkening.
+      this.active() && 'shadow-elevation-0 brightness-95',
       this.loading() && [
         'pointer-events-none relative text-transparent [&_svg]:invisible',
         // The label is hidden by `text-transparent`, which also zeroes currentColor,

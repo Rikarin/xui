@@ -1,11 +1,18 @@
 import type { BooleanInput } from '@angular/cdk/coercion';
-import { booleanAttribute, ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import {
+  booleanAttribute,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+  ViewEncapsulation
+} from '@angular/core';
 import { xui } from '@xui/core';
 import { cva, VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
 import { injectXuiProgressBarConfig } from './progress-bar.token';
 
-export const progressBarVariants = cva('block w-full overflow-hidden rounded-full bg-muted', {
+export const progressBarVariants = cva('block w-full overflow-hidden rounded-full bg-surface-inset', {
   variants: {
     size: {
       sm: 'h-1',
@@ -29,7 +36,9 @@ export const progressMeterVariants = cva('block h-full rounded-full transition-[
       info: 'bg-info'
     },
     stripes: {
-      true: 'bg-[length:30px_30px] bg-[linear-gradient(-45deg,rgba(255,255,255,0.2)_25%,transparent_25%,transparent_50%,rgba(255,255,255,0.2)_50%,rgba(255,255,255,0.2)_75%,transparent_75%)]',
+      // The stripes overlay the intent-coloured meter, so they lighten it with the
+      // on-emphasis foreground token instead of a hard-coded white.
+      true: 'bg-[length:30px_30px] bg-[linear-gradient(-45deg,color-mix(in_oklab,var(--color-foreground-on-emphasis)_20%,transparent)_25%,transparent_25%,transparent_50%,color-mix(in_oklab,var(--color-foreground-on-emphasis)_20%,transparent)_50%,color-mix(in_oklab,var(--color-foreground-on-emphasis)_20%,transparent)_75%,transparent_75%)]',
       false: ''
     },
     animate: { true: '', false: '' },
@@ -67,6 +76,7 @@ export type XuiProgressBarVariants = VariantProps<typeof progressBarVariants> &
 @Component({
   selector: 'xui-progress-bar',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
   template: `<span [class]="computedMeterClass()" [style.width]="width()"></span>`,
   host: {
     role: 'progressbar',

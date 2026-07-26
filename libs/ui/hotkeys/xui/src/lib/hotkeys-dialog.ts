@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, ViewEncapsulation } from '@angular/core';
 import { formatXCombo } from '@xui/core/hotkeys';
 import { XuiKbd } from '@xui/kbd';
 import { XuiHotkeysService } from './hotkeys.service';
@@ -11,6 +11,7 @@ import { XuiHotkeysService } from './hotkeys.service';
   selector: 'xui-hotkeys-dialog',
   imports: [XuiKbd],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
   template: `
     <div class="px-6 py-5">
       <h2 class="text-foreground mb-4 text-base font-semibold">Keyboard shortcuts</h2>

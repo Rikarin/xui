@@ -17,6 +17,73 @@ const moduleBoundaries = {
   ]
 };
 
+// ─── local rules ─────────────────────────────────────────────────────────────
+// Small, dependency-free guards for the styling conventions in
+// `.claude/skills/xui/rules/styling.md`. They only inspect string literals and
+// template-literal quasis, and report once per string so a single
+// `eslint-disable-next-line` can vouch for a whole class list.
+
+const RAW_PALETTE_RE =
+  /(?:^|[\s'"`])(?:bg|text|border|from|to|via)-(?:white|black|(?:zinc|slate|gray|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-\d{2,3})(?:\/\d+)?(?=$|[\s'"`])/;
+const HAND_Z_INDEX_RE = /\bz-\d+\b/;
+
+// Both rules only guard library code. The scope is enforced here rather than
+// through `files` globs because every project spreads this base config from its
+// own directory, where a `libs/ui/**` pattern would no longer match.
+const LIBRARY_PATH_RE = /\/libs\/(?:ui|core)\//;
+
+/** Report `node` when the string `value` contains a token matching `re`. */
+function reportClassToken(context, node, value, re, messageId) {
+  if (typeof value !== 'string') {
+    return;
+  }
+
+  const match = re.exec(value);
+
+  if (match) {
+    context.report({ node, messageId, data: { token: match[0].trim() } });
+  }
+}
+
+function classTokenRule(re, messageId, message) {
+  return {
+    meta: {
+      type: 'problem',
+      schema: [],
+      messages: { [messageId]: message }
+    },
+    create(context) {
+      if (!LIBRARY_PATH_RE.test(context.filename.replace(/\\/g, '/'))) {
+        return {};
+      }
+
+      return {
+        Literal(node) {
+          reportClassToken(context, node, node.value, re, messageId);
+        },
+        TemplateElement(node) {
+          reportClassToken(context, node, node.value.raw, re, messageId);
+        }
+      };
+    }
+  };
+}
+
+const localPlugin = {
+  rules: {
+    'no-raw-palette-classes': classTokenRule(
+      RAW_PALETTE_RE,
+      'rawPalette',
+      "Raw palette class '{{token}}' cannot follow the active theme - use semantic tokens from theme.css."
+    ),
+    'no-hand-z-index': classTokenRule(
+      HAND_Z_INDEX_RE,
+      'handZIndex',
+      "Hand-written '{{token}}' - overlay surfaces get stacking from the overlay container, not a z-index class."
+    )
+  }
+};
+
 export default [
   {
     files: ['**/*.json'],
@@ -78,6 +145,16 @@ export default [
       '@angular-eslint/prefer-on-push-component-change-detection': ['error']
       // '@nx/workspace-prefer-signals': 'error'
       // '@nx/workspace-prefer-rxjs-operator-compat': 'error'
+    }
+  },
+  {
+    // `**/*.ts` so the block still matches when a project config spreads this
+    // base config; the rules themselves bail outside `libs/ui` and `libs/core`.
+    files: ['**/*.ts'],
+    plugins: { local: localPlugin },
+    rules: {
+      'local/no-raw-palette-classes': 'error',
+      'local/no-hand-z-index': 'error'
     }
   },
   {

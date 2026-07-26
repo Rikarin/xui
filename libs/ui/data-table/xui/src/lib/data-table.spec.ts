@@ -394,9 +394,11 @@ describe('XuiDataTable', () => {
       const { detect } = setup({}, '[frozenColumns]="1"');
       detect();
 
+      // eslint-disable-next-line local/no-hand-z-index -- asserts the table’s documented internal stacking classes
       expect(colHeaders()[0].className).toContain('z-30');
       expect(colHeaders()[0].className).toContain('bg-surface-inset');
       // Later columns keep scrolling — no raised layer.
+      // eslint-disable-next-line local/no-hand-z-index -- asserts the table’s documented internal stacking classes
       expect(colHeaders()[1].className).not.toContain('z-30');
     });
 
@@ -405,8 +407,11 @@ describe('XuiDataTable', () => {
       detect();
 
       const firstRowCells = rows()[0].querySelectorAll('[role="gridcell"]');
+      // eslint-disable-next-line local/no-hand-z-index -- asserts the table’s documented internal stacking classes
       expect((firstRowCells[0] as HTMLElement).className).toContain('z-20');
+      // eslint-disable-next-line local/no-hand-z-index -- asserts the table’s documented internal stacking classes
       expect((firstRowCells[1] as HTMLElement).className).toContain('z-20');
+      // eslint-disable-next-line local/no-hand-z-index -- asserts the table’s documented internal stacking classes
       expect((firstRowCells[2] as HTMLElement).className).not.toContain('z-20');
     });
 
@@ -415,6 +420,7 @@ describe('XuiDataTable', () => {
       detect();
 
       // All three columns become frozen; nothing throws.
+      // eslint-disable-next-line local/no-hand-z-index -- asserts the table’s documented internal stacking classes
       expect(colHeaders().every(h => h.className.includes('z-30'))).toBe(true);
     });
   });

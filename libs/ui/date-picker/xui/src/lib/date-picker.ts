@@ -192,7 +192,6 @@ export class XuiDatePicker<T = Date> implements ControlValueAccessor {
   protected dayClass(day: XCalendarDay<T>): string {
     return xui(
       'flex size-8 items-center justify-center rounded-full text-sm transition-colors',
-      'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus',
       day.inCurrentMonth ? 'text-foreground' : 'text-foreground-subtle',
       !day.disabled && 'hover:bg-surface-inset cursor-pointer',
       day.disabled && 'cursor-not-allowed opacity-40',

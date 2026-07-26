@@ -13,8 +13,11 @@ import {
   signal,
   ViewEncapsulation
 } from '@angular/core';
+import { NgIcon, provideIcons } from '@ng-icons/core';
+import { matChevronLeftRound, matChevronRightRound } from '@ng-icons/material-icons/round';
 import { xui } from '@xui/core';
 import { arrowDirectionOnAxis, injectXDirection } from '@xui/core/a11y';
+import { XuiIcon } from '@xui/icon';
 import type { ClassValue } from 'clsx';
 import { XuiCarouselItem } from './carousel-item';
 
@@ -32,7 +35,8 @@ import { XuiCarouselItem } from './carousel-item';
  */
 @Component({
   selector: 'xui-carousel',
-  imports: [NgTemplateOutlet],
+  imports: [NgTemplateOutlet, NgIcon, XuiIcon],
+  viewProviders: [provideIcons({ matChevronLeftRound, matChevronRightRound })],
   template: `
     <div
       class="relative h-full w-full overflow-hidden"
@@ -73,26 +77,10 @@ import { XuiCarouselItem } from './carousel-item';
 
       @if (arrows() && count() > 1) {
         <button type="button" [class]="arrowClass('previous')" (click)="prev()" aria-label="Previous slide">
-          <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none">
-            <path
-              d="M15 6l-6 6 6 6"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
+          <ng-icon xui size="20px" name="matChevronLeftRound" />
         </button>
         <button type="button" [class]="arrowClass('next')" (click)="next()" aria-label="Next slide">
-          <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none">
-            <path
-              d="M9 6l6 6-6 6"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
+          <ng-icon xui size="20px" name="matChevronRightRound" />
         </button>
       }
 
@@ -195,7 +183,8 @@ export class XuiCarousel {
   /** `previous` sits at the inline start, `next` at the inline end. */
   protected arrowClass(side: 'previous' | 'next'): string {
     return xui(
-      'bg-surface-overlay/70 text-foreground hover:bg-surface-overlay absolute top-1/2 z-10 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full backdrop-blur transition-colors',
+      // eslint-disable-next-line local/no-hand-z-index -- nav buttons stack above the slides inside the carousel’s own stacking context
+      'bg-surface-overlay/70 text-foreground hover:bg-surface-overlay absolute top-1/2 z-10 flex size-9 -translate-y-1/2 items-center justify-center rounded-full backdrop-blur transition-colors',
       side === 'previous' ? 'start-3' : 'end-3',
       // The chevrons are drawn pointing left/right; mirror them so "previous"
       // still points back towards the start of the line.

@@ -1,13 +1,14 @@
 import type { BooleanInput } from '@angular/cdk/coercion';
 import {
+  booleanAttribute,
   ChangeDetectionStrategy,
   Component,
-  ElementRef,
-  booleanAttribute,
   computed,
+  ElementRef,
   input,
   model,
-  viewChildren
+  viewChildren,
+  ViewEncapsulation
 } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 import { xui } from '@xui/core';
@@ -52,6 +53,7 @@ export interface XuiSegmentedOption<T = string> {
 @Component({
   selector: 'xui-segmented-control',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
   providers: [provideXValueAccessor(() => XuiSegmentedControl)],
   template: `
     @for (option of options(); track option.value; let i = $index) {
@@ -109,7 +111,9 @@ export class XuiSegmentedControl<T = string> implements ControlValueAccessor {
 
   protected segmentClass(selected: boolean): string {
     return xui(
-      'inline-flex h-(--control-height-sm) items-center justify-center rounded-md px-(--control-padding-md) font-medium transition-colors focus-visible:outline-5 focus-visible:outline-offset-1 disabled:pointer-events-none disabled:opacity-40',
+      // The base focus ring, but pulled 1px closer: the segment sits inside the
+      // track's 2px padding, so the default offset would paint over its border.
+      'inline-flex h-(--control-height-sm) items-center justify-center rounded-md px-(--control-padding-md) font-medium transition-colors focus-visible:outline-offset-1 disabled:pointer-events-none disabled:opacity-40',
       this.fill() && 'flex-1',
       selected ? 'bg-surface-raised text-foreground shadow-elevation-1' : 'text-foreground-muted hover:text-foreground'
     );

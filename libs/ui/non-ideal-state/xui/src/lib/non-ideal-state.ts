@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, ViewEncapsulation } from '@angular/core';
 import { xui } from '@xui/core';
 import { cva, VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
@@ -36,6 +36,7 @@ export type XuiNonIdealStateVariants = VariantProps<typeof nonIdealStateVariants
 @Component({
   selector: 'xui-non-ideal-state',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
   template: `
     <div [class]="computedVisualClass()">
       <ng-content select="[visual]" />

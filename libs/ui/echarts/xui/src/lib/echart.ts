@@ -1,3 +1,4 @@
+import type { BooleanInput } from '@angular/cdk/coercion';
 import {
   afterNextRender,
   booleanAttribute,
@@ -125,13 +126,13 @@ export class XuiEChart {
   readonly updateOptions = input<SetOptionOpts | undefined>(this.config.updateOptions);
 
   /** Shows ECharts' loading spinner over the chart — for data still in flight. */
-  readonly loading = input(false, { transform: booleanAttribute });
+  readonly loading = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
 
   /** Overrides for the loading spinner; merged over the token-derived defaults. */
   readonly loadingOptions = input<Record<string, unknown>>();
 
   /** Keep the chart sized to its host element as the layout changes. */
-  readonly autoResize = input(this.config.autoResize, { transform: booleanAttribute });
+  readonly autoResize = input<boolean, BooleanInput>(this.config.autoResize, { transform: booleanAttribute });
 
   /** Link this chart's interactions to every other chart with the same group name. */
   readonly group = input<string>();

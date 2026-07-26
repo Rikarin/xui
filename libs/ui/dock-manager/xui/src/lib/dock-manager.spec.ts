@@ -393,8 +393,10 @@ describe('XuiDockManager', () => {
      * aim at one without reaching into private state.
      */
     const indicators = (host: HTMLElement) =>
+      // eslint-disable-next-line local/no-hand-z-index -- asserts the dock’s documented internal stacking classes
       host.querySelectorAll<HTMLElement>('[aria-hidden="true"].z-55').length
-        ? [...host.querySelectorAll<HTMLElement>('[aria-hidden="true"].z-55')].map(element => ({
+        ? // eslint-disable-next-line local/no-hand-z-index -- asserts the dock’s documented internal stacking classes
+          [...host.querySelectorAll<HTMLElement>('[aria-hidden="true"].z-55')].map(element => ({
             active: element.className.includes('border-primary'),
             side: element.firstElementChild?.className.includes('inset-1')
               ? 'center'

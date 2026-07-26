@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, ViewEncapsulation } from '@angular/core';
 import { xui } from '@xui/core';
 import { uniqueId } from '@xui/core/a11y';
 import { cva, VariantProps } from 'class-variance-authority';
@@ -11,7 +11,7 @@ const statusVariants = cva(['inline-flex aspect-square rounded-[50%]'], {
       online: 'bg-success',
       idle: 'bg-warning',
       dnd: 'bg-error',
-      offline: 'bg-muted-foreground'
+      offline: 'bg-foreground-subtle'
     },
     size: {
       sm: 'w-3',
@@ -36,6 +36,7 @@ const CLIP_PATHS: Partial<Record<NonNullable<XuiStatusVariants['presence']> & st
 @Component({
   selector: 'xui-status',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
   template: `
     @if (clipPath(); as clip) {
       <svg width="0" height="0" aria-hidden="true">

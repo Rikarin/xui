@@ -9,7 +9,10 @@ import {
   numberAttribute,
   ViewEncapsulation
 } from '@angular/core';
+import { NgIcon, provideIcons } from '@ng-icons/core';
+import { matChevronLeftRound, matChevronRightRound } from '@ng-icons/material-icons/round';
 import { xui } from '@xui/core';
+import { XuiIcon } from '@xui/icon';
 import type { ClassValue } from 'clsx';
 import { injectXuiPaginationConfig } from './pagination.token';
 
@@ -36,15 +39,7 @@ import { injectXuiPaginationConfig } from './pagination.token';
       (click)="go(pageIndex() - 1)"
       aria-label="Previous page"
     >
-      <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none">
-        <path
-          d="M15 6l-6 6 6 6"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        />
-      </svg>
+      <ng-icon xui size="sm" name="matChevronLeftRound" />
     </button>
 
     @if (simple()) {
@@ -74,9 +69,7 @@ import { injectXuiPaginationConfig } from './pagination.token';
       (click)="go(pageIndex() + 1)"
       aria-label="Next page"
     >
-      <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none">
-        <path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-      </svg>
+      <ng-icon xui size="sm" name="matChevronRightRound" />
     </button>
 
     @if (showSizeChanger()) {
@@ -97,6 +90,8 @@ import { injectXuiPaginationConfig } from './pagination.token';
     role: 'navigation',
     'aria-label': 'Pagination'
   },
+  imports: [NgIcon, XuiIcon],
+  viewProviders: [provideIcons({ matChevronLeftRound, matChevronRightRound })],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None
 })
@@ -156,8 +151,7 @@ export class XuiPagination {
   protected readonly computedClass = computed(() => xui('inline-flex items-center gap-1', this.class()));
   protected readonly selectClass = computed(() =>
     xui(
-      'border-border bg-surface text-foreground ms-2 h-(--control-height-md) rounded-md border px-(--control-padding-sm) text-sm',
-      'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus'
+      'border-border bg-surface text-foreground ms-2 h-(--control-height-md) rounded-md border px-(--control-padding-sm) text-sm'
     )
   );
 

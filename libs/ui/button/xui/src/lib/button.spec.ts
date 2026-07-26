@@ -104,7 +104,7 @@ describe('XuiButton', () => {
     it('marks itself pressed when active', () => {
       const { query } = setup('<button xuiButton active></button>');
 
-      expectClasses(query('button'), 'shadow-inner');
+      expectClasses(query('button'), 'shadow-elevation-0');
       expect(query('button').getAttribute('aria-pressed')).toBe('true');
     });
 

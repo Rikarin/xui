@@ -135,6 +135,7 @@ export class XuiGraphMinimap {
 
   protected readonly computedClass = computed(() =>
     xui(
+      // eslint-disable-next-line local/no-hand-z-index -- the minimap floats above the canvas inside the graph’s own stacking context
       'bg-surface-overlay/90 border-border shadow-elevation-2 pointer-events-auto absolute z-10 block h-32 w-48 ' +
         'overflow-hidden rounded-md border p-1 select-none',
       'right-4 bottom-4',

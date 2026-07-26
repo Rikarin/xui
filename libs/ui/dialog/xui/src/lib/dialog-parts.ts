@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, ViewEncapsulation } from '@angular/core';
 import { xui } from '@xui/core';
 import type { ClassValue } from 'clsx';
 
@@ -12,6 +12,7 @@ import type { ClassValue } from 'clsx';
 @Component({
   selector: 'xui-dialog-body',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
   template: '<ng-content />',
   host: {
     '[class]': 'computedClass()'
@@ -35,6 +36,7 @@ export class XuiDialogBody {
 @Component({
   selector: 'xui-dialog-footer',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
   template: '<ng-content />',
   host: {
     '[class]': 'computedClass()'

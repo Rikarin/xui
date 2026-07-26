@@ -100,7 +100,7 @@ describe('XuiCaption', () => {
   it('renders last and de-emphasised by default', () => {
     const { query } = setup('<xui-caption>Users</xui-caption>');
 
-    expectClasses(query('xui-caption'), 'block', 'text-muted-foreground', 'order-last');
+    expectClasses(query('xui-caption'), 'block', 'text-foreground-subtle', 'order-last');
     expectNoClasses(query('xui-caption'), 'sr-only');
   });
 
@@ -117,13 +117,13 @@ describe('XuiTr', () => {
     const { query } = setup('<xui-tr />');
 
     expectAttributes(query('xui-tr'), { role: 'row' });
-    expectClasses(query('xui-tr'), 'flex', 'border-b', 'border-border', 'hover:bg-muted');
+    expectClasses(query('xui-tr'), 'flex', 'border-b', 'border-border', 'hover:bg-hover-overlay');
   });
 
   it('highlights the selected state', () => {
     const { query } = setup('<xui-tr />');
 
-    expectClasses(query('xui-tr'), 'data-[state=selected]:bg-muted');
+    expectClasses(query('xui-tr'), 'data-[state=selected]:bg-hover-overlay');
   });
 });
 

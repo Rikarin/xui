@@ -8,7 +8,7 @@ import { injectXuiBadgeConfig } from './badge.token';
 export const badgeVariants = cva(
   [
     'inline-flex items-center border rounded-full px-2.5 py-0.5 font-semibold transition-colors',
-    'focus-visible:outline-5 focus-visible:outline-offset-2 transition-[outline]'
+    'transition-[outline]'
   ],
   {
     variants: {
@@ -69,6 +69,7 @@ export type XuiBadgeVariants = VariantProps<typeof badgeVariants>;
 
 @Directive({
   selector: '[xuiBadge]',
+  exportAs: 'xuiBadge',
   host: {
     '[class]': 'computedClass()'
   }

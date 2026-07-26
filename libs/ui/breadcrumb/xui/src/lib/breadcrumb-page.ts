@@ -4,6 +4,7 @@ import type { ClassValue } from 'clsx';
 
 @Directive({
   selector: '[xuiBreadcrumbPage]',
+  exportAs: 'xuiBreadcrumbPage',
   host: {
     role: 'link',
     'aria-disabled': 'true',

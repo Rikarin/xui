@@ -40,8 +40,8 @@ const sliderFillVariants = cva('absolute rounded-full', {
 
 const sliderHandleVariants = cva(
   [
-    'absolute z-10 size-4 rounded-full border-2 bg-surface-raised shadow',
-    'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus',
+    // eslint-disable-next-line local/no-hand-z-index -- the thumb rides above the track inside the slider, not an overlay
+    'absolute z-10 size-4 rounded-full border-2 bg-surface-raised shadow-elevation-1',
     'data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50'
   ],
   {

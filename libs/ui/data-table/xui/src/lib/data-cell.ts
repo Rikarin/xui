@@ -25,7 +25,7 @@ export interface XuiDataCellContext<T> {
  * </xui-data-table>
  * ```
  */
-@Directive({ selector: 'ng-template[xuiDataCell]' })
+@Directive({ selector: 'ng-template[xuiDataCell]', exportAs: 'xuiDataCell' })
 export class XuiDataCell<T = unknown> {
   readonly template = inject<TemplateRef<XuiDataCellContext<T>>>(TemplateRef);
 
