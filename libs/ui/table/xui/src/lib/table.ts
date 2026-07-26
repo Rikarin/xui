@@ -32,6 +32,22 @@ export const tableVariants = cva('flex flex-col text-sm [&_xui-tr:last-child]:bo
 
 export type XuiTableVariants = VariantProps<typeof tableVariants>;
 
+/**
+ * A table laid out with flex rather than `table-layout`, so a column can grow while the rest stay
+ * sized to their content and the row parts stay addressable for striping and selection.
+ *
+ * A cell is `flex-none` — it is as wide as what is in it — so a column lines up only when every
+ * cell in it carries the same width. Give each `xui-th`/`xui-td` down a column the same width
+ * class, and `grow` to the one that should absorb what is left; sized by their content, the rows
+ * go ragged the moment the data varies.
+ *
+ * ```html
+ * <xui-table class="w-96" bordered>
+ *   <xui-tr><xui-th class="grow">Name</xui-th><xui-th class="w-24">Role</xui-th></xui-tr>
+ *   <xui-tr><xui-td class="grow">Ada Lovelace</xui-td><xui-td class="w-24">Owner</xui-td></xui-tr>
+ * </xui-table>
+ * ```
+ */
 @Component({
   selector: 'xui-table',
   host: {

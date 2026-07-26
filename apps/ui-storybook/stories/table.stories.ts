@@ -74,23 +74,23 @@ export const Modifiers: Story = {
       <xui-table class="w-96" striped bordered interactive compact>
         <xui-tr>
           <xui-th class="grow">Name</xui-th>
-          <xui-th>Role</xui-th>
-          <xui-th>Status</xui-th>
+          <xui-th class="w-24">Role</xui-th>
+          <xui-th class="w-24">Status</xui-th>
         </xui-tr>
         <xui-tr>
           <xui-td class="grow">Ada Lovelace</xui-td>
-          <xui-td>Owner</xui-td>
-          <xui-td>Active</xui-td>
+          <xui-td class="w-24">Owner</xui-td>
+          <xui-td class="w-24">Active</xui-td>
         </xui-tr>
         <xui-tr>
           <xui-td class="grow">Alan Turing</xui-td>
-          <xui-td>Admin</xui-td>
-          <xui-td>Active</xui-td>
+          <xui-td class="w-24">Admin</xui-td>
+          <xui-td class="w-24">Active</xui-td>
         </xui-tr>
         <xui-tr>
           <xui-td class="grow">Grace Hopper</xui-td>
-          <xui-td>Editor</xui-td>
-          <xui-td>Invited</xui-td>
+          <xui-td class="w-24">Editor</xui-td>
+          <xui-td class="w-24">Invited</xui-td>
         </xui-tr>
       </xui-table>
     `
