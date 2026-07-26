@@ -1,6 +1,6 @@
 {
   "name": "@xui/input-otp",
-  "version": "2.0.0-alpha.18",
+  "version": "2.0.0-alpha.19",
   "description": "Modern Angular 22 UI Library based on TailwindCSS",
   "keywords": [
     "angular",
@@ -23,7 +23,7 @@
   "peerDependencies": {
     "@angular/cdk": "22",
     "@angular/core": "22",
-    "@xui/core": "2.0.0-alpha.18",
+    "@xui/core": "2.0.0-alpha.19",
     "clsx": "^2.1.1"
   },
   "publishConfig": {

@@ -1,3 +1,14 @@
+## 2.0.0-alpha.19 (2026-07-26)
+
+### 🔥 Performance
+
+- **app:** keep the demos and the chart library out of the worker ([bdc345ef](https://github.com/Rikarin/xui/commit/bdc345ef))
+
+### ❤️ Thank You
+
+- Claude Opus 5
+- Rikarin @Rikarin
+
 ## 2.0.0-alpha.18 (2026-07-26)
 
 ### 🚀 Features

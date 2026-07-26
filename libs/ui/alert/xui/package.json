@@ -1,6 +1,6 @@
 {
   "name": "@xui/alert",
-  "version": "2.0.0-alpha.18",
+  "version": "2.0.0-alpha.19",
   "description": "Modern Angular 22 UI Library based on TailwindCSS",
   "keywords": [
     "angular",
@@ -25,9 +25,9 @@
     "@angular/core": "22",
     "@ng-icons/core": "34",
     "@ng-icons/material-icons": "34",
-    "@xui/button": "2.0.0-alpha.18",
-    "@xui/dialog": "2.0.0-alpha.18",
-    "@xui/icon": "2.0.0-alpha.18"
+    "@xui/button": "2.0.0-alpha.19",
+    "@xui/dialog": "2.0.0-alpha.19",
+    "@xui/icon": "2.0.0-alpha.19"
   },
   "publishConfig": {
     "access": "public"
