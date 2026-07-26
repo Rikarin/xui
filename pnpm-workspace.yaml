@@ -8,6 +8,8 @@ onlyBuiltDependencies:
   - msgpackr-extract
   - nx
   - unrs-resolver
+  # Wrangler shells out to the workerd binary, which only exists after its install script runs.
+  - workerd
 
 overrides:
   # Nx 23.1 still bundles @typescript-eslint 8.46, which references the
