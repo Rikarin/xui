@@ -30,12 +30,18 @@ import { XUI_POPOVER_CONTENT } from './popover-content';
 export class XuiPopoverPanel {
   protected readonly content = inject(XUI_POPOVER_CONTENT);
 
-  protected readonly computedClass = computed(() =>
-    xui(
+  protected readonly computedClass = computed(() => {
+    // Content that is already a surface gets a bare container: drawing one under it doubles the
+    // border and puts the two sets of corners in conflict, and the width cap crops it.
+    if (this.content.bare) {
+      return xui('text-foreground block w-fit', this.content.panelClass);
+    }
+
+    return xui(
       'bg-surface-overlay text-foreground border-border block overflow-hidden border shadow-overlay',
       this.content.fillWidth ? 'w-full' : 'max-w-[min(24rem,90vw)]',
       this.content.minimal ? 'rounded-none' : 'rounded-lg',
       this.content.panelClass
-    )
-  );
+    );
+  });
 }

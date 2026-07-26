@@ -75,6 +75,14 @@ export class XuiPopover {
     transform: booleanAttribute
   });
 
+  /**
+   * The content already is a surface, so the panel should only position it.
+   *
+   * For a picker card, which brings its own background, border and rounding — without this the
+   * panel draws a second surface underneath, and its width cap crops the card.
+   */
+  readonly bare = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
+
   /** A disabled trigger never opens, and closes the popover if it was open. */
   readonly disabled = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
 
@@ -187,6 +195,7 @@ export class XuiPopover {
             template: this.content(),
             context: this.context(),
             minimal,
+            bare: this.bare(),
             fillWidth: this.matchTargetWidth(),
             panelClass: this.panelClass()
           }

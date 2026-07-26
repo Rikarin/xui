@@ -41,10 +41,7 @@ export interface XuiDateRange<T> {
   imports: [NgIcon, XuiIcon],
   providers: [provideXValueAccessor(() => XuiDateRangePicker)],
   template: `
-    <!-- The months wrap rather than run off the end: two of them need ~500px, and the picker is
-         inline-block, so in anything narrower it used to overflow its container and take the page
-         into a sideways scroll. -->
-    <div class="flex flex-wrap justify-center gap-6">
+    <div class="flex gap-6">
       @for (offset of monthOffsets(); track offset) {
         <div>
           <div class="mb-2 flex items-center justify-between">

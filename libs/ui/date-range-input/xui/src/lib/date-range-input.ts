@@ -39,7 +39,7 @@ type Boundary = 'start' | 'end';
       [open]="open()"
       (openChange)="onOpenChange($event)"
       [role]="'dialog'"
-      [minimal]="true"
+      [bare]="true"
       [disabled]="isDisabled()"
       placement="bottom-start"
     >

@@ -56,7 +56,7 @@ import type { ClassValue } from 'clsx';
         [open]="open()"
         (openChange)="onOpenChange($event)"
         [role]="'dialog'"
-        [minimal]="true"
+        [bare]="true"
         placement="bottom-end"
       >
         <ng-icon xui name="matCalendarTodayRound" size="sm" />

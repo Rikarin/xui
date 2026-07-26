@@ -18,6 +18,15 @@ export interface XuiPopoverContent {
   context?: Record<string, unknown>;
   /** Drop the rounding for a flush panel — menus and select dropdowns. */
   minimal?: boolean;
+  /**
+   * The content is already a surface, so the panel only positions it.
+   *
+   * The rule above — the panel owns the surface — holds while the content is bare markup, as a
+   * menu's or a listbox's is. A date picker is a finished card in its own right, and layering the
+   * panel's surface under it doubled the border and set the panel's corners fighting the card's.
+   * The width cap has to go with them: it is sized for prose, and would crop a calendar.
+   */
+  bare?: boolean;
   /** Fill the pane so a width-matched popover reaches the trigger's edges. */
   fillWidth?: boolean;
   /** Extra classes for the surface. */
