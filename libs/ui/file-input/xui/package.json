@@ -1,6 +1,6 @@
 {
   "name": "@xui/file-input",
-  "version": "2.0.0-alpha.22",
+  "version": "2.0.0",
   "description": "Modern Angular 22 UI Library based on TailwindCSS",
   "keywords": [
     "angular",
@@ -26,8 +26,8 @@
     "@angular/forms": "22",
     "@ng-icons/core": "34",
     "@ng-icons/material-icons": "34",
-    "@xui/core": "2.0.0-alpha.22",
-    "@xui/icon": "2.0.0-alpha.22",
+    "@xui/core": "2.0.0",
+    "@xui/icon": "2.0.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1"
   },
