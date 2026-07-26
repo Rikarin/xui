@@ -25,7 +25,7 @@ import { injectXuiSliderConfig } from './slider.token';
 /** Renders a tick's numeric value into label text, or `false` to hide all labels. */
 export type XuiSliderLabelRenderer = ((value: number) => string) | false;
 
-const sliderFillVariants = cva('absolute rounded-full', {
+export const sliderFillVariants = cva('absolute rounded-full', {
   variants: {
     color: {
       none: 'bg-foreground-muted',
@@ -38,7 +38,7 @@ const sliderFillVariants = cva('absolute rounded-full', {
   defaultVariants: { color: 'primary' }
 });
 
-const sliderHandleVariants = cva(
+export const sliderHandleVariants = cva(
   [
     // eslint-disable-next-line local/no-hand-z-index -- the thumb rides above the track inside the slider, not an overlay
     'absolute z-10 size-4 rounded-full border-2 bg-surface-raised shadow-elevation-1',

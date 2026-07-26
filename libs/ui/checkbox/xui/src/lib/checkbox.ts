@@ -22,7 +22,7 @@ import { cva, VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
 import { injectXuiCheckboxConfig } from './checkbox.token';
 
-const checkboxVariants = cva(
+export const checkboxVariants = cva(
   [
     'group inline-flex border shrink-0 cursor-pointer items-center rounded-sm',
     'transition-[outline]',
@@ -54,7 +54,7 @@ const checkboxVariants = cva(
 export type XuiCheckboxVariants = VariantProps<typeof checkboxVariants> & { size: XuiIconSize };
 
 /** The `<label>` that wraps the box and its text, governing layout. */
-const checkboxWrapperVariants = cva('items-center gap-x-2 data-disabled:cursor-not-allowed', {
+export const checkboxWrapperVariants = cva('items-center gap-x-2 data-disabled:cursor-not-allowed', {
   variants: {
     inline: {
       // Non-inline controls take a full row so several stack vertically; inline

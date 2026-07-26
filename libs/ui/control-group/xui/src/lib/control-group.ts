@@ -5,7 +5,7 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
 import { injectXuiControlGroupConfig } from './control-group.token';
 
-const controlGroupVariants = cva('flex', {
+export const controlGroupVariants = cva('flex', {
   variants: {
     orientation: {
       // Collapse the radii and shared borders between adjacent controls so the

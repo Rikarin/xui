@@ -17,7 +17,7 @@ import { injectXuiTableConfig } from './table.token';
 
 // Display modifiers reach the rows/cells with descendant selectors so the flex
 // layout of `xui-tr`/`xui-td`/`xui-th` stays untouched.
-const tableVariants = cva('flex flex-col text-sm [&_xui-tr:last-child]:border-0', {
+export const tableVariants = cva('flex flex-col text-sm [&_xui-tr:last-child]:border-0', {
   variants: {
     striped: { true: '[&_xui-tr:nth-child(even)]:bg-surface-inset/40', false: '' },
     bordered: {

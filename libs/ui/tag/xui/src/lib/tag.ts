@@ -16,47 +16,50 @@ import { cva, VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
 import { injectXuiTagConfig } from './tag.token';
 
-const tagVariants = cva('inline-flex items-center gap-1 border font-medium whitespace-nowrap transition-colors', {
-  variants: {
-    color: {
-      none: '',
-      primary: '',
-      success: '',
-      warning: '',
-      error: ''
+export const tagVariants = cva(
+  'inline-flex items-center gap-1 border font-medium whitespace-nowrap transition-colors',
+  {
+    variants: {
+      color: {
+        none: '',
+        primary: '',
+        success: '',
+        warning: '',
+        error: ''
+      },
+      minimal: { true: '', false: 'border-transparent' },
+      large: { true: 'px-3 py-1 text-sm', false: 'px-2 py-0.5 text-xs' },
+      round: { true: 'rounded-full', false: 'rounded' },
+      fill: { true: 'w-full justify-center', false: '' },
+      interactive: { true: 'cursor-pointer', false: '' }
     },
-    minimal: { true: '', false: 'border-transparent' },
-    large: { true: 'px-3 py-1 text-sm', false: 'px-2 py-0.5 text-xs' },
-    round: { true: 'rounded-full', false: 'rounded' },
-    fill: { true: 'w-full justify-center', false: '' },
-    interactive: { true: 'cursor-pointer', false: '' }
-  },
-  compoundVariants: [
-    // Solid (default) fills.
-    { minimal: false, color: 'none', class: 'bg-surface-inset text-foreground' },
-    { minimal: false, color: 'primary', class: 'bg-primary text-primary-foreground' },
-    { minimal: false, color: 'success', class: 'bg-success text-success-foreground' },
-    { minimal: false, color: 'warning', class: 'bg-warning text-warning-foreground' },
-    { minimal: false, color: 'error', class: 'bg-error text-error-foreground' },
-    // Minimal (subtle) fills.
-    { minimal: true, color: 'none', class: 'bg-surface-inset/60 border-border text-foreground-muted' },
-    { minimal: true, color: 'primary', class: 'bg-primary/15 border-primary/30 text-primary' },
-    { minimal: true, color: 'success', class: 'bg-success/15 border-success/30 text-success' },
-    { minimal: true, color: 'warning', class: 'bg-warning/15 border-warning/30 text-warning' },
-    { minimal: true, color: 'error', class: 'bg-error/15 border-error/30 text-error' },
-    // Hover feedback only when the whole tag is clickable.
-    { interactive: true, minimal: false, class: 'hover:brightness-95' },
-    { interactive: true, minimal: true, class: 'hover:bg-surface-inset' }
-  ],
-  defaultVariants: {
-    color: 'none',
-    minimal: false,
-    large: false,
-    round: false,
-    fill: false,
-    interactive: false
+    compoundVariants: [
+      // Solid (default) fills.
+      { minimal: false, color: 'none', class: 'bg-surface-inset text-foreground' },
+      { minimal: false, color: 'primary', class: 'bg-primary text-primary-foreground' },
+      { minimal: false, color: 'success', class: 'bg-success text-success-foreground' },
+      { minimal: false, color: 'warning', class: 'bg-warning text-warning-foreground' },
+      { minimal: false, color: 'error', class: 'bg-error text-error-foreground' },
+      // Minimal (subtle) fills.
+      { minimal: true, color: 'none', class: 'bg-surface-inset/60 border-border text-foreground-muted' },
+      { minimal: true, color: 'primary', class: 'bg-primary/15 border-primary/30 text-primary' },
+      { minimal: true, color: 'success', class: 'bg-success/15 border-success/30 text-success' },
+      { minimal: true, color: 'warning', class: 'bg-warning/15 border-warning/30 text-warning' },
+      { minimal: true, color: 'error', class: 'bg-error/15 border-error/30 text-error' },
+      // Hover feedback only when the whole tag is clickable.
+      { interactive: true, minimal: false, class: 'hover:brightness-95' },
+      { interactive: true, minimal: true, class: 'hover:bg-surface-inset' }
+    ],
+    defaultVariants: {
+      color: 'none',
+      minimal: false,
+      large: false,
+      round: false,
+      fill: false,
+      interactive: false
+    }
   }
-});
+);
 
 export type XuiTagVariants = VariantProps<typeof tagVariants>;
 export type XuiTagColor = NonNullable<XuiTagVariants['color']>;

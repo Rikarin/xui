@@ -14,7 +14,7 @@ const alignClass: Record<XuiButtonGroupAlign, string> = {
   right: '[&>*]:justify-end [&>*]:text-end'
 };
 
-const buttonGroupVariants = cva('inline-flex', {
+export const buttonGroupVariants = cva('inline-flex', {
   variants: {
     orientation: {
       // Collapse the radii and drop the doubled border between neighbours, on

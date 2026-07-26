@@ -21,7 +21,7 @@ import { createXValueAccessor, provideXValueAccessor } from '@xui/core/forms';
 import { cva, VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
 
-const editableTextVariants = cva('block w-full rounded-sm bg-transparent transition-colors', {
+export const editableTextVariants = cva('block w-full rounded-sm bg-transparent transition-colors', {
   variants: {
     editing: {
       false:

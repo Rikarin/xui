@@ -43,7 +43,7 @@ export const calloutVariants = cva('flex gap-3 rounded-lg border', {
   }
 });
 
-const calloutIconVariants = cva('mt-0.5 shrink-0', {
+export const calloutIconVariants = cva('mt-0.5 shrink-0', {
   variants: {
     color: {
       none: 'text-foreground-muted',

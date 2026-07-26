@@ -15,7 +15,7 @@ import type { ClassValue } from 'clsx';
 import { XUI_RADIO_BUTTON_TOKEN, XUI_RADIO_GROUP, type XuiRadioButtonRef } from './radio-group';
 import { injectXuiRadioConfig } from './radio.token';
 
-const radioVariants = cva(
+export const radioVariants = cva(
   'relative grid shrink-0 place-items-center rounded-full border transition-colors data-disabled:cursor-not-allowed data-disabled:opacity-50 data-[state=checked]:border-primary data-[state=unchecked]:border-border-strong data-[state=unchecked]:bg-surface-inset',
   {
     variants: {

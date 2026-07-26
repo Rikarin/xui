@@ -4,7 +4,7 @@ import { cva, VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
 import { injectXui<%= className %>Config } from './<%= fileName %>.token';
 
-const <%= propertyVariantsName %> = cva([''], {
+export const <%= propertyVariantsName %> = cva([''], {
   variants: {
     variant: {
       default: ''

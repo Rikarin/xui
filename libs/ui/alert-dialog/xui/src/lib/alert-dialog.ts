@@ -21,7 +21,7 @@ import { injectXOverlay, type XOverlayRef } from '@xui/core/overlay';
 import { cva } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
 
-const actionVariants = cva(
+export const alertDialogActionVariants = cva(
   [
     'inline-flex items-center justify-center rounded-md text-sm font-medium outline-none',
     'h-(--control-height-md) px-(--control-padding-md)',
@@ -115,9 +115,9 @@ export class XuiAlertDialog {
       this.class()
     )
   );
-  protected readonly cancelClass = computed(() => xui(actionVariants({ intent: 'cancel' })));
+  protected readonly cancelClass = computed(() => xui(alertDialogActionVariants({ intent: 'cancel' })));
   protected readonly confirmClass = computed(() =>
-    xui(actionVariants({ intent: this.destructive() ? 'destructive' : 'primary' }))
+    xui(alertDialogActionVariants({ intent: this.destructive() ? 'destructive' : 'primary' }))
   );
 
   constructor() {

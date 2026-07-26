@@ -22,7 +22,7 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
 import { injectXuiHtmlSelectConfig } from './html-select.token';
 
-const htmlSelectWrapperVariants = cva(
+export const htmlSelectWrapperVariants = cva(
   'border-border bg-surface-inset text-foreground focus-within:border-focus relative inline-flex items-center rounded-lg border transition-colors has-disabled:cursor-not-allowed has-disabled:opacity-50',
   {
     variants: {

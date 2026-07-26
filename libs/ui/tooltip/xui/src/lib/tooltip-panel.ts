@@ -4,7 +4,7 @@ import { xui } from '@xui/core';
 import { cva } from 'class-variance-authority';
 import { XUI_TOOLTIP_CONTENT } from './tooltip-content';
 
-const tooltipPanelVariants = cva('pointer-events-none block max-w-xs rounded-md text-sm shadow-overlay', {
+export const tooltipPanelVariants = cva('pointer-events-none block max-w-xs rounded-md text-sm shadow-overlay', {
   variants: {
     color: {
       // The neutral tooltip inverts against the page — a dark chip on light, a

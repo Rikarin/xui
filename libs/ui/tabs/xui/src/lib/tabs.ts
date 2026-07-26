@@ -22,7 +22,7 @@ import type { ClassValue } from 'clsx';
 import { XuiTab } from './tab';
 import { injectXuiTabsConfig } from './tabs.token';
 
-const tabVariants = cva(
+export const tabsTabVariants = cva(
   [
     'relative inline-flex cursor-pointer items-center gap-2 border-b-2 border-transparent font-medium whitespace-nowrap',
     'text-foreground-muted hover:text-foreground transition-colors',
@@ -40,7 +40,7 @@ const tabVariants = cva(
   }
 );
 
-export type XuiTabsVariants = VariantProps<typeof tabVariants>;
+export type XuiTabsVariants = VariantProps<typeof tabsTabVariants>;
 
 @Component({
   selector: 'xui-tabs',
@@ -143,7 +143,7 @@ export class XuiTabs {
   );
 
   protected readonly tabClass = computed(() =>
-    xui(tabVariants({ animated: this.animate(), large: this.large(), fill: this.fill() }))
+    xui(tabsTabVariants({ animated: this.animate(), large: this.large(), fill: this.fill() }))
   );
 
   protected readonly indicatorClass = computed(() =>

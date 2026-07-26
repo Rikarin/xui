@@ -17,7 +17,7 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
 import { injectXuiSegmentedControlConfig } from './segmented-control.token';
 
-const segmentedControlContainerVariants = cva(
+export const segmentedControlContainerVariants = cva(
   'bg-surface-inset border-border inline-flex gap-0.5 rounded-lg border p-0.5',
   {
     variants: {

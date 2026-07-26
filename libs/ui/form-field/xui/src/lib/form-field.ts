@@ -20,7 +20,7 @@ import { injectXuiFormFieldConfig } from './form-field.token';
 
 let nextId = 0;
 
-const formFieldRootVariants = cva('', {
+export const formFieldRootVariants = cva('', {
   variants: {
     inline: {
       false: 'block space-y-2',
@@ -31,7 +31,7 @@ const formFieldRootVariants = cva('', {
 });
 
 /** `color` tints the label and helper text with a deliberate accent. */
-const formFieldColorText = cva('', {
+export const formFieldColorText = cva('', {
   variants: {
     color: {
       none: '',

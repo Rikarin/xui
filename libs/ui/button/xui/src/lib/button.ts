@@ -14,7 +14,7 @@ const alignClass: Record<XuiButtonAlign, string> = {
   right: 'justify-end text-end'
 };
 
-const buttonVariants = cva(
+export const buttonVariants = cva(
   [
     'inline-flex items-center justify-center whitespace-nowrap rounded-lg font-medium transition-[color, background-color, outline] duration-300 cursor-pointer border-1',
     // eslint-disable-next-line local/no-hand-z-index -- the focused control must paint its ring above adjacent siblings in a group, not an overlay

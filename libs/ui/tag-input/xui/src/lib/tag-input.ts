@@ -21,7 +21,7 @@ import { XuiIcon } from '@xui/icon';
 import { cva, VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
 
-const tagInputContainerVariants = cva(
+export const tagInputContainerVariants = cva(
   [
     'flex min-h-(--control-height-md) flex-wrap items-center gap-1.5 rounded-lg border border-border bg-surface-inset px-(--control-padding-sm) py-0.5 text-sm',
     'focus-within:border-focus transition-colors',

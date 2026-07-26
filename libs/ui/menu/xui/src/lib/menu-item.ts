@@ -17,7 +17,7 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
 import { injectXuiMenuConfig } from './menu.token';
 
-const menuItemVariants = cva(
+export const menuItemVariants = cva(
   'flex w-full cursor-pointer items-center gap-2 rounded-md px-2 py-1.5 text-start text-sm outline-none select-none aria-disabled:pointer-events-none aria-disabled:opacity-50',
   {
     variants: {

@@ -5,7 +5,7 @@ import { cva, VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
 import { injectXuiStatusConfig } from './status.token';
 
-const statusVariants = cva(['inline-flex aspect-square rounded-[50%]'], {
+export const statusVariants = cva(['inline-flex aspect-square rounded-[50%]'], {
   variants: {
     presence: {
       online: 'bg-success',

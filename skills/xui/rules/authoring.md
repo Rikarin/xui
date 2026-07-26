@@ -31,6 +31,9 @@ Scaffold it with `pnpm nx g @xui/tools:library <name> --generate=component --sto
 - Styling: a `cva()` variant map merged through `xui(...)`, applied with
   `host: { '[class]': 'computedClass()' }`, and always a `class = input<ClassValue>('')` escape
   hatch that merges rather than replaces.
+- Every `cva()` map is **exported**, named `<name>Variants` for the root and
+  `<name><Part>Variants` for the parts (`switchTrackVariants`), so consumers can extend a
+  package's styling. The `VariantProps` type alias is exported as `Xui<Name>Variants`.
 - Defaults come from a config token built with `createXConfigToken` (`@xui/core`) so applications
   can re-theme globally - `button.token.ts` is the reference:
   `export const [injectXui<Name>Config, provideXui<Name>Config] = createXConfigToken<Xui<Name>Config>('Xui<Name>Config', defaults)`.

@@ -16,7 +16,7 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
 import { injectXuiSwitchConfig, type XuiSwitchSize } from './switch.token';
 
-const switchTrackVariants = cva(
+export const switchTrackVariants = cva(
   'relative inline-flex shrink-0 cursor-pointer items-center rounded-full border border-transparent transition-colors data-disabled:cursor-not-allowed data-disabled:opacity-50 data-[state=checked]:bg-primary data-[state=unchecked]:bg-border-strong',
   {
     variants: {
@@ -29,7 +29,7 @@ const switchTrackVariants = cva(
   }
 );
 
-const switchThumbVariants = cva(
+export const switchThumbVariants = cva(
   // The thumb rides on emphasis-strength fills (the primary track when checked),
   // so it uses the on-emphasis foreground — white in both built-in themes, and it
   // follows an application that re-tunes the token, unlike a raw `bg-white`.

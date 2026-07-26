@@ -20,7 +20,7 @@ import type { ClassValue } from 'clsx';
 /** Which control the card presents — governs the indicator and the ARIA role. */
 export type XuiControlCardType = 'checkbox' | 'radio' | 'switch';
 
-const controlCardVariants = cva(
+export const controlCardVariants = cva(
   [
     'flex items-center gap-3 rounded-lg border bg-surface-raised px-4 py-3 text-sm transition-colors',
     'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus',
