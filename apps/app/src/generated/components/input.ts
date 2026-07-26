@@ -252,10 +252,6 @@ export const doc: ComponentDoc = {
     ],
     "methods": [
       {
-        "name": "ngDoCheck",
-        "signature": "ngDoCheck()"
-      },
-      {
         "name": "setError",
         "signature": "setError(error: InputVariants['error'])"
       }

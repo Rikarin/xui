@@ -61,7 +61,7 @@ export const doc: ComponentDoc = {
   description: "Turn an existing element into a loading placeholder in place.",
   importsConst: "XuiSkeletonImports",
   exports: [
-  "XuiSkeletonDirective",
+  "XuiSkeletonMask",
   "XuiSkeleton",
   "XuiSkeletonImports"
 ],
@@ -75,7 +75,7 @@ export const doc: ComponentDoc = {
   symbols: [
   {
     "kind": "directive",
-    "name": "XuiSkeletonDirective",
+    "name": "XuiSkeletonMask",
     "selector": "[xuiSkeleton]",
     "exportAs": "xuiSkeleton",
     "docs": "Turn an existing element into a loading placeholder in place.",

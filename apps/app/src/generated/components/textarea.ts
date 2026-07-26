@@ -56,6 +56,7 @@ export const doc: ComponentDoc = {
   peerDependencies: {
   "@angular/cdk": "22",
   "@angular/core": "22",
+  "@angular/forms": "22",
   "@xui/core": "2.0.0-alpha.11",
   "class-variance-authority": "^0.7.1",
   "clsx": "^2.1.1"

@@ -453,6 +453,15 @@ export const COMPONENTS: ComponentSummary[] = [
     "hasPreview": false
   },
   {
+    "name": "hotkeys",
+    "slug": "core-hotkeys",
+    "title": "Hotkeys",
+    "package": "@xui/core/hotkeys",
+    "kind": "core",
+    "group": "Headless primitives",
+    "hasPreview": false
+  },
+  {
     "name": "html-select",
     "slug": "html-select",
     "title": "HTML select",
@@ -1009,13 +1018,23 @@ export const COMPONENTS: ComponentSummary[] = [
     "hasPreview": true
   },
   {
+    "name": "tree",
+    "slug": "core-tree",
+    "title": "Tree",
+    "package": "@xui/core/tree",
+    "kind": "core",
+    "group": "Headless primitives",
+    "description": "A hierarchical tree with expand/collapse carets, single selection, optional icons and secondary labels. Full keyboard support: Up/Down move, Right/Left expand/collapse or step in/out, Enter/Space select. [(selectedId)] binding.",
+    "hasPreview": false
+  },
+  {
     "name": "tree-select",
     "slug": "tree-select",
     "title": "Tree select",
     "package": "@xui/tree-select",
     "kind": "ui",
     "group": "Forms",
-    "description": "A select whose options form a tree — expand branches and pick nodes. Single mode binds one value; multiple shows removable chips with checkboxes.",
+    "description": "A select whose options form a tree — expand branches and pick nodes. Single mode binds one value; multiple shows removable chips with checkboxes. Fully keyboard-driven from the trigger: Up/Down move, Right/Left (RTL-aware) expand/collapse or step in/out, Home/End jump, Enter selects, Escape closes.",
     "hasPreview": true
   },
   {

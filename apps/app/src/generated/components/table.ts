@@ -82,7 +82,7 @@ export const doc: ComponentDoc = {
   importsConst: "XuiTableImports",
   exports: [
   "XuiCaption",
-  "XuiTableDirective",
+  "XuiTableClasses",
   "XuiTable",
   "XuiTd",
   "XuiTh",
@@ -125,8 +125,9 @@ export const doc: ComponentDoc = {
   },
   {
     "kind": "directive",
-    "name": "XuiTableDirective",
-    "selector": "[xuiTable],x-table[xui]",
+    "name": "XuiTableClasses",
+    "selector": "[xuiTable]",
+    "docs": "Styles the headless <x-table> by writing the xUI Tailwind classes into its tableClasses/headerRowClasses/bodyRowClasses model inputs: <x-table xuiTable>. A consumer binding those inputs itself wins, since the input binding is applied after this constructor runs.",
     "inputs": [],
     "outputs": [],
     "variants": [],

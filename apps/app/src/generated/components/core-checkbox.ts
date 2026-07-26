@@ -22,6 +22,7 @@ export const doc: ComponentDoc = {
   "@angular/forms": "22",
   "clsx": ">=2.0.0",
   "luxon": ">=3.0.0",
+  "rxjs": ">=7.0.0",
   "tailwind-merge": ">=3.0.0"
 },
   sourcePath: "libs/core/checkbox",
@@ -32,11 +33,12 @@ export const doc: ComponentDoc = {
     "selector": "x-checkbox",
     "inputs": [
       {
-        "name": "checkedInput",
+        "name": "checked",
         "type": "boolean",
         "default": "false",
         "required": false,
-        "docs": "Current checked state of checkbox. Can be bound with [(checked)] for two-way binding."
+        "model": true,
+        "docs": "Current checked state of checkbox. Can be bound with [(checked)] for two-way binding; emits checkedChange."
       },
       {
         "name": "indeterminate",
@@ -105,11 +107,6 @@ export const doc: ComponentDoc = {
       }
     ],
     "outputs": [
-      {
-        "name": "checkedChange",
-        "type": "boolean",
-        "docs": "Emits when checked state changes."
-      },
       {
         "name": "touched",
         "type": "void",

@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
-import { formatCombo } from './hotkey';
+import { formatXCombo } from '@xui/core/hotkeys';
+import { XuiKbd } from '@xui/kbd';
 import { XuiHotkeysService } from './hotkeys.service';
 
 /**
@@ -8,6 +9,7 @@ import { XuiHotkeysService } from './hotkeys.service';
  */
 @Component({
   selector: 'xui-hotkeys-dialog',
+  imports: [XuiKbd],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="px-6 py-5">
@@ -26,10 +28,7 @@ import { XuiHotkeysService } from './hotkeys.service';
                     <span class="text-foreground">{{ hotkey.label }}</span>
                     <span class="flex items-center gap-1">
                       @for (key of keys(hotkey.combo); track $index) {
-                        <kbd
-                          class="border-border bg-surface-inset text-foreground-muted inline-flex min-w-6 justify-center rounded border px-1.5 py-0.5 font-sans text-xs"
-                          >{{ key }}</kbd
-                        >
+                        <kbd xuiKbd>{{ key }}</kbd>
                       }
                     </span>
                   </li>
@@ -50,6 +49,6 @@ export class XuiHotkeysDialog {
   protected readonly groups = computed(() => this.service.grouped());
 
   protected keys(combo: string): string[] {
-    return formatCombo(combo, this.service.isMac);
+    return formatXCombo(combo, this.service.isMac);
   }
 }

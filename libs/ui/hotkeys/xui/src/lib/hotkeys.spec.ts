@@ -1,52 +1,15 @@
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { render } from '@xui/testing';
-import { comboMatchesEvent, formatCombo, parseCombo } from './hotkey';
 import { injectHotkeys, XuiHotkeysService } from './hotkeys.service';
+
+// The pure combo logic (parse/match/format) is specced in `@xui/core/hotkeys`.
 
 const keydown = (init: KeyboardEventInit, target: Element = document.body) => {
   const event = new KeyboardEvent('keydown', { bubbles: true, cancelable: true, ...init });
   target.dispatchEvent(event);
   return event;
 };
-
-describe('parseCombo', () => {
-  it('splits modifiers from the key and resolves aliases', () => {
-    expect(parseCombo('mod+shift+s')).toMatchObject({ mod: true, shift: true, key: 's' });
-    expect(parseCombo('ctrl+alt+del')).toMatchObject({ ctrl: true, alt: true, key: 'delete' });
-    expect(parseCombo('up')).toMatchObject({ key: 'arrowup' });
-  });
-});
-
-describe('comboMatchesEvent', () => {
-  it('resolves mod to meta on mac and ctrl elsewhere', () => {
-    const combo = parseCombo('mod+s');
-
-    expect(comboMatchesEvent(combo, new KeyboardEvent('keydown', { key: 's', metaKey: true }), true)).toBe(true);
-    expect(comboMatchesEvent(combo, new KeyboardEvent('keydown', { key: 's', ctrlKey: true }), true)).toBe(false);
-    expect(comboMatchesEvent(combo, new KeyboardEvent('keydown', { key: 's', ctrlKey: true }), false)).toBe(true);
-  });
-
-  it('does not require an explicit shift for punctuation keys', () => {
-    const combo = parseCombo('?');
-
-    expect(comboMatchesEvent(combo, new KeyboardEvent('keydown', { key: '?', shiftKey: true }), false)).toBe(true);
-  });
-
-  it('rejects when an unwanted modifier is held', () => {
-    const combo = parseCombo('s');
-
-    expect(comboMatchesEvent(combo, new KeyboardEvent('keydown', { key: 's', metaKey: true }), true)).toBe(false);
-  });
-});
-
-describe('formatCombo', () => {
-  it('renders platform-specific symbols', () => {
-    expect(formatCombo('mod+s', true)).toEqual(['⌘', 'S']);
-    expect(formatCombo('mod+s', false)).toEqual(['Ctrl', 'S']);
-    expect(formatCombo('shift+enter', true)).toEqual(['⇧', 'Enter']);
-  });
-});
 
 @Component({ selector: 'xui-hotkeys-host', template: '' })
 class HostComponent {

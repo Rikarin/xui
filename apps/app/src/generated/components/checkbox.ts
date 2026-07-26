@@ -209,11 +209,12 @@ export const doc: ComponentDoc = {
         "docs": "Used to set the aria-describedby attribute on the underlying xLabel element."
       },
       {
-        "name": "checkedInput",
+        "name": "checked",
         "type": "boolean",
         "default": "false",
         "required": false,
-        "docs": "The checked state of the checkbox."
+        "model": true,
+        "docs": "The checked state of the checkbox. Two-way bindable; emits checkedChange."
       },
       {
         "name": "indeterminate",
@@ -247,13 +248,7 @@ export const doc: ComponentDoc = {
         "docs": "Whether the checkbox is disabled."
       }
     ],
-    "outputs": [
-      {
-        "name": "checkedChange",
-        "type": "boolean",
-        "docs": "Emits when checked state changes."
-      }
-    ],
+    "outputs": [],
     "variants": [
       {
         "name": "color",

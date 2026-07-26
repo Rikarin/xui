@@ -1,15 +1,13 @@
 import {
   computed,
   Directive,
-  DoCheck,
-  effect,
   forwardRef,
   inject,
   Injector,
   input,
   linkedSignal,
   signal,
-  untracked
+  type Signal
 } from '@angular/core';
 import { FormGroupDirective, NgControl, NgForm } from '@angular/forms';
 import { xui } from '@xui/core';
@@ -83,9 +81,8 @@ type InputVariants = VariantProps<typeof inputVariants>;
     }
   ]
 })
-export class XuiInput implements XFormFieldControl, DoCheck {
+export class XuiInput implements XFormFieldControl {
   private readonly injector = inject(Injector);
-  private readonly errorStateTracker: XErrorStateTracker;
   private readonly defaultErrorStateMatcher = inject(XErrorStateMatcher);
   private readonly parentForm = inject(NgForm, { optional: true });
   private readonly parentFormGroup = inject(FormGroupDirective, { optional: true });
@@ -97,7 +94,17 @@ export class XuiInput implements XFormFieldControl, DoCheck {
   readonly color = input<InputVariants['color']>('none');
   readonly error = input<InputVariants['error']>('auto');
   readonly ngControl: NgControl | null = this.injector.get(NgControl, null);
-  readonly errorState = computed(() => this.errorStateTracker.errorState());
+
+  /** Reacts to the control's own events (status, touched, submit) — no `ngDoCheck`. */
+  private readonly errorStateTracker = new XErrorStateTracker(
+    this.defaultErrorStateMatcher,
+    this.ngControl,
+    this.parentFormGroup,
+    this.parentForm
+  );
+
+  /** Whether the bound control is in an error state, per the active matcher. */
+  readonly errorState: Signal<boolean> = this.errorStateTracker.errorState;
 
   /**
    * Extra inline padding, reserved by an enclosing `xui-input-group` for the
@@ -119,31 +126,14 @@ export class XuiInput implements XFormFieldControl, DoCheck {
     )
   );
 
-  protected readonly state = linkedSignal(() => ({ error: this.error() }));
-
-  constructor() {
-    this.errorStateTracker = new XErrorStateTracker(
-      this.defaultErrorStateMatcher,
-      this.ngControl,
-      this.parentFormGroup,
-      this.parentForm
-    );
-
-    effect(() => {
-      const error = this.errorStateTracker.errorState();
-      untracked(() => {
-        if (this.ngControl) {
-          const shouldShowError = error && this.ngControl.invalid && (this.ngControl.touched || this.ngControl.dirty);
-          this.errorStateTracker.errorState.set(!!shouldShowError);
-          this.setError(shouldShowError ? true : 'auto');
-        }
-      });
-    });
-  }
-
-  ngDoCheck() {
-    this.errorStateTracker.updateErrorState();
-  }
+  /**
+   * The error variant actually rendered: forced on while the tracker reports an
+   * error, otherwise whatever the `error` input asks for. `setError` overrides
+   * it until the next tracker/input change.
+   */
+  protected readonly state = linkedSignal<{ error: InputVariants['error'] }>(() => ({
+    error: this.errorState() ? true : this.error()
+  }));
 
   setError(error: InputVariants['error']) {
     this.state.set({ error });

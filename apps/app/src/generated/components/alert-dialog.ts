@@ -84,6 +84,7 @@ export const doc: ComponentDoc = {
   "@angular/cdk": "22",
   "@angular/core": "22",
   "@xui/core": "2.0.0-alpha.11",
+  "class-variance-authority": "^0.7.1",
   "clsx": "^2.1.1"
 },
   sourcePath: "libs/ui/alert-dialog/xui",
@@ -98,7 +99,8 @@ export const doc: ComponentDoc = {
         "name": "class",
         "type": "ClassValue",
         "default": "''",
-        "required": false
+        "required": false,
+        "docs": "The user-defined classes on the panel. Merged last so they win."
       },
       {
         "name": "open",
@@ -157,7 +159,17 @@ export const doc: ComponentDoc = {
         "type": "void"
       }
     ],
-    "variants": [],
+    "variants": [
+      {
+        "name": "intent",
+        "options": [
+          "cancel",
+          "primary",
+          "destructive"
+        ],
+        "default": "primary"
+      }
+    ],
     "methods": []
   }
 ],

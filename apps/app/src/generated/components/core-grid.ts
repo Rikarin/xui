@@ -42,6 +42,7 @@ export const doc: ComponentDoc = {
   "@angular/forms": "22",
   "clsx": ">=2.0.0",
   "luxon": ">=3.0.0",
+  "rxjs": ">=7.0.0",
   "tailwind-merge": ">=3.0.0"
 },
   sourcePath: "libs/core/grid",

@@ -23,6 +23,7 @@ import {
   signal,
   viewChild
 } from '@angular/core';
+import { SIGNAL, type SignalNode, signalSetFn } from '@angular/core/primitives/signals';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { uniqueId } from '@xui/core/a11y';
@@ -90,21 +91,9 @@ export class XCheckbox implements ControlValueAccessor, AfterContentInit, OnDest
 
   /**
    * Current checked state of checkbox.
-   * Can be bound with [(checked)] for two-way binding.
+   * Can be bound with [(checked)] for two-way binding; emits `checkedChange`.
    */
-  // Aliased so the writable `checked` linkedSignal below can own the public name.
-  // eslint-disable-next-line @angular-eslint/no-input-rename
-  readonly checkedInput = input<boolean>(false, { alias: 'checked' });
-  readonly checked = linkedSignal(this.checkedInput);
-
-  /** Emits when checked state changes. */
-  readonly checkedChange = output<boolean>();
-
-  /**
-   * Read-only signal of the current checkbox state.
-   * Use this when you only need to read the state without changing it.
-   */
-  readonly isChecked = this.checked.asReadonly();
+  readonly checked = model<boolean>(false);
 
   readonly indeterminate = model<boolean>(false);
 
@@ -247,7 +236,7 @@ export class XCheckbox implements ControlValueAccessor, AfterContentInit, OnDest
 
     const newChecked = this.indeterminate() ? true : !this.checked();
     this.indeterminate.set(false);
-    this.checkedChange.emit(newChecked);
+    // A model set emits `checkedChange` itself.
     this.checked.set(newChecked);
     this._onChange(newChecked);
   }
@@ -300,7 +289,10 @@ export class XCheckbox implements ControlValueAccessor, AfterContentInit, OnDest
    * @param value - New checkbox state (true/false/'indeterminate')
    */
   writeValue(value: boolean): void {
-    this.checked.set(value);
+    // `ModelSignal.set` also emits `checkedChange`, but a form write is not a
+    // user interaction and must stay silent — write the node directly, the same
+    // silent path an `[checked]` input binding takes.
+    signalSetFn(this.checked[SIGNAL] as SignalNode<boolean>, value);
   }
 
   /**

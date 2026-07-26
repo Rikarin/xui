@@ -30,6 +30,7 @@ export const doc: ComponentDoc = {
   "@angular/forms": "22",
   "clsx": ">=2.0.0",
   "luxon": ">=3.0.0",
+  "rxjs": ">=7.0.0",
   "tailwind-merge": ">=3.0.0"
 },
   sourcePath: "libs/core/table",
@@ -50,20 +51,21 @@ export const doc: ComponentDoc = {
     "selector": "x-column-def",
     "inputs": [
       {
+        "name": "name",
+        "type": "string",
+        "required": true
+      },
+      {
         "name": "class",
         "type": "string",
         "default": "''",
-        "required": false
+        "required": false,
+        "docs": "Extra classes the styled cells (xui-th/xui-td) merge into this column."
       }
     ],
     "outputs": [],
     "variants": [],
-    "methods": [
-      {
-        "name": "ngAfterContentChecked",
-        "signature": "ngAfterContentChecked()"
-      }
-    ]
+    "methods": []
   },
   {
     "kind": "directive",
@@ -90,8 +92,34 @@ export const doc: ComponentDoc = {
     "name": "XPaginator",
     "selector": "[xPaginator]",
     "exportAs": "xPaginator",
-    "inputs": [],
-    "outputs": [],
+    "inputs": [
+      {
+        "name": "totalElements",
+        "type": "number | null | undefined",
+        "default": "null",
+        "required": false
+      },
+      {
+        "name": "currentPage",
+        "type": "number",
+        "default": "0",
+        "required": false,
+        "transform": "numberAttribute"
+      },
+      {
+        "name": "pageSize",
+        "type": "number",
+        "default": "10",
+        "required": false,
+        "transform": "numberAttribute"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "stateChange",
+        "type": "XPaginatorState"
+      }
+    ],
     "variants": [],
     "methods": [
       {
@@ -122,6 +150,60 @@ export const doc: ComponentDoc = {
     "selector": "x-table",
     "inputs": [
       {
+        "name": "dataSource",
+        "type": "XTableDataSourceInput<T>",
+        "default": "[]",
+        "required": false
+      },
+      {
+        "name": "fixedLayout",
+        "type": "boolean",
+        "default": "false",
+        "required": false,
+        "transform": "booleanAttribute"
+      },
+      {
+        "name": "multiTemplateDataRows",
+        "type": "boolean",
+        "default": "false",
+        "required": false,
+        "transform": "booleanAttribute"
+      },
+      {
+        "name": "displayedColumns",
+        "type": "string[]",
+        "default": "[]",
+        "required": false
+      },
+      {
+        "name": "trackBy",
+        "type": "TrackByFunction<T>",
+        "default": "(_index, item) => item",
+        "required": false
+      },
+      {
+        "name": "customTemplateDataRows",
+        "type": "boolean",
+        "default": "false",
+        "required": false,
+        "transform": "booleanAttribute"
+      },
+      {
+        "name": "interactiveRows",
+        "type": "boolean",
+        "default": "false",
+        "required": false,
+        "transform": "booleanAttribute",
+        "docs": "Marks the default body rows as clickable: they become focusable, get role=\"button\" and the row-interactive class. rowClick emits regardless, so a listener without the visual affordance is possible — but usually these two go together."
+      },
+      {
+        "name": "stickyHeader",
+        "type": "boolean",
+        "default": "false",
+        "required": false,
+        "transform": "booleanAttribute"
+      },
+      {
         "name": "tableClasses",
         "type": "string",
         "default": "''",
@@ -143,18 +225,18 @@ export const doc: ComponentDoc = {
         "model": true
       }
     ],
-    "outputs": [],
-    "variants": [],
-    "methods": [
+    "outputs": [
       {
-        "name": "ngAfterContentInit",
-        "signature": "ngAfterContentInit(): void"
+        "name": "contentChanged",
+        "type": "void"
       },
       {
-        "name": "setTableClasses",
-        "signature": "setTableClasses({ table, headerRow, bodyRow }: Partial<{ table: string; headerRow: string; bodyRow: string }>): void"
+        "name": "rowClick",
+        "type": "T"
       }
-    ]
+    ],
+    "variants": [],
+    "methods": []
   }
 ],
   examples: [

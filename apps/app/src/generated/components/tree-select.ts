@@ -62,7 +62,7 @@ export const doc: ComponentDoc = {
   package: "@xui/tree-select",
   kind: "ui",
   group: "Forms",
-  description: "A select whose options form a tree — expand branches and pick nodes. Single mode binds one value; multiple shows removable chips with checkboxes.",
+  description: "A select whose options form a tree — expand branches and pick nodes. Single mode binds one value; multiple shows removable chips with checkboxes. Fully keyboard-driven from the trigger: Up/Down move, Right/Left (RTL-aware) expand/collapse or step in/out, Home/End jump, Enter selects, Escape closes.",
   importsConst: "XuiTreeSelectImports",
   exports: [
   "XuiTreeSelect",
@@ -71,7 +71,6 @@ export const doc: ComponentDoc = {
 ],
   peerDependencies: {
   "@angular/cdk": "22",
-  "@angular/common": "22",
   "@angular/core": "22",
   "@xui/core": "2.0.0-alpha.11",
   "clsx": "^2.1.1"

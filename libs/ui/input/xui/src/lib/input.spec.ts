@@ -1,9 +1,10 @@
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { XErrorStateMatcher, XShowOnDirtyErrorStateMatcher } from '@xui/core/forms';
 import { expectClasses, expectNoClasses, render } from '@xui/testing';
 import { XuiInput } from './input';
 
-const setup = (template: string, props?: Record<string, unknown>) =>
-  render(template, { imports: [XuiInput, ReactiveFormsModule], props });
+const setup = (template: string, props?: Record<string, unknown>, providers?: unknown[]) =>
+  render(template, { imports: [XuiInput, ReactiveFormsModule], props, providers });
 
 const instance = (fixture: ReturnType<typeof setup>['fixture']) =>
   fixture.debugElement.children[0].injector.get(XuiInput);
@@ -85,6 +86,43 @@ describe('XuiInput', () => {
       control.markAsTouched();
       fixture.detectChanges();
 
+      expect(instance(fixture).errorState()).toBe(true);
+    });
+
+    it('updates the error state from the control events, without a change-detection sweep', () => {
+      const control = new FormControl('', Validators.required);
+      const { fixture } = setup('<input xuiInput [formControl]="props().control" />', { control });
+
+      // No detectChanges after this: the state is event-driven, not CD-polled.
+      control.markAsTouched();
+
+      expect(instance(fixture).errorState()).toBe(true);
+
+      control.setValue('filled');
+
+      expect(instance(fixture).errorState()).toBe(false);
+    });
+
+    it('forces the error styling classes while the control errors', () => {
+      const control = new FormControl('', Validators.required);
+      const { fixture, query } = setup('<input xuiInput [formControl]="props().control" />', { control });
+
+      control.markAsTouched();
+      fixture.detectChanges();
+
+      expectClasses(query('input'), 'border-error', 'border-2', 'text-error');
+    });
+
+    it('respects an overridden error-state matcher', () => {
+      const control = new FormControl('', Validators.required);
+      const { fixture } = setup('<input xuiInput [formControl]="props().control" />', { control }, [
+        { provide: XErrorStateMatcher, useClass: XShowOnDirtyErrorStateMatcher }
+      ]);
+
+      control.markAsTouched();
+      expect(instance(fixture).errorState()).toBe(false);
+
+      control.markAsDirty();
       expect(instance(fixture).errorState()).toBe(true);
     });
   });

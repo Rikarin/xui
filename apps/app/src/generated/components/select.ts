@@ -66,6 +66,7 @@ export const doc: ComponentDoc = {
   "@angular/cdk": "22",
   "@angular/common": "22",
   "@angular/core": "22",
+  "@angular/forms": "22",
   "@ng-icons/core": "34",
   "@ng-icons/material-icons": "34",
   "@xui/core": "2.0.0-alpha.11",

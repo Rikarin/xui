@@ -1,7 +1,8 @@
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { computed, DestroyRef, inject, Injectable, PLATFORM_ID, signal } from '@angular/core';
+import { matchesXCombo, parseXCombo } from '@xui/core/hotkeys';
 import { XuiDialogService } from '@xui/dialog';
-import { comboMatchesEvent, parseCombo, type XuiHotkey } from './hotkey';
+import type { XuiHotkey } from './hotkey';
 import { XuiHotkeysDialog } from './hotkeys-dialog';
 
 const TEXT_INPUT = /^(input|textarea|select)$/i;
@@ -85,7 +86,7 @@ export class XuiHotkeysService {
         continue;
       }
 
-      if (comboMatchesEvent(parseCombo(hotkey.combo), event, this.isMac)) {
+      if (matchesXCombo(parseXCombo(hotkey.combo), event, this.isMac)) {
         if (hotkey.preventDefault !== false) {
           event.preventDefault();
         }

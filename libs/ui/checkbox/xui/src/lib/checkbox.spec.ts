@@ -1,7 +1,8 @@
 import { expectAttributes, expectClasses, render } from '@xui/testing';
 import { XuiCheckbox } from './checkbox';
 
-const setup = (template: string) => render(template, { imports: [XuiCheckbox] });
+const setup = (template: string, props?: Record<string, unknown>) =>
+  render(template, { imports: [XuiCheckbox], props });
 
 const instanceOf = (fixture: ReturnType<typeof setup>['fixture']) =>
   fixture.debugElement.children[0].componentInstance as XuiCheckbox;
@@ -24,11 +25,20 @@ describe('XuiCheckbox', () => {
   it('emits checkedChange when toggled', () => {
     const emitted: boolean[] = [];
     const { fixture, click } = setup('<xui-checkbox />');
-    instanceOf(fixture).checkedChange.subscribe(value => emitted.push(value));
+    instanceOf(fixture).checked.subscribe(value => emitted.push(value));
 
     click('button');
 
     expect(emitted).toEqual([true]);
+  });
+
+  it('supports [(checked)] two-way binding', () => {
+    const { query, click, fixture } = setup('<xui-checkbox [(checked)]="props().on" />', { on: false });
+
+    click('button');
+
+    expect((fixture.componentInstance.props() as { on: boolean }).on).toBe(true);
+    expectAttributes(query('button'), { 'aria-checked': 'true' });
   });
 
   it('does not toggle while disabled', () => {
@@ -120,6 +130,18 @@ describe('XuiCheckbox', () => {
       fixture.detectChanges();
 
       expectAttributes(query('button'), { 'aria-checked': 'true' });
+    });
+
+    it('writeValue does not emit checkedChange', () => {
+      const emitted: boolean[] = [];
+      const { fixture } = setup('<xui-checkbox />');
+      instanceOf(fixture).checked.subscribe(value => emitted.push(value));
+
+      instanceOf(fixture).writeValue(true);
+      fixture.detectChanges();
+
+      expect(emitted).toEqual([]);
+      expect(instanceOf(fixture).checked()).toBe(true);
     });
 
     it('notifies the registered onChange when toggled', () => {

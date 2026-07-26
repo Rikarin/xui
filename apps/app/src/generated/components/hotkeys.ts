@@ -9,20 +9,19 @@ export const doc: ComponentDoc = {
   kind: "ui",
   group: "Actions",
   description: "The ?-triggered help overlay listing every registered hotkey, grouped. Mounted by {@link XuiHotkeysService.openHelp}; not intended to be used directly.",
-  importsConst: undefined,
+  importsConst: "XuiHotkeysImports",
   exports: [
   "XuiHotkeysDialog",
+  "XuiHotkeysImports",
   "XuiHotkey",
-  "ParsedCombo",
-  "parseCombo",
-  "comboMatchesEvent",
-  "formatCombo",
   "injectHotkeys"
 ],
   peerDependencies: {
   "@angular/common": "22",
   "@angular/core": "22",
-  "@xui/dialog": "2.0.0-alpha.11"
+  "@xui/core": "2.0.0-alpha.11",
+  "@xui/dialog": "2.0.0-alpha.11",
+  "@xui/kbd": "2.0.0-alpha.11"
 },
   sourcePath: "libs/ui/hotkeys/xui",
   symbols: [

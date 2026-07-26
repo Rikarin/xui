@@ -5,12 +5,11 @@ import {
   Component,
   computed,
   input,
-  linkedSignal,
   model,
-  output,
   viewChild,
   ViewEncapsulation
 } from '@angular/core';
+import { SIGNAL, type SignalNode, signalSetFn } from '@angular/core/primitives/signals';
 import { ControlValueAccessor } from '@angular/forms';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { matCheckRound, matRemoveRound } from '@ng-icons/material-icons/round';
@@ -207,14 +206,8 @@ export class XuiCheckbox implements ControlValueAccessor {
   /** Used to set the aria-describedby attribute on the underlying xLabel element. */
   readonly ariaDescribedby = input<string | null>(null, { alias: 'aria-describedby' });
 
-  /** The checked state of the checkbox. */
-  // Aliased so the writable `checked` linkedSignal below can own the public name.
-  // eslint-disable-next-line @angular-eslint/no-input-rename
-  readonly checkedInput = input<boolean>(false, { alias: 'checked' });
-  readonly checked = linkedSignal(this.checkedInput);
-
-  /** Emits when checked state changes. */
-  readonly checkedChange = output<boolean>();
+  /** The checked state of the checkbox. Two-way bindable; emits `checkedChange`. */
+  readonly checked = model<boolean>(false);
 
   /**
    * The indeterminate state of the checkbox.
@@ -232,7 +225,10 @@ export class XuiCheckbox implements ControlValueAccessor {
   readonly disabled = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
 
   protected readonly cva = createXValueAccessor<boolean>({
-    onWrite: value => this.checked.set(value),
+    // `ModelSignal.set` also emits `checkedChange`, but a form write is not a
+    // user interaction and must stay silent — write the node directly, the same
+    // silent path an `[checked]` input binding takes.
+    onWrite: value => signalSetFn(this.checked[SIGNAL] as SignalNode<boolean>, value),
     disabled: this.disabled
   });
   protected readonly isDisabled = this.cva.disabled;
@@ -242,8 +238,8 @@ export class XuiCheckbox implements ControlValueAccessor {
       return;
     }
 
+    // A model set emits `checkedChange` itself.
     this.checked.set(value);
-    this.checkedChange.emit(value);
     this.cva.notifyChange(value);
   }
 

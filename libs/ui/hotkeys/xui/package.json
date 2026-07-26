@@ -23,7 +23,9 @@
   "peerDependencies": {
     "@angular/common": "22",
     "@angular/core": "22",
-    "@xui/dialog": "2.0.0-alpha.11"
+    "@xui/core": "2.0.0-alpha.11",
+    "@xui/dialog": "2.0.0-alpha.11",
+    "@xui/kbd": "2.0.0-alpha.11"
   },
   "publishConfig": {
     "access": "public"

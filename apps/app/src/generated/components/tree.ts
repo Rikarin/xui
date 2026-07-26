@@ -11,13 +11,13 @@ const NODES: XuiTreeNode[] = [
     label: 'src',
     icon: 'matFolderRound',
     isExpanded: true,
-    childNodes: [
+    children: [
       {
         id: 'app',
         label: 'app',
         icon: 'matFolderRound',
         isExpanded: true,
-        childNodes: [
+        children: [
           { id: 'main', label: 'main.ts', icon: 'matDescriptionRound', secondaryLabel: '1 kB' },
           { id: 'app.component', label: 'app.component.ts', icon: 'matDescriptionRound', secondaryLabel: '4 kB' }
         ]
@@ -26,7 +26,7 @@ const NODES: XuiTreeNode[] = [
         id: 'assets',
         label: 'assets',
         icon: 'matFolderRound',
-        childNodes: [{ id: 'logo', label: 'logo.svg', icon: 'matImageRound' }]
+        children: [{ id: 'logo', label: 'logo.svg', icon: 'matImageRound' }]
       },
       { id: 'index', label: 'index.html', icon: 'matDescriptionRound', secondaryLabel: '2 kB' }
     ]

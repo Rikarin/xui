@@ -2,24 +2,19 @@
 import type { ComponentDoc } from '../../app/core/docs.model';
 
 export const doc: ComponentDoc = {
-  name: "a11y",
-  slug: "core-a11y",
-  title: "A11y",
-  package: "@xui/core/a11y",
+  name: "hotkeys",
+  slug: "core-hotkeys",
+  title: "Hotkeys",
+  package: "@xui/core/hotkeys",
   kind: "core",
   group: "Headless primitives",
   description: undefined,
   importsConst: undefined,
   exports: [
-  "XDirection",
-  "injectXDirection",
-  "arrowDirection",
-  "arrowDirectionOnAxis",
-  "arrowValueDirection",
-  "inlineFraction",
-  "uniqueId",
-  "resetUniqueIdSequence",
-  "resolveId"
+  "XParsedCombo",
+  "parseXCombo",
+  "matchesXCombo",
+  "formatXCombo"
 ],
   peerDependencies: {
   "@angular/cdk": "22",
@@ -31,7 +26,7 @@ export const doc: ComponentDoc = {
   "rxjs": ">=7.0.0",
   "tailwind-merge": ">=3.0.0"
 },
-  sourcePath: "libs/core/a11y",
+  sourcePath: "libs/core/hotkeys",
   symbols: [],
   examples: [
   ]
