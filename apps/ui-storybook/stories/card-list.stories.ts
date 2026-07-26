@@ -2,8 +2,6 @@ import { argsToTemplate, moduleMetadata, type Meta, type StoryObj } from '@story
 import { XuiCardImports } from '@xui/card';
 import { XuiCardList, XuiCardListImports } from '@xui/card-list';
 
-const ROWS = ['Design review', 'Backend migration', 'Release checklist'];
-
 const meta: Meta<XuiCardList> = {
   title: 'Data display/Card list',
   component: XuiCardList,
@@ -17,7 +15,9 @@ const meta: Meta<XuiCardList> = {
     props: args,
     template: `
       <div xuiCardList class="w-80" ${argsToTemplate(args)}>
-        ${ROWS.map(row => `<button xuiCard interactive class="text-left">${row}</button>`).join('\n        ')}
+        <button xuiCard interactive class="text-left">Design review</button>
+        <button xuiCard interactive class="text-left">Backend migration</button>
+        <button xuiCard interactive class="text-left">Release checklist</button>
       </div>
     `
   })
