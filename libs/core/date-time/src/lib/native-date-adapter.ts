@@ -1,20 +1,45 @@
 import type { XDateAdapter, XDateUnits, XDuration } from './date-adapter';
 
+/** Most to least significant — the order the defaulting rule in `create` walks. */
+const UNITS = [
+  'year',
+  'month',
+  'day',
+  'hour',
+  'minute',
+  'second',
+  'millisecond'
+] as const satisfies readonly (keyof XDateUnits)[];
+
 export class XNativeDateAdapter implements XDateAdapter<Date> {
   /**
    * Create a new date time object.
+   *
+   * Units coarser than the most significant one given are taken from today;
+   * finer ones bottom out. So `{ year, month, day }` is midnight on that day
+   * rather than today's clock time with the date swapped — which also makes the
+   * result depend only on its arguments. Passing nothing at all means now.
+   *
+   * This is Luxon's `fromObject` rule, and it has to be, or the two adapters
+   * would answer differently for the same call.
    */
-  create({ day, hour, minute, month, second, year, millisecond }: XDateUnits): Date {
+  create(values: XDateUnits): Date {
     const now = new Date();
+    const significant = UNITS.findIndex(unit => values[unit] !== undefined);
+
+    const resolve = (unit: (typeof UNITS)[number], floor: number, today: number): number =>
+      values[unit] ?? (significant === -1 || UNITS.indexOf(unit) < significant ? today : floor);
 
     return new Date(
-      year ?? now.getFullYear(),
-      month ?? now.getMonth(),
-      day ?? now.getDate(),
-      hour ?? now.getHours(),
-      minute ?? now.getMinutes(),
-      second ?? now.getSeconds(),
-      millisecond ?? now.getMilliseconds()
+      // Nothing is coarser than the year, so its floor is only ever reached when
+      // no unit was given at all — in which case every unit comes from `now`.
+      resolve('year', now.getFullYear(), now.getFullYear()),
+      resolve('month', 0, now.getMonth()),
+      resolve('day', 1, now.getDate()),
+      resolve('hour', 0, now.getHours()),
+      resolve('minute', 0, now.getMinutes()),
+      resolve('second', 0, now.getSeconds()),
+      resolve('millisecond', 0, now.getMilliseconds())
     );
   }
 

@@ -16,6 +16,34 @@ function describeConformance<T>(name: string, adapter: XDateAdapter<T>) {
       expect(adapter.getDate(date)).toBe(15);
     });
 
+    it('floors the units below the one given, so a date-only create is midnight', () => {
+      const date = adapter.create({ year: 2024, month: 0, day: 1 });
+
+      // Carrying the current clock time here would make `create` depend on when it ran — two calls
+      // with the same units would land on different instants, and only rarely enough to look flaky.
+      expect(adapter.getHours(date)).toBe(0);
+      expect(adapter.getMinutes(date)).toBe(0);
+      expect(adapter.getSeconds(date)).toBe(0);
+      expect(adapter.getMilliseconds(date)).toBe(0);
+    });
+
+    it('takes the units above the one given from today', () => {
+      const today = adapter.now();
+      const eightAM = adapter.create({ hour: 8 });
+
+      expect(adapter.getYear(eightAM)).toBe(adapter.getYear(today));
+      expect(adapter.getMonth(eightAM)).toBe(adapter.getMonth(today));
+      expect(adapter.getDate(eightAM)).toBe(adapter.getDate(today));
+      expect(adapter.getHours(eightAM)).toBe(8);
+      expect(adapter.getMinutes(eightAM)).toBe(0);
+    });
+
+    it('creates the same instant twice for the same units', () => {
+      const units = { year: 2024, month: 0, day: 1 };
+
+      expect(adapter.compare(adapter.create(units), adapter.create(units))).toBe(0);
+    });
+
     it('returns months between 0 (January) and 11 (December)', () => {
       const january = adapter.create({ year: 2024, month: 0, day: 1 });
       const december = adapter.create({ year: 2024, month: 11, day: 1 });
