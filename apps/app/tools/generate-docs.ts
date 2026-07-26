@@ -427,13 +427,13 @@ function serialiseArgs(args: Record<string, unknown>, excluded: Set<string>): st
  * Locals — `#refs`, `@for` variables, `as` aliases, `$index` and friends — are already in scope, so
  * only what is left has to become a field.
  */
-function templateFields(template: string, props: string | undefined): string[] {
+function templateFields(template: string, props: string | undefined, args: Record<string, unknown> = {}): string[] {
   const entries = props ? splitEntries(props) : [];
   const declared = new Set(entries.map(entry => entry.key));
 
   // A story's `props` does not always cover everything its template names — a handler written
   // inline, a value the decorator supplies. Whatever is left still has to be declared.
-  const inferred = inferredFields(template).filter(field => !declared.has(fieldName(field)));
+  const inferred = inferredFields(template, args).filter(field => !declared.has(fieldName(field)));
   const siblings = new Set([...declared, ...inferred.map(fieldName)]);
 
   // Typed `any`, and not `readonly`: a story's fixtures were written against its own template, where
@@ -450,7 +450,7 @@ function fieldName(field: string): string {
   return /protected (?:readonly )?(\w+)/.exec(field)?.[1] ?? '';
 }
 
-function inferredFields(template: string): string[] {
+function inferredFields(template: string, args: Record<string, unknown> = {}): string[] {
   const expressions: string[] = [];
 
   for (const hit of template.matchAll(/\{\{([^}]*)\}\}/g)) {
@@ -511,9 +511,16 @@ function inferredFields(template: string): string[] {
   // A story hands its template real values through `props`, and the shape matters: a plain field
   // where the template expects a signal compiles and then throws "is not a function" on the first
   // render. How the name is used says which it is.
+  //
+  // The value comes from the story's `args` where there is one. `render: ({...args}) => ({props:
+  // args, template: '<x [title]="title" />'})` is the second way a story feeds its template — the
+  // first being `${argsToTemplate(args)}` — and left undeclared the preview renders a component
+  // with none of its arguments, which for a non-ideal state is a box with no title in it.
   return [...fields].map(name => {
+    const value = name in args ? json(args[name]) : 'undefined';
+
     if (new RegExp(`\\b${name}\\s*\\(\\s*\\)|\\b${name}\\.(set|update)\\b`).test(template)) {
-      return `  protected readonly ${name} = signal<any>(undefined);`;
+      return `  protected readonly ${name} = signal<any>(${value});`;
     }
 
     if (new RegExp(`\\b${name}\\s*\\(\\s*[^)\\s]`).test(template)) {
@@ -522,7 +529,7 @@ function inferredFields(template: string): string[] {
       return `  protected readonly ${name} = (..._args: any[]): void => undefined;`;
     }
 
-    return `  protected ${name}: any;`;
+    return name in args ? `  protected ${name}: any = ${value};` : `  protected ${name}: any;`;
   });
 }
 
@@ -847,7 +854,9 @@ function emitComponent(component: XuiComponent, story: StoryMeta | undefined): E
     .map(example => ({
       ...example,
       template: expandTemplate(example, story?.args ?? {}),
-      props: story ? readStoryProps(story.source, example.name) : undefined
+      props: story ? readStoryProps(story.source, example.name) : undefined,
+      // What the story would have been rendered with: the file's args, overridden by this story's.
+      argValues: { ...(story?.args ?? {}), ...parseArgs(example.args) }
     }))
     // A story whose `template` is anything but a literal — a call to a helper, say — parses to
     // nothing, and the example would then disappear from the docs with no sign it ever existed.
@@ -872,7 +881,8 @@ function emitComponent(component: XuiComponent, story: StoryMeta | undefined): E
   }));
   const statements = [...new Set(perExample.flatMap(entry => entry.statements))];
 
-  const fieldsFor = (entry: (typeof perExample)[number]) => templateFields(entry.example.template, entry.example.props);
+  const fieldsFor = (entry: (typeof perExample)[number]) =>
+    templateFields(entry.example.template, entry.example.props, entry.example.argValues);
   const needsSignal = perExample.some(entry => fieldsFor(entry).some(field => field.includes('signal<any>')));
 
   const lines: string[] = [
@@ -908,11 +918,11 @@ function emitComponent(component: XuiComponent, story: StoryMeta | undefined): E
       escapeTemplate(example.template),
       '`',
       '})',
-      // A story binds to properties declared on its own host component. Those are re-declared here
-      // so the template compiles; they start undefined, so the preview renders the component's own
-      // defaults rather than the story's fixture.
+      // A story binds to properties it declares for itself. Those are re-declared here so the
+      // template compiles, carrying the story's `args` where it had them — without which the
+      // preview renders a component that was handed none of its arguments.
       `export class Preview${example.name} {`,
-      ...templateFields(example.template, example.props),
+      ...templateFields(example.template, example.props, example.argValues),
       '}',
       ''
     );
