@@ -193,7 +193,14 @@ export class XuiNumericInput implements ControlValueAccessor, XFormFieldControl 
       this.size() === 'sm' ? 'px-(--control-padding-sm) text-xs' : 'px-(--control-padding-md) text-sm'
     )
   );
-  protected readonly stepperColumnClass = computed(() => 'border-border flex shrink-0 flex-col border-s');
+  protected readonly stepperColumnClass = computed(() =>
+    xui(
+      'border-border flex shrink-0 flex-col',
+      // The rule divides the steppers from the field, so it belongs on whichever edge faces it —
+      // on the outer edge it would just double up on the wrapper's own border.
+      this.buttonPosition() === 'left' ? 'border-e' : 'border-s'
+    )
+  );
 
   /**
    * The two steppers split the control height between them, so a glyph sized off the icon scale
