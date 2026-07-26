@@ -113,6 +113,7 @@ export class XuiGraphPort implements XuiGraphPortHandle, OnInit {
   /** Unique within the owning node — the node id supplies the rest of the identity. */
   readonly portId = input.required<string>();
 
+  /** Extra classes, merged into the component's own rather than replacing them. */
   readonly class = input<ClassValue>('');
 
   /**
@@ -122,6 +123,7 @@ export class XuiGraphPort implements XuiGraphPortHandle, OnInit {
    */
   readonly direction = input<XuiGraphPortDirection>('input');
 
+  /** The port's caption. Also its accessible name, falling back to the port id when empty. */
   readonly label = input<string>('');
 
   /**
@@ -135,6 +137,7 @@ export class XuiGraphPort implements XuiGraphPortHandle, OnInit {
   /** Overrides the colour inherited from {@link dataType}. */
   readonly color = input<string>();
 
+  /** Block connections to and from this port. It stays visible and keeps its existing edges. */
   readonly disabled = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
 
   /**
@@ -143,6 +146,7 @@ export class XuiGraphPort implements XuiGraphPortHandle, OnInit {
    */
   readonly side = input<XuiGraphPortSide>();
 
+  /** Override the port's glyph. Falls back to the shape declared for its type, then to the graph's default. */
   readonly shape = input<XuiGraphPortShape>();
 
   /**

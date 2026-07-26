@@ -214,6 +214,11 @@ export class XuiBreadcrumbs<T extends XuiBreadcrumbData = XuiBreadcrumbData> {
 
   /** The user-defined classes. Merged last so they win over the base classes. */
   readonly class = input<ClassValue>('');
+  /**
+   * The trail, root first. Each entry renders through `XuiBreadcrumbData` unless a
+   * `xuiBreadcrumbsItem` template overrides it; a wider `T` is passed through to that template
+   * untouched, so extra fields survive the round trip to `itemClick`.
+   */
   readonly items = input.required<readonly T[]>();
 
   /** Which end collapses. A trail collapses from the start, keeping where you are. */

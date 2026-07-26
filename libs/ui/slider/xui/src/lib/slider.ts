@@ -64,6 +64,18 @@ export type XuiSliderColor = NonNullable<VariantProps<typeof sliderFillVariants>
 /** Round away binary-float dust so stepped values stay exact (e.g. 0.1 + 0.2). */
 const roundToGrid = (n: number): number => Math.round(n * 1e10) / 1e10;
 
+/**
+ * A draggable value along a track, with an optional labelled axis.
+ *
+ * ```html
+ * <xui-slider [min]="0" [max]="100" [stepSize]="5" [(value)]="volume" />
+ * ```
+ *
+ * A `ControlValueAccessor`, so it drops into a form unchanged. Every value that reaches it — typed,
+ * dragged, or written by a form — is clamped to `[min, max]` and snapped to `stepSize`, so the bound
+ * value is always one the slider can actually render. Dragging follows the pointer through
+ * `injectXPointerDrag`, and the keyboard contract follows the APG, direction-aware in RTL.
+ */
 @Component({
   selector: 'xui-slider',
   imports: [],
@@ -119,10 +131,14 @@ const roundToGrid = (n: number): number => Math.round(n * 1e10) / 1e10;
 export class XuiSlider implements ControlValueAccessor {
   private readonly config = injectXuiSliderConfig();
 
+  /** Extra classes, merged into the component's own rather than replacing them. */
   readonly class = input<ClassValue>('');
 
+  /** Lower end of the range. Every value the slider takes is clamped to it. */
   readonly min = input<number, NumberInput>(0, { transform: numberAttribute });
+  /** Upper end of the range. Every value the slider takes is clamped to it. */
   readonly max = input<number, NumberInput>(10, { transform: numberAttribute });
+  /** The granularity values snap to. Also how far one arrow key moves the handle. */
   readonly stepSize = input<number, NumberInput>(1, { transform: numberAttribute });
 
   /** Spacing between rendered axis labels; `0` (or a falsy `labelRenderer`) hides them. */
@@ -131,10 +147,14 @@ export class XuiSlider implements ControlValueAccessor {
   /** Format a tick value into its label, or `false` to hide the axis entirely. */
   readonly labelRenderer = input<XuiSliderLabelRenderer>((value: number) => String(value));
 
+  /** Intent colour of the track fill and the handle. */
   readonly color = input<XuiSliderColor>(this.config.color);
+  /** Run the track across (`horizontal`) or up the page (`vertical`). Also picks which arrow keys move the handle. */
   readonly orientation = input<'horizontal' | 'vertical'>(this.config.orientation);
+  /** Fill the track up to the handle, rather than leaving it uniform. */
   readonly showTrackFill = input<boolean, BooleanInput>(this.config.showTrackFill, { transform: booleanAttribute });
 
+  /** Block interaction and dim the slider. */
   readonly disabled = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
   protected readonly cva = createXValueAccessor<number>({
     onWrite: value => this.value.set(this.clampAndSnap(value ?? this.min())),
@@ -148,6 +168,7 @@ export class XuiSlider implements ControlValueAccessor {
   readonly valueInput = input<number>(0, { alias: 'value' });
   readonly value = linkedSignal(() => this.clampAndSnap(this.valueInput()));
 
+  /** Emits the clamped, snapped value whenever it changes — from a drag, a key, or a track click. */
   readonly valueChange = output<number>();
 
   private readonly track = viewChild.required<ElementRef<HTMLDivElement>>('track');

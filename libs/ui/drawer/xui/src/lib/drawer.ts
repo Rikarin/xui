@@ -89,20 +89,27 @@ export class XuiDrawer {
 
   /** The user-defined classes on the surface. Merged last so they win. */
   readonly class = input<ClassValue>('');
+  /** The drawer's heading, also used as its accessible name. */
   readonly title = input<string | null>(null);
+  /** Which edge the drawer slides in from. Also decides whether `size` is read as a width or a height. */
   readonly position = input<XuiDrawerPosition>(this.config.position);
+  /** How far the drawer extends from its edge — a width for `left`/`right`, a height for `top`/`bottom`. */
   readonly size = input<XuiDrawerSize>(this.config.size);
 
+  /** Let Escape close the drawer. */
   readonly canEscapeKeyClose = input<boolean, BooleanInput>(this.config.canEscapeKeyClose, {
     transform: booleanAttribute
   });
+  /** Let a click on the backdrop close the drawer. */
   readonly canOutsideClickClose = input<boolean, BooleanInput>(this.config.canOutsideClickClose, {
     transform: booleanAttribute
   });
+  /** Show the × in the header. */
   readonly showCloseButton = input<boolean, BooleanInput>(this.config.showCloseButton, {
     transform: booleanAttribute
   });
 
+  /** Whether the drawer is showing. Two-way bindable with `[(open)]`. */
   readonly open = model(false);
 
   private readonly axis = computed<'horizontal' | 'vertical'>(() =>

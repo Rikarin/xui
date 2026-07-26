@@ -74,8 +74,11 @@ export class XuiText {
   readonly class = input<ClassValue>('');
   // The configured defaults are themselves undefined unless the app provides them,
   // so unconfigured text keeps inheriting from its surroundings.
+  /** Semantic text colour, from `foreground` down to `subtle` plus the intent colours. */
   readonly color = input<XuiTextVariants['color']>(this.config.color);
+  /** Font size, from the theme's type scale. */
   readonly size = input<XuiTextVariants['size']>(this.config.size);
+  /** Font weight. */
   readonly weight = input<XuiTextVariants['weight']>(this.config.weight);
 
   /** Truncate with an ellipsis instead of wrapping. */

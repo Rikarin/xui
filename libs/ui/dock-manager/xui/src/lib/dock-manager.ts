@@ -536,6 +536,7 @@ export class XuiDockManager implements XuiDockContentMounter {
   // having to be immediate children.
   private readonly contents = contentChildren(XuiDockContent, { descendants: true });
 
+  /** Extra classes, merged into the component's own rather than replacing them. */
   readonly class = input<ClassValue>('');
 
   /**
@@ -550,8 +551,11 @@ export class XuiDockManager implements XuiDockContentMounter {
   /** The pane the user last interacted with, or `null` once it is gone. */
   readonly activePaneChange = output<XuiDockContentPane | null>();
 
+  /** Emits the pane and its new pinned state whenever a pane is pinned or unpinned. */
   readonly panePinnedChange = output<XuiDockPaneStateEvent>();
+  /** Emits the pane and its new maximized state whenever a pane is maximized or restored. */
   readonly paneMaximizedChange = output<XuiDockPaneStateEvent>();
+  /** Emits the pane and its new floating state whenever a pane is torn out of the layout or docked back into it. */
   readonly paneFloatingChange = output<XuiDockPaneStateEvent>();
 
   /** A pointer drag on a pane header or tab began. */

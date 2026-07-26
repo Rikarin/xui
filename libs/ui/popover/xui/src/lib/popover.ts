@@ -65,12 +65,30 @@ export class XuiPopover {
   /** Values the content template destructures with `let-`. */
   readonly context = input<Record<string, unknown>>();
 
+  /**
+   * What opens the popover: a click or a hover. The `-target` variants keep the popover open only while the target
+   * itself is engaged, rather than bridging to the panel.
+   */
   readonly interactionKind = input<XuiPopoverInteractionKind>(this.config.interactionKind);
+  /** Preferred side and alignment relative to the target. The overlay flips it when there is no room. */
   readonly placement = input<XPlacement>(this.config.placement);
+  /** Gap in pixels between the target and the panel. Ignored when `minimal`, which sits flush. */
   readonly offset = input<number, NumberInput>(this.config.offset, { transform: numberAttribute });
+  /**
+   * Milliseconds the pointer must rest on the target before a hover popover opens. Keeps it from firing on the way
+   * past.
+   */
   readonly hoverOpenDelay = input<number, NumberInput>(this.config.hoverOpenDelay, { transform: numberAttribute });
+  /**
+   * Milliseconds before a hover popover closes after the pointer leaves — the grace period for crossing the gap into
+   * the panel.
+   */
   readonly hoverCloseDelay = input<number, NumberInput>(this.config.hoverCloseDelay, { transform: numberAttribute });
+  /**
+   * Drop the arrow and the offset, so the panel sits flush against the target. For dropdowns rather than callouts.
+   */
   readonly minimal = input<boolean, BooleanInput>(this.config.minimal, { transform: booleanAttribute });
+  /** Make the panel exactly as wide as its target. What a select-style dropdown wants. */
   readonly matchTargetWidth = input<boolean, BooleanInput>(this.config.matchTargetWidth, {
     transform: booleanAttribute
   });
@@ -91,12 +109,15 @@ export class XuiPopover {
 
   /** ARIA role for the pane — `menu`, `listbox`, `dialog`. Null leaves it a plain group. */
   readonly role = input<'dialog' | 'menu' | 'listbox' | 'grid' | null>(null);
+  /** Accessible name for the panel, when its content does not supply one. */
   readonly ariaLabel = input<string | null>(null);
 
   /** Open state. Works bound (controlled) or unbound (the directive toggles it). */
   readonly open = model(false);
 
+  /** Emits once the panel is attached. */
   readonly opened = output<void>();
+  /** Emits once the panel is detached. */
   readonly closed = output<void>();
 
   /** Debounces hover open/close so crossing the trigger–pane gap never flickers. */

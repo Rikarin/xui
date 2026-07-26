@@ -45,11 +45,13 @@ import { injectXuiAvatarConfig } from './avatar.token';
 export class XuiAvatarGroup {
   private readonly config = injectXuiAvatarConfig();
 
+  /** Extra classes, merged into the component's own rather than replacing them. */
   readonly class = input<ClassValue>('');
   /** Maximum avatars to show before collapsing the rest into `+N` (0 = no limit). */
   readonly max = input<number, NumberInput>(0, { transform: numberAttribute });
   /** Shape/size applied to the trailing `+N` avatar. */
   readonly shape = input<XuiAvatarVariants['shape']>(this.config.shape);
+  /** Size of every avatar in the group, including the overflow counter. */
   readonly size = input<XuiAvatarVariants['size']>(this.config.size);
 
   private readonly projected = contentChildren(XuiAvatar, { read: ElementRef });

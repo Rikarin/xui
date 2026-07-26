@@ -50,12 +50,19 @@ import { XuiDescriptionsItem } from './descriptions-item';
   encapsulation: ViewEncapsulation.None
 })
 export class XuiDescriptions {
+  /** Extra classes, merged into the component's own rather than replacing them. */
   readonly class = input<ClassValue>('');
 
+  /** A heading above the list. Omitted entirely when empty. */
   readonly title = input<string>('');
   /** Number of items per row. */
   readonly column = input<number, NumberInput>(3, { transform: numberAttribute });
+  /**
+   * Put each label beside its value (`horizontal`) or above it (`vertical`). Horizontal labels get a trailing colon
+   * unless the list is `bordered`.
+   */
   readonly orientation = input<'horizontal' | 'vertical'>('horizontal');
+  /** Draw the list as a bordered grid with a filled header, rather than as open rows. */
   readonly bordered = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
 
   protected readonly items = contentChildren(XuiDescriptionsItem);

@@ -80,6 +80,7 @@ export class XuiTextarea implements XFormFieldControl {
 
   /** The user-defined classes. Merged last so they win over the variant classes. */
   readonly class = input<ClassValue>('');
+  /** Padding and font size, from the shared control scale, so the box matches an input of the same size. */
   readonly size = input<XuiTextareaVariants['size']>(this.config.size);
 
   /** Grow to fit the content instead of scrolling; disables manual resize. */

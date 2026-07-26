@@ -92,13 +92,17 @@ export type XuiEditableTextVariants = VariantProps<typeof editableTextVariants>;
   encapsulation: ViewEncapsulation.None
 })
 export class XuiEditableText implements ControlValueAccessor {
+  /** Extra classes, merged into the component's own rather than replacing them. */
   readonly class = input<ClassValue>('');
 
   /** The confirmed text. Two-way bindable with `[(value)]`. */
   readonly value = model<string>('');
 
+  /** Text shown while the value is empty, both in the editor and in its read-only form. */
   readonly placeholder = input<string>('');
+  /** Block editing. The value still renders, but clicking it no longer opens the editor. */
   readonly disabled = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
+  /** Edit in a textarea rather than an input. Enter then inserts a newline unless `confirmOnEnterKey` is set. */
   readonly multiline = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
 
   /** In multiline mode, whether Enter confirms rather than inserting a newline. */
@@ -107,6 +111,7 @@ export class XuiEditableText implements ControlValueAccessor {
   /** Select the whole value when editing starts. */
   readonly selectAllOnFocus = input<boolean, BooleanInput>(true, { transform: booleanAttribute });
 
+  /** Cap on the number of characters. `null` for no limit. */
   readonly maxLength = input<number | null, NumberInput>(null, {
     transform: (v: NumberInput) => (v == null || v === '' ? null : numberAttribute(v))
   });

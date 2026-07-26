@@ -46,6 +46,7 @@ export class XuiDialogFooter {
   /** The user-defined classes. Merged last so they win over the base classes. */
   readonly class = input<ClassValue>('');
 
+  /** How the footer's buttons are distributed: packed at the end (the default), at the start, or pushed apart. */
   readonly align = input<'end' | 'between' | 'start'>('end');
 
   protected readonly computedClass = computed(() =>

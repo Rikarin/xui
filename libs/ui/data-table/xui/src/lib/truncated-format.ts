@@ -40,6 +40,7 @@ import type { ClassValue } from 'clsx';
   encapsulation: ViewEncapsulation.None
 })
 export class XuiTruncatedFormat {
+  /** Extra classes, merged into the component's own rather than replacing them. */
   readonly class = input<ClassValue>('');
 
   /** The value to render (coerced to a string). */

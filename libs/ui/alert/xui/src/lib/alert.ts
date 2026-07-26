@@ -72,20 +72,30 @@ export class XuiAlert {
   private wasOpen = false;
   private settled = false;
 
+  /** Whether the alert is showing. Two-way bindable with `[(open)]`. */
   readonly open = model(false);
 
+  /**
+   * Intent of the alert. Also picks the default icon and the confirm button's colour, and promotes the dialog to
+   * `role="alert"` for `error` and `warning`.
+   */
   readonly color = input<XuiAlertColor>('none');
   /** Override the icon the color implies. Pass `null` to show none. */
   readonly icon = input<string | null | undefined>(undefined);
 
+  /** Label of the confirm button. */
   readonly confirmText = input('Confirm');
   /** Omit for an acknowledge-only alert with no cancel button. */
   readonly cancelText = input<string | null>(null);
 
+  /** Let Escape dismiss the alert. On by default; turn it off for a decision the user must make explicitly. */
   readonly canEscapeKeyClose = input<boolean, BooleanInput>(true, { transform: booleanAttribute });
+  /** Let a click on the backdrop dismiss the alert. Off by default, since an alert asks a question. */
   readonly canOutsideClickClose = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
 
+  /** Emits when the confirm button is pressed. */
   readonly confirmed = output<void>();
+  /** Emits when the alert is dismissed — by the cancel button, Escape, or an outside click. */
   readonly cancelled = output<void>();
 
   protected readonly resolvedIcon = computed(() => {

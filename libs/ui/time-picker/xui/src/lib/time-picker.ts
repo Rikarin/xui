@@ -114,13 +114,17 @@ export class XuiTimePicker<T = Date> implements ControlValueAccessor {
   private readonly adapter = injectXDateAdapter<T>();
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
 
+  /** Extra classes, merged into the component's own rather than replacing them. */
   readonly class = input<ClassValue>('');
 
   /** The current time. Two-way bindable with `[(value)]`. */
   readonly value = model<T | null>(null);
 
+  /** How far down the time goes: to the minute, the second, or the millisecond. Each step adds a field. */
   readonly precision = input<XuiTimePrecision>('minute');
+  /** Show a 12-hour clock with an AM/PM field instead of a 24-hour one. The bound value is unaffected. */
   readonly useAmPm = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
+  /** Block interaction and dim every field. */
   readonly disabled = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
 
   protected readonly cva = createXValueAccessor<T | null>({

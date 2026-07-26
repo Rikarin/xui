@@ -85,6 +85,7 @@ export class XuiCard {
 
   /** The user-defined classes. Merged last so they win over the variant classes. */
   readonly class = input<ClassValue>('');
+  /** Drop-shadow depth, from flat (`0`) to floating (`4`). An `interactive` card lifts one step on hover. */
   readonly elevation = input<XuiCardElevation>(this.config.elevation);
 
   /** Respond to hover and focus. Pair it with a `<button>` or `<a>` host. */

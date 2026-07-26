@@ -107,15 +107,25 @@ import type { ClassValue } from 'clsx';
   providers: [provideXValueAccessor(() => XuiMultiSelect)]
 })
 export class XuiMultiSelect<T> implements ControlValueAccessor {
+  /** Extra classes, merged into the component's own rather than replacing them. */
   readonly class = input<ClassValue>('');
 
+  /** The options to choose from. */
   readonly items = input<readonly T[]>([]);
+  /**
+   * How an item is labelled. Also what the default filter matches against, so give it the text the user would type.
+   */
   readonly itemText = input<(item: T) => string>((item: T) => (item == null ? '' : String(item)));
+  /** Custom filter for one item against the query. Defaults to a case-insensitive substring match on `itemText`. */
   readonly itemPredicate = input<(query: string, item: T) => boolean>();
+  /** Which items cannot be selected. They stay in the list, greyed out. */
   readonly itemDisabled = input<(item: T) => boolean>(() => false);
 
+  /** Block interaction and dim the control. */
   readonly disabled = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
+  /** Text shown in the empty field. Hidden once anything is selected. */
   readonly placeholder = input<string>('Select…');
+  /** Shown in place of the list when the query matches nothing. */
   readonly noResultsText = input<string>('No results.');
 
   /** The chosen items. Two-way bindable with `[(values)]`, or via `formControl`/`ngModel`. */
@@ -130,7 +140,9 @@ export class XuiMultiSelect<T> implements ControlValueAccessor {
   /** Whether the popover has ever been open — so the initial closed state is not "touched". */
   private hasOpened = false;
 
+  /** Emits the item that was just selected. */
   readonly itemAdded = output<T>();
+  /** Emits the item that was just deselected. */
   readonly itemRemoved = output<T>();
 
   protected readonly open = model(false);

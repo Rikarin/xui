@@ -32,6 +32,20 @@ export const buttonGroupVariants = cva('inline-flex', {
 
 export type XuiButtonGroupVariants = VariantProps<typeof buttonGroupVariants>;
 
+/**
+ * Joins adjacent buttons into one control, collapsing the radii and the doubled border between
+ * neighbours.
+ *
+ * ```html
+ * <div xuiButtonGroup>
+ *   <button xuiButton variant="outline">Day</button>
+ *   <button xuiButton variant="outline">Week</button>
+ * </div>
+ * ```
+ *
+ * Styling only — it holds no selection state. For a group where exactly one option is chosen, reach
+ * for `xui-segmented-control` or a radio group instead.
+ */
 @Directive({
   selector: '[xuiButtonGroup]',
   exportAs: 'xuiButtonGroup',
@@ -43,6 +57,7 @@ export class XuiButtonGroup {
   private readonly config = injectXuiButtonGroupConfig();
   private readonly additionalClasses = signal<ClassValue>('');
 
+  /** Extra classes, merged into the directive's own rather than replacing them. */
   readonly class = input<ClassValue>('');
 
   /** Run the buttons in a row (default) or stack them vertically. */

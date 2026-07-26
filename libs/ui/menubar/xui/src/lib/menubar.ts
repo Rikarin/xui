@@ -26,6 +26,7 @@ import type { ClassValue } from 'clsx';
   }
 })
 export class XuiMenubar {
+  /** Extra classes, merged into the directive's own rather than replacing them. */
   readonly class = input<ClassValue>('');
 
   protected readonly computedClass = computed(() =>
@@ -55,6 +56,7 @@ export class XuiMenubar {
   }
 })
 export class XuiMenubarTrigger {
+  /** Extra classes, merged into the directive's own rather than replacing them. */
   readonly class = input<ClassValue>('');
 
   protected readonly computedClass = computed(() =>

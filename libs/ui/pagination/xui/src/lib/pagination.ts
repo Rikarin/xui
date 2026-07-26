@@ -98,17 +98,26 @@ import { injectXuiPaginationConfig } from './pagination.token';
 export class XuiPagination {
   private readonly config = injectXuiPaginationConfig();
 
+  /** Extra classes, merged into the component's own rather than replacing them. */
   readonly class = input<ClassValue>('');
 
+  /** How many items there are across all pages. With `pageSize`, this is what the page count is derived from. */
   readonly total = input<number, NumberInput>(0, { transform: numberAttribute });
+  /** The current page, counting from 1. Two-way bindable with `[(pageIndex)]`. */
   readonly pageIndex = model<number>(1);
+  /** Items per page. Two-way bindable, since the size changer writes to it. */
   readonly pageSize = model<number>(10);
+  /** The sizes offered by the size changer. */
   readonly pageSizeOptions = input<number[]>(this.config.pageSizeOptions);
+  /** Show the per-page dropdown. */
   readonly showSizeChanger = input<boolean, BooleanInput>(this.config.showSizeChanger, {
     transform: booleanAttribute
   });
+  /** Show the "m–n of total" summary. */
   readonly showTotal = input<boolean, BooleanInput>(this.config.showTotal, { transform: booleanAttribute });
+  /** Collapse the numbered pages to a "page / total" readout with just previous and next. For narrow containers. */
   readonly simple = input<boolean, BooleanInput>(this.config.simple, { transform: booleanAttribute });
+  /** Block every control, e.g. while a page is loading. */
   readonly disabled = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
   /** Pages shown on each side of the current page. */
   readonly siblingCount = input<number, NumberInput>(this.config.siblingCount, { transform: numberAttribute });

@@ -106,6 +106,7 @@ export class XuiMenuItem {
   /** Draws a checkmark in the left cell — for a chosen option in a menu. */
   readonly selected = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
 
+  /** Intent colour of the item, for marking a destructive or otherwise notable action. */
   readonly color = input<XuiMenuItemColor>(this.config.itemColor);
 
   protected readonly hasSubmenu = computed(() => this.submenuTrigger != null);

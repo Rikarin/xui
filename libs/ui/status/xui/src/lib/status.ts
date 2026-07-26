@@ -33,6 +33,17 @@ const CLIP_PATHS: Partial<Record<NonNullable<XuiStatusVariants['presence']> & st
     'M0.5,0 a0.5,0.5,0,1,0,0.5,0.5 A0.5,0.5,0,0,0,0.5,0 m0,0.76 A0.26,0.26,0,1,1,0.76,0.5 A0.26,0.26,0,0,1,0.5,0.76'
 };
 
+/**
+ * A presence dot — the badge that says whether someone is online.
+ *
+ * ```html
+ * <xui-status presence="online" size="sm" />
+ * ```
+ *
+ * Each presence beyond `online` is cut from the same circle with a `clip-path` rather than drawn as a
+ * separate glyph, so the shape reads at any size and still tints from a single background colour.
+ * Decorative on its own: pair it with text when the state has to be announced.
+ */
 @Component({
   selector: 'xui-status',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -56,7 +67,9 @@ export class XuiStatus {
 
   /** The user-defined classes */
   readonly class = input<ClassValue>('');
+  /** Which state to show. Each one carries both its own colour and its own cut-out shape. */
   readonly presence = input<XuiStatusVariants['presence']>(this.config.presence);
+  /** Diameter of the dot, from the shared control scale. */
   readonly size = input<XuiStatusVariants['size']>(this.config.size);
 
   /**

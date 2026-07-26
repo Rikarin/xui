@@ -192,17 +192,34 @@ export class XuiDataTable<T> {
   private readonly document = inject(ElementRef).nativeElement.ownerDocument as Document;
   protected readonly direction = injectXDirection();
 
+  /** Extra classes, merged into the component's own rather than replacing them. */
   readonly class = input<ClassValue>('');
 
+  /** The rows. Rendered through a virtual viewport, so a large array costs no more DOM than a small one. */
   readonly data = input<readonly T[]>([]);
+  /**
+   * The column definitions, in their initial order. Reordering or resizing by the user is held separately, and resets
+   * when this changes.
+   */
   readonly columns = input<readonly XuiDataColumn<T>[]>([]);
 
+  /**
+   * Height of a body row in pixels. Fixed rather than measured — it is what the virtual scroller maps a scroll offset
+   * onto a row with.
+   */
   readonly rowHeight = input<number, NumberInput>(36, { transform: numberAttribute });
+  /** Height of the header row in pixels. Subtracted from `height` to give the scrolling viewport. */
   readonly headerHeight = input<number, NumberInput>(36, { transform: numberAttribute });
+  /** Width in pixels for a column that declares none of its own. */
   readonly defaultColumnWidth = input<number, NumberInput>(150, { transform: numberAttribute });
+  /** Floor for a column's width in pixels, both while dragging a resize handle and when auto-fitting to content. */
   readonly minColumnWidth = input<number, NumberInput>(48, { transform: numberAttribute });
   /** Viewport height in pixels. */
   readonly height = input<number, NumberInput>(400, { transform: numberAttribute });
+  /**
+   * Extra rows and columns rendered beyond the viewport, so a fast scroll does not expose blank space. Higher values
+   * trade DOM for smoothness.
+   */
   readonly overscan = input<number, NumberInput>(4, { transform: numberAttribute });
 
   /** Allow selecting cell regions (shift-range, ctrl/cmd-toggle, arrow keys). */
@@ -225,7 +242,12 @@ export class XuiDataTable<T> {
   /** The selected regions. Two-way bindable with `[(selection)]`. */
   readonly selection = model<XRegion[]>([]);
 
+  /** Emits the clicked cell, with its row, the row's index in `data`, and the column. */
   readonly cellClicked = output<{ row: T; rowIndex: number; column: XuiDataColumn<T> }>();
+  /**
+   * Emits the new sort, or `null` when sorting is cleared. Handle it for server-side sorting; local sorting is applied
+   * regardless.
+   */
   readonly sortChange = output<XuiSortState | null>();
   /** Emitted with the tab-separated text when the selection is copied. */
   readonly copied = output<string>();

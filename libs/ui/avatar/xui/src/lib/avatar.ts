@@ -62,14 +62,21 @@ export type XuiAvatarVariants = VariantProps<typeof avatarVariants>;
 export class XuiAvatar {
   private readonly config = injectXuiAvatarConfig();
 
+  /** Extra classes, merged into the component's own rather than replacing them. */
   readonly class = input<ClassValue>('');
 
   /** Image URL. Falls back to `text`/projected content on load error. */
   readonly src = input<string>();
+  /**
+   * Alternative text for the image, and the avatar's accessible name. Falls back to `text` when unset; leave both
+   * empty for a purely decorative avatar.
+   */
   readonly alt = input<string>('');
   /** Initials or short text shown when there is no image. */
   readonly text = input<string>();
+  /** Round or square-cornered. */
   readonly shape = input<XuiAvatarVariants['shape']>(this.config.shape);
+  /** Diameter, with the initials scaled to match. */
   readonly size = input<XuiAvatarVariants['size']>(this.config.size);
 
   /** Whether the image failed to load; resets when `src` changes. */

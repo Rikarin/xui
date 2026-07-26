@@ -87,16 +87,25 @@ export class XuiDialog {
 
   /** The user-defined classes on the surface. Merged last so they win. */
   readonly class = input<ClassValue>('');
+  /**
+   * The dialog's heading, also used as its accessible name. Without one the header renders only if `showCloseButton`
+   * is on.
+   */
   readonly title = input<string | null>(null);
+  /** Name of a registered `@ng-icons` icon, shown beside the title. */
   readonly icon = input<string>();
+  /** Maximum width of the panel. */
   readonly size = input<XuiDialogSize>(this.config.size);
 
+  /** Let Escape close the dialog. */
   readonly canEscapeKeyClose = input<boolean, BooleanInput>(this.config.canEscapeKeyClose, {
     transform: booleanAttribute
   });
+  /** Let a click on the backdrop close the dialog. Turn it off when the dialog holds unsaved work. */
   readonly canOutsideClickClose = input<boolean, BooleanInput>(this.config.canOutsideClickClose, {
     transform: booleanAttribute
   });
+  /** Show the × in the header. */
   readonly showCloseButton = input<boolean, BooleanInput>(this.config.showCloseButton, {
     transform: booleanAttribute
   });

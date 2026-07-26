@@ -71,6 +71,18 @@ export const inputVariants = cva(
 );
 export type XuiInputVariants = VariantProps<typeof inputVariants>;
 
+/**
+ * Turns a native `<input>` (or `<textarea>`, `<select>`) into an xUI text field.
+ *
+ * ```html
+ * <input xuiInput placeholder="Search" [formControl]="query" />
+ * ```
+ *
+ * A directive, so typing, autofill, `type`, `disabled` and the whole native input API stay the
+ * browser's. It registers as an `XFormFieldControl`, which is what lets `xui-form-field` find it, and
+ * tracks the bound control through `XErrorStateTracker` — so an invalid, touched field turns red on
+ * its own, without an `[error]` binding.
+ */
 @Directive({
   selector: '[xuiInput]',
   exportAs: 'xuiInput',
@@ -93,9 +105,26 @@ export class XuiInput implements XFormFieldControl {
 
   /** The user-defined classes */
   readonly class = input<ClassValue>('');
+  /**
+   * Control height, from the shared control scale, so the field lines up with a button or select of
+   * the same size.
+   */
   readonly size = input<XuiInputVariants['size']>(this.config.size);
+  /**
+   * Which background the field sits on: inset (`dark`) or raised (`light`). Pick the one that
+   * contrasts with the surface around it, not the page theme.
+   */
   readonly surface = input<XuiInputVariants['surface']>(this.config.surface);
+  /**
+   * A deliberate accent border, distinct from the automatic invalid state — use it to mark a field
+   * as noteworthy, not as wrong.
+   */
   readonly color = input<XuiInputVariants['color']>(this.config.color);
+  /**
+   * Whether to render the error appearance. `auto` (the default) follows the bound control's error
+   * state; `true` forces it on. The tracker wins while it reports an error, so `auto` never hides a
+   * real validation failure.
+   */
   readonly error = input<XuiInputVariants['error']>('auto');
   readonly ngControl: NgControl | null = this.injector.get(NgControl, null);
 

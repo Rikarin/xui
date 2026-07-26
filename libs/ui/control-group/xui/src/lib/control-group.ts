@@ -50,7 +50,9 @@ export class XuiControlGroup {
 
   /** The user-defined classes. Merged last so they win over the variant classes. */
   readonly class = input<ClassValue>('');
+  /** Stack the controls in a row or a column. */
   readonly orientation = input<'horizontal' | 'vertical'>(this.config.orientation);
+  /** Stretch the controls to share the group's width (or height) equally. */
   readonly fill = input<boolean, BooleanInput>(this.config.fill, { transform: booleanAttribute });
 
   protected readonly computedClass = computed(() =>

@@ -68,9 +68,11 @@ const offsetLabel = (zone: string, at: Date): string => {
 export class XuiTimezoneSelect implements ControlValueAccessor {
   /** The user-defined classes. Merged last so they win over the variant classes. */
   readonly class = input<ClassValue>('');
+  /** Text shown while no zone is chosen. */
   readonly placeholder = input('Select a time zone…');
   /** Names the combobox; the placeholder is only shown until something is picked. */
   readonly ariaLabel = input<string>('Time zone', { alias: 'aria-label' });
+  /** Block interaction and dim the control. */
   readonly disabled = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
 
   protected readonly computedClass = computed(() => xui('inline-block', this.class()));

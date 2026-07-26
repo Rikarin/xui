@@ -70,10 +70,17 @@ import { injectXuiStepsConfig } from './steps.token';
 export class XuiSteps {
   private readonly config = injectXuiStepsConfig();
 
+  /** Extra classes, merged into the component's own rather than replacing them. */
   readonly class = input<ClassValue>('');
 
+  /**
+   * Zero-based index of the active step. Everything before it reads as done, everything after as pending. Two-way
+   * bindable.
+   */
   readonly current = model<number>(0);
+  /** Run the steps across the page or down it. */
   readonly orientation = input<'horizontal' | 'vertical'>(this.config.orientation);
+  /** Let a step header jump to that step. Off by default, so the sequence stays under the host's control. */
   readonly clickable = input<boolean, BooleanInput>(this.config.clickable, { transform: booleanAttribute });
 
   protected readonly steps = contentChildren(XuiStep);

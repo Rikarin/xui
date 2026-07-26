@@ -153,11 +153,13 @@ export class XuiGraphNode implements XuiGraphNodeHandle, OnInit {
   /** Identifies the node to edges and to the selection. Must be stable and unique. */
   readonly nodeId = input.required<string>();
 
+  /** Extra classes, merged into the component's own rather than replacing them. */
   readonly class = input<ClassValue>('');
 
   /** Top-left corner in graph space. Two-way bound so the host owns the value. */
   readonly position = model<XuiGraphPoint>({ x: 0, y: 0 });
 
+  /** The node's caption, shown in its header. */
   readonly label = input<string>('');
 
   /** Fixed width in graph units. Leave unset to size to content. */
@@ -187,10 +189,16 @@ export class XuiGraphNode implements XuiGraphNodeHandle, OnInit {
    */
   readonly collapsed = model(false);
 
+  /** Add a header toggle that folds the node's body away, leaving its ports and edges intact. */
   readonly collapsible = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
 
+  /**
+   * Let the node be selected. Also what gives it `role="option"` and `aria-selected`; an unselectable node has
+   * neither.
+   */
   readonly selectable = input<boolean, BooleanInput>(true, { transform: booleanAttribute });
 
+  /** Let the node be dragged. A locked node, or a locked graph, overrides this. */
   readonly draggable = input<boolean, BooleanInput>(true, { transform: booleanAttribute });
 
   /** Pins the node in place while leaving it selectable. */

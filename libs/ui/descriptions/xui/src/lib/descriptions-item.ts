@@ -20,6 +20,7 @@ import {
   encapsulation: ViewEncapsulation.None
 })
 export class XuiDescriptionsItem {
+  /** The term this item describes. Project the value as content. */
   readonly label = input<string>('');
   /** How many grid columns this item occupies. */
   readonly span = input<number, NumberInput>(1, { transform: numberAttribute });

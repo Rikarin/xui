@@ -29,7 +29,9 @@ export type XuiTimelineMode = 'left' | 'right';
 export class XuiTimeline {
   private readonly config = injectXuiTimelineConfig();
 
+  /** Extra classes, merged into the component's own rather than replacing them. */
   readonly class = input<ClassValue>('');
+  /** Which side of the rail the content sits on. */
   readonly mode = input<XuiTimelineMode>(this.config.mode);
 
   protected readonly computedClass = computed(() =>

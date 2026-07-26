@@ -114,6 +114,10 @@ export class XuiCallout {
 
   /** The user-defined classes. Merged last so they win over the variant classes. */
   readonly class = input<ClassValue>('');
+  /**
+   * Intent of the callout. Picks the tint, the border and the default icon, and promotes `error` and `warning` to
+   * `role="alert"` so they are announced.
+   */
   readonly color = input<XuiCalloutColor>(this.config.color);
 
   /** Optional heading rendered above the content. */
@@ -125,7 +129,9 @@ export class XuiCallout {
    */
   readonly icon = input<string | 'none' | null>(null);
 
+  /** Drop the tinted fill, keeping only the border — for a callout inside an already-tinted surface. */
   readonly minimal = input<boolean, BooleanInput>(this.config.minimal, { transform: booleanAttribute });
+  /** Tighter padding and smaller text. */
   readonly compact = input<boolean, BooleanInput>(this.config.compact, { transform: booleanAttribute });
 
   /**

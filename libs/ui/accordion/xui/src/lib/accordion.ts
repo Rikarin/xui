@@ -33,7 +33,9 @@ import type { ClassValue } from 'clsx';
   encapsulation: ViewEncapsulation.None
 })
 export class XuiAccordion {
+  /** Extra classes, merged into the component's own rather than replacing them. */
   readonly class = input<ClassValue>('');
+  /** Let several items be open at once. By default opening one closes the rest. */
   readonly multiple = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
   /** The values of the currently open items. */
   readonly value = model<string[]>([]);

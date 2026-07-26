@@ -111,12 +111,17 @@ export class XuiEChart {
   /** The chart, once it exists — a signal so effects re-run the moment it does. */
   private readonly chart = signal<EChartsType | null>(null);
 
+  /** Extra classes, merged into the component's own rather than replacing them. */
   readonly class = input<ClassValue>('');
 
   /** The chart spec. Changes are merged into the running chart, not redrawn. */
   readonly option = input<EChartsOption>({});
 
-  /** @see XuiEChartTheme. Changing this rebuilds the chart — ECharts sets its theme at creation. */
+  /**
+   * The chart's palette, as an {@link XuiEChartTheme}: `tokens` derives one from the active xUI
+   * theme, a string names a registered ECharts theme, and an object is one inline. Changing it
+   * rebuilds the chart — ECharts fixes its theme at creation.
+   */
   readonly theme = input<XuiEChartTheme>(this.config.theme);
 
   /** `echarts.init()` options — `renderer`, `locale`, `devicePixelRatio`. Rebuilds the chart. */
@@ -146,21 +151,37 @@ export class XuiEChart {
   /** The instance, as soon as ECharts has loaded and the chart is on screen. */
   readonly chartInit = output<EChartsType>();
 
+  /** Emits ECharts' `click` — a click on a data item, with the series and data index on the event. */
   readonly chartClick = output<ECElementEvent>();
+  /** Emits ECharts' `dblclick` on a data item. */
   readonly chartDblClick = output<ECElementEvent>();
+  /** Emits ECharts' `mousedown` on a data item. */
   readonly chartMouseDown = output<ECElementEvent>();
+  /** Emits ECharts' `mouseup` on a data item. */
   readonly chartMouseUp = output<ECElementEvent>();
+  /** Emits ECharts' `mouseover` as the pointer enters a data item. */
   readonly chartMouseOver = output<ECElementEvent>();
+  /** Emits ECharts' `mouseout` as the pointer leaves a data item. */
   readonly chartMouseOut = output<ECElementEvent>();
+  /** Emits ECharts' `globalout` as the pointer leaves the chart altogether. */
   readonly chartGlobalOut = output<ECElementEvent>();
+  /** Emits ECharts' `contextmenu` on a data item. */
   readonly chartContextMenu = output<ECElementEvent>();
+  /** Emits ECharts' `highlight` when a data item is emphasised, whether by the pointer or by a dispatched action. */
   readonly chartHighlight = output<XuiEChartEvent>();
+  /** Emits ECharts' `downplay` when a data item's emphasis is removed. */
   readonly chartDownplay = output<XuiEChartEvent>();
+  /** Emits ECharts' `selectchanged` when the set of selected data items changes. */
   readonly chartSelectChanged = output<XuiEChartEvent>();
+  /** Emits ECharts' `legendselectchanged` when a legend entry is toggled. */
   readonly chartLegendSelectChanged = output<XuiEChartEvent>();
+  /** Emits ECharts' `datazoom` as the visible data window changes. */
   readonly chartDataZoom = output<XuiEChartEvent>();
+  /** Emits ECharts' `restore` when the toolbox reset returns the chart to its initial state. */
   readonly chartRestore = output<XuiEChartEvent>();
+  /** Emits ECharts' `magictypechanged` when the toolbox switches the chart between types. */
   readonly chartMagicTypeChanged = output<XuiEChartEvent>();
+  /** Emits ECharts' `brushEnd` when a brush selection is finished. */
   readonly chartBrushEnd = output<XuiEChartEvent>();
   /** Fires on every frame ECharts paints — cheap to ignore, costly to log. */
   readonly chartRendered = output<XuiEChartEvent>();

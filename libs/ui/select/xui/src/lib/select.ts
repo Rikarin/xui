@@ -151,21 +151,37 @@ export class XuiSelect<T> implements XFormFieldControl, ControlValueAccessor {
     return this.formState.ngControl();
   }
 
+  /** Extra classes, merged into the component's own rather than replacing them. */
   readonly class = input<ClassValue>('');
 
+  /** The options to choose from. */
   readonly items = input<readonly T[]>([]);
+  /** How an item is labelled, in both the list and the trigger. Also what the default filter matches against. */
   readonly itemText = input<(item: T) => string>((item: T) => (item == null ? '' : String(item)));
+  /** Custom filter for one item against the query. Defaults to a case-insensitive substring match on `itemText`. */
   readonly itemPredicate = input<(query: string, item: T) => boolean>();
+  /**
+   * Filter the whole list at once, for ranking or fuzzy matching that cannot be decided item by item. Takes precedence
+   * over `itemPredicate`.
+   */
   readonly itemListPredicate = input<(query: string, items: readonly T[]) => T[]>();
+  /** Which items cannot be selected. They stay in the list, greyed out. */
   readonly itemDisabled = input<(item: T) => boolean>(() => false);
 
+  /** Show the query field above the list. Turn it off for a short, fixed set of options. */
   readonly filterable = input<boolean, BooleanInput>(true, { transform: booleanAttribute });
+  /** Block interaction and dim the trigger. The list cannot be opened. */
   readonly disabled = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
+  /** Make the dropdown exactly as wide as the trigger. On by default. */
   readonly matchTargetWidth = input<boolean, BooleanInput>(true, { transform: booleanAttribute });
 
   /** Clear the query (and thus the filter) each time the popover closes. */
   readonly resetOnClose = input<boolean, BooleanInput>(true, { transform: booleanAttribute });
 
+  /**
+   * Trigger text shown while nothing is selected. Doubles as the accessible name when neither `aria-label` nor
+   * `aria-labelledby` is given.
+   */
   readonly placeholder = input<string>('Select…');
 
   /**
@@ -175,8 +191,11 @@ export class XuiSelect<T> implements XFormFieldControl, ControlValueAccessor {
    * back to the placeholder, which is at least descriptive.
    */
   readonly ariaLabel = input<string | null>(null, { alias: 'aria-label' });
+  /** Id of an element naming the select. Use it instead of `aria-label` when that text is already on screen. */
   readonly ariaLabelledby = input<string | null>(null, { alias: 'aria-labelledby' });
+  /** Text shown in the empty query field. */
   readonly searchPlaceholder = input<string>('Filter…');
+  /** Shown in place of the list when the query matches nothing. */
   readonly noResultsText = input<string>('No results.');
 
   /** The chosen item. Two-way bindable with `[(value)]`, or via `formControl`/`ngModel`. */

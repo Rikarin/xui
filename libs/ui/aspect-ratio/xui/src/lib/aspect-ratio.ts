@@ -24,6 +24,7 @@ import type { ClassValue } from 'clsx';
   encapsulation: ViewEncapsulation.None
 })
 export class XuiAspectRatio {
+  /** Extra classes, merged into the component's own rather than replacing them. */
   readonly class = input<ClassValue>('');
   /** Width divided by height, e.g. `16 / 9` or `1`. */
   readonly ratio = input(1, { transform: numberAttribute });

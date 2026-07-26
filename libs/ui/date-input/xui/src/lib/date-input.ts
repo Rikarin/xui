@@ -84,19 +84,31 @@ import type { ClassValue } from 'clsx';
 export class XuiDateInput<T = Date> implements ControlValueAccessor {
   private readonly adapter = injectXDateAdapter<T>();
 
+  /** Extra classes, merged into the component's own rather than replacing them. */
   readonly class = input<ClassValue>('');
 
   /** The selected date. Two-way bindable with `[(value)]`. */
   readonly value = model<T | null>(null);
 
+  /** Earliest selectable date. Dates before it are disabled in the calendar and rejected when typed. */
   readonly min = input<T | null>(null);
+  /** Latest selectable date. Dates after it are disabled in the calendar and rejected when typed. */
   readonly max = input<T | null>(null);
+  /**
+   * Per-date predicate for holes that `min`/`max` cannot express — weekends, blackout days. Return `false` to disable
+   * a date.
+   */
   readonly dateFilter = input<((date: T) => boolean) | null>(null);
+  /** Which weekday the calendar starts on, `0` for Sunday through `6` for Saturday. */
   readonly firstDayOfWeek = input<number, NumberInput>(0, { transform: numberAttribute });
 
+  /** Text shown in the empty field. Also the hint about the expected format, so keep it in step with `parseDate`. */
   readonly placeholder = input<string>('YYYY-MM-DD');
+  /** Block interaction and dim the field. */
   readonly disabled = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
+  /** Close the calendar as soon as a date is picked. Turn it off to leave it open for a second look. */
   readonly closeOnSelection = input<boolean, BooleanInput>(true, { transform: booleanAttribute });
+  /** BCP 47 tag used to format the displayed date and the calendar's labels. Defaults to the runtime locale. */
   readonly locale = input<string | undefined>(undefined);
 
   /** Format a value for the input. Defaults to a locale short date. */

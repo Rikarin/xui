@@ -36,13 +36,21 @@ import type { ClassValue } from 'clsx';
   encapsulation: ViewEncapsulation.None
 })
 export class XuiStatistic {
+  /** Extra classes, merged into the component's own rather than replacing them. */
   readonly class = input<ClassValue>('');
 
+  /** What the number measures. Project `[xuiStatisticTitle]` content instead when it needs markup. */
   readonly title = input<string>('');
+  /**
+   * The figure itself. A number is formatted to `precision` decimals with thousands separators; a string is shown as
+   * given.
+   */
   readonly value = input<number | string>('');
   /** Decimal places for numeric values. */
   readonly precision = input<number, NumberInput>(0, { transform: numberAttribute });
+  /** Text before the value, e.g. a currency symbol. */
   readonly prefix = input<string>('');
+  /** Text after the value, e.g. a unit. */
   readonly suffix = input<string>('');
 
   protected readonly formattedValue = computed(() => formatStatValue(this.value(), this.precision()));

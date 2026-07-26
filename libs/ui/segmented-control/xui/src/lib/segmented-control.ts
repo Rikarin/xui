@@ -88,15 +88,20 @@ export class XuiSegmentedControl<T = string> implements ControlValueAccessor {
 
   /** The user-defined classes. Merged last so they win over the variant classes. */
   readonly class = input<ClassValue>('');
+  /** Control height, from the shared control scale. */
   readonly size = input<XuiSegmentedControlVariants['size']>(this.config.size);
+  /** Stretch the segments to share the control's full width equally. */
   readonly fill = input<boolean, BooleanInput>(this.config.fill, { transform: booleanAttribute });
 
+  /** The segments, in order. Each carries the value it selects, its label, and whether it is disabled. */
   readonly options = input<readonly XuiSegmentedOption<T>[]>([]);
+  /** Accessible name for the control — what is being switched between. */
   readonly ariaLabel = input<string | null>(null, { alias: 'aria-label' });
 
   /** The chosen value. Two-way, and via `ngModel`/`formControl`. */
   readonly value = model<T | null>(null);
 
+  /** Disable every segment at once. */
   readonly disabled = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
 
   protected readonly cva = createXValueAccessor<T | null>({

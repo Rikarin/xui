@@ -86,21 +86,36 @@ type Boundary = 'start' | 'end';
 export class XuiDateRangeInput<T = Date> implements ControlValueAccessor {
   private readonly adapter = injectXDateAdapter<T>();
 
+  /** Extra classes, merged into the component's own rather than replacing them. */
   readonly class = input<ClassValue>('');
 
   /** The chosen range. Two-way bindable with `[(value)]`. */
   readonly value = model<XuiDateRange<T>>({ start: null, end: null });
 
+  /** Earliest selectable date, for both ends of the range. */
   readonly min = input<T | null>(null);
+  /** Latest selectable date, for both ends of the range. */
   readonly max = input<T | null>(null);
+  /**
+   * Accept a range that starts and ends on the same day. Off by default, so picking one date leaves the range open.
+   */
   readonly allowSingleDayRange = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
+  /** Block interaction and dim both fields. */
   readonly disabled = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
+  /** Text shown in the empty start field. */
   readonly startPlaceholder = input<string>('Start date');
+  /** Text shown in the empty end field. */
   readonly endPlaceholder = input<string>('End date');
+  /** BCP 47 tag passed to `formatDate` and used for the calendar's labels. Defaults to the runtime locale. */
   readonly locale = input<string | undefined>(undefined);
 
+  /**
+   * Turns a date into the text shown in the field. Defaults to the date adapter's own format; override it together
+   * with `parseDate` so the two agree.
+   */
   readonly formatDate = input<(date: T, locale?: string) => string>(defaultXDateFormat(this.adapter));
 
+  /** Turns typed text back into a date, or `null` when it does not parse. The inverse of `formatDate`. */
   readonly parseDate = input<(text: string) => T | null>(defaultXDateParse);
 
   protected readonly open = model(false);

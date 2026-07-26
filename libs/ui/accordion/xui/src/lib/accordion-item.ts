@@ -61,8 +61,11 @@ import { XuiAccordion } from './accordion';
 export class XuiAccordionItem {
   private readonly accordion = inject(XuiAccordion);
 
+  /** The item's key, used by the accordion to track which items are expanded. Must be unique within the accordion. */
   readonly value = input.required<string>();
+  /** The header text. Project `[xuiAccordionTitle]` content instead when the header needs markup. */
   readonly title = input<string>('');
+  /** Make the item unopenable. The header stays visible but no longer toggles. */
   readonly disabled = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
 
   protected readonly open = computed(() => this.accordion.isExpanded(this.value()));

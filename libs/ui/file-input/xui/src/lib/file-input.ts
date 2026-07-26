@@ -114,16 +114,26 @@ export class XuiFileInput implements ControlValueAccessor, XFormFieldControl {
 
   /** The user-defined classes on the trigger. Merged last so they win. */
   readonly class = input<ClassValue>('');
+  /** Control height, from the shared control scale. */
   readonly size = input<XuiFileInputVariants['size']>(this.config.size);
+  /** Stretch to the available width instead of hugging its contents. */
   readonly fill = input<boolean, BooleanInput>(this.config.fill, { transform: booleanAttribute });
 
   /** Placeholder shown before anything is chosen. */
   readonly text = input('Choose a file…');
+  /** Label of the browse button. */
   readonly buttonText = input('Browse');
+  /**
+   * Passed to the native input's `accept` — a comma-separated list of extensions or MIME types. A filter for the file
+   * chooser, not validation: check the chosen files yourself.
+   */
   readonly accept = input<string | null>(null);
+  /** Allow more than one file to be chosen. */
   readonly multiple = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
+  /** Accessible name for the control. Falls back to the displayed text, which is the file name once one is chosen. */
   readonly ariaLabel = input<string | null>(null, { alias: 'aria-label' });
 
+  /** Block interaction and dim the control. */
   readonly disabled = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
 
   protected readonly cva = createXValueAccessor<FileList | null>({

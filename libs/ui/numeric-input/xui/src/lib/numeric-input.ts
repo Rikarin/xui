@@ -127,21 +127,41 @@ export class XuiNumericInput implements ControlValueAccessor, XFormFieldControl 
 
   /** The user-defined classes on the wrapper. Merged last so they win. */
   readonly class = input<ClassValue>('');
+  /** Control height, from the shared control scale. Also scales the stepper icons. */
   readonly size = input<XuiNumericInputSize>(this.config.size);
+  /** Where the stepper buttons sit, or `none` to drop them and leave a plain numeric field. */
   readonly buttonPosition = input<XuiNumericButtonPosition>(this.config.buttonPosition);
 
+  /** Text shown while the field is empty. */
   readonly placeholder = input<string | null>(null);
+  /** Accessible name for the field, when no `<label>` points at it. */
   readonly ariaLabel = input<string | null>(null, { alias: 'aria-label' });
 
+  /**
+   * Lower bound. Reported as `aria-valuemin` and enforced when stepping; typed values are only clamped if
+   * `clampValueOnBlur` is set.
+   */
   readonly min = input<number | undefined, NumberInput>(undefined, { transform: numberAttribute });
+  /**
+   * Upper bound. Reported as `aria-valuemax` and enforced when stepping; typed values are only clamped if
+   * `clampValueOnBlur` is set.
+   */
   readonly max = input<number | undefined, NumberInput>(undefined, { transform: numberAttribute });
+  /** How much one step changes the value — a button press, or an arrow key with no modifier. */
   readonly stepSize = input<number, NumberInput>(this.config.stepSize, { transform: numberAttribute });
+  /** Step used while Shift is held, for coarse adjustment. */
   readonly majorStepSize = input<number, NumberInput>(this.config.majorStepSize, { transform: numberAttribute });
+  /** Step used while Alt is held, for fine adjustment. */
   readonly minorStepSize = input<number, NumberInput>(this.config.minorStepSize, { transform: numberAttribute });
+  /**
+   * Pull a typed value back inside `min`/`max` when the field loses focus. Off by default, so an out-of-range entry
+   * stays visible to be corrected.
+   */
   readonly clampValueOnBlur = input<boolean, BooleanInput>(this.config.clampValueOnBlur, {
     transform: booleanAttribute
   });
 
+  /** Block interaction and dim the field and its steppers. */
   readonly disabled = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
 
   protected readonly cva = createXValueAccessor<number | null>({
@@ -156,6 +176,7 @@ export class XuiNumericInput implements ControlValueAccessor, XFormFieldControl 
   // Aliased so the writable `value` linkedSignal below can own the public name.
   // Coerce so `value="5"` (a string attribute) becomes the number 5, not the
   // string "5" that would then concatenate under `+ stepSize`.
+  /** The value, or `null` when empty. Two-way bindable as `[(value)]`; a string attribute is coerced to a number. */
   readonly valueInput = input<number | null, number | string | null | undefined>(null, {
     // eslint-disable-next-line @angular-eslint/no-input-rename
     alias: 'value',

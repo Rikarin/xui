@@ -32,7 +32,9 @@ export type XuiScrollOrientation = 'vertical' | 'horizontal' | 'both';
 export class XuiScrollArea {
   private readonly config = injectXuiScrollAreaConfig();
 
+  /** Extra classes, merged into the component's own rather than replacing them. */
   readonly class = input<ClassValue>('');
+  /** Which axis may scroll. The other one is clipped. */
   readonly orientation = input<XuiScrollOrientation>(this.config.orientation);
 
   protected readonly computedClass = computed(() => xui('relative block', this.class()));

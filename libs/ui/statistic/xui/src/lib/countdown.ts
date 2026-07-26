@@ -36,11 +36,14 @@ import type { ClassValue } from 'clsx';
   encapsulation: ViewEncapsulation.None
 })
 export class XuiCountdown {
+  /** Extra classes, merged into the component's own rather than replacing them. */
   readonly class = input<ClassValue>('');
 
+  /** What is being counted down to. */
   readonly title = input<string>('');
   /** Target time as an epoch millisecond value or a `Date`. */
   readonly target = input.required<number | Date>();
+  /** Pattern for the remaining time, e.g. `HH:mm:ss` or `D day H:mm:ss`. */
   readonly format = input<string>('HH:mm:ss');
 
   /** Fires once when the countdown reaches zero. */

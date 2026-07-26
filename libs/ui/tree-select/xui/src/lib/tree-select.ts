@@ -178,11 +178,17 @@ export class XuiTreeSelect implements ControlValueAccessor {
   private readonly panel = viewChild.required<TemplateRef<unknown>>('panel');
   private ref: XOverlayRef | null = null;
 
+  /** Extra classes, merged into the component's own rather than replacing them. */
   readonly class = input<ClassValue>('');
+  /** The roots of the selectable tree. Each node carries its own `children`. */
   readonly nodes = input<XuiTreeSelectNode[]>([]);
+  /** The selected node value, or an array of them when `multiple`. Two-way bindable with `[(value)]`. */
   readonly value = model<string | string[] | null>(null);
+  /** Allow several nodes to be selected, with checkboxes in the panel and tags in the trigger. */
   readonly multiple = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
+  /** Trigger text shown while nothing is selected. */
   readonly placeholder = input<string>('Select');
+  /** Block interaction and dim the trigger. The panel cannot be opened. */
   readonly disabled = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
 
   protected readonly cva = createXValueAccessor<string | string[] | null>({

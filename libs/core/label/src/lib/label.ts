@@ -4,6 +4,14 @@ import { NgControl } from '@angular/forms';
 
 let nextId = 0;
 
+/**
+ * The headless half of a label: a stable id, plus the control's validity and disabled state
+ * republished as signals.
+ *
+ * Mirrors the bound `NgControl`'s `ng-invalid`/`ng-dirty`/`ng-valid`/`ng-touched` onto the host as
+ * classes, and observes `data-disabled` so a control that reports disabling through an attribute
+ * rather than a form still dims its label. Styling lives in `@xui/label`.
+ */
 @Directive({
   selector: '[xLabel]',
   host: {
@@ -24,6 +32,10 @@ export class XLabel implements OnInit {
     inject(DestroyRef).onDestroy(() => this.changes?.disconnect());
   }
 
+  /**
+   * The label's DOM id, so a control can point `aria-labelledby` at it. Defaults to a generated
+   * unique id.
+   */
   readonly id = input<string>(`x-label-${nextId++}`);
 
   private readonly _dataDisabled = signal<boolean | 'auto'>('auto');

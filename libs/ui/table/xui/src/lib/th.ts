@@ -13,6 +13,16 @@ import { xui } from '@xui/core';
 import { XColumnDef } from '@xui/core/table';
 import type { ClassValue } from 'clsx';
 
+/**
+ * One header cell of a `xui-table`.
+ *
+ * ```html
+ * <xui-th class="w-32">Name</xui-th>
+ * ```
+ *
+ * Sized like `xui-td` — give a column's header and body cells the same width class — with the fixed
+ * header height and muted label styling on top.
+ */
 @Component({
   selector: 'xui-th',
   imports: [NgTemplateOutlet],
@@ -37,7 +47,9 @@ import type { ClassValue } from 'clsx';
 export class XuiTh {
   private readonly columnDef? = inject(XColumnDef, { optional: true });
 
+  /** Clip an overlong heading to one line with an ellipsis, instead of letting the header row grow. */
   readonly truncate = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
+  /** Extra classes, merged into the component's own rather than replacing them. */
   readonly class = input<ClassValue>('');
 
   protected readonly computedClass = computed(() =>

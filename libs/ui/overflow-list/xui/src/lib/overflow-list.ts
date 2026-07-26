@@ -128,6 +128,7 @@ export class XuiOverflowList<T> {
 
   /** The user-defined classes. Merged last so they win over the base classes. */
   readonly class = input<ClassValue>('');
+  /** The items to lay out. Those that do not fit are handed to the overflow template instead. */
   readonly items = input.required<readonly T[]>();
 
   /** Which end collapses. Breadcrumbs collapse from the start, tab bars from the end. */

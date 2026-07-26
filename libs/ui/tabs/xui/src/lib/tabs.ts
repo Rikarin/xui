@@ -48,6 +48,20 @@ export const tabsTabVariants = cva(
 
 export type XuiTabsVariants = VariantProps<typeof tabsTabVariants>;
 
+/**
+ * A tab set: a `role="tablist"` of titles over the panel of whichever `xui-tab` is selected.
+ *
+ * ```html
+ * <xui-tabs [(selectedTabId)]="tab">
+ *   <xui-tab id="overview" title="Overview">…</xui-tab>
+ *   <xui-tab id="activity" title="Activity">…</xui-tab>
+ * </xui-tabs>
+ * ```
+ *
+ * Tabs come from projected `xui-tab` children, so a panel's content is written where it reads. The
+ * keyboard contract follows the WAI-ARIA APG — arrows move along the list on whichever axis
+ * `orientation` runs, skipping disabled tabs — and selection defaults to the first enabled tab.
+ */
 @Component({
   selector: 'xui-tabs',
   imports: [NgTemplateOutlet],
@@ -104,15 +118,22 @@ export class XuiTabs {
   private readonly uid = uniqueId('xui-tabs');
   private readonly config = injectXuiTabsConfig();
 
+  /** Extra classes, merged into the component's own rather than replacing them. */
   readonly class = input<ClassValue>('');
 
+  /** The projected `xui-tab` children, in DOM order. Read-only: add or remove tabs in the template. */
   readonly tabs = contentChildren(XuiTab);
 
   /** The active tab id. Two-way bindable with `[(selectedTabId)]`. */
   readonly selectedTabId = model<string | null>(null);
 
+  /**
+   * Run the tab list across the top (`horizontal`) or down the side (`vertical`). Also picks which arrow keys move the selection.
+   */
   readonly orientation = input<'horizontal' | 'vertical'>(this.config.orientation);
+  /** Stretch the tabs to share the list's full width. Horizontal orientation only. */
   readonly fill = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
+  /** Use the roomier tab padding and base font size. */
   readonly large = input<boolean, BooleanInput>(this.config.large, { transform: booleanAttribute });
 
   /** Slide an indicator bar under the active tab instead of a static underline. */

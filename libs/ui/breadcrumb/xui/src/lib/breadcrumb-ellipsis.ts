@@ -5,6 +5,16 @@ import { xui } from '@xui/core';
 import { XuiIcon } from '@xui/icon';
 import type { ClassValue } from 'clsx';
 
+/**
+ * Stands in for crumbs that were dropped from the middle of a trail.
+ *
+ * ```html
+ * <li xuiBreadcrumbItem><xui-breadcrumb-ellipsis /></li>
+ * ```
+ *
+ * Renders a "more" glyph with a visually hidden label, so the gap is announced rather than silently
+ * skipped. `xui-breadcrumbs` inserts one for you; place it by hand only when composing the parts.
+ */
 @Component({
   selector: 'xui-breadcrumb-ellipsis',
   imports: [NgIcon, XuiIcon],
@@ -19,6 +29,7 @@ import type { ClassValue } from 'clsx';
   `
 })
 export class XuiBreadcrumbEllipsis {
+  /** Extra classes, merged into the component's own rather than replacing them. */
   readonly class = input<ClassValue>('');
   protected readonly computedClass = computed(() => xui('flex items-center justify-center', this.class()));
 }

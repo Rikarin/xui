@@ -68,9 +68,12 @@ export class XuiRadio<T = unknown> implements XuiRadioButtonRef {
 
   /** The user-defined classes. Merged last so they win over the variant classes. */
   readonly class = input<ClassValue>('');
+  /** Button size, from the shared control scale. */
   readonly size = input<XuiRadioVariants['size']>(this.config.size);
 
+  /** What the group's value becomes when this radio is chosen. Must be unique within the group. */
   readonly value = input.required<T>();
+  /** Disable this radio alone. A radio in a disabled group is disabled regardless. */
   readonly disabled = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
 
   protected readonly checked = computed(() => this.group.value() === this.value());

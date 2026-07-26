@@ -37,6 +37,18 @@ export const X_CHECKBOX_VALUE_ACCESSOR = {
 
 const CONTAINER_POST_FIX = '-checkbox';
 
+/**
+ * The headless checkbox: a `role="checkbox"` button with tri-state semantics and a
+ * `ControlValueAccessor`, and no styling of its own.
+ *
+ * ```html
+ * <x-checkbox [(checked)]="agreed" aria-label="Accept terms">…</x-checkbox>
+ * ```
+ *
+ * Project the tick (or any indicator) as content and read the state off `data-state`, which is
+ * `checked`, `unchecked` or `indeterminate`. `@xui/checkbox` is this component with xUI styling; reach
+ * for this one only when you are building a different look on the same behaviour.
+ */
 @Component({
   selector: 'x-checkbox',
   template: `
@@ -95,6 +107,9 @@ export class XCheckbox implements ControlValueAccessor, AfterContentInit, OnDest
    */
   readonly checked = model<boolean>(false);
 
+  /**
+   * The mixed state: neither checked nor unchecked. Two-way bindable, and cleared as soon as the user toggles the box.
+   */
   readonly indeterminate = model<boolean>(false);
 
   /**

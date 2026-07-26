@@ -81,6 +81,10 @@ export type XuiNavbarGroupVariants = VariantProps<typeof navbarGroupVariants>;
 export class XuiNavbarGroup {
   /** The user-defined classes. Merged last so they win over the variant classes. */
   readonly class = input<ClassValue>('');
+  /**
+   * Which end of the navbar the group sits at. Groups are laid out in order, so a `start` and an `end` group split the
+   * bar between them.
+   */
   readonly align = input<XuiNavbarGroupVariants['align']>('start');
 
   protected readonly computedClass = computed(() => xui(navbarGroupVariants({ align: this.align() }), this.class()));

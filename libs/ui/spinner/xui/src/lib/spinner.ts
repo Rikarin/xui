@@ -98,7 +98,9 @@ export class XuiSpinner {
 
   /** The user-defined classes. Merged last so they win over the variant classes. */
   readonly class = input<ClassValue>('');
+  /** Intent colour of the arc. */
   readonly color = input<XuiSpinnerVariants['color']>(this.config.color);
+  /** Diameter, from the shared control scale, so a spinner matches the control it replaces. */
   readonly size = input<XuiSpinnerVariants['size']>(this.config.size);
 
   /**

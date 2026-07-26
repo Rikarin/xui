@@ -61,7 +61,9 @@ export class XuiEntityTitle {
   /** The user-defined classes. Merged last so they win over the base classes. */
   readonly class = input<ClassValue>('');
 
+  /** The entity's name — the primary line. */
   readonly title = input.required<string>();
+  /** A secondary line under the title, e.g. an identifier or a status. */
   readonly subtitle = input<string | null>(null);
 
   /** Truncate the title and subtitle rather than wrapping. */

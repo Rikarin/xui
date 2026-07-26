@@ -48,6 +48,7 @@ export type XuiDividerVariants = VariantProps<typeof dividerVariants>;
 export class XuiDivider {
   /** The user-defined classes. Merged last so they win over the variant classes. */
   readonly class = input<ClassValue>('');
+  /** Which way the rule runs. A vertical divider needs a height from its container — it has none of its own. */
   readonly orientation = input<NonNullable<XuiDividerVariants['orientation']>>('horizontal');
 
   /** Drop the surrounding margin so the divider sits flush with its neighbours. */

@@ -84,6 +84,7 @@ import { XuiNavigationMenuItem } from './navigation-menu-item';
   viewProviders: [provideIcons({ matExpandMoreRound })]
 })
 export class XuiNavigationMenu {
+  /** Extra classes, merged into the component's own rather than replacing them. */
   readonly class = input<ClassValue>('');
 
   protected readonly items = contentChildren(XuiNavigationMenuItem);

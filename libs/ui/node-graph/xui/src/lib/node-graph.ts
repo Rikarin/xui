@@ -245,6 +245,7 @@ export class XuiNodeGraph {
   /** The store for this canvas. Use it to drive the view from a host component. */
   readonly store = inject(XuiNodeGraphStore);
 
+  /** Extra classes, merged into the component's own rather than replacing them. */
   readonly class = input<ClassValue>('');
 
   /** The wires to draw. Never mutated — see `connect`. */
@@ -253,29 +254,51 @@ export class XuiNodeGraph {
   /** Pan and zoom. Two-way bindable, so a host can save and restore the view. */
   readonly viewport = model<XuiGraphViewport>({ x: 0, y: 0, zoom: 1 });
 
+  /**
+   * How edges are drawn between ports: curved (`bezier`), right-angled (`orthogonal`), rounded right angles
+   * (`smoothstep`), or direct (`straight`).
+   */
   readonly routing = input<XuiGraphRouting>(this.config.routing);
+  /** The canvas pattern behind the graph, which scales with the zoom. */
   readonly background = input<XuiGraphBackground>(this.config.background);
+  /** Default end marker on an edge. An edge may override it. */
   readonly marker = input<XuiGraphMarker>(this.config.marker);
 
+  /** Spacing of the background pattern, and the step nodes snap to when `snapToGrid` is on. */
   readonly gridSize = input<number, NumberInput>(this.config.gridSize, { transform: numberAttribute });
 
+  /**
+   * Round node positions to `gridSize` as they are dragged. Holding Shift while nudging with the arrow keys does the
+   * same.
+   */
   readonly snapToGrid = input<boolean, BooleanInput>(this.config.snapToGrid, { transform: booleanAttribute });
 
+  /** How far the canvas can zoom out, as a scale factor. */
   readonly minZoom = input<number, NumberInput>(this.config.minZoom, { transform: numberAttribute });
+  /** How far the canvas can zoom in, as a scale factor. */
   readonly maxZoom = input<number, NumberInput>(this.config.maxZoom, { transform: numberAttribute });
 
+  /** Default stroke width for edges, in graph units. An edge may override it. */
   readonly edgeWidth = input<number, NumberInput>(this.config.edgeWidth, { transform: numberAttribute });
+  /** Default port glyph size, in graph units. */
   readonly portSize = input<number, NumberInput>(this.config.portSize, { transform: numberAttribute });
+  /** Default port glyph. A port type, or the port itself, may override it. */
   readonly portShape = input<XuiGraphPortShape>(this.config.portShape);
+  /** Default port colour. A port type, or the port itself, may override it. */
   readonly portColor = input<string>(this.config.portColor);
 
   /** Data-type registry: colour, glyph and label per `dataType`. */
   readonly portTypes = input<Record<string, XuiGraphPortType>>(this.config.portTypes);
 
+  /** Let an edge run from a node back to itself. */
   readonly allowSelfConnection = input<boolean, BooleanInput>(this.config.allowSelfConnection, {
     transform: booleanAttribute
   });
 
+  /**
+   * Refuse a connection between ports whose declared types do not match. Off by default, which leaves validation to
+   * the host.
+   */
   readonly enforcePortTypes = input<boolean, BooleanInput>(this.config.enforcePortTypes, {
     transform: booleanAttribute
   });
@@ -295,6 +318,10 @@ export class XuiNodeGraph {
    */
   readonly zoomActivation = input<'wheel' | 'ctrl-wheel'>('wheel');
 
+  /**
+   * Zoom on wheel. Turn it off inside a scrolling page, where the wheel should scroll past the graph rather than into
+   * it.
+   */
   readonly zoomOnScroll = input<boolean, BooleanInput>(true, { transform: booleanAttribute });
 
   /** A connection that passed every rule. The host decides whether to add it. */
@@ -303,16 +330,21 @@ export class XuiNodeGraph {
   /** A wire dropped on empty canvas — the hook for "drag out to create a node". */
   readonly connectionDrop = output<XuiGraphConnectionDrop>();
 
+  /** Emits the edge that was clicked. */
   readonly edgeClick = output<XuiGraphEdge>();
 
   /** Fired once per drag, when the pointer is released. */
   readonly nodeMove = output<XuiGraphNodeMove>();
 
+  /** Emits the selected node and edge ids whenever the selection changes. */
   readonly selectionChange = output<{ nodes: string[]; edges: string[] }>();
 
   /** Delete or Backspace over the canvas. The host performs the removal. */
   readonly deleteSelection = output<{ nodes: string[]; edges: string[] }>();
 
+  /**
+   * Emits a right-click on empty canvas, with the position in graph coordinates — the hook for a "new node here" menu.
+   */
   readonly canvasContextMenu = output<{ event: MouseEvent; position: XuiGraphPoint }>();
 
   protected readonly Math = Math;

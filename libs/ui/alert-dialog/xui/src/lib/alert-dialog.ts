@@ -97,16 +97,24 @@ export class XuiAlertDialog {
 
   /** The user-defined classes on the panel. Merged last so they win. */
   readonly class = input<ClassValue>('');
+  /** Whether the dialog is showing. Two-way bindable with `[(open)]`. */
   readonly open = model<boolean>(false);
+  /** The question being asked. Rendered as the dialog's heading and used as its accessible name. */
   readonly title = input<string>('');
+  /** What confirming will do. Spell out anything irreversible here rather than in the title. */
   readonly description = input<string>('');
+  /** Label of the confirm button. Name the action ("Delete project") rather than saying "OK". */
   readonly confirmText = input<string>('Confirm');
+  /** Label of the cancel button, which holds the initial focus. */
   readonly cancelText = input<string>('Cancel');
+  /** Render the confirm button in the error colour, for an action that destroys something. */
   readonly destructive = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
   /** Allow Escape and a backdrop click to dismiss (as a cancel). */
   readonly dismissible = input<boolean, BooleanInput>(true, { transform: booleanAttribute });
 
+  /** Emits when the confirm button is pressed. The dialog closes either way — this is where the action goes. */
   readonly confirmed = output<void>();
+  /** Emits when the dialog is dismissed without confirming. */
   readonly cancelled = output<void>();
 
   protected readonly computedClass = computed(() =>

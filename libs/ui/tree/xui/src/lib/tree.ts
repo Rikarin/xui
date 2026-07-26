@@ -105,16 +105,22 @@ export class XuiTree {
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
   protected readonly direction = injectXDirection();
 
+  /** Extra classes, merged into the component's own rather than replacing them. */
   readonly class = input<ClassValue>('');
+  /** Accessible name for the tree — what it is a tree of. */
   readonly ariaLabel = input<string | null>(null, { alias: 'aria-label' });
 
+  /** The roots. Each node carries its own `children`, so the whole tree is one nested array. */
   readonly nodes = input<XuiTreeNode[]>([]);
 
   /** The selected node id. Two-way bindable with `[(selectedId)]`. */
   readonly selectedId = model<string | number | null>(null);
 
+  /** Emits the node that was activated, by click or by Enter. */
   readonly nodeClick = output<XuiTreeNode>();
+  /** Emits the node that was just expanded. */
   readonly nodeExpanded = output<XuiTreeNode>();
+  /** Emits the node that was just collapsed. */
   readonly nodeCollapsed = output<XuiTreeNode>();
 
   private readonly expanded = signal(new Set<string | number>());

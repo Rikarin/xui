@@ -86,13 +86,20 @@ export class XuiRadioGroup<T = unknown> implements ControlValueAccessor, XuiRadi
   /** Layout of the options. */
   readonly orientation = input<'vertical' | 'horizontal'>(this.config.orientation);
 
+  /**
+   * The shared `name` for the radios in the group, so the browser treats them as one set. Defaults to a generated
+   * unique name.
+   */
   readonly name = input<string>(uniqueId('xui-radio-group'));
+  /** Accessible name for the group — what is being chosen. */
   readonly ariaLabel = input<string | null>(null, { alias: 'aria-label' });
+  /** Id of an element naming the group. Use it instead of `aria-label` when that text is already on screen. */
   readonly ariaLabelledby = input<string | null>(null, { alias: 'aria-labelledby' });
 
   /** The chosen value. Works two-way and via `ngModel`/`formControl`. */
   readonly value = model<T | null>(null);
 
+  /** Disable every radio in the group at once. */
   readonly disabled = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
 
   protected readonly cva = createXValueAccessor<T | null>({

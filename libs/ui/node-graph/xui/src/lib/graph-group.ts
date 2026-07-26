@@ -85,8 +85,13 @@ export class XuiGraphGroup implements XuiGraphGroupHandle, OnInit {
   /** Matches the `group` input on the nodes that belong to this frame. */
   readonly groupId = input.required<string>();
 
+  /** Extra classes, merged into the component's own rather than replacing them. */
   readonly class = input<ClassValue>('');
 
+  /**
+   * The group's caption. An empty label drops the header entirely, and with it the vertical offset it adds to the
+   * group's contents.
+   */
   readonly label = input<string>('');
 
   /** Border and title colour; a tint of it fills the frame. Any CSS colour. */
@@ -95,8 +100,12 @@ export class XuiGraphGroup implements XuiGraphGroupHandle, OnInit {
   /** Blank margin between the members' bounding box and the frame. */
   readonly padding = input<number, NumberInput>(24, { transform: numberAttribute });
 
+  /** Let the group be selected by clicking it or by a marquee. */
   readonly selectable = input<boolean, BooleanInput>(true, { transform: booleanAttribute });
 
+  /**
+   * Let the group be dragged, taking the nodes inside it along. A locked group, or a locked graph, overrides this.
+   */
   readonly draggable = input<boolean, BooleanInput>(true, { transform: booleanAttribute });
 
   /** Pins the frame and everything in it. */

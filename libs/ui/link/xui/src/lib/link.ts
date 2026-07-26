@@ -55,7 +55,15 @@ export class XuiLink {
 
   /** The user-defined classes. Merged last so they win over the variant classes. */
   readonly class = input<ClassValue>('');
+  /**
+   * Link colour. `current` follows the surrounding text — for links inside body copy that should not break the line's
+   * colour.
+   */
   readonly color = input<XuiLinkVariants['color']>(this.config.color);
+  /**
+   * When to underline: `always`, only on `hover`, or `none`. Prefer `always` for links inside prose, where the
+   * underline is the only thing marking them.
+   */
   readonly underline = input<XuiLinkVariants['underline']>(this.config.underline);
 
   protected readonly computedClass = computed(() =>

@@ -4,6 +4,17 @@ import { matChevronRightRound } from '@ng-icons/material-icons/round';
 import { xui } from '@xui/core';
 import type { ClassValue } from 'clsx';
 
+/**
+ * The divider between two crumbs. Defaults to a chevron; project any content to replace it.
+ *
+ * ```html
+ * <span xuiBreadcrumbSeparator></span>
+ * <span xuiBreadcrumbSeparator>/</span>
+ * ```
+ *
+ * Hidden from assistive technology (`role="presentation"`, `aria-hidden`) — the list structure
+ * already conveys the ordering, so announcing a chevron per crumb would only add noise.
+ */
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: '[xuiBreadcrumbSeparator]',
@@ -23,6 +34,7 @@ import type { ClassValue } from 'clsx';
   `
 })
 export class XuiBreadcrumbSeparator {
+  /** Extra classes, merged into the component's own rather than replacing them. */
   readonly class = input<ClassValue>('');
 
   protected readonly computedClass = computed(() =>

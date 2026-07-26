@@ -99,10 +99,15 @@ export class XuiCascader {
   private readonly panel = viewChild.required<TemplateRef<unknown>>('panel');
   private ref: XOverlayRef | null = null;
 
+  /** Extra classes, merged into the component's own rather than replacing them. */
   readonly class = input<ClassValue>('');
+  /** The root options. Each may carry `children`, which become the next column when it is selected. */
   readonly options = input<XuiCascaderOption[]>([]);
+  /** The selected path, as option values from the root down. Two-way bindable with `[(value)]`. */
   readonly value = model<string[]>([]);
+  /** Trigger text shown while nothing is selected. */
   readonly placeholder = input<string>('Select');
+  /** Block interaction and dim the trigger. The panel cannot be opened. */
   readonly disabled = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
 
   protected readonly open = signal(false);

@@ -59,27 +59,52 @@ export class XuiKonvaStage implements XuiKonvaComponent, XuiKonvaContainer {
   /** Anything `Konva.Stage` accepts, most usefully `width` and `height`. */
   readonly config = input<ContainerConfig>();
 
+  /** Emits when the pointer moves onto the stage. */
   readonly mouseover = output<XuiKonvaEventObject<MouseEvent>>();
+  /** Emits when the pointer moves over the stage. */
   readonly mousemove = output<XuiKonvaEventObject<MouseEvent>>();
+  /** Emits when the pointer moves off the stage. */
   readonly mouseout = output<XuiKonvaEventObject<MouseEvent>>();
+  /** Emits when the pointer enters the stage, without bubbling from its children. */
   readonly mouseenter = output<XuiKonvaEventObject<MouseEvent>>();
+  /** Emits when the pointer leaves the stage, without bubbling from its children. */
   readonly mouseleave = output<XuiKonvaEventObject<MouseEvent>>();
+  /** Emits when a mouse button goes down on the stage. */
   readonly mousedown = output<XuiKonvaEventObject<MouseEvent>>();
+  /** Emits when a mouse button comes up on the stage. */
   readonly mouseup = output<XuiKonvaEventObject<MouseEvent>>();
+  /** Emits when the wheel turns over the stage. */
   readonly wheel = output<XuiKonvaEventObject<WheelEvent>>();
+  /**
+   * Emits when a context menu is requested on the stage. Call `preventDefault()` on the native event to suppress the
+   * browser menu.
+   */
   readonly contextmenu = output<XuiKonvaEventObject<PointerEvent>>();
+  /** Emits when the stage is clicked. */
   readonly click = output<XuiKonvaEventObject<MouseEvent>>();
+  /** Emits when the stage is double-clicked. */
   readonly dblclick = output<XuiKonvaEventObject<MouseEvent>>();
+  /** Emits when a touch starts on the stage. */
   readonly touchstart = output<XuiKonvaEventObject<TouchEvent>>();
+  /** Emits when a touch moves over the stage. */
   readonly touchmove = output<XuiKonvaEventObject<TouchEvent>>();
+  /** Emits when a touch ends on the stage. */
   readonly touchend = output<XuiKonvaEventObject<TouchEvent>>();
+  /** Emits when the stage is tapped — the touch counterpart of `click`. */
   readonly tap = output<XuiKonvaEventObject<TouchEvent>>();
+  /** Emits when the stage is double-tapped. */
   readonly dbltap = output<XuiKonvaEventObject<TouchEvent>>();
+  /** Emits when a drag of the stage begins. Only fires while the node is `draggable`. */
   readonly dragstart = output<XuiKonvaEventObject<MouseEvent>>();
+  /** Emits when the stage moves during a drag. */
   readonly dragmove = output<XuiKonvaEventObject<MouseEvent>>();
+  /** Emits when a drag of the stage ends. */
   readonly dragend = output<XuiKonvaEventObject<MouseEvent>>();
+  /** Emits when a transform of the stage begins. Needs an attached Konva `Transformer`. */
   readonly transformstart = output<XuiKonvaEventObject<MouseEvent>>();
+  /** Emits when the stage is scaled or rotated during a transform. */
   readonly transform = output<XuiKonvaEventObject<MouseEvent>>();
+  /** Emits when a transform of the stage ends. */
   readonly transformend = output<XuiKonvaEventObject<MouseEvent>>();
 
   constructor() {
