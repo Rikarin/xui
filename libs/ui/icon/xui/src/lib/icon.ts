@@ -1,6 +1,5 @@
 import { computed, Directive, input } from '@angular/core';
 import { xui } from '@xui/core';
-import { cva, VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
 import { injectXuiIconConfig } from './icon.token';
 
@@ -12,26 +11,31 @@ import { injectXuiIconConfig } from './icon.token';
  */
 export type XuiIconSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'none' | (Record<never, never> & string);
 
-export const iconVariants = cva('', {
-  variants: {
-    color: {
-      inherit: '',
-      muted: 'text-foreground-muted',
-      subtle: 'text-foreground-subtle',
-      primary: 'text-primary',
-      secondary: 'text-secondary',
-      success: 'text-success',
-      error: 'text-error',
-      warning: 'text-warning',
-      info: 'text-info'
-    }
-  },
-  defaultVariants: {
-    color: 'inherit'
-  }
-});
+/**
+ * The semantic colours an icon can take, as values rather than classes.
+ *
+ * `@ng-icons` colours its host from `--ng-icon__color` inside `@layer ng-icon`.
+ * That layer is named after Tailwind's, so it sorts last and wins the cascade —
+ * a `text-*` utility on an `<ng-icon>` is silently discarded. Feeding the
+ * variable is the only way to colour an icon, so the scale maps to the token
+ * references the utilities would have resolved to.
+ *
+ * `inherit` maps to nothing, leaving the variable unset so the package's own
+ * `currentColor` fallback takes the surrounding text colour.
+ */
+export const iconColors = {
+  inherit: null,
+  muted: 'var(--color-foreground-muted)',
+  subtle: 'var(--color-foreground-subtle)',
+  primary: 'var(--color-primary)',
+  secondary: 'var(--color-secondary)',
+  success: 'var(--color-success)',
+  error: 'var(--color-error)',
+  warning: 'var(--color-warning)',
+  info: 'var(--color-info)'
+} as const satisfies Record<string, string | null>;
 
-export type XuiIconVariants = VariantProps<typeof iconVariants>;
+export type XuiIconColor = keyof typeof iconColors;
 
 const SIZES: Record<string, string> = {
   xs: '12px',
@@ -60,6 +64,9 @@ const SIZES: Record<string, string> = {
   exportAs: 'xuiIcon',
   host: {
     '[style.--ng-icon__size]': 'computedSize()',
+    // A directive host binding outranks the component's own, so this is what `ng-icon` reads —
+    // which matters, because the shared `color` input name means it is handed the variant name too.
+    '[style.--ng-icon__color]': 'computedColor()',
     '[class]': 'computedClass()',
     '[attr.role]': 'label() ? "img" : null',
     '[attr.aria-label]': 'label()',
@@ -69,10 +76,15 @@ const SIZES: Record<string, string> = {
 export class XuiIcon {
   private readonly config = injectXuiIconConfig();
 
-  /** The user-defined classes. Merged last so they win over the variant classes. */
+  /**
+   * The user-defined classes.
+   *
+   * Note that a colour utility will not land here — `@ng-icons` outranks the utilities layer, so
+   * reach for `color` instead. Everything else (layout, spacing, transitions) applies as usual.
+   */
   readonly class = input<ClassValue>('');
   readonly size = input<XuiIconSize>(this.config.size);
-  readonly color = input<XuiIconVariants['color']>(this.config.color);
+  readonly color = input<XuiIconColor>(this.config.color);
 
   /**
    * An accessible name. Setting it marks the icon as meaningful content rather
@@ -80,7 +92,9 @@ export class XuiIcon {
    */
   readonly label = input<string | null>(null);
 
-  protected readonly computedClass = computed(() => xui(iconVariants({ color: this.color() }), this.class()));
+  protected readonly computedClass = computed(() => xui(this.class()));
+
+  protected readonly computedColor = computed(() => iconColors[this.color()]);
 
   protected readonly computedSize = computed(() => {
     const size = this.size();

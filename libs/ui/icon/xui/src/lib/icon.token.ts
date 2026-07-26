@@ -1,5 +1,5 @@
 import { createXConfigToken } from '@xui/core';
-import type { XuiIconSize, XuiIconVariants } from './icon';
+import type { XuiIconColor, XuiIconSize } from './icon';
 
 /**
  * Application-wide defaults for XuiIcon.
@@ -9,7 +9,7 @@ import type { XuiIconSize, XuiIconVariants } from './icon';
  */
 export interface XuiIconConfig {
   size: XuiIconSize;
-  color: XuiIconVariants['color'];
+  color: XuiIconColor;
 }
 
 export const [injectXuiIconConfig, provideXuiIconConfig] = createXConfigToken<XuiIconConfig>('XuiIconConfig', {

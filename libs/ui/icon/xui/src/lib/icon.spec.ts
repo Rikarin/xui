@@ -8,6 +8,10 @@ const setup = (template: string, providers: unknown[] = []) =>
 
 const sizeOf = (element: HTMLElement) => element.style.getPropertyValue('--ng-icon__size');
 
+// `@ng-icons` colours its host from this variable inside a cascade layer that outranks Tailwind's
+// utilities, so the variable — not a `text-*` class — is what decides an icon's colour.
+const colorOf = (element: HTMLElement) => element.style.getPropertyValue('--ng-icon__color');
+
 describe('XuiIcon', () => {
   it.each([
     ['xs', '12px'],
@@ -56,19 +60,38 @@ describe('XuiIcon', () => {
   it('inherits the surrounding text colour by default', () => {
     const { query } = setup('<ng-icon xui />');
 
+    // Left unset so the package's own `currentColor` fallback applies.
+    expect(colorOf(query('ng-icon'))).toBe('');
     expect(query('ng-icon').className).toBe('');
   });
 
-  it('applies the colour variant', () => {
+  it.each([
+    ['muted', 'var(--color-foreground-muted)'],
+    ['subtle', 'var(--color-foreground-subtle)'],
+    ['primary', 'var(--color-primary)'],
+    ['secondary', 'var(--color-secondary)'],
+    ['success', 'var(--color-success)'],
+    ['error', 'var(--color-error)'],
+    ['warning', 'var(--color-warning)'],
+    ['info', 'var(--color-info)']
+  ])('paints the %s variant with %s', (color, expected) => {
+    const { query } = setup(`<ng-icon xui color="${color}" />`);
+
+    expect(colorOf(query('ng-icon'))).toBe(expected);
+  });
+
+  it('wins over the colour the shared input name hands to ng-icon', () => {
+    // `ng-icon` has a `color` input of its own, so it is bound to the variant name as well and
+    // would otherwise set `--ng-icon__color: error` — not a colour any browser understands.
     const { query } = setup('<ng-icon xui color="error" />');
 
-    expectClasses(query('ng-icon'), 'text-error');
+    expect(colorOf(query('ng-icon'))).toBe('var(--color-error)');
   });
 
   it('takes its default colour from the injected config', () => {
     const { query } = setup('<ng-icon xui />', [provideXuiIconConfig({ color: 'muted' })]);
 
-    expectClasses(query('ng-icon'), 'text-foreground-muted');
+    expect(colorOf(query('ng-icon'))).toBe('var(--color-foreground-muted)');
   });
 
   it('merges the class input', () => {
