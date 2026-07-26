@@ -220,8 +220,6 @@ export const doc: ComponentDoc = {
   "XuiButton",
   "XuiButtonImports",
   "XuiButtonConfig",
-  "provideXuiButtonConfig",
-  "injectXuiButtonConfig",
   "XuiButtonAlign",
   "XuiButtonVariants"
 ],

@@ -6,7 +6,6 @@ import {
   computed,
   effect,
   ElementRef,
-  forwardRef,
   input,
   model,
   numberAttribute,
@@ -16,9 +15,9 @@ import {
   viewChild,
   ViewEncapsulation
 } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor } from '@angular/forms';
 import { xui } from '@xui/core';
-import type { XChangeFn, XTouchFn } from '@xui/core/forms';
+import { createXValueAccessor, provideXValueAccessor } from '@xui/core/forms';
 import { cva, VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
 
@@ -34,12 +33,6 @@ const editableTextVariants = cva('block w-full rounded-sm bg-transparent transit
 });
 
 export type XuiEditableTextVariants = VariantProps<typeof editableTextVariants>;
-
-export const XUI_EDITABLE_TEXT_VALUE_ACCESSOR = {
-  provide: NG_VALUE_ACCESSOR,
-  useExisting: forwardRef(() => XuiEditableText),
-  multi: true
-};
 
 /**
  * Inline click-to-edit text: shows a label until clicked, then swaps to a field.
@@ -94,7 +87,7 @@ export const XUI_EDITABLE_TEXT_VALUE_ACCESSOR = {
     '[class]': 'computedClass()',
     '[attr.data-disabled]': 'isDisabled() ? "" : null'
   },
-  providers: [XUI_EDITABLE_TEXT_VALUE_ACCESSOR],
+  providers: [provideXValueAccessor(() => XuiEditableText)],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None
 })
@@ -132,10 +125,11 @@ export class XuiEditableText implements ControlValueAccessor {
 
   private readonly field = viewChild<ElementRef<HTMLInputElement | HTMLTextAreaElement>>('field');
 
-  private onChange?: XChangeFn<string>;
-  private onTouched?: XTouchFn;
-  private readonly disabledByForm = signal(false);
-  protected readonly isDisabled = computed(() => this.disabled() || this.disabledByForm());
+  protected readonly cva = createXValueAccessor<string>({
+    onWrite: value => this.value.set(value ?? ''),
+    disabled: this.disabled
+  });
+  protected readonly isDisabled = this.cva.disabled;
 
   protected readonly computedClass = computed(() => xui('block', this.class()));
   protected readonly displayClass = computed(() =>
@@ -201,8 +195,8 @@ export class XuiEditableText implements ControlValueAccessor {
     this.editing.set(false);
     this.value.set(next);
     this.confirmed.emit(next);
-    this.onChange?.(next);
-    this.onTouched?.();
+    this.cva.notifyChange(next);
+    this.cva.markTouched();
   }
 
   protected cancel(): void {
@@ -213,23 +207,12 @@ export class XuiEditableText implements ControlValueAccessor {
     this.editing.set(false);
     this.draft.set(this.value());
     this.cancelled.emit();
-    this.onTouched?.();
+    this.cva.markTouched();
   }
 
   // --- ControlValueAccessor ---
-  writeValue(value: string): void {
-    this.value.set(value ?? '');
-  }
-
-  registerOnChange(fn: XChangeFn<string>): void {
-    this.onChange = fn;
-  }
-
-  registerOnTouched(fn: XTouchFn): void {
-    this.onTouched = fn;
-  }
-
-  setDisabledState(isDisabled: boolean): void {
-    this.disabledByForm.set(isDisabled);
-  }
+  readonly writeValue = this.cva.writeValue;
+  readonly registerOnChange = this.cva.registerOnChange;
+  readonly registerOnTouched = this.cva.registerOnTouched;
+  readonly setDisabledState = this.cva.setDisabledState;
 }

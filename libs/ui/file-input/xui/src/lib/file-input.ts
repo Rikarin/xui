@@ -5,16 +5,15 @@ import {
   ElementRef,
   booleanAttribute,
   computed,
-  forwardRef,
   input,
   signal,
   viewChild
 } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor } from '@angular/forms';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { matUploadFileRound } from '@ng-icons/material-icons/round';
 import { xui } from '@xui/core';
-import type { XChangeFn, XTouchFn } from '@xui/core/forms';
+import { createXValueAccessor, provideXValueAccessor } from '@xui/core/forms';
 import { XuiIcon } from '@xui/icon';
 import { cva, type VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
@@ -56,7 +55,7 @@ export type XuiFileInputVariants = VariantProps<typeof fileInputVariants>;
   imports: [NgIcon, XuiIcon],
   viewProviders: [provideIcons({ matUploadFileRound })],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [{ provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => XuiFileInput), multi: true }],
+  providers: [provideXValueAccessor(() => XuiFileInput)],
   template: `
     <label [class]="computedClass()">
       <ng-icon xui size="sm" name="matUploadFileRound" class="shrink-0" />
@@ -72,10 +71,10 @@ export type XuiFileInputVariants = VariantProps<typeof fileInputVariants>;
         class="sr-only"
         [attr.accept]="accept()"
         [multiple]="multiple()"
-        [disabled]="disabledState()"
+        [disabled]="isDisabled()"
         [attr.aria-label]="ariaLabel() ?? text()"
         (change)="onSelect(field.files)"
-        (blur)="onTouched?.()"
+        (blur)="cva.markTouched()"
       />
     </label>
   `,
@@ -99,8 +98,19 @@ export class XuiFileInput implements ControlValueAccessor {
   readonly ariaLabel = input<string | null>(null, { alias: 'aria-label' });
 
   readonly disabled = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
-  private readonly disabledByForm = signal(false);
-  protected readonly disabledState = computed(() => this.disabled() || this.disabledByForm());
+
+  protected readonly cva = createXValueAccessor<FileList | null>({
+    // The browser forbids programmatically setting a file input's value, so the
+    // only write we can honour is a reset to empty.
+    onWrite: value => {
+      if (!value) {
+        this.selection.set(null);
+        this.field().nativeElement.value = '';
+      }
+    },
+    disabled: this.disabled
+  });
+  protected readonly isDisabled = this.cva.disabled;
 
   private readonly selection = signal<FileList | null>(null);
   protected readonly hasSelection = computed(() => (this.selection()?.length ?? 0) > 0);
@@ -120,34 +130,15 @@ export class XuiFileInput implements ControlValueAccessor {
     xui(fileInputVariants({ size: this.size(), fill: this.fill() }), this.class())
   );
 
-  private onChange?: XChangeFn<FileList | null>;
-  protected onTouched?: XTouchFn;
-
   protected onSelect(files: FileList | null): void {
     const value = files && files.length ? files : null;
     this.selection.set(value);
-    this.onChange?.(value);
-    this.onTouched?.();
+    this.cva.notifyChange(value);
+    this.cva.markTouched();
   }
 
-  writeValue(value: FileList | null): void {
-    // The browser forbids programmatically setting a file input's value, so the
-    // only write we can honour is a reset to empty.
-    if (!value) {
-      this.selection.set(null);
-      this.field().nativeElement.value = '';
-    }
-  }
-
-  registerOnChange(fn: XChangeFn<FileList | null>): void {
-    this.onChange = fn;
-  }
-
-  registerOnTouched(fn: XTouchFn): void {
-    this.onTouched = fn;
-  }
-
-  setDisabledState(isDisabled: boolean): void {
-    this.disabledByForm.set(isDisabled);
-  }
+  readonly writeValue = this.cva.writeValue;
+  readonly registerOnChange = this.cva.registerOnChange;
+  readonly registerOnTouched = this.cva.registerOnTouched;
+  readonly setDisabledState = this.cva.setDisabledState;
 }

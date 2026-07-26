@@ -64,8 +64,6 @@ export const doc: ComponentDoc = {
   "XuiProgressBar",
   "XuiProgressBarImports",
   "XuiProgressBarConfig",
-  "provideXuiProgressBarConfig",
-  "injectXuiProgressBarConfig",
   "progressBarVariants",
   "progressMeterVariants",
   "XuiProgressBarVariants"

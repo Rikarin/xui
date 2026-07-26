@@ -5,17 +5,16 @@ import {
   Component,
   booleanAttribute,
   computed,
-  forwardRef,
   input,
   linkedSignal,
   numberAttribute,
   signal
 } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor } from '@angular/forms';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { matKeyboardArrowDownRound, matKeyboardArrowUpRound } from '@ng-icons/material-icons/round';
 import { xui } from '@xui/core';
-import type { XChangeFn, XTouchFn } from '@xui/core/forms';
+import { createXValueAccessor, provideXValueAccessor } from '@xui/core/forms';
 import { XuiIcon } from '@xui/icon';
 import type { ClassValue } from 'clsx';
 import {
@@ -41,7 +40,7 @@ import {
   imports: [NgTemplateOutlet, NgIcon, XuiIcon],
   viewProviders: [provideIcons({ matKeyboardArrowUpRound, matKeyboardArrowDownRound })],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [{ provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => XuiNumericInput), multi: true }],
+  providers: [provideXValueAccessor(() => XuiNumericInput)],
   template: `
     @if (buttonPosition() === 'left') {
       <ng-container [ngTemplateOutlet]="steppers" />
@@ -53,7 +52,7 @@ import {
       inputmode="decimal"
       [class]="fieldClass()"
       [value]="display()"
-      [disabled]="disabledState()"
+      [disabled]="isDisabled()"
       [attr.placeholder]="placeholder()"
       [attr.aria-label]="ariaLabel()"
       role="spinbutton"
@@ -119,8 +118,15 @@ export class XuiNumericInput implements ControlValueAccessor {
   });
 
   readonly disabled = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
-  private readonly disabledByForm = signal(false);
-  protected readonly disabledState = computed(() => this.disabled() || this.disabledByForm());
+
+  protected readonly cva = createXValueAccessor<number | null>({
+    onWrite: value => {
+      this.value.set(value ?? null);
+      this.text.set(value == null ? '' : String(value));
+    },
+    disabled: this.disabled
+  });
+  protected readonly isDisabled = this.cva.disabled;
 
   // Aliased so the writable `value` linkedSignal below can own the public name.
   // Coerce so `value="5"` (a string attribute) becomes the number 5, not the
@@ -143,8 +149,8 @@ export class XuiNumericInput implements ControlValueAccessor {
     return this.text() !== '' || value == null ? this.text() : String(value);
   });
 
-  protected readonly canIncrement = computed(() => !this.disabledState() && !this.atMax(this.value()));
-  protected readonly canDecrement = computed(() => !this.disabledState() && !this.atMin(this.value()));
+  protected readonly canIncrement = computed(() => !this.isDisabled() && !this.atMax(this.value()));
+  protected readonly canDecrement = computed(() => !this.isDisabled() && !this.atMin(this.value()));
 
   protected readonly computedClass = computed(() =>
     xui(
@@ -152,7 +158,7 @@ export class XuiNumericInput implements ControlValueAccessor {
       // The wrapper carries the control height so the stepper column cannot stretch the field
       // past the shared scale.
       this.size() === 'sm' ? 'h-(--control-height-sm)' : 'h-(--control-height-md)',
-      this.disabledState() && 'cursor-not-allowed opacity-50',
+      this.isDisabled() && 'cursor-not-allowed opacity-50',
       this.class()
     )
   );
@@ -168,15 +174,12 @@ export class XuiNumericInput implements ControlValueAccessor {
       'text-foreground-muted hover:bg-hover-overlay hover:text-foreground flex flex-1 items-center justify-center px-1.5 disabled:pointer-events-none disabled:opacity-40'
   );
 
-  private onChange?: XChangeFn<number | null>;
-  protected onTouched?: XTouchFn;
-
   protected onInput(raw: string): void {
     this.text.set(raw);
 
     const parsed = this.parse(raw);
     this.value.set(parsed);
-    this.onChange?.(parsed);
+    this.cva.notifyChange(parsed);
   }
 
   protected onKeydown(event: KeyboardEvent): void {
@@ -196,11 +199,11 @@ export class XuiNumericInput implements ControlValueAccessor {
 
     // Re-sync the text with the committed value, dropping a half-typed entry.
     this.text.set(this.value() == null ? '' : String(this.value()));
-    this.onTouched?.();
+    this.cva.markTouched();
   }
 
   step(delta: number): void {
-    if (this.disabledState()) {
+    if (this.isDisabled()) {
       return;
     }
 
@@ -213,7 +216,7 @@ export class XuiNumericInput implements ControlValueAccessor {
 
   private commit(value: number | null): void {
     this.value.set(value);
-    this.onChange?.(value);
+    this.cva.notifyChange(value);
   }
 
   private parse(raw: string): number | null {
@@ -252,20 +255,8 @@ export class XuiNumericInput implements ControlValueAccessor {
     return value != null && this.min() != null && value <= this.min()!;
   }
 
-  writeValue(value: number | null): void {
-    this.value.set(value ?? null);
-    this.text.set(value == null ? '' : String(value));
-  }
-
-  registerOnChange(fn: XChangeFn<number | null>): void {
-    this.onChange = fn;
-  }
-
-  registerOnTouched(fn: XTouchFn): void {
-    this.onTouched = fn;
-  }
-
-  setDisabledState(isDisabled: boolean): void {
-    this.disabledByForm.set(isDisabled);
-  }
+  readonly writeValue = this.cva.writeValue;
+  readonly registerOnChange = this.cva.registerOnChange;
+  readonly registerOnTouched = this.cva.registerOnTouched;
+  readonly setDisabledState = this.cva.setDisabledState;
 }

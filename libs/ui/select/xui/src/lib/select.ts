@@ -20,13 +20,11 @@ import { NgIcon, provideIcons } from '@ng-icons/core';
 import { matExpandMoreRound, matSearchRound } from '@ng-icons/material-icons/round';
 import { xui } from '@xui/core';
 import { uniqueId } from '@xui/core/a11y';
-import { createXQueryList } from '@xui/core/query';
+import { createXActiveOption, createXItemListPredicate, createXQueryList, trackXItem } from '@xui/core/query';
 import { XuiIcon } from '@xui/icon';
 import { XuiPopoverImports } from '@xui/popover';
 import type { ClassValue } from 'clsx';
 import { XuiSelectOption } from './select-option';
-
-const defaultMatch = (text: string, query: string): boolean => text.toLowerCase().includes(query.toLowerCase());
 
 /**
  * A filterable single-select dropdown: a trigger button opens a popover with a
@@ -170,19 +168,19 @@ export class XuiSelect<T> {
     query: this.query,
     itemText: item => this.itemText()(item),
     itemDisabled: item => this.itemDisabled()(item),
-    itemListPredicate: (q, items) => {
-      const listPredicate = this.itemListPredicate();
-      if (listPredicate) {
-        return listPredicate(q, items);
-      }
+    itemListPredicate: createXItemListPredicate({
+      itemText: this.itemText,
+      itemPredicate: this.itemPredicate,
+      itemListPredicate: this.itemListPredicate
+    })
+  });
 
-      if (!q) {
-        return items as T[];
-      }
-
-      const predicate = this.itemPredicate();
-      return items.filter(item => (predicate ? predicate(q, item) : defaultMatch(this.itemText()(item), q)));
-    }
+  // Keyboard navigation over the filtered list (Tab also yields focus and closes).
+  private readonly nav = createXActiveOption<T>({
+    list: this.list,
+    select: item => this.choose(item),
+    close: () => this.open.set(false),
+    closeOnTab: true
   });
 
   protected readonly computedClass = computed(() => xui('inline-block', this.class()));
@@ -220,9 +218,7 @@ export class XuiSelect<T> {
     return this.itemText()(item);
   }
 
-  protected trackItem(index: number, item: T): unknown {
-    return item ?? index;
-  }
+  protected readonly trackItem = trackXItem;
 
   protected optionClass(item: T): string {
     return xui(
@@ -239,30 +235,7 @@ export class XuiSelect<T> {
   }
 
   protected onSearchKeydown(event: KeyboardEvent): void {
-    switch (event.key) {
-      case 'ArrowDown':
-        event.preventDefault();
-        this.list.moveActiveItem(1);
-        break;
-      case 'ArrowUp':
-        event.preventDefault();
-        this.list.moveActiveItem(-1);
-        break;
-      case 'Enter': {
-        event.preventDefault();
-        const active = this.list.activeItem();
-        if (active != null) {
-          this.choose(active);
-        }
-        break;
-      }
-      case 'Escape':
-      case 'Tab':
-        this.open.set(false);
-        break;
-      default:
-        return;
-    }
+    this.nav.onKeydown(event);
   }
 
   protected choose(item: T): void {

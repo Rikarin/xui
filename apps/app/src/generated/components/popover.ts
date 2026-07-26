@@ -117,9 +117,7 @@ export const doc: ComponentDoc = {
   "XuiPopoverContent",
   "XUI_POPOVER_CONTENT",
   "XuiPopoverInteractionKind",
-  "XuiPopoverConfig",
-  "provideXuiPopoverConfig",
-  "injectXuiPopoverConfig"
+  "XuiPopoverConfig"
 ],
   peerDependencies: {
   "@angular/cdk": "22",

@@ -69,8 +69,6 @@ export const doc: ComponentDoc = {
   "XuiDialogOpenConfig",
   "XuiDialogSize",
   "XuiDialogConfig",
-  "provideXuiDialogConfig",
-  "injectXuiDialogConfig",
   "XUI_DIALOG_SIZES"
 ],
   peerDependencies: {

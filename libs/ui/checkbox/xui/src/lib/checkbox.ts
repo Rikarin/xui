@@ -4,7 +4,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
-  forwardRef,
   input,
   linkedSignal,
   model,
@@ -12,13 +11,13 @@ import {
   viewChild,
   ViewEncapsulation
 } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor } from '@angular/forms';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { matCheckRound, matRemoveRound } from '@ng-icons/material-icons/round';
 import { xui } from '@xui/core';
 import { uniqueId } from '@xui/core/a11y';
 import { XCheckbox, XCheckboxImports } from '@xui/core/checkbox';
-import type { XChangeFn, XTouchFn } from '@xui/core/forms';
+import { createXValueAccessor, provideXValueAccessor } from '@xui/core/forms';
 import { XuiIcon, XuiIconSize } from '@xui/icon';
 import { cva, VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
@@ -80,12 +79,6 @@ type WrapperVariants = VariantProps<typeof checkboxWrapperVariants>;
 
 export type XuiCheckboxAlignIndicator = NonNullable<WrapperVariants['alignIndicator']>;
 
-export const XUI_CHECKBOX_VALUE_ACCESSOR = {
-  provide: NG_VALUE_ACCESSOR,
-  useExisting: forwardRef(() => XuiCheckbox),
-  multi: true
-};
-
 @Component({
   selector: 'xui-checkbox',
   imports: [XCheckboxImports, NgIcon, XuiIcon],
@@ -97,13 +90,13 @@ export const XUI_CHECKBOX_VALUE_ACCESSOR = {
         [class]="computedClass()"
         [checked]="checked()"
         [(indeterminate)]="indeterminate"
-        [disabled]="_disabled()"
+        [disabled]="isDisabled()"
         [required]="required()"
         [aria-label]="effectiveAriaLabel()"
         [aria-labelledby]="effectiveAriaLabelledby()"
         [aria-describedby]="ariaDescribedby()"
         (checkedChange)="handleChange($event)"
-        (touched)="onTouched?.()"
+        (touched)="cva.markTouched()"
       >
         <ng-icon
           xui
@@ -131,9 +124,9 @@ export const XUI_CHECKBOX_VALUE_ACCESSOR = {
     '[attr.aria-label]': 'null',
     '[attr.aria-labelledby]': 'null',
     '[attr.aria-describedby]': 'null',
-    '[attr.data-disabled]': '_disabled() ? "" : null'
+    '[attr.data-disabled]': 'isDisabled() ? "" : null'
   },
-  providers: [XUI_CHECKBOX_VALUE_ACCESSOR],
+  providers: [provideXValueAccessor(() => XuiCheckbox)],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   viewProviders: [provideIcons({ matCheckRound, matRemoveRound })]
@@ -170,7 +163,7 @@ export class XuiCheckbox implements ControlValueAccessor {
       checkboxWrapperVariants({
         inline: this.inline(),
         alignIndicator: this.alignIndicator(),
-        disabled: this._disabled()
+        disabled: this.isDisabled()
       })
     )
   );
@@ -237,35 +230,26 @@ export class XuiCheckbox implements ControlValueAccessor {
 
   /** Whether the checkbox is disabled. */
   readonly disabled = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
-  protected readonly _disabled = linkedSignal(this.disabled);
 
-  protected onChange?: XChangeFn<boolean>;
-  protected onTouched?: XTouchFn;
+  protected readonly cva = createXValueAccessor<boolean>({
+    onWrite: value => this.checked.set(value),
+    disabled: this.disabled
+  });
+  protected readonly isDisabled = this.cva.disabled;
 
   protected handleChange(value: boolean): void {
-    if (this._disabled()) {
+    if (this.isDisabled()) {
       return;
     }
 
     this.checked.set(value);
     this.checkedChange.emit(value);
-    this.onChange?.(value);
+    this.cva.notifyChange(value);
   }
 
   /** CONTROL VALUE ACCESSOR */
-  writeValue(value: boolean): void {
-    this.checked.set(value);
-  }
-
-  registerOnChange(fn: XChangeFn<boolean>): void {
-    this.onChange = fn;
-  }
-
-  registerOnTouched(fn: XTouchFn): void {
-    this.onTouched = fn;
-  }
-
-  setDisabledState(isDisabled: boolean): void {
-    this._disabled.set(isDisabled);
-  }
+  readonly writeValue = this.cva.writeValue;
+  readonly registerOnChange = this.cva.registerOnChange;
+  readonly registerOnTouched = this.cva.registerOnTouched;
+  readonly setDisabledState = this.cva.setDisabledState;
 }

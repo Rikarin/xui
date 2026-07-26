@@ -1,4 +1,4 @@
-import { BooleanInput } from '@angular/cdk/coercion';
+import { BooleanInput, NumberInput } from '@angular/cdk/coercion';
 import {
   booleanAttribute,
   ChangeDetectionStrategy,
@@ -6,14 +6,14 @@ import {
   computed,
   input,
   model,
+  numberAttribute,
   signal,
   ViewEncapsulation
 } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { matCalendarTodayRound } from '@ng-icons/material-icons/round';
 import { xui } from '@xui/core';
-import { toJsDate } from '@xui/core/calendar';
-import { injectXDateAdapter } from '@xui/core/date-time';
+import { defaultXDateFormat, defaultXDateParse, injectXDateAdapter } from '@xui/core/date-time';
 import { XuiDatePickerImports } from '@xui/date-picker';
 import { XuiIcon } from '@xui/icon';
 import { XuiPopoverImports } from '@xui/popover';
@@ -84,7 +84,7 @@ export class XuiDateInput<T = Date> {
   readonly min = input<T | null>(null);
   readonly max = input<T | null>(null);
   readonly dateFilter = input<((date: T) => boolean) | null>(null);
-  readonly firstDayOfWeek = input<number>(0);
+  readonly firstDayOfWeek = input<number, NumberInput>(0, { transform: numberAttribute });
 
   readonly placeholder = input<string>('YYYY-MM-DD');
   readonly disabled = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
@@ -92,17 +92,10 @@ export class XuiDateInput<T = Date> {
   readonly locale = input<string | undefined>(undefined);
 
   /** Format a value for the input. Defaults to a locale short date. */
-  readonly formatDate = input<(date: T, locale?: string) => string>((date, locale) =>
-    new Intl.DateTimeFormat(locale, { year: 'numeric', month: '2-digit', day: '2-digit' }).format(
-      toJsDate(this.adapter, date)
-    )
-  );
+  readonly formatDate = input<(date: T, locale?: string) => string>(defaultXDateFormat(this.adapter));
 
   /** Parse typed text into a value, or `null` if it can't. Defaults to `Date.parse`. */
-  readonly parseDate = input<(text: string) => T | null>(text => {
-    const ms = Date.parse(text);
-    return Number.isNaN(ms) ? null : (new Date(ms) as unknown as T);
-  });
+  readonly parseDate = input<(text: string) => T | null>(defaultXDateParse);
 
   protected readonly open = model(false);
   private readonly typed = signal<string | null>(null);

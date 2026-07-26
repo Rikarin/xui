@@ -57,8 +57,6 @@ export const doc: ComponentDoc = {
   "XuiLink",
   "XuiLinkImports",
   "XuiLinkConfig",
-  "provideXuiLinkConfig",
-  "injectXuiLinkConfig",
   "linkVariants",
   "XuiLinkVariants"
 ],

@@ -5,7 +5,6 @@ import {
   Component,
   computed,
   ElementRef,
-  forwardRef,
   input,
   linkedSignal,
   numberAttribute,
@@ -14,10 +13,11 @@ import {
   viewChild,
   ViewEncapsulation
 } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor } from '@angular/forms';
 import { xui } from '@xui/core';
 import { arrowValueDirection, injectXDirection, inlineFraction } from '@xui/core/a11y';
-import type { XChangeFn, XTouchFn } from '@xui/core/forms';
+import { createXValueAccessor, provideXValueAccessor } from '@xui/core/forms';
+import { injectXPointerDrag } from '@xui/core/interactions';
 import { cva, VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
 
@@ -60,12 +60,6 @@ const sliderHandleVariants = cva(
 
 export type XuiSliderColor = NonNullable<VariantProps<typeof sliderFillVariants>['color']>;
 
-export const XUI_SLIDER_VALUE_ACCESSOR = {
-  provide: NG_VALUE_ACCESSOR,
-  useExisting: forwardRef(() => XuiSlider),
-  multi: true
-};
-
 /** Round away binary-float dust so stepped values stay exact (e.g. 0.1 + 0.2). */
 const roundToGrid = (n: number): number => Math.round(n * 1e10) / 1e10;
 
@@ -90,17 +84,17 @@ const roundToGrid = (n: number): number => Math.round(n * 1e10) / 1e10;
         role="slider"
         [class]="handleClass()"
         [style]="handleStyle()"
-        [tabindex]="disabledState() ? -1 : 0"
+        [tabindex]="isDisabled() ? -1 : 0"
         [attr.aria-valuemin]="min()"
         [attr.aria-valuemax]="max()"
         [attr.aria-valuenow]="value()"
         [attr.aria-valuetext]="valueText()"
         [attr.aria-orientation]="orientation()"
-        [attr.aria-disabled]="disabledState() || null"
-        [attr.data-disabled]="disabledState() ? '' : null"
+        [attr.aria-disabled]="isDisabled() || null"
+        [attr.data-disabled]="isDisabled() ? '' : null"
         (keydown)="onKeydown($event)"
         (pointerdown)="onHandlePointerDown($event)"
-        (blur)="onTouched?.()"
+        (blur)="cva.markTouched()"
       ></div>
     </div>
 
@@ -117,7 +111,7 @@ const roundToGrid = (n: number): number => Math.round(n * 1e10) / 1e10;
   host: {
     '[class]': 'computedClass()'
   },
-  providers: [XUI_SLIDER_VALUE_ACCESSOR],
+  providers: [provideXValueAccessor(() => XuiSlider)],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None
 })
@@ -139,8 +133,11 @@ export class XuiSlider implements ControlValueAccessor {
   readonly showTrackFill = input<boolean, BooleanInput>(true, { transform: booleanAttribute });
 
   readonly disabled = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
-  private readonly disabledByForm = signal(false);
-  readonly disabledState = computed(() => this.disabled() || this.disabledByForm());
+  protected readonly cva = createXValueAccessor<number>({
+    onWrite: value => this.value.set(this.clampAndSnap(value ?? this.min())),
+    disabled: this.disabled
+  });
+  readonly isDisabled = this.cva.disabled;
 
   /** The current value. Two-way bindable with `[(value)]`. */
   // Aliased so the writable `value` linkedSignal can own the public name and be clamped.
@@ -155,9 +152,6 @@ export class XuiSlider implements ControlValueAccessor {
   private readonly handle = viewChild.required<ElementRef<HTMLDivElement>>('handle');
 
   protected readonly dragging = signal(false);
-
-  protected onChange?: XChangeFn<number>;
-  protected onTouched?: XTouchFn;
 
   // --- geometry -------------------------------------------------------------
 
@@ -233,7 +227,7 @@ export class XuiSlider implements ControlValueAccessor {
     xui(
       'relative select-none touch-none',
       this.orientation() === 'vertical' ? 'inline-flex h-48 pe-8' : 'block w-full pb-6',
-      this.disabledState() && 'pointer-events-none opacity-60',
+      this.isDisabled() && 'pointer-events-none opacity-60',
       this.class()
     )
   );
@@ -297,7 +291,7 @@ export class XuiSlider implements ControlValueAccessor {
   // --- interaction ----------------------------------------------------------
 
   protected onHandlePointerDown(event: PointerEvent): void {
-    if (this.disabledState()) {
+    if (this.isDisabled()) {
       return;
     }
 
@@ -307,7 +301,7 @@ export class XuiSlider implements ControlValueAccessor {
   }
 
   protected onTrackPointerDown(event: PointerEvent): void {
-    if (this.disabledState()) {
+    if (this.isDisabled()) {
       return;
     }
 
@@ -318,23 +312,17 @@ export class XuiSlider implements ControlValueAccessor {
     this.beginDrag(event);
   }
 
+  private readonly startDrag = injectXPointerDrag();
+
   private beginDrag(event: PointerEvent): void {
     this.dragging.set(true);
-    const target = event.target as HTMLElement;
-    target.setPointerCapture?.(event.pointerId);
-
-    const move = (e: PointerEvent) => this.commit(this.valueFromPointer(e));
-    const end = () => {
-      this.dragging.set(false);
-      target.removeEventListener('pointermove', move);
-      target.removeEventListener('pointerup', end);
-      target.removeEventListener('pointercancel', end);
-      this.onTouched?.();
-    };
-
-    target.addEventListener('pointermove', move);
-    target.addEventListener('pointerup', end);
-    target.addEventListener('pointercancel', end);
+    this.startDrag(event, {
+      onMove: moveEvent => this.commit(this.valueFromPointer(moveEvent)),
+      onEnd: () => {
+        this.dragging.set(false);
+        this.cva.markTouched();
+      }
+    });
   }
 
   private valueFromPointer(event: PointerEvent): number {
@@ -349,7 +337,7 @@ export class XuiSlider implements ControlValueAccessor {
   }
 
   protected onKeydown(event: KeyboardEvent): void {
-    if (this.disabledState()) {
+    if (this.isDisabled()) {
       return;
     }
 
@@ -397,24 +385,13 @@ export class XuiSlider implements ControlValueAccessor {
 
     this.value.set(snapped);
     this.valueChange.emit(snapped);
-    this.onChange?.(snapped);
+    this.cva.notifyChange(snapped);
   }
 
   // --- ControlValueAccessor -------------------------------------------------
 
-  writeValue(value: number): void {
-    this.value.set(this.clampAndSnap(value ?? this.min()));
-  }
-
-  registerOnChange(fn: XChangeFn<number>): void {
-    this.onChange = fn;
-  }
-
-  registerOnTouched(fn: XTouchFn): void {
-    this.onTouched = fn;
-  }
-
-  setDisabledState(isDisabled: boolean): void {
-    this.disabledByForm.set(isDisabled);
-  }
+  readonly writeValue = this.cva.writeValue;
+  readonly registerOnChange = this.cva.registerOnChange;
+  readonly registerOnTouched = this.cva.registerOnTouched;
+  readonly setDisabledState = this.cva.setDisabledState;
 }

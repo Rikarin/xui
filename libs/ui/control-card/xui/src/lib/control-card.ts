@@ -4,17 +4,15 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
-  forwardRef,
   input,
   model,
-  signal,
   ViewEncapsulation
 } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor } from '@angular/forms';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { matCheckRound } from '@ng-icons/material-icons/round';
 import { xui } from '@xui/core';
-import type { XChangeFn, XTouchFn } from '@xui/core/forms';
+import { createXValueAccessor, provideXValueAccessor } from '@xui/core/forms';
 import { XuiIcon } from '@xui/icon';
 import { cva, VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
@@ -40,12 +38,6 @@ const controlCardVariants = cva(
 );
 
 export type XuiControlCardVariants = VariantProps<typeof controlCardVariants>;
-
-export const XUI_CONTROL_CARD_VALUE_ACCESSOR = {
-  provide: NG_VALUE_ACCESSOR,
-  useExisting: forwardRef(() => XuiControlCard),
-  multi: true
-};
 
 /**
  * A selectable card wrapping a label and a control indicator. The card itself is
@@ -87,7 +79,7 @@ export const XUI_CONTROL_CARD_VALUE_ACCESSOR = {
     '(click)': 'toggle()',
     '(keydown)': 'onKeydown($event)'
   },
-  providers: [XUI_CONTROL_CARD_VALUE_ACCESSOR],
+  providers: [provideXValueAccessor(() => XuiControlCard)],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   viewProviders: [provideIcons({ matCheckRound })]
@@ -104,10 +96,11 @@ export class XuiControlCard implements ControlValueAccessor {
   /** Whether a checked card shows the selected (accented) appearance. */
   readonly showAsSelectedWhenChecked = input<boolean, BooleanInput>(true, { transform: booleanAttribute });
 
-  private onChange?: XChangeFn<boolean>;
-  private onTouched?: XTouchFn;
-  private readonly disabledByForm = signal(false);
-  protected readonly isDisabled = computed(() => this.disabled() || this.disabledByForm());
+  protected readonly cva = createXValueAccessor<boolean>({
+    onWrite: value => this.checked.set(!!value),
+    disabled: this.disabled
+  });
+  protected readonly isDisabled = this.cva.disabled;
 
   protected readonly role = computed(() => (this.type() === 'switch' ? 'switch' : this.type()));
 
@@ -147,8 +140,8 @@ export class XuiControlCard implements ControlValueAccessor {
     }
 
     this.checked.set(next);
-    this.onChange?.(next);
-    this.onTouched?.();
+    this.cva.notifyChange(next);
+    this.cva.markTouched();
   }
 
   protected onKeydown(event: KeyboardEvent): void {
@@ -159,19 +152,8 @@ export class XuiControlCard implements ControlValueAccessor {
   }
 
   // --- ControlValueAccessor ---
-  writeValue(value: boolean): void {
-    this.checked.set(!!value);
-  }
-
-  registerOnChange(fn: XChangeFn<boolean>): void {
-    this.onChange = fn;
-  }
-
-  registerOnTouched(fn: XTouchFn): void {
-    this.onTouched = fn;
-  }
-
-  setDisabledState(isDisabled: boolean): void {
-    this.disabledByForm.set(isDisabled);
-  }
+  readonly writeValue = this.cva.writeValue;
+  readonly registerOnChange = this.cva.registerOnChange;
+  readonly registerOnTouched = this.cva.registerOnTouched;
+  readonly setDisabledState = this.cva.setDisabledState;
 }

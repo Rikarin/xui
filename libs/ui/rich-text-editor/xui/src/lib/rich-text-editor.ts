@@ -7,13 +7,12 @@ import {
   booleanAttribute,
   computed,
   effect,
-  forwardRef,
   input,
   model,
   signal,
   viewChild
 } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor } from '@angular/forms';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
   matCodeRound,
@@ -29,7 +28,7 @@ import {
   matTerminalRound
 } from '@ng-icons/material-icons/round';
 import { xui } from '@xui/core';
-import type { XChangeFn, XTouchFn } from '@xui/core/forms';
+import { createXValueAccessor, provideXValueAccessor } from '@xui/core/forms';
 import { XuiIcon } from '@xui/icon';
 import type { ClassValue } from 'clsx';
 import { injectXuiRichTextEditorConfig, injectXuiRichTextSyntaxes } from './rich-text-editor.token';
@@ -114,12 +113,6 @@ const TOOLS: readonly Tool[] = [
     state: 'none'
   }
 ];
-
-export const XUI_RICH_TEXT_EDITOR_VALUE_ACCESSOR = {
-  provide: NG_VALUE_ACCESSOR,
-  useExisting: forwardRef(() => XuiRichTextEditor),
-  multi: true
-};
 
 /**
  * A WYSIWYG editor whose value is source text.
@@ -216,7 +209,7 @@ export const XUI_RICH_TEXT_EDITOR_VALUE_ACCESSOR = {
         [disabled]="isDisabled()"
         [value]="value()"
         (input)="onSourceInput($event)"
-        (blur)="onTouched?.()"
+        (blur)="cva.markTouched()"
       ></textarea>
     } @else {
       <div class="relative">
@@ -235,7 +228,7 @@ export const XUI_RICH_TEXT_EDITOR_VALUE_ACCESSOR = {
           [attr.aria-label]="ariaLabel()"
           [attr.aria-disabled]="isDisabled() ? true : null"
           (input)="pull()"
-          (blur)="onTouched?.()"
+          (blur)="cva.markTouched()"
           (paste)="onPaste($event)"
           (keydown)="onKeydown($event)"
           (keyup)="refreshActive()"
@@ -248,7 +241,7 @@ export const XUI_RICH_TEXT_EDITOR_VALUE_ACCESSOR = {
     '[class]': 'computedClass()',
     '[attr.data-disabled]': 'isDisabled() ? "" : null'
   },
-  providers: [XUI_RICH_TEXT_EDITOR_VALUE_ACCESSOR],
+  providers: [provideXValueAccessor(() => XuiRichTextEditor)],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   viewProviders: [
@@ -299,10 +292,16 @@ export class XuiRichTextEditor implements ControlValueAccessor {
   protected readonly linkDraft = signal<string | null>(null);
   protected readonly active = signal<XuiRichTextFeature[]>([]);
 
-  private onChange?: XChangeFn<string>;
-  protected onTouched?: XTouchFn;
-  private readonly disabledByForm = signal(false);
-  protected readonly isDisabled = computed(() => this.disabled() || this.disabledByForm());
+  protected readonly cva = createXValueAccessor<string>({
+    onWrite: value => {
+      this.value.set(value ?? '');
+      // Force the next render: the value came from outside, so whatever is in
+      // the surface is stale even if the string matches what we last serialised.
+      this.synced = null;
+    },
+    disabled: this.disabled
+  });
+  protected readonly isDisabled = this.cva.disabled;
 
   /**
    * The value the surface already shows, tagged with the format it was rendered
@@ -395,7 +394,7 @@ export class XuiRichTextEditor implements ControlValueAccessor {
 
         this.synced = this.syncKey(translated);
         this.value.set(translated);
-        this.onChange?.(translated);
+        this.cva.notifyChange(translated);
 
         return;
       }
@@ -581,7 +580,7 @@ export class XuiRichTextEditor implements ControlValueAccessor {
     // effect sees it and leaves the caret where the user put it.
     this.synced = this.syncKey(next);
     this.value.set(next);
-    this.onChange?.(next);
+    this.cva.notifyChange(next);
   }
 
   private syncKey(value: string): string {
@@ -589,24 +588,10 @@ export class XuiRichTextEditor implements ControlValueAccessor {
   }
 
   // --- ControlValueAccessor ---
-  writeValue(value: string): void {
-    this.value.set(value ?? '');
-    // Force the next render: the value came from outside, so whatever is in the
-    // surface is stale even if the string matches what we last serialised.
-    this.synced = null;
-  }
-
-  registerOnChange(fn: XChangeFn<string>): void {
-    this.onChange = fn;
-  }
-
-  registerOnTouched(fn: XTouchFn): void {
-    this.onTouched = fn;
-  }
-
-  setDisabledState(isDisabled: boolean): void {
-    this.disabledByForm.set(isDisabled);
-  }
+  readonly writeValue = this.cva.writeValue;
+  readonly registerOnChange = this.cva.registerOnChange;
+  readonly registerOnTouched = this.cva.registerOnTouched;
+  readonly setDisabledState = this.cva.setDisabledState;
 }
 
 function currentRange(): Range | null {

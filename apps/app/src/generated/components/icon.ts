@@ -14,8 +14,6 @@ export const doc: ComponentDoc = {
   "XuiIcon",
   "XuiIconImports",
   "XuiIconConfig",
-  "provideXuiIconConfig",
-  "injectXuiIconConfig",
   "XuiIconSize",
   "iconVariants",
   "XuiIconVariants"

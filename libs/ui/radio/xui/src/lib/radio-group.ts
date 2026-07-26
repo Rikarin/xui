@@ -8,20 +8,20 @@ import {
   contentChildren,
   forwardRef,
   input,
-  model,
-  signal
+  model
 } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor } from '@angular/forms';
 import { xui } from '@xui/core';
 import { uniqueId } from '@xui/core/a11y';
-import type { XChangeFn, XTouchFn } from '@xui/core/forms';
+import { createXValueAccessor, provideXValueAccessor } from '@xui/core/forms';
 import type { ClassValue } from 'clsx';
 
 /** The contract a group exposes to its buttons — kept narrow to avoid a cycle. */
 export interface XuiRadioGroupContract<T = unknown> {
   readonly value: () => T | null;
   readonly name: () => string;
-  readonly disabled: () => boolean;
+  /** Whether the group is disabled — by its input or by a reactive form. */
+  readonly isDisabled: () => boolean;
   select(value: T): void;
   isFirstEnabled(value: T): boolean;
 }
@@ -68,7 +68,7 @@ export const XUI_RADIO_BUTTON_TOKEN = new InjectionToken<XuiRadioButtonRef>('Xui
     '(keydown.arrowleft)': 'move($event, -1)'
   },
   providers: [
-    { provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => XuiRadioGroup), multi: true },
+    provideXValueAccessor(() => XuiRadioGroup),
     { provide: XUI_RADIO_GROUP, useExisting: forwardRef(() => XuiRadioGroup) }
   ]
 })
@@ -89,28 +89,27 @@ export class XuiRadioGroup<T = unknown> implements ControlValueAccessor, XuiRadi
   /** The chosen value. Works two-way and via `ngModel`/`formControl`. */
   readonly value = model<T | null>(null);
 
-  // Aliased so the `disabled` name can front a computed that also folds in a
-  // reactive form's setDisabledState.
-  // eslint-disable-next-line @angular-eslint/no-input-rename
-  readonly disabledInput = input<boolean, BooleanInput>(false, { transform: booleanAttribute, alias: 'disabled' });
-  private readonly disabledByForm = signal(false);
-  readonly disabled = computed(() => this.disabledInput() || this.disabledByForm());
+  readonly disabled = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
+
+  protected readonly cva = createXValueAccessor<T | null>({
+    onWrite: value => this.value.set(value),
+    disabled: this.disabled
+  });
+  /** Public rather than protected: the buttons read it through the contract. */
+  readonly isDisabled = this.cva.disabled;
 
   protected readonly computedClass = computed(() =>
     xui('flex gap-2', this.orientation() === 'vertical' ? 'flex-col' : 'flex-row flex-wrap', this.class())
   );
 
-  private onChange?: XChangeFn<T | null>;
-  private onTouched?: XTouchFn;
-
   select(value: T): void {
-    if (this.disabled()) {
+    if (this.isDisabled()) {
       return;
     }
 
     this.value.set(value);
-    this.onChange?.(value);
-    this.onTouched?.();
+    this.cva.notifyChange(value);
+    this.cva.markTouched();
   }
 
   /**
@@ -132,7 +131,7 @@ export class XuiRadioGroup<T = unknown> implements ControlValueAccessor, XuiRadi
    * radio pattern, moving also selects — and focus follows selection.
    */
   protected move(event: Event, delta: 1 | -1): void {
-    if (this.disabled()) {
+    if (this.isDisabled()) {
       return;
     }
 
@@ -151,19 +150,8 @@ export class XuiRadioGroup<T = unknown> implements ControlValueAccessor, XuiRadi
     next.focus();
   }
 
-  writeValue(value: T | null): void {
-    this.value.set(value);
-  }
-
-  registerOnChange(fn: XChangeFn<T | null>): void {
-    this.onChange = fn;
-  }
-
-  registerOnTouched(fn: XTouchFn): void {
-    this.onTouched = fn;
-  }
-
-  setDisabledState(isDisabled: boolean): void {
-    this.disabledByForm.set(isDisabled);
-  }
+  readonly writeValue = this.cva.writeValue;
+  readonly registerOnChange = this.cva.registerOnChange;
+  readonly registerOnTouched = this.cva.registerOnTouched;
+  readonly setDisabledState = this.cva.setDisabledState;
 }

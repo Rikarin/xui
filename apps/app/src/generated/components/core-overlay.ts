@@ -11,6 +11,9 @@ export const doc: ComponentDoc = {
   description: undefined,
   importsConst: undefined,
   exports: [
+  "XHoverGateOptions",
+  "XHoverGate",
+  "createXHoverGate",
   "XOverlayOrigin",
   "XScrollStrategy",
   "XGlobalPosition",

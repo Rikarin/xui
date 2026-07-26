@@ -14,12 +14,10 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import { xui } from '@xui/core';
-import { createXQueryList } from '@xui/core/query';
+import { createXActiveOption, createXItemListPredicate, createXQueryList, trackXItem } from '@xui/core/query';
 import { XuiPopoverImports } from '@xui/popover';
 import { XuiSelectOption } from '@xui/select';
 import type { ClassValue } from 'clsx';
-
-const defaultMatch = (text: string, query: string): boolean => text.toLowerCase().includes(query.toLowerCase());
 
 /**
  * A typeahead autocomplete: the text input itself is the target. Typing filters a
@@ -120,14 +118,18 @@ export class XuiSuggest<T> {
     query: this.query,
     itemText: item => this.itemText()(item),
     itemDisabled: item => this.itemDisabled()(item),
-    itemListPredicate: (q, items) => {
-      if (!q) {
-        return items as T[];
-      }
+    itemListPredicate: createXItemListPredicate({
+      itemText: this.itemText,
+      itemPredicate: this.itemPredicate
+    })
+  });
 
-      const predicate = this.itemPredicate();
-      return items.filter(item => (predicate ? predicate(q, item) : defaultMatch(this.itemText()(item), q)));
-    }
+  // Keyboard navigation over the filtered list (ArrowDown re-opens the popover).
+  private readonly nav = createXActiveOption<T>({
+    list: this.list,
+    select: item => this.choose(item),
+    close: () => this.open.set(false),
+    open: () => this.open.set(true)
   });
 
   /** The input shows the live query while editing, else the selected item's text. */
@@ -166,9 +168,7 @@ export class XuiSuggest<T> {
     return this.itemText()(item);
   }
 
-  protected trackItem(index: number, item: T): unknown {
-    return item ?? index;
-  }
+  protected readonly trackItem = trackXItem;
 
   protected optionClass(item: T): string {
     return xui(
@@ -187,30 +187,7 @@ export class XuiSuggest<T> {
   }
 
   protected onKeydown(event: KeyboardEvent): void {
-    switch (event.key) {
-      case 'ArrowDown':
-        event.preventDefault();
-        this.open.set(true);
-        this.list.moveActiveItem(1);
-        break;
-      case 'ArrowUp':
-        event.preventDefault();
-        this.list.moveActiveItem(-1);
-        break;
-      case 'Enter': {
-        event.preventDefault();
-        const active = this.list.activeItem();
-        if (active != null) {
-          this.choose(active);
-        }
-        break;
-      }
-      case 'Escape':
-        this.open.set(false);
-        break;
-      default:
-        return;
-    }
+    this.nav.onKeydown(event);
   }
 
   protected choose(item: T): void {

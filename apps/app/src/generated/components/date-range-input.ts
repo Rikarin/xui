@@ -94,13 +94,13 @@ export const doc: ComponentDoc = {
       {
         "name": "formatDate",
         "type": "(date: T, locale?: string) => string",
-        "default": "(date, locale) =>\n    new Intl.DateTimeFormat(locale, { year: 'numeric', month: '2-digit', day: '2-digit' }).format(\n      toJsDate(this.adapter, date)\n    )",
+        "default": "defaultXDateFormat(this.adapter)",
         "required": false
       },
       {
         "name": "parseDate",
         "type": "(text: string) => T | null",
-        "default": "text => {\n    const ms = Date.parse(text);\n    return Number.isNaN(ms) ? null : (new Date(ms) as unknown as T);\n  }",
+        "default": "defaultXDateParse",
         "required": false
       }
     ],

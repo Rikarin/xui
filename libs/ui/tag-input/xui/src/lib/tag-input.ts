@@ -5,7 +5,6 @@ import {
   Component,
   computed,
   ElementRef,
-  forwardRef,
   input,
   model,
   output,
@@ -13,11 +12,11 @@ import {
   viewChild,
   ViewEncapsulation
 } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor } from '@angular/forms';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { matCloseRound } from '@ng-icons/material-icons/round';
 import { xui } from '@xui/core';
-import type { XChangeFn, XTouchFn } from '@xui/core/forms';
+import { createXValueAccessor, provideXValueAccessor } from '@xui/core/forms';
 import { XuiIcon } from '@xui/icon';
 import { cva, VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
@@ -37,12 +36,6 @@ const tagInputContainerVariants = cva(
 );
 
 export type XuiTagInputVariants = VariantProps<typeof tagInputContainerVariants>;
-
-export const XUI_TAG_INPUT_VALUE_ACCESSOR = {
-  provide: NG_VALUE_ACCESSOR,
-  useExisting: forwardRef(() => XuiTagInput),
-  multi: true
-};
 
 /**
  * A token/chip input: type and press Enter (or the separator) to add a tag, click
@@ -91,7 +84,7 @@ export const XUI_TAG_INPUT_VALUE_ACCESSOR = {
     '[class]': 'computedClass()',
     '[attr.data-disabled]': 'isDisabled() ? "" : null'
   },
-  providers: [XUI_TAG_INPUT_VALUE_ACCESSOR],
+  providers: [provideXValueAccessor(() => XuiTagInput)],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   viewProviders: [provideIcons({ matCloseRound })]
@@ -126,10 +119,11 @@ export class XuiTagInput implements ControlValueAccessor {
   protected readonly draft = signal('');
   private readonly field = viewChild<ElementRef<HTMLInputElement>>('field');
 
-  private onChange?: XChangeFn<string[]>;
-  private onTouched?: XTouchFn;
-  private readonly disabledByForm = signal(false);
-  protected readonly isDisabled = computed(() => this.disabled() || this.disabledByForm());
+  protected readonly cva = createXValueAccessor<string[]>({
+    onWrite: value => this.values.set(value ?? []),
+    disabled: this.disabled
+  });
+  protected readonly isDisabled = this.cva.disabled;
 
   protected readonly computedClass = computed(() => xui('block', this.class()));
   protected readonly containerClass = computed(() => xui(tagInputContainerVariants({ fill: this.fill() })));
@@ -170,7 +164,7 @@ export class XuiTagInput implements ControlValueAccessor {
       this.commitDraft();
     }
 
-    this.onTouched?.();
+    this.cva.markTouched();
   }
 
   protected focusInput(event: MouseEvent): void {
@@ -230,23 +224,12 @@ export class XuiTagInput implements ControlValueAccessor {
 
   private commit(next: string[]): void {
     this.values.set(next);
-    this.onChange?.(next);
+    this.cva.notifyChange(next);
   }
 
   // --- ControlValueAccessor ---
-  writeValue(value: string[]): void {
-    this.values.set(value ?? []);
-  }
-
-  registerOnChange(fn: XChangeFn<string[]>): void {
-    this.onChange = fn;
-  }
-
-  registerOnTouched(fn: XTouchFn): void {
-    this.onTouched = fn;
-  }
-
-  setDisabledState(isDisabled: boolean): void {
-    this.disabledByForm.set(isDisabled);
-  }
+  readonly writeValue = this.cva.writeValue;
+  readonly registerOnChange = this.cva.registerOnChange;
+  readonly registerOnTouched = this.cva.registerOnTouched;
+  readonly setDisabledState = this.cva.setDisabledState;
 }

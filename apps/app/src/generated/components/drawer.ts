@@ -70,9 +70,7 @@ export const doc: ComponentDoc = {
   "XuiDrawerImports",
   "XuiDrawerPosition",
   "XuiDrawerSize",
-  "XuiDrawerConfig",
-  "provideXuiDrawerConfig",
-  "injectXuiDrawerConfig"
+  "XuiDrawerConfig"
 ],
   peerDependencies: {
   "@angular/cdk": "22",

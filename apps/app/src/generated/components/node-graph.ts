@@ -170,8 +170,6 @@ export const doc: ComponentDoc = {
   "xuiGraphEdgeMidpoint",
   "XuiGraphPortType",
   "XuiNodeGraphConfig",
-  "provideXuiNodeGraphConfig",
-  "injectXuiNodeGraphConfig",
   "xuiGraphChartPortTypes",
   "XuiGraphPoint",
   "XuiGraphSize",

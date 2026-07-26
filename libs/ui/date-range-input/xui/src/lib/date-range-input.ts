@@ -12,8 +12,7 @@ import {
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { matArrowForwardRound } from '@ng-icons/material-icons/round';
 import { xui } from '@xui/core';
-import { toJsDate } from '@xui/core/calendar';
-import { injectXDateAdapter } from '@xui/core/date-time';
+import { defaultXDateFormat, defaultXDateParse, injectXDateAdapter } from '@xui/core/date-time';
 import { XuiDateRangePickerImports, type XuiDateRange } from '@xui/date-range-picker';
 import { XuiIcon } from '@xui/icon';
 import { XuiPopoverImports } from '@xui/popover';
@@ -95,16 +94,9 @@ export class XuiDateRangeInput<T = Date> {
   readonly endPlaceholder = input<string>('End date');
   readonly locale = input<string | undefined>(undefined);
 
-  readonly formatDate = input<(date: T, locale?: string) => string>((date, locale) =>
-    new Intl.DateTimeFormat(locale, { year: 'numeric', month: '2-digit', day: '2-digit' }).format(
-      toJsDate(this.adapter, date)
-    )
-  );
+  readonly formatDate = input<(date: T, locale?: string) => string>(defaultXDateFormat(this.adapter));
 
-  readonly parseDate = input<(text: string) => T | null>(text => {
-    const ms = Date.parse(text);
-    return Number.isNaN(ms) ? null : (new Date(ms) as unknown as T);
-  });
+  readonly parseDate = input<(text: string) => T | null>(defaultXDateParse);
 
   protected readonly open = model(false);
   private readonly typed = signal<{ start: string | null; end: string | null }>({ start: null, end: null });

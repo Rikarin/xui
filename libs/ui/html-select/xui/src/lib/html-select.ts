@@ -1,18 +1,10 @@
 import type { BooleanInput } from '@angular/cdk/coercion';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  booleanAttribute,
-  computed,
-  forwardRef,
-  input,
-  signal
-} from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, booleanAttribute, computed, input, signal } from '@angular/core';
+import { ControlValueAccessor } from '@angular/forms';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { matExpandMoreRound } from '@ng-icons/material-icons/round';
 import { xui } from '@xui/core';
-import type { XChangeFn, XTouchFn } from '@xui/core/forms';
+import { createXValueAccessor, provideXValueAccessor } from '@xui/core/forms';
 import { XuiIcon } from '@xui/icon';
 import { cva, type VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
@@ -57,15 +49,15 @@ export interface XuiHtmlSelectOption<T = string> {
   imports: [NgIcon, XuiIcon],
   viewProviders: [provideIcons({ matExpandMoreRound })],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [{ provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => XuiHtmlSelect), multi: true }],
+  providers: [provideXValueAccessor(() => XuiHtmlSelect)],
   template: `
     <select
       #field
       [class]="selectClass()"
-      [disabled]="disabledState()"
+      [disabled]="isDisabled()"
       [attr.aria-label]="ariaLabel()"
       (change)="onSelect(field.value)"
-      (blur)="onTouched?.()"
+      (blur)="cva.markTouched()"
     >
       @if (placeholder(); as ph) {
         <option value="" disabled [selected]="value() === null || value() === ''">{{ ph }}</option>
@@ -102,10 +94,14 @@ export class XuiHtmlSelect<T = string> implements ControlValueAccessor {
   readonly ariaLabel = input<string | null>(null, { alias: 'aria-label' });
 
   readonly disabled = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
-  private readonly disabledByForm = signal(false);
-  protected readonly disabledState = computed(() => this.disabled() || this.disabledByForm());
 
   protected readonly value = signal<T | string | null>(null);
+
+  protected readonly cva = createXValueAccessor<T | string | null>({
+    onWrite: value => this.value.set(value),
+    disabled: this.disabled
+  });
+  protected readonly isDisabled = this.cva.disabled;
 
   protected readonly computedClass = computed(() =>
     xui(htmlSelectWrapperVariants({ size: this.size(), fill: this.fill() }), this.class())
@@ -117,9 +113,6 @@ export class XuiHtmlSelect<T = string> implements ControlValueAccessor {
     )
   );
 
-  private onChange?: XChangeFn<T | string | null>;
-  protected onTouched?: XTouchFn;
-
   protected onSelect(value: string): void {
     // Recover the original typed option value (number, object) when the choice
     // came from the data-driven `options`, since the DOM only carries strings.
@@ -127,22 +120,11 @@ export class XuiHtmlSelect<T = string> implements ControlValueAccessor {
     const next = original ? original.value : value;
 
     this.value.set(next);
-    this.onChange?.(next);
+    this.cva.notifyChange(next);
   }
 
-  writeValue(value: T | string | null): void {
-    this.value.set(value);
-  }
-
-  registerOnChange(fn: XChangeFn<T | string | null>): void {
-    this.onChange = fn;
-  }
-
-  registerOnTouched(fn: XTouchFn): void {
-    this.onTouched = fn;
-  }
-
-  setDisabledState(isDisabled: boolean): void {
-    this.disabledByForm.set(isDisabled);
-  }
+  readonly writeValue = this.cva.writeValue;
+  readonly registerOnChange = this.cva.registerOnChange;
+  readonly registerOnTouched = this.cva.registerOnTouched;
+  readonly setDisabledState = this.cva.setDisabledState;
 }

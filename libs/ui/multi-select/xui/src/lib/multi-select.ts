@@ -15,14 +15,12 @@ import {
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { matCheckRound } from '@ng-icons/material-icons/round';
 import { xui } from '@xui/core';
-import { createXQueryList } from '@xui/core/query';
+import { createXActiveOption, createXItemListPredicate, createXQueryList, trackXItem } from '@xui/core/query';
 import { XuiIcon } from '@xui/icon';
 import { XuiPopoverImports } from '@xui/popover';
 import { XuiSelectOption } from '@xui/select';
 import { XuiTag } from '@xui/tag';
 import type { ClassValue } from 'clsx';
-
-const defaultMatch = (text: string, query: string): boolean => text.toLowerCase().includes(query.toLowerCase());
 
 /**
  * A filterable multi-select: an inline field of removable chips plus a query
@@ -131,14 +129,19 @@ export class XuiMultiSelect<T> {
     query: this.query,
     itemText: item => this.itemText()(item),
     itemDisabled: item => this.itemDisabled()(item),
-    itemListPredicate: (q, items) => {
-      if (!q) {
-        return items as T[];
-      }
+    itemListPredicate: createXItemListPredicate({
+      itemText: this.itemText,
+      itemPredicate: this.itemPredicate
+    })
+  });
 
-      const predicate = this.itemPredicate();
-      return items.filter(item => (predicate ? predicate(q, item) : defaultMatch(this.itemText()(item), q)));
-    }
+  // Keyboard navigation over the filtered list (ArrowDown re-opens the popover;
+  // Enter toggles rather than selects).
+  private readonly nav = createXActiveOption<T>({
+    list: this.list,
+    select: item => this.toggle(item),
+    close: () => this.open.set(false),
+    open: () => this.open.set(true)
   });
 
   protected readonly computedClass = computed(() => xui('block', this.class()));
@@ -155,9 +158,7 @@ export class XuiMultiSelect<T> {
     return this.itemText()(item);
   }
 
-  protected trackItem(index: number, item: T): unknown {
-    return item ?? index;
-  }
+  protected readonly trackItem = trackXItem;
 
   protected isSelected(item: T): boolean {
     return this.values().includes(item);
@@ -178,35 +179,13 @@ export class XuiMultiSelect<T> {
   }
 
   protected onKeydown(event: KeyboardEvent): void {
-    switch (event.key) {
-      case 'ArrowDown':
-        event.preventDefault();
-        this.open.set(true);
-        this.list.moveActiveItem(1);
-        break;
-      case 'ArrowUp':
-        event.preventDefault();
-        this.list.moveActiveItem(-1);
-        break;
-      case 'Enter': {
-        event.preventDefault();
-        const active = this.list.activeItem();
-        if (active != null) {
-          this.toggle(active);
-        }
-        break;
-      }
-      case 'Backspace':
-        // Remove the last chip when the query is empty.
-        if (this.query() === '' && this.values().length) {
-          this.remove(this.values()[this.values().length - 1]);
-        }
-        break;
-      case 'Escape':
-        this.open.set(false);
-        break;
-      default:
-        return;
+    if (this.nav.onKeydown(event)) {
+      return;
+    }
+
+    // Remove the last chip when Backspace is pressed on an empty query.
+    if (event.key === 'Backspace' && this.query() === '' && this.values().length) {
+      this.remove(this.values()[this.values().length - 1]);
     }
   }
 

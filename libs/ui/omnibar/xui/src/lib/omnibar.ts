@@ -21,12 +21,10 @@ import { NgIcon, provideIcons } from '@ng-icons/core';
 import { matSearchRound } from '@ng-icons/material-icons/round';
 import { xui } from '@xui/core';
 import { uniqueId } from '@xui/core/a11y';
-import { createXQueryList } from '@xui/core/query';
+import { createXActiveOption, createXItemListPredicate, createXQueryList, trackXItem } from '@xui/core/query';
 import { XuiIcon } from '@xui/icon';
 import { XuiSelectOption } from '@xui/select';
 import type { ClassValue } from 'clsx';
-
-const defaultMatch = (text: string, query: string): boolean => text.toLowerCase().includes(query.toLowerCase());
 
 /**
  * A ⌘K-style command palette: a top-centred overlay with a search field and a
@@ -133,14 +131,18 @@ export class XuiOmnibar<T> {
     query: this.query,
     itemText: item => this.itemText()(item),
     itemDisabled: item => this.itemDisabled()(item),
-    itemListPredicate: (q, items) => {
-      if (!q) {
-        return items as T[];
-      }
+    itemListPredicate: createXItemListPredicate({
+      itemText: this.itemText,
+      itemPredicate: this.itemPredicate
+    })
+  });
 
-      const predicate = this.itemPredicate();
-      return items.filter(item => (predicate ? predicate(q, item) : defaultMatch(this.itemText()(item), q)));
-    }
+  // Keyboard navigation over the filtered list (Escape must not bubble out of the modal).
+  private readonly nav = createXActiveOption<T>({
+    list: this.list,
+    select: item => this.choose(item),
+    close: () => this.close(),
+    preventEscapeDefault: true
   });
 
   protected readonly computedClass = computed(() => xui('contents', this.class()));
@@ -170,9 +172,7 @@ export class XuiOmnibar<T> {
     return this.itemText()(item);
   }
 
-  protected trackItem(index: number, item: T): unknown {
-    return item ?? index;
-  }
+  protected readonly trackItem = trackXItem;
 
   protected optionClass(item: T): string {
     return xui(
@@ -188,30 +188,7 @@ export class XuiOmnibar<T> {
   }
 
   protected onKeydown(event: KeyboardEvent): void {
-    switch (event.key) {
-      case 'ArrowDown':
-        event.preventDefault();
-        this.list.moveActiveItem(1);
-        break;
-      case 'ArrowUp':
-        event.preventDefault();
-        this.list.moveActiveItem(-1);
-        break;
-      case 'Enter': {
-        event.preventDefault();
-        const active = this.list.activeItem();
-        if (active != null) {
-          this.choose(active);
-        }
-        break;
-      }
-      case 'Escape':
-        event.preventDefault();
-        this.close();
-        break;
-      default:
-        return;
-    }
+    this.nav.onKeydown(event);
   }
 
   protected choose(item: T): void {

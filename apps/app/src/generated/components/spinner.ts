@@ -27,8 +27,6 @@ export const doc: ComponentDoc = {
   "XuiSpinner",
   "XuiSpinnerImports",
   "XuiSpinnerConfig",
-  "provideXuiSpinnerConfig",
-  "injectXuiSpinnerConfig",
   "spinnerVariants",
   "XuiSpinnerVariants"
 ],

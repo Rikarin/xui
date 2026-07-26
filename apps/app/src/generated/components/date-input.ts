@@ -115,7 +115,8 @@ export const doc: ComponentDoc = {
         "name": "firstDayOfWeek",
         "type": "number",
         "default": "0",
-        "required": false
+        "required": false,
+        "transform": "numberAttribute"
       },
       {
         "name": "placeholder",
@@ -146,14 +147,14 @@ export const doc: ComponentDoc = {
       {
         "name": "formatDate",
         "type": "(date: T, locale?: string) => string",
-        "default": "(date, locale) =>\n    new Intl.DateTimeFormat(locale, { year: 'numeric', month: '2-digit', day: '2-digit' }).format(\n      toJsDate(this.adapter, date)\n    )",
+        "default": "defaultXDateFormat(this.adapter)",
         "required": false,
         "docs": "Format a value for the input. Defaults to a locale short date."
       },
       {
         "name": "parseDate",
         "type": "(text: string) => T | null",
-        "default": "text => {\n    const ms = Date.parse(text);\n    return Number.isNaN(ms) ? null : (new Date(ms) as unknown as T);\n  }",
+        "default": "defaultXDateParse",
         "required": false,
         "docs": "Parse typed text into a value, or null if it can't. Defaults to Date.parse."
       }

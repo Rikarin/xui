@@ -65,8 +65,6 @@ export const doc: ComponentDoc = {
   "XuiCard",
   "XuiCardImports",
   "XuiCardConfig",
-  "provideXuiCardConfig",
-  "injectXuiCardConfig",
   "cardVariants",
   "XuiCardVariants",
   "XuiCardElevation"

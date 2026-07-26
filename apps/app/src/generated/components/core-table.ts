@@ -2,162 +2,161 @@
 import type { ComponentDoc } from '../../app/core/docs.model';
 
 export const doc: ComponentDoc = {
-  name: 'table',
-  slug: 'core-table',
-  title: 'Table',
-  package: '@xui/core/table',
-  kind: 'core',
-  group: 'Headless primitives',
-  description:
-    'A data table. Layout is flex rather than table-layout, so a column can grow while the rest stay sized to their content, and the row parts stay addressable for striping and selection.',
+  name: "table",
+  slug: "core-table",
+  title: "Table",
+  package: "@xui/core/table",
+  kind: "core",
+  group: "Headless primitives",
+  description: "A data table. Layout is flex rather than table-layout, so a column can grow while the rest stay sized to their content, and the row parts stay addressable for striping and selection.",
   importsConst: undefined,
   exports: [
-    'XCellDef',
-    'XColumnDef',
-    'XFooterDef',
-    'XHeaderDef',
-    'XPaginator',
-    'XTable',
-    'XTableImports',
-    'createXColumnManager',
-    'XPaginatorState',
-    'XPaginatorContext',
-    'XTableDataSourceInput'
-  ],
+  "XCellDef",
+  "XColumnDef",
+  "XFooterDef",
+  "XHeaderDef",
+  "XPaginator",
+  "XTable",
+  "XTableImports",
+  "createXColumnManager",
+  "XPaginatorState",
+  "XPaginatorContext",
+  "XTableDataSourceInput"
+],
   peerDependencies: {
-    '@angular/cdk': '22',
-    '@angular/common': '22',
-    '@angular/core': '22',
-    '@angular/forms': '22',
-    clsx: '>=2.0.0',
-    luxon: '>=3.0.0',
-    'tailwind-merge': '>=3.0.0'
-  },
-  sourcePath: 'libs/core/table',
+  "@angular/cdk": "22",
+  "@angular/common": "22",
+  "@angular/core": "22",
+  "@angular/forms": "22",
+  "clsx": ">=2.0.0",
+  "luxon": ">=3.0.0",
+  "tailwind-merge": ">=3.0.0"
+},
+  sourcePath: "libs/core/table",
   symbols: [
-    {
-      kind: 'directive',
-      name: 'XCellDef',
-      selector: '[xCellDef]',
-      exportAs: 'xCellDef',
-      inputs: [],
-      outputs: [],
-      variants: [],
-      methods: []
-    },
-    {
-      kind: 'component',
-      name: 'XColumnDef',
-      selector: 'x-column-def',
-      inputs: [
-        {
-          name: 'class',
-          type: 'string',
-          default: "''",
-          required: false
-        }
-      ],
-      outputs: [],
-      variants: [],
-      methods: [
-        {
-          name: 'ngAfterContentChecked',
-          signature: 'ngAfterContentChecked()'
-        }
-      ]
-    },
-    {
-      kind: 'directive',
-      name: 'XFooterDef',
-      selector: '[xFooterDef]',
-      exportAs: 'xFooterDef',
-      inputs: [],
-      outputs: [],
-      variants: [],
-      methods: []
-    },
-    {
-      kind: 'directive',
-      name: 'XHeaderDef',
-      selector: '[xHeaderDef]',
-      exportAs: 'xHeaderDef',
-      inputs: [],
-      outputs: [],
-      variants: [],
-      methods: []
-    },
-    {
-      kind: 'directive',
-      name: 'XPaginator',
-      selector: '[xPaginator]',
-      exportAs: 'xPaginator',
-      inputs: [],
-      outputs: [],
-      variants: [],
-      methods: [
-        {
-          name: 'ngOnInit',
-          signature: 'ngOnInit()'
-        },
-        {
-          name: 'goToLastPage',
-          signature: 'goToLastPage(): void'
-        },
-        {
-          name: 'decrementPage',
-          signature: 'decrementPage(): void'
-        },
-        {
-          name: 'incrementPage',
-          signature: 'incrementPage(): void'
-        },
-        {
-          name: 'reset',
-          signature: 'reset(): void'
-        }
-      ]
-    },
-    {
-      kind: 'component',
-      name: 'XTable',
-      selector: 'x-table',
-      inputs: [
-        {
-          name: 'tableClasses',
-          type: 'string',
-          default: "''",
-          required: false,
-          model: true
-        },
-        {
-          name: 'headerRowClasses',
-          type: 'string',
-          default: "''",
-          required: false,
-          model: true
-        },
-        {
-          name: 'bodyRowClasses',
-          type: 'string',
-          default: "''",
-          required: false,
-          model: true
-        }
-      ],
-      outputs: [],
-      variants: [],
-      methods: [
-        {
-          name: 'ngAfterContentInit',
-          signature: 'ngAfterContentInit(): void'
-        },
-        {
-          name: 'setTableClasses',
-          signature:
-            'setTableClasses({ table, headerRow, bodyRow }: Partial<{ table: string; headerRow: string; bodyRow: string }>): void'
-        }
-      ]
-    }
-  ],
-  examples: []
+  {
+    "kind": "directive",
+    "name": "XCellDef",
+    "selector": "[xCellDef]",
+    "exportAs": "xCellDef",
+    "inputs": [],
+    "outputs": [],
+    "variants": [],
+    "methods": []
+  },
+  {
+    "kind": "component",
+    "name": "XColumnDef",
+    "selector": "x-column-def",
+    "inputs": [
+      {
+        "name": "class",
+        "type": "string",
+        "default": "''",
+        "required": false
+      }
+    ],
+    "outputs": [],
+    "variants": [],
+    "methods": [
+      {
+        "name": "ngAfterContentChecked",
+        "signature": "ngAfterContentChecked()"
+      }
+    ]
+  },
+  {
+    "kind": "directive",
+    "name": "XFooterDef",
+    "selector": "[xFooterDef]",
+    "exportAs": "xFooterDef",
+    "inputs": [],
+    "outputs": [],
+    "variants": [],
+    "methods": []
+  },
+  {
+    "kind": "directive",
+    "name": "XHeaderDef",
+    "selector": "[xHeaderDef]",
+    "exportAs": "xHeaderDef",
+    "inputs": [],
+    "outputs": [],
+    "variants": [],
+    "methods": []
+  },
+  {
+    "kind": "directive",
+    "name": "XPaginator",
+    "selector": "[xPaginator]",
+    "exportAs": "xPaginator",
+    "inputs": [],
+    "outputs": [],
+    "variants": [],
+    "methods": [
+      {
+        "name": "ngOnInit",
+        "signature": "ngOnInit()"
+      },
+      {
+        "name": "goToLastPage",
+        "signature": "goToLastPage(): void"
+      },
+      {
+        "name": "decrementPage",
+        "signature": "decrementPage(): void"
+      },
+      {
+        "name": "incrementPage",
+        "signature": "incrementPage(): void"
+      },
+      {
+        "name": "reset",
+        "signature": "reset(): void"
+      }
+    ]
+  },
+  {
+    "kind": "component",
+    "name": "XTable",
+    "selector": "x-table",
+    "inputs": [
+      {
+        "name": "tableClasses",
+        "type": "string",
+        "default": "''",
+        "required": false,
+        "model": true
+      },
+      {
+        "name": "headerRowClasses",
+        "type": "string",
+        "default": "''",
+        "required": false,
+        "model": true
+      },
+      {
+        "name": "bodyRowClasses",
+        "type": "string",
+        "default": "''",
+        "required": false,
+        "model": true
+      }
+    ],
+    "outputs": [],
+    "variants": [],
+    "methods": [
+      {
+        "name": "ngAfterContentInit",
+        "signature": "ngAfterContentInit(): void"
+      },
+      {
+        "name": "setTableClasses",
+        "signature": "setTableClasses({ table, headerRow, bodyRow }: Partial<{ table: string; headerRow: string; bodyRow: string }>): void"
+      }
+    ]
+  }
+],
+  examples: [
+  ]
 };

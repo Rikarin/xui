@@ -5,15 +5,13 @@ import {
   ElementRef,
   booleanAttribute,
   computed,
-  forwardRef,
   input,
   model,
-  signal,
   viewChildren
 } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor } from '@angular/forms';
 import { xui } from '@xui/core';
-import type { XChangeFn, XTouchFn } from '@xui/core/forms';
+import { createXValueAccessor, provideXValueAccessor } from '@xui/core/forms';
 import { cva, type VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
 
@@ -53,7 +51,7 @@ export interface XuiSegmentedOption<T = string> {
 @Component({
   selector: 'xui-segmented-control',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [{ provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => XuiSegmentedControl), multi: true }],
+  providers: [provideXValueAccessor(() => XuiSegmentedControl)],
   template: `
     @for (option of options(); track option.value; let i = $index) {
       <button
@@ -62,14 +60,14 @@ export interface XuiSegmentedOption<T = string> {
         role="radio"
         [attr.aria-checked]="option.value === value()"
         [attr.tabindex]="tabIndex(option, i)"
-        [disabled]="option.disabled || disabledState()"
+        [disabled]="option.disabled || isDisabled()"
         [class]="segmentClass(option.value === value())"
         (click)="select(option.value)"
         (keydown.arrowright)="move($event, 1)"
         (keydown.arrowdown)="move($event, 1)"
         (keydown.arrowleft)="move($event, -1)"
         (keydown.arrowup)="move($event, -1)"
-        (blur)="onTouched?.()"
+        (blur)="cva.markTouched()"
       >
         {{ option.label }}
       </button>
@@ -96,15 +94,16 @@ export class XuiSegmentedControl<T = string> implements ControlValueAccessor {
   readonly value = model<T | null>(null);
 
   readonly disabled = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
-  private readonly disabledByForm = signal(false);
-  protected readonly disabledState = computed(() => this.disabled() || this.disabledByForm());
+
+  protected readonly cva = createXValueAccessor<T | null>({
+    onWrite: value => this.value.set(value),
+    disabled: this.disabled
+  });
+  protected readonly isDisabled = this.cva.disabled;
 
   protected readonly computedClass = computed(() =>
     xui(segmentedControlContainerVariants({ size: this.size(), fill: this.fill() }), this.class())
   );
-
-  private onChange?: XChangeFn<T | null>;
-  protected onTouched?: XTouchFn;
 
   protected segmentClass(selected: boolean): string {
     return xui(
@@ -116,7 +115,7 @@ export class XuiSegmentedControl<T = string> implements ControlValueAccessor {
 
   /** The selected segment holds the tab stop; before any choice, the first enabled one does. */
   protected tabIndex(option: XuiSegmentedOption<T>, index: number): number {
-    if (option.disabled || this.disabledState()) {
+    if (option.disabled || this.isDisabled()) {
       return -1;
     }
 
@@ -132,13 +131,13 @@ export class XuiSegmentedControl<T = string> implements ControlValueAccessor {
 
     // Guard the option's own disabled state too, not just the group's — a
     // disabled <button> blocks native clicks, but nothing stops a programmatic one.
-    if (this.disabledState() || option?.disabled) {
+    if (this.isDisabled() || option?.disabled) {
       return;
     }
 
     this.value.set(value);
-    this.onChange?.(value);
-    this.onTouched?.();
+    this.cva.notifyChange(value);
+    this.cva.markTouched();
   }
 
   protected move(event: Event, delta: 1 | -1): void {
@@ -147,7 +146,7 @@ export class XuiSegmentedControl<T = string> implements ControlValueAccessor {
     const options = this.options();
     const enabled = options.filter(option => !option.disabled);
 
-    if (this.disabledState() || !enabled.length) {
+    if (this.isDisabled() || !enabled.length) {
       return;
     }
 
@@ -158,19 +157,8 @@ export class XuiSegmentedControl<T = string> implements ControlValueAccessor {
     this.segments()[options.indexOf(next)]?.nativeElement.focus();
   }
 
-  writeValue(value: T | null): void {
-    this.value.set(value);
-  }
-
-  registerOnChange(fn: XChangeFn<T | null>): void {
-    this.onChange = fn;
-  }
-
-  registerOnTouched(fn: XTouchFn): void {
-    this.onTouched = fn;
-  }
-
-  setDisabledState(isDisabled: boolean): void {
-    this.disabledByForm.set(isDisabled);
-  }
+  readonly writeValue = this.cva.writeValue;
+  readonly registerOnChange = this.cva.registerOnChange;
+  readonly registerOnTouched = this.cva.registerOnTouched;
+  readonly setDisabledState = this.cva.setDisabledState;
 }

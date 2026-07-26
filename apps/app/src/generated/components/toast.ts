@@ -18,8 +18,6 @@ export const doc: ComponentDoc = {
   "XuiToastPosition",
   "XuiToastColor",
   "XuiToastConfig",
-  "provideXuiToastConfig",
-  "injectXuiToastConfig",
   "XUI_TOAST_COLOR_ICON",
   "XUI_TOAST_COLOR_ICON_CLASS",
   "toastGlobalPosition",

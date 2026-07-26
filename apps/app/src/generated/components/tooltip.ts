@@ -104,9 +104,7 @@ export const doc: ComponentDoc = {
   "XuiTooltipContent",
   "XUI_TOOLTIP_CONTENT",
   "XuiTooltipColor",
-  "XuiTooltipConfig",
-  "provideXuiTooltipConfig",
-  "injectXuiTooltipConfig"
+  "XuiTooltipConfig"
 ],
   peerDependencies: {
   "@angular/cdk": "22",

@@ -1,18 +1,9 @@
 import type { BooleanInput } from '@angular/cdk/coercion';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  booleanAttribute,
-  computed,
-  forwardRef,
-  input,
-  model,
-  signal
-} from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, booleanAttribute, computed, input, model } from '@angular/core';
+import { ControlValueAccessor } from '@angular/forms';
 import { xui } from '@xui/core';
 import { uniqueId } from '@xui/core/a11y';
-import type { XChangeFn, XTouchFn } from '@xui/core/forms';
+import { createXValueAccessor, provideXValueAccessor } from '@xui/core/forms';
 import { cva, type VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
 import { injectXuiSwitchConfig, type XuiSwitchSize } from './switch.token';
@@ -45,12 +36,6 @@ const switchThumbVariants = cva(
 
 export type XuiSwitchVariants = VariantProps<typeof switchTrackVariants>;
 
-export const XUI_SWITCH_VALUE_ACCESSOR = {
-  provide: NG_VALUE_ACCESSOR,
-  useExisting: forwardRef(() => XuiSwitch),
-  multi: true
-};
-
 /**
  * A toggle for an immediate on/off setting — a live preference, not a value you
  * submit with a form (that is a checkbox's job).
@@ -67,6 +52,7 @@ export const XUI_SWITCH_VALUE_ACCESSOR = {
 @Component({
   selector: 'xui-switch',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [provideXValueAccessor(() => XuiSwitch)],
   template: `<span [class]="thumbClass()" [attr.data-state]="dataState()"></span>`,
   host: {
     role: 'switch',
@@ -75,14 +61,14 @@ export const XUI_SWITCH_VALUE_ACCESSOR = {
     '[attr.aria-label]': 'ariaLabel()',
     '[attr.aria-labelledby]': 'ariaLabelledby()',
     '[attr.data-state]': 'dataState()',
-    '[attr.data-disabled]': "disabledState() ? '' : null",
-    '[attr.aria-disabled]': 'disabledState() || null',
-    '[attr.tabindex]': 'disabledState() ? -1 : 0',
+    '[attr.data-disabled]': "isDisabled() ? '' : null",
+    '[attr.aria-disabled]': 'isDisabled() || null',
+    '[attr.tabindex]': 'isDisabled() ? -1 : 0',
     '[class]': 'trackClass()',
     '(click)': 'toggle()',
     '(keydown.space)': 'onKey($event)',
     '(keydown.enter)': 'onKey($event)',
-    '(blur)': 'onTouched?.()'
+    '(blur)': 'cva.markTouched()'
   }
 })
 export class XuiSwitch implements ControlValueAccessor {
@@ -100,26 +86,25 @@ export class XuiSwitch implements ControlValueAccessor {
   readonly checked = model(false);
 
   readonly disabled = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
-  // Disabled comes from two independent sources — the input and a reactive form's
-  // setDisabledState — so OR them rather than let one clobber the other.
-  private readonly disabledByForm = signal(false);
-  protected readonly disabledState = computed(() => this.disabled() || this.disabledByForm());
+
+  protected readonly cva = createXValueAccessor<boolean>({
+    onWrite: value => this.checked.set(!!value),
+    disabled: this.disabled
+  });
+  protected readonly isDisabled = this.cva.disabled;
 
   protected readonly dataState = computed(() => (this.checked() ? 'checked' : 'unchecked'));
   protected readonly trackClass = computed(() => xui(switchTrackVariants({ size: this.size() }), this.class()));
   protected readonly thumbClass = computed(() => switchThumbVariants({ size: this.size() }));
 
-  private onChange?: XChangeFn<boolean>;
-  protected onTouched?: XTouchFn;
-
   protected toggle(): void {
-    if (this.disabledState()) {
+    if (this.isDisabled()) {
       return;
     }
 
     const next = !this.checked();
     this.checked.set(next);
-    this.onChange?.(next);
+    this.cva.notifyChange(next);
   }
 
   protected onKey(event: Event): void {
@@ -129,19 +114,8 @@ export class XuiSwitch implements ControlValueAccessor {
     this.toggle();
   }
 
-  writeValue(value: boolean): void {
-    this.checked.set(!!value);
-  }
-
-  registerOnChange(fn: XChangeFn<boolean>): void {
-    this.onChange = fn;
-  }
-
-  registerOnTouched(fn: XTouchFn): void {
-    this.onTouched = fn;
-  }
-
-  setDisabledState(isDisabled: boolean): void {
-    this.disabledByForm.set(isDisabled);
-  }
+  readonly writeValue = this.cva.writeValue;
+  readonly registerOnChange = this.cva.registerOnChange;
+  readonly registerOnTouched = this.cva.registerOnTouched;
+  readonly setDisabledState = this.cva.setDisabledState;
 }

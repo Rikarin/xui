@@ -75,7 +75,7 @@ export class XuiRadio<T = unknown> implements XuiRadioButtonRef {
   readonly disabled = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
 
   protected readonly checked = computed(() => this.group.value() === this.value());
-  readonly isDisabled = computed(() => this.disabled() || this.group.disabled());
+  readonly isDisabled = computed(() => this.disabled() || this.group.isDisabled());
 
   focus(): void {
     this.host.focus();
