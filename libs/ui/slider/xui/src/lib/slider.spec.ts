@@ -106,6 +106,17 @@ describe('XuiSlider', () => {
       expect(labels).toEqual(['0', '5', '10']);
     });
 
+    it('marks the axis, not the value grid, so a fine step does not litter the track', () => {
+      // `stepSize` is how far the handle moves; drawing a tick per step put 101 dots under the six
+      // labels this asks for.
+      const { detect } = render('<xui-slider min="0" max="100" stepSize="1" labelStepSize="20" />', {
+        imports: IMPORTS
+      });
+      detect();
+
+      expect(document.querySelectorAll('xui-slider .size-1')).toHaveLength(6);
+    });
+
     it('formats labels through the renderer and reflects it in aria-valuetext', () => {
       const { detect } = render('<xui-slider min="0" max="10" value="5" [labelRenderer]="props().fmt" />', {
         imports: IMPORTS,

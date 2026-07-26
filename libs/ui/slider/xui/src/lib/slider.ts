@@ -178,14 +178,17 @@ export class XuiSlider implements ControlValueAccessor {
     return roundToGrid(Math.min(max, Math.max(min, snapped)));
   }
 
-  /** Evenly-spaced tick marks along the track (one per step, capped for sanity). */
+  /** Evenly-spaced tick marks along the track — one per axis interval, so a dot sits under each label. */
   protected readonly ticks = computed(() => {
     const min = this.min();
     const max = this.max();
-    const step = this.stepSize() || 1;
+    // The axis interval, not the value granularity. `stepSize` is how finely the handle moves,
+    // which on a 0–100 range stepping by 1 drew a hundred dots beneath six labels; a tick marks a
+    // place on the axis, so it belongs on the same grid the labels use.
+    const step = this.labelStepSize() || this.stepSize() || 1;
     const span = max - min;
     const count = span / step;
-    // Don't litter the track with thousands of dots on a fine step.
+    // Don't litter the track with thousands of dots on a fine axis.
     if (span <= 0 || count > 100) {
       return [] as { value: number; fraction: number }[];
     }
