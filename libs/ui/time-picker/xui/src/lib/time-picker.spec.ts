@@ -1,8 +1,9 @@
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { render } from '@xui/testing';
 import { XuiTimePickerImports } from '../index';
 import { XuiTimePicker } from './time-picker';
 
-const IMPORTS = [XuiTimePickerImports];
+const IMPORTS = [XuiTimePickerImports, ReactiveFormsModule];
 
 const at = (h: number, m: number, s = 0, ms = 0) => new Date(2024, 0, 1, h, m, s, ms);
 
@@ -113,6 +114,58 @@ describe('XuiTimePicker', () => {
       detect();
 
       expect(cmp.value()?.getHours()).toBe(3); // 3 PM → 3 AM
+    });
+  });
+
+  describe('as a form control', () => {
+    const formSetup = (control: FormControl<Date | null>) => {
+      const result = render('<xui-time-picker [formControl]="props().control" />', {
+        imports: IMPORTS,
+        props: { control }
+      });
+      result.detect();
+      return result;
+    };
+
+    it('writes the control value into the fields', () => {
+      formSetup(new FormControl<Date | null>(at(9, 5)));
+
+      expect(hour().value).toBe('09');
+      expect(minute().value).toBe('05');
+    });
+
+    it('reflects setValue into the fields', () => {
+      const control = new FormControl<Date | null>(at(9, 5));
+      const { detect } = formSetup(control);
+
+      control.setValue(at(17, 42));
+      detect();
+
+      expect(hour().value).toBe('17');
+      expect(minute().value).toBe('42');
+    });
+
+    it('propagates a spun value back to the control', () => {
+      const control = new FormControl<Date | null>(at(9, 30));
+      const { detect } = formSetup(control);
+
+      arrow(hour(), 'ArrowUp', detect);
+
+      expect(control.value?.getHours()).toBe(10);
+    });
+
+    it('honours control.disable()', () => {
+      const control = new FormControl<Date | null>(at(9, 30));
+      const { detect } = formSetup(control);
+
+      control.disable();
+      detect();
+
+      expect(hour().disabled).toBe(true);
+      expect(minute().disabled).toBe(true);
+
+      arrow(hour(), 'ArrowUp', detect);
+      expect(control.value?.getHours()).toBe(9);
     });
   });
 });

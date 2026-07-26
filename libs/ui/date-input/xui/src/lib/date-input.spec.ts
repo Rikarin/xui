@@ -1,8 +1,9 @@
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { render } from '@xui/testing';
 import { XuiDateInputImports } from '../index';
 import { XuiDateInput } from './date-input';
 
-const IMPORTS = [XuiDateInputImports];
+const IMPORTS = [XuiDateInputImports, ReactiveFormsModule];
 const d = (y: number, m: number, day: number) => new Date(y, m - 1, day);
 
 const setup = (props: Record<string, unknown> = {}) => {
@@ -118,5 +119,58 @@ describe('XuiDateInput', () => {
     detect();
 
     expect(cmp.value()?.getDate()).toBe(15);
+  });
+
+  describe('as a form control', () => {
+    const formSetup = (control: FormControl<Date | null>) => {
+      const result = render('<xui-date-input [formControl]="props().control" />', {
+        imports: IMPORTS,
+        props: { control }
+      });
+      result.detect();
+      return result;
+    };
+
+    it('writes the control value into the field', () => {
+      formSetup(new FormControl<Date | null>(d(2024, 3, 15)));
+
+      expect(input().value).toMatch(/2024/);
+      expect(input().value).toMatch(/15/);
+    });
+
+    it('reflects setValue into the field', () => {
+      const control = new FormControl<Date | null>(null);
+      const { detect } = formSetup(control);
+
+      control.setValue(d(2025, 6, 9));
+      detect();
+
+      expect(input().value).toMatch(/2025/);
+      expect(input().value).toMatch(/09|9/);
+    });
+
+    it('propagates a calendar pick back to the control and marks it touched', () => {
+      const control = new FormControl<Date | null>(d(2024, 3, 15));
+      const { detect, click } = formSetup(control);
+
+      click(calendarButton());
+      detect();
+      dayButton(20)!.click();
+      detect();
+
+      expect(control.value?.getDate()).toBe(20);
+      expect(control.touched).toBe(true); // the popover closed on selection
+    });
+
+    it('honours control.disable()', () => {
+      const control = new FormControl<Date | null>(d(2024, 3, 15));
+      const { detect } = formSetup(control);
+
+      control.disable();
+      detect();
+
+      expect(input().disabled).toBe(true);
+      expect(calendarButton().disabled).toBe(true);
+    });
   });
 });

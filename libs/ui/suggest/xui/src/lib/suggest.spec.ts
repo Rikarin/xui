@@ -1,3 +1,4 @@
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { render } from '@xui/testing';
 import { XuiSuggestImports } from '../index';
 import { XuiSuggest } from './suggest';
@@ -97,5 +98,43 @@ describe('XuiSuggest', () => {
     detect();
 
     expect(input().value).toBe('Berlin');
+  });
+
+  describe('as a form control', () => {
+    const formSetup = (control: FormControl<City | null>) =>
+      render(`<xui-suggest [items]="props().items" [itemText]="props().itemText" [formControl]="props().control" />`, {
+        imports: [XuiSuggestImports, ReactiveFormsModule],
+        props: { items: CITIES, itemText: (c: City) => c.name, control }
+      });
+
+    it('writes the control value into the input', () => {
+      const control = new FormControl<City | null>(CITIES[1]);
+      const { detect } = formSetup(control);
+      detect();
+
+      expect(input().value).toBe('Berlin');
+
+      control.setValue(CITIES[3]);
+      detect();
+      expect(input().value).toBe('Prague');
+    });
+
+    it('propagates a pick back to the control and honours disable()', () => {
+      const control = new FormControl<City | null>(null);
+      const { detect } = formSetup(control);
+      detect();
+
+      type('ber', detect);
+      options()[0].click();
+      detect();
+
+      expect(control.value?.name).toBe('Berlin');
+      // Closing the popover marks the control touched.
+      expect(control.touched).toBe(true);
+
+      control.disable();
+      detect();
+      expect(input().disabled).toBe(true);
+    });
   });
 });

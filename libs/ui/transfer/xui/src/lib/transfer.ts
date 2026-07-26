@@ -44,6 +44,7 @@ type Side = 'left' | 'right';
             type="button"
             role="checkbox"
             [class]="checkboxClass(allChecked(side))"
+            [disabled]="isDisabled()"
             [attr.aria-checked]="allChecked(side) ? 'true' : someChecked(side) ? 'mixed' : 'false'"
             [attr.aria-label]="'Select all in ' + title(side)"
             (click)="toggleAll(side)"
@@ -70,6 +71,7 @@ type Side = 'left' | 'right';
           <div class="border-border border-b p-2">
             <input
               [class]="searchClass()"
+              [disabled]="isDisabled()"
               [value]="side === 'left' ? searchLeft() : searchRight()"
               (input)="setSearch(side, $any($event.target).value)"
               [attr.placeholder]="'Search'"
@@ -86,7 +88,8 @@ type Side = 'left' | 'right';
           [attr.aria-label]="title(side)"
           [attr.aria-activedescendant]="activeOptionId(side)"
           class="min-h-40 flex-1 overflow-auto p-1"
-          [tabindex]="filtered(side).length ? 0 : -1"
+          [tabindex]="filtered(side).length && !isDisabled() ? 0 : -1"
+          [attr.aria-disabled]="isDisabled() || null"
           (keydown)="onListKeydown(side, $event)"
         >
           @for (item of filtered(side); track item.key) {
@@ -129,7 +132,7 @@ type Side = 'left' | 'right';
           <button
             type="button"
             [class]="moveClass()"
-            [disabled]="checkedCount('left') === 0"
+            [disabled]="isDisabled() || checkedCount('left') === 0"
             (click)="move('right')"
             aria-label="Move right"
           >
@@ -146,7 +149,7 @@ type Side = 'left' | 'right';
           <button
             type="button"
             [class]="moveClass()"
-            [disabled]="checkedCount('right') === 0"
+            [disabled]="isDisabled() || checkedCount('right') === 0"
             (click)="move('left')"
             aria-label="Move left"
           >
@@ -165,19 +168,30 @@ type Side = 'left' | 'right';
     }
   `,
   host: {
-    '[class]': 'computedClass()'
+    '[class]': 'computedClass()',
+    '(focusout)': 'onFocusOut($event)'
   },
+  providers: [provideXValueAccessor(() => XuiTransfer)],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None
 })
-export class XuiTransfer {
+export class XuiTransfer implements ControlValueAccessor {
   protected readonly SIDES: Side[] = ['left', 'right'];
+  private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
 
   readonly class = input<ClassValue>('');
   readonly items = input<XuiTransferItem[]>([]);
+  /** The target-list keys. Two-way bindable with `[(values)]`, or via `formControl`/`ngModel`. */
   readonly values = model<string[]>([]);
   readonly titles = input<[string, string]>(['Source', 'Target']);
   readonly searchable = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
+  readonly disabled = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
+
+  protected readonly cva = createXValueAccessor<string[]>({
+    onWrite: values => this.values.set(values ?? []),
+    disabled: this.disabled
+  });
+  protected readonly isDisabled = this.cva.disabled;
 
   private readonly checkedLeft = signal(new Set<string>());
   private readonly checkedRight = signal(new Set<string>());
@@ -250,13 +264,16 @@ export class XuiTransfer {
 
   /** Move the active option and check it — clicking does both, so keys match. */
   protected activate(side: Side, item: XuiTransferItem): void {
+    if (this.isDisabled()) {
+      return;
+    }
     (side === 'left' ? this.activeLeft : this.activeRight).set(item.key);
     this.toggle(side, item);
   }
 
   protected onListKeydown(side: Side, event: KeyboardEvent): void {
     const options = this.filtered(side);
-    if (!options.length) {
+    if (!options.length || this.isDisabled()) {
       return;
     }
 
@@ -293,7 +310,7 @@ export class XuiTransfer {
   }
 
   protected toggle(side: Side, item: XuiTransferItem): void {
-    if (item.disabled) {
+    if (item.disabled || this.isDisabled()) {
       return;
     }
     const signalRef = side === 'left' ? this.checkedLeft : this.checkedRight;
@@ -307,6 +324,9 @@ export class XuiTransfer {
   }
 
   protected toggleAll(side: Side): void {
+    if (this.isDisabled()) {
+      return;
+    }
     const signalRef = side === 'left' ? this.checkedLeft : this.checkedRight;
     const enabled = this.filtered(side).filter(item => !item.disabled);
     if (this.allChecked(side)) {
@@ -321,6 +341,9 @@ export class XuiTransfer {
   }
 
   protected move(to: Side): void {
+    if (this.isDisabled()) {
+      return;
+    }
     if (to === 'right') {
       const moving = this.leftItems().filter(item => !item.disabled && this.checkedLeft().has(item.key));
       this.values.set([...this.values(), ...moving.map(item => item.key)]);
@@ -334,9 +357,19 @@ export class XuiTransfer {
       this.values.set(this.values().filter(key => !movingKeys.has(key)));
       this.checkedRight.set(new Set());
     }
+    this.cva.notifyChange(this.values());
   }
 
-  protected readonly computedClass = computed(() => xui('flex items-stretch', this.class()));
+  /** Touched fires only when focus leaves the whole widget, not between its panes. */
+  protected onFocusOut(event: FocusEvent): void {
+    if (!this.host.nativeElement.contains(event.relatedTarget as Node | null)) {
+      this.cva.markTouched();
+    }
+  }
+
+  protected readonly computedClass = computed(() =>
+    xui('flex items-stretch', this.isDisabled() && 'opacity-50', this.class())
+  );
   protected readonly panelClass = computed(() => xui('border-border bg-surface flex w-56 flex-col rounded-lg border'));
   protected readonly searchClass = computed(() =>
     xui(
@@ -364,4 +397,9 @@ export class XuiTransfer {
       'border-border text-foreground hover:bg-surface-inset flex size-(--control-height-md) items-center justify-center rounded-md border disabled:pointer-events-none disabled:opacity-40'
     );
   }
+
+  readonly writeValue = this.cva.writeValue;
+  readonly registerOnChange = this.cva.registerOnChange;
+  readonly registerOnTouched = this.cva.registerOnTouched;
+  readonly setDisabledState = this.cva.setDisabledState;
 }

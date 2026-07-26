@@ -38,6 +38,7 @@ import type { ClassValue } from 'clsx';
       [value]="displayValue()"
       [placeholder]="placeholder()"
       [disabled]="isDisabled()"
+      [attr.disabled]="isDisabled() ? '' : null"
       [attr.aria-expanded]="open()"
       [attr.aria-autocomplete]="'list'"
       [xuiPopover]="panel"

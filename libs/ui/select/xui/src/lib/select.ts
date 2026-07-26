@@ -46,6 +46,7 @@ import { XuiSelectOption } from './select-option';
       [attr.role]="'combobox'"
       [class]="triggerClass()"
       [disabled]="isDisabled()"
+      [attr.disabled]="isDisabled() ? '' : null"
       [attr.aria-haspopup]="'listbox'"
       [attr.aria-expanded]="open()"
       [attr.aria-label]="effectiveAriaLabel()"

@@ -1,3 +1,4 @@
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { render } from '@xui/testing';
 import { XuiRate } from './rate';
 
@@ -97,5 +98,42 @@ describe('XuiRate', () => {
     detect();
 
     expect(host().getAttribute('aria-label')).toBe('Food quality');
+  });
+
+  describe('as a form control', () => {
+    const formSetup = (control: FormControl<number>) =>
+      render(`<xui-rate [formControl]="props().control" />`, {
+        imports: [XuiRate, ReactiveFormsModule],
+        props: { control }
+      });
+
+    it('writes the control value into the stars', () => {
+      const control = new FormControl(3, { nonNullable: true });
+      const { detect } = formSetup(control);
+      detect();
+
+      expect(host().getAttribute('aria-valuenow')).toBe('3');
+
+      control.setValue(1);
+      detect();
+      expect(host().getAttribute('aria-valuenow')).toBe('1');
+    });
+
+    it('propagates a click back to the control and honours disable()', () => {
+      const control = new FormControl(0, { nonNullable: true });
+      const { detect } = formSetup(control);
+      detect();
+
+      rightHalves()[2].dispatchEvent(new MouseEvent('click', { bubbles: true }));
+      detect();
+
+      expect(control.value).toBe(3);
+
+      control.disable();
+      detect();
+      expect(host().getAttribute('aria-disabled')).toBe('true');
+      // The click overlays are removed while disabled, so no interaction is possible.
+      expect(document.querySelectorAll('xui-rate > span > span.cursor-pointer').length).toBe(0);
+    });
   });
 });

@@ -1,3 +1,4 @@
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { render } from '@xui/testing';
 import { XuiTimezoneSelectImports } from '../index';
 import { XuiTimezoneSelect } from './timezone-select';
@@ -61,5 +62,45 @@ describe('XuiTimezoneSelect', () => {
     detect();
 
     expect(cmp.value()).toBe('Europe/London');
+  });
+
+  describe('as a form control', () => {
+    const formSetup = (control: FormControl<string | null>) =>
+      render(`<xui-timezone-select [formControl]="props().control" [date]="props().date" />`, {
+        imports: [...IMPORTS, ReactiveFormsModule],
+        props: { control, date: new Date(Date.UTC(2024, 0, 1)) }
+      });
+
+    it('writes the control value onto the trigger', () => {
+      const control = new FormControl<string | null>('Europe/London');
+      const { detect } = formSetup(control);
+      detect();
+
+      expect(trigger().textContent).toContain('Europe/London');
+
+      control.setValue('Asia/Tokyo');
+      detect();
+      expect(trigger().textContent).toContain('Asia/Tokyo');
+    });
+
+    it('propagates a pick back to the control and honours disable()', () => {
+      const control = new FormControl<string | null>(null);
+      const { detect, click } = formSetup(control);
+      detect();
+
+      click(trigger());
+      detect();
+      const london = options().find(o => o.textContent?.includes('Europe/London'))!;
+      london.click();
+      detect();
+
+      expect(control.value).toBe('Europe/London');
+      // Choosing a zone closes the panel and marks the control touched.
+      expect(control.touched).toBe(true);
+
+      control.disable();
+      detect();
+      expect(trigger().disabled).toBe(true);
+    });
   });
 });

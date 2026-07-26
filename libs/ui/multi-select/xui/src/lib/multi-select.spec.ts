@@ -1,3 +1,4 @@
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { render } from '@xui/testing';
 import { XuiMultiSelectImports } from '../index';
 import { XuiMultiSelect } from './multi-select';
@@ -132,5 +133,44 @@ describe('XuiMultiSelect', () => {
     detect();
 
     expect(cmp.values().length).toBe(0);
+  });
+
+  describe('as a form control', () => {
+    const formSetup = (control: FormControl<Tag[]>) =>
+      render(
+        `<xui-multi-select [items]="props().items" [itemText]="props().itemText" [formControl]="props().control" />`,
+        {
+          imports: [...IMPORTS, ReactiveFormsModule],
+          props: { items: TAGS, itemText: (t: Tag) => t.name, control }
+        }
+      );
+
+    it('writes the control value into the chips', () => {
+      const control = new FormControl<Tag[]>([TAGS[0]], { nonNullable: true });
+      const { detect } = formSetup(control);
+      detect();
+
+      expect(chips()).toEqual(['design']);
+
+      control.setValue([TAGS[1], TAGS[2]]);
+      detect();
+      expect(chips()).toEqual(['angular', 'signals']);
+    });
+
+    it('propagates a toggle back to the control and honours disable()', () => {
+      const control = new FormControl<Tag[]>([], { nonNullable: true });
+      const { detect } = formSetup(control);
+      detect();
+
+      type('design', detect);
+      options()[0].click();
+      detect();
+
+      expect(control.value.map(t => t.name)).toEqual(['design']);
+
+      control.disable();
+      detect();
+      expect(input().disabled).toBe(true);
+    });
   });
 });

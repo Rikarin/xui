@@ -1,8 +1,9 @@
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { expectAttributes, render } from '@xui/testing';
 import { XuiDatePickerImports } from '../index';
 import { XuiDatePicker } from './date-picker';
 
-const IMPORTS = [XuiDatePickerImports];
+const IMPORTS = [XuiDatePickerImports, ReactiveFormsModule];
 const d = (y: number, m: number, day: number) => new Date(y, m - 1, day);
 
 const setup = (props: Record<string, unknown> = {}) => {
@@ -135,6 +136,60 @@ describe('XuiDatePicker', () => {
       detect();
 
       expect(cmp.value()).toBeNull();
+    });
+  });
+
+  describe('as a form control', () => {
+    const formSetup = (control: FormControl<Date | null>) => {
+      const result = render('<xui-date-picker [formControl]="props().control" />', {
+        imports: IMPORTS,
+        props: { control }
+      });
+      result.detect();
+      return result;
+    };
+
+    it('writes the control value into the grid', () => {
+      formSetup(new FormControl<Date | null>(d(2024, 3, 15)));
+
+      expect(header()).toBe('March 2024');
+      expectAttributes(dayButton(15)!.closest('td')!, { 'aria-selected': 'true' });
+    });
+
+    it('reflects setValue into the grid', () => {
+      const control = new FormControl<Date | null>(d(2024, 3, 15));
+      const { detect } = formSetup(control);
+
+      control.setValue(d(2025, 6, 9));
+      detect();
+
+      expect(header()).toBe('June 2025');
+      expectAttributes(dayButton(9)!.closest('td')!, { 'aria-selected': 'true' });
+    });
+
+    it('propagates a day pick back to the control', () => {
+      const control = new FormControl<Date | null>(d(2024, 3, 15));
+      const { detect } = formSetup(control);
+
+      dayButton(20)!.click();
+      detect();
+
+      expect(control.value?.getDate()).toBe(20);
+    });
+
+    it('honours control.disable()', () => {
+      const control = new FormControl<Date | null>(d(2024, 3, 15));
+      const { detect, query } = formSetup(control);
+
+      control.disable();
+      detect();
+
+      expect(dayButton(20)!.disabled).toBe(true);
+      expect(query<HTMLButtonElement>('button[aria-label="Next month"]').disabled).toBe(true);
+
+      dayButton(20)!.click();
+      detect();
+      expect(control.value?.getDate()).toBe(15);
     });
   });
 });

@@ -1,3 +1,4 @@
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { render } from '@xui/testing';
 import { XuiTreeSelect, type XuiTreeSelectNode } from './tree-select';
 
@@ -156,6 +157,50 @@ describe('XuiTreeSelect', () => {
 
       expect(document.querySelector('xui-tree-select [role="tree"]')).toBeNull();
       expect(cmp.value()).toBeNull();
+    });
+  });
+
+  describe('as a form control', () => {
+    const formSetup = (control: FormControl<string | string[] | null>) =>
+      render(`<xui-tree-select [nodes]="props().nodes" [formControl]="props().control" />`, {
+        imports: [XuiTreeSelect, ReactiveFormsModule],
+        props: { nodes: NODES, control }
+      });
+
+    it('writes the control value onto the trigger', () => {
+      const control = new FormControl<string | string[] | null>('apple');
+      const { detect } = formSetup(control);
+      detect();
+
+      expect(trigger().textContent).toContain('Apple');
+
+      control.setValue('carrot');
+      detect();
+      expect(trigger().textContent).toContain('Carrot');
+    });
+
+    it('propagates a pick back to the control and honours disable()', () => {
+      const control = new FormControl<string | string[] | null>(null);
+      const { detect } = formSetup(control);
+      detect();
+
+      trigger().click();
+      detect();
+      (rowByLabel('Fruit').querySelector('span') as HTMLElement).click();
+      detect();
+      rowByLabel('Apple').click();
+      detect();
+
+      expect(control.value).toBe('apple');
+      // Closing the panel marks the control touched.
+      expect(control.touched).toBe(true);
+
+      control.disable();
+      detect();
+      expect(trigger().disabled).toBe(true);
+      trigger().click();
+      detect();
+      expect(document.querySelector('xui-tree-select [role="tree"]')).toBeNull();
     });
   });
 });

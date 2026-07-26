@@ -1,3 +1,4 @@
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { render } from '@xui/testing';
 import { XuiTransfer, type XuiTransferItem } from './transfer';
 
@@ -143,5 +144,48 @@ describe('XuiTransfer', () => {
     detect();
 
     expect(itemsIn(panels()[0])).toEqual(['Item 3']);
+  });
+
+  describe('as a form control', () => {
+    const formSetup = (control: FormControl<string[]>) =>
+      render(`<xui-transfer [items]="props().items" [formControl]="props().control" />`, {
+        imports: [XuiTransfer, ReactiveFormsModule],
+        props: { items: ITEMS, control }
+      });
+
+    it('writes the control value into the target list', () => {
+      const control = new FormControl<string[]>(['k1'], { nonNullable: true });
+      const { detect } = formSetup(control);
+      detect();
+
+      expect(itemsIn(panels()[2])).toEqual(['Item 1']);
+
+      control.setValue(['k0', 'k4']);
+      detect();
+      expect(itemsIn(panels()[2])).toEqual(['Item 0', 'Item 4']);
+    });
+
+    it('propagates a move back to the control and honours disable()', () => {
+      const control = new FormControl<string[]>([], { nonNullable: true });
+      const { detect } = formSetup(control);
+      detect();
+
+      liByText(panels()[0], 'Item 0').click();
+      detect();
+      moveRightBtn().click();
+      detect();
+
+      expect(control.value).toEqual(['k0']);
+
+      control.disable();
+      detect();
+      // Checking and moving are both inert while the form disables the control.
+      liByText(panels()[0], 'Item 1').click();
+      detect();
+      expect(moveRightBtn().disabled).toBe(true);
+      moveRightBtn().click();
+      detect();
+      expect(control.value).toEqual(['k0']);
+    });
   });
 });

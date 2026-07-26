@@ -1,3 +1,4 @@
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { XFormFieldControl } from '@xui/core/form-field';
 import { render } from '@xui/testing';
@@ -169,5 +170,44 @@ describe('XuiSelect', () => {
     expect(control).toBeInstanceOf(XuiSelect);
     // The label points at the trigger button, not the host element.
     expect(control.controlId?.()).toBe(debug.nativeElement.querySelector('button').id);
+  });
+
+  describe('as a form control', () => {
+    const formSetup = (control: FormControl<Fruit | null>) =>
+      render(`<xui-select [items]="props().items" [itemText]="props().itemText" [formControl]="props().control" />`, {
+        imports: [XuiSelectImports, ReactiveFormsModule],
+        props: { items: FRUITS, itemText: (f: Fruit) => f.name, control }
+      });
+
+    it('writes the control value into the trigger', () => {
+      const control = new FormControl<Fruit | null>(FRUITS[1]);
+      const { detect } = formSetup(control);
+      detect();
+
+      expect(trigger().textContent).toContain('Banana');
+
+      control.setValue(FRUITS[3]);
+      detect();
+      expect(trigger().textContent).toContain('Date');
+    });
+
+    it('propagates a selection back to the control and honours disable()', () => {
+      const control = new FormControl<Fruit | null>(null);
+      const { detect, click } = formSetup(control);
+      detect();
+
+      click(trigger());
+      detect();
+      options()[0].click();
+      detect();
+
+      expect(control.value).toEqual(FRUITS[0]);
+      // Closing the panel marks the control touched.
+      expect(control.touched).toBe(true);
+
+      control.disable();
+      detect();
+      expect(trigger().disabled).toBe(true);
+    });
   });
 });

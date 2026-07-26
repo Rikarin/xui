@@ -44,11 +44,14 @@ import type { ClassValue } from 'clsx';
         (blur)="onBlur()"
         (keydown.enter)="commitTyped()"
       />
+      <!-- The [disabled] binding feeds the popover trigger directive's input, so
+           the native attribute needs its own binding to actually disable the button. -->
       <button
         type="button"
         [class]="triggerClass()"
         aria-label="Open calendar"
         [disabled]="isDisabled()"
+        [attr.disabled]="isDisabled() ? '' : null"
         [xuiPopover]="panel"
         [open]="open()"
         (openChange)="onOpenChange($event)"
@@ -182,7 +185,9 @@ export class XuiDateInput<T = Date> implements ControlValueAccessor {
     this.typed.set(null);
     this.setValue(date);
     if (this.closeOnSelection()) {
+      // Closing from here bypasses the trigger's `openChange`, so touch explicitly.
       this.open.set(false);
+      this.cva.markTouched();
     }
   }
 

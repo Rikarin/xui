@@ -44,7 +44,18 @@ signal is simpler than a form:
 <xui-select [items]="users" [itemText]="itemText" formControlName="owner" />
 <xui-checkbox label="Send receipts" [formControl]="receipts" />
 <xui-radio-group formControlName="plan"><xui-radio value="free" /></xui-radio-group>
+<xui-multi-select [items]="tags" [itemText]="itemText" formControlName="tags" />
+<xui-rate formControlName="score" />
 ```
+
+The selection controls are all form-ready: `xui-select`, `xui-suggest`, `xui-tree-select` and
+`xui-timezone-select` bind their `value`; `xui-multi-select` and `xui-transfer` bind their `values`
+array; `xui-rate` binds its number `value`.
+
+The date and time controls are form-ready too: `xui-date-input`, `xui-date-picker` and
+`xui-time-picker` bind their `value` (the active `DateAdapter`'s type, `null` when empty);
+`xui-date-range-input` and `xui-date-range-picker` bind their `XuiDateRange` object
+(`{ start, end }`, either boundary `null` while selecting).
 
 Disabled state comes from the form (`control.disable()`), not from the `disabled` input, when a
 control is bound to a form - mixing the two makes the DOM and the form disagree.

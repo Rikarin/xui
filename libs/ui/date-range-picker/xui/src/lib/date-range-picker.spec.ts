@@ -1,8 +1,9 @@
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { render } from '@xui/testing';
-import { XuiDateRangePickerImports } from '../index';
+import { XuiDateRangePickerImports, type XuiDateRange } from '../index';
 import { XuiDateRangePicker } from './date-range-picker';
 
-const IMPORTS = [XuiDateRangePickerImports];
+const IMPORTS = [XuiDateRangePickerImports, ReactiveFormsModule];
 const d = (y: number, m: number, day: number) => new Date(y, m - 1, day);
 
 const setup = (props: Record<string, unknown> = {}) => {
@@ -115,5 +116,62 @@ describe('XuiDateRangePicker', () => {
     detect();
 
     expect(monthHeaders()).toEqual(['April 2024', 'May 2024']);
+  });
+
+  describe('as a form control', () => {
+    const formSetup = (control: FormControl<XuiDateRange<Date> | null>) => {
+      const result = render('<xui-date-range-picker [formControl]="props().control" />', {
+        imports: IMPORTS,
+        props: { control }
+      });
+      result.detect();
+      return result;
+    };
+
+    it('writes the control range into the calendar', () => {
+      formSetup(new FormControl<XuiDateRange<Date> | null>({ start: d(2024, 3, 10), end: d(2024, 3, 14) }));
+
+      expect(monthHeaders()).toEqual(['March 2024', 'April 2024']);
+      expect(inRangeCount()).toBe(3);
+    });
+
+    it('reflects setValue into the calendar', () => {
+      const control = new FormControl<XuiDateRange<Date> | null>(null);
+      const { detect } = formSetup(control);
+
+      control.setValue({ start: d(2025, 6, 9), end: d(2025, 6, 12) });
+      detect();
+
+      expect(monthHeaders()).toEqual(['June 2025', 'July 2025']);
+      expect(inRangeCount()).toBe(2);
+    });
+
+    it('propagates a completed range back to the control', () => {
+      const control = new FormControl<XuiDateRange<Date> | null>({ start: null, end: null });
+      const { detect } = formSetup(control);
+
+      firstMonthDay(8)!.click();
+      detect();
+      firstMonthDay(15)!.click();
+      detect();
+
+      expect(control.value?.start?.getDate()).toBe(8);
+      expect(control.value?.end?.getDate()).toBe(15);
+    });
+
+    it('honours control.disable()', () => {
+      const control = new FormControl<XuiDateRange<Date> | null>({ start: d(2024, 3, 10), end: null });
+      const { detect, query } = formSetup(control);
+
+      control.disable();
+      detect();
+
+      expect(firstMonthDay(15)!.disabled).toBe(true);
+      expect(query<HTMLButtonElement>('button[aria-label="Next month"]').disabled).toBe(true);
+
+      firstMonthDay(15)!.click();
+      detect();
+      expect(control.value?.end).toBeNull();
+    });
   });
 });
