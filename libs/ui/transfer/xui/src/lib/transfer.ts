@@ -4,13 +4,17 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  ElementRef,
+  inject,
   input,
   model,
   signal,
   ViewEncapsulation
 } from '@angular/core';
+import type { ControlValueAccessor } from '@angular/forms';
 import { xui } from '@xui/core';
 import { uniqueId } from '@xui/core/a11y';
+import { createXValueAccessor, provideXValueAccessor } from '@xui/core/forms';
 import type { ClassValue } from 'clsx';
 
 export interface XuiTransferItem {

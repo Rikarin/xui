@@ -5,5 +5,6 @@ import { XuiText } from './lib/text';
 export * from './lib/heading';
 export * from './lib/html';
 export * from './lib/text';
+export * from './lib/text.token';
 
 export const XuiTextImports = [XuiText, XuiHeading, XuiBlockquote, XuiCode, XuiCodeBlock, XuiList] as const;

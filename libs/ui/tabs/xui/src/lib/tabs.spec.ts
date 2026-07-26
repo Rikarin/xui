@@ -1,5 +1,6 @@
-import { expectAttributes, provideDirection, render } from '@xui/testing';
+import { expectAttributes, expectClasses, provideDirection, render } from '@xui/testing';
 import { XuiTabsImports } from '../index';
+import { provideXuiTabsConfig } from './tabs.token';
 
 const IMPORTS = [XuiTabsImports];
 
@@ -65,6 +66,19 @@ describe('XuiTabs', () => {
     click(tabButtons()[2]);
 
     expectAttributes(tabButtons()[0], { 'aria-selected': 'true' });
+  });
+
+  it('takes its defaults from the injected config', () => {
+    const { detect } = render(TEMPLATE, {
+      imports: IMPORTS,
+      props: { selected: 'a' },
+      providers: [provideXuiTabsConfig({ large: true, animate: true })]
+    });
+    detect();
+
+    // `large` grows the tab buttons; `animate` renders the sliding indicator bar.
+    expectClasses(tabButtons()[0], 'px-4', 'text-base');
+    expect(document.querySelector('[role="tablist"] > [aria-hidden="true"]')).toBeTruthy();
   });
 
   it('uses roving tabindex — only the selected tab is tabbable', () => {

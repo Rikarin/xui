@@ -4,12 +4,16 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  ElementRef,
+  inject,
   input,
   model,
   ViewEncapsulation
 } from '@angular/core';
+import { ControlValueAccessor } from '@angular/forms';
 import { xui } from '@xui/core';
 import { injectXDateAdapter } from '@xui/core/date-time';
+import { createXValueAccessor, provideXValueAccessor } from '@xui/core/forms';
 import type { ClassValue } from 'clsx';
 
 /** How fine the picker edits. */
@@ -21,11 +25,13 @@ const pad = (value: number, length = 2): string => String(value).padStart(length
  * A time field with hour/minute (and optional second/millisecond) spin buttons.
  * Arrow keys or the input step each field with wrap-around; `useAmPm` switches to
  * a 12-hour clock with an AM/PM toggle. `[(value)]` two-way binding; `T` is the
- * active `DateAdapter`'s type (a `Date` by default).
+ * active `DateAdapter`'s type (a `Date` by default). It is a full
+ * `ControlValueAccessor`, so `ngModel`/`formControl` bind to it directly.
  */
 @Component({
   selector: 'xui-time-picker',
   imports: [],
+  providers: [provideXValueAccessor(() => XuiTimePicker)],
   template: `
     <div [class]="groupClass()">
       <input
@@ -34,7 +40,7 @@ const pad = (value: number, length = 2): string => String(value).padStart(length
         role="spinbutton"
         aria-label="Hours"
         [class]="fieldClass()"
-        [disabled]="disabled()"
+        [disabled]="isDisabled()"
         [value]="pad(displayHour())"
         [attr.aria-valuenow]="displayHour()"
         (focus)="$any($event.target).select()"
@@ -48,7 +54,7 @@ const pad = (value: number, length = 2): string => String(value).padStart(length
         role="spinbutton"
         aria-label="Minutes"
         [class]="fieldClass()"
-        [disabled]="disabled()"
+        [disabled]="isDisabled()"
         [value]="pad(minute())"
         [attr.aria-valuenow]="minute()"
         (focus)="$any($event.target).select()"
@@ -64,7 +70,7 @@ const pad = (value: number, length = 2): string => String(value).padStart(length
           role="spinbutton"
           aria-label="Seconds"
           [class]="fieldClass()"
-          [disabled]="disabled()"
+          [disabled]="isDisabled()"
           [value]="pad(second())"
           [attr.aria-valuenow]="second()"
           (focus)="$any($event.target).select()"
@@ -81,7 +87,7 @@ const pad = (value: number, length = 2): string => String(value).padStart(length
           role="spinbutton"
           aria-label="Milliseconds"
           [class]="fieldClass() + ' w-10'"
-          [disabled]="disabled()"
+          [disabled]="isDisabled()"
           [value]="pad(millisecond(), 3)"
           [attr.aria-valuenow]="millisecond()"
           (focus)="$any($event.target).select()"
@@ -91,20 +97,22 @@ const pad = (value: number, length = 2): string => String(value).padStart(length
       }
 
       @if (useAmPm()) {
-        <button type="button" [class]="ampmClass()" [disabled]="disabled()" (click)="toggleMeridiem()">
+        <button type="button" [class]="ampmClass()" [disabled]="isDisabled()" (click)="toggleMeridiem()">
           {{ isPm() ? 'PM' : 'AM' }}
         </button>
       }
     </div>
   `,
   host: {
-    '[class]': 'computedClass()'
+    '[class]': 'computedClass()',
+    '(focusout)': 'onFocusOut($event)'
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None
 })
-export class XuiTimePicker<T = Date> {
+export class XuiTimePicker<T = Date> implements ControlValueAccessor {
   private readonly adapter = injectXDateAdapter<T>();
+  private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
 
   readonly class = input<ClassValue>('');
 
@@ -114,6 +122,12 @@ export class XuiTimePicker<T = Date> {
   readonly precision = input<XuiTimePrecision>('minute');
   readonly useAmPm = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
   readonly disabled = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
+
+  protected readonly cva = createXValueAccessor<T | null>({
+    onWrite: value => this.value.set(value ?? null),
+    disabled: this.disabled
+  });
+  protected readonly isDisabled = this.cva.disabled;
 
   protected readonly pad = pad;
 
@@ -143,7 +157,7 @@ export class XuiTimePicker<T = Date> {
     xui(
       'border-border bg-surface-inset inline-flex h-(--control-height-md) items-center gap-1 rounded-lg border px-(--control-padding-sm)',
       'focus-within:border-focus transition-colors',
-      this.disabled() && 'cursor-not-allowed opacity-50'
+      this.isDisabled() && 'cursor-not-allowed opacity-50'
     )
   );
   protected readonly fieldClass = computed(() =>
@@ -202,8 +216,27 @@ export class XuiTimePicker<T = Date> {
     return ((value % size) + size) % size;
   }
 
+  /** The single write path for user edits — typing, arrow keys or the AM/PM toggle. */
   private commit(unit: 'hour' | 'minute' | 'second' | 'millisecond', value: number): void {
+    if (this.isDisabled()) {
+      return;
+    }
+
     const next = this.adapter.set(this.working(), { [unit]: value });
     this.value.set(next);
+    this.cva.notifyChange(next);
   }
+
+  /** Touched fires when focus leaves the picker, not while moving between fields. */
+  protected onFocusOut(event: FocusEvent): void {
+    const next = event.relatedTarget as Node | null;
+    if (!next || !this.host.nativeElement.contains(next)) {
+      this.cva.markTouched();
+    }
+  }
+
+  readonly writeValue = this.cva.writeValue;
+  readonly registerOnChange = this.cva.registerOnChange;
+  readonly registerOnTouched = this.cva.registerOnTouched;
+  readonly setDisabledState = this.cva.setDisabledState;
 }

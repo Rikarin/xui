@@ -1,5 +1,6 @@
 import { expectClasses, render } from '@xui/testing';
 import { XuiAvatarImports } from '../index';
+import { provideXuiAvatarConfig } from './avatar.token';
 
 const IMPORTS = [XuiAvatarImports];
 const setup = (template: string, props: Record<string, unknown> = {}) => render(template, { imports: IMPORTS, props });
@@ -115,5 +116,15 @@ describe('XuiAvatarGroup', () => {
     expect(host().getAttribute('role')).toBe('img');
     expect(host().getAttribute('aria-label')).toBe('Ada Lovelace');
     expect(host().getAttribute('aria-hidden')).toBeNull();
+  });
+
+  it('takes its default shape and size from the config token', () => {
+    const { detect } = render('<xui-avatar text="JD" />', {
+      imports: IMPORTS,
+      providers: [provideXuiAvatarConfig({ shape: 'square', size: 'lg' })]
+    });
+    detect();
+
+    expectClasses(host(), 'rounded-md', 'h-10');
   });
 });

@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, input, ViewEncapsulation } from '@angular/core';
 import { xui } from '@xui/core';
 import type { ClassValue } from 'clsx';
+import { injectXuiResultConfig } from './result.token';
 
 export type XuiResultStatus = 'success' | 'error' | 'info' | 'warning' | '404' | '403' | '500';
 
@@ -73,9 +74,11 @@ export type XuiResultStatus = 'success' | 'error' | 'info' | 'warning' | '404' |
   encapsulation: ViewEncapsulation.None
 })
 export class XuiResult {
+  private readonly config = injectXuiResultConfig();
+
   readonly class = input<ClassValue>('');
 
-  readonly status = input<XuiResultStatus>('info');
+  readonly status = input<XuiResultStatus>(this.config.status);
   readonly title = input<string>('');
   readonly subtitle = input<string>('');
 

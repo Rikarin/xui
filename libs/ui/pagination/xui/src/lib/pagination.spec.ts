@@ -1,10 +1,12 @@
 import { render } from '@xui/testing';
 import { paginationRange, XuiPagination } from './pagination';
+import { provideXuiPaginationConfig } from './pagination.token';
 
-const setup = (attrs: string, props: Record<string, unknown> = {}) => {
+const setup = (attrs: string, props: Record<string, unknown> = {}, providers: unknown[] = []) => {
   const result = render(`<xui-pagination ${attrs} [(pageIndex)]="props().page" [(pageSize)]="props().size" />`, {
     imports: [XuiPagination],
-    props: { page: 1, size: 10, ...props }
+    props: { page: 1, size: 10, ...props },
+    providers
   });
   const cmp = result.fixture.debugElement.query(n => n.name === 'xui-pagination').componentInstance as XuiPagination;
   return { ...result, cmp };
@@ -76,6 +78,18 @@ describe('XuiPagination', () => {
     expect(cmp.pageSize()).toBe(50);
     // 100/50 = 2 pages, so page 9 clamps to 2.
     expect(cmp.pageIndex()).toBe(2);
+  });
+
+  it('takes its defaults from the injected config', () => {
+    const { detect } = setup('[total]="248"', { page: 2, size: 10 }, [
+      provideXuiPaginationConfig({ showTotal: true, showSizeChanger: true, pageSizeOptions: [10, 25] })
+    ]);
+    detect();
+
+    const host = document.querySelector('xui-pagination') as HTMLElement;
+    expect(host.textContent).toContain('11-20 of 248 items');
+    const options = [...host.querySelectorAll('select option')].map(o => (o as HTMLOptionElement).value);
+    expect(options).toEqual(['10', '25']);
   });
 
   it('shows an item summary when showTotal is set', () => {

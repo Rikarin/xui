@@ -1,3 +1,5 @@
+// This package is deliberately "type": "commonjs" (Nx generators load as CJS), so the
+// jest config stays CJS too.
 module.exports = {
   displayName: 'tools',
   preset: '../../jest.preset.cjs',

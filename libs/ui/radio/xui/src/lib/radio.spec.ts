@@ -1,6 +1,6 @@
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { expectAttributes, render } from '@xui/testing';
-import { XuiRadioImports } from '../index';
+import { expectAttributes, expectClasses, render } from '@xui/testing';
+import { provideXuiRadioConfig, XuiRadioImports } from '../index';
 
 const IMPORTS = [XuiRadioImports, ReactiveFormsModule];
 
@@ -15,8 +15,8 @@ const GROUP = `
 const radios = () => [...document.querySelectorAll('xui-radio')] as HTMLElement[];
 const radio = (value: string) => radios()[['free', 'pro', 'team'].indexOf(value)];
 
-const setup = (template = GROUP, props: Record<string, unknown> = { value: null }) =>
-  render(template, { imports: IMPORTS, props });
+const setup = (template = GROUP, props: Record<string, unknown> = { value: null }, providers: unknown[] = []) =>
+  render(template, { imports: IMPORTS, props, providers });
 
 describe('XuiRadio', () => {
   it('is a radiogroup of radios, labelled', () => {
@@ -80,6 +80,13 @@ describe('XuiRadio', () => {
     press('xui-radio-group', 'ArrowDown');
 
     expect(radio('pro').getAttribute('aria-checked')).toBe('true');
+  });
+
+  it('takes its defaults from the injected config', () => {
+    const { query } = setup(GROUP, { value: null }, [provideXuiRadioConfig({ size: 'sm', orientation: 'horizontal' })]);
+
+    expectClasses(query('xui-radio-group'), 'flex-row');
+    expectClasses(radio('free'), 'size-4');
   });
 
   it('does not select a disabled option', () => {

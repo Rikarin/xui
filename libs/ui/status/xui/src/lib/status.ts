@@ -3,6 +3,7 @@ import { xui } from '@xui/core';
 import { uniqueId } from '@xui/core/a11y';
 import { cva, VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
+import { injectXuiStatusConfig } from './status.token';
 
 const statusVariants = cva(['inline-flex aspect-square rounded-[50%]'], {
   variants: {
@@ -50,10 +51,12 @@ const CLIP_PATHS: Partial<Record<NonNullable<XuiStatusVariants['presence']> & st
   }
 })
 export class XuiStatus {
+  private readonly config = injectXuiStatusConfig();
+
   /** The user-defined classes */
   readonly class = input<ClassValue>('');
-  readonly presence = input<XuiStatusVariants['presence']>('offline');
-  readonly size = input<XuiStatusVariants['size']>('md');
+  readonly presence = input<XuiStatusVariants['presence']>(this.config.presence);
+  readonly size = input<XuiStatusVariants['size']>(this.config.size);
 
   /**
    * DOM ids must be unique, so each instance defines its own clip path rather

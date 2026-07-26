@@ -2,9 +2,10 @@ import { expectAttributes, expectClasses, expectNoClasses, render } from '@xui/t
 import { XuiHeading } from './heading';
 import { XuiBlockquote, XuiCode, XuiCodeBlock, XuiList } from './html';
 import { XuiText } from './text';
+import { provideXuiTextConfig } from './text.token';
 
 const IMPORTS = [XuiText, XuiHeading, XuiBlockquote, XuiCode, XuiCodeBlock, XuiList];
-const setup = (template: string) => render(template, { imports: IMPORTS });
+const setup = (template: string, providers: unknown[] = []) => render(template, { imports: IMPORTS, providers });
 
 /** jsdom reports every element as 0×0, so overflow has to be simulated. */
 function fakeOverflow(element: HTMLElement, { scrollWidth = 0, clientWidth = 0 }) {
@@ -30,6 +31,14 @@ describe('XuiText', () => {
     const { query } = setup('<p xuiText size="sm" weight="semibold">Body</p>');
 
     expectClasses(query('p'), 'text-sm', 'font-semibold');
+  });
+
+  it('takes its defaults from the injected config', () => {
+    const { query } = setup('<p xuiText>Body</p>', [
+      provideXuiTextConfig({ color: 'muted', size: 'sm', weight: 'semibold' })
+    ]);
+
+    expectClasses(query('p'), 'text-foreground-muted', 'text-sm', 'font-semibold');
   });
 
   it('truncates when ellipsize is set', () => {

@@ -1,5 +1,5 @@
 import { render } from '@xui/testing';
-import { XuiMenuImports } from '../index';
+import { XuiMenuImports, provideXuiMenuConfig } from '../index';
 
 const IMPORTS = [XuiMenuImports];
 
@@ -88,6 +88,16 @@ describe('XuiMenu', () => {
     menu()?.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', keyCode: 27, bubbles: true }));
 
     expect(menu()).toBeNull();
+  });
+
+  it('takes the item colour default from the injected config', () => {
+    const { click } = render(MENU, { imports: IMPORTS, providers: [provideXuiMenuConfig({ itemColor: 'primary' })] });
+
+    click('button');
+
+    // Unset items pick up the configured colour; an explicit input still wins.
+    expect(itemByText('Rename')?.className).toContain('text-primary-emphasis');
+    expect(itemByText('Delete')?.className).toContain('text-error-emphasis');
   });
 
   describe('item', () => {

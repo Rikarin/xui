@@ -1,8 +1,10 @@
 import { expectAttributes, expectClasses, expectNoClasses, render } from '@xui/testing';
 import { XuiSection, XuiSectionCard } from './section';
+import { provideXuiSectionConfig } from './section.token';
 
 const IMPORTS = [XuiSection, XuiSectionCard];
-const setup = (template: string, props?: Record<string, unknown>) => render(template, { imports: IMPORTS, props });
+const setup = (template: string, props?: Record<string, unknown>, providers: unknown[] = []) =>
+  render(template, { imports: IMPORTS, props, providers });
 
 beforeEach(() => {
   // jsdom does not implement the Web Animations API, which XuiCollapse uses.
@@ -97,6 +99,15 @@ describe('XuiSection', () => {
     const { query } = setup('<xui-section class="w-96">Body</xui-section>');
 
     expectClasses(query('xui-section'), 'w-96', 'rounded-lg');
+  });
+
+  it('takes its defaults from the injected config', () => {
+    const { query } = setup('<xui-section title="Details">Body</xui-section>', undefined, [
+      provideXuiSectionConfig({ elevation: 1, compact: true })
+    ]);
+
+    expectClasses(query('xui-section'), 'shadow-elevation-1');
+    expectClasses(query('xui-section > div'), 'px-3', 'py-2');
   });
 });
 

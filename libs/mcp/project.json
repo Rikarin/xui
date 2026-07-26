@@ -29,7 +29,9 @@
       "options": {
         "command": "vitest run --config libs/mcp/vitest.config.ts",
         "cwd": "{workspaceRoot}"
-      }
+      },
+      "cache": true,
+      "inputs": ["default", "^production"]
     },
     "nx-release-publish": {
       "options": {

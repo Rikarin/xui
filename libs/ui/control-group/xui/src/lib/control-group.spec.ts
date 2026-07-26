@@ -1,5 +1,6 @@
 import { expectClasses, expectNoClasses, render } from '@xui/testing';
 import { XuiControlGroup } from './control-group';
+import { provideXuiControlGroupConfig } from './control-group.token';
 
 const setup = (template: string) => render(template, { imports: [XuiControlGroup] });
 
@@ -34,5 +35,15 @@ describe('XuiControlGroup', () => {
     const { query } = setup('<div xuiControlGroup class="max-w-md"></div>');
 
     expectClasses(query('div'), 'max-w-md', 'flex');
+  });
+
+  it('takes its default orientation and fill from the config token', () => {
+    const { query } = render('<div xuiControlGroup></div>', {
+      imports: [XuiControlGroup],
+      providers: [provideXuiControlGroupConfig({ orientation: 'vertical', fill: true })]
+    });
+
+    expectClasses(query('div'), 'flex-col', 'w-full', '*:flex-1');
+    expectNoClasses(query('div'), 'flex-row');
   });
 });

@@ -70,6 +70,22 @@
         "jestConfig": "apps/admin/jest.config.ts",
         "tsConfig": "apps/admin/tsconfig.spec.json"
       }
+    },
+    "deploy": {
+      "executor": "nx:run-commands",
+      "dependsOn": ["build"],
+      "options": {
+        "command": "wrangler deploy --config apps/admin/wrangler.jsonc",
+        "cwd": "{workspaceRoot}"
+      }
+    },
+    "preview": {
+      "executor": "nx:run-commands",
+      "dependsOn": ["build"],
+      "options": {
+        "command": "wrangler dev --config apps/admin/wrangler.jsonc",
+        "cwd": "{workspaceRoot}"
+      }
     }
   }
 }

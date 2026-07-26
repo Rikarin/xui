@@ -1,7 +1,9 @@
 import { expectClasses, expectNoClasses, render } from '@xui/testing';
 import { XuiNonIdealState } from './non-ideal-state';
+import { provideXuiNonIdealStateConfig } from './non-ideal-state.token';
 
-const setup = (template: string) => render(template, { imports: [XuiNonIdealState] });
+const setup = (template: string, providers: unknown[] = []) =>
+  render(template, { imports: [XuiNonIdealState], providers });
 
 describe('XuiNonIdealState', () => {
   it('centres its content vertically by default', () => {
@@ -44,6 +46,15 @@ describe('XuiNonIdealState', () => {
 
   it('lays out horizontally when asked', () => {
     const { query } = setup('<xui-non-ideal-state orientation="horizontal" title="No results" />');
+
+    expectClasses(query('xui-non-ideal-state'), 'flex-row', 'text-start');
+    expectNoClasses(query('xui-non-ideal-state'), 'flex-col');
+  });
+
+  it('takes its orientation default from the injected config', () => {
+    const { query } = setup('<xui-non-ideal-state title="No results" />', [
+      provideXuiNonIdealStateConfig({ orientation: 'horizontal' })
+    ]);
 
     expectClasses(query('xui-non-ideal-state'), 'flex-row', 'text-start');
     expectNoClasses(query('xui-non-ideal-state'), 'flex-col');

@@ -1,5 +1,6 @@
 import { expectClasses, expectNoClasses, render } from '@xui/testing';
 import { XuiBadge } from './badge';
+import { provideXuiBadgeConfig } from './badge.token';
 
 const setup = (template: string) => render(template, { imports: [XuiBadge] });
 
@@ -43,5 +44,15 @@ describe('XuiBadge', () => {
     const { query } = setup('<span xuiBadge class="ms-2"></span>');
 
     expectClasses(query('span'), 'ms-2', 'bg-primary');
+  });
+
+  it('takes its default colour and size from the config token', () => {
+    const { query } = render('<span xuiBadge></span>', {
+      imports: [XuiBadge],
+      providers: [provideXuiBadgeConfig({ color: 'info', size: 'lg' })]
+    });
+
+    expectClasses(query('span'), 'bg-info', 'text-sm');
+    expectNoClasses(query('span'), 'bg-primary');
   });
 });

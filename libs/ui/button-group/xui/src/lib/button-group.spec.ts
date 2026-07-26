@@ -1,5 +1,6 @@
 import { expectClasses, expectNoClasses, render } from '@xui/testing';
 import { XuiButtonGroup } from './button-group';
+import { provideXuiButtonGroupConfig } from './button-group.token';
 
 const setup = (template: string) => render(template, { imports: [XuiButtonGroup] });
 
@@ -48,5 +49,15 @@ describe('XuiButtonGroup', () => {
     const { query } = setup('<div xuiButtonGroup alignText="left"></div>');
 
     expectClasses(query('div'), '[&>*]:justify-start');
+  });
+
+  it('takes its default orientation and fill from the config token', () => {
+    const { query } = render('<div xuiButtonGroup></div>', {
+      imports: [XuiButtonGroup],
+      providers: [provideXuiButtonGroupConfig({ orientation: 'vertical', fill: true })]
+    });
+
+    expectClasses(query('div'), 'flex-col', 'w-full', '[&>*]:flex-1');
+    expectNoClasses(query('div'), 'flex-row');
   });
 });

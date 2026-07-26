@@ -16,6 +16,7 @@ import { XFormFieldControl } from '@xui/core/form-field';
 import { cva, VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
 import { XuiError } from './error';
+import { injectXuiFormFieldConfig } from './form-field.token';
 
 let nextId = 0;
 
@@ -87,6 +88,8 @@ export type XuiFormFieldColor = NonNullable<VariantProps<typeof formFieldColorTe
   }
 })
 export class XuiFormField {
+  private readonly config = injectXuiFormFieldConfig();
+
   readonly control = contentChild(XFormFieldControl);
   private readonly controlEl = contentChild(XFormFieldControl, { read: ElementRef });
   readonly errorChildren = contentChildren(XuiError);
@@ -106,10 +109,10 @@ export class XuiFormField {
   readonly helperText = input<string>('');
 
   /** A deliberate accent for the label and helper text. */
-  readonly color = input<XuiFormFieldColor>('none');
+  readonly color = input<XuiFormFieldColor>(this.config.color);
 
   /** Lay the label beside the control rather than above it. */
-  readonly inline = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
+  readonly inline = input<boolean, BooleanInput>(this.config.inline, { transform: booleanAttribute });
 
   private readonly generatedId = `xui-form-field-${nextId++}`;
 

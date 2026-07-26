@@ -11,6 +11,7 @@ import {
 } from '@angular/core';
 import { xui } from '@xui/core';
 import type { ClassValue } from 'clsx';
+import { injectXuiPaginationConfig } from './pagination.token';
 
 /**
  * Page navigation for a paged collection. Two-way `pageIndex` (1-based) and
@@ -100,18 +101,22 @@ import type { ClassValue } from 'clsx';
   encapsulation: ViewEncapsulation.None
 })
 export class XuiPagination {
+  private readonly config = injectXuiPaginationConfig();
+
   readonly class = input<ClassValue>('');
 
   readonly total = input<number, NumberInput>(0, { transform: numberAttribute });
   readonly pageIndex = model<number>(1);
   readonly pageSize = model<number>(10);
-  readonly pageSizeOptions = input<number[]>([10, 20, 50, 100]);
-  readonly showSizeChanger = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
-  readonly showTotal = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
-  readonly simple = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
+  readonly pageSizeOptions = input<number[]>(this.config.pageSizeOptions);
+  readonly showSizeChanger = input<boolean, BooleanInput>(this.config.showSizeChanger, {
+    transform: booleanAttribute
+  });
+  readonly showTotal = input<boolean, BooleanInput>(this.config.showTotal, { transform: booleanAttribute });
+  readonly simple = input<boolean, BooleanInput>(this.config.simple, { transform: booleanAttribute });
   readonly disabled = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
   /** Pages shown on each side of the current page. */
-  readonly siblingCount = input<number, NumberInput>(1, { transform: numberAttribute });
+  readonly siblingCount = input<number, NumberInput>(this.config.siblingCount, { transform: numberAttribute });
 
   protected readonly totalPages = computed(() => Math.max(1, Math.ceil(this.total() / this.pageSize())));
   protected readonly pages = computed(() => paginationRange(this.pageIndex(), this.totalPages(), this.siblingCount()));

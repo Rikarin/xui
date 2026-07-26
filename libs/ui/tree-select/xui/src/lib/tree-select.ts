@@ -4,14 +4,18 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  effect,
   input,
   linkedSignal,
   model,
   signal,
+  untracked,
   ViewEncapsulation
 } from '@angular/core';
+import type { ControlValueAccessor } from '@angular/forms';
 import { xui } from '@xui/core';
 import { injectXDirection, uniqueId } from '@xui/core/a11y';
+import { createXValueAccessor, provideXValueAccessor } from '@xui/core/forms';
 import { injectXOutsideClick } from '@xui/core/interactions';
 import {
   collectExpandedIds,
@@ -68,7 +72,7 @@ const toTreeNode = (node: XuiTreeSelectNode): PanelNode => ({
       role="combobox"
       aria-haspopup="tree"
       [class]="triggerClass()"
-      [disabled]="disabled()"
+      [disabled]="isDisabled()"
       [attr.aria-expanded]="open()"
       [attr.aria-controls]="open() ? panelId : null"
       [attr.aria-activedescendant]="activeDescendant()"
@@ -159,10 +163,11 @@ const toTreeNode = (node: XuiTreeSelectNode): PanelNode => ({
   host: {
     '[class]': 'computedClass()'
   },
+  providers: [provideXValueAccessor(() => XuiTreeSelect)],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None
 })
-export class XuiTreeSelect {
+export class XuiTreeSelect implements ControlValueAccessor {
   protected readonly direction = injectXDirection();
   protected readonly panelId = uniqueId('xui-tree-select-panel');
 
@@ -172,6 +177,15 @@ export class XuiTreeSelect {
   readonly multiple = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
   readonly placeholder = input<string>('Select');
   readonly disabled = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
+
+  protected readonly cva = createXValueAccessor<string | string[] | null>({
+    onWrite: value => this.value.set(value ?? null),
+    disabled: this.disabled
+  });
+  protected readonly isDisabled = this.cva.disabled;
+
+  /** Whether the panel has ever been open — so the initial closed state is not "touched". */
+  private hasOpened = false;
 
   protected readonly open = signal(false);
 
@@ -234,6 +248,15 @@ export class XuiTreeSelect {
       },
       { event: 'click' }
     );
+
+    // Mark the control touched once the panel closes after having been open.
+    effect(() => {
+      if (this.open()) {
+        this.hasOpened = true;
+      } else if (this.hasOpened) {
+        untracked(() => this.cva.markTouched());
+      }
+    });
   }
 
   protected rowId(index: number): string {
@@ -249,7 +272,7 @@ export class XuiTreeSelect {
   }
 
   protected toggle(): void {
-    if (this.disabled()) {
+    if (this.isDisabled()) {
       return;
     }
     if (this.open()) {
@@ -269,7 +292,7 @@ export class XuiTreeSelect {
   }
 
   protected onTriggerKeydown(event: KeyboardEvent): void {
-    if (this.disabled()) {
+    if (this.isDisabled()) {
       return;
     }
 
@@ -320,22 +343,30 @@ export class XuiTreeSelect {
   }
 
   protected pick(node: XuiTreeSelectNode): void {
-    if (node.disabled) {
+    if (node.disabled || this.isDisabled()) {
       return;
     }
     this.activeValue.set(node.value);
     if (this.multiple()) {
       const current = this.selectedValues();
-      this.value.set(current.includes(node.value) ? current.filter(v => v !== node.value) : [...current, node.value]);
+      const next = current.includes(node.value) ? current.filter(v => v !== node.value) : [...current, node.value];
+      this.value.set(next);
+      this.cva.notifyChange(next);
     } else {
       this.value.set(node.value);
+      this.cva.notifyChange(node.value);
       this.open.set(false);
     }
   }
 
   protected removeChip(value: string, event: Event): void {
     event.stopPropagation();
-    this.value.set(this.selectedValues().filter(v => v !== value));
+    if (this.isDisabled()) {
+      return;
+    }
+    const next = this.selectedValues().filter(v => v !== value);
+    this.value.set(next);
+    this.cva.notifyChange(next);
   }
 
   protected readonly computedClass = computed(() => xui('relative block', this.class()));
@@ -373,4 +404,9 @@ export class XuiTreeSelect {
       selected ? 'bg-primary border-primary text-primary-foreground' : 'border-border'
     );
   }
+
+  readonly writeValue = this.cva.writeValue;
+  readonly registerOnChange = this.cva.registerOnChange;
+  readonly registerOnTouched = this.cva.registerOnTouched;
+  readonly setDisabledState = this.cva.setDisabledState;
 }

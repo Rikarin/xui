@@ -1,16 +1,17 @@
 import { render } from '@xui/testing';
 import { XuiStepsImports } from '../index';
 import { XuiSteps } from './steps';
+import { provideXuiStepsConfig } from './steps.token';
 
 const IMPORTS = [XuiStepsImports];
-const setup = (attrs = '', props: Record<string, unknown> = {}) => {
+const setup = (attrs = '', props: Record<string, unknown> = {}, providers: unknown[] = []) => {
   const result = render(
     `<xui-steps ${attrs} [(current)]="props().current">
        <xui-step title="Cart" />
        <xui-step title="Pay" description="Card" />
        <xui-step title="Done" />
      </xui-steps>`,
-    { imports: IMPORTS, props: { current: 1, ...props } }
+    { imports: IMPORTS, props: { current: 1, ...props }, providers }
   );
   const cmp = result.fixture.debugElement.query(n => n.name === 'xui-steps').componentInstance as XuiSteps;
   return { ...result, cmp };
@@ -57,6 +58,19 @@ describe('XuiSteps', () => {
     (document.querySelectorAll('xui-steps button')[2] as HTMLButtonElement).disabled;
     expect((document.querySelectorAll('xui-steps button')[2] as HTMLButtonElement).disabled).toBe(true);
     expect(cmp.current()).toBe(0);
+  });
+
+  it('takes its defaults from the injected config', () => {
+    const { detect, cmp } = setup('', { current: 0 }, [
+      provideXuiStepsConfig({ orientation: 'vertical', clickable: true })
+    ]);
+    detect();
+
+    expect((document.querySelector('xui-steps') as HTMLElement).className).toContain('flex-col');
+
+    (document.querySelectorAll('xui-steps button')[2] as HTMLElement).click();
+    detect();
+    expect(cmp.current()).toBe(2);
   });
 
   it('stacks vertically in vertical orientation', () => {

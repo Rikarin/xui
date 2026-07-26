@@ -4,6 +4,7 @@ import { xui } from '@xui/core';
 import { injectXElementSize } from '@xui/core/interactions';
 import { cva, VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
+import { injectXuiTextConfig } from './text.token';
 
 export const textVariants = cva('', {
   variants: {
@@ -67,12 +68,15 @@ export class XuiText {
   private readonly element: HTMLElement = inject(ElementRef).nativeElement;
   private readonly observedSize = injectXElementSize();
   private readonly overflowing = signal(false);
+  private readonly config = injectXuiTextConfig();
 
   /** The user-defined classes. Merged last so they win over the variant classes. */
   readonly class = input<ClassValue>('');
-  readonly color = input<XuiTextVariants['color']>();
-  readonly size = input<XuiTextVariants['size']>();
-  readonly weight = input<XuiTextVariants['weight']>();
+  // The configured defaults are themselves undefined unless the app provides them,
+  // so unconfigured text keeps inheriting from its surroundings.
+  readonly color = input<XuiTextVariants['color']>(this.config.color);
+  readonly size = input<XuiTextVariants['size']>(this.config.size);
+  readonly weight = input<XuiTextVariants['weight']>(this.config.weight);
 
   /** Truncate with an ellipsis instead of wrapping. */
   readonly ellipsize = input<boolean, BooleanInput>(false, { transform: booleanAttribute });

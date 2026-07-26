@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, input, ViewEncapsulation } from '@angular/core';
 import { xui } from '@xui/core';
 import type { ClassValue } from 'clsx';
+import { injectXuiTimelineConfig } from './timeline.token';
 
 export type XuiTimelineMode = 'left' | 'right';
 
@@ -26,8 +27,10 @@ export type XuiTimelineMode = 'left' | 'right';
   encapsulation: ViewEncapsulation.None
 })
 export class XuiTimeline {
+  private readonly config = injectXuiTimelineConfig();
+
   readonly class = input<ClassValue>('');
-  readonly mode = input<XuiTimelineMode>('left');
+  readonly mode = input<XuiTimelineMode>(this.config.mode);
 
   protected readonly computedClass = computed(() =>
     // Hide the connecting line on the last item so the axis stops at the final dot.

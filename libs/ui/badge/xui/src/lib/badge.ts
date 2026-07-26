@@ -3,6 +3,7 @@ import { Directive, booleanAttribute, computed, input } from '@angular/core';
 import { xui } from '@xui/core';
 import { type VariantProps, cva } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
+import { injectXuiBadgeConfig } from './badge.token';
 
 export const badgeVariants = cva(
   [
@@ -73,12 +74,16 @@ export type XuiBadgeVariants = VariantProps<typeof badgeVariants>;
   }
 })
 export class XuiBadge {
+  private readonly config = injectXuiBadgeConfig();
+
   protected readonly computedClass = computed(() =>
     xui(badgeVariants({ color: this.color(), size: this.size(), static: this.static() }), this.class())
   );
 
   readonly class = input<ClassValue>('');
-  readonly color = input<XuiBadgeVariants['color']>('primary');
-  readonly static = input<XuiBadgeVariants['static'], BooleanInput>(false, { transform: booleanAttribute });
-  readonly size = input<XuiBadgeVariants['size']>('md');
+  readonly color = input<XuiBadgeVariants['color']>(this.config.color);
+  readonly static = input<XuiBadgeVariants['static'], BooleanInput>(this.config.static, {
+    transform: booleanAttribute
+  });
+  readonly size = input<XuiBadgeVariants['size']>(this.config.size);
 }

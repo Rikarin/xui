@@ -10,8 +10,10 @@ import {
   signal,
   ViewEncapsulation
 } from '@angular/core';
+import type { ControlValueAccessor } from '@angular/forms';
 import { xui } from '@xui/core';
 import { arrowValueDirection, injectXDirection } from '@xui/core/a11y';
+import { createXValueAccessor, provideXValueAccessor } from '@xui/core/forms';
 import type { ClassValue } from 'clsx';
 
 /**
@@ -38,7 +40,7 @@ import type { ClassValue } from 'clsx';
             <path [attr.d]="STAR" />
           </svg>
         </span>
-        @if (!readonly() && !disabled()) {
+        @if (!readonly() && !isDisabled()) {
           @if (allowHalf()) {
             <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
             <span
@@ -67,15 +69,17 @@ import type { ClassValue } from 'clsx';
     '[attr.aria-valuenow]': 'value()',
     '[attr.aria-valuetext]': 'valueText()',
     '[attr.aria-readonly]': 'readonly() || null',
-    '[attr.aria-disabled]': 'disabled() || null',
-    '[attr.tabindex]': 'readonly() || disabled() ? null : 0',
+    '[attr.aria-disabled]': 'isDisabled() || null',
+    '[attr.tabindex]': 'readonly() || isDisabled() ? null : 0',
     '(keydown)': 'onKeydown($event)',
-    '(mouseleave)': 'hover.set(null)'
+    '(mouseleave)': 'hover.set(null)',
+    '(blur)': 'cva.markTouched()'
   },
+  providers: [provideXValueAccessor(() => XuiRate)],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None
 })
-export class XuiRate {
+export class XuiRate implements ControlValueAccessor {
   protected readonly STAR = 'M12 2l2.9 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14l-5-4.87 7.1-1.01z';
 
   protected readonly direction = injectXDirection();
@@ -94,6 +98,12 @@ export class XuiRate {
   readonly disabled = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
   /** Star size in pixels. */
   readonly starSize = input<number, NumberInput>(20, { transform: numberAttribute });
+
+  protected readonly cva = createXValueAccessor<number>({
+    onWrite: value => this.value.set(value ?? 0),
+    disabled: this.disabled
+  });
+  protected readonly isDisabled = this.cva.disabled;
 
   protected readonly hover = signal<number | null>(null);
 
@@ -118,18 +128,14 @@ export class XuiRate {
   }
 
   protected pick(next: number): void {
-    if (this.readonly() || this.disabled()) {
+    if (this.readonly() || this.isDisabled()) {
       return;
     }
-    if (this.allowClear() && next === this.value()) {
-      this.value.set(0);
-    } else {
-      this.value.set(next);
-    }
+    this.commit(this.allowClear() && next === this.value() ? 0 : next);
   }
 
   protected onKeydown(event: KeyboardEvent): void {
-    if (this.readonly() || this.disabled()) {
+    if (this.readonly() || this.isDisabled()) {
       return;
     }
     const step = this.allowHalf() ? 0.5 : 1;
@@ -141,15 +147,26 @@ export class XuiRate {
     const next = arrow === 'increase' ? Math.min(this.count(), this.value() + step) : Math.max(0, this.value() - step);
 
     event.preventDefault();
+    this.commit(next);
+  }
+
+  /** Store and notify — the single write path for every user interaction. */
+  private commit(next: number): void {
     this.value.set(next);
+    this.cva.notifyChange(next);
   }
 
   protected readonly computedClass = computed(() =>
     xui(
       'inline-flex items-center gap-1 outline-none focus-visible:outline-focus focus-visible:outline-2 focus-visible:outline-offset-2 rounded',
-      (this.readonly() || this.disabled()) && 'cursor-default',
-      this.disabled() && 'opacity-50',
+      (this.readonly() || this.isDisabled()) && 'cursor-default',
+      this.isDisabled() && 'opacity-50',
       this.class()
     )
   );
+
+  readonly writeValue = this.cva.writeValue;
+  readonly registerOnChange = this.cva.registerOnChange;
+  readonly registerOnTouched = this.cva.registerOnTouched;
+  readonly setDisabledState = this.cva.setDisabledState;
 }

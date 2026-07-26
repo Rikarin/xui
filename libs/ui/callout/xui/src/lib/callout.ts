@@ -12,6 +12,7 @@ import { xui } from '@xui/core';
 import { XuiIcon } from '@xui/icon';
 import { cva, VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
+import { injectXuiCalloutConfig } from './callout.token';
 
 export const calloutVariants = cva('flex gap-3 rounded-lg border', {
   variants: {
@@ -101,9 +102,11 @@ const DEFAULT_ICONS: Record<XuiCalloutColor, string | null> = {
   }
 })
 export class XuiCallout {
+  private readonly config = injectXuiCalloutConfig();
+
   /** The user-defined classes. Merged last so they win over the variant classes. */
   readonly class = input<ClassValue>('');
-  readonly color = input<XuiCalloutColor>('none');
+  readonly color = input<XuiCalloutColor>(this.config.color);
 
   /** Optional heading rendered above the content. */
   readonly title = input<string | null>(null);
@@ -114,8 +117,8 @@ export class XuiCallout {
    */
   readonly icon = input<string | 'none' | null>(null);
 
-  readonly minimal = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
-  readonly compact = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
+  readonly minimal = input<boolean, BooleanInput>(this.config.minimal, { transform: booleanAttribute });
+  readonly compact = input<boolean, BooleanInput>(this.config.compact, { transform: booleanAttribute });
 
   /**
    * An error or warning callout is announced as an alert so a screen reader

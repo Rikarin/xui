@@ -1,6 +1,6 @@
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { expectAttributes, expectClasses, provideDirection, render } from '@xui/testing';
-import { XuiSliderImports } from '../index';
+import { provideXuiSliderConfig, XuiSliderImports } from '../index';
 import { XuiSlider } from './slider';
 
 const IMPORTS = [XuiSliderImports, ReactiveFormsModule];
@@ -140,6 +140,17 @@ describe('XuiSlider', () => {
       const { detect } = render('<xui-slider orientation="vertical" value="5" />', { imports: IMPORTS });
       detect();
 
+      expectAttributes(handle(), { 'aria-orientation': 'vertical' });
+    });
+
+    it('takes its defaults from the injected config', () => {
+      const { detect } = render('<xui-slider value="5" />', {
+        imports: IMPORTS,
+        providers: [provideXuiSliderConfig({ color: 'warning', orientation: 'vertical' })]
+      });
+      detect();
+
+      expectClasses(handle(), 'border-warning');
       expectAttributes(handle(), { 'aria-orientation': 'vertical' });
     });
   });

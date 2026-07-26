@@ -13,7 +13,9 @@ import {
   untracked,
   ViewEncapsulation
 } from '@angular/core';
+import type { ControlValueAccessor } from '@angular/forms';
 import { xui } from '@xui/core';
+import { createXValueAccessor, provideXValueAccessor } from '@xui/core/forms';
 import { createXActiveOption, createXItemListPredicate, createXQueryList, trackXItem } from '@xui/core/query';
 import { XuiPopoverImports } from '@xui/popover';
 import { XuiSelectOption } from '@xui/select';
@@ -35,7 +37,7 @@ import type { ClassValue } from 'clsx';
       [class]="inputClass()"
       [value]="displayValue()"
       [placeholder]="placeholder()"
-      [disabled]="disabled()"
+      [disabled]="isDisabled()"
       [attr.aria-expanded]="open()"
       [attr.aria-autocomplete]="'list'"
       [xuiPopover]="panel"
@@ -43,7 +45,7 @@ import type { ClassValue } from 'clsx';
       [role]="'listbox'"
       [matchTargetWidth]="true"
       [minimal]="true"
-      [disabled]="disabled()"
+      [disabled]="isDisabled()"
       interactionKind="click-target"
       placement="bottom-start"
       (input)="onInput($event)"
@@ -88,10 +90,11 @@ import type { ClassValue } from 'clsx';
   host: {
     '[class]': 'computedClass()'
   },
+  providers: [provideXValueAccessor(() => XuiSuggest)],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None
 })
-export class XuiSuggest<T> {
+export class XuiSuggest<T> implements ControlValueAccessor {
   readonly class = input<ClassValue>('');
 
   readonly items = input<readonly T[]>([]);
@@ -103,8 +106,17 @@ export class XuiSuggest<T> {
   readonly placeholder = input<string>('Search…');
   readonly noResultsText = input<string>('No results.');
 
-  /** The chosen item. Two-way bindable with `[(value)]`. */
+  /** The chosen item. Two-way bindable with `[(value)]`, or via `formControl`/`ngModel`. */
   readonly value = model<T | null>(null);
+
+  protected readonly cva = createXValueAccessor<T | null>({
+    onWrite: value => this.value.set(value ?? null),
+    disabled: this.disabled
+  });
+  protected readonly isDisabled = this.cva.disabled;
+
+  /** Whether the popover has ever been open — so the initial closed state is not "touched". */
+  private hasOpened = false;
 
   protected readonly open = model(false);
   protected readonly query = signal('');
@@ -148,17 +160,23 @@ export class XuiSuggest<T> {
     xui(
       'border-border bg-surface-inset text-foreground placeholder:text-foreground-subtle h-(--control-height-md) w-full min-w-44 rounded-lg border px-(--control-padding-md) text-sm',
       'focus-visible:border-focus transition-colors focus:outline-none',
-      this.disabled() && 'cursor-not-allowed opacity-50'
+      this.isDisabled() && 'cursor-not-allowed opacity-50'
     )
   );
 
   constructor() {
-    // Stop editing (revert to the selected item's text) once the popover closes.
+    // Stop editing (revert to the selected item's text) and mark the control
+    // touched once the popover closes.
     effect(() => {
-      if (!this.open()) {
+      if (this.open()) {
+        this.hasOpened = true;
+      } else {
         untracked(() => {
           this.editing.set(false);
           this.query.set('');
+          if (this.hasOpened) {
+            this.cva.markTouched();
+          }
         });
       }
     });
@@ -196,6 +214,12 @@ export class XuiSuggest<T> {
     }
 
     this.value.set(item);
+    this.cva.notifyChange(item);
     this.open.set(false);
   }
+
+  readonly writeValue = this.cva.writeValue;
+  readonly registerOnChange = this.cva.registerOnChange;
+  readonly registerOnTouched = this.cva.registerOnTouched;
+  readonly setDisabledState = this.cva.setDisabledState;
 }

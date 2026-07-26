@@ -9,6 +9,7 @@ import { uniqueId } from '@xui/core/a11y';
 import { XuiIcon } from '@xui/icon';
 import { cva, VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
+import { injectXuiSectionConfig } from './section.token';
 
 export const sectionVariants = cva('bg-surface-raised border-border block overflow-hidden rounded-lg border', {
   variants: {
@@ -106,10 +107,11 @@ export type XuiSectionVariants = VariantProps<typeof sectionVariants>;
 })
 export class XuiSection {
   protected readonly panelId = uniqueId('xui-section-panel');
+  private readonly config = injectXuiSectionConfig();
 
   /** The user-defined classes. Merged last so they win over the variant classes. */
   readonly class = input<ClassValue>('');
-  readonly elevation = input<XuiSectionVariants['elevation']>(0);
+  readonly elevation = input<XuiSectionVariants['elevation']>(this.config.elevation);
 
   /** The header only renders when there is a title. */
   readonly title = input<string | null>(null);
@@ -118,7 +120,7 @@ export class XuiSection {
   readonly collapsible = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
 
   /** Reduce the header padding. */
-  readonly compact = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
+  readonly compact = input<boolean, BooleanInput>(this.config.compact, { transform: booleanAttribute });
 
   /** Open state of a collapsible section. Works bound or unbound. */
   readonly open = model(true);

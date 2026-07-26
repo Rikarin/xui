@@ -13,13 +13,11 @@ pnpm nx g @xui/tools:<generator> [options]
 pnpm nx g @xui/tools:library split-button --generate=component --story
 ```
 
-| Option          | Meaning                                                           |
-| --------------- | ----------------------------------------------------------------- |
-| `name`          | kebab-case package name (positional)                              |
-| `generate`      | `component` \| `directive` \| `none` - what to scaffold inside it |
-| `story`         | also generate the Storybook story (default `true`)                |
-| `documentation` | also generate the ng-doc page (default `true`)                    |
-| `description`   | description for the generated documentation page                  |
+| Option     | Meaning                                                           |
+| ---------- | ----------------------------------------------------------------- |
+| `name`     | kebab-case package name (positional)                              |
+| `generate` | `component` \| `directive` \| `none` - what to scaffold inside it |
+| `story`    | also generate the Storybook story (default `true`)                |
 
 Produces `libs/ui/<name>/xui` with the `Xui<Name>Imports` barrel, the `@xui/<name>` package.json
 (peer deps and version taken from `@xui/core`), jest/tsconfig/eslint wiring, and the story in

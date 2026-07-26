@@ -12,6 +12,7 @@ import { xui } from '@xui/core';
 import { cva, type VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
 import { XUI_RADIO_BUTTON_TOKEN, XUI_RADIO_GROUP, type XuiRadioButtonRef } from './radio-group';
+import { injectXuiRadioConfig } from './radio.token';
 
 const radioVariants = cva(
   'relative grid shrink-0 place-items-center rounded-full border transition-colors focus-visible:outline-5 focus-visible:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:opacity-50 data-[state=checked]:border-primary data-[state=unchecked]:border-border-strong data-[state=unchecked]:bg-surface-inset',
@@ -66,10 +67,11 @@ export type XuiRadioVariants = VariantProps<typeof radioVariants>;
 export class XuiRadio<T = unknown> implements XuiRadioButtonRef {
   private readonly group = inject(XUI_RADIO_GROUP);
   private readonly host: HTMLElement = inject(ElementRef).nativeElement;
+  private readonly config = injectXuiRadioConfig();
 
   /** The user-defined classes. Merged last so they win over the variant classes. */
   readonly class = input<ClassValue>('');
-  readonly size = input<XuiRadioVariants['size']>('md');
+  readonly size = input<XuiRadioVariants['size']>(this.config.size);
 
   readonly value = input.required<T>();
   readonly disabled = input<boolean, BooleanInput>(false, { transform: booleanAttribute });

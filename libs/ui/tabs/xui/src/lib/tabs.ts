@@ -20,6 +20,7 @@ import { arrowDirectionOnAxis, injectXDirection, uniqueId } from '@xui/core/a11y
 import { cva, VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
 import { XuiTab } from './tab';
+import { injectXuiTabsConfig } from './tabs.token';
 
 const tabVariants = cva(
   [
@@ -95,6 +96,7 @@ export type XuiTabsVariants = VariantProps<typeof tabVariants>;
 })
 export class XuiTabs {
   private readonly uid = uniqueId('xui-tabs');
+  private readonly config = injectXuiTabsConfig();
 
   readonly class = input<ClassValue>('');
 
@@ -103,12 +105,12 @@ export class XuiTabs {
   /** The active tab id. Two-way bindable with `[(selectedTabId)]`. */
   readonly selectedTabId = model<string | null>(null);
 
-  readonly orientation = input<'horizontal' | 'vertical'>('horizontal');
+  readonly orientation = input<'horizontal' | 'vertical'>(this.config.orientation);
   readonly fill = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
-  readonly large = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
+  readonly large = input<boolean, BooleanInput>(this.config.large, { transform: booleanAttribute });
 
   /** Slide an indicator bar under the active tab instead of a static underline. */
-  readonly animate = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
+  readonly animate = input<boolean, BooleanInput>(this.config.animate, { transform: booleanAttribute });
 
   /** Keep only the active panel in the DOM (the others are not rendered). */
   readonly renderActiveTabPanelOnly = input<boolean, BooleanInput>(false, { transform: booleanAttribute });

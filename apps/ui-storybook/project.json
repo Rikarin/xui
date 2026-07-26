@@ -40,7 +40,9 @@
       "options": {
         "command": "vitest run --config apps/ui-storybook/vitest.config.ts",
         "cwd": "{workspaceRoot}"
-      }
+      },
+      "cache": true,
+      "inputs": ["default", "^production"]
     },
     "static-storybook": {
       "executor": "@nx/web:file-server",

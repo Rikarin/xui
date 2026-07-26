@@ -21,6 +21,7 @@ import { createXErrorState, createXValueAccessor, provideXValueAccessor } from '
 import { XuiIcon } from '@xui/icon';
 import { cva, type VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
+import { injectXuiFileInputConfig } from './file-input.token';
 
 const fileInputVariants = cva(
   'border-border bg-surface-inset text-foreground-muted focus-within:border-focus flex cursor-pointer items-center gap-2 rounded-lg border pe-1 transition-colors has-disabled:cursor-not-allowed has-disabled:opacity-50',
@@ -94,6 +95,7 @@ export type XuiFileInputVariants = VariantProps<typeof fileInputVariants>;
   }
 })
 export class XuiFileInput implements ControlValueAccessor, XFormFieldControl {
+  private readonly config = injectXuiFileInputConfig();
   private readonly field = viewChild.required<ElementRef<HTMLInputElement>>('field');
   private readonly formState = createXErrorState();
   protected readonly fieldId = uniqueId('xui-file-input');
@@ -110,8 +112,8 @@ export class XuiFileInput implements ControlValueAccessor, XFormFieldControl {
 
   /** The user-defined classes on the trigger. Merged last so they win. */
   readonly class = input<ClassValue>('');
-  readonly size = input<XuiFileInputVariants['size']>('md');
-  readonly fill = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
+  readonly size = input<XuiFileInputVariants['size']>(this.config.size);
+  readonly fill = input<boolean, BooleanInput>(this.config.fill, { transform: booleanAttribute });
 
   /** Placeholder shown before anything is chosen. */
   readonly text = input('Choose a file…');

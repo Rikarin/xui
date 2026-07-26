@@ -20,6 +20,7 @@ import { createXValueAccessor, provideXValueAccessor } from '@xui/core/forms';
 import { injectXPointerDrag } from '@xui/core/interactions';
 import { cva, VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
+import { injectXuiSliderConfig } from './slider.token';
 
 /** Renders a tick's numeric value into label text, or `false` to hide all labels. */
 export type XuiSliderLabelRenderer = ((value: number) => string) | false;
@@ -116,6 +117,8 @@ const roundToGrid = (n: number): number => Math.round(n * 1e10) / 1e10;
   encapsulation: ViewEncapsulation.None
 })
 export class XuiSlider implements ControlValueAccessor {
+  private readonly config = injectXuiSliderConfig();
+
   readonly class = input<ClassValue>('');
 
   readonly min = input<number, NumberInput>(0, { transform: numberAttribute });
@@ -128,9 +131,9 @@ export class XuiSlider implements ControlValueAccessor {
   /** Format a tick value into its label, or `false` to hide the axis entirely. */
   readonly labelRenderer = input<XuiSliderLabelRenderer>((value: number) => String(value));
 
-  readonly color = input<XuiSliderColor>('primary');
-  readonly orientation = input<'horizontal' | 'vertical'>('horizontal');
-  readonly showTrackFill = input<boolean, BooleanInput>(true, { transform: booleanAttribute });
+  readonly color = input<XuiSliderColor>(this.config.color);
+  readonly orientation = input<'horizontal' | 'vertical'>(this.config.orientation);
+  readonly showTrackFill = input<boolean, BooleanInput>(this.config.showTrackFill, { transform: booleanAttribute });
 
   readonly disabled = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
   protected readonly cva = createXValueAccessor<number>({

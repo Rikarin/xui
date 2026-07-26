@@ -1,5 +1,6 @@
 import { expectAttributes, expectClasses, expectNoClasses, render } from '@xui/testing';
 import { XuiCallout } from './callout';
+import { provideXuiCalloutConfig } from './callout.token';
 
 const setup = (template: string) => render(template, { imports: [XuiCallout] });
 
@@ -94,5 +95,15 @@ describe('XuiCallout', () => {
     const { query } = setup('<xui-callout class="max-w-md">Body</xui-callout>');
 
     expectClasses(query('xui-callout'), 'max-w-md', 'rounded-lg');
+  });
+
+  it('takes its default colour and density from the config token', () => {
+    const { query } = render('<xui-callout>Body</xui-callout>', {
+      imports: [XuiCallout],
+      providers: [provideXuiCalloutConfig({ color: 'success', compact: true })]
+    });
+
+    expectClasses(query('xui-callout'), 'bg-success-subtle', 'p-2');
+    expectNoClasses(query('xui-callout'), 'bg-muted', 'p-4');
   });
 });

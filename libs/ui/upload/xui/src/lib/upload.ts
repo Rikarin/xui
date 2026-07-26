@@ -14,8 +14,12 @@ import {
 } from '@angular/core';
 import { xui } from '@xui/core';
 import type { ClassValue } from 'clsx';
+import { injectXuiUploadConfig } from './upload.token';
 
 export type XuiUploadStatus = 'uploading' | 'done' | 'error';
+
+/** How files are picked: a plain button or a drag-and-drop zone. */
+export type XuiUploadType = 'select' | 'drag';
 
 export interface XuiUploadFile {
   uid: string;
@@ -135,9 +139,11 @@ export interface XuiUploadFile {
   encapsulation: ViewEncapsulation.None
 })
 export class XuiUpload {
+  private readonly config = injectXuiUploadConfig();
+
   readonly class = input<ClassValue>('');
 
-  readonly type = input<'select' | 'drag'>('select');
+  readonly type = input<XuiUploadType>(this.config.type);
   readonly multiple = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
   readonly accept = input<string>('');
   readonly disabled = input<boolean, BooleanInput>(false, { transform: booleanAttribute });

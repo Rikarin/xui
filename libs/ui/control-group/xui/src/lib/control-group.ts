@@ -3,6 +3,7 @@ import { Directive, booleanAttribute, computed, input } from '@angular/core';
 import { xui } from '@xui/core';
 import { cva, type VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
+import { injectXuiControlGroupConfig } from './control-group.token';
 
 const controlGroupVariants = cva('flex', {
   variants: {
@@ -45,10 +46,12 @@ export type XuiControlGroupVariants = VariantProps<typeof controlGroupVariants>;
   }
 })
 export class XuiControlGroup {
+  private readonly config = injectXuiControlGroupConfig();
+
   /** The user-defined classes. Merged last so they win over the variant classes. */
   readonly class = input<ClassValue>('');
-  readonly orientation = input<'horizontal' | 'vertical'>('horizontal');
-  readonly fill = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
+  readonly orientation = input<'horizontal' | 'vertical'>(this.config.orientation);
+  readonly fill = input<boolean, BooleanInput>(this.config.fill, { transform: booleanAttribute });
 
   protected readonly computedClass = computed(() =>
     xui(controlGroupVariants({ orientation: this.orientation(), fill: this.fill() }), this.class())

@@ -15,6 +15,7 @@ import { xui } from '@xui/core';
 import { uniqueId } from '@xui/core/a11y';
 import { createXValueAccessor, provideXValueAccessor } from '@xui/core/forms';
 import type { ClassValue } from 'clsx';
+import { injectXuiRadioConfig } from './radio.token';
 
 /** The contract a group exposes to its buttons — kept narrow to avoid a cycle. */
 export interface XuiRadioGroupContract<T = unknown> {
@@ -76,11 +77,12 @@ export class XuiRadioGroup<T = unknown> implements ControlValueAccessor, XuiRadi
   // `descendants: true` because radios are usually wrapped in a `<label>`, so
   // they are not direct content children of the group.
   private readonly buttons = contentChildren(XUI_RADIO_BUTTON_TOKEN, { descendants: true });
+  private readonly config = injectXuiRadioConfig();
 
   /** The user-defined classes. Merged last so they win over the base classes. */
   readonly class = input<ClassValue>('');
   /** Layout of the options. */
-  readonly orientation = input<'vertical' | 'horizontal'>('vertical');
+  readonly orientation = input<'vertical' | 'horizontal'>(this.config.orientation);
 
   readonly name = input<string>(uniqueId('xui-radio-group'));
   readonly ariaLabel = input<string | null>(null, { alias: 'aria-label' });

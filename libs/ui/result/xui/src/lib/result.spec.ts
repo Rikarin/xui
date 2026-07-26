@@ -1,7 +1,8 @@
 import { expectClasses, render } from '@xui/testing';
 import { XuiResult } from './result';
+import { provideXuiResultConfig } from './result.token';
 
-const setup = (template: string) => render(template, { imports: [XuiResult] });
+const setup = (template: string, providers: unknown[] = []) => render(template, { imports: [XuiResult], providers });
 const host = () => document.querySelector('xui-result') as HTMLElement;
 
 describe('XuiResult', () => {
@@ -31,6 +32,12 @@ describe('XuiResult', () => {
     setup('<xui-result status="info" title="Heads up"><button xuiResultExtra>Retry</button></xui-result>');
 
     expect(host().querySelector('button[xuiResultExtra]')?.textContent).toBe('Retry');
+  });
+
+  it('takes its status default from the injected config', () => {
+    setup('<xui-result title="Done" />', [provideXuiResultConfig({ status: 'success' })]);
+
+    expect(host().querySelector('svg')?.getAttribute('class')).toContain('text-success');
   });
 
   it('centres its layout', () => {

@@ -48,6 +48,7 @@ export async function xuiLibraryGenerator(tree: Tree, options: XuiLibraryGenerat
   alignSpecTsConfig(tree, projectRoot);
   alignJestConfig(tree, projectRoot, projectName);
   dropDiagnosticSuppressions(tree, projectRoot);
+  sortTsconfigPaths(tree);
 
   if (options.generate === 'component') {
     await xuiComponentGenerator(tree, {
@@ -80,6 +81,21 @@ export async function xuiLibraryGenerator(tree: Tree, options: XuiLibraryGenerat
  * The shared metadata (author, license, repository, …) is intentionally left to
  * `nx g @xui/tools:update-projects`, which syncs it from the root package.json.
  */
+/**
+ * `libraryGenerator` appends the new import path at the end of the map; keep
+ * the whole map sorted (and on the bare `libs/…` style) so it never drifts.
+ */
+function sortTsconfigPaths(tree: Tree) {
+  updateJson(tree, 'tsconfig.base.json', json => {
+    const paths: Record<string, string[]> = json.compilerOptions?.paths ?? {};
+    const normalized = Object.entries(paths).map(
+      ([key, value]) => [key, value.map(entry => entry.replace(/^\.\//, ''))] as const
+    );
+    json.compilerOptions.paths = Object.fromEntries(normalized.sort(([a], [b]) => a.localeCompare(b)));
+    return json;
+  });
+}
+
 function alignPackageJson(tree: Tree, projectRoot: string, normalizedName: string) {
   const packageJsonPath = joinPathFragments(projectRoot, 'package.json');
   const { version } = readJson(tree, joinPathFragments('libs', 'core', 'package.json'));

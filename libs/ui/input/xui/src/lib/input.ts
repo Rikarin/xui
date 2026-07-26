@@ -15,6 +15,7 @@ import { XFormFieldControl } from '@xui/core/form-field';
 import { XErrorStateMatcher, XErrorStateTracker } from '@xui/core/forms';
 import { cva, VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
+import { injectXuiInputConfig } from './input.token';
 
 /** Inline padding an input reserves for an `xui-input-group` adornment, per size step. */
 const ADORNMENT_LANE = {
@@ -67,7 +68,7 @@ export const inputVariants = cva(
     }
   }
 );
-type InputVariants = VariantProps<typeof inputVariants>;
+export type XuiInputVariants = VariantProps<typeof inputVariants>;
 
 @Directive({
   selector: '[xuiInput]',
@@ -82,6 +83,7 @@ type InputVariants = VariantProps<typeof inputVariants>;
   ]
 })
 export class XuiInput implements XFormFieldControl {
+  private readonly config = injectXuiInputConfig();
   private readonly injector = inject(Injector);
   private readonly defaultErrorStateMatcher = inject(XErrorStateMatcher);
   private readonly parentForm = inject(NgForm, { optional: true });
@@ -89,10 +91,10 @@ export class XuiInput implements XFormFieldControl {
 
   /** The user-defined classes */
   readonly class = input<ClassValue>('');
-  readonly size = input<InputVariants['size']>('default');
-  readonly surface = input<InputVariants['surface']>('dark');
-  readonly color = input<InputVariants['color']>('none');
-  readonly error = input<InputVariants['error']>('auto');
+  readonly size = input<XuiInputVariants['size']>(this.config.size);
+  readonly surface = input<XuiInputVariants['surface']>(this.config.surface);
+  readonly color = input<XuiInputVariants['color']>(this.config.color);
+  readonly error = input<XuiInputVariants['error']>('auto');
   readonly ngControl: NgControl | null = this.injector.get(NgControl, null);
 
   /** Reacts to the control's own events (status, touched, submit) — no `ngDoCheck`. */
@@ -131,11 +133,11 @@ export class XuiInput implements XFormFieldControl {
    * error, otherwise whatever the `error` input asks for. `setError` overrides
    * it until the next tracker/input change.
    */
-  protected readonly state = linkedSignal<{ error: InputVariants['error'] }>(() => ({
+  protected readonly state = linkedSignal<{ error: XuiInputVariants['error'] }>(() => ({
     error: this.errorState() ? true : this.error()
   }));
 
-  setError(error: InputVariants['error']) {
+  setError(error: XuiInputVariants['error']) {
     this.state.set({ error });
   }
 }

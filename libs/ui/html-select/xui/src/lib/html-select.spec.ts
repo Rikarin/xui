@@ -4,6 +4,7 @@ import { XFormFieldControl } from '@xui/core/form-field';
 import { expectClasses, render } from '@xui/testing';
 import { XuiHtmlSelectImports } from '../index';
 import { XuiHtmlSelect } from './html-select';
+import { provideXuiHtmlSelectConfig } from './html-select.token';
 
 const IMPORTS = [XuiHtmlSelectImports, ReactiveFormsModule];
 
@@ -135,5 +136,15 @@ describe('XuiHtmlSelect', () => {
     expect(control).toBeInstanceOf(XuiHtmlSelect);
     // The label points at the native select, not the wrapper.
     expect(control.controlId?.()).toBe(select().id);
+  });
+
+  it('takes its default size and fill from the config token', () => {
+    const { detect, query } = render('<xui-html-select />', {
+      imports: IMPORTS,
+      providers: [provideXuiHtmlSelectConfig({ size: 'sm', fill: true })]
+    });
+    detect();
+
+    expectClasses(query('xui-html-select'), 'h-(--control-height-sm)', 'w-full');
   });
 });

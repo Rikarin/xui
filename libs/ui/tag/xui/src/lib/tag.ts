@@ -14,6 +14,7 @@ import { xui } from '@xui/core';
 import { XuiIcon } from '@xui/icon';
 import { cva, VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
+import { injectXuiTagConfig } from './tag.token';
 
 const tagVariants = cva('inline-flex items-center gap-1 border font-medium whitespace-nowrap transition-colors', {
   variants: {
@@ -92,15 +93,17 @@ export type XuiTagColor = NonNullable<XuiTagVariants['color']>;
   viewProviders: [provideIcons({ matCloseRound })]
 })
 export class XuiTag {
+  private readonly config = injectXuiTagConfig();
+
   readonly class = input<ClassValue>('');
-  readonly color = input<XuiTagColor>('none');
-  readonly minimal = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
-  readonly large = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
-  readonly round = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
+  readonly color = input<XuiTagColor>(this.config.color);
+  readonly minimal = input<boolean, BooleanInput>(this.config.minimal, { transform: booleanAttribute });
+  readonly large = input<boolean, BooleanInput>(this.config.large, { transform: booleanAttribute });
+  readonly round = input<boolean, BooleanInput>(this.config.round, { transform: booleanAttribute });
   readonly fill = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
 
   /** Read as clickable (pointer cursor + hover feedback). */
-  readonly interactive = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
+  readonly interactive = input<boolean, BooleanInput>(this.config.interactive, { transform: booleanAttribute });
 
   /** Show a trailing remove button. */
   readonly removable = input<boolean, BooleanInput>(false, { transform: booleanAttribute });

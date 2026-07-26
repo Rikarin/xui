@@ -18,13 +18,13 @@ import {
   untracked,
   ViewEncapsulation
 } from '@angular/core';
-import type { NgControl } from '@angular/forms';
+import type { ControlValueAccessor, NgControl } from '@angular/forms';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { matExpandMoreRound, matSearchRound } from '@ng-icons/material-icons/round';
 import { xui } from '@xui/core';
 import { uniqueId } from '@xui/core/a11y';
 import { XFormFieldControl } from '@xui/core/form-field';
-import { createXErrorState } from '@xui/core/forms';
+import { createXErrorState, createXValueAccessor, provideXValueAccessor } from '@xui/core/forms';
 import { createXActiveOption, createXItemListPredicate, createXQueryList, trackXItem } from '@xui/core/query';
 import { XuiIcon } from '@xui/icon';
 import { XuiPopoverImports } from '@xui/popover';
@@ -45,7 +45,7 @@ import { XuiSelectOption } from './select-option';
       [id]="triggerId"
       [attr.role]="'combobox'"
       [class]="triggerClass()"
-      [disabled]="disabled()"
+      [disabled]="isDisabled()"
       [attr.aria-haspopup]="'listbox'"
       [attr.aria-expanded]="open()"
       [attr.aria-label]="effectiveAriaLabel()"
@@ -129,10 +129,11 @@ import { XuiSelectOption } from './select-option';
     {
       provide: XFormFieldControl,
       useExisting: forwardRef(() => XuiSelect)
-    }
+    },
+    provideXValueAccessor(() => XuiSelect)
   ]
 })
-export class XuiSelect<T> implements XFormFieldControl {
+export class XuiSelect<T> implements XFormFieldControl, ControlValueAccessor {
   private readonly injector = inject(Injector);
   private readonly document = inject(DOCUMENT);
   private readonly formState = createXErrorState();
@@ -177,8 +178,17 @@ export class XuiSelect<T> implements XFormFieldControl {
   readonly searchPlaceholder = input<string>('Filter…');
   readonly noResultsText = input<string>('No results.');
 
-  /** The chosen item. Two-way bindable with `[(value)]`. */
+  /** The chosen item. Two-way bindable with `[(value)]`, or via `formControl`/`ngModel`. */
   readonly value = model<T | null>(null);
+
+  protected readonly cva = createXValueAccessor<T | null>({
+    onWrite: value => this.value.set(value ?? null),
+    disabled: this.disabled
+  });
+  protected readonly isDisabled = this.cva.disabled;
+
+  /** Whether the popover has ever been open — so the initial closed state is not "touched". */
+  private hasOpened = false;
 
   protected readonly open = model(false);
   protected readonly query = signal('');
@@ -217,22 +227,29 @@ export class XuiSelect<T> implements XFormFieldControl {
     xui(
       'border-border bg-surface-inset text-foreground flex h-(--control-height-md) w-full min-w-44 items-center justify-between rounded-lg border px-(--control-padding-md) text-sm',
       'focus-visible:border-focus transition-colors focus:outline-none',
-      this.disabled() && 'cursor-not-allowed opacity-50'
+      this.isDisabled() && 'cursor-not-allowed opacity-50'
     )
   );
 
   constructor() {
-    // Re-seed the active item + focus search on open; reset the query on close.
+    // Re-seed the active item + focus search on open; reset the query and mark
+    // the control touched on close.
     effect(() => {
       const open = this.open();
       untracked(() => {
         if (open) {
+          this.hasOpened = true;
           this.list.activateFirst();
           // The search input renders in the popover's overlay, outside this view's
           // query scope, so focus it by id once it has mounted.
           afterNextRender(() => this.document.getElementById(this.searchId)?.focus(), { injector: this.injector });
-        } else if (this.resetOnClose()) {
-          this.query.set('');
+        } else {
+          if (this.resetOnClose()) {
+            this.query.set('');
+          }
+          if (this.hasOpened) {
+            this.cva.markTouched();
+          }
         }
       });
     });
@@ -268,6 +285,12 @@ export class XuiSelect<T> implements XFormFieldControl {
     }
 
     this.value.set(item);
+    this.cva.notifyChange(item);
     this.open.set(false);
   }
+
+  readonly writeValue = this.cva.writeValue;
+  readonly registerOnChange = this.cva.registerOnChange;
+  readonly registerOnTouched = this.cva.registerOnTouched;
+  readonly setDisabledState = this.cva.setDisabledState;
 }

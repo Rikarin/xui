@@ -1,5 +1,6 @@
 import { expectClasses, expectNoClasses, render } from '@xui/testing';
 import { XuiCardList } from './card-list';
+import { provideXuiCardListConfig } from './card-list.token';
 
 const setup = (template: string) => render(template, { imports: [XuiCardList] });
 
@@ -41,5 +42,15 @@ describe('XuiCardList', () => {
     const { query } = setup('<div xuiCardList class="w-96"></div>');
 
     expectClasses(query('div'), 'w-96', 'flex-col');
+  });
+
+  it('takes its default frame and density from the config token', () => {
+    const { query } = render('<div xuiCardList></div>', {
+      imports: [XuiCardList],
+      providers: [provideXuiCardListConfig({ bordered: false, compact: true })]
+    });
+
+    expectClasses(query('div'), '[&>*]:p-3');
+    expectNoClasses(query('div'), 'shadow-elevation-1', '[&>*]:p-4');
   });
 });

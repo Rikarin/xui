@@ -10,10 +10,12 @@ import {
   signal,
   ViewEncapsulation
 } from '@angular/core';
+import { ControlValueAccessor } from '@angular/forms';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { matCalendarTodayRound } from '@ng-icons/material-icons/round';
 import { xui } from '@xui/core';
 import { defaultXDateFormat, defaultXDateParse, injectXDateAdapter } from '@xui/core/date-time';
+import { createXValueAccessor, provideXValueAccessor } from '@xui/core/forms';
 import { XuiDatePickerImports } from '@xui/date-picker';
 import { XuiIcon } from '@xui/icon';
 import { XuiPopoverImports } from '@xui/popover';
@@ -23,11 +25,13 @@ import type { ClassValue } from 'clsx';
  * A date field: a text input paired with a popover calendar. Type a date (parsed
  * best-effort, or via a custom `parseDate`) or pick one from the calendar.
  * `[(value)]` two-way binding; `T` is the active `DateAdapter`'s type (`Date`
- * by default).
+ * by default). It is a full `ControlValueAccessor`, so `ngModel`/`formControl`
+ * bind to it directly.
  */
 @Component({
   selector: 'xui-date-input',
   imports: [NgIcon, XuiIcon, XuiPopoverImports, XuiDatePickerImports],
+  providers: [provideXValueAccessor(() => XuiDateInput)],
   template: `
     <div [class]="groupClass()">
       <input
@@ -35,18 +39,19 @@ import type { ClassValue } from 'clsx';
         [class]="fieldClass()"
         [value]="displayValue()"
         [placeholder]="placeholder()"
-        [disabled]="disabled()"
+        [disabled]="isDisabled()"
         (input)="onType($event)"
-        (blur)="commitTyped()"
+        (blur)="onBlur()"
         (keydown.enter)="commitTyped()"
       />
       <button
         type="button"
         [class]="triggerClass()"
         aria-label="Open calendar"
-        [disabled]="disabled()"
+        [disabled]="isDisabled()"
         [xuiPopover]="panel"
-        [(open)]="open"
+        [open]="open()"
+        (openChange)="onOpenChange($event)"
         [role]="'dialog'"
         [minimal]="true"
         placement="bottom-end"
@@ -73,7 +78,7 @@ import type { ClassValue } from 'clsx';
   encapsulation: ViewEncapsulation.None,
   viewProviders: [provideIcons({ matCalendarTodayRound })]
 })
-export class XuiDateInput<T = Date> {
+export class XuiDateInput<T = Date> implements ControlValueAccessor {
   private readonly adapter = injectXDateAdapter<T>();
 
   readonly class = input<ClassValue>('');
@@ -100,12 +105,22 @@ export class XuiDateInput<T = Date> {
   protected readonly open = model(false);
   private readonly typed = signal<string | null>(null);
 
+  protected readonly cva = createXValueAccessor<T | null>({
+    onWrite: value => {
+      // A form write replaces any half-typed text — the display must show it.
+      this.typed.set(null);
+      this.value.set(value ?? null);
+    },
+    disabled: this.disabled
+  });
+  protected readonly isDisabled = this.cva.disabled;
+
   protected readonly computedClass = computed(() => xui('inline-block', this.class()));
   protected readonly groupClass = computed(() =>
     xui(
       'border-border bg-surface-inset flex h-(--control-height-md) w-full min-w-48 items-center rounded-lg border pe-1 ps-(--control-padding-md) text-sm',
       'focus-within:border-focus transition-colors',
-      this.disabled() && 'cursor-not-allowed opacity-50'
+      this.isDisabled() && 'cursor-not-allowed opacity-50'
     )
   );
   protected readonly fieldClass = computed(() =>
@@ -130,6 +145,18 @@ export class XuiDateInput<T = Date> {
 
   protected onType(event: Event): void {
     this.typed.set((event.target as HTMLInputElement).value);
+  }
+
+  protected onBlur(): void {
+    this.commitTyped();
+    this.cva.markTouched();
+  }
+
+  protected onOpenChange(open: boolean): void {
+    this.open.set(open);
+    if (!open) {
+      this.cva.markTouched();
+    }
   }
 
   protected commitTyped(): void {
@@ -159,7 +186,14 @@ export class XuiDateInput<T = Date> {
     }
   }
 
+  /** The single write path for user edits — typed text or a calendar pick. */
   private setValue(date: T | null): void {
     this.value.set(date);
+    this.cva.notifyChange(date);
   }
+
+  readonly writeValue = this.cva.writeValue;
+  readonly registerOnChange = this.cva.registerOnChange;
+  readonly registerOnTouched = this.cva.registerOnTouched;
+  readonly setDisabledState = this.cva.setDisabledState;
 }

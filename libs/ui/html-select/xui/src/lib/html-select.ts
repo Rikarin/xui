@@ -19,6 +19,7 @@ import { createXErrorState, createXValueAccessor, provideXValueAccessor } from '
 import { XuiIcon } from '@xui/icon';
 import { cva, type VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
+import { injectXuiHtmlSelectConfig } from './html-select.token';
 
 const htmlSelectWrapperVariants = cva(
   'border-border bg-surface-inset text-foreground focus-within:border-focus relative inline-flex items-center rounded-lg border transition-colors has-disabled:cursor-not-allowed has-disabled:opacity-50',
@@ -100,6 +101,7 @@ export interface XuiHtmlSelectOption<T = string> {
   }
 })
 export class XuiHtmlSelect<T = string> implements ControlValueAccessor, XFormFieldControl {
+  private readonly config = injectXuiHtmlSelectConfig();
   private readonly formState = createXErrorState();
   protected readonly fieldId = uniqueId('xui-html-select');
 
@@ -115,8 +117,8 @@ export class XuiHtmlSelect<T = string> implements ControlValueAccessor, XFormFie
 
   /** The user-defined classes on the wrapper. Merged last so they win. */
   readonly class = input<ClassValue>('');
-  readonly size = input<XuiHtmlSelectVariants['size']>('md');
-  readonly fill = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
+  readonly size = input<XuiHtmlSelectVariants['size']>(this.config.size);
+  readonly fill = input<boolean, BooleanInput>(this.config.fill, { transform: booleanAttribute });
 
   /** Options as data; alternatively, project `<option>` elements. */
   readonly options = input<readonly XuiHtmlSelectOption<T>[]>([]);

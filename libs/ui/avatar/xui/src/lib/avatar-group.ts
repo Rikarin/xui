@@ -13,6 +13,7 @@ import {
 import { xui } from '@xui/core';
 import type { ClassValue } from 'clsx';
 import { XuiAvatar, type XuiAvatarVariants } from './avatar';
+import { injectXuiAvatarConfig } from './avatar.token';
 
 /**
  * Overlaps a set of {@link XuiAvatar}s into a stack. With `max`, only the first
@@ -42,12 +43,14 @@ import { XuiAvatar, type XuiAvatarVariants } from './avatar';
   encapsulation: ViewEncapsulation.None
 })
 export class XuiAvatarGroup {
+  private readonly config = injectXuiAvatarConfig();
+
   readonly class = input<ClassValue>('');
   /** Maximum avatars to show before collapsing the rest into `+N` (0 = no limit). */
   readonly max = input<number, NumberInput>(0, { transform: numberAttribute });
   /** Shape/size applied to the trailing `+N` avatar. */
-  readonly shape = input<XuiAvatarVariants['shape']>('circle');
-  readonly size = input<XuiAvatarVariants['size']>('md');
+  readonly shape = input<XuiAvatarVariants['shape']>(this.config.shape);
+  readonly size = input<XuiAvatarVariants['size']>(this.config.size);
 
   private readonly projected = contentChildren(XuiAvatar, { read: ElementRef });
 

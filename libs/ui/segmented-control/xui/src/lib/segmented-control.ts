@@ -14,6 +14,7 @@ import { xui } from '@xui/core';
 import { createXValueAccessor, provideXValueAccessor } from '@xui/core/forms';
 import { cva, type VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
+import { injectXuiSegmentedControlConfig } from './segmented-control.token';
 
 const segmentedControlContainerVariants = cva(
   'bg-surface-inset border-border inline-flex gap-0.5 rounded-lg border p-0.5',
@@ -81,11 +82,12 @@ export interface XuiSegmentedOption<T = string> {
 })
 export class XuiSegmentedControl<T = string> implements ControlValueAccessor {
   private readonly segments = viewChildren<ElementRef<HTMLButtonElement>>('segment');
+  private readonly config = injectXuiSegmentedControlConfig();
 
   /** The user-defined classes. Merged last so they win over the variant classes. */
   readonly class = input<ClassValue>('');
-  readonly size = input<XuiSegmentedControlVariants['size']>('md');
-  readonly fill = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
+  readonly size = input<XuiSegmentedControlVariants['size']>(this.config.size);
+  readonly fill = input<boolean, BooleanInput>(this.config.fill, { transform: booleanAttribute });
 
   readonly options = input<readonly XuiSegmentedOption<T>[]>([]);
   readonly ariaLabel = input<string | null>(null, { alias: 'aria-label' });

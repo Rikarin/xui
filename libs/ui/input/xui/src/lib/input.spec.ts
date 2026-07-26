@@ -2,6 +2,7 @@ import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { XErrorStateMatcher, XShowOnDirtyErrorStateMatcher } from '@xui/core/forms';
 import { expectClasses, expectNoClasses, render } from '@xui/testing';
 import { XuiInput } from './input';
+import { provideXuiInputConfig } from './input.token';
 
 const setup = (template: string, props?: Record<string, unknown>, providers?: unknown[]) =>
   render(template, { imports: [XuiInput, ReactiveFormsModule], props, providers });
@@ -125,5 +126,12 @@ describe('XuiInput', () => {
       control.markAsDirty();
       expect(instance(fixture).errorState()).toBe(true);
     });
+  });
+
+  it('takes its default size and surface from the config token', () => {
+    const { query } = setup('<input xuiInput />', undefined, [provideXuiInputConfig({ size: 'sm', surface: 'light' })]);
+
+    expectClasses(query('input'), 'h-(--control-height-sm)', 'bg-surface-raised');
+    expectNoClasses(query('input'), 'bg-surface-inset');
   });
 });

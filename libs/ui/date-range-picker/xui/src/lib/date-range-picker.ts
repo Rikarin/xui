@@ -4,6 +4,8 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  ElementRef,
+  inject,
   input,
   linkedSignal,
   model,
@@ -11,11 +13,13 @@ import {
   signal,
   ViewEncapsulation
 } from '@angular/core';
+import { ControlValueAccessor } from '@angular/forms';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { matChevronLeftRound, matChevronRightRound } from '@ng-icons/material-icons/round';
 import { xui } from '@xui/core';
 import { buildMonthGrid, monthYearLabel, weekdayLabels, type XCalendarDay } from '@xui/core/calendar';
 import { injectXDateAdapter, type XDateAdapter } from '@xui/core/date-time';
+import { createXValueAccessor, provideXValueAccessor } from '@xui/core/forms';
 import { XuiIcon } from '@xui/icon';
 import type { ClassValue } from 'clsx';
 
@@ -29,17 +33,26 @@ export interface XuiDateRange<T> {
  * A multi-month calendar for choosing a date range. The first click sets the
  * start, the second the end (hovering previews the span); clicking again starts a
  * new range. `[(value)]` two-way binding; `T` is the active `DateAdapter`'s type.
+ * It is a full `ControlValueAccessor`, so `ngModel`/`formControl` bind to it
+ * directly.
  */
 @Component({
   selector: 'xui-date-range-picker',
   imports: [NgIcon, XuiIcon],
+  providers: [provideXValueAccessor(() => XuiDateRangePicker)],
   template: `
     <div class="flex gap-6">
       @for (offset of monthOffsets(); track offset) {
         <div>
           <div class="mb-2 flex items-center justify-between">
             @if (offset === 0) {
-              <button type="button" [class]="navClass()" aria-label="Previous month" (click)="shiftMonth(-1)">
+              <button
+                type="button"
+                [class]="navClass()"
+                aria-label="Previous month"
+                [disabled]="isDisabled()"
+                (click)="shiftMonth(-1)"
+              >
                 <ng-icon xui name="matChevronLeftRound" size="sm" />
               </button>
             } @else {
@@ -47,7 +60,13 @@ export interface XuiDateRange<T> {
             }
             <div class="text-foreground text-sm font-semibold">{{ monthLabel(offset) }}</div>
             @if (offset === monthOffsets().length - 1) {
-              <button type="button" [class]="navClass()" aria-label="Next month" (click)="shiftMonth(1)">
+              <button
+                type="button"
+                [class]="navClass()"
+                aria-label="Next month"
+                [disabled]="isDisabled()"
+                (click)="shiftMonth(1)"
+              >
                 <ng-icon xui name="matChevronRightRound" size="sm" />
               </button>
             } @else {
@@ -72,7 +91,7 @@ export interface XuiDateRange<T> {
                       <button
                         type="button"
                         [class]="dayClass(day)"
-                        [disabled]="day.disabled"
+                        [disabled]="day.disabled || isDisabled()"
                         (click)="onClick(day.date)"
                         (mouseenter)="hover.set(day.date)"
                       >
@@ -89,14 +108,16 @@ export interface XuiDateRange<T> {
     </div>
   `,
   host: {
-    '[class]': 'computedClass()'
+    '[class]': 'computedClass()',
+    '(focusout)': 'onFocusOut($event)'
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   viewProviders: [provideIcons({ matChevronLeftRound, matChevronRightRound })]
 })
-export class XuiDateRangePicker<T = Date> {
+export class XuiDateRangePicker<T = Date> implements ControlValueAccessor {
   private readonly adapter: XDateAdapter<T> = injectXDateAdapter<T>();
+  private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
 
   readonly class = input<ClassValue>('');
 
@@ -114,6 +135,14 @@ export class XuiDateRangePicker<T = Date> {
 
   /** Allow the start and end to be the same day. */
   readonly allowSingleDayRange = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
+
+  readonly disabled = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
+
+  protected readonly cva = createXValueAccessor<XuiDateRange<T> | null>({
+    onWrite: range => this.value.set(range ?? { start: null, end: null }),
+    disabled: this.disabled
+  });
+  protected readonly isDisabled = this.cva.disabled;
 
   protected readonly hover = signal<T | null>(null);
 
@@ -138,7 +167,11 @@ export class XuiDateRangePicker<T = Date> {
   );
 
   protected readonly computedClass = computed(() =>
-    xui('bg-surface-raised border-border inline-block rounded-lg border p-3', this.class())
+    xui(
+      'bg-surface-raised border-border inline-block rounded-lg border p-3',
+      this.isDisabled() && 'opacity-50',
+      this.class()
+    )
   );
   protected readonly navClass = computed(() =>
     xui(
@@ -200,6 +233,10 @@ export class XuiDateRangePicker<T = Date> {
   }
 
   protected onClick(date: T): void {
+    if (this.isDisabled()) {
+      return;
+    }
+
     const { start, end } = this.value();
 
     // Start a fresh range if there's no start, both ends are set, or the click is
@@ -220,5 +257,19 @@ export class XuiDateRangePicker<T = Date> {
   private commit(range: XuiDateRange<T>): void {
     // `model.set` emits `valueChange` for `[(value)]` / `(valueChange)` consumers.
     this.value.set(range);
+    this.cva.notifyChange(range);
   }
+
+  /** Touched fires when focus leaves the calendar, not while moving inside it. */
+  protected onFocusOut(event: FocusEvent): void {
+    const next = event.relatedTarget as Node | null;
+    if (!next || !this.host.nativeElement.contains(next)) {
+      this.cva.markTouched();
+    }
+  }
+
+  readonly writeValue = this.cva.writeValue;
+  readonly registerOnChange = this.cva.registerOnChange;
+  readonly registerOnTouched = this.cva.registerOnTouched;
+  readonly setDisabledState = this.cva.setDisabledState;
 }

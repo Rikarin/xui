@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input, ViewEncapsulation } from '@angular/core';
 import { xui } from '@xui/core';
 import { XuiTimeline } from './timeline';
+import { injectXuiTimelineConfig } from './timeline.token';
 
 export type XuiTimelineColor = 'primary' | 'success' | 'error' | 'warning' | 'info' | 'muted';
 
@@ -30,8 +31,9 @@ export type XuiTimelineColor = 'primary' | 'success' | 'error' | 'warning' | 'in
 })
 export class XuiTimelineItem {
   private readonly timeline = inject(XuiTimeline);
+  private readonly config = injectXuiTimelineConfig();
 
-  readonly color = input<XuiTimelineColor>('primary');
+  readonly color = input<XuiTimelineColor>(this.config.color);
   readonly label = input<string>('');
 
   protected readonly computedClass = computed(() =>

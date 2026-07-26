@@ -9,10 +9,12 @@ import {
   signal,
   ViewEncapsulation
 } from '@angular/core';
+import { ControlValueAccessor } from '@angular/forms';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { matArrowForwardRound } from '@ng-icons/material-icons/round';
 import { xui } from '@xui/core';
 import { defaultXDateFormat, defaultXDateParse, injectXDateAdapter } from '@xui/core/date-time';
+import { createXValueAccessor, provideXValueAccessor } from '@xui/core/forms';
 import { XuiDateRangePickerImports, type XuiDateRange } from '@xui/date-range-picker';
 import { XuiIcon } from '@xui/icon';
 import { XuiPopoverImports } from '@xui/popover';
@@ -23,29 +25,32 @@ type Boundary = 'start' | 'end';
 /**
  * A date-range field: two text inputs (start → end) that share one popover
  * calendar. Focusing either field opens the range picker; typing a boundary
- * parses just that end. `[(value)]` two-way binding.
+ * parses just that end. `[(value)]` two-way binding. It is a full
+ * `ControlValueAccessor`, so `ngModel`/`formControl` bind to it directly.
  */
 @Component({
   selector: 'xui-date-range-input',
   imports: [NgIcon, XuiIcon, XuiPopoverImports, XuiDateRangePickerImports],
+  providers: [provideXValueAccessor(() => XuiDateRangeInput)],
   template: `
     <div
       [class]="groupClass()"
       [xuiPopover]="panel"
-      [(open)]="open"
+      [open]="open()"
+      (openChange)="onOpenChange($event)"
       [role]="'dialog'"
       [minimal]="true"
-      [disabled]="disabled()"
+      [disabled]="isDisabled()"
       placement="bottom-start"
     >
       <input
         type="text"
         [class]="fieldClass()"
         [placeholder]="startPlaceholder()"
-        [disabled]="disabled()"
+        [disabled]="isDisabled()"
         [value]="displayValue('start')"
         (input)="onType('start', $event)"
-        (blur)="commitTyped('start')"
+        (blur)="onBlur('start')"
         (keydown.enter)="commitTyped('start')"
       />
       <ng-icon xui name="matArrowForwardRound" size="sm" class="text-foreground-muted shrink-0" />
@@ -53,10 +58,10 @@ type Boundary = 'start' | 'end';
         type="text"
         [class]="fieldClass()"
         [placeholder]="endPlaceholder()"
-        [disabled]="disabled()"
+        [disabled]="isDisabled()"
         [value]="displayValue('end')"
         (input)="onType('end', $event)"
-        (blur)="commitTyped('end')"
+        (blur)="onBlur('end')"
         (keydown.enter)="commitTyped('end')"
       />
     </div>
@@ -78,7 +83,7 @@ type Boundary = 'start' | 'end';
   encapsulation: ViewEncapsulation.None,
   viewProviders: [provideIcons({ matArrowForwardRound })]
 })
-export class XuiDateRangeInput<T = Date> {
+export class XuiDateRangeInput<T = Date> implements ControlValueAccessor {
   private readonly adapter = injectXDateAdapter<T>();
 
   readonly class = input<ClassValue>('');
@@ -101,12 +106,22 @@ export class XuiDateRangeInput<T = Date> {
   protected readonly open = model(false);
   private readonly typed = signal<{ start: string | null; end: string | null }>({ start: null, end: null });
 
+  protected readonly cva = createXValueAccessor<XuiDateRange<T> | null>({
+    onWrite: range => {
+      // A form write replaces any half-typed text — the display must show it.
+      this.typed.set({ start: null, end: null });
+      this.value.set(range ?? { start: null, end: null });
+    },
+    disabled: this.disabled
+  });
+  protected readonly isDisabled = this.cva.disabled;
+
   protected readonly computedClass = computed(() => xui('inline-block', this.class()));
   protected readonly groupClass = computed(() =>
     xui(
       'border-border bg-surface-inset flex h-(--control-height-md) w-full min-w-72 items-center gap-2 rounded-lg border px-(--control-padding-md) text-sm',
       'focus-within:border-focus transition-colors',
-      this.disabled() && 'cursor-not-allowed opacity-50'
+      this.isDisabled() && 'cursor-not-allowed opacity-50'
     )
   );
   protected readonly fieldClass = computed(() =>
@@ -125,6 +140,18 @@ export class XuiDateRangeInput<T = Date> {
 
   protected onType(boundary: Boundary, event: Event): void {
     this.typed.update(state => ({ ...state, [boundary]: (event.target as HTMLInputElement).value }));
+  }
+
+  protected onBlur(boundary: Boundary): void {
+    this.commitTyped(boundary);
+    this.cva.markTouched();
+  }
+
+  protected onOpenChange(open: boolean): void {
+    this.open.set(open);
+    if (!open) {
+      this.cva.markTouched();
+    }
   }
 
   protected commitTyped(boundary: Boundary): void {
@@ -149,7 +176,14 @@ export class XuiDateRangeInput<T = Date> {
     this.commit(range);
   }
 
+  /** The single write path for user edits — typed boundaries or a calendar pick. */
   private commit(range: XuiDateRange<T>): void {
     this.value.set(range);
+    this.cva.notifyChange(range);
   }
+
+  readonly writeValue = this.cva.writeValue;
+  readonly registerOnChange = this.cva.registerOnChange;
+  readonly registerOnTouched = this.cva.registerOnTouched;
+  readonly setDisabledState = this.cva.setDisabledState;
 }

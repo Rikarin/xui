@@ -3,6 +3,7 @@ import { booleanAttribute, computed, Directive, input, signal } from '@angular/c
 import { xui } from '@xui/core';
 import { cva, VariantProps } from 'class-variance-authority';
 import { ClassValue } from 'clsx';
+import { injectXuiButtonGroupConfig } from './button-group.token';
 
 /** How each button's contents align — applied to every child. */
 export type XuiButtonGroupAlign = 'left' | 'center' | 'right';
@@ -39,15 +40,16 @@ export type XuiButtonGroupVariants = VariantProps<typeof buttonGroupVariants>;
   }
 })
 export class XuiButtonGroup {
+  private readonly config = injectXuiButtonGroupConfig();
   private readonly additionalClasses = signal<ClassValue>('');
 
   readonly class = input<ClassValue>('');
 
   /** Run the buttons in a row (default) or stack them vertically. */
-  readonly orientation = input<'horizontal' | 'vertical'>('horizontal');
+  readonly orientation = input<'horizontal' | 'vertical'>(this.config.orientation);
 
   /** Stretch the buttons to share the group's width (or height) equally. */
-  readonly fill = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
+  readonly fill = input<boolean, BooleanInput>(this.config.fill, { transform: booleanAttribute });
 
   /** Align every button's contents. Defaults to centred. */
   readonly alignText = input<XuiButtonGroupAlign>('center');

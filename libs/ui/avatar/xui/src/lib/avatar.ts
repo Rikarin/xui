@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, input, linkedSignal, View
 import { xui } from '@xui/core';
 import { cva, type VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
+import { injectXuiAvatarConfig } from './avatar.token';
 
 export const avatarVariants = cva(
   'bg-surface-inset text-foreground-muted inline-flex shrink-0 items-center justify-center overflow-hidden border-border align-middle font-medium select-none',
@@ -59,6 +60,8 @@ export type XuiAvatarVariants = VariantProps<typeof avatarVariants>;
   encapsulation: ViewEncapsulation.None
 })
 export class XuiAvatar {
+  private readonly config = injectXuiAvatarConfig();
+
   readonly class = input<ClassValue>('');
 
   /** Image URL. Falls back to `text`/projected content on load error. */
@@ -66,8 +69,8 @@ export class XuiAvatar {
   readonly alt = input<string>('');
   /** Initials or short text shown when there is no image. */
   readonly text = input<string>();
-  readonly shape = input<XuiAvatarVariants['shape']>('circle');
-  readonly size = input<XuiAvatarVariants['size']>('md');
+  readonly shape = input<XuiAvatarVariants['shape']>(this.config.shape);
+  readonly size = input<XuiAvatarVariants['size']>(this.config.size);
 
   /** Whether the image failed to load; resets when `src` changes. */
   readonly imageFailed = linkedSignal<string | undefined, boolean>({

@@ -4,10 +4,12 @@ import { XFormFieldControl } from '@xui/core/form-field';
 import { expectClasses, expectNoClasses, render } from '@xui/testing';
 import { XuiTextareaImports } from '../index';
 import { XuiTextarea } from './textarea';
+import { provideXuiTextareaConfig } from './textarea.token';
 
 const IMPORTS = [XuiTextareaImports, ReactiveFormsModule];
 
-const setup = (template: string, props: Record<string, unknown> = {}) => render(template, { imports: IMPORTS, props });
+const setup = (template: string, props: Record<string, unknown> = {}, providers: unknown[] = []) =>
+  render(template, { imports: IMPORTS, props, providers });
 
 describe('XuiTextarea', () => {
   it('applies the base classes to the host textarea', () => {
@@ -26,6 +28,13 @@ describe('XuiTextarea', () => {
     const { query } = setup('<textarea xuiTextarea size="sm"></textarea>');
 
     expectClasses(query('textarea'), 'min-h-12', 'text-xs');
+    expectNoClasses(query('textarea'), 'min-h-16');
+  });
+
+  it('takes its defaults from the injected config', () => {
+    const { query } = setup('<textarea xuiTextarea></textarea>', {}, [provideXuiTextareaConfig({ size: 'lg' })]);
+
+    expectClasses(query('textarea'), 'min-h-20', 'text-base');
     expectNoClasses(query('textarea'), 'min-h-16');
   });
 

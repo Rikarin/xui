@@ -3,6 +3,7 @@ import { expectAttributes, expectClasses, expectNoClasses, render } from '@xui/t
 import { XuiCaption } from './caption';
 import { XuiTable } from './table';
 import { XuiTableClasses } from './table-classes';
+import { provideXuiTableConfig } from './table.token';
 import { XuiTd } from './td';
 import { XuiTh } from './th';
 import { XuiTr } from './tr';
@@ -62,6 +63,20 @@ describe('XuiTable', () => {
       const { query } = setup('<xui-table compact />');
 
       expectClasses(query('xui-table'), '[&_xui-td]:p-1.5', '[&_xui-th]:p-1.5');
+    });
+
+    it('takes its defaults from the injected config', () => {
+      const { query } = render('<xui-table />', {
+        imports: IMPORTS,
+        providers: [provideXuiTableConfig({ striped: true, bordered: true, compact: true })]
+      });
+
+      expectClasses(
+        query('xui-table'),
+        '[&_xui-tr:nth-child(even)]:bg-surface-inset/40',
+        'border-border',
+        '[&_xui-td]:p-1.5'
+      );
     });
   });
 });

@@ -12,6 +12,7 @@ import {
 import { xui } from '@xui/core';
 import type { ClassValue } from 'clsx';
 import { XuiStep, type XuiStepStatus } from './step';
+import { injectXuiStepsConfig } from './steps.token';
 
 /**
  * A step / wizard progress indicator. Wrap `<xui-step>` entries and bind
@@ -72,11 +73,13 @@ import { XuiStep, type XuiStepStatus } from './step';
   encapsulation: ViewEncapsulation.None
 })
 export class XuiSteps {
+  private readonly config = injectXuiStepsConfig();
+
   readonly class = input<ClassValue>('');
 
   readonly current = model<number>(0);
-  readonly orientation = input<'horizontal' | 'vertical'>('horizontal');
-  readonly clickable = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
+  readonly orientation = input<'horizontal' | 'vertical'>(this.config.orientation);
+  readonly clickable = input<boolean, BooleanInput>(this.config.clickable, { transform: booleanAttribute });
 
   protected readonly steps = contentChildren(XuiStep);
 

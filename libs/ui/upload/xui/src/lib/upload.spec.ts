@@ -1,10 +1,12 @@
 import { render } from '@xui/testing';
 import { XuiUpload, type XuiUploadFile } from './upload';
+import { provideXuiUploadConfig } from './upload.token';
 
-const setup = (attrs = '', props: Record<string, unknown> = {}) => {
+const setup = (attrs = '', props: Record<string, unknown> = {}, providers: unknown[] = []) => {
   const result = render(`<xui-upload ${attrs} [(files)]="props().files" (selected)="props().onSelected($event)" />`, {
     imports: [XuiUpload],
-    props: { files: [] as XuiUploadFile[], onSelected: () => undefined, ...props }
+    props: { files: [] as XuiUploadFile[], onSelected: () => undefined, ...props },
+    providers
   });
   const cmp = result.fixture.debugElement.query(n => n.name === 'xui-upload').componentInstance as XuiUpload;
   return { ...result, cmp };
@@ -88,6 +90,14 @@ describe('XuiUpload', () => {
     detect();
 
     expect(cmp.files().map(f => f.name)).toEqual(['dropped.txt']);
+  });
+
+  it('takes its defaults from the injected config', () => {
+    const { detect } = setup('', {}, [provideXuiUploadConfig({ type: 'drag' })]);
+    detect();
+
+    // The configured `drag` default renders the dropzone instead of the button.
+    expect(document.querySelector('xui-upload [role="button"]')).toBeTruthy();
   });
 
   it('formats byte sizes', () => {

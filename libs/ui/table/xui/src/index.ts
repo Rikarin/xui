@@ -8,6 +8,7 @@ import { XuiTr } from './lib/tr';
 export * from './lib/caption';
 export * from './lib/table';
 export * from './lib/table-classes';
+export * from './lib/table.token';
 export * from './lib/td';
 export * from './lib/th';
 export * from './lib/tr';

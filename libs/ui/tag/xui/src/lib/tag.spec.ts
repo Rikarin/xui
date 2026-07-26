@@ -1,7 +1,8 @@
 import { expectClasses, expectNoClasses, render } from '@xui/testing';
 import { XuiTag } from './tag';
+import { provideXuiTagConfig } from './tag.token';
 
-const setup = (template: string) => render(template, { imports: [XuiTag] });
+const setup = (template: string, providers: unknown[] = []) => render(template, { imports: [XuiTag], providers });
 
 const instance = (fixture: ReturnType<typeof setup>['fixture']) =>
   fixture.debugElement.query(n => n.name === 'xui-tag').componentInstance as XuiTag;
@@ -37,6 +38,14 @@ describe('XuiTag', () => {
     const { query } = setup('<xui-tag interactive>Click</xui-tag>');
 
     expectClasses(query('xui-tag'), 'cursor-pointer');
+  });
+
+  it('takes its defaults from the injected config', () => {
+    const { query } = setup('<xui-tag>Draft</xui-tag>', [
+      provideXuiTagConfig({ color: 'primary', round: true, large: true })
+    ]);
+
+    expectClasses(query('xui-tag'), 'bg-primary', 'rounded-full', 'text-sm');
   });
 
   it('has no remove button unless removable', () => {

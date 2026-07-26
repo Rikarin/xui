@@ -1,6 +1,6 @@
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { expectAttributes, render } from '@xui/testing';
-import { XuiSegmentedControlImports } from '../index';
+import { expectAttributes, expectClasses, render } from '@xui/testing';
+import { provideXuiSegmentedControlConfig, XuiSegmentedControlImports } from '../index';
 
 const IMPORTS = [XuiSegmentedControlImports, ReactiveFormsModule];
 
@@ -13,8 +13,8 @@ const OPTIONS = [
 const segments = () => [...document.querySelectorAll('xui-segmented-control button')] as HTMLButtonElement[];
 const segment = (label: string) => segments().find(b => b.textContent?.trim() === label)!;
 
-const setup = (template: string, props: Record<string, unknown> = {}) =>
-  render(template, { imports: IMPORTS, props: { options: OPTIONS, ...props } });
+const setup = (template: string, props: Record<string, unknown> = {}, providers: unknown[] = []) =>
+  render(template, { imports: IMPORTS, props: { options: OPTIONS, ...props }, providers });
 
 const CONTROL = '<xui-segmented-control [options]="props().options" [(value)]="props().value" aria-label="View" />';
 
@@ -65,6 +65,15 @@ describe('XuiSegmentedControl', () => {
     // Right from Grid skips the disabled Board and wraps to List.
     press(segment('Grid'), 'ArrowRight');
     expect(segment('List').getAttribute('aria-checked')).toBe('true');
+  });
+
+  it('takes its defaults from the injected config', () => {
+    const { query, detect } = setup(CONTROL, { value: null }, [
+      provideXuiSegmentedControlConfig({ size: 'sm', fill: true })
+    ]);
+    detect();
+
+    expectClasses(query('xui-segmented-control'), 'text-xs', 'w-full');
   });
 
   it('does not select a disabled segment', () => {

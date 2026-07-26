@@ -1,5 +1,6 @@
 import { expectClasses, render } from '@xui/testing';
 import { XuiTimelineImports } from '../index';
+import { provideXuiTimelineConfig } from './timeline.token';
 
 const IMPORTS = [XuiTimelineImports];
 const items = () => [...document.querySelectorAll('xui-timeline-item')] as HTMLElement[];
@@ -32,6 +33,17 @@ describe('XuiTimeline', () => {
 
     const timeline = document.querySelector('xui-timeline') as HTMLElement;
     expect(timeline.className).toContain('[&>xui-timeline-item:last-child_.xui-tl-line]:hidden');
+  });
+
+  it('takes its defaults from the injected config', () => {
+    const { detect } = render(`<xui-timeline><xui-timeline-item>A</xui-timeline-item></xui-timeline>`, {
+      imports: IMPORTS,
+      providers: [provideXuiTimelineConfig({ mode: 'right', color: 'warning' })]
+    });
+    detect();
+
+    expectClasses(items()[0], 'flex-row-reverse', 'text-end');
+    expectClasses(dot(items()[0]), 'bg-warning');
   });
 
   it('reverses the axis in right mode', () => {

@@ -4,6 +4,7 @@ import { XFormFieldControl } from '@xui/core/form-field';
 import { expectClasses, render } from '@xui/testing';
 import { XuiFileInputImports } from '../index';
 import { XuiFileInput } from './file-input';
+import { provideXuiFileInputConfig } from './file-input.token';
 
 const IMPORTS = [XuiFileInputImports, ReactiveFormsModule];
 
@@ -127,5 +128,15 @@ describe('XuiFileInput', () => {
     expect(control).toBeInstanceOf(XuiFileInput);
     // The label points at the real (hidden) file input, not the wrapper.
     expect(control.controlId?.()).toBe(input().id);
+  });
+
+  it('takes its default size and fill from the config token', () => {
+    const { detect, query } = render('<xui-file-input />', {
+      imports: IMPORTS,
+      providers: [provideXuiFileInputConfig({ size: 'sm', fill: true })]
+    });
+    detect();
+
+    expectClasses(query('label'), 'h-(--control-height-sm)', 'w-full');
   });
 });

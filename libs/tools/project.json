@@ -28,11 +28,6 @@
             "input": "./libs/tools",
             "glob": "generators.json",
             "output": "."
-          },
-          {
-            "input": "./libs/tools",
-            "glob": "executors.json",
-            "output": "."
           }
         ]
       }

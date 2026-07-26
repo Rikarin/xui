@@ -3,6 +3,7 @@ import { booleanAttribute, computed, Directive, input } from '@angular/core';
 import { xui } from '@xui/core';
 import { cva, VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
+import { injectXuiCardListConfig } from './card-list.token';
 
 export const cardListVariants = cva(
   [
@@ -55,14 +56,16 @@ export type XuiCardListVariants = VariantProps<typeof cardListVariants>;
   }
 })
 export class XuiCardList {
+  private readonly config = injectXuiCardListConfig();
+
   /** The user-defined classes. Merged last so they win over the variant classes. */
   readonly class = input<ClassValue>('');
 
   /** Draw the surrounding frame. Turn it off when nesting inside one. */
-  readonly bordered = input<boolean, BooleanInput>(true, { transform: booleanAttribute });
+  readonly bordered = input<boolean, BooleanInput>(this.config.bordered, { transform: booleanAttribute });
 
   /** Reduce the padding of every row. */
-  readonly compact = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
+  readonly compact = input<boolean, BooleanInput>(this.config.compact, { transform: booleanAttribute });
 
   protected readonly computedClass = computed(() =>
     xui(cardListVariants({ bordered: this.bordered(), compact: this.compact() }), this.class())

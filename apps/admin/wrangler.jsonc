@@ -1,0 +1,15 @@
+{
+  "name": "xui-admin",
+  "compatibility_date": "2025-11-01",
+  // No `main`: the admin panel is a client-rendered SPA, so there is nothing for a Worker to do
+  // beyond handing back the shell. Cloudflare serves the assets directly.
+  "assets": {
+    "directory": "../../dist/apps/admin/browser",
+    // Deep links like /orders/42 have no file behind them; the router resolves them once index.html
+    // boots.
+    "not_found_handling": "single-page-application"
+  },
+  "observability": {
+    "enabled": true
+  }
+}

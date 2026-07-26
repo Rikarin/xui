@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, input } from '@angular/co
 import { xui } from '@xui/core';
 import { cva, VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
+import { injectXuiNonIdealStateConfig } from './non-ideal-state.token';
 
 export const nonIdealStateVariants = cva('flex text-center', {
   variants: {
@@ -58,9 +59,11 @@ export type XuiNonIdealStateVariants = VariantProps<typeof nonIdealStateVariants
   }
 })
 export class XuiNonIdealState {
+  private readonly config = injectXuiNonIdealStateConfig();
+
   /** The user-defined classes. Merged last so they win over the variant classes. */
   readonly class = input<ClassValue>('');
-  readonly orientation = input<XuiNonIdealStateVariants['orientation']>('vertical');
+  readonly orientation = input<XuiNonIdealStateVariants['orientation']>(this.config.orientation);
 
   readonly title = input<string | null>(null);
   readonly description = input<string | null>(null);

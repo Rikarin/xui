@@ -1,7 +1,8 @@
 import { expectClasses, render } from '@xui/testing';
 import { XuiStatus } from './status';
+import { provideXuiStatusConfig } from './status.token';
 
-const setup = (template: string) => render(template, { imports: [XuiStatus] });
+const setup = (template: string, providers: unknown[] = []) => render(template, { imports: [XuiStatus], providers });
 
 describe('XuiStatus', () => {
   it('applies the base classes', () => {
@@ -41,6 +42,12 @@ describe('XuiStatus', () => {
     const { query: dnd } = setup('<xui-status presence="dnd" />');
     const clip = dnd('xui-status').querySelector('clipPath') as SVGClipPathElement;
     expect(dnd('xui-status').style.clipPath).toBe(`url(#${clip.id})`);
+  });
+
+  it('takes its defaults from the injected config', () => {
+    const { query } = setup('<xui-status />', [provideXuiStatusConfig({ presence: 'online', size: 'lg' })]);
+
+    expectClasses(query('xui-status'), 'bg-success', 'w-6');
   });
 
   it('gives each instance its own clip-path id', () => {

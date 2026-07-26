@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, input, ViewEncapsulation } from '@angular/core';
 import { xui } from '@xui/core';
 import type { ClassValue } from 'clsx';
+import { injectXuiScrollAreaConfig } from './scroll-area.token';
 
 export type XuiScrollOrientation = 'vertical' | 'horizontal' | 'both';
 
@@ -29,8 +30,10 @@ export type XuiScrollOrientation = 'vertical' | 'horizontal' | 'both';
   encapsulation: ViewEncapsulation.None
 })
 export class XuiScrollArea {
+  private readonly config = injectXuiScrollAreaConfig();
+
   readonly class = input<ClassValue>('');
-  readonly orientation = input<XuiScrollOrientation>('vertical');
+  readonly orientation = input<XuiScrollOrientation>(this.config.orientation);
 
   protected readonly computedClass = computed(() => xui('relative block', this.class()));
 

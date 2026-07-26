@@ -1,5 +1,6 @@
 import { render } from '@xui/testing';
 import { XuiScrollArea } from './scroll-area';
+import { provideXuiScrollAreaConfig } from './scroll-area.token';
 
 const viewport = () => document.querySelector('xui-scroll-area > div') as HTMLElement;
 
@@ -23,5 +24,14 @@ describe('XuiScrollArea', () => {
   it('scrolls both axes', () => {
     render(`<xui-scroll-area orientation="both"><div>x</div></xui-scroll-area>`, { imports: [XuiScrollArea] });
     expect(viewport().className).toContain('overflow-auto');
+  });
+
+  it('takes its orientation default from the injected config', () => {
+    render(`<xui-scroll-area><div>wide</div></xui-scroll-area>`, {
+      imports: [XuiScrollArea],
+      providers: [provideXuiScrollAreaConfig({ orientation: 'horizontal' })]
+    });
+    expect(viewport().className).toContain('overflow-x-auto');
+    expect(viewport().className).toContain('overflow-y-hidden');
   });
 });

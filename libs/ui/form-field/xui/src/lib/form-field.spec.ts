@@ -5,6 +5,7 @@ import { expectClasses, render } from '@xui/testing';
 import { XuiTextareaImports } from '@xui/textarea';
 import { XuiError } from './error';
 import { XuiFormField } from './form-field';
+import { provideXuiFormFieldConfig } from './form-field.token';
 import { XuiHint } from './hint';
 
 /**
@@ -178,6 +179,16 @@ describe('XuiFormField', () => {
       expect(host.querySelector('xui-error')).toBeTruthy();
       expect(host.querySelector('xui-hint')).toBeNull();
     });
+  });
+
+  it('takes its default layout and colour from the config token', () => {
+    const { query } = render('<xui-form-field label="Name"><input xuiFakeControl /></xui-form-field>', {
+      imports: IMPORTS,
+      providers: [provideXuiFormFieldConfig({ inline: true, color: 'primary' })]
+    });
+
+    expectClasses(query('xui-form-field'), 'flex', 'items-baseline');
+    expectClasses(query('label'), 'text-primary');
   });
 });
 

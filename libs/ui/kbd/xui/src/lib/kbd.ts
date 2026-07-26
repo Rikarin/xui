@@ -2,6 +2,7 @@ import { Directive, computed, input } from '@angular/core';
 import { xui } from '@xui/core';
 import { cva, type VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
+import { injectXuiKbdConfig } from './kbd.token';
 
 export const kbdVariants = cva(
   'inline-flex select-none items-center justify-center gap-1 whitespace-nowrap rounded border border-border bg-surface-inset font-medium text-foreground-muted',
@@ -33,8 +34,10 @@ export type XuiKbdVariants = VariantProps<typeof kbdVariants>;
   }
 })
 export class XuiKbd {
+  private readonly config = injectXuiKbdConfig();
+
   readonly class = input<ClassValue>('');
-  readonly size = input<XuiKbdVariants['size']>('md');
+  readonly size = input<XuiKbdVariants['size']>(this.config.size);
 
   protected readonly computedClass = computed(() => xui(kbdVariants({ size: this.size() }), this.class()));
 }

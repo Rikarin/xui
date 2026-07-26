@@ -16,6 +16,7 @@ import { XFormFieldControl } from '@xui/core/form-field';
 import { createXErrorState } from '@xui/core/forms';
 import { cva, type VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
+import { injectXuiTextareaConfig } from './textarea.token';
 
 export const textareaVariants = cva(
   'flex w-full rounded-lg border border-border bg-surface-inset text-foreground placeholder:text-foreground-subtle transition-colors focus:border-focus focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 [&.ng-invalid.ng-touched]:border-error [&.ng-invalid.ng-touched]:border-2',
@@ -67,6 +68,7 @@ export type XuiTextareaVariants = VariantProps<typeof textareaVariants>;
 export class XuiTextarea implements XFormFieldControl {
   private readonly host: HTMLTextAreaElement = inject(ElementRef).nativeElement;
   private readonly formState = createXErrorState();
+  private readonly config = injectXuiTextareaConfig();
 
   /** Error state for `xui-form-field`, derived from the optional bound form control. */
   readonly errorState = this.formState.errorState;
@@ -77,7 +79,7 @@ export class XuiTextarea implements XFormFieldControl {
 
   /** The user-defined classes. Merged last so they win over the variant classes. */
   readonly class = input<ClassValue>('');
-  readonly size = input<XuiTextareaVariants['size']>('md');
+  readonly size = input<XuiTextareaVariants['size']>(this.config.size);
 
   /** Grow to fit the content instead of scrolling; disables manual resize. */
   readonly autoResize = input<boolean, BooleanInput>(false, { transform: booleanAttribute });

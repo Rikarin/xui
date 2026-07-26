@@ -76,14 +76,20 @@ jobs:
       - name: Derive SHAs for `nx affected`
         uses: nrwl/nx-set-shas@v4
 
+      # Without a persisted task cache every run rebuilds all ~100 projects from
+      # scratch. Keyed on the lockfile; the restore key lets any recent run seed it.
+      - name: Restore Nx Cache
+        uses: actions/cache@v4
+        with:
+          path: .nx/cache
+          key: nx-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}-${{ github.sha }}
+          restore-keys: |
+            nx-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}-
+
       - name: Check Formatting
         run: pnpm exec nx format:check
         shell: bash
 
       - name: Lint, Test and Build Affected Projects
-        run: pnpm exec nx affected -t lint test build --parallel=3
-        shell: bash
-
-      - name: Build Storybook
-        run: pnpm exec nx build-storybook ui-storybook
+        run: pnpm exec nx affected -t lint test build build-storybook --parallel=3
         shell: bash

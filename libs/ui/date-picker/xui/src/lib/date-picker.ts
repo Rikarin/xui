@@ -13,12 +13,14 @@ import {
   signal,
   ViewEncapsulation
 } from '@angular/core';
+import { ControlValueAccessor } from '@angular/forms';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { matChevronLeftRound, matChevronRightRound } from '@ng-icons/material-icons/round';
 import { xui } from '@xui/core';
 import { arrowDirectionOnAxis, injectXDirection } from '@xui/core/a11y';
 import { buildMonthGrid, monthYearLabel, weekdayLabels, type XCalendarDay } from '@xui/core/calendar';
 import { injectXDateAdapter } from '@xui/core/date-time';
+import { createXValueAccessor, provideXValueAccessor } from '@xui/core/forms';
 import { XuiIcon } from '@xui/icon';
 import type { ClassValue } from 'clsx';
 
@@ -26,18 +28,32 @@ import type { ClassValue } from 'clsx';
  * An inline month calendar. Click a day to select it; arrow keys move by day/week,
  * PageUp/PageDown by month, Home/End to week ends, Enter/Space select.
  * `[(value)]` two-way binding. `T` is the date type of the active `DateAdapter`
- * (a `Date` by default).
+ * (a `Date` by default). It is a full `ControlValueAccessor`, so
+ * `ngModel`/`formControl` bind to it directly.
  */
 @Component({
   selector: 'xui-date-picker',
   imports: [NgIcon, XuiIcon],
+  providers: [provideXValueAccessor(() => XuiDatePicker)],
   template: `
     <div class="mb-2 flex items-center justify-between">
-      <button type="button" [class]="navClass()" aria-label="Previous month" (click)="shiftMonth(-1)">
+      <button
+        type="button"
+        [class]="navClass()"
+        aria-label="Previous month"
+        [disabled]="isDisabled()"
+        (click)="shiftMonth(-1)"
+      >
         <ng-icon xui name="matChevronLeftRound" size="sm" />
       </button>
       <div class="text-foreground text-sm font-semibold" aria-live="polite">{{ headerLabel() }}</div>
-      <button type="button" [class]="navClass()" aria-label="Next month" (click)="shiftMonth(1)">
+      <button
+        type="button"
+        [class]="navClass()"
+        aria-label="Next month"
+        [disabled]="isDisabled()"
+        (click)="shiftMonth(1)"
+      >
         <ng-icon xui name="matChevronRightRound" size="sm" />
       </button>
     </div>
@@ -63,7 +79,7 @@ import type { ClassValue } from 'clsx';
                 <button
                   type="button"
                   [class]="dayClass(day)"
-                  [disabled]="day.disabled"
+                  [disabled]="day.disabled || isDisabled()"
                   [attr.aria-current]="day.isToday ? 'date' : null"
                   [tabindex]="isFocusable(day.date) ? 0 : -1"
                   (click)="select(day.date)"
@@ -79,19 +95,20 @@ import type { ClassValue } from 'clsx';
 
     @if (showActionsBar()) {
       <div class="border-border mt-2 flex justify-between border-t pt-2">
-        <button type="button" [class]="actionClass()" (click)="selectToday()">Today</button>
-        <button type="button" [class]="actionClass()" (click)="clear()">Clear</button>
+        <button type="button" [class]="actionClass()" [disabled]="isDisabled()" (click)="selectToday()">Today</button>
+        <button type="button" [class]="actionClass()" [disabled]="isDisabled()" (click)="clear()">Clear</button>
       </div>
     }
   `,
   host: {
-    '[class]': 'computedClass()'
+    '[class]': 'computedClass()',
+    '(focusout)': 'onFocusOut($event)'
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   viewProviders: [provideIcons({ matChevronLeftRound, matChevronRightRound })]
 })
-export class XuiDatePicker<T = Date> {
+export class XuiDatePicker<T = Date> implements ControlValueAccessor {
   private readonly adapter = injectXDateAdapter<T>();
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
   protected readonly direction = injectXDirection();
@@ -111,6 +128,14 @@ export class XuiDatePicker<T = Date> {
   /** Show a Today/Clear action bar under the grid. */
   readonly showActionsBar = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
 
+  readonly disabled = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
+
+  protected readonly cva = createXValueAccessor<T | null>({
+    onWrite: value => this.value.set(value ?? null),
+    disabled: this.disabled
+  });
+  protected readonly isDisabled = this.cva.disabled;
+
   // The month currently on screen; seeded from the selection (or today).
   private readonly viewDate = linkedSignal<T | null, T>({
     source: this.value,
@@ -121,7 +146,11 @@ export class XuiDatePicker<T = Date> {
   private readonly focusedDate = signal<T | null>(null);
 
   protected readonly computedClass = computed(() =>
-    xui('bg-surface-raised border-border inline-block rounded-lg border p-3', this.class())
+    xui(
+      'bg-surface-raised border-border inline-block rounded-lg border p-3',
+      this.isDisabled() && 'opacity-50',
+      this.class()
+    )
   );
   protected readonly navClass = computed(() =>
     xui(
@@ -177,8 +206,13 @@ export class XuiDatePicker<T = Date> {
   }
 
   protected select(date: T): void {
+    if (this.isDisabled()) {
+      return;
+    }
+
     this.focusedDate.set(date);
     this.value.set(date);
+    this.cva.notifyChange(date);
   }
 
   protected selectToday(): void {
@@ -188,10 +222,19 @@ export class XuiDatePicker<T = Date> {
   }
 
   protected clear(): void {
+    if (this.isDisabled()) {
+      return;
+    }
+
     this.value.set(null);
+    this.cva.notifyChange(null);
   }
 
   protected onKeydown(event: KeyboardEvent): void {
+    if (this.isDisabled()) {
+      return;
+    }
+
     const current = this.focusedDate() ?? this.value() ?? this.anchorFallback();
     let next: T;
 
@@ -251,4 +294,17 @@ export class XuiDatePicker<T = Date> {
     // Roving tabindex updates on the next microtask; move DOM focus to it.
     queueMicrotask(() => this.host.nativeElement.querySelector<HTMLElement>('button[tabindex="0"]')?.focus());
   }
+
+  /** Touched fires when focus leaves the calendar, not while roving inside it. */
+  protected onFocusOut(event: FocusEvent): void {
+    const next = event.relatedTarget as Node | null;
+    if (!next || !this.host.nativeElement.contains(next)) {
+      this.cva.markTouched();
+    }
+  }
+
+  readonly writeValue = this.cva.writeValue;
+  readonly registerOnChange = this.cva.registerOnChange;
+  readonly registerOnTouched = this.cva.registerOnTouched;
+  readonly setDisabledState = this.cva.setDisabledState;
 }

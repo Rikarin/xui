@@ -7,5 +7,6 @@ export * from './lib/menu';
 export * from './lib/menu-divider';
 export * from './lib/menu-item';
 export * from './lib/menu-trigger';
+export * from './lib/menu.token';
 
 export const XuiMenuImports = [XuiMenu, XuiMenuItem, XuiMenuDivider, XuiMenuTrigger] as const;

@@ -6,15 +6,19 @@ import {
   Component,
   computed,
   contentChild,
+  effect,
   input,
   model,
   output,
   signal,
+  untracked,
   ViewEncapsulation
 } from '@angular/core';
+import type { ControlValueAccessor } from '@angular/forms';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { matCheckRound } from '@ng-icons/material-icons/round';
 import { xui } from '@xui/core';
+import { createXValueAccessor, provideXValueAccessor } from '@xui/core/forms';
 import { createXActiveOption, createXItemListPredicate, createXQueryList, trackXItem } from '@xui/core/query';
 import { XuiIcon } from '@xui/icon';
 import { XuiPopoverImports } from '@xui/popover';
@@ -38,11 +42,11 @@ import type { ClassValue } from 'clsx';
       [role]="'listbox'"
       [matchTargetWidth]="true"
       [minimal]="true"
-      [disabled]="disabled()"
+      [disabled]="isDisabled()"
       placement="bottom-start"
     >
       @for (item of values(); track trackItem($index, item)) {
-        <xui-tag minimal color="primary" [removable]="!disabled()" (removed)="remove(item)">{{
+        <xui-tag minimal color="primary" [removable]="!isDisabled()" (removed)="remove(item)">{{
           displayText(item)
         }}</xui-tag>
       }
@@ -53,7 +57,7 @@ import type { ClassValue } from 'clsx';
         class="text-foreground placeholder:text-foreground-subtle min-w-24 flex-1 bg-transparent py-1 outline-none"
         [placeholder]="values().length ? '' : placeholder()"
         [value]="query()"
-        [disabled]="disabled()"
+        [disabled]="isDisabled()"
         (input)="onQuery($event)"
         (keydown)="onKeydown($event)"
       />
@@ -99,9 +103,10 @@ import type { ClassValue } from 'clsx';
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  viewProviders: [provideIcons({ matCheckRound })]
+  viewProviders: [provideIcons({ matCheckRound })],
+  providers: [provideXValueAccessor(() => XuiMultiSelect)]
 })
-export class XuiMultiSelect<T> {
+export class XuiMultiSelect<T> implements ControlValueAccessor {
   readonly class = input<ClassValue>('');
 
   readonly items = input<readonly T[]>([]);
@@ -113,8 +118,17 @@ export class XuiMultiSelect<T> {
   readonly placeholder = input<string>('Select…');
   readonly noResultsText = input<string>('No results.');
 
-  /** The chosen items. Two-way bindable with `[(values)]`. */
+  /** The chosen items. Two-way bindable with `[(values)]`, or via `formControl`/`ngModel`. */
   readonly values = model<T[]>([]);
+
+  protected readonly cva = createXValueAccessor<T[]>({
+    onWrite: values => this.values.set(values ?? []),
+    disabled: this.disabled
+  });
+  protected readonly isDisabled = this.cva.disabled;
+
+  /** Whether the popover has ever been open — so the initial closed state is not "touched". */
+  private hasOpened = false;
 
   readonly itemAdded = output<T>();
   readonly itemRemoved = output<T>();
@@ -150,9 +164,20 @@ export class XuiMultiSelect<T> {
     xui(
       'border-border bg-surface-inset flex min-h-(--control-height-md) w-full flex-wrap items-center gap-1.5 rounded-lg border px-(--control-padding-sm) py-1 text-sm',
       'focus-within:border-focus cursor-text transition-colors',
-      this.disabled() && 'cursor-not-allowed opacity-50'
+      this.isDisabled() && 'cursor-not-allowed opacity-50'
     )
   );
+
+  constructor() {
+    // Mark the control touched once the popover closes after having been open.
+    effect(() => {
+      if (this.open()) {
+        this.hasOpened = true;
+      } else if (this.hasOpened) {
+        untracked(() => this.cva.markTouched());
+      }
+    });
+  }
 
   protected displayText(item: T): string {
     return this.itemText()(item);
@@ -199,12 +224,23 @@ export class XuiMultiSelect<T> {
 
   private add(item: T): void {
     this.values.update(items => [...items, item]);
+    this.cva.notifyChange(this.values());
     this.query.set('');
     this.itemAdded.emit(item);
   }
 
   protected remove(item: T): void {
+    if (this.isDisabled()) {
+      return;
+    }
+
     this.values.update(items => items.filter(i => i !== item));
+    this.cva.notifyChange(this.values());
     this.itemRemoved.emit(item);
   }
+
+  readonly writeValue = this.cva.writeValue;
+  readonly registerOnChange = this.cva.registerOnChange;
+  readonly registerOnTouched = this.cva.registerOnTouched;
+  readonly setDisabledState = this.cva.setDisabledState;
 }

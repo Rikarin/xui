@@ -13,6 +13,7 @@ import {
 import { xui } from '@xui/core';
 import { cva, VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
+import { injectXuiTableConfig } from './table.token';
 
 // Display modifiers reach the rows/cells with descendant selectors so the flex
 // layout of `xui-tr`/`xui-td`/`xui-th` stays untouched.
@@ -43,16 +44,18 @@ export type XuiTableVariants = VariantProps<typeof tableVariants>;
   encapsulation: ViewEncapsulation.None
 })
 export class XuiTable {
+  private readonly config = injectXuiTableConfig();
+
   readonly class = input<ClassValue>('');
 
   /** Alternate row background. */
-  readonly striped = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
+  readonly striped = input<boolean, BooleanInput>(this.config.striped, { transform: booleanAttribute });
   /** Outer border plus dividers between cells. */
-  readonly bordered = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
+  readonly bordered = input<boolean, BooleanInput>(this.config.bordered, { transform: booleanAttribute });
   /** Show a pointer cursor on rows for clickable tables. */
-  readonly interactive = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
+  readonly interactive = input<boolean, BooleanInput>(this.config.interactive, { transform: booleanAttribute });
   /** Tighter cell padding. */
-  readonly compact = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
+  readonly compact = input<boolean, BooleanInput>(this.config.compact, { transform: booleanAttribute });
 
   protected readonly computedClass = computed(() =>
     xui(

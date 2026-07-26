@@ -1,5 +1,6 @@
 import { render } from '@xui/testing';
 import { XuiKbd } from './kbd';
+import { provideXuiKbdConfig } from './kbd.token';
 
 describe('XuiKbd', () => {
   it('styles a kbd element', () => {
@@ -18,5 +19,13 @@ describe('XuiKbd', () => {
   it('merges a custom class', () => {
     const { query } = render(`<kbd xuiKbd class="uppercase">esc</kbd>`, { imports: [XuiKbd] });
     expect(query('kbd')!.className).toContain('uppercase');
+  });
+
+  it('takes its default size from the config token', () => {
+    const { query } = render(`<kbd xuiKbd>K</kbd>`, {
+      imports: [XuiKbd],
+      providers: [provideXuiKbdConfig({ size: 'lg' })]
+    });
+    expect(query('kbd')!.className).toContain('h-6');
   });
 });
