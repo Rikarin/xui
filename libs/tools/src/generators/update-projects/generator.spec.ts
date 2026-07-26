@@ -31,7 +31,7 @@ describe('update-projects generator', () => {
 
     await updateProjectsGenerator(tree);
 
-    const packageJson = JSON.parse(tree.read('libs/ui/button/xui/package.json', 'utf-8'));
+    const packageJson = JSON.parse(tree.read('libs/ui/button/xui/package.json', 'utf-8') ?? '{}');
     expect(packageJson.description).toBe('Modern Angular 22 UI Library based on TailwindCSS');
     expect(packageJson.homepage).toBe('https://xuijs.org');
     expect(tree.read('libs/ui/button/xui/README.md', 'utf-8')).toContain('# xUI root readme');
@@ -50,7 +50,7 @@ describe('update-projects generator', () => {
 
     await updateProjectsGenerator(tree);
 
-    expect(JSON.parse(tree.read('libs/mcp/package.json', 'utf-8'))).toEqual(manifest);
+    expect(JSON.parse(tree.read('libs/mcp/package.json', 'utf-8') ?? '{}')).toEqual(manifest);
     expect(tree.read('libs/mcp/README.md', 'utf-8')).toBe('# @xui/mcp\n');
   });
 });

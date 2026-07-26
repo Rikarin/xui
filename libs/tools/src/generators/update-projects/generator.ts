@@ -8,8 +8,16 @@ export default async function updateProjectsGenerator(tree: Tree) {
     throw new Error('Root package.json not found.');
   }
 
-  const rootReadmeContent = tree.read(rootReadmePath, 'utf-8');
-  const rootPackageJson = JSON.parse(tree.read(rootPackageJsonPath, 'utf-8'));
+  function read(path: string): string {
+    const content = tree.read(path, 'utf-8');
+    if (content === null) {
+      throw new Error(`Cannot read ${path}.`);
+    }
+    return content;
+  }
+
+  const rootReadmeContent = read(rootReadmePath);
+  const rootPackageJson = JSON.parse(read(rootPackageJsonPath));
 
   /**
    * A package opts out with `"xui": { "syncFromRoot": false }`.
@@ -23,7 +31,7 @@ export default async function updateProjectsGenerator(tree: Tree) {
   }
 
   function updatePackageJson(packageJsonPath: string) {
-    const packageJson = JSON.parse(tree.read(packageJsonPath, 'utf-8'));
+    const packageJson = JSON.parse(read(packageJsonPath));
     packageJson.author = rootPackageJson.author;
     packageJson.description = rootPackageJson.description;
     packageJson.maintainers = rootPackageJson.maintainers;
@@ -46,7 +54,7 @@ export default async function updateProjectsGenerator(tree: Tree) {
       const entryPath = `${dir}/${entry}`;
 
       if (tree.isFile(entryPath) && entry === 'package.json') {
-        if (!syncsFromRoot(JSON.parse(tree.read(entryPath, 'utf-8')))) {
+        if (!syncsFromRoot(JSON.parse(read(entryPath)))) {
           continue;
         }
 

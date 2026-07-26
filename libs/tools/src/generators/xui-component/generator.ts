@@ -24,6 +24,9 @@ export async function xuiComponentGenerator(tree: Tree, options: XuiComponentGen
   // the path to the index.ts file
   const indexPath = joinPathFragments(root, 'src', 'index.ts');
   let sourceCode = tree.read(indexPath, 'utf-8');
+  if (sourceCode === null) {
+    throw new Error(`Cannot read ${indexPath}.`);
+  }
 
   sourceCode = addImportStatement(sourceCode, `import { ${componentName} } from './lib/${fileName}';`);
   sourceCode = addExportStatement(sourceCode, `export * from './lib/${fileName}';`);
