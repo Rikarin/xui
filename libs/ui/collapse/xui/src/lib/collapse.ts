@@ -66,6 +66,7 @@ export class XuiCollapse {
   /** The user-defined classes. Merged last so they win over the base classes. */
   readonly class = input<ClassValue>('');
 
+  /** Whether the content is expanded. Two-way bindable with `[(open)]`. */
   readonly open = model(false);
 
   /** Keep the content in the DOM while closed. */

@@ -129,15 +129,24 @@ export class XuiDateRangePicker<T = Date> implements ControlValueAccessor {
   private readonly adapter: XDateAdapter<T> = injectXDateAdapter<T>();
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
 
+  /** Extra classes, merged into the component's own rather than replacing them. */
   readonly class = input<ClassValue>('');
 
   /** The chosen range. Two-way bindable with `[(value)]`. */
   readonly value = model<XuiDateRange<T>>({ start: null, end: null });
 
+  /** Earliest selectable date, for both ends of the range. */
   readonly min = input<T | null>(null);
+  /** Latest selectable date, for both ends of the range. */
   readonly max = input<T | null>(null);
+  /**
+   * Per-date predicate for holes that `min`/`max` cannot express — weekends, blackout days. Return `false` to disable
+   * a date.
+   */
   readonly dateFilter = input<((date: T) => boolean) | null>(null);
+  /** Which weekday each grid starts on, `0` for Sunday through `6` for Saturday. */
   readonly firstDayOfWeek = input<number, NumberInput>(0, { transform: numberAttribute });
+  /** BCP 47 tag used for the weekday and month labels. Defaults to the runtime locale. */
   readonly locale = input<string | undefined>(undefined);
 
   /** How many contiguous months to show (1 or 2). */
@@ -146,6 +155,7 @@ export class XuiDateRangePicker<T = Date> implements ControlValueAccessor {
   /** Allow the start and end to be the same day. */
   readonly allowSingleDayRange = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
 
+  /** Block interaction and dim both calendars. */
   readonly disabled = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
 
   protected readonly cva = createXValueAccessor<XuiDateRange<T> | null>({

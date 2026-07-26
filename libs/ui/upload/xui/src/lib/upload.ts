@@ -127,13 +127,25 @@ export interface XuiUploadFile {
 export class XuiUpload {
   private readonly config = injectXuiUploadConfig();
 
+  /** Extra classes, merged into the component's own rather than replacing them. */
   readonly class = input<ClassValue>('');
 
+  /** How files are chosen: a button that opens the picker, or a drop zone that also accepts a drag. */
   readonly type = input<XuiUploadType>(this.config.type);
+  /** Accept more than one file. With this off, a new choice replaces the current file rather than adding to it. */
   readonly multiple = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
+  /**
+   * Passed to the native input's `accept` — a comma-separated list of extensions or MIME types, and shown as a hint
+   * under a drop zone. A filter for the file chooser, not validation.
+   */
   readonly accept = input<string>('');
+  /** Block choosing and dropping, and dim the control. */
   readonly disabled = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
 
+  /**
+   * The chosen files and their upload state. Two-way bindable — write back to it to report progress or mark a file as
+   * failed.
+   */
   readonly files = model<XuiUploadFile[]>([]);
   /** The raw files just chosen (for the host to upload). */
   readonly selected = output<File[]>();

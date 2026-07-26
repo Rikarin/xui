@@ -62,6 +62,7 @@ export type XuiTableVariants = VariantProps<typeof tableVariants>;
 export class XuiTable {
   private readonly config = injectXuiTableConfig();
 
+  /** Extra classes, merged into the component's own rather than replacing them. */
   readonly class = input<ClassValue>('');
 
   /** Alternate row background. */
@@ -85,6 +86,7 @@ export class XuiTable {
     )
   );
 
+  /** Id of the element naming the table. Usually left alone: a projected `xui-caption` sets this itself. */
   // eslint-disable-next-line
   readonly labeledByInput = input<string | null | undefined>(undefined, { alias: 'aria-labelledby' });
   readonly labeledBy = signal<string | null | undefined>(undefined);

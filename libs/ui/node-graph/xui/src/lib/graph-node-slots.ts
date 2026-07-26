@@ -32,6 +32,7 @@ import type { ClassValue } from 'clsx';
   encapsulation: ViewEncapsulation.None
 })
 export class XuiGraphNodeHeader {
+  /** Extra classes, merged into the component's own rather than replacing them. */
   readonly class = input<ClassValue>('');
 
   protected readonly computedClass = computed(() =>
@@ -48,6 +49,7 @@ export class XuiGraphNodeHeader {
   encapsulation: ViewEncapsulation.None
 })
 export class XuiGraphNodeActions {
+  /** Extra classes, merged into the component's own rather than replacing them. */
   readonly class = input<ClassValue>('');
 
   protected readonly computedClass = computed(() => xui('flex shrink-0 items-center gap-1', this.class()));
@@ -65,6 +67,7 @@ export class XuiGraphNodeActions {
   encapsulation: ViewEncapsulation.None
 })
 export class XuiGraphNodePreview {
+  /** Extra classes, merged into the component's own rather than replacing them. */
   readonly class = input<ClassValue>('');
 
   protected readonly computedClass = computed(() =>
@@ -110,6 +113,7 @@ export class XuiGraphNodePreview {
   encapsulation: ViewEncapsulation.None
 })
 export class XuiGraphOverlay {
+  /** Extra classes, merged into the component's own rather than replacing them. */
   readonly class = input<ClassValue>('');
 
   // eslint-disable-next-line local/no-hand-z-index -- slots overlay their own node inside the graph’s stacking context

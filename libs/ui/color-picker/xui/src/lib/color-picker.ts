@@ -245,10 +245,18 @@ export class XuiColorPicker {
 
   private readonly direction = injectXDirection();
 
+  /** Extra classes, merged into the component's own rather than replacing them. */
   readonly class = input<ClassValue>('');
+  /**
+   * The selected colour as a hex string — `#RRGGBB`, or `#RRGGBBAA` when `showAlpha` is on. Two-way bindable with
+   * `[(value)]`.
+   */
   readonly value = model<string>('#1677FF');
+  /** Add an opacity slider and carry the alpha channel in `value`. */
   readonly showAlpha = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
+  /** Block interaction and dim the trigger. The panel cannot be opened. */
   readonly disabled = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
+  /** Hex colours offered as one-click swatches under the picker. Empty hides the row. */
   readonly presets = input<string[]>([]);
   /** Which channel model the input row edits: `hex`, `hsl` or `lch`. Two-way bindable. */
   readonly format = model<XuiColorFormat>('hex');

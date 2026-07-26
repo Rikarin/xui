@@ -64,27 +64,52 @@ export class XuiKonvaShape implements XuiKonvaComponent, XuiKonvaContainer, XuiK
    */
   readonly config = model<NodeConfig>();
 
+  /** Emits when the pointer moves onto the shape. */
   readonly mouseover = output<XuiKonvaEventObject<MouseEvent>>();
+  /** Emits when the pointer moves over the shape. */
   readonly mousemove = output<XuiKonvaEventObject<MouseEvent>>();
+  /** Emits when the pointer moves off the shape. */
   readonly mouseout = output<XuiKonvaEventObject<MouseEvent>>();
+  /** Emits when the pointer enters the shape, without bubbling from its children. */
   readonly mouseenter = output<XuiKonvaEventObject<MouseEvent>>();
+  /** Emits when the pointer leaves the shape, without bubbling from its children. */
   readonly mouseleave = output<XuiKonvaEventObject<MouseEvent>>();
+  /** Emits when a mouse button goes down on the shape. */
   readonly mousedown = output<XuiKonvaEventObject<MouseEvent>>();
+  /** Emits when a mouse button comes up on the shape. */
   readonly mouseup = output<XuiKonvaEventObject<MouseEvent>>();
+  /** Emits when the wheel turns over the shape. */
   readonly wheel = output<XuiKonvaEventObject<WheelEvent>>();
+  /**
+   * Emits when a context menu is requested on the shape. Call `preventDefault()` on the native event to suppress the
+   * browser menu.
+   */
   readonly contextmenu = output<XuiKonvaEventObject<PointerEvent>>();
+  /** Emits when the shape is clicked. */
   readonly click = output<XuiKonvaEventObject<MouseEvent>>();
+  /** Emits when the shape is double-clicked. */
   readonly dblclick = output<XuiKonvaEventObject<MouseEvent>>();
+  /** Emits when a touch starts on the shape. */
   readonly touchstart = output<XuiKonvaEventObject<TouchEvent>>();
+  /** Emits when a touch moves over the shape. */
   readonly touchmove = output<XuiKonvaEventObject<TouchEvent>>();
+  /** Emits when a touch ends on the shape. */
   readonly touchend = output<XuiKonvaEventObject<TouchEvent>>();
+  /** Emits when the shape is tapped — the touch counterpart of `click`. */
   readonly tap = output<XuiKonvaEventObject<TouchEvent>>();
+  /** Emits when the shape is double-tapped. */
   readonly dbltap = output<XuiKonvaEventObject<TouchEvent>>();
+  /** Emits when a drag of the shape begins. Only fires while the node is `draggable`. */
   readonly dragstart = output<XuiKonvaEventObject<MouseEvent>>();
+  /** Emits when the shape moves during a drag. */
   readonly dragmove = output<XuiKonvaEventObject<MouseEvent>>();
+  /** Emits when a drag of the shape ends. */
   readonly dragend = output<XuiKonvaEventObject<MouseEvent>>();
+  /** Emits when a transform of the shape begins. Needs an attached Konva `Transformer`. */
   readonly transformstart = output<XuiKonvaEventObject<MouseEvent>>();
+  /** Emits when the shape is scaled or rotated during a transform. */
   readonly transform = output<XuiKonvaEventObject<MouseEvent>>();
+  /** Emits when a transform of the shape ends. */
   readonly transformend = output<XuiKonvaEventObject<MouseEvent>>();
 
   constructor() {

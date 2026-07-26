@@ -120,12 +120,15 @@ export class XuiSection {
 
   /** The user-defined classes. Merged last so they win over the variant classes. */
   readonly class = input<ClassValue>('');
+  /** Drop-shadow depth of the section's card. */
   readonly elevation = input<XuiSectionVariants['elevation']>(this.config.elevation);
 
   /** The header only renders when there is a title. */
   readonly title = input<string | null>(null);
+  /** Secondary text beside the title in the header. */
   readonly subtitle = input<string | null>(null);
 
+  /** Let the header fold the section's body away. */
   readonly collapsible = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
 
   /** Reduce the header padding. */

@@ -61,14 +61,23 @@ export class XuiTooltip {
   /** Values a template content destructures with `let-`. */
   readonly context = input<Record<string, unknown>>();
 
+  /** Preferred side and alignment relative to the target. The overlay flips it when there is no room. */
   readonly placement = input<XPlacement>(this.config.placement);
+  /** Intent colour of the bubble. */
   readonly color = input<XuiTooltipColor>(this.config.color);
+  /** Tighter padding and smaller text, for one-word hints. */
   readonly compact = input<boolean, BooleanInput>(this.config.compact, { transform: booleanAttribute });
+  /** Also open when the target takes keyboard focus, so the hint is reachable without a pointer. */
   readonly openOnTargetFocus = input<boolean, BooleanInput>(this.config.openOnTargetFocus, {
     transform: booleanAttribute
   });
+  /** Gap in pixels between the target and the bubble. */
   readonly offset = input<number, NumberInput>(this.config.offset, { transform: numberAttribute });
+  /**
+   * Milliseconds the pointer must rest on the target before the tooltip opens. Keeps it from firing on the way past.
+   */
   readonly hoverOpenDelay = input<number, NumberInput>(this.config.hoverOpenDelay, { transform: numberAttribute });
+  /** Milliseconds before the tooltip closes after the pointer leaves. */
   readonly hoverCloseDelay = input<number, NumberInput>(this.config.hoverCloseDelay, { transform: numberAttribute });
 
   /** A disabled tooltip never opens, and hides if it was showing. */

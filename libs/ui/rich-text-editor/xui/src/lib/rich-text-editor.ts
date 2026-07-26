@@ -266,6 +266,7 @@ export class XuiRichTextEditor implements ControlValueAccessor {
   private readonly surface = viewChild<ElementRef<HTMLElement>>('surface');
   private readonly linkField = viewChild<ElementRef<HTMLInputElement>>('linkField');
 
+  /** Extra classes, merged into the component's own rather than replacing them. */
   readonly class = input<ClassValue>('');
 
   /** The source text, in the active `format`. Two-way bindable, and the form value. */
@@ -274,16 +275,19 @@ export class XuiRichTextEditor implements ControlValueAccessor {
   /** `'markdown'`, `'bbcode'`, or any format registered with `provideXuiRichTextSyntax`. */
   readonly format = input<string>(this.config.format);
 
+  /** Text shown over the empty editor. */
   readonly placeholder = input<string>(this.config.placeholder);
 
   /** Offer the source-text toggle. */
   readonly sourceView = input<boolean, BooleanInput>(this.config.sourceView, { transform: booleanAttribute });
 
+  /** Block editing and dim the editor and its toolbar. */
   readonly disabled = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
 
   /** Height of the writing area before it grows with the content. */
   readonly minHeight = input<number>(180);
 
+  /** Accessible name for the editing surface — what is being written. */
   readonly ariaLabel = input<string | undefined>(undefined, { alias: 'aria-label' });
 
   /** Whether the source view is showing. Two-way bindable. */

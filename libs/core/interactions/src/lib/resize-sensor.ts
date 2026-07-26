@@ -18,6 +18,7 @@ export class XResizeSensor {
   /** The host's current content-box size. */
   readonly size = injectXElementSize();
 
+  /** Emits the host's content-box size whenever it changes, starting with its initial size. */
   readonly xResize = output<XElementSize>();
 
   constructor() {

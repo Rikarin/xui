@@ -13,7 +13,9 @@ export type XuiStepStatus = 'wait' | 'process' | 'finish' | 'error';
   encapsulation: ViewEncapsulation.None
 })
 export class XuiStep {
+  /** The step's name, shown beside its marker. */
   readonly title = input<string>('');
+  /** Supporting detail under the title. */
   readonly description = input<string>('');
   /** Force a status instead of deriving it from the active step. */
   readonly status = input<XuiStepStatus>();

@@ -65,10 +65,14 @@ export type XuiResultStatus = 'success' | 'error' | 'info' | 'warning' | '404' |
 export class XuiResult {
   private readonly config = injectXuiResultConfig();
 
+  /** Extra classes, merged into the component's own rather than replacing them. */
   readonly class = input<ClassValue>('');
 
+  /** What happened. Picks the glyph and its tint; the HTTP codes render as the number itself. */
   readonly status = input<XuiResultStatus>(this.config.status);
+  /** The headline — what the outcome was. */
   readonly title = input<string>('');
+  /** Supporting detail under the title. Project buttons as content for what to do next. */
   readonly subtitle = input<string>('');
 
   protected readonly computedClass = computed(() =>

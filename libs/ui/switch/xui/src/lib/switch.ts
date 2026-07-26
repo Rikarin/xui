@@ -94,15 +94,20 @@ export class XuiSwitch implements ControlValueAccessor {
 
   /** The user-defined classes on the track. Merged last so they win. */
   readonly class = input<ClassValue>('');
+  /** Track and thumb size, from the shared control scale. */
   readonly size = input<XuiSwitchSize>(this.config.size);
 
+  /** The switch's DOM id, so a `<label for>` can point at it. Defaults to a generated unique id. */
   readonly id = input<string | null>(uniqueId('xui-switch'));
+  /** Accessible name for the switch — what it turns on. */
   readonly ariaLabel = input<string | null>(null, { alias: 'aria-label' });
+  /** Id of an element naming the switch. Use it instead of `aria-label` when that text is already on screen. */
   readonly ariaLabelledby = input<string | null>(null, { alias: 'aria-labelledby' });
 
   /** Checked state. Works two-way and via `ngModel`/`formControl`. */
   readonly checked = model(false);
 
+  /** Block interaction and dim the switch. */
   readonly disabled = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
 
   protected readonly cva = createXValueAccessor<boolean>({

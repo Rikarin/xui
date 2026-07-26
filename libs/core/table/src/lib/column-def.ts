@@ -4,6 +4,21 @@ import { XCellDef } from './cell-def';
 import { XFooterDef } from './footer-def';
 import { XHeaderDef } from './header-def';
 
+/**
+ * Defines one column of an `x-table`: its name, its shared cell classes, and the header, body and
+ * footer templates projected into it.
+ *
+ * ```html
+ * <x-column-def name="role" class="w-32">
+ *   <span *xHeaderDef>Role</span>
+ *   <span *xCellDef="let row">{{ row.role }}</span>
+ * </x-column-def>
+ * ```
+ *
+ * List the name in the table's `displayedColumns` for the column to render. It owns its `CdkColumnDef`
+ * directly rather than declaring one in a template, so this class is the only writer of the projected
+ * cell templates.
+ */
 @Component({
   selector: 'x-column-def',
   template: `
@@ -15,11 +30,15 @@ import { XHeaderDef } from './header-def';
   encapsulation: ViewEncapsulation.None
 })
 export class XColumnDef {
+  /** The column's key, as listed in the table's `displayedColumns`. */
   readonly name = input.required<string>();
 
   /** Extra classes the styled cells (`xui-th`/`xui-td`) merge into this column. */
   readonly class = input('');
 
+  /**
+   * The projected `*xCellDef` body template. A column without one is skipped when the table registers its columns.
+   */
   readonly cellDef = contentChild(XCellDef);
   private readonly footerCellDef = contentChild(XFooterDef);
   private readonly headerCellDef = contentChild(XHeaderDef);

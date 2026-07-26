@@ -81,13 +81,17 @@ export type XuiTagInputVariants = VariantProps<typeof tagInputContainerVariants>
   encapsulation: ViewEncapsulation.None
 })
 export class XuiTagInput implements ControlValueAccessor {
+  /** Extra classes, merged into the component's own rather than replacing them. */
   readonly class = input<ClassValue>('');
 
   /** The current tags. Two-way bindable with `[(values)]`. */
   readonly values = model<string[]>([]);
 
+  /** Text shown in the empty field. Hidden once there is at least one tag. */
   readonly placeholder = input<string>('');
+  /** Stretch to the available width instead of hugging its contents. */
   readonly fill = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
+  /** Block interaction and dim the field and its tags. */
   readonly disabled = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
 
   /** Character that also commits the current draft (besides Enter). */

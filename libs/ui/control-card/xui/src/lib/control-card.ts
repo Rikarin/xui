@@ -85,12 +85,18 @@ export type XuiControlCardVariants = VariantProps<typeof controlCardVariants>;
   viewProviders: [provideIcons({ matCheckRound })]
 })
 export class XuiControlCard implements ControlValueAccessor {
+  /** Extra classes, merged into the component's own rather than replacing them. */
   readonly class = input<ClassValue>('');
+  /**
+   * Which control the card wraps — a checkbox, a radio or a switch. Picks both the rendered control and the selection
+   * semantics.
+   */
   readonly type = input<XuiControlCardType>('checkbox');
 
   /** The checked/selected state. Two-way bindable with `[(checked)]`. */
   readonly checked = model(false);
 
+  /** Block interaction and dim the card, including the control inside it. */
   readonly disabled = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
 
   /** Whether a checked card shows the selected (accented) appearance. */

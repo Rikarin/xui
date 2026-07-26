@@ -46,6 +46,22 @@ export const formFieldColorText = cva('', {
 
 export type XuiFormFieldColor = NonNullable<VariantProps<typeof formFieldColorText>['color']>;
 
+/**
+ * Wraps a control with its label, helper text and validation message, and wires the three together.
+ *
+ * ```html
+ * <xui-form-field label="Email" labelInfo="(required)" helperText="We never share it.">
+ *   <input xuiInput [formControl]="email" />
+ *   <xui-error>Enter a valid address.</xui-error>
+ * </xui-form-field>
+ * ```
+ *
+ * It finds the projected control through `XFormFieldControl`, so any xUI control registered under that
+ * token works — input, textarea, select, numeric-input, file-input, html-select. The `<label for>` is
+ * pointed at the real focusable element (the control's `controlId` when it wraps an inner input, else
+ * its host, which the field gives an id if it has none), and the projected `xui-error` replaces the
+ * hint only while the control actually reports an error. Throws if it contains no control.
+ */
 @Component({
   selector: 'xui-form-field',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -90,10 +106,13 @@ export type XuiFormFieldColor = NonNullable<VariantProps<typeof formFieldColorTe
 export class XuiFormField {
   private readonly config = injectXuiFormFieldConfig();
 
+  /** The projected control, found through `XFormFieldControl`. Read-only; the field throws if there is none. */
   readonly control = contentChild(XFormFieldControl);
   private readonly controlEl = contentChild(XFormFieldControl, { read: ElementRef });
+  /** The projected `xui-error` messages. Shown in place of the hint while the control reports an error. */
   readonly errorChildren = contentChildren(XuiError);
 
+  /** Extra classes, merged into the component's own rather than replacing them. */
   readonly class = input<ClassValue>('');
 
   /** The primary label rendered above (or beside, when `inline`) the control. */

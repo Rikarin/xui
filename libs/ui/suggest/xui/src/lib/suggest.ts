@@ -96,15 +96,25 @@ import type { ClassValue } from 'clsx';
   encapsulation: ViewEncapsulation.None
 })
 export class XuiSuggest<T> implements ControlValueAccessor {
+  /** Extra classes, merged into the component's own rather than replacing them. */
   readonly class = input<ClassValue>('');
 
+  /** The options to search over. */
   readonly items = input<readonly T[]>([]);
+  /**
+   * How an item is labelled, in both the list and the field once chosen. Also what the default filter matches against.
+   */
   readonly itemText = input<(item: T) => string>((item: T) => (item == null ? '' : String(item)));
+  /** Custom filter for one item against the query. Defaults to a case-insensitive substring match on `itemText`. */
   readonly itemPredicate = input<(query: string, item: T) => boolean>();
+  /** Which items cannot be chosen. They stay in the list, greyed out. */
   readonly itemDisabled = input<(item: T) => boolean>(() => false);
 
+  /** Block interaction and dim the field. */
   readonly disabled = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
+  /** Text shown in the empty field. */
   readonly placeholder = input<string>('Search…');
+  /** Shown in place of the list when the query matches nothing. */
   readonly noResultsText = input<string>('No results.');
 
   /** The chosen item. Two-way bindable with `[(value)]`, or via `formControl`/`ngModel`. */

@@ -78,6 +78,18 @@ type WrapperVariants = VariantProps<typeof checkboxWrapperVariants>;
 
 export type XuiCheckboxAlignIndicator = NonNullable<WrapperVariants['alignIndicator']>;
 
+/**
+ * A checkbox with its label, wired for forms.
+ *
+ * ```html
+ * <xui-checkbox label="Remember me" [(checked)]="remember" />
+ * <xui-checkbox label="Select all" [(indeterminate)]="partial" formControlName="all" />
+ * ```
+ *
+ * Styles the headless `x-checkbox` from `@xui/core/checkbox`, which owns the `role="checkbox"`
+ * semantics and the tri-state logic. `checked` is a `model()`, so it works both two-way bound and as a
+ * `ControlValueAccessor` — a `formControlName` writes through it without echoing a change back.
+ */
 @Component({
   selector: 'xui-checkbox',
   imports: [XCheckboxImports, NgIcon, XuiIcon],
@@ -139,7 +151,9 @@ export class XuiCheckbox implements ControlValueAccessor {
    * what `alignIndicator="end"` needs something to push against) put the class on a wrapper.
    */
   readonly class = input<ClassValue>('');
+  /** Intent colour of the checked box. */
   readonly color = input<XuiCheckboxVariants['color']>(this.config.color);
+  /** Box size, from the shared control scale. `large` overrides the tick's own size. */
   readonly size = input<XuiCheckboxVariants['size']>(this.config.size);
 
   /** A plain-text label rendered beside the box, as an alternative to projection. */

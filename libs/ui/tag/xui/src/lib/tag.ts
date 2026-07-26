@@ -98,11 +98,17 @@ export type XuiTagColor = NonNullable<XuiTagVariants['color']>;
 export class XuiTag {
   private readonly config = injectXuiTagConfig();
 
+  /** Extra classes, merged into the component's own rather than replacing them. */
   readonly class = input<ClassValue>('');
+  /** Intent colour of the tag. */
   readonly color = input<XuiTagColor>(this.config.color);
+  /** Drop the solid fill for a tinted, low-contrast tag. What you want when tags appear in bulk. */
   readonly minimal = input<boolean, BooleanInput>(this.config.minimal, { transform: booleanAttribute });
+  /** Use the roomier padding and larger text. */
   readonly large = input<boolean, BooleanInput>(this.config.large, { transform: booleanAttribute });
+  /** Fully rounded ends, rather than the default soft corners. */
   readonly round = input<boolean, BooleanInput>(this.config.round, { transform: booleanAttribute });
+  /** Stretch to the available width, and stop truncating the label. */
   readonly fill = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
 
   /** Read as clickable (pointer cursor + hover feedback). */

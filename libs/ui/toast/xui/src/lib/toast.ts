@@ -68,9 +68,15 @@ export interface XuiToastData {
   }
 })
 export class XuiToast {
+  /**
+   * The notification to render: its message, colour, icon and optional action. Normally supplied by the toast service
+   * rather than bound by hand.
+   */
   readonly toast = input.required<XuiToastData>();
 
+  /** Emits when the toast's action button is pressed. */
   readonly actionClicked = output<void>();
+  /** Emits when the toast is dismissed, whether by its close button or by timing out. */
   readonly dismissed = output<void>();
 
   protected readonly resolvedIcon = computed(() => {

@@ -73,6 +73,7 @@ export class XuiGraphMinimap {
   private readonly element = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
   private dragging = false;
 
+  /** Extra classes, merged into the component's own rather than replacing them. */
   readonly class = input<ClassValue>('');
 
   /** Blank margin around the content, in graph units. */

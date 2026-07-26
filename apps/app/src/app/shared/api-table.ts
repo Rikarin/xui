@@ -12,10 +12,12 @@ import { HeadingAnchor } from './heading-anchor';
  * the axis is the interesting part — it is the closed set of values the component was designed
  * around, which the input's declared type usually widens away.
  *
- * Two things about the layout, both consequences of `xui-table` being flex rather than a `<table>`:
+ * Three things about the layout, all consequences of `xui-table` being flex rather than a `<table>`:
  * a cell lays its children out in a row, so anything that should stack goes in a single wrapper;
- * and a cell is `flex-none`, so a column that has to absorb the leftover width needs `flex-1`
- * (`grow` alone leaves `flex-shrink: 0`, and a long type name then pushes the row past the table).
+ * a cell is `flex-none`, so a column that has to absorb the leftover width needs `flex-1`
+ * (`grow` alone leaves `flex-shrink: 0`, and a long type name then pushes the row past the table);
+ * and top-aligning a row's contents belongs on the cells, never on the row — the column dividers are
+ * the cells' own `border-e`, so a row that stops stretching them leaves the line short of the row.
  */
 @Component({
   selector: 'docs-api-table',
@@ -76,8 +78,8 @@ import { HeadingAnchor } from './heading-anchor';
           <xui-th class="w-44 min-w-0 shrink">Default</xui-th>
         </xui-tr>
         @for (field of symbol().inputs; track field.name) {
-          <xui-tr class="items-start">
-            <xui-td class="w-44 min-w-0 shrink">
+          <xui-tr>
+            <xui-td class="w-44 min-w-0 shrink items-start">
               <span class="flex w-full flex-wrap items-center gap-1">
                 <code xuiCode class="wrap-anywhere whitespace-normal">{{ field.name }}</code>
                 @if (field.required) {
@@ -88,7 +90,7 @@ import { HeadingAnchor } from './heading-anchor';
                 }
               </span>
             </xui-td>
-            <xui-td class="min-w-0 flex-1">
+            <xui-td class="min-w-0 flex-1 items-start">
               <span class="block w-full min-w-0">
                 <code xuiCode class="text-xs wrap-anywhere whitespace-normal">{{ field.type }}</code>
                 @if (field.docs; as docs) {
@@ -96,7 +98,7 @@ import { HeadingAnchor } from './heading-anchor';
                 }
               </span>
             </xui-td>
-            <xui-td class="w-44 min-w-0 shrink">
+            <xui-td class="w-44 min-w-0 shrink items-start">
               @if (field.default) {
                 <code xuiCode class="line-clamp-4 text-xs wrap-anywhere whitespace-normal" [title]="field.default">{{
                   field.default
@@ -118,11 +120,11 @@ import { HeadingAnchor } from './heading-anchor';
           <xui-th class="min-w-0 flex-1">Type</xui-th>
         </xui-tr>
         @for (event of symbol().outputs; track event.name) {
-          <xui-tr class="items-start">
-            <xui-td class="w-44 min-w-0 shrink">
+          <xui-tr>
+            <xui-td class="w-44 min-w-0 shrink items-start">
               <code xuiCode class="wrap-anywhere whitespace-normal">{{ event.name }}</code>
             </xui-td>
-            <xui-td class="min-w-0 flex-1">
+            <xui-td class="min-w-0 flex-1 items-start">
               <span class="block w-full min-w-0">
                 <code xuiCode class="text-xs wrap-anywhere whitespace-normal">{{ event.type }}</code>
                 @if (event.docs; as docs) {
@@ -139,8 +141,8 @@ import { HeadingAnchor } from './heading-anchor';
       <p xuiText weight="medium" size="sm" class="mt-6 mb-2">Methods</p>
       <xui-table bordered compact class="w-full">
         @for (method of symbol().methods; track method.name) {
-          <xui-tr class="items-start">
-            <xui-td class="min-w-0 flex-1">
+          <xui-tr>
+            <xui-td class="min-w-0 flex-1 items-start">
               <span class="block w-full min-w-0">
                 <code xuiCode class="text-xs wrap-anywhere whitespace-normal">{{ method.signature }}</code>
                 @if (method.docs; as docs) {

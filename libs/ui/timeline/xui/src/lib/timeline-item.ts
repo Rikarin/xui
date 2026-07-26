@@ -33,7 +33,9 @@ export class XuiTimelineItem {
   private readonly timeline = inject(XuiTimeline);
   private readonly config = injectXuiTimelineConfig();
 
+  /** Intent colour of the item's dot — how this event reads at a glance. */
   readonly color = input<XuiTimelineColor>(this.config.color);
+  /** Small text above the item's content, usually the timestamp. */
   readonly label = input<string>('');
 
   protected readonly computedClass = computed(() =>

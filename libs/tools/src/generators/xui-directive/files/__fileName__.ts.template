@@ -32,6 +32,16 @@ export const <%= propertyVariantsName %> = cva([''], {
 
 export type <%= variantsName %> = VariantProps<typeof <%= propertyVariantsName %>>;
 
+/**
+ * TODO: one line saying what this directive is.
+ *
+ * ```html
+ * TODO: the smallest realistic usage.
+ * ```
+ *
+ * TODO: whatever a caller could not have guessed — what it composes, what it deliberately does
+ * not do. Delete this paragraph if there is nothing to say.
+ */
 @Directive({
   selector: '[<%= selector %>]',
   exportAs: '<%= selector %>',
@@ -42,10 +52,13 @@ export type <%= variantsName %> = VariantProps<typeof <%= propertyVariantsName %
 export class <%= directiveName %> {
   private readonly config = injectXui<%= className %>Config();
 
-  /** The user-defined classes. Merged last so they win over the variant classes. */
+  /** Extra classes, merged into the directive's own rather than replacing them. */
   readonly class = input<ClassValue>('');
+  /** Intent colour. */
   readonly color = input<<%= variantsName %>['color']>(this.config.color);
+  /** Control size, from the shared control scale. */
   readonly size = input<<%= variantsName %>['size']>(this.config.size);
+  /** How much the directive asserts itself. */
   readonly variant = input<<%= variantsName %>['variant']>(this.config.variant);
 
   protected readonly computedClass = computed(() =>

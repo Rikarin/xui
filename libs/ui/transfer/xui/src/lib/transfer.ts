@@ -179,12 +179,17 @@ export class XuiTransfer implements ControlValueAccessor {
   protected readonly SIDES: Side[] = ['left', 'right'];
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
 
+  /** Extra classes, merged into the component's own rather than replacing them. */
   readonly class = input<ClassValue>('');
+  /** Every item, on both sides. Which side each one is on comes from the bound value, not from this list. */
   readonly items = input<XuiTransferItem[]>([]);
   /** The target-list keys. Two-way bindable with `[(values)]`, or via `formControl`/`ngModel`. */
   readonly values = model<string[]>([]);
+  /** Headings for the two lists, source first. */
   readonly titles = input<[string, string]>(['Source', 'Target']);
+  /** Add a filter field above each list. */
   readonly searchable = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
+  /** Block interaction and dim both lists. */
   readonly disabled = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
 
   protected readonly cva = createXValueAccessor<string[]>({

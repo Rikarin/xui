@@ -83,7 +83,14 @@ export class XuiIcon {
    * reach for `color` instead. Everything else (layout, spacing, transitions) applies as usual.
    */
   readonly class = input<ClassValue>('');
+  /**
+   * Icon box size, from the shared scale. `none` leaves the size to the surrounding text or to your own classes; any
+   * other string is passed through as a length.
+   */
   readonly size = input<XuiIconSize>(this.config.size);
+  /**
+   * Semantic colour. Defaults to inheriting the surrounding text colour, so an icon in a button matches its label.
+   */
   readonly color = input<XuiIconColor>(this.config.color);
 
   /**

@@ -64,9 +64,12 @@ export class XuiNonIdealState {
 
   /** The user-defined classes. Merged last so they win over the variant classes. */
   readonly class = input<ClassValue>('');
+  /** Stack the icon above the text and centre everything (`vertical`), or set the icon beside it (`horizontal`). */
   readonly orientation = input<XuiNonIdealStateVariants['orientation']>(this.config.orientation);
 
+  /** What happened, in a few words — "No results", "Nothing here yet". */
   readonly title = input<string | null>(null);
+  /** What the user can do about it. Project buttons as content for the action itself. */
   readonly description = input<string | null>(null);
 
   protected readonly computedClass = computed(() =>

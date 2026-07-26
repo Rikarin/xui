@@ -83,10 +83,14 @@ export class XuiPanelStack<D = unknown> {
 
   /** The user-defined classes. Merged last so they win over the base classes. */
   readonly class = input<ClassValue>('');
+  /** The panel at the bottom of the stack. It cannot be popped — there is always something to show. */
   readonly initialPanel = input.required<XuiPanel<D>>();
+  /** Show the header with the panel title and its back button. Turn it off to supply your own navigation. */
   readonly showPanelHeader = input<boolean, BooleanInput>(true, { transform: booleanAttribute });
 
+  /** Emits the panel that was just pushed onto the stack. */
   readonly opened = output<XuiPanel>();
+  /** Emits the panel that was just popped off the stack. */
   readonly closed = output<XuiPanel>();
 
   private readonly stack = signal<XuiPanel[]>([]);

@@ -48,6 +48,7 @@ export class XuiDockContentOutlet {
   private readonly host: HTMLElement = inject(ElementRef).nativeElement;
   private readonly mounter = inject(XUI_DOCK_CONTENT_MOUNTER);
 
+  /** Which pane's content view to mount here — the `contentId` of the matching `xuiDockContent`. */
   readonly contentId = input.required<string>({ alias: 'xuiDockContentOutlet' });
 
   constructor() {

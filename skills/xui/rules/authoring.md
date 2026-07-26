@@ -47,6 +47,42 @@ Scaffold it with `pnpm nx g @xui/tools:library <name> --generate=component --sto
 - A11y: roles and `aria-*` wired to the real focusable element, keyboard interaction per the
   WAI-ARIA APG, `FocusMonitor` / `FocusTrap` from `@angular/cdk/a11y` where relevant.
 - No raw palette colours anywhere - see `styling.md`.
+- Every exported component/directive, and every `input()`/`model()`/`output()` on it, carries a doc
+  comment - see "Documenting the API" below. `local/require-api-docs` fails the build without one.
+
+## Documenting the API
+
+The doc comments **are** the reference: `@xui/mcp` extracts them and both xuijs.org and the MCP
+server render exactly what it finds, so an undocumented input reaches the API table as a name and a
+type with nothing beside it.
+
+The class comment says what the thing is, shows the smallest realistic template, and then explains
+whatever a caller could not have guessed - what it composes, what it deliberately does not do, why:
+
+````ts
+/**
+ * Turns a native `<button>` or `<a>` into an xUI button.
+ *
+ * ```html
+ * <button xuiButton color="primary">Save</button>
+ * ```
+ *
+ * A directive rather than a component, so the element keeps its own semantics - a `<button>` still
+ * submits a form, `disabled` still swallows the click. That is also why there is no `disabled`
+ * input: set the native attribute.
+ */
+````
+
+A member comment is one or two sentences. Say what it does and, where it matters, what it interacts
+with - "Ignored when `minimal`, which sits flush", "The tracker wins while it reports an error, so
+`auto` never hides a real validation failure". Do not restate the type or the default; the table
+already shows both.
+
+Two things the extractor imposes:
+
+- It keeps only the free text **before** the first `@tag`. A comment that opens with `@see Foo`
+  extracts as empty and renders blank; write the prose first and use `{@link Foo}` inline.
+- `private` members are skipped, so an internal signal needs no comment.
 
 ## Tests
 

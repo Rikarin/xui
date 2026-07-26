@@ -90,17 +90,28 @@ import type { ClassValue } from 'clsx';
 export class XuiRate implements ControlValueAccessor {
   protected readonly direction = injectXDirection();
 
+  /** Extra classes, merged into the component's own rather than replacing them. */
   readonly class = input<ClassValue>('');
 
   /** Names the control. Defaults to "Rating" so the slider is never anonymous. */
   readonly ariaLabel = input<string | null>(null, { alias: 'aria-label' });
 
+  /**
+   * The rating, from `0` to `count`. Halves are only reachable with `allowHalf`. Two-way bindable with `[(value)]`.
+   */
   readonly value = model<number>(0);
+  /** How many stars there are, and so the maximum value. */
   readonly count = input<number, NumberInput>(5, { transform: numberAttribute });
+  /** Let a star be half-filled, halving the step for both clicks and arrow keys. */
   readonly allowHalf = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
   /** Clicking the current value again resets it to 0. */
   readonly allowClear = input<boolean, BooleanInput>(true, { transform: booleanAttribute });
+  /**
+   * Show the rating without letting it be changed. Unlike `disabled`, it stays at full contrast — for displaying
+   * someone else's rating.
+   */
   readonly readonly = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
+  /** Block interaction and dim the stars. */
   readonly disabled = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
   /** Star size in pixels. */
   readonly starSize = input<number, NumberInput>(20, { transform: numberAttribute });

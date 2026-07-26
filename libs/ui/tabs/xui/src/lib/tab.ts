@@ -46,6 +46,10 @@ export class XuiTab {
   /** Plain-text tab-strip label (ignored when a `[xuiTabTitle]` template is given). */
   readonly title = input<string>('');
 
+  /**
+   * Make the tab unselectable. It stays in the list, is skipped by the arrow keys, and is never chosen as the default
+   * selection.
+   */
   readonly disabled = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
 
   /** Optional rich title template. */

@@ -36,6 +36,7 @@ import { XuiTruncatedFormat } from './truncated-format';
   encapsulation: ViewEncapsulation.None
 })
 export class XuiJsonFormat {
+  /** Extra classes, merged into the component's own rather than replacing them. */
   readonly class = input<ClassValue>('');
 
   /** The value to serialize as JSON. */

@@ -72,9 +72,15 @@ export class XuiSplitter {
   private readonly el = inject(ElementRef).nativeElement as HTMLElement;
   private readonly direction = injectXDirection();
 
+  /** Extra classes, merged into the component's own rather than replacing them. */
   readonly class = input<ClassValue>('');
+  /**
+   * Which way the panels are laid out: side by side (`horizontal`) or stacked (`vertical`). The handles run across
+   * that axis.
+   */
   readonly orientation = input<'horizontal' | 'vertical'>('horizontal');
 
+  /** Emits every panel's size as a percentage, in order, whenever a handle is dragged. */
   readonly sizeChange = output<number[]>();
 
   protected readonly panels = contentChildren(XuiSplitterPanel);

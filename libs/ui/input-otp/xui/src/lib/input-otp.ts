@@ -63,10 +63,15 @@ import type { ClassValue } from 'clsx';
   encapsulation: ViewEncapsulation.None
 })
 export class XuiInputOtp {
+  /** Extra classes, merged into the component's own rather than replacing them. */
   readonly class = input<ClassValue>('');
+  /** How many characters the code has, and so how many slots are drawn. */
   readonly length = input<number, NumberInput>(6, { transform: numberAttribute });
+  /** The code entered so far — a single string, not one value per slot. Two-way bindable with `[(value)]`. */
   readonly value = model<string>('');
+  /** Block entry and dim the slots. */
   readonly disabled = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
+  /** `numeric` restricts entry to digits and asks for the numeric keypad; `text` accepts anything. */
   readonly inputType = input<'numeric' | 'text'>('numeric');
   /** Render each filled slot as a dot instead of the character. */
   readonly mask = input<boolean, BooleanInput>(false, { transform: booleanAttribute });

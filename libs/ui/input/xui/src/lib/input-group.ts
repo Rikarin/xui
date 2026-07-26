@@ -89,6 +89,7 @@ export class XuiInputRightElement {}
   viewProviders: [provideIcons({ matCloseRound })]
 })
 export class XuiInputGroup {
+  /** Extra classes, merged into the component's own rather than replacing them. */
   readonly class = input<ClassValue>('');
 
   /** Show a clear button on the trailing edge whenever the input holds a value. */

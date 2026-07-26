@@ -26,6 +26,13 @@ export abstract class XuiStyledElement {
   protected readonly computedClass = computed(() => xui(this.baseClass, this.class()));
 }
 
+/**
+ * Styles a native `<blockquote>` as quoted prose.
+ *
+ * ```html
+ * <blockquote xuiBlockquote>Design is how it works.</blockquote>
+ * ```
+ */
 @Directive({
   selector: 'blockquote[xuiBlockquote]',
   exportAs: 'xuiBlockquote',
@@ -35,6 +42,16 @@ export class XuiBlockquote extends XuiStyledElement {
   protected readonly baseClass = 'border-border-strong text-foreground-muted my-2 border-s-4 ps-4 italic';
 }
 
+/**
+ * Styles a native inline `<code>`.
+ *
+ * ```html
+ * Run <code xuiCode>pnpm install</code> first.
+ * ```
+ *
+ * Does not wrap: inline code keeps its line, so a long identifier scrolls its container rather than
+ * breaking mid-token. Use `xuiCodeBlock` for anything multi-line.
+ */
 @Directive({
   selector: 'code[xuiCode]',
   exportAs: 'xuiCode',
@@ -45,6 +62,16 @@ export class XuiCode extends XuiStyledElement {
     'bg-muted text-foreground rounded px-1 py-0.5 font-mono text-[0.9em] whitespace-nowrap';
 }
 
+/**
+ * Styles a native `<pre>` as a code block.
+ *
+ * ```html
+ * <pre xuiCodeBlock><code>pnpm add @xui/text</code></pre>
+ * ```
+ *
+ * A nested `<code>` is stripped back to bare text, so the block paints its chrome once rather than
+ * drawing an inline code pill inside itself.
+ */
 @Directive({
   selector: 'pre[xuiCodeBlock]',
   exportAs: 'xuiCodeBlock',
@@ -58,6 +85,16 @@ export class XuiCodeBlock extends XuiStyledElement {
     '[&_code]:bg-transparent [&_code]:p-0 [&_code]:whitespace-pre';
 }
 
+/**
+ * Styles a native `<ol>` or `<ul>`, including nested ones.
+ *
+ * ```html
+ * <ul xuiList><li>One</li><li>Two</li></ul>
+ * ```
+ *
+ * One directive covers both list types — the marker comes from the host tag, so there is no input to
+ * keep in sync with the markup.
+ */
 @Directive({
   selector: 'ol[xuiList],ul[xuiList]',
   exportAs: 'xuiList',

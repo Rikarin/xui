@@ -114,21 +114,33 @@ export class XuiOmnibar<T> {
   private ref: XOverlayRef | null = null;
   private destroyed = false;
 
+  /** Extra classes, merged into the component's own rather than replacing them. */
   readonly class = input<ClassValue>('');
+  /** Accessible name for the palette dialog. */
   readonly ariaLabel = input<string>('Command palette', { alias: 'aria-label' });
 
+  /** The commands to search over. */
   readonly items = input<readonly T[]>([]);
+  /**
+   * How an item is labelled. Also what the default filter matches against, so give it the text the user would type.
+   */
   readonly itemText = input<(item: T) => string>((item: T) => (item == null ? '' : String(item)));
+  /** Custom filter for one item against the query. Defaults to a case-insensitive substring match on `itemText`. */
   readonly itemPredicate = input<(query: string, item: T) => boolean>();
+  /** Which items cannot be chosen. They stay in the list, greyed out. */
   readonly itemDisabled = input<(item: T) => boolean>(() => false);
 
+  /** Text shown in the empty query field. */
   readonly placeholder = input<string>('Type a command or search…');
+  /** Shown in place of the list when the query matches nothing. */
   readonly noResultsText = input<string>('No results.');
+  /** Clear the query when the palette closes, so it opens fresh next time. */
   readonly resetOnClose = input<boolean>(true);
 
   /** Whether the palette is showing. Two-way bindable with `[(open)]`. */
   readonly open = model(false);
 
+  /** Emits the chosen command. Where the action goes — the palette only closes. */
   readonly itemSelected = output<T>();
 
   protected readonly query = signal('');

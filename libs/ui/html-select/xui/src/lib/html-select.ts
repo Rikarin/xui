@@ -119,15 +119,19 @@ export class XuiHtmlSelect<T = string> implements ControlValueAccessor, XFormFie
 
   /** The user-defined classes on the wrapper. Merged last so they win. */
   readonly class = input<ClassValue>('');
+  /** Control height, from the shared control scale. */
   readonly size = input<XuiHtmlSelectVariants['size']>(this.config.size);
+  /** Stretch to the available width instead of hugging its contents. */
   readonly fill = input<boolean, BooleanInput>(this.config.fill, { transform: booleanAttribute });
 
   /** Options as data; alternatively, project `<option>` elements. */
   readonly options = input<readonly XuiHtmlSelectOption<T>[]>([]);
   /** A leading, unselectable prompt shown when nothing is chosen. */
   readonly placeholder = input<string | null>(null);
+  /** Accessible name for the select, when no `<label>` points at it. */
   readonly ariaLabel = input<string | null>(null, { alias: 'aria-label' });
 
+  /** Block interaction and dim the control. */
   readonly disabled = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
 
   protected readonly value = signal<T | string | null>(null);

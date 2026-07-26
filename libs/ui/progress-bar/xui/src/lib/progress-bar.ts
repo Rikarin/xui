@@ -93,7 +93,9 @@ export class XuiProgressBar {
 
   /** The user-defined classes. Merged last so they win over the variant classes. */
   readonly class = input<ClassValue>('');
+  /** Intent colour of the filled portion. */
   readonly color = input<XuiProgressBarVariants['color']>(this.config.color);
+  /** Track thickness. */
   readonly size = input<XuiProgressBarVariants['size']>(this.config.size);
 
   /**
@@ -102,10 +104,14 @@ export class XuiProgressBar {
    */
   readonly value = input<number | null | undefined>(undefined);
 
+  /** Draw diagonal stripes across the fill. */
   readonly stripes = input<boolean, BooleanInput>(this.config.stripes, { transform: booleanAttribute });
+  /** Scroll the stripes, so the bar reads as busy. Needs `stripes` to be visible. */
   readonly animate = input<boolean, BooleanInput>(this.config.animate, { transform: booleanAttribute });
 
+  /** Accessible name for the bar — what is progressing. */
   readonly ariaLabel = input<string | null>(null, { alias: 'aria-label' });
+  /** Id of an element naming the bar. Use it instead of `aria-label` when that text is already on screen. */
   readonly ariaLabelledby = input<string | null>(null, { alias: 'aria-labelledby' });
 
   readonly indeterminate = computed(() => this.value() == null);

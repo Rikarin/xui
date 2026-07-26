@@ -134,6 +134,18 @@ export const buttonVariants = cva(
 
 export type XuiButtonVariants = VariantProps<typeof buttonVariants>;
 
+/**
+ * Turns a native `<button>` or `<a>` into an xUI button.
+ *
+ * ```html
+ * <button xuiButton color="primary">Save</button>
+ * <a xuiButton variant="link" href="/docs">Read the docs</a>
+ * ```
+ *
+ * A directive rather than a component, so the element keeps its own semantics — a `<button>` still
+ * submits a form, an `<a>` still navigates, and `disabled` still swallows the click. That is also why
+ * there is no `disabled` input: set the native attribute.
+ */
 @Directive({
   selector: '[xuiButton]',
   exportAs: 'xuiButton',
@@ -148,9 +160,13 @@ export class XuiButton {
   private readonly config = injectXuiButtonConfig();
   private readonly additionalClasses = signal<ClassValue>('');
 
+  /** Intent colour. Pairs with `variant` to pick the concrete palette. */
   readonly color = input<XuiButtonVariants['color']>(this.config.color);
+  /** Control height, from the shared control scale. The gap and icon size scale with it. */
   readonly size = input<XuiButtonVariants['size']>(this.config.size);
+  /** How much the button asserts itself, from a filled `default` down to a bare `link`. */
   readonly variant = input<XuiButtonVariants['variant']>(this.config.variant);
+  /** Extra classes, merged into the directive's own rather than replacing them. */
   readonly class = input<ClassValue>('');
 
   /** Stretch to fill the available width instead of hugging its contents. */

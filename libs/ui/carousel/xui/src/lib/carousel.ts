@@ -111,16 +111,26 @@ import { XuiCarouselItem } from './carousel-item';
   encapsulation: ViewEncapsulation.None
 })
 export class XuiCarousel {
+  /** Extra classes, merged into the component's own rather than replacing them. */
   readonly class = input<ClassValue>('');
 
   protected readonly direction = injectXDirection();
 
+  /** Zero-based index of the visible slide. Two-way bindable with `[(index)]`. */
   readonly index = model<number>(0);
+  /** Advance on a timer. Pauses while the pointer is over the carousel, and does nothing with a single slide. */
   readonly autoplay = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
+  /** Milliseconds between automatic advances. Only used with `autoplay`. */
   readonly interval = input<number, NumberInput>(3000, { transform: numberAttribute });
+  /** Show the per-slide indicators. Hidden anyway when there is only one slide. */
   readonly dots = input<boolean, BooleanInput>(true, { transform: booleanAttribute });
+  /** Show the previous/next buttons. Hidden anyway when there is only one slide. */
   readonly arrows = input<boolean, BooleanInput>(true, { transform: booleanAttribute });
+  /** Wrap around at either end. With this off, the arrows stop at the first and last slide. */
   readonly loop = input<boolean, BooleanInput>(true, { transform: booleanAttribute });
+  /**
+   * How slides change: sliding horizontally (`scrollx`, direction-aware in RTL) or cross-fading in place (`fade`).
+   */
   readonly effect = input<'scrollx' | 'fade'>('scrollx');
 
   protected readonly items = contentChildren(XuiCarouselItem);

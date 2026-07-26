@@ -113,21 +113,31 @@ export class XuiDatePicker<T = Date> implements ControlValueAccessor {
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
   protected readonly direction = injectXDirection();
 
+  /** Extra classes, merged into the component's own rather than replacing them. */
   readonly class = input<ClassValue>('');
 
   /** The selected date. Two-way bindable with `[(value)]`. */
   readonly value = model<T | null>(null);
 
+  /** Earliest selectable date. Earlier days are rendered disabled. */
   readonly min = input<T | null>(null);
+  /** Latest selectable date. Later days are rendered disabled. */
   readonly max = input<T | null>(null);
+  /**
+   * Per-date predicate for holes that `min`/`max` cannot express — weekends, blackout days. Return `false` to disable
+   * a date.
+   */
   readonly dateFilter = input<((date: T) => boolean) | null>(null);
 
+  /** Which weekday the grid starts on, `0` for Sunday through `6` for Saturday. */
   readonly firstDayOfWeek = input<number, NumberInput>(0, { transform: numberAttribute });
+  /** BCP 47 tag used for the weekday and month labels. Defaults to the runtime locale. */
   readonly locale = input<string | undefined>(undefined);
 
   /** Show a Today/Clear action bar under the grid. */
   readonly showActionsBar = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
 
+  /** Block interaction and dim the calendar. */
   readonly disabled = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
 
   protected readonly cva = createXValueAccessor<T | null>({

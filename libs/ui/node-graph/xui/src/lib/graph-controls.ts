@@ -76,10 +76,13 @@ export class XuiGraphControls {
     'text-foreground-muted hover:bg-hover-overlay hover:text-foreground focus-visible:ring-focus flex h-7 w-7 ' +
     'cursor-pointer items-center justify-center rounded transition-colors focus-visible:ring-2 focus-visible:outline-none';
 
+  /** Extra classes, merged into the component's own rather than replacing them. */
   readonly class = input<ClassValue>('');
 
+  /** Show the fit-to-view button. */
   readonly showFit = input<boolean, BooleanInput>(true, { transform: booleanAttribute });
 
+  /** Show the current zoom as a percentage between the zoom buttons. */
   readonly showZoomLevel = input<boolean, BooleanInput>(true, { transform: booleanAttribute });
 
   /** Lay the buttons out in a column (default) or a row. */

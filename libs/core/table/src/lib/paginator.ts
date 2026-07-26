@@ -34,6 +34,22 @@ export type XPaginatorContext = {
   };
 };
 
+/**
+ * Headless pagination: the page maths and navigation, handed to your own template.
+ *
+ * ```html
+ * <ng-container *xPaginator="let p; totalElements: total(); pageSize: 20">
+ *   <button [disabled]="!p.decrementable()" (click)="p.decrement()">Previous</button>
+ *   <span>{{ p.state().currentPage + 1 }} / {{ p.state().totalPages }}</span>
+ *   <button [disabled]="!p.incrementable()" (click)="p.increment()">Next</button>
+ * </ng-container>
+ * ```
+ *
+ * A structural directive, so it renders no markup — the context object carries the derived state and
+ * the navigation callbacks and you decide what a pager looks like. It holds the current page itself,
+ * resetting to the first page whenever the data set or the page size changes, and reports every move
+ * through `stateChange`.
+ */
 @Directive({
   selector: '[xPaginator]',
   exportAs: 'xPaginator'
@@ -46,10 +62,20 @@ export class XPaginator implements OnInit {
   private readonly vcr = inject(ViewContainerRef);
   private readonly template = inject(TemplateRef<unknown>);
 
+  /**
+   * How many items there are in total, across all pages. `null` while unknown — the last page cannot be computed
+   * without it.
+   */
   readonly totalElements = input<number | null | undefined>(null, { alias: 'xPaginatorTotalElements' });
+  /**
+   * The zero-based page to show. Navigation writes over it locally, so this is a starting point rather than a binding
+   * the directive keeps in sync.
+   */
   readonly currentPage = input(0, { alias: 'xPaginatorCurrentPage', transform: numberAttribute });
+  /** Items per page. Changing it resets to the first page. */
   readonly pageSize = input(10, { alias: 'xPaginatorPageSize', transform: numberAttribute });
 
+  /** Emits the full page state whenever it changes — the cue to fetch the corresponding slice of data. */
   readonly stateChange = output<XPaginatorState>({ alias: 'xPaginatorStateChange' });
 
   // The page the paginator is on: follows the `currentPage` input, resets to

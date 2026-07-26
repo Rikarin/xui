@@ -37,7 +37,9 @@ export type XuiKbdVariants = VariantProps<typeof kbdVariants>;
 export class XuiKbd {
   private readonly config = injectXuiKbdConfig();
 
+  /** Extra classes, merged into the directive's own rather than replacing them. */
   readonly class = input<ClassValue>('');
+  /** Key size, matched to the text it sits beside. */
   readonly size = input<XuiKbdVariants['size']>(this.config.size);
 
   protected readonly computedClass = computed(() => xui(kbdVariants({ size: this.size() }), this.class()));
