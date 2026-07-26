@@ -17,8 +17,8 @@ import { NgIcon, provideIcons } from '@ng-icons/core';
 import { matChevronLeftRound, matChevronRightRound } from '@ng-icons/material-icons/round';
 import { xui } from '@xui/core';
 import { arrowDirectionOnAxis, injectXDirection } from '@xui/core/a11y';
-import { buildMonthGrid, type CalendarDay, monthYearLabel, weekdayLabels } from '@xui/core/calendar';
-import { injectDateAdapter } from '@xui/core/date-time';
+import { buildMonthGrid, monthYearLabel, weekdayLabels, type XCalendarDay } from '@xui/core/calendar';
+import { injectXDateAdapter } from '@xui/core/date-time';
 import { XuiIcon } from '@xui/icon';
 import type { ClassValue } from 'clsx';
 
@@ -92,7 +92,7 @@ import type { ClassValue } from 'clsx';
   viewProviders: [provideIcons({ matChevronLeftRound, matChevronRightRound })]
 })
 export class XuiDatePicker<T = Date> {
-  private readonly adapter = injectDateAdapter<T>();
+  private readonly adapter = injectXDateAdapter<T>();
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
   protected readonly direction = injectXDirection();
 
@@ -160,7 +160,7 @@ export class XuiDatePicker<T = Date> {
     return this.adapter.isSameMonth(today, this.viewDate()) ? today : this.adapter.startOfMonth(this.viewDate());
   }
 
-  protected dayClass(day: CalendarDay<T>): string {
+  protected dayClass(day: XCalendarDay<T>): string {
     return xui(
       'flex size-8 items-center justify-center rounded-full text-sm transition-colors',
       'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus',

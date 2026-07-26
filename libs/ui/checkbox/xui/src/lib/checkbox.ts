@@ -18,7 +18,7 @@ import { matCheckRound, matRemoveRound } from '@ng-icons/material-icons/round';
 import { xui } from '@xui/core';
 import { uniqueId } from '@xui/core/a11y';
 import { XCheckbox, XCheckboxImports } from '@xui/core/checkbox';
-import type { ChangeFn, TouchFn } from '@xui/core/forms';
+import type { XChangeFn, XTouchFn } from '@xui/core/forms';
 import { XuiIcon, XuiIconSize } from '@xui/icon';
 import { cva, VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
@@ -56,7 +56,7 @@ const checkboxVariants = cva(
 export type XuiCheckboxVariants = VariantProps<typeof checkboxVariants> & { size: XuiIconSize };
 
 /** The `<label>` that wraps the box and its text, governing layout. */
-const wrapperVariants = cva('items-center gap-x-2 data-disabled:cursor-not-allowed', {
+const checkboxWrapperVariants = cva('items-center gap-x-2 data-disabled:cursor-not-allowed', {
   variants: {
     inline: {
       // Non-inline controls take a full row so several stack vertically; inline
@@ -76,7 +76,7 @@ const wrapperVariants = cva('items-center gap-x-2 data-disabled:cursor-not-allow
   },
   defaultVariants: { inline: false, alignIndicator: 'start', disabled: false }
 });
-type WrapperVariants = VariantProps<typeof wrapperVariants>;
+type WrapperVariants = VariantProps<typeof checkboxWrapperVariants>;
 
 export type XuiCheckboxAlignIndicator = NonNullable<WrapperVariants['alignIndicator']>;
 
@@ -166,7 +166,13 @@ export class XuiCheckbox implements ControlValueAccessor {
   protected readonly computedIconClass = computed(() => xui('leading-none group-data-[state=unchecked]:opacity-0'));
 
   protected readonly wrapperClass = computed(() =>
-    xui(wrapperVariants({ inline: this.inline(), alignIndicator: this.alignIndicator(), disabled: this._disabled() }))
+    xui(
+      checkboxWrapperVariants({
+        inline: this.inline(),
+        alignIndicator: this.alignIndicator(),
+        disabled: this._disabled()
+      })
+    )
   );
 
   protected readonly labelClass = computed(() =>
@@ -233,8 +239,8 @@ export class XuiCheckbox implements ControlValueAccessor {
   readonly disabled = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
   protected readonly _disabled = linkedSignal(this.disabled);
 
-  protected onChange?: ChangeFn<boolean>;
-  protected onTouched?: TouchFn;
+  protected onChange?: XChangeFn<boolean>;
+  protected onTouched?: XTouchFn;
 
   protected handleChange(value: boolean): void {
     if (this._disabled()) {
@@ -251,11 +257,11 @@ export class XuiCheckbox implements ControlValueAccessor {
     this.checked.set(value);
   }
 
-  registerOnChange(fn: ChangeFn<boolean>): void {
+  registerOnChange(fn: XChangeFn<boolean>): void {
     this.onChange = fn;
   }
 
-  registerOnTouched(fn: TouchFn): void {
+  registerOnTouched(fn: XTouchFn): void {
     this.onTouched = fn;
   }
 

@@ -14,7 +14,7 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import { xui } from '@xui/core';
-import { createQueryList } from '@xui/core/query';
+import { createXQueryList } from '@xui/core/query';
 import { XuiPopoverImports } from '@xui/popover';
 import { XuiSelectOption } from '@xui/select';
 import type { ClassValue } from 'clsx';
@@ -115,7 +115,7 @@ export class XuiSuggest<T> {
 
   protected readonly optionTemplate = contentChild(XuiSelectOption<T>);
 
-  protected readonly list = createQueryList<T>({
+  protected readonly list = createXQueryList<T>({
     items: this.items,
     query: this.query,
     itemText: item => this.itemText()(item),

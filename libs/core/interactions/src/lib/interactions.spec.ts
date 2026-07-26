@@ -1,7 +1,7 @@
 import { Component, ElementRef, signal, viewChild } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { injectElementSize, type XElementSize } from './element-size';
-import { injectOutsideClick } from './outside-click';
+import { injectXElementSize, type XElementSize } from './element-size';
+import { injectXOutsideClick } from './outside-click';
 import { XResizeSensor } from './resize-sensor';
 
 /** Captures the observer so a test can drive it, since jsdom has no layout. */
@@ -34,10 +34,10 @@ beforeEach(() => {
 
 const latestObserver = () => FakeResizeObserver.instances[FakeResizeObserver.instances.length - 1];
 
-describe('injectElementSize', () => {
+describe('injectXElementSize', () => {
   @Component({ selector: 'x-size-host', template: '' })
   class SizeHost {
-    readonly size = injectElementSize();
+    readonly size = injectXElementSize();
   }
 
   function setup() {
@@ -129,7 +129,7 @@ describe('XResizeSensor', () => {
   });
 });
 
-describe('injectOutsideClick', () => {
+describe('injectXOutsideClick', () => {
   @Component({
     selector: 'x-outside-host',
     template: '<span #ignored></span><button type="button">inside</button>'
@@ -139,7 +139,7 @@ describe('injectOutsideClick', () => {
     readonly ignored = viewChild.required<ElementRef<HTMLElement>>('ignored');
 
     constructor() {
-      injectOutsideClick(() => this.outside.update(count => count + 1));
+      injectXOutsideClick(() => this.outside.update(count => count + 1));
     }
   }
 

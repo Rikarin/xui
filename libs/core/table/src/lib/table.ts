@@ -14,7 +14,7 @@ import {
   booleanAttribute,
   model
 } from '@angular/core';
-import { type TableClassesSettable, provideTableClassesSettableExisting } from '@xui/core';
+import { type XTableClassesSettable, provideXTableClassesSettableExisting } from '@xui/core';
 import { XColumnDef } from './column-def';
 
 export type XTableDataSourceInput<T> = CdkTableDataSourceInput<T>;
@@ -22,7 +22,7 @@ export type XTableDataSourceInput<T> = CdkTableDataSourceInput<T>;
 @Component({
   selector: 'x-table',
   imports: [CdkTableModule],
-  providers: [provideTableClassesSettableExisting(<T>() => XTable<T>)],
+  providers: [provideXTableClassesSettableExisting(<T>() => XTable<T>)],
   template: `
     <cdk-table
       #cdkTable
@@ -55,7 +55,7 @@ export type XTableDataSourceInput<T> = CdkTableDataSourceInput<T>;
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None
 })
-export class XTable<T> implements TableClassesSettable, AfterContentInit {
+export class XTable<T> implements XTableClassesSettable, AfterContentInit {
   @ViewChild('cdkTable', { read: CdkTable, static: true })
   private readonly cdkTable?: CdkTable<T>;
 

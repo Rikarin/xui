@@ -13,7 +13,7 @@ import {
   untracked
 } from '@angular/core';
 
-export type PaginatorState = {
+export type XPaginatorState = {
   currentPage: number;
   startIndex: number;
   endIndex: number;
@@ -22,9 +22,9 @@ export type PaginatorState = {
   totalElements: number | null | undefined;
 };
 
-export type PaginatorContext = {
+export type XPaginatorContext = {
   $implicit: {
-    state: Signal<PaginatorState>;
+    state: Signal<XPaginatorState>;
     incrementable: Signal<boolean>;
     decrementable: Signal<boolean>;
     increment: () => void;
@@ -39,14 +39,14 @@ export type PaginatorContext = {
   exportAs: 'xPaginator'
 })
 export class XPaginator implements OnInit {
-  static ngTemplateContextGuard(_directive: XPaginator, _context: unknown): _context is PaginatorContext {
+  static ngTemplateContextGuard(_directive: XPaginator, _context: unknown): _context is XPaginatorContext {
     return true;
   }
 
   private readonly vcr = inject(ViewContainerRef);
   private readonly template = inject(TemplateRef<unknown>);
 
-  private readonly state = signal<PaginatorState>({
+  private readonly state = signal<XPaginatorState>({
     currentPage: 0,
     startIndex: 0,
     endIndex: 0,
@@ -73,7 +73,7 @@ export class XPaginator implements OnInit {
   }
 
   @Input({ alias: 'xPaginatorOnStateChange' })
-  onStateChange?: (state: PaginatorState) => void;
+  onStateChange?: (state: XPaginatorState) => void;
 
   constructor() {
     effect(() => {
@@ -89,7 +89,7 @@ export class XPaginator implements OnInit {
   }
 
   ngOnInit() {
-    this.vcr.createEmbeddedView<PaginatorContext>(this.template, {
+    this.vcr.createEmbeddedView<XPaginatorContext>(this.template, {
       $implicit: {
         state: this.state,
         increment: () => this.incrementPage(),

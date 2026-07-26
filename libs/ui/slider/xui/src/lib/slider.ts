@@ -17,14 +17,14 @@ import {
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { xui } from '@xui/core';
 import { arrowValueDirection, injectXDirection, inlineFraction } from '@xui/core/a11y';
-import type { ChangeFn, TouchFn } from '@xui/core/forms';
+import type { XChangeFn, XTouchFn } from '@xui/core/forms';
 import { cva, VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
 
 /** Renders a tick's numeric value into label text, or `false` to hide all labels. */
 export type XuiSliderLabelRenderer = ((value: number) => string) | false;
 
-const fillVariants = cva('absolute rounded-full', {
+const sliderFillVariants = cva('absolute rounded-full', {
   variants: {
     color: {
       none: 'bg-foreground-muted',
@@ -37,7 +37,7 @@ const fillVariants = cva('absolute rounded-full', {
   defaultVariants: { color: 'primary' }
 });
 
-const handleVariants = cva(
+const sliderHandleVariants = cva(
   [
     'absolute z-10 size-4 rounded-full border-2 bg-surface-raised shadow',
     'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus',
@@ -58,7 +58,7 @@ const handleVariants = cva(
   }
 );
 
-export type XuiSliderColor = NonNullable<VariantProps<typeof fillVariants>['color']>;
+export type XuiSliderColor = NonNullable<VariantProps<typeof sliderFillVariants>['color']>;
 
 export const XUI_SLIDER_VALUE_ACCESSOR = {
   provide: NG_VALUE_ACCESSOR,
@@ -156,8 +156,8 @@ export class XuiSlider implements ControlValueAccessor {
 
   protected readonly dragging = signal(false);
 
-  protected onChange?: ChangeFn<number>;
-  protected onTouched?: TouchFn;
+  protected onChange?: XChangeFn<number>;
+  protected onTouched?: XTouchFn;
 
   // --- geometry -------------------------------------------------------------
 
@@ -245,10 +245,10 @@ export class XuiSlider implements ControlValueAccessor {
     )
   );
 
-  protected readonly fillClass = computed(() => xui(fillVariants({ color: this.color() })));
+  protected readonly fillClass = computed(() => xui(sliderFillVariants({ color: this.color() })));
 
   protected readonly handleClass = computed(() =>
-    xui(handleVariants({ color: this.color(), dragging: this.dragging() }))
+    xui(sliderHandleVariants({ color: this.color(), dragging: this.dragging() }))
   );
 
   protected readonly axisClass = computed(() =>
@@ -406,11 +406,11 @@ export class XuiSlider implements ControlValueAccessor {
     this.value.set(this.clampAndSnap(value ?? this.min()));
   }
 
-  registerOnChange(fn: ChangeFn<number>): void {
+  registerOnChange(fn: XChangeFn<number>): void {
     this.onChange = fn;
   }
 
-  registerOnTouched(fn: TouchFn): void {
+  registerOnTouched(fn: XTouchFn): void {
     this.onTouched = fn;
   }
 

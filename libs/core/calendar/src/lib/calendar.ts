@@ -1,7 +1,7 @@
 import type { XDateAdapter } from '@xui/core/date-time';
 
 /** One cell in a month grid. */
-export interface CalendarDay<T> {
+export interface XCalendarDay<T> {
   /** The date this cell represents (at the start of the day). */
   date: T;
   /** Day-of-month number, for the label. */
@@ -14,7 +14,7 @@ export interface CalendarDay<T> {
   disabled: boolean;
 }
 
-export interface BuildMonthOptions<T> {
+export interface XBuildMonthOptions<T> {
   min?: T | null;
   max?: T | null;
   dateFilter?: ((date: T) => boolean) | null;
@@ -25,7 +25,7 @@ export interface BuildMonthOptions<T> {
 /** A JS `Date` for the given adapter value, for locale-aware `Intl` formatting. */
 export const toJsDate = <T>(adapter: XDateAdapter<T>, date: T): Date => new Date(adapter.getTime(date));
 
-const isDisabled = <T>(adapter: XDateAdapter<T>, date: T, options: BuildMonthOptions<T>): boolean => {
+const isDisabled = <T>(adapter: XDateAdapter<T>, date: T, options: XBuildMonthOptions<T>): boolean => {
   const day = adapter.startOfDay(date);
   if (options.min && adapter.isBefore(day, adapter.startOfDay(options.min))) {
     return true;
@@ -43,17 +43,17 @@ const isDisabled = <T>(adapter: XDateAdapter<T>, date: T, options: BuildMonthOpt
 export function buildMonthGrid<T>(
   adapter: XDateAdapter<T>,
   viewDate: T,
-  options: BuildMonthOptions<T> = {}
-): CalendarDay<T>[][] {
+  options: XBuildMonthOptions<T> = {}
+): XCalendarDay<T>[][] {
   const firstDayOfWeek = options.firstDayOfWeek ?? 0;
   const today = adapter.now();
   const monthStart = adapter.startOfDay(adapter.startOfMonth(viewDate));
   const offset = (adapter.getDay(monthStart) - firstDayOfWeek + 7) % 7;
   const gridStart = adapter.subtract(monthStart, { days: offset });
 
-  const weeks: CalendarDay<T>[][] = [];
+  const weeks: XCalendarDay<T>[][] = [];
   for (let week = 0; week < 6; week++) {
-    const row: CalendarDay<T>[] = [];
+    const row: XCalendarDay<T>[] = [];
     for (let day = 0; day < 7; day++) {
       const date = adapter.add(gridStart, { days: week * 7 + day });
       row.push({

@@ -1,9 +1,9 @@
 import { Directive } from '@angular/core';
-import { injectTableClassesSettable } from '@xui/core';
+import { injectXTableClassesSettable } from '@xui/core';
 
 @Directive({ selector: '[xuiTable],x-table[xui]' })
 export class XuiTableDirective {
-  private readonly tableClassesSettable = injectTableClassesSettable({ host: true, optional: true });
+  private readonly tableClassesSettable = injectXTableClassesSettable({ host: true, optional: true });
 
   constructor() {
     this.tableClassesSettable?.setTableClasses({

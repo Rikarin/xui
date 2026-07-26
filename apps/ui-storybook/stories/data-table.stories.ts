@@ -67,7 +67,7 @@ export const HundredThousandRows: Story = {
 };
 
 /**
- * Region selection + copy. Click a cell, shift-click for a range, ⌘/Ctrl-click
+ * XRegion selection + copy. Click a cell, shift-click for a range, ⌘/Ctrl-click
  * for disjoint blocks; press ⌘/Ctrl+C to copy the selection as tab-separated text
  * (shown below). Drag a header to reorder; double-click a divider to auto-fit.
  */

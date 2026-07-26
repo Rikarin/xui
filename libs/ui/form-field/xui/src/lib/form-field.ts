@@ -19,7 +19,7 @@ import { XuiError } from './error';
 
 let nextId = 0;
 
-const rootVariants = cva('', {
+const formFieldRootVariants = cva('', {
   variants: {
     inline: {
       false: 'block space-y-2',
@@ -30,7 +30,7 @@ const rootVariants = cva('', {
 });
 
 /** `color` tints the label and helper text with a deliberate accent. */
-const colorText = cva('', {
+const formFieldColorText = cva('', {
   variants: {
     color: {
       none: '',
@@ -43,7 +43,7 @@ const colorText = cva('', {
   defaultVariants: { color: 'none' }
 });
 
-export type XuiFormFieldColor = NonNullable<VariantProps<typeof colorText>['color']>;
+export type XuiFormFieldColor = NonNullable<VariantProps<typeof formFieldColorText>['color']>;
 
 @Component({
   selector: 'xui-form-field',
@@ -113,14 +113,16 @@ export class XuiFormField {
 
   private readonly generatedId = `xui-form-field-${nextId++}`;
 
-  protected readonly computedClass = computed(() => xui(rootVariants({ inline: this.inline() }), this.class()));
+  protected readonly computedClass = computed(() =>
+    xui(formFieldRootVariants({ inline: this.inline() }), this.class())
+  );
 
   protected readonly labelClass = computed(() =>
-    xui('text-foreground block text-sm font-medium', colorText({ color: this.color() }))
+    xui('text-foreground block text-sm font-medium', formFieldColorText({ color: this.color() }))
   );
 
   protected readonly helperClass = computed(() =>
-    xui('block text-sm text-foreground-subtle', colorText({ color: this.color() }))
+    xui('block text-sm text-foreground-subtle', formFieldColorText({ color: this.color() }))
   );
 
   /**

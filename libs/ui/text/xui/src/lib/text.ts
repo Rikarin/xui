@@ -1,7 +1,7 @@
 import type { BooleanInput } from '@angular/cdk/coercion';
 import { booleanAttribute, computed, Directive, effect, ElementRef, inject, input, signal } from '@angular/core';
 import { xui } from '@xui/core';
-import { injectElementSize } from '@xui/core/interactions';
+import { injectXElementSize } from '@xui/core/interactions';
 import { cva, VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
 
@@ -65,7 +65,7 @@ export type XuiTextVariants = VariantProps<typeof textVariants>;
 })
 export class XuiText {
   private readonly element: HTMLElement = inject(ElementRef).nativeElement;
-  private readonly observedSize = injectElementSize();
+  private readonly observedSize = injectXElementSize();
   private readonly overflowing = signal(false);
 
   /** The user-defined classes. Merged last so they win over the variant classes. */

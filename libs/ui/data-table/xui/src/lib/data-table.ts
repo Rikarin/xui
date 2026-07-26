@@ -25,7 +25,7 @@ import { arrowDirectionOnAxis, injectXDirection } from '@xui/core/a11y';
 import {
   anyRegionContainsCell,
   cellRegion,
-  createGridSizeStore,
+  createXGridSizeStore,
   indexAtPosition,
   regionBounds,
   regionContainsRow,
@@ -33,9 +33,9 @@ import {
   tableRegion,
   toggleRegion,
   visibleRange,
-  type Region
+  type XRegion
 } from '@xui/core/grid';
-import { injectElementSize } from '@xui/core/interactions';
+import { injectXElementSize } from '@xui/core/interactions';
 import type { ClassValue } from 'clsx';
 import { XuiDataCell } from './data-cell';
 import type { CellCoord, XuiDataColumn, XuiSortState } from './data-table.types';
@@ -222,7 +222,7 @@ export class XuiDataTable<T> {
   /** The focused cell. Two-way bindable with `[(focusedCell)]`. */
   readonly focusedCell = model<CellCoord | null>(null);
   /** The selected regions. Two-way bindable with `[(selection)]`. */
-  readonly selection = model<Region[]>([]);
+  readonly selection = model<XRegion[]>([]);
 
   readonly cellClicked = output<{ row: T; rowIndex: number; column: XuiDataColumn<T> }>();
   readonly sortChange = output<XuiSortState | null>();
@@ -240,7 +240,7 @@ export class XuiDataTable<T> {
   /** Measured scroll-viewport width; drives horizontal (column) virtualization. 0 until measured. */
   private readonly measuredWidth = signal(0);
   /** ResizeObserver fallback so the window re-measures on layout changes. */
-  private readonly hostSize = injectElementSize();
+  private readonly hostSize = injectXElementSize();
   protected readonly sort = signal<XuiSortState | null>(null);
 
   /** The anchor cell for shift-extended range selection. */
@@ -251,12 +251,12 @@ export class XuiDataTable<T> {
   /** Columns in their displayed order. */
   protected readonly orderedColumns = computed(() => this.columnOrder().map(i => this.columns()[i]));
 
-  private readonly columnStore = createGridSizeStore({
+  private readonly columnStore = createXGridSizeStore({
     count: computed(() => this.orderedColumns().length),
     defaultSize: this.defaultColumnWidth,
     minSize: this.minColumnWidth()
   });
-  private readonly rowStore = createGridSizeStore({
+  private readonly rowStore = createXGridSizeStore({
     count: computed(() => this.displayData().length),
     defaultSize: this.rowHeight
   });

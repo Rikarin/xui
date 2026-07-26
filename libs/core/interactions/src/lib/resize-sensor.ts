@@ -1,10 +1,10 @@
 import { Directive, effect, output } from '@angular/core';
-import { injectElementSize, type XElementSize } from './element-size';
+import { injectXElementSize, type XElementSize } from './element-size';
 
 /**
  * Emit whenever the host element's size changes.
  *
- * The declarative face of {@link injectElementSize}:
+ * The declarative face of {@link injectXElementSize}:
  *
  * ```html
  * <div xResizeSensor (xResize)="onResize($event)">…</div>
@@ -16,7 +16,7 @@ import { injectElementSize, type XElementSize } from './element-size';
 })
 export class XResizeSensor {
   /** The host's current content-box size. */
-  readonly size = injectElementSize();
+  readonly size = injectXElementSize();
 
   readonly xResize = output<XElementSize>();
 

@@ -19,7 +19,7 @@ const EMPTY: XElementSize = { width: 0, height: 0 };
  * On the server, and anywhere `ResizeObserver` is unavailable, the signal stays
  * at 0×0 rather than throwing — callers should treat that as "not measured yet".
  */
-export function injectElementSize(elementRef?: ElementRef<HTMLElement>): Signal<XElementSize> {
+export function injectXElementSize(elementRef?: ElementRef<HTMLElement>): Signal<XElementSize> {
   const target = elementRef ?? inject(ElementRef<HTMLElement>);
   const isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
   const size = signal<XElementSize>(EMPTY);

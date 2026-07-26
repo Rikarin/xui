@@ -15,7 +15,7 @@ import {
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { matCheckRound } from '@ng-icons/material-icons/round';
 import { xui } from '@xui/core';
-import { createQueryList } from '@xui/core/query';
+import { createXQueryList } from '@xui/core/query';
 import { XuiIcon } from '@xui/icon';
 import { XuiPopoverImports } from '@xui/popover';
 import { XuiSelectOption } from '@xui/select';
@@ -126,7 +126,7 @@ export class XuiMultiSelect<T> {
 
   protected readonly optionTemplate = contentChild(XuiSelectOption<T>);
 
-  protected readonly list = createQueryList<T>({
+  protected readonly list = createXQueryList<T>({
     items: this.items,
     query: this.query,
     itemText: item => this.itemText()(item),

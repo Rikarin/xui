@@ -14,7 +14,7 @@ import {
 import { FormGroupDirective, NgControl, NgForm } from '@angular/forms';
 import { xui } from '@xui/core';
 import { XFormFieldControl } from '@xui/core/form-field';
-import { ErrorStateMatcher, ErrorStateTracker } from '@xui/core/forms';
+import { XErrorStateMatcher, XErrorStateTracker } from '@xui/core/forms';
 import { cva, VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
 
@@ -85,8 +85,8 @@ type InputVariants = VariantProps<typeof inputVariants>;
 })
 export class XuiInput implements XFormFieldControl, DoCheck {
   private readonly injector = inject(Injector);
-  private readonly errorStateTracker: ErrorStateTracker;
-  private readonly defaultErrorStateMatcher = inject(ErrorStateMatcher);
+  private readonly errorStateTracker: XErrorStateTracker;
+  private readonly defaultErrorStateMatcher = inject(XErrorStateMatcher);
   private readonly parentForm = inject(NgForm, { optional: true });
   private readonly parentFormGroup = inject(FormGroupDirective, { optional: true });
 
@@ -122,7 +122,7 @@ export class XuiInput implements XFormFieldControl, DoCheck {
   protected readonly state = linkedSignal(() => ({ error: this.error() }));
 
   constructor() {
-    this.errorStateTracker = new ErrorStateTracker(
+    this.errorStateTracker = new XErrorStateTracker(
       this.defaultErrorStateMatcher,
       this.ngControl,
       this.parentFormGroup,

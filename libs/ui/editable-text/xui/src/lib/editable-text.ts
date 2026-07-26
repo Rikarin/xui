@@ -18,11 +18,11 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { xui } from '@xui/core';
-import type { ChangeFn, TouchFn } from '@xui/core/forms';
+import type { XChangeFn, XTouchFn } from '@xui/core/forms';
 import { cva, VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
 
-const editableVariants = cva('block w-full rounded-sm bg-transparent transition-colors', {
+const editableTextVariants = cva('block w-full rounded-sm bg-transparent transition-colors', {
   variants: {
     editing: {
       false:
@@ -33,7 +33,7 @@ const editableVariants = cva('block w-full rounded-sm bg-transparent transition-
   defaultVariants: { editing: false }
 });
 
-export type XuiEditableTextVariants = VariantProps<typeof editableVariants>;
+export type XuiEditableTextVariants = VariantProps<typeof editableTextVariants>;
 
 export const XUI_EDITABLE_TEXT_VALUE_ACCESSOR = {
   provide: NG_VALUE_ACCESSOR,
@@ -132,17 +132,17 @@ export class XuiEditableText implements ControlValueAccessor {
 
   private readonly field = viewChild<ElementRef<HTMLInputElement | HTMLTextAreaElement>>('field');
 
-  private onChange?: ChangeFn<string>;
-  private onTouched?: TouchFn;
+  private onChange?: XChangeFn<string>;
+  private onTouched?: XTouchFn;
   private readonly disabledByForm = signal(false);
   protected readonly isDisabled = computed(() => this.disabled() || this.disabledByForm());
 
   protected readonly computedClass = computed(() => xui('block', this.class()));
   protected readonly displayClass = computed(() =>
-    xui(editableVariants({ editing: false }), 'px-1.5 py-1', !this.value() && 'text-foreground-subtle')
+    xui(editableTextVariants({ editing: false }), 'px-1.5 py-1', !this.value() && 'text-foreground-subtle')
   );
   protected readonly fieldClass = computed(() =>
-    xui(editableVariants({ editing: true }), 'resize-none px-1.5 py-1 text-foreground')
+    xui(editableTextVariants({ editing: true }), 'resize-none px-1.5 py-1 text-foreground')
   );
 
   constructor() {
@@ -221,11 +221,11 @@ export class XuiEditableText implements ControlValueAccessor {
     this.value.set(value ?? '');
   }
 
-  registerOnChange(fn: ChangeFn<string>): void {
+  registerOnChange(fn: XChangeFn<string>): void {
     this.onChange = fn;
   }
 
-  registerOnTouched(fn: TouchFn): void {
+  registerOnTouched(fn: XTouchFn): void {
     this.onTouched = fn;
   }
 

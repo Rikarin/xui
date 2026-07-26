@@ -9,7 +9,7 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import { xui } from '@xui/core';
-import { injectDateAdapter } from '@xui/core/date-time';
+import { injectXDateAdapter } from '@xui/core/date-time';
 import type { ClassValue } from 'clsx';
 
 /** How fine the picker edits. */
@@ -104,7 +104,7 @@ const pad = (value: number, length = 2): string => String(value).padStart(length
   encapsulation: ViewEncapsulation.None
 })
 export class XuiTimePicker<T = Date> {
-  private readonly adapter = injectDateAdapter<T>();
+  private readonly adapter = injectXDateAdapter<T>();
 
   readonly class = input<ClassValue>('');
 

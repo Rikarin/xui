@@ -2,158 +2,154 @@
 import type { ComponentDoc } from '../../app/core/docs.model';
 
 export const doc: ComponentDoc = {
-  name: "checkbox",
-  slug: "core-checkbox",
-  title: "Checkbox",
-  package: "@xui/core/checkbox",
-  kind: "core",
-  group: "Headless primitives",
-  description: "A tri-state checkbox. It is a ControlValueAccessor, so ngModel and reactive forms bind straight to it, and indeterminate renders the mixed state a parent checkbox needs.",
+  name: 'checkbox',
+  slug: 'core-checkbox',
+  title: 'Checkbox',
+  package: '@xui/core/checkbox',
+  kind: 'core',
+  group: 'Headless primitives',
+  description:
+    'A tri-state checkbox. It is a ControlValueAccessor, so ngModel and reactive forms bind straight to it, and indeterminate renders the mixed state a parent checkbox needs.',
   importsConst: undefined,
-  exports: [
-  "XCheckbox",
-  "XCheckboxImports",
-  "X_CHECKBOX_VALUE_ACCESSOR"
-],
+  exports: ['XCheckbox', 'XCheckboxImports', 'X_CHECKBOX_VALUE_ACCESSOR'],
   peerDependencies: {
-  "@angular/cdk": "22",
-  "@angular/common": "22",
-  "@angular/core": "22",
-  "@angular/forms": "22",
-  "clsx": ">=2.0.0",
-  "luxon": ">=3.0.0",
-  "tailwind-merge": ">=3.0.0"
-},
-  sourcePath: "libs/core/checkbox",
+    '@angular/cdk': '22',
+    '@angular/common': '22',
+    '@angular/core': '22',
+    '@angular/forms': '22',
+    clsx: '>=2.0.0',
+    luxon: '>=3.0.0',
+    'tailwind-merge': '>=3.0.0'
+  },
+  sourcePath: 'libs/core/checkbox',
   symbols: [
-  {
-    "kind": "component",
-    "name": "XCheckbox",
-    "selector": "x-checkbox",
-    "inputs": [
-      {
-        "name": "checkedInput",
-        "type": "boolean",
-        "default": "false",
-        "required": false,
-        "docs": "Current checked state of checkbox. Can be bound with [(checked)] for two-way binding."
-      },
-      {
-        "name": "indeterminate",
-        "type": "boolean",
-        "default": "false",
-        "required": false,
-        "model": true
-      },
-      {
-        "name": "id",
-        "type": "string | null",
-        "default": "uniqueId('x-checkbox')",
-        "required": false,
-        "docs": "Unique identifier for a checkbox component. When provided, the inner button gets ID without '-checkbox' suffix. Auto-generates ID if not provided."
-      },
-      {
-        "name": "name",
-        "type": "string | null",
-        "default": "null",
-        "required": false,
-        "docs": "Form control name for checkbox. When provided, the inner button gets the name without '-checkbox' suffix."
-      },
-      {
-        "name": "class",
-        "type": "string | null",
-        "default": "null",
-        "required": false,
-        "docs": "CSS classes applied to the inner button element."
-      },
-      {
-        "name": "ariaLabel",
-        "type": "string | null",
-        "default": "null",
-        "required": false,
-        "docs": "Accessibility label for screen readers. Use when no visible label exists."
-      },
-      {
-        "name": "ariaLabelledby",
-        "type": "string | null",
-        "default": "null",
-        "required": false,
-        "docs": "ID of an element that labels this checkbox for accessibility. Auto-set when a checkbox is inside a label element."
-      },
-      {
-        "name": "ariaDescribedby",
-        "type": "string | null",
-        "default": "null",
-        "required": false,
-        "docs": "ID of the element that describes this checkbox for accessibility."
-      },
-      {
-        "name": "required",
-        "type": "boolean",
-        "default": "false",
-        "required": false,
-        "transform": "booleanAttribute",
-        "docs": "Whether a checkbox is required in a form."
-      },
-      {
-        "name": "disabled",
-        "type": "boolean",
-        "default": "false",
-        "required": false,
-        "transform": "booleanAttribute",
-        "docs": "Whether the checkbox is disabled. Disabled checkboxes cannot be toggled and indicate the disabled state through a data-disabled attribute."
-      }
-    ],
-    "outputs": [
-      {
-        "name": "checkedChange",
-        "type": "boolean",
-        "docs": "Emits when checked state changes."
-      },
-      {
-        "name": "touched",
-        "type": "void",
-        "docs": "Event emitted when the checkbox is blurred (loses focus). Used for form validation."
-      }
-    ],
-    "variants": [],
-    "methods": [
-      {
-        "name": "toggle",
-        "signature": "toggle()",
-        "docs": "Toggles checkbox between checked/unchecked states. If the checkbox is indeterminate, sets to check. Does nothing if the checkbox is disabled."
-      },
-      {
-        "name": "ngAfterContentInit",
-        "signature": "ngAfterContentInit()"
-      },
-      {
-        "name": "ngOnDestroy",
-        "signature": "ngOnDestroy()"
-      },
-      {
-        "name": "writeValue",
-        "signature": "writeValue(value: boolean): void",
-        "docs": "Updates internal state when control value changes from outside. Handles boolean and 'indeterminate' values. Part of ControlValueAccessor interface."
-      },
-      {
-        "name": "registerOnChange",
-        "signature": "registerOnChange(fn: ChangeFn<boolean>): void",
-        "docs": "Registers callback for value changes. Part of ControlValueAccessor interface."
-      },
-      {
-        "name": "registerOnTouched",
-        "signature": "registerOnTouched(fn: TouchFn): void",
-        "docs": "Registers callback for touched events. Part of ControlValueAccessor interface."
-      },
-      {
-        "name": "setDisabledState",
-        "signature": "setDisabledState(isDisabled: boolean): void",
-        "docs": "Updates disabled state from form control. Part of ControlValueAccessor interface."
-      }
-    ]
-  }
-],
-  examples: [
-  ]
+    {
+      kind: 'component',
+      name: 'XCheckbox',
+      selector: 'x-checkbox',
+      inputs: [
+        {
+          name: 'checkedInput',
+          type: 'boolean',
+          default: 'false',
+          required: false,
+          docs: 'Current checked state of checkbox. Can be bound with [(checked)] for two-way binding.'
+        },
+        {
+          name: 'indeterminate',
+          type: 'boolean',
+          default: 'false',
+          required: false,
+          model: true
+        },
+        {
+          name: 'id',
+          type: 'string | null',
+          default: "uniqueId('x-checkbox')",
+          required: false,
+          docs: "Unique identifier for a checkbox component. When provided, the inner button gets ID without '-checkbox' suffix. Auto-generates ID if not provided."
+        },
+        {
+          name: 'name',
+          type: 'string | null',
+          default: 'null',
+          required: false,
+          docs: "Form control name for checkbox. When provided, the inner button gets the name without '-checkbox' suffix."
+        },
+        {
+          name: 'class',
+          type: 'string | null',
+          default: 'null',
+          required: false,
+          docs: 'CSS classes applied to the inner button element.'
+        },
+        {
+          name: 'ariaLabel',
+          type: 'string | null',
+          default: 'null',
+          required: false,
+          docs: 'Accessibility label for screen readers. Use when no visible label exists.'
+        },
+        {
+          name: 'ariaLabelledby',
+          type: 'string | null',
+          default: 'null',
+          required: false,
+          docs: 'ID of an element that labels this checkbox for accessibility. Auto-set when a checkbox is inside a label element.'
+        },
+        {
+          name: 'ariaDescribedby',
+          type: 'string | null',
+          default: 'null',
+          required: false,
+          docs: 'ID of the element that describes this checkbox for accessibility.'
+        },
+        {
+          name: 'required',
+          type: 'boolean',
+          default: 'false',
+          required: false,
+          transform: 'booleanAttribute',
+          docs: 'Whether a checkbox is required in a form.'
+        },
+        {
+          name: 'disabled',
+          type: 'boolean',
+          default: 'false',
+          required: false,
+          transform: 'booleanAttribute',
+          docs: 'Whether the checkbox is disabled. Disabled checkboxes cannot be toggled and indicate the disabled state through a data-disabled attribute.'
+        }
+      ],
+      outputs: [
+        {
+          name: 'checkedChange',
+          type: 'boolean',
+          docs: 'Emits when checked state changes.'
+        },
+        {
+          name: 'touched',
+          type: 'void',
+          docs: 'Event emitted when the checkbox is blurred (loses focus). Used for form validation.'
+        }
+      ],
+      variants: [],
+      methods: [
+        {
+          name: 'toggle',
+          signature: 'toggle()',
+          docs: 'Toggles checkbox between checked/unchecked states. If the checkbox is indeterminate, sets to check. Does nothing if the checkbox is disabled.'
+        },
+        {
+          name: 'ngAfterContentInit',
+          signature: 'ngAfterContentInit()'
+        },
+        {
+          name: 'ngOnDestroy',
+          signature: 'ngOnDestroy()'
+        },
+        {
+          name: 'writeValue',
+          signature: 'writeValue(value: boolean): void',
+          docs: "Updates internal state when control value changes from outside. Handles boolean and 'indeterminate' values. Part of ControlValueAccessor interface."
+        },
+        {
+          name: 'registerOnChange',
+          signature: 'registerOnChange(fn: XChangeFn<boolean>): void',
+          docs: 'Registers callback for value changes. Part of ControlValueAccessor interface.'
+        },
+        {
+          name: 'registerOnTouched',
+          signature: 'registerOnTouched(fn: XTouchFn): void',
+          docs: 'Registers callback for touched events. Part of ControlValueAccessor interface.'
+        },
+        {
+          name: 'setDisabledState',
+          signature: 'setDisabledState(isDisabled: boolean): void',
+          docs: 'Updates disabled state from form control. Part of ControlValueAccessor interface.'
+        }
+      ]
+    }
+  ],
+  examples: []
 };

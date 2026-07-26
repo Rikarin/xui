@@ -7,7 +7,7 @@ import { XuiIcon } from '@xui/icon';
 import { cva, type VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
 
-const itemVariants = cva(
+const menuItemVariants = cva(
   'flex w-full cursor-pointer items-center gap-2 rounded-md px-2 py-1.5 text-start text-sm outline-none select-none aria-disabled:pointer-events-none aria-disabled:opacity-50',
   {
     variants: {
@@ -25,7 +25,7 @@ const itemVariants = cva(
   }
 );
 
-export type XuiMenuItemColor = NonNullable<VariantProps<typeof itemVariants>['color']>;
+export type XuiMenuItemColor = NonNullable<VariantProps<typeof menuItemVariants>['color']>;
 
 /**
  * A command in a menu.
@@ -93,5 +93,5 @@ export class XuiMenuItem {
 
   protected readonly hasSubmenu = computed(() => this.submenuTrigger != null);
 
-  protected readonly computedClass = computed(() => xui(itemVariants({ color: this.color() }), this.class()));
+  protected readonly computedClass = computed(() => xui(menuItemVariants({ color: this.color() }), this.class()));
 }

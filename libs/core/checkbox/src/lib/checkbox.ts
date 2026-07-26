@@ -26,7 +26,7 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { uniqueId } from '@xui/core/a11y';
-import { ChangeFn, TouchFn } from '@xui/core/forms';
+import { XChangeFn, XTouchFn } from '@xui/core/forms';
 
 export const X_CHECKBOX_VALUE_ACCESSOR = {
   provide: NG_VALUE_ACCESSOR,
@@ -192,9 +192,9 @@ export class XCheckbox implements ControlValueAccessor, AfterContentInit, OnDest
   });
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  protected _onChange: ChangeFn<boolean> = () => {};
+  protected _onChange: XChangeFn<boolean> = () => {};
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  private _onTouched: TouchFn = () => {};
+  private _onTouched: XTouchFn = () => {};
 
   /**
    * Reference to the checkbox button element in the template.
@@ -309,7 +309,7 @@ export class XCheckbox implements ControlValueAccessor, AfterContentInit, OnDest
    *
    * @param fn - Function to call when value changes
    */
-  registerOnChange(fn: ChangeFn<boolean>): void {
+  registerOnChange(fn: XChangeFn<boolean>): void {
     this._onChange = fn;
   }
 
@@ -319,7 +319,7 @@ export class XCheckbox implements ControlValueAccessor, AfterContentInit, OnDest
    *
    * @param fn - Function to call when control is touched
    */
-  registerOnTouched(fn: TouchFn): void {
+  registerOnTouched(fn: XTouchFn): void {
     this._onTouched = fn;
   }
 

@@ -1,2 +1,2 @@
-export type ChangeFn<T> = (value: T) => void;
-export type TouchFn = () => void;
+export type XChangeFn<T> = (value: T) => void;
+export type XTouchFn = () => void;

@@ -1,5 +1,5 @@
 import { XDateAdapter, XNativeDateAdapter } from '@xui/core/date-time';
-import { XLuxonDateAdapter } from './date-adapter';
+import { XLuxonDateAdapter } from './luxon-date-adapter';
 
 /**
  * Runs the same contract against every adapter implementation, so the

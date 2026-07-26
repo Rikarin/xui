@@ -1,6 +1,6 @@
 import { computed, type Signal, signal, type WritableSignal } from '@angular/core';
 
-export interface GridSizeStoreConfig {
+export interface XGridSizeStoreConfig {
   count: Signal<number>;
   /** The fallback size for un-overridden indices. May be reactive. */
   defaultSize: number | Signal<number>;
@@ -16,7 +16,7 @@ const asSignal = (value: number | Signal<number>): Signal<number> =>
  * `defaultSize`. Exposes cumulative `offsets` and a `total`, which the locator
  * uses to map between an index and a pixel position.
  */
-export interface GridSizeStore {
+export interface XGridSizeStore {
   /** Size of the index, honouring overrides and the default. */
   size(index: number): number;
   /** Set (override) the size of one index, clamped to `minSize`. */
@@ -31,7 +31,7 @@ export interface GridSizeStore {
   readonly overrides: WritableSignal<ReadonlyMap<number, number>>;
 }
 
-export function createGridSizeStore(config: GridSizeStoreConfig): GridSizeStore {
+export function createXGridSizeStore(config: XGridSizeStoreConfig): XGridSizeStore {
   const minSize = config.minSize ?? 0;
   const defaultSize = asSignal(config.defaultSize);
   const overrides = signal<ReadonlyMap<number, number>>(new Map());

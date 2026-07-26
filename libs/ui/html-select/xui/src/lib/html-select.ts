@@ -12,12 +12,12 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { matExpandMoreRound } from '@ng-icons/material-icons/round';
 import { xui } from '@xui/core';
-import type { ChangeFn, TouchFn } from '@xui/core/forms';
+import type { XChangeFn, XTouchFn } from '@xui/core/forms';
 import { XuiIcon } from '@xui/icon';
 import { cva, type VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
 
-const wrapperVariants = cva(
+const htmlSelectWrapperVariants = cva(
   'border-border bg-surface-inset text-foreground focus-within:border-focus relative inline-flex items-center rounded-lg border transition-colors has-disabled:cursor-not-allowed has-disabled:opacity-50',
   {
     variants: {
@@ -28,7 +28,7 @@ const wrapperVariants = cva(
   }
 );
 
-export type XuiHtmlSelectVariants = VariantProps<typeof wrapperVariants>;
+export type XuiHtmlSelectVariants = VariantProps<typeof htmlSelectWrapperVariants>;
 
 /** One `<option>` when the options come as data rather than projected markup. */
 export interface XuiHtmlSelectOption<T = string> {
@@ -108,7 +108,7 @@ export class XuiHtmlSelect<T = string> implements ControlValueAccessor {
   protected readonly value = signal<T | string | null>(null);
 
   protected readonly computedClass = computed(() =>
-    xui(wrapperVariants({ size: this.size(), fill: this.fill() }), this.class())
+    xui(htmlSelectWrapperVariants({ size: this.size(), fill: this.fill() }), this.class())
   );
   protected readonly selectClass = computed(() =>
     xui(
@@ -117,8 +117,8 @@ export class XuiHtmlSelect<T = string> implements ControlValueAccessor {
     )
   );
 
-  private onChange?: ChangeFn<T | string | null>;
-  protected onTouched?: TouchFn;
+  private onChange?: XChangeFn<T | string | null>;
+  protected onTouched?: XTouchFn;
 
   protected onSelect(value: string): void {
     // Recover the original typed option value (number, object) when the choice
@@ -134,11 +134,11 @@ export class XuiHtmlSelect<T = string> implements ControlValueAccessor {
     this.value.set(value);
   }
 
-  registerOnChange(fn: ChangeFn<T | string | null>): void {
+  registerOnChange(fn: XChangeFn<T | string | null>): void {
     this.onChange = fn;
   }
 
-  registerOnTouched(fn: TouchFn): void {
+  registerOnTouched(fn: XTouchFn): void {
     this.onTouched = fn;
   }
 

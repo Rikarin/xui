@@ -13,7 +13,7 @@ import { NgIcon, provideIcons } from '@ng-icons/core';
 import { matArrowForwardRound } from '@ng-icons/material-icons/round';
 import { xui } from '@xui/core';
 import { toJsDate } from '@xui/core/calendar';
-import { injectDateAdapter } from '@xui/core/date-time';
+import { injectXDateAdapter } from '@xui/core/date-time';
 import { XuiDateRangePickerImports, type XuiDateRange } from '@xui/date-range-picker';
 import { XuiIcon } from '@xui/icon';
 import { XuiPopoverImports } from '@xui/popover';
@@ -80,7 +80,7 @@ type Boundary = 'start' | 'end';
   viewProviders: [provideIcons({ matArrowForwardRound })]
 })
 export class XuiDateRangeInput<T = Date> {
-  private readonly adapter = injectDateAdapter<T>();
+  private readonly adapter = injectXDateAdapter<T>();
 
   readonly class = input<ClassValue>('');
 

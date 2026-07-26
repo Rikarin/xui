@@ -20,7 +20,7 @@ import { NgIcon, provideIcons } from '@ng-icons/core';
 import { matExpandMoreRound, matSearchRound } from '@ng-icons/material-icons/round';
 import { xui } from '@xui/core';
 import { uniqueId } from '@xui/core/a11y';
-import { createQueryList } from '@xui/core/query';
+import { createXQueryList } from '@xui/core/query';
 import { XuiIcon } from '@xui/icon';
 import { XuiPopoverImports } from '@xui/popover';
 import type { ClassValue } from 'clsx';
@@ -165,7 +165,7 @@ export class XuiSelect<T> {
 
   // Everything flows through a single reactive list predicate so filtering reacts
   // to the query and every configurable input.
-  protected readonly list = createQueryList<T>({
+  protected readonly list = createXQueryList<T>({
     items: this.items,
     query: this.query,
     itemText: item => this.itemText()(item),

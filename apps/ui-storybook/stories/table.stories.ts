@@ -5,7 +5,7 @@ import { faker } from '@faker-js/faker';
 import type { Meta, StoryObj } from '@storybook/angular-vite';
 import { moduleMetadata } from '@storybook/angular-vite';
 import { XuiButtonImports } from '@xui/button';
-import { PaginatorState, useXColumnManager, XTableImports } from '@xui/core/table';
+import { createXColumnManager, XPaginatorState, XTableImports } from '@xui/core/table';
 import { XuiInputImports } from '@xui/input';
 import { XuiTable, XuiTableImports } from '@xui/table';
 
@@ -159,7 +159,7 @@ export class TableStory {
   readonly totalElements = signal(50);
   readonly pageSize = signal(10);
 
-  readonly columns = useXColumnManager({
+  readonly columns = createXColumnManager({
     name: { visible: true, label: 'Name' },
     gender: { visible: true, label: 'Gender' },
     weight: { visible: true, label: 'Weight' }
@@ -168,7 +168,7 @@ export class TableStory {
   protected readonly trackBy: TrackByFunction<{ name: string }> = (_index: number, user: { name: string }) => user.name;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected readonly onStateChange = (state: PaginatorState) => {
+  protected readonly onStateChange = (state: XPaginatorState) => {
     // this._startEndIndex.set({ start: state.startIndex, end: state.endIndex });
   };
 }

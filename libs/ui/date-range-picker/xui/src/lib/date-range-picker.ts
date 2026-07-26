@@ -14,8 +14,8 @@ import {
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { matChevronLeftRound, matChevronRightRound } from '@ng-icons/material-icons/round';
 import { xui } from '@xui/core';
-import { buildMonthGrid, type CalendarDay, monthYearLabel, weekdayLabels } from '@xui/core/calendar';
-import { injectDateAdapter, type XDateAdapter } from '@xui/core/date-time';
+import { buildMonthGrid, monthYearLabel, weekdayLabels, type XCalendarDay } from '@xui/core/calendar';
+import { injectXDateAdapter, type XDateAdapter } from '@xui/core/date-time';
 import { XuiIcon } from '@xui/icon';
 import type { ClassValue } from 'clsx';
 
@@ -96,7 +96,7 @@ export interface XuiDateRange<T> {
   viewProviders: [provideIcons({ matChevronLeftRound, matChevronRightRound })]
 })
 export class XuiDateRangePicker<T = Date> {
-  private readonly adapter: XDateAdapter<T> = injectDateAdapter<T>();
+  private readonly adapter: XDateAdapter<T> = injectXDateAdapter<T>();
 
   readonly class = input<ClassValue>('');
 
@@ -178,12 +178,12 @@ export class XuiDateRangePicker<T = Date> {
     );
   }
 
-  protected cellClass(day: CalendarDay<T>): string {
+  protected cellClass(day: XCalendarDay<T>): string {
     // A continuous highlight strip behind the days that fall inside the range.
     return xui('p-0 text-center', this.inRange(day.date) && !this.isEndpoint(day.date) && 'bg-primary/10');
   }
 
-  protected dayClass(day: CalendarDay<T>): string {
+  protected dayClass(day: XCalendarDay<T>): string {
     return xui(
       'flex size-8 items-center justify-center rounded-full text-sm transition-colors',
       'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus',

@@ -13,19 +13,22 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { xui } from '@xui/core';
-import type { ChangeFn, TouchFn } from '@xui/core/forms';
+import type { XChangeFn, XTouchFn } from '@xui/core/forms';
 import { cva, type VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
 
-const containerVariants = cva('bg-surface-inset border-border inline-flex gap-0.5 rounded-lg border p-0.5', {
-  variants: {
-    size: { md: 'text-sm', sm: 'text-xs' },
-    fill: { true: 'flex w-full', false: '' }
-  },
-  defaultVariants: { size: 'md', fill: false }
-});
+const segmentedControlContainerVariants = cva(
+  'bg-surface-inset border-border inline-flex gap-0.5 rounded-lg border p-0.5',
+  {
+    variants: {
+      size: { md: 'text-sm', sm: 'text-xs' },
+      fill: { true: 'flex w-full', false: '' }
+    },
+    defaultVariants: { size: 'md', fill: false }
+  }
+);
 
-export type XuiSegmentedControlVariants = VariantProps<typeof containerVariants>;
+export type XuiSegmentedControlVariants = VariantProps<typeof segmentedControlContainerVariants>;
 
 /** One choice in a segmented control. */
 export interface XuiSegmentedOption<T = string> {
@@ -97,11 +100,11 @@ export class XuiSegmentedControl<T = string> implements ControlValueAccessor {
   protected readonly disabledState = computed(() => this.disabled() || this.disabledByForm());
 
   protected readonly computedClass = computed(() =>
-    xui(containerVariants({ size: this.size(), fill: this.fill() }), this.class())
+    xui(segmentedControlContainerVariants({ size: this.size(), fill: this.fill() }), this.class())
   );
 
-  private onChange?: ChangeFn<T | null>;
-  protected onTouched?: TouchFn;
+  private onChange?: XChangeFn<T | null>;
+  protected onTouched?: XTouchFn;
 
   protected segmentClass(selected: boolean): string {
     return xui(
@@ -159,11 +162,11 @@ export class XuiSegmentedControl<T = string> implements ControlValueAccessor {
     this.value.set(value);
   }
 
-  registerOnChange(fn: ChangeFn<T | null>): void {
+  registerOnChange(fn: XChangeFn<T | null>): void {
     this.onChange = fn;
   }
 
-  registerOnTouched(fn: TouchFn): void {
+  registerOnTouched(fn: XTouchFn): void {
     this.onTouched = fn;
   }
 

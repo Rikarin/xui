@@ -19,7 +19,7 @@ import {
   viewChild
 } from '@angular/core';
 import { xui } from '@xui/core';
-import { injectElementSize } from '@xui/core/interactions';
+import { injectXElementSize } from '@xui/core/interactions';
 import type { ClassValue } from 'clsx';
 
 /** Which end of the list collapses into the overflow. */
@@ -115,7 +115,7 @@ export class XuiOverflowListOverflow {}
 })
 export class XuiOverflowList<T> {
   private readonly host: HTMLElement = inject(ElementRef).nativeElement;
-  private readonly hostSize = injectElementSize();
+  private readonly hostSize = injectXElementSize();
   private readonly ruler = viewChild.required<ElementRef<HTMLElement>>('ruler');
 
   /** How many items fit, recomputed whenever the container or the items change. */

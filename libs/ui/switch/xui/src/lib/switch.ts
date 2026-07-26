@@ -12,12 +12,12 @@ import {
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { xui } from '@xui/core';
 import { uniqueId } from '@xui/core/a11y';
-import type { ChangeFn, TouchFn } from '@xui/core/forms';
+import type { XChangeFn, XTouchFn } from '@xui/core/forms';
 import { cva, type VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
 import { injectXuiSwitchConfig, type XuiSwitchSize } from './switch.token';
 
-const trackVariants = cva(
+const switchTrackVariants = cva(
   'relative inline-flex shrink-0 cursor-pointer items-center rounded-full border border-transparent transition-colors focus-visible:outline-5 focus-visible:outline-offset-2 data-disabled:cursor-not-allowed data-disabled:opacity-50 data-[state=checked]:bg-primary data-[state=unchecked]:bg-border-strong',
   {
     variants: {
@@ -30,7 +30,7 @@ const trackVariants = cva(
   }
 );
 
-const thumbVariants = cva(
+const switchThumbVariants = cva(
   'pointer-events-none block rounded-full bg-white shadow-sm transition-transform data-[state=unchecked]:translate-x-0.5',
   {
     variants: {
@@ -43,7 +43,7 @@ const thumbVariants = cva(
   }
 );
 
-export type XuiSwitchVariants = VariantProps<typeof trackVariants>;
+export type XuiSwitchVariants = VariantProps<typeof switchTrackVariants>;
 
 export const XUI_SWITCH_VALUE_ACCESSOR = {
   provide: NG_VALUE_ACCESSOR,
@@ -106,11 +106,11 @@ export class XuiSwitch implements ControlValueAccessor {
   protected readonly disabledState = computed(() => this.disabled() || this.disabledByForm());
 
   protected readonly dataState = computed(() => (this.checked() ? 'checked' : 'unchecked'));
-  protected readonly trackClass = computed(() => xui(trackVariants({ size: this.size() }), this.class()));
-  protected readonly thumbClass = computed(() => thumbVariants({ size: this.size() }));
+  protected readonly trackClass = computed(() => xui(switchTrackVariants({ size: this.size() }), this.class()));
+  protected readonly thumbClass = computed(() => switchThumbVariants({ size: this.size() }));
 
-  private onChange?: ChangeFn<boolean>;
-  protected onTouched?: TouchFn;
+  private onChange?: XChangeFn<boolean>;
+  protected onTouched?: XTouchFn;
 
   protected toggle(): void {
     if (this.disabledState()) {
@@ -133,11 +133,11 @@ export class XuiSwitch implements ControlValueAccessor {
     this.checked.set(!!value);
   }
 
-  registerOnChange(fn: ChangeFn<boolean>): void {
+  registerOnChange(fn: XChangeFn<boolean>): void {
     this.onChange = fn;
   }
 
-  registerOnTouched(fn: TouchFn): void {
+  registerOnTouched(fn: XTouchFn): void {
     this.onTouched = fn;
   }
 

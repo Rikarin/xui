@@ -210,18 +210,18 @@ export interface XDuration {
   milliseconds?: number;
 }
 
-export const XDateAdapterToken = new InjectionToken<XDateAdapter<unknown>>('XDateAdapterToken');
+export const X_DATE_ADAPTER = new InjectionToken<XDateAdapter<unknown>>('X_DATE_ADAPTER');
 
 /**
  * Inject the DateAdapter instance
  */
-export function injectDateAdapter<T>(): XDateAdapter<T> {
-  return (inject(XDateAdapterToken, { optional: true }) as XDateAdapter<T>) ?? new XNativeDateAdapter();
+export function injectXDateAdapter<T>(): XDateAdapter<T> {
+  return (inject(X_DATE_ADAPTER, { optional: true }) as XDateAdapter<T>) ?? new XNativeDateAdapter();
 }
 
 /**
  * Provide the DateAdapter instance
  */
-export function provideDateAdapter<T>(adapter: Type<XDateAdapter<T>>): ClassProvider {
-  return { provide: XDateAdapterToken, useClass: adapter };
+export function provideXDateAdapter<T>(adapter: Type<XDateAdapter<T>>): ClassProvider {
+  return { provide: X_DATE_ADAPTER, useClass: adapter };
 }

@@ -14,7 +14,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { matUploadFileRound } from '@ng-icons/material-icons/round';
 import { xui } from '@xui/core';
-import type { ChangeFn, TouchFn } from '@xui/core/forms';
+import type { XChangeFn, XTouchFn } from '@xui/core/forms';
 import { XuiIcon } from '@xui/icon';
 import { cva, type VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
@@ -120,8 +120,8 @@ export class XuiFileInput implements ControlValueAccessor {
     xui(fileInputVariants({ size: this.size(), fill: this.fill() }), this.class())
   );
 
-  private onChange?: ChangeFn<FileList | null>;
-  protected onTouched?: TouchFn;
+  private onChange?: XChangeFn<FileList | null>;
+  protected onTouched?: XTouchFn;
 
   protected onSelect(files: FileList | null): void {
     const value = files && files.length ? files : null;
@@ -139,11 +139,11 @@ export class XuiFileInput implements ControlValueAccessor {
     }
   }
 
-  registerOnChange(fn: ChangeFn<FileList | null>): void {
+  registerOnChange(fn: XChangeFn<FileList | null>): void {
     this.onChange = fn;
   }
 
-  registerOnTouched(fn: TouchFn): void {
+  registerOnTouched(fn: XTouchFn): void {
     this.onTouched = fn;
   }
 

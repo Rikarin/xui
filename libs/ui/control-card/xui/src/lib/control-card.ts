@@ -14,7 +14,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { matCheckRound } from '@ng-icons/material-icons/round';
 import { xui } from '@xui/core';
-import type { ChangeFn, TouchFn } from '@xui/core/forms';
+import type { XChangeFn, XTouchFn } from '@xui/core/forms';
 import { XuiIcon } from '@xui/icon';
 import { cva, VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
@@ -22,7 +22,7 @@ import type { ClassValue } from 'clsx';
 /** Which control the card presents — governs the indicator and the ARIA role. */
 export type XuiControlCardType = 'checkbox' | 'radio' | 'switch';
 
-const cardVariants = cva(
+const controlCardVariants = cva(
   [
     'flex items-center gap-3 rounded-lg border bg-surface-raised px-4 py-3 text-sm transition-colors',
     'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus',
@@ -39,7 +39,7 @@ const cardVariants = cva(
   }
 );
 
-export type XuiControlCardVariants = VariantProps<typeof cardVariants>;
+export type XuiControlCardVariants = VariantProps<typeof controlCardVariants>;
 
 export const XUI_CONTROL_CARD_VALUE_ACCESSOR = {
   provide: NG_VALUE_ACCESSOR,
@@ -104,15 +104,15 @@ export class XuiControlCard implements ControlValueAccessor {
   /** Whether a checked card shows the selected (accented) appearance. */
   readonly showAsSelectedWhenChecked = input<boolean, BooleanInput>(true, { transform: booleanAttribute });
 
-  private onChange?: ChangeFn<boolean>;
-  private onTouched?: TouchFn;
+  private onChange?: XChangeFn<boolean>;
+  private onTouched?: XTouchFn;
   private readonly disabledByForm = signal(false);
   protected readonly isDisabled = computed(() => this.disabled() || this.disabledByForm());
 
   protected readonly role = computed(() => (this.type() === 'switch' ? 'switch' : this.type()));
 
   protected readonly computedClass = computed(() =>
-    xui(cardVariants({ selected: this.checked() && this.showAsSelectedWhenChecked() }), this.class())
+    xui(controlCardVariants({ selected: this.checked() && this.showAsSelectedWhenChecked() }), this.class())
   );
 
   protected readonly indicatorClass = computed(() => {
@@ -163,11 +163,11 @@ export class XuiControlCard implements ControlValueAccessor {
     this.checked.set(!!value);
   }
 
-  registerOnChange(fn: ChangeFn<boolean>): void {
+  registerOnChange(fn: XChangeFn<boolean>): void {
     this.onChange = fn;
   }
 
-  registerOnTouched(fn: TouchFn): void {
+  registerOnTouched(fn: XTouchFn): void {
     this.onTouched = fn;
   }
 

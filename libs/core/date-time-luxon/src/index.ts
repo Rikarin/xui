@@ -1,1 +1,1 @@
-export * from './lib/date-adapter';
+export * from './lib/luxon-date-adapter';

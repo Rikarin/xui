@@ -1,6 +1,6 @@
 /**
  * Maps between grid indices and pixel positions using a cumulative `offsets`
- * array (as produced by {@link GridSizeStore.offsets}). `offsets[i]` is the pixel
+ * array (as produced by {@link XGridSizeStore.offsets}). `offsets[i]` is the pixel
  * where index `i` begins; the array has `count + 1` entries.
  */
 

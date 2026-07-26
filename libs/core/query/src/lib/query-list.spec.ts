@@ -1,6 +1,6 @@
 import { signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { createQueryList } from './query-list';
+import { createXQueryList } from './query-list';
 
 interface Item {
   name: string;
@@ -9,11 +9,11 @@ interface Item {
 
 const ITEMS: Item[] = [{ name: 'Apple' }, { name: 'Banana', disabled: true }, { name: 'Cherry' }, { name: 'Date' }];
 
-// createQueryList builds signals, so run it inside an injection context.
+// createXQueryList builds signals, so run it inside an injection context.
 const make = (query = '', items = ITEMS) =>
   TestBed.runInInjectionContext(() => {
     const q = signal(query);
-    const list = createQueryList<Item>({
+    const list = createXQueryList<Item>({
       items: signal(items),
       query: q,
       itemText: i => i.name,
@@ -22,7 +22,7 @@ const make = (query = '', items = ITEMS) =>
     return { q, list };
   });
 
-describe('createQueryList', () => {
+describe('createXQueryList', () => {
   it('returns every item when the query is empty', () => {
     const { list } = make();
 
@@ -37,7 +37,7 @@ describe('createQueryList', () => {
 
   it('honours a custom itemPredicate', () => {
     const custom = TestBed.runInInjectionContext(() =>
-      createQueryList<Item>({
+      createXQueryList<Item>({
         items: signal(ITEMS),
         query: signal('C'),
         itemPredicate: (query, item) => item.name.startsWith(query)
@@ -49,7 +49,7 @@ describe('createQueryList', () => {
 
   it('honours a whole-list predicate', () => {
     const list = TestBed.runInInjectionContext(() =>
-      createQueryList<Item>({
+      createXQueryList<Item>({
         items: signal(ITEMS),
         query: signal('anything'),
         itemListPredicate: () => [ITEMS[3]]

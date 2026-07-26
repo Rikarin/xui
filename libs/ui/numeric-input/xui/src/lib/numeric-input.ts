@@ -15,7 +15,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { matKeyboardArrowDownRound, matKeyboardArrowUpRound } from '@ng-icons/material-icons/round';
 import { xui } from '@xui/core';
-import type { ChangeFn, TouchFn } from '@xui/core/forms';
+import type { XChangeFn, XTouchFn } from '@xui/core/forms';
 import { XuiIcon } from '@xui/icon';
 import type { ClassValue } from 'clsx';
 import {
@@ -168,8 +168,8 @@ export class XuiNumericInput implements ControlValueAccessor {
       'text-foreground-muted hover:bg-hover-overlay hover:text-foreground flex flex-1 items-center justify-center px-1.5 disabled:pointer-events-none disabled:opacity-40'
   );
 
-  private onChange?: ChangeFn<number | null>;
-  protected onTouched?: TouchFn;
+  private onChange?: XChangeFn<number | null>;
+  protected onTouched?: XTouchFn;
 
   protected onInput(raw: string): void {
     this.text.set(raw);
@@ -257,11 +257,11 @@ export class XuiNumericInput implements ControlValueAccessor {
     this.text.set(value == null ? '' : String(value));
   }
 
-  registerOnChange(fn: ChangeFn<number | null>): void {
+  registerOnChange(fn: XChangeFn<number | null>): void {
     this.onChange = fn;
   }
 
-  registerOnTouched(fn: TouchFn): void {
+  registerOnTouched(fn: XTouchFn): void {
     this.onTouched = fn;
   }
 

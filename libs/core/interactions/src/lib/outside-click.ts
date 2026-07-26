@@ -23,7 +23,7 @@ function elementOf(value: ElementRef<HTMLElement> | HTMLElement): HTMLElement {
  * propagation inside the page cannot silently disable dismissal, and it is
  * removed when the calling injection context is destroyed.
  */
-export function injectOutsideClick(
+export function injectXOutsideClick(
   handler: (event: Event) => void,
   options: XOutsideClickOptions = {},
   target?: ElementRef<HTMLElement>

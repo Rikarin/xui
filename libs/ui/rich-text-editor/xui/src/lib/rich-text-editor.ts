@@ -29,7 +29,7 @@ import {
   matTerminalRound
 } from '@ng-icons/material-icons/round';
 import { xui } from '@xui/core';
-import type { ChangeFn, TouchFn } from '@xui/core/forms';
+import type { XChangeFn, XTouchFn } from '@xui/core/forms';
 import { XuiIcon } from '@xui/icon';
 import type { ClassValue } from 'clsx';
 import { injectXuiRichTextEditorConfig, injectXuiRichTextSyntaxes } from './rich-text-editor.token';
@@ -299,8 +299,8 @@ export class XuiRichTextEditor implements ControlValueAccessor {
   protected readonly linkDraft = signal<string | null>(null);
   protected readonly active = signal<XuiRichTextFeature[]>([]);
 
-  private onChange?: ChangeFn<string>;
-  protected onTouched?: TouchFn;
+  private onChange?: XChangeFn<string>;
+  protected onTouched?: XTouchFn;
   private readonly disabledByForm = signal(false);
   protected readonly isDisabled = computed(() => this.disabled() || this.disabledByForm());
 
@@ -596,11 +596,11 @@ export class XuiRichTextEditor implements ControlValueAccessor {
     this.synced = null;
   }
 
-  registerOnChange(fn: ChangeFn<string>): void {
+  registerOnChange(fn: XChangeFn<string>): void {
     this.onChange = fn;
   }
 
-  registerOnTouched(fn: TouchFn): void {
+  registerOnTouched(fn: XTouchFn): void {
     this.onTouched = fn;
   }
 

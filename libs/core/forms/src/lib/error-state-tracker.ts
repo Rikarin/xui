@@ -1,16 +1,16 @@
 import { signal } from '@angular/core';
 import type { AbstractControl, FormGroupDirective, NgControl, NgForm } from '@angular/forms';
-import type { ErrorStateMatcher } from './error-options';
+import type { XErrorStateMatcher } from './error-options';
 
-export class ErrorStateTracker {
+export class XErrorStateTracker {
   /** Whether the tracker is currently in an error state. */
   readonly errorState = signal(false);
 
   /** User-defined matcher for the error state. */
-  matcher: ErrorStateMatcher | null = null;
+  matcher: XErrorStateMatcher | null = null;
 
   constructor(
-    private readonly defaultMatcher: ErrorStateMatcher | null,
+    private readonly defaultMatcher: XErrorStateMatcher | null,
     public ngControl: NgControl | null,
     private readonly parentFormGroup: FormGroupDirective | null,
     private readonly parentForm: NgForm | null

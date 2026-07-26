@@ -78,5 +78,5 @@ export class XColumnManager<T extends XColumnVisibility> {
   }
 }
 
-export const useXColumnManager = <T extends XColumnVisibility>(initialColumnVisibility: T) =>
+export const createXColumnManager = <T extends XColumnVisibility>(initialColumnVisibility: T) =>
   new XColumnManager(initialColumnVisibility);

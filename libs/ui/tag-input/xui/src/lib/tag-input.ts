@@ -17,12 +17,12 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { matCloseRound } from '@ng-icons/material-icons/round';
 import { xui } from '@xui/core';
-import type { ChangeFn, TouchFn } from '@xui/core/forms';
+import type { XChangeFn, XTouchFn } from '@xui/core/forms';
 import { XuiIcon } from '@xui/icon';
 import { cva, VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
 
-const containerVariants = cva(
+const tagInputContainerVariants = cva(
   [
     'flex min-h-(--control-height-md) flex-wrap items-center gap-1.5 rounded-lg border border-border bg-surface-inset px-(--control-padding-sm) py-0.5 text-sm',
     'focus-within:border-focus transition-colors',
@@ -36,7 +36,7 @@ const containerVariants = cva(
   }
 );
 
-export type XuiTagInputVariants = VariantProps<typeof containerVariants>;
+export type XuiTagInputVariants = VariantProps<typeof tagInputContainerVariants>;
 
 export const XUI_TAG_INPUT_VALUE_ACCESSOR = {
   provide: NG_VALUE_ACCESSOR,
@@ -126,13 +126,13 @@ export class XuiTagInput implements ControlValueAccessor {
   protected readonly draft = signal('');
   private readonly field = viewChild<ElementRef<HTMLInputElement>>('field');
 
-  private onChange?: ChangeFn<string[]>;
-  private onTouched?: TouchFn;
+  private onChange?: XChangeFn<string[]>;
+  private onTouched?: XTouchFn;
   private readonly disabledByForm = signal(false);
   protected readonly isDisabled = computed(() => this.disabled() || this.disabledByForm());
 
   protected readonly computedClass = computed(() => xui('block', this.class()));
-  protected readonly containerClass = computed(() => xui(containerVariants({ fill: this.fill() })));
+  protected readonly containerClass = computed(() => xui(tagInputContainerVariants({ fill: this.fill() })));
 
   protected onInput(event: Event): void {
     this.draft.set((event.target as HTMLInputElement).value);
@@ -238,11 +238,11 @@ export class XuiTagInput implements ControlValueAccessor {
     this.values.set(value ?? []);
   }
 
-  registerOnChange(fn: ChangeFn<string[]>): void {
+  registerOnChange(fn: XChangeFn<string[]>): void {
     this.onChange = fn;
   }
 
-  registerOnTouched(fn: TouchFn): void {
+  registerOnTouched(fn: XTouchFn): void {
     this.onTouched = fn;
   }
 

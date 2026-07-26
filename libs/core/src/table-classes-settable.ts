@@ -1,12 +1,12 @@
 import { createInjectionToken } from './create-injection-token';
 
-export interface TableClassesSettable {
+export interface XTableClassesSettable {
   setTableClasses: (classes: Partial<{ table: string; headerRow: string; bodyRow: string }>) => void;
 }
 
 export const [
-  injectTableClassesSettable,
-  provideTableClassesSettable,
-  provideTableClassesSettableExisting,
+  injectXTableClassesSettable,
+  provideXTableClassesSettable,
+  provideXTableClassesSettableExisting,
   SET_TABLE_CLASSES_TOKEN
-] = createInjectionToken<TableClassesSettable>('@xui SET_TABLE_CLASSES_TOKEN');
+] = createInjectionToken<XTableClassesSettable>('@xui SET_TABLE_CLASSES_TOKEN');

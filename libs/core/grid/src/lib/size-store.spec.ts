@@ -1,12 +1,12 @@
 import { signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { indexAtPosition, positionAtIndex, sizeAtIndex, visibleRange } from './locator';
-import { createGridSizeStore } from './size-store';
+import { createXGridSizeStore } from './size-store';
 
 const make = (count: number, defaultSize: number, minSize?: number) =>
-  TestBed.runInInjectionContext(() => createGridSizeStore({ count: signal(count), defaultSize, minSize }));
+  TestBed.runInInjectionContext(() => createXGridSizeStore({ count: signal(count), defaultSize, minSize }));
 
-describe('createGridSizeStore', () => {
+describe('createXGridSizeStore', () => {
   it('returns the default size for un-overridden indices', () => {
     const store = make(5, 100);
 
@@ -46,7 +46,7 @@ describe('createGridSizeStore', () => {
 
   it('reacts to a changing count', () => {
     const count = signal(2);
-    const store = TestBed.runInInjectionContext(() => createGridSizeStore({ count, defaultSize: 50 }));
+    const store = TestBed.runInInjectionContext(() => createXGridSizeStore({ count, defaultSize: 50 }));
     expect(store.total()).toBe(100);
 
     count.set(4);

@@ -14,7 +14,7 @@ import {
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { xui } from '@xui/core';
 import { uniqueId } from '@xui/core/a11y';
-import type { ChangeFn, TouchFn } from '@xui/core/forms';
+import type { XChangeFn, XTouchFn } from '@xui/core/forms';
 import type { ClassValue } from 'clsx';
 
 /** The contract a group exposes to its buttons — kept narrow to avoid a cycle. */
@@ -100,8 +100,8 @@ export class XuiRadioGroup<T = unknown> implements ControlValueAccessor, XuiRadi
     xui('flex gap-2', this.orientation() === 'vertical' ? 'flex-col' : 'flex-row flex-wrap', this.class())
   );
 
-  private onChange?: ChangeFn<T | null>;
-  private onTouched?: TouchFn;
+  private onChange?: XChangeFn<T | null>;
+  private onTouched?: XTouchFn;
 
   select(value: T): void {
     if (this.disabled()) {
@@ -155,11 +155,11 @@ export class XuiRadioGroup<T = unknown> implements ControlValueAccessor, XuiRadi
     this.value.set(value);
   }
 
-  registerOnChange(fn: ChangeFn<T | null>): void {
+  registerOnChange(fn: XChangeFn<T | null>): void {
     this.onChange = fn;
   }
 
-  registerOnTouched(fn: TouchFn): void {
+  registerOnTouched(fn: XTouchFn): void {
     this.onTouched = fn;
   }
 

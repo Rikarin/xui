@@ -1,7 +1,7 @@
 import { computed, linkedSignal, type Signal, signal } from '@angular/core';
 
-/** Configuration for {@link createQueryList}. */
-export interface QueryListConfig<T> {
+/** Configuration for {@link createXQueryList}. */
+export interface XQueryListConfig<T> {
   /** The full item set. */
   items: Signal<readonly T[]>;
 
@@ -26,7 +26,7 @@ export interface QueryListConfig<T> {
 }
 
 /** A headless, signal-driven filtered list with an active (highlighted) item. */
-export interface QueryList<T> {
+export interface XQueryList<T> {
   /** The items surviving the current query. */
   readonly filteredItems: Signal<readonly T[]>;
 
@@ -51,7 +51,7 @@ export interface QueryList<T> {
 
 const defaultText = (item: unknown): string => (item == null ? '' : String(item));
 
-export function createQueryList<T>(config: QueryListConfig<T>): QueryList<T> {
+export function createXQueryList<T>(config: XQueryListConfig<T>): XQueryList<T> {
   const itemText = config.itemText ?? defaultText;
   const itemDisabled = config.itemDisabled ?? (() => false);
 
@@ -131,4 +131,4 @@ export function createQueryList<T>(config: QueryListConfig<T>): QueryList<T> {
 }
 
 // A tiny helper used by consumers that want a writable query signal alongside the list.
-export const createQuerySignal = () => signal('');
+export const createXQuerySignal = () => signal('');
