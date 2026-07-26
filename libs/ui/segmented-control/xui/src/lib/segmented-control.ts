@@ -121,7 +121,11 @@ export class XuiSegmentedControl<T = string> implements ControlValueAccessor {
       'inline-flex h-(--control-height-sm) items-center justify-center rounded-md px-(--control-padding-md) font-medium transition-colors focus-visible:outline-offset-1 disabled:cursor-not-allowed disabled:opacity-40',
       this.fill() && 'flex-1',
       selected
-        ? 'bg-surface-raised text-foreground shadow-elevation-1'
+        ? // Not `surface-raised`: in the dark theme that resolves to the same colour as the track's
+          // `surface-inset`, leaving the selected segment with no background of its own and the
+          // text shade as the only thing marking the choice. `surface-overlay` is the first step
+          // that actually sits above the track, in both themes.
+          'bg-surface-overlay text-foreground shadow-elevation-1'
         : // `:hover` still matches a disabled button, so the lift has to be scoped to enabled ones
           // now that the segment is no longer inert.
           'text-foreground-muted enabled:hover:text-foreground'
