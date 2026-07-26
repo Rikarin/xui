@@ -30,14 +30,14 @@ describe('XuiButton', () => {
   it('applies the colour through the variant/colour compound', () => {
     const { query } = setup('<button xuiButton color="error"></button>');
 
-    expectClasses(query('button'), 'bg-error', 'text-error-foreground', 'hover:bg-error-darker');
+    expectClasses(query('button'), 'bg-error', 'text-error-foreground', 'not-disabled:hover:bg-error-darker');
     expectNoClasses(query('button'), 'bg-primary');
   });
 
   it('swaps the fill for a border on the outline variant', () => {
     const { query } = setup('<button xuiButton variant="outline" color="success"></button>');
 
-    expectClasses(query('button'), 'border-success', 'hover:bg-success', 'text-foreground');
+    expectClasses(query('button'), 'border-success', 'not-disabled:hover:bg-success', 'text-foreground');
     expectNoClasses(query('button'), 'bg-success');
   });
 
@@ -48,10 +48,12 @@ describe('XuiButton', () => {
     expectNoClasses(query('button'), 'h-(--control-height-md)');
   });
 
-  it('neutralises pointer events while disabled', () => {
+  it('says it is unavailable while disabled, cursor included', () => {
     const { query } = setup('<button xuiButton disabled></button>');
 
-    expectClasses(query('button'), 'disabled:pointer-events-none', 'disabled:saturate-30');
+    expectClasses(query('button'), 'disabled:cursor-not-allowed', 'disabled:saturate-30');
+    // Scoped, so a disabled button does not light up under the pointer it now has.
+    expectClasses(query('button'), 'not-disabled:hover:bg-primary-darker');
     expect(query<HTMLButtonElement>('button').disabled).toBe(true);
   });
 

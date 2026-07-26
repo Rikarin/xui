@@ -208,9 +208,14 @@ export class XuiNumericInput implements ControlValueAccessor, XFormFieldControl 
    * taking the bottom arrow with it. Size to the row instead: half of 24px or 30px, less a hair.
    */
   protected readonly stepperIconSize = computed<XuiIconSize>(() => (this.size() === 'sm' ? '10px' : '12px'));
+  /**
+   * A disabled stepper keeps its pointer events so the cursor can say it is unavailable — an
+   * element that receives none contributes no cursor either. The native `disabled` swallows the
+   * click, and `enabled:` keeps the hover lift off a stepper that cannot be pressed.
+   */
   protected readonly stepperClass = computed(
     () =>
-      'text-foreground-muted hover:bg-hover-overlay hover:text-foreground flex flex-1 items-center justify-center px-1.5 disabled:pointer-events-none disabled:opacity-40'
+      'text-foreground-muted enabled:hover:bg-hover-overlay enabled:hover:text-foreground flex flex-1 items-center justify-center px-1.5 disabled:cursor-not-allowed disabled:opacity-40'
   );
 
   protected onInput(raw: string): void {

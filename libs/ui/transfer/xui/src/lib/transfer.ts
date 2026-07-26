@@ -392,9 +392,12 @@ export class XuiTransfer implements ControlValueAccessor {
       active && 'bg-surface-inset'
     );
   }
+  // Disabled, the button keeps its pointer events so the cursor can say it is unavailable — an
+  // element that receives none contributes no cursor either. The native `disabled` swallows the
+  // click; `enabled:` keeps the hover lift off a button that cannot be pressed.
   protected moveClass(): string {
     return xui(
-      'border-border text-foreground hover:bg-surface-inset flex size-(--control-height-md) items-center justify-center rounded-md border disabled:pointer-events-none disabled:opacity-40'
+      'border-border text-foreground enabled:hover:bg-surface-inset flex size-(--control-height-md) items-center justify-center rounded-md border disabled:cursor-not-allowed disabled:opacity-40'
     );
   }
 

@@ -343,10 +343,13 @@ export class XuiRichTextEditor implements ControlValueAccessor {
     )
   );
 
+  // A disabled tool keeps its pointer events so the cursor can say it is unavailable — an element
+  // that receives none contributes no cursor either. The native `disabled` swallows the click, and
+  // `enabled:` keeps the hover lift off a tool that cannot be used.
   protected readonly toolClass = computed(() =>
     xui(
-      'text-foreground-muted hover:bg-surface-raised hover:text-foreground flex items-center rounded px-1.5 py-1',
-      'data-active:bg-surface-raised data-active:text-foreground disabled:pointer-events-none disabled:opacity-50'
+      'text-foreground-muted enabled:hover:bg-surface-raised enabled:hover:text-foreground flex items-center rounded px-1.5 py-1',
+      'data-active:bg-surface-raised data-active:text-foreground disabled:cursor-not-allowed disabled:opacity-50'
     )
   );
 

@@ -17,6 +17,11 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
 import { injectXuiMenuConfig } from './menu.token';
 
+// The one place `pointer-events-none` on a disabled control is load-bearing rather than a habit:
+// a menu item is disabled with `aria-disabled` — the WAI-ARIA pattern keeps it focusable, so the
+// native attribute is out — and that alone stops nothing. `CdkMenuItem` will not emit `triggered`,
+// but a consumer's own `(click)` on the element would fire. The item is therefore inert, and
+// carries no `cursor-not-allowed`: an element that takes no pointer events contributes no cursor.
 export const menuItemVariants = cva(
   'flex w-full cursor-pointer items-center gap-2 rounded-md px-2 py-1.5 text-start text-sm outline-none select-none aria-disabled:pointer-events-none aria-disabled:opacity-50',
   {

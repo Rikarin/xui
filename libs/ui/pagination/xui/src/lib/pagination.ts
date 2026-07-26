@@ -155,18 +155,23 @@ export class XuiPagination {
     )
   );
 
+  // A disabled button keeps its pointer events so the cursor can say it is unavailable —
+  // `pointer-events-none` would leave the arrow unchanged, since the browser takes no cursor from
+  // an element that receives no pointer events. The native `disabled` swallows the click, and the
+  // handlers guard on top of it; the hover lift is scoped to `enabled:` so the button does not
+  // light up on the way past.
   protected stepClass(): string {
     return xui(
-      'border-border text-foreground hover:bg-surface-inset flex size-(--control-height-md) items-center justify-center rounded-md border disabled:pointer-events-none disabled:opacity-40'
+      'border-border text-foreground enabled:hover:bg-surface-inset flex size-(--control-height-md) items-center justify-center rounded-md border disabled:cursor-not-allowed disabled:opacity-40'
     );
   }
 
   protected pageClass(active: boolean): string {
     return xui(
-      'flex h-(--control-height-md) min-w-(--control-height-md) items-center justify-center rounded-md border px-(--control-padding-sm) text-sm tabular-nums disabled:pointer-events-none disabled:opacity-40',
+      'flex h-(--control-height-md) min-w-(--control-height-md) items-center justify-center rounded-md border px-(--control-padding-sm) text-sm tabular-nums disabled:cursor-not-allowed disabled:opacity-40',
       active
         ? 'border-primary bg-primary text-primary-foreground font-medium'
-        : 'border-border text-foreground hover:bg-surface-inset'
+        : 'border-border text-foreground enabled:hover:bg-surface-inset'
     );
   }
 }
