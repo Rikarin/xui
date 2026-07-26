@@ -56,6 +56,26 @@ describe('XuiDescriptions', () => {
     expectClasses(document.querySelector('xui-descriptions') as HTMLElement, 'border', 'rounded-lg');
   });
 
+  it('pads the title into the box when bordered, and leaves it above the grid when not', () => {
+    const { detect, setProps } = render(
+      `<xui-descriptions title="Order #1024" [bordered]="props().bordered">
+         <xui-descriptions-item label="A">1</xui-descriptions-item>
+       </xui-descriptions>`,
+      { imports: IMPORTS, props: { bordered: true } }
+    );
+    detect();
+
+    const title = () => document.querySelector('xui-descriptions > div') as HTMLElement;
+    expect(title().textContent?.trim()).toBe('Order #1024');
+    expectClasses(title(), 'px-4', 'py-2.5', 'border-b');
+
+    setProps({ bordered: false });
+    detect();
+
+    expect(title().classList).toContain('mb-2');
+    expect(title().classList).not.toContain('px-4');
+  });
+
   it('stacks label over value when vertical', () => {
     const { detect } = render(
       `<xui-descriptions orientation="vertical"><xui-descriptions-item label="A">1</xui-descriptions-item></xui-descriptions>`,

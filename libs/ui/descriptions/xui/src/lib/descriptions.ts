@@ -32,7 +32,7 @@ import { XuiDescriptionsItem } from './descriptions-item';
   imports: [NgTemplateOutlet],
   template: `
     @if (title()) {
-      <div class="text-foreground mb-2 font-semibold">{{ title() }}</div>
+      <div [class]="titleClass()">{{ title() }}</div>
     }
     <div [class]="gridClass()" [style.grid-template-columns]="templateColumns()">
       @for (item of items(); track $index) {
@@ -68,6 +68,14 @@ export class XuiDescriptions {
 
   protected readonly computedClass = computed(() =>
     xui('block text-sm', this.bordered() && 'border-border overflow-hidden rounded-lg border', this.class())
+  );
+  /**
+   * Bordered, the title is the box's header rather than a line of text above the grid: the border
+   * is on the host, so a bare title would sit against the corner of it with the gap below showing
+   * through. It takes the cells' own padding and a rule under it, and the box reads as one surface.
+   */
+  protected readonly titleClass = computed(() =>
+    xui('text-foreground font-semibold', this.bordered() ? 'bg-surface border-border border-b px-4 py-2.5' : 'mb-2')
   );
   protected readonly gridClass = computed(() =>
     xui('grid', this.bordered() ? 'bg-border gap-px [&>*]:bg-surface' : 'gap-x-6 gap-y-3')
