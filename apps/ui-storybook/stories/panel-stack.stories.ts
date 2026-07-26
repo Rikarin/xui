@@ -1,5 +1,7 @@
 import { moduleMetadata, type Meta, type StoryObj } from '@storybook/angular-vite';
 import { XuiButtonImports } from '@xui/button';
+import { XuiCheckboxImports } from '@xui/checkbox';
+import { XuiInputImports } from '@xui/input';
 import { XuiPanelStack, XuiPanelStackImports } from '@xui/panel-stack';
 
 /**
@@ -11,7 +13,9 @@ import { XuiPanelStack, XuiPanelStackImports } from '@xui/panel-stack';
 const meta: Meta<XuiPanelStack> = {
   title: 'Navigation/Panel stack',
   component: XuiPanelStack,
-  decorators: [moduleMetadata({ imports: [XuiPanelStackImports, XuiButtonImports] })]
+  decorators: [
+    moduleMetadata({ imports: [XuiPanelStackImports, XuiButtonImports, XuiCheckboxImports, XuiInputImports] })
+  ]
 };
 
 export default meta;
@@ -60,15 +64,15 @@ export const Default: Story = {
 
       <ng-template #notifications>
         <div class="flex flex-col gap-2 p-4 text-sm">
-          <label class="flex items-center gap-2"><input type="checkbox" checked /> Email</label>
-          <label class="flex items-center gap-2"><input type="checkbox" /> Push</label>
+          <xui-checkbox [checked]="true" label="Email" />
+          <xui-checkbox label="Push" />
         </div>
       </ng-template>
 
       <ng-template #password>
         <div class="flex flex-col gap-3 p-4 text-sm">
-          <input class="border-border rounded-md border px-3 py-1.5" placeholder="New password" type="password" />
-          <input class="border-border rounded-md border px-3 py-1.5" placeholder="Confirm" type="password" />
+          <input xuiInput placeholder="New password" type="password" />
+          <input xuiInput placeholder="Confirm" type="password" />
         </div>
       </ng-template>
     `

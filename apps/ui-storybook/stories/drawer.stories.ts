@@ -1,7 +1,10 @@
 import { signal } from '@angular/core';
 import { moduleMetadata, type Meta, type StoryObj } from '@storybook/angular-vite';
 import { XuiButtonImports } from '@xui/button';
+import { XuiCheckboxImports } from '@xui/checkbox';
 import { XuiDrawer, XuiDrawerImports } from '@xui/drawer';
+import { XuiInputImports } from '@xui/input';
+import { XuiLabelImports } from '@xui/label';
 
 /**
  * A panel that slides in from an edge. Same modal overlay as the dialog, pinned
@@ -11,7 +14,11 @@ import { XuiDrawer, XuiDrawerImports } from '@xui/drawer';
 const meta: Meta<XuiDrawer> = {
   title: 'Overlays/Drawer',
   component: XuiDrawer,
-  decorators: [moduleMetadata({ imports: [XuiDrawerImports, XuiButtonImports] })]
+  decorators: [
+    moduleMetadata({
+      imports: [XuiDrawerImports, XuiButtonImports, XuiCheckboxImports, XuiInputImports, XuiLabelImports]
+    })
+  ]
 };
 
 export default meta;
@@ -30,8 +37,8 @@ export const Positions: Story = {
       <xui-drawer [(open)]="open" [position]="position()" title="Filters">
         <div class="flex flex-col gap-3 p-6 text-sm">
           <p class="text-foreground-muted">Sliding in from the {{ position() }} edge.</p>
-          <label class="flex items-center gap-2"><input type="checkbox" /> Only starred</label>
-          <label class="flex items-center gap-2"><input type="checkbox" /> Archived</label>
+          <xui-checkbox label="Only starred" />
+          <xui-checkbox label="Archived" />
         </div>
       </xui-drawer>
     `
@@ -48,9 +55,9 @@ export const WithFooter: Story = {
         <div class="flex h-full flex-col">
           <div class="flex-1 space-y-4 overflow-auto p-6 text-sm">
             @for (n of [1,2,3,4,5,6]; track n) {
-              <label class="block">
-                <span class="text-foreground-muted">Field {{ n }}</span>
-                <input class="border-border mt-1 w-full rounded-md border px-3 py-1.5" />
+              <label xuiLabel class="grid gap-1.5">
+                Field {{ n }}
+                <input xuiInput class="w-full" />
               </label>
             }
           </div>

@@ -34,7 +34,7 @@ export const routes: Routes = [
       },
       {
         path: 'customers',
-        loadComponent: () => import('./pages/customers').then(m => m.Customers),
+        loadComponent: () => import('./pages/customers/customers').then(m => m.Customers),
         title: 'Customers — Northwind Admin'
       },
       {

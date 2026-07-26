@@ -22,6 +22,8 @@ import {
   type XuiGraphPortShape,
   type XuiGraphRouting
 } from '@xui/node-graph';
+import { XuiNumericInputImports } from '@xui/numeric-input';
+import { XuiSliderImports } from '@xui/slider';
 
 interface DemoPort {
   id: string;
@@ -298,7 +300,9 @@ class StoryGraph {
 const meta: Meta<XuiNodeGraph> = {
   title: 'Visualisation/Node graph',
   component: XuiNodeGraph,
-  decorators: [moduleMetadata({ imports: [XuiNodeGraphImports, StoryGraph] })],
+  decorators: [
+    moduleMetadata({ imports: [XuiNodeGraphImports, StoryGraph, XuiSliderImports, XuiNumericInputImports] })
+  ],
   parameters: {
     docs: {
       description: {
@@ -675,7 +679,8 @@ export const PortShapes: Story = {
 /**
  * A port row is a normal flex row, so a control can live beside the connector —
  * the pattern every VFX and shader editor uses for unconnected inputs. Native
- * controls are exempt from node dragging automatically.
+ * controls are exempt from node dragging automatically; composite widgets such
+ * as the slider opt out with `xuiGraphNoDrag`.
  */
 export const InlineWidgets: Story = {
   render: () => ({
@@ -686,12 +691,13 @@ export const InlineWidgets: Story = {
           <xui-graph-node-preview class="bg-muted h-16" />
 
           <xui-graph-port portId="scale" direction="input" label="Scale">
-            <input type="range" class="ml-auto w-20 accent-[var(--color-primary)]" />
+            <xui-slider xuiGraphNoDrag class="ml-auto w-24" [max]="10" [value]="4"
+                        [labelRenderer]="false" aria-label="Scale" />
           </xui-graph-port>
 
           <xui-graph-port portId="octaves" direction="input" label="Octaves">
-            <input type="number" value="4"
-                   class="border-border bg-surface-sunken ml-auto w-14 rounded border px-1 text-right text-xs" />
+            <xui-numeric-input xuiGraphNoDrag size="sm" class="ml-auto w-20" value="4"
+                               [min]="1" [max]="8" aria-label="Octaves" />
           </xui-graph-port>
 
           <xui-graph-port portId="seed" direction="input" label="Seed" />

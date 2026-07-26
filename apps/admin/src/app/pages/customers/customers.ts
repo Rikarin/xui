@@ -14,13 +14,8 @@ import {
   matPersonRound,
   matSearchRound
 } from '@ng-icons/material-icons/round';
-import { XuiAlertDialogImports } from '@xui/alert-dialog';
 import { XuiAvatarImports } from '@xui/avatar';
 import { XuiButtonImports } from '@xui/button';
-import { XuiDescriptionsImports } from '@xui/descriptions';
-import { XuiDialogImports } from '@xui/dialog';
-import { XuiDrawerImports } from '@xui/drawer';
-import { XuiFormFieldImports } from '@xui/form-field';
 import { XuiIconImports } from '@xui/icon';
 import { XuiInputImports } from '@xui/input';
 import { XuiMenuImports } from '@xui/menu';
@@ -30,21 +25,17 @@ import { XuiSelectImports } from '@xui/select';
 import { XuiSkeletonImports } from '@xui/skeleton';
 import { XuiTableImports } from '@xui/table';
 import { XuiTagImports } from '@xui/tag';
-import { XuiTextImports } from '@xui/text';
-import { XuiTextareaImports } from '@xui/textarea';
 import { XuiToastService } from '@xui/toast';
-import { DataStore } from '../core/data-store';
-import { money, relativeTime } from '../core/format';
-import type { Customer, CustomerStatus, Plan } from '../core/models';
-import { PageHeader } from '../shell/page-header';
+import { DataStore } from '../../core/data-store';
+import { money } from '../../core/format';
+import type { Customer, CustomerStatus, Plan } from '../../core/models';
+import { PageHeader } from '../../shell/page-header';
+import { CustomerDeleteDialog } from './customer-delete-dialog';
+import { CustomerDetailDrawer } from './customer-detail-drawer';
+import { customerInitials, statusColor } from './customer-format';
+import { CustomerInviteDialog } from './customer-invite-dialog';
 
 type SortKey = 'name' | 'company' | 'orders' | 'spend';
-
-const STATUS_COLOR: Record<CustomerStatus, 'success' | 'warning' | 'error'> = {
-  active: 'success',
-  invited: 'warning',
-  suspended: 'error'
-};
 
 const ALL = 'All';
 
@@ -56,6 +47,10 @@ const ALL = 'All';
  * lifecycle hook. The pieces of view state are separate signals on purpose, so changing a filter
  * can reset the page index without also resetting the sort.
  *
+ * The modal surfaces are child components — {@link CustomerDetailDrawer},
+ * {@link CustomerInviteDialog}, {@link CustomerDeleteDialog} — that own their open state and drafts,
+ * while every store mutation and toast stays here, next to the data they change.
+ *
  * Deleting is the part worth copying: an alert dialog to confirm, then a toast whose action puts
  * the row back at the index it came from. Destructive and reversible beats a second confirmation.
  */
@@ -65,13 +60,8 @@ const ALL = 'All';
   imports: [
     FormsModule,
     NgIcon,
-    XuiAlertDialogImports,
     XuiAvatarImports,
     XuiButtonImports,
-    XuiDescriptionsImports,
-    XuiDialogImports,
-    XuiDrawerImports,
-    XuiFormFieldImports,
     XuiIconImports,
     XuiInputImports,
     XuiMenuImports,
@@ -81,8 +71,9 @@ const ALL = 'All';
     XuiSkeletonImports,
     XuiTableImports,
     XuiTagImports,
-    XuiTextImports,
-    XuiTextareaImports,
+    CustomerDeleteDialog,
+    CustomerDetailDrawer,
+    CustomerInviteDialog,
     PageHeader
   ],
   providers: [
@@ -255,79 +246,16 @@ const ALL = 'All';
       </xui-menu>
     </ng-template>
 
-    <xui-drawer position="right" size="md" title="Customer" [open]="detailOpen()" (openChange)="onDetailOpen($event)">
-      @if (active(); as customer) {
-        <div class="space-y-6 p-6">
-          <div class="flex items-center gap-3">
-            <xui-avatar [text]="initials(customer)" />
-            <div class="min-w-0">
-              <p class="truncate font-medium">{{ customer.name }}</p>
-              <p xuiText size="sm" color="subtle" class="truncate">{{ customer.email }}</p>
-            </div>
-          </div>
-
-          <xui-descriptions bordered [column]="1">
-            <xui-descriptions-item label="Company">{{ customer.company }}</xui-descriptions-item>
-            <xui-descriptions-item label="Country">{{ customer.country }}</xui-descriptions-item>
-            <xui-descriptions-item label="Plan">{{ customer.plan }}</xui-descriptions-item>
-            <xui-descriptions-item label="Status">
-              <xui-tag minimal [color]="statusColor(customer.status)">{{ customer.status }}</xui-tag>
-            </xui-descriptions-item>
-            <xui-descriptions-item label="Orders">{{ customer.orders }}</xui-descriptions-item>
-            <xui-descriptions-item label="Lifetime spend">{{ asMoney(customer.spend) }}</xui-descriptions-item>
-            <xui-descriptions-item label="Joined">{{ ago(customer.joinedAt) }}</xui-descriptions-item>
-            <xui-descriptions-item label="Last seen">{{ ago(customer.lastSeenAt) }}</xui-descriptions-item>
-          </xui-descriptions>
-
-          <xui-form-field label="Internal note" helperText="Saved against this customer only.">
-            <textarea
-              xuiTextarea
-              autoResize
-              class="w-full"
-              rows="3"
-              placeholder="Anything the next person should know…"
-              [ngModel]="note()"
-              (ngModelChange)="note.set($event)"
-            ></textarea>
-          </xui-form-field>
-
-          <div class="flex justify-end gap-2">
-            <button xuiButton variant="ghost" type="button" (click)="onDetailOpen(false)">Close</button>
-            <button xuiButton type="button" (click)="saveNote()">Save note</button>
-          </div>
-        </div>
-      }
-    </xui-drawer>
-
-    <xui-dialog [(open)]="inviteOpen" title="Invite a customer" size="sm">
-      <xui-dialog-body>
-        <xui-form-field label="Email" helperText="They will get a link that expires in seven days.">
-          <input
-            xuiInput
-            class="w-full"
-            type="email"
-            placeholder="name@company.example"
-            [ngModel]="inviteEmail()"
-            (ngModelChange)="inviteEmail.set($event)"
-          />
-        </xui-form-field>
-      </xui-dialog-body>
-      <xui-dialog-footer>
-        <button xuiButton variant="ghost" type="button" (click)="inviteOpen.set(false)">Cancel</button>
-        <button xuiButton type="button" [disabled]="!inviteEmail().includes('@')" (click)="invite()">
-          Send invitation
-        </button>
-      </xui-dialog-footer>
-    </xui-dialog>
-
-    <xui-alert-dialog
-      destructive
-      confirmText="Delete"
-      [(open)]="confirmDelete"
-      [title]="'Delete ' + (active()?.name ?? 'this customer') + '?'"
-      description="Their orders stay, but the account and its contact details are removed. You can undo this immediately afterwards."
-      (confirmed)="remove()"
+    <app-customer-detail-drawer
+      [customer]="active()"
+      [open]="detailOpen()"
+      (openChange)="onDetailOpen($event)"
+      (saveNote)="saveNote($event)"
     />
+
+    <app-customer-invite-dialog [(open)]="inviteOpen" (invite)="invite($event)" />
+
+    <app-customer-delete-dialog [customer]="active()" [(open)]="confirmDelete" (confirmed)="remove()" />
   `
 })
 export class Customers {
@@ -354,8 +282,6 @@ export class Customers {
   protected readonly detailOpen = signal(false);
   protected readonly confirmDelete = signal(false);
   protected readonly inviteOpen = signal(false);
-  protected readonly inviteEmail = signal('');
-  protected readonly note = signal('');
 
   protected readonly filtered = computed(() => {
     const query = this.query().trim().toLowerCase();
@@ -463,28 +389,19 @@ export class Customers {
   }
 
   protected statusColor(status: CustomerStatus): 'success' | 'warning' | 'error' {
-    return STATUS_COLOR[status];
+    return statusColor(status);
   }
 
   protected initials(customer: Customer): string {
-    return customer.name
-      .split(' ')
-      .map(part => part[0])
-      .join('')
-      .slice(0, 2);
+    return customerInitials(customer);
   }
 
   protected asMoney(value: number): string {
     return money(value);
   }
 
-  protected ago(date: Date): string {
-    return relativeTime(date);
-  }
-
   protected open(customer: Customer): void {
     this.active.set(customer);
-    this.note.set(customer.notes);
     this.detailOpen.set(true);
   }
 
@@ -508,14 +425,14 @@ export class Customers {
     }
   }
 
-  protected saveNote(): void {
+  protected saveNote(note: string): void {
     const customer = this.active();
 
     if (!customer) {
       return;
     }
 
-    this.data.updateCustomer(customer.id, { notes: this.note() });
+    this.data.updateCustomer(customer.id, { notes: note });
     this.notify('Note saved.', 'success');
     this.onDetailOpen(false);
   }
@@ -556,8 +473,7 @@ export class Customers {
     });
   }
 
-  protected invite(): void {
-    const email = this.inviteEmail().trim();
+  protected invite(email: string): void {
     const plan: Plan = 'Starter';
 
     this.data.restoreCustomer(
@@ -578,8 +494,6 @@ export class Customers {
       0
     );
 
-    this.inviteOpen.set(false);
-    this.inviteEmail.set('');
     this.notify(`Invitation sent to ${email}.`, 'success');
   }
 

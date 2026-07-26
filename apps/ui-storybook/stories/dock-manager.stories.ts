@@ -1,5 +1,7 @@
 import { moduleMetadata, type Meta, type StoryObj } from '@storybook/angular-vite';
 import { XuiDockManager, XuiDockManagerImports, type XuiDockManagerLayout } from '@xui/dock-manager';
+import { XuiInputImports } from '@xui/input';
+import { XuiTextareaImports } from '@xui/textarea';
 
 /**
  * An IDE-style docking layout driven by one serialisable tree: resizable split
@@ -22,7 +24,7 @@ import { XuiDockManager, XuiDockManagerImports, type XuiDockManagerLayout } from
 const meta: Meta<XuiDockManager> = {
   title: 'Layout/Dock manager',
   component: XuiDockManager,
-  decorators: [moduleMetadata({ imports: [XuiDockManagerImports] })]
+  decorators: [moduleMetadata({ imports: [XuiDockManagerImports, XuiInputImports, XuiTextareaImports] })]
 };
 
 export default meta;
@@ -135,10 +137,7 @@ export const Ide: Story = {
         <ng-template xuiDockContent="outline">${list(['XuiDockManager', 'XuiDockContent'])}</ng-template>
         <ng-template xuiDockContent="search">
           <div class="p-2">
-            <input
-              class="border-border bg-surface-inset w-full rounded border px-2 py-1 text-sm"
-              placeholder="Search…"
-            />
+            <input xuiInput size="sm" class="w-full" type="search" placeholder="Search…" />
           </div>
         </ng-template>
       </xui-dock-manager>
@@ -168,11 +167,8 @@ export const PreservesContent: Story = {
       <xui-dock-manager [(layout)]="layout" class="border-border h-[22rem] w-[46rem] rounded-lg border">
         <ng-template xuiDockContent="form">
           <div class="flex flex-col gap-2 p-3">
-            <input
-              class="border-border bg-surface-inset rounded border px-2 py-1 text-sm"
-              placeholder="Type something, then drag this pane"
-            />
-            <textarea class="border-border bg-surface-inset h-24 rounded border px-2 py-1 text-sm"></textarea>
+            <input xuiInput size="sm" placeholder="Type something, then drag this pane" />
+            <textarea xuiTextarea size="sm" class="h-24" aria-label="Notes"></textarea>
           </div>
         </ng-template>
         <ng-template xuiDockContent="notes">${body('Drop the draft pane on any edge or centre.')}</ng-template>
