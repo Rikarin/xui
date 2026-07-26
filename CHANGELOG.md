@@ -1,3 +1,22 @@
+## 2.0.0-alpha.14 (2026-07-26)
+
+### 🩹 Fixes
+
+- **checkbox:** stop the end-aligned example stretching its box ([8221d05f](https://github.com/Rikarin/xui/commit/8221d05f))
+- ⚠️  **icon:** colour the icon through the variable ng-icon reads ([f76ae65e](https://github.com/Rikarin/xui/commit/f76ae65e))
+- **storybook:** open the vertical group's menus beside their triggers ([ead922aa](https://github.com/Rikarin/xui/commit/ead922aa))
+
+### ⚠️  Breaking Changes
+
+- **icon:** colour the icon through the variable ng-icon reads  ([f76ae65e](https://github.com/Rikarin/xui/commit/f76ae65e))
+  `iconVariants` and `XuiIconVariants` are replaced by
+  `iconColors` and `XuiIconColor`. The template API is unchanged.
+
+### ❤️ Thank You
+
+- Claude Opus 5
+- Rikarin @Rikarin
+
 ## 2.0.0-alpha.13 (2026-07-26)
 
 ### 🩹 Fixes
