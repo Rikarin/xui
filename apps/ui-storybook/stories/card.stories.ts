@@ -1,3 +1,4 @@
+import { signal } from '@angular/core';
 import { argsToTemplate, moduleMetadata, type Meta, type StoryObj } from '@storybook/angular-vite';
 import { XuiCard, XuiCardImports } from '@xui/card';
 import { XuiTextImports } from '@xui/text';
@@ -41,18 +42,34 @@ export const Elevations: Story = {
   })
 };
 
-/** An interactive card should be a real button or anchor, not a div with a handler. */
+/**
+ * An interactive card should be a real button or anchor, not a div with a handler — so it is
+ * clickable, focusable and announced without any of that being rebuilt by hand. Pick one.
+ */
 export const Interactive: Story = {
   render: () => ({
+    props: { plan: signal('weekly') },
     template: `
       <div class="flex gap-4">
-        <button xuiCard interactive class="w-48 text-left">
-          <h3 xuiHeading [level]="5">Selectable</h3>
-          <p xuiText color="muted" size="sm">Hover to lift</p>
+        <button
+          xuiCard
+          interactive
+          [selected]="plan() === 'weekly'"
+          (click)="plan.set('weekly')"
+          class="w-48 text-left"
+        >
+          <h3 xuiHeading [level]="5">Weekly</h3>
+          <p xuiText color="muted" size="sm">A digest every Monday</p>
         </button>
-        <button xuiCard interactive selected class="w-48 text-left">
-          <h3 xuiHeading [level]="5">Selected</h3>
-          <p xuiText color="muted" size="sm">Ringed and announced</p>
+        <button
+          xuiCard
+          interactive
+          [selected]="plan() === 'daily'"
+          (click)="plan.set('daily')"
+          class="w-48 text-left"
+        >
+          <h3 xuiHeading [level]="5">Daily</h3>
+          <p xuiText color="muted" size="sm">One email each morning</p>
         </button>
       </div>
     `
