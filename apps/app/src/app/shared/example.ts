@@ -63,6 +63,9 @@ import { HeadingAnchor } from './heading-anchor';
         </xui-tab>
       </xui-tabs>
     } @else {
+      <p xuiText color="subtle" size="sm" class="mb-2">
+        Source only — this one needs a component of its own to run, so there is nothing to render here.
+      </p>
       <docs-code [code]="example().code" lang="html" />
     }
   `

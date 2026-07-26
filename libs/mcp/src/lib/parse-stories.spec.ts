@@ -39,6 +39,20 @@ export const Colors: Story = {
 };
 
 const NotExported: Story = { args: { color: 'info' } };
+
+@Component({
+  selector: 'callout-story',
+  template: \`
+    <xui-callout [color]="color()">
+      <button (click)="dismiss()">Dismiss</button>
+    </xui-callout>
+  \`
+})
+export class CalloutStory {}
+
+export const Hosted: Story = {
+  render: () => ({ moduleMetadata: { imports: [CalloutStory] }, template: '<callout-story />' })
+};
 `;
 
 describe('parseStoryFile', () => {
@@ -49,7 +63,13 @@ describe('parseStoryFile', () => {
   });
 
   it('exports one example per exported story, skipping meta and locals', () => {
-    expect(parsed.examples.map(example => example.name)).toEqual(['Default', 'Minimal', 'Colors']);
+    expect(parsed.examples.map(example => example.name)).toEqual(['Default', 'Minimal', 'Colors', 'Hosted']);
+  });
+
+  it('renders a story that is only its own host component as what that component renders', () => {
+    expect(parsed.examples[3].code).toBe(
+      ['<xui-callout [color]="color()">', '  <button (click)="dismiss()">Dismiss</button>', '</xui-callout>'].join('\n')
+    );
   });
 
   it('falls back to the meta template for stories that only set args', () => {

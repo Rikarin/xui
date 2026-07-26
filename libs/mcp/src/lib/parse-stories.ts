@@ -63,13 +63,62 @@ export function parseStoryFile(ts: typeof TS, relativeFile: string, text: string
     }
   }
 
+  const local = readLocalComponents(ts, source);
+
   return {
     imports,
     examples: examples.map(example => ({
       ...example,
-      code: example.code || metaTemplate || ''
+      code: inlineWrapper(example.code || metaTemplate || '', local)
     }))
   };
+}
+
+/**
+ * The template of every component the story file declares for itself, by selector.
+ *
+ * A story that needs state — a paginator, a column manager — is written as a small host component
+ * and rendered as `<table-story />`. That tag resolves inside the story file and nowhere else, so
+ * on its own it documents nothing.
+ */
+function readLocalComponents(ts: typeof TS, source: TS.SourceFile): Map<string, string> {
+  const templates = new Map<string, string>();
+
+  for (const statement of source.statements) {
+    if (!ts.isClassDeclaration(statement)) {
+      continue;
+    }
+
+    for (const decorator of ts.getDecorators(statement) ?? []) {
+      const call = decorator.expression;
+
+      if (!ts.isCallExpression(call) || call.expression.getText(source) !== 'Component') {
+        continue;
+      }
+
+      const options = call.arguments[0];
+
+      if (!options || !ts.isObjectLiteralExpression(options)) {
+        continue;
+      }
+
+      const selector = propertyText(ts, source, options, 'selector')?.replace(/^['"]|['"]$/g, '');
+      const template = findTemplate(ts, source, options);
+
+      if (selector && template) {
+        templates.set(selector, template);
+      }
+    }
+  }
+
+  return templates;
+}
+
+/** A template that is nothing but one of those wrappers, as the markup the wrapper renders. */
+function inlineWrapper(template: string, local: Map<string, string>): string {
+  const tag = /^<([a-z][\w-]*)\s*(?:\/>|><\/\1>)$/.exec(template.trim())?.[1];
+
+  return (tag && local.get(tag)) || template;
 }
 
 function hasProperty(ts: typeof TS, node: TS.ObjectLiteralExpression, name: string): boolean {
