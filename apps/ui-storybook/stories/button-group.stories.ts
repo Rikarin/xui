@@ -1,6 +1,7 @@
 import { Meta, moduleMetadata, StoryObj } from '@storybook/angular-vite';
 import { XuiButtonImports } from '@xui/button';
 import { XuiButtonGroup, XuiButtonGroupImports } from '@xui/button-group';
+import { connectedPositions } from '@xui/core/overlay';
 import { XuiMenuImports } from '@xui/menu';
 
 /**
@@ -131,19 +132,23 @@ export const MenuTriggers: Story = {
  */
 export const VerticalMenuTriggers: Story = {
   render: () => ({
+    // A trigger outside a menu opens downwards, which in a vertical group would drop the menu over
+    // the next button. Placing it beside the trigger is what the caret promises, and it is the
+    // trigger's `xuiMenuPosition` — not the group's orientation — that decides.
+    props: { beside: connectedPositions('right-start', 4) },
     template: `
     <div xuiButtonGroup orientation="vertical" alignText="left" class="w-40">
-      <button xuiButton variant="outline" [xuiMenuTriggerFor]="file">
+      <button xuiButton variant="outline" [xuiMenuTriggerFor]="file" [xuiMenuPosition]="beside">
         <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9zM13 2v7h7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         File
         <svg viewBox="0 0 24 24" class="ml-auto h-4 w-4" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </button>
-      <button xuiButton variant="outline" [xuiMenuTriggerFor]="edit">
+      <button xuiButton variant="outline" [xuiMenuTriggerFor]="edit" [xuiMenuPosition]="beside">
         <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         Edit
         <svg viewBox="0 0 24 24" class="ml-auto h-4 w-4" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </button>
-      <button xuiButton variant="outline" [xuiMenuTriggerFor]="view">
+      <button xuiButton variant="outline" [xuiMenuTriggerFor]="view" [xuiMenuPosition]="beside">
         <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/></svg>
         View
         <svg viewBox="0 0 24 24" class="ml-auto h-4 w-4" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
