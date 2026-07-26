@@ -19,6 +19,22 @@
       "executor": "nx:run-commands",
       "dependsOn": ["compile"],
       "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
+      "inputs": [
+        "production",
+        // `generate-index` reads these off disk rather than importing them, so Nx infers no
+        // dependency on them and `^production` covers nothing. Without them listed, editing a
+        // component leaves the task's hash unchanged and Nx replays a stale `xui-index.json` -
+        // the index only ever refreshed when `libs/mcp` itself changed. Every path
+        // `buildIndex()` touches belongs here.
+        "{workspaceRoot}/libs/ui/*/xui/src/**/*.ts",
+        "{workspaceRoot}/libs/ui/*/xui/package.json",
+        "{workspaceRoot}/libs/core/**/*.ts",
+        "{workspaceRoot}/libs/core/package.json",
+        "{workspaceRoot}/libs/core/*/ng-package.json",
+        "{workspaceRoot}/libs/core/styles/theme.css",
+        "{workspaceRoot}/apps/ui-storybook/stories/**/*.ts",
+        "{workspaceRoot}/apps/app/docs/**/*"
+      ],
       "options": {
         "command": "node dist/libs/mcp/src/scripts/generate-index.js --out dist/libs/mcp/src/xui-index.json",
         "cwd": "{workspaceRoot}"
