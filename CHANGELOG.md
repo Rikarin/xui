@@ -1,3 +1,15 @@
+## 2.0.0-alpha.15 (2026-07-26)
+
+### 🩹 Fixes
+
+- **app:** carry every declarable a docs preview needs ([d14e126f](https://github.com/Rikarin/xui/commit/d14e126f))
+- **core:** make XNativeDateAdapter.create depend only on its arguments ([c78cf8d5](https://github.com/Rikarin/xui/commit/c78cf8d5))
+
+### ❤️ Thank You
+
+- Claude Opus 5
+- Rikarin @Rikarin
+
 ## 2.0.0-alpha.14 (2026-07-26)
 
 ### 🩹 Fixes
