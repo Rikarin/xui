@@ -29,6 +29,11 @@ const firstMonthDay = (label: number) => {
   ) as HTMLButtonElement | undefined;
 };
 const inRangeCount = () => document.querySelectorAll('xui-date-range-picker td.bg-primary\\/10').length;
+/** The days the band is rounded off at, which should be exactly the two endpoints. */
+const roundedEnds = () =>
+  [
+    ...document.querySelectorAll('xui-date-range-picker td.rounded-s-full, xui-date-range-picker td.rounded-e-full')
+  ].map(cell => cell.textContent?.trim());
 
 describe('XuiDateRangePicker', () => {
   it('shows two contiguous months by default', () => {
@@ -100,12 +105,21 @@ describe('XuiDateRangePicker', () => {
     expect(cmp.value().end?.getDate()).toBe(10);
   });
 
-  it('highlights the interior days of the selected range', () => {
+  it('runs the band across the whole range, endpoints included', () => {
     const { detect } = setup({ range: { start: d(2024, 3, 10), end: d(2024, 3, 14) } });
     detect();
 
-    // 11, 12, 13 are interior (endpoints 10 & 14 are not counted as strip).
-    expect(inRangeCount()).toBe(3);
+    // 10 through 14. The endpoints carry it too, so the band can finish on the same rounded
+    // silhouette their circles draw instead of a square corner poking out past the curve.
+    expect(inRangeCount()).toBe(5);
+    expect(roundedEnds()).toEqual(['10', '14']);
+  });
+
+  it('leaves a one-day range unbanded', () => {
+    const { detect } = setup({ range: { start: d(2024, 3, 10), end: d(2024, 3, 10) } });
+    detect();
+
+    expect(inRangeCount()).toBe(0);
   });
 
   it('navigates months with the arrows', () => {
@@ -132,7 +146,7 @@ describe('XuiDateRangePicker', () => {
       formSetup(new FormControl<XuiDateRange<Date> | null>({ start: d(2024, 3, 10), end: d(2024, 3, 14) }));
 
       expect(monthHeaders()).toEqual(['March 2024', 'April 2024']);
-      expect(inRangeCount()).toBe(3);
+      expect(inRangeCount()).toBe(5);
     });
 
     it('reflects setValue into the calendar', () => {
@@ -143,7 +157,7 @@ describe('XuiDateRangePicker', () => {
       detect();
 
       expect(monthHeaders()).toEqual(['June 2025', 'July 2025']);
-      expect(inRangeCount()).toBe(2);
+      expect(inRangeCount()).toBe(4);
     });
 
     it('propagates a completed range back to the control', () => {

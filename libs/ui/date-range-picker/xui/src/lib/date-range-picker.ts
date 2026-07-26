@@ -41,7 +41,10 @@ export interface XuiDateRange<T> {
   imports: [NgIcon, XuiIcon],
   providers: [provideXValueAccessor(() => XuiDateRangePicker)],
   template: `
-    <div class="flex gap-6">
+    <!-- The months wrap rather than run off the end: two of them need ~500px, and the picker is
+         inline-block, so in anything narrower it used to overflow its container and take the page
+         into a sideways scroll. -->
+    <div class="flex flex-wrap justify-center gap-6">
       @for (offset of monthOffsets(); track offset) {
         <div>
           <div class="mb-2 flex items-center justify-between">
@@ -74,7 +77,10 @@ export interface XuiDateRange<T> {
             }
           </div>
 
-          <table role="grid" class="border-collapse">
+          <!-- Separated, with the spacing taken back out: the collapsed model has browsers ignore
+               border-radius on a cell, which is what rounds the ends of the range band. The zero
+               spacing keeps the grid laid out exactly as the collapsed model did. -->
+          <table role="grid" class="border-separate border-spacing-0">
             <thead>
               <tr>
                 @for (label of weekdays(); track $index) {
@@ -94,9 +100,6 @@ export interface XuiDateRange<T> {
                     } @else {
                       <!-- Selection belongs on the gridcell, not the button. -->
                       <td [class]="cellClass(day)" [attr.aria-selected]="isEndpoint(day.date)">
-                        @if (stripSide(day.date); as side) {
-                          <span [class]="stripClass(side)"></span>
-                        }
                         <button
                           type="button"
                           [class]="dayClass(day)"
@@ -221,9 +224,22 @@ export class XuiDateRangePicker<T = Date> implements ControlValueAccessor {
     );
   }
 
+  /**
+   * The band behind the days inside the range, endpoints included.
+   *
+   * Its ends are rounded to the day circle's own radius, so the band finishes on the same
+   * silhouette the circle draws. Squaring them off left a tinted corner poking out past the curve
+   * at each end — the band read as a box drawn around the selection rather than a line joining it.
+   */
   protected cellClass(day: XCalendarDay<T>): string {
-    // A continuous highlight strip behind the days that fall inside the range.
-    return xui('relative p-0 text-center', this.inRange(day.date) && !this.isEndpoint(day.date) && 'bg-primary/10');
+    const side = this.endpointSide(day.date);
+
+    return xui(
+      'p-0 text-center',
+      side !== null || (this.spansDays() && this.inRange(day.date)) ? 'bg-primary/10' : '',
+      side === 'start' && 'rounded-s-full',
+      side === 'end' && 'rounded-e-full'
+    );
   }
 
   /** The range's two ends as `[earlier, later]`, or null while it is still incomplete. */
@@ -238,17 +254,18 @@ export class XuiDateRangePicker<T = Date> implements ControlValueAccessor {
     return this.adapter.isAfter(start, end) ? [end, start] : [start, end];
   }
 
-  /**
-   * Which half of an endpoint's cell the strip should cover, if any.
-   *
-   * The strip is a rectangle and the endpoint is a circle, so ending the strip at the cell edge
-   * left a notch above and below, where the circle curves away from it. Carrying it to the circle's
-   * centre instead puts the join underneath the circle, where there is nothing to see.
-   */
-  protected stripSide(date: T): 'start' | 'end' | null {
+  /** Whether the range covers more than a single day — a one-day range has nothing to join up. */
+  private spansDays(): boolean {
     const bounds = this.bounds();
 
-    if (!bounds || this.adapter.isSameDay(bounds[0], bounds[1])) {
+    return bounds != null && !this.adapter.isSameDay(bounds[0], bounds[1]);
+  }
+
+  /** Which end of the range a day sits at, once the range covers more than one day. */
+  private endpointSide(date: T): 'start' | 'end' | null {
+    const bounds = this.bounds();
+
+    if (!bounds || !this.spansDays()) {
       return null;
     }
 
@@ -259,15 +276,9 @@ export class XuiDateRangePicker<T = Date> implements ControlValueAccessor {
     return this.adapter.isSameDay(date, bounds[1]) ? 'end' : null;
   }
 
-  /** Logical insets, so the half that is covered follows the writing direction. */
-  protected stripClass(side: 'start' | 'end'): string {
-    return xui('bg-primary/10 absolute inset-y-0', side === 'start' ? 'start-1/2 end-0' : 'start-0 end-1/2');
-  }
-
   protected dayClass(day: XCalendarDay<T>): string {
     return xui(
-      // Above the strip that runs under it.
-      'relative flex size-8 items-center justify-center rounded-full text-sm transition-colors',
+      'flex size-8 items-center justify-center rounded-full text-sm transition-colors',
       day.inCurrentMonth ? 'text-foreground' : 'text-foreground-subtle',
       !day.disabled && 'hover:bg-surface-inset cursor-pointer',
       day.disabled && 'cursor-not-allowed opacity-40',
