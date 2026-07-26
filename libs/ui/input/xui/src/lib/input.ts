@@ -20,7 +20,7 @@ import { injectXuiInputConfig } from './input.token';
 /** Inline padding an input reserves for an `xui-input-group` adornment, per size step. */
 const ADORNMENT_LANE = {
   sm: { start: 'ps-(--control-height-sm)', end: 'pe-(--control-height-sm)' },
-  default: { start: 'ps-(--control-height-md)', end: 'pe-(--control-height-md)' },
+  md: { start: 'ps-(--control-height-md)', end: 'pe-(--control-height-md)' },
   lg: { start: 'ps-(--control-height-lg)', end: 'pe-(--control-height-lg)' }
 } as const;
 
@@ -38,7 +38,7 @@ export const inputVariants = cva(
       // button, a select and a date field of the same size.
       size: {
         sm: 'h-(--control-height-sm) px-(--control-padding-sm) text-xs',
-        default: 'h-(--control-height-md) px-(--control-padding-md) text-sm',
+        md: 'h-(--control-height-md) px-(--control-padding-md) text-sm',
         lg: 'h-(--control-height-lg) px-(--control-padding-lg) text-base'
       },
       // TODO(phase-4): rename the options to `default`/`subtle` when the
@@ -61,7 +61,7 @@ export const inputVariants = cva(
       }
     },
     defaultVariants: {
-      size: 'default',
+      size: 'md',
       surface: 'dark',
       color: 'none',
       error: 'auto'
@@ -122,8 +122,8 @@ export class XuiInput implements XFormFieldControl {
       // The lane an adornment occupies is one control height wide, so it scales with the field
       // instead of the flat 36px that was tuned for the old 44px input - which on a 30px field
       // reserved more space than the control was tall.
-      this.padStart() && ADORNMENT_LANE[this.size() ?? 'default'].start,
-      this.padEnd() && ADORNMENT_LANE[this.size() ?? 'default'].end,
+      this.padStart() && ADORNMENT_LANE[this.size() ?? 'md'].start,
+      this.padEnd() && ADORNMENT_LANE[this.size() ?? 'md'].end,
       this.class()
     )
   );
