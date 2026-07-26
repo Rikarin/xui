@@ -1,6 +1,6 @@
 {
   "name": "@xui/multi-select",
-  "version": "2.0.0-alpha.16",
+  "version": "2.0.0-alpha.17",
   "description": "Modern Angular 22 UI Library based on TailwindCSS",
   "keywords": [
     "angular",
@@ -27,11 +27,11 @@
     "@angular/forms": "22",
     "@ng-icons/core": "34",
     "@ng-icons/material-icons": "34",
-    "@xui/core": "2.0.0-alpha.16",
-    "@xui/icon": "2.0.0-alpha.16",
-    "@xui/popover": "2.0.0-alpha.16",
-    "@xui/select": "2.0.0-alpha.16",
-    "@xui/tag": "2.0.0-alpha.16",
+    "@xui/core": "2.0.0-alpha.17",
+    "@xui/icon": "2.0.0-alpha.17",
+    "@xui/popover": "2.0.0-alpha.17",
+    "@xui/select": "2.0.0-alpha.17",
+    "@xui/tag": "2.0.0-alpha.17",
     "clsx": "^2.1.1"
   },
   "publishConfig": {

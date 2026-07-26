@@ -1,6 +1,6 @@
 {
   "name": "@xui/navigation-menu",
-  "version": "2.0.0-alpha.16",
+  "version": "2.0.0-alpha.17",
   "description": "Modern Angular 22 UI Library based on TailwindCSS",
   "keywords": [
     "angular",
@@ -25,8 +25,8 @@
     "@angular/core": "22",
     "@ng-icons/core": "34",
     "@ng-icons/material-icons": "34",
-    "@xui/core": "2.0.0-alpha.16",
-    "@xui/icon": "2.0.0-alpha.16",
+    "@xui/core": "2.0.0-alpha.17",
+    "@xui/icon": "2.0.0-alpha.17",
     "clsx": "^2.1.1"
   },
   "publishConfig": {

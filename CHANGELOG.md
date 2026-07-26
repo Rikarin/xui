@@ -1,3 +1,40 @@
+## 2.0.0-alpha.17 (2026-07-26)
+
+### 🚀 Features
+
+- **app:** give every docs heading a link to itself ([84ea3ad5](https://github.com/Rikarin/xui/commit/84ea3ad5))
+- **app:** scroll the sidebar to the page you are on ([1cd95c82](https://github.com/Rikarin/xui/commit/1cd95c82))
+- ⚠️  **ui:** remove the badge package in favour of tag ([8f76d868](https://github.com/Rikarin/xui/commit/8f76d868))
+
+### 🩹 Fixes
+
+- **app:** keep the on-this-page links on the page they are on ([ecee0578](https://github.com/Rikarin/xui/commit/ecee0578))
+- **carousel:** give the fade effect a height, and the docs some slides ([ad8021b5](https://github.com/Rikarin/xui/commit/ad8021b5))
+- **data-table:** run the header band and the row rules to the scrollbar ([335dfc7e](https://github.com/Rikarin/xui/commit/335dfc7e))
+- **date-range-picker:** let the months wrap and round the band's ends ([e75c7c7f](https://github.com/Rikarin/xui/commit/e75c7c7f))
+- **descriptions:** make the title the bordered box's header ([1a7e1441](https://github.com/Rikarin/xui/commit/1a7e1441))
+- **docs:** document a story that is only its own host component ([5602e91b](https://github.com/Rikarin/xui/commit/5602e91b))
+- **menubar:** light a trigger on hover and while its menu is open ([f454cb56](https://github.com/Rikarin/xui/commit/f454cb56))
+- **popover:** let a panel carry content that is already a surface ([fd39ec9f](https://github.com/Rikarin/xui/commit/fd39ec9f))
+- **repo:** repair the date range picker's month maths and its range strip ([32d23733](https://github.com/Rikarin/xui/commit/32d23733))
+- **storybook:** make the interactive card example actually selectable ([5e2832f5](https://github.com/Rikarin/xui/commit/5e2832f5))
+- **storybook:** write the card list's rows out so the docs can show them ([46a0e690](https://github.com/Rikarin/xui/commit/46a0e690))
+- **table:** size the columns in the modifiers example ([8640965f](https://github.com/Rikarin/xui/commit/8640965f))
+- **tag-input:** make the tokens real tags ([91bdb4a5](https://github.com/Rikarin/xui/commit/91bdb4a5))
+- **tree-select:** make the selected values read as tags ([9c5b4b15](https://github.com/Rikarin/xui/commit/9c5b4b15))
+
+### ⚠️  Breaking Changes
+
+- **ui:** remove the badge package in favour of tag  ([8f76d868](https://github.com/Rikarin/xui/commit/8f76d868))
+  `@xui/badge` is removed. Replace `<span xuiBadge>` with
+  `<xui-tag>`; `color` and `large` carry over, `static` is the default, and
+  `secondary` has no equivalent — use the default or `minimal`.
+
+### ❤️ Thank You
+
+- Claude Opus 5
+- Rikarin @Rikarin
+
 ## 2.0.0-alpha.16 (2026-07-26)
 
 ### 🩹 Fixes
