@@ -36,9 +36,15 @@ export const switchThumbVariants = cva(
   'pointer-events-none block rounded-full bg-foreground-on-emphasis shadow-elevation-1 transition-transform data-[state=unchecked]:translate-x-0.5',
   {
     variants: {
+      // The checked offset has to land the thumb the same distance from the trailing edge as the
+      // unchecked one leaves at the leading edge, or the thumb looks off-centre once flipped. Its
+      // resting inset is 3px — the track's 1px border plus the 0.5 nudge above — so the travel is
+      // `width - 2 * 3px - thumb`, and the offset is that plus the nudge it starts from.
       size: {
-        md: 'size-4 data-[state=checked]:translate-x-[1.125rem]',
-        lg: 'size-5 data-[state=checked]:translate-x-[1.375rem]'
+        // 36 - 6 - 16 = 14px of travel, from 2px → 16px.
+        md: 'size-4 data-[state=checked]:translate-x-4',
+        // 44 - 6 - 20 = 18px of travel, from 2px → 20px.
+        lg: 'size-5 data-[state=checked]:translate-x-5'
       }
     },
     defaultVariants: { size: 'md' }
