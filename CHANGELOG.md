@@ -1,3 +1,18 @@
+## 2.0.0-alpha.20 (2026-07-26)
+
+### 🩹 Fixes
+
+- **docs:** load a preview per navigation, not once per component ([5f98d3f2](https://github.com/Rikarin/xui/commit/5f98d3f2))
+
+### 🔥 Performance
+
+- **app:** ship the docs as static files, with no worker at all ([691b9f52](https://github.com/Rikarin/xui/commit/691b9f52))
+
+### ❤️ Thank You
+
+- Claude Opus 5
+- Rikarin @Rikarin
+
 ## 2.0.0-alpha.19 (2026-07-26)
 
 ### 🔥 Performance
