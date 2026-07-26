@@ -55,7 +55,7 @@ export const doc: ComponentDoc = {
         "required": false
       },
       {
-        "name": "title",
+        "name": "label",
         "type": "string | null",
         "default": "null",
         "required": false,

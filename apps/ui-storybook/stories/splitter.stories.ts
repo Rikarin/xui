@@ -43,7 +43,7 @@ export const ThreePanes: Story = {
 export const Vertical: Story = {
   render: () => ({
     template: `
-      <xui-splitter layout="vertical" class="border-border h-80 w-[520px] rounded-lg border">
+      <xui-splitter orientation="vertical" class="border-border h-80 w-[520px] rounded-lg border">
         <xui-splitter-panel [defaultSize]="60">${pane('Editor')}</xui-splitter-panel>
         <xui-splitter-panel [min]="15">${pane('Terminal')}</xui-splitter-panel>
       </xui-splitter>

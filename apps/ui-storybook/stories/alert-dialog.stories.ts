@@ -30,7 +30,7 @@ export const Destructive: Story = {
         destructive
         title="Delete project?"
         description="This permanently removes the project and all its data. This action cannot be undone."
-        confirmLabel="Delete"
+        confirmText="Delete"
         (confirmed)="last.set('confirmed')"
         (cancelled)="last.set('cancelled')"
       />
@@ -47,7 +47,7 @@ export const Confirm: Story = {
         [(open)]="open"
         title="Publish this release?"
         description="Subscribers will be notified immediately."
-        confirmLabel="Publish"
+        confirmText="Publish"
       />
     `
   })
@@ -64,8 +64,8 @@ export const Blocking: Story = {
         [dismissible]="false"
         title="Accept updated terms"
         description="You need to accept the new terms before continuing."
-        confirmLabel="Accept"
-        cancelLabel="Not now"
+        confirmText="Accept"
+        cancelText="Not now"
       />
     `
   })

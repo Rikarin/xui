@@ -37,7 +37,7 @@ export class PreviewThreePanes {
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [XuiSplitterImports],
   template: `
-<xui-splitter layout="vertical" class="border-border h-80 w-[520px] rounded-lg border">
+<xui-splitter orientation="vertical" class="border-border h-80 w-[520px] rounded-lg border">
   <xui-splitter-panel [defaultSize]="60"></xui-splitter-panel>
   <xui-splitter-panel [min]="15"></xui-splitter-panel>
 </xui-splitter>
@@ -106,7 +106,7 @@ export const doc: ComponentDoc = {
     "kind": "component",
     "name": "XuiSplitter",
     "selector": "xui-splitter",
-    "docs": "Resizable split panes. Wrap <xui-splitter-panel> children; drag the gutter between two panels to resize them. layout runs the panels horizontally (default) or vertically. Sizes are percentages; sizeChange emits them.",
+    "docs": "Resizable split panes. Wrap <xui-splitter-panel> children; drag the gutter between two panels to resize them. orientation runs the panels horizontally (default) or vertically. Sizes are percentages; sizeChange emits them.",
     "inputs": [
       {
         "name": "class",
@@ -115,7 +115,7 @@ export const doc: ComponentDoc = {
         "required": false
       },
       {
-        "name": "layout",
+        "name": "orientation",
         "type": "'horizontal' | 'vertical'",
         "default": "'horizontal'",
         "required": false
@@ -154,7 +154,7 @@ export const doc: ComponentDoc = {
     {
       name: "Vertical",
       title: "Vertical",
-      code: `<xui-splitter layout="vertical" class="border-border h-80 w-[520px] rounded-lg border">
+      code: `<xui-splitter orientation="vertical" class="border-border h-80 w-[520px] rounded-lg border">
   <xui-splitter-panel [defaultSize]="60"></xui-splitter-panel>
   <xui-splitter-panel [min]="15"></xui-splitter-panel>
 </xui-splitter>`,

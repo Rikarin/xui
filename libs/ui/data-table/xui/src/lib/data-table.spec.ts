@@ -350,7 +350,7 @@ describe('XuiDataTable', () => {
     });
 
     it('renders a numbered gutter and offsets data columns when enabled', () => {
-      const { detect } = setup({}, '[showRowHeader]="true" [rowHeaderWidth]="40"');
+      const { detect } = setup({}, '[rowHeader]="true" [rowHeaderWidth]="40"');
       detect();
 
       expect(rowHeaders()[0].textContent?.trim()).toBe('1');
@@ -362,7 +362,7 @@ describe('XuiDataTable', () => {
     });
 
     it('selects the whole row when its header is clicked', () => {
-      const { detect, cmp } = setup({}, '[showRowHeader]="true"');
+      const { detect, cmp } = setup({}, '[rowHeader]="true"');
       detect();
 
       mouseClick(rowHeaders()[2]);
@@ -375,7 +375,7 @@ describe('XuiDataTable', () => {
     });
 
     it('shift-clicks row headers to select a contiguous range of rows', () => {
-      const { detect, cmp } = setup({}, '[showRowHeader]="true"');
+      const { detect, cmp } = setup({}, '[rowHeader]="true"');
       detect();
 
       mouseClick(rowHeaders()[1]);
@@ -391,7 +391,7 @@ describe('XuiDataTable', () => {
     const colHeaders = () => [...document.querySelectorAll('[role="columnheader"]')] as HTMLElement[];
 
     it('pins leading columns onto a raised, opaque layer', () => {
-      const { detect } = setup({}, '[numFrozenColumns]="1"');
+      const { detect } = setup({}, '[frozenColumns]="1"');
       detect();
 
       expect(colHeaders()[0].className).toContain('z-30');
@@ -401,7 +401,7 @@ describe('XuiDataTable', () => {
     });
 
     it('freezes the matching leading body cells with an opaque raised layer', () => {
-      const { detect } = setup({}, '[numFrozenColumns]="2"');
+      const { detect } = setup({}, '[frozenColumns]="2"');
       detect();
 
       const firstRowCells = rows()[0].querySelectorAll('[role="gridcell"]');
@@ -410,8 +410,8 @@ describe('XuiDataTable', () => {
       expect((firstRowCells[2] as HTMLElement).className).not.toContain('z-20');
     });
 
-    it('clamps numFrozenColumns to the column count without error', () => {
-      const { detect } = setup({}, '[numFrozenColumns]="99"');
+    it('clamps frozenColumns to the column count without error', () => {
+      const { detect } = setup({}, '[frozenColumns]="99"');
       detect();
 
       // All three columns become frozen; nothing throws.
@@ -423,7 +423,7 @@ describe('XuiDataTable', () => {
     const frozenRowEls = () => rows().filter(r => r.className.includes('z-[25]'));
 
     it('pins leading rows on a raised layer, separate from the scroll window', () => {
-      const { detect } = setup({}, '[numFrozenRows]="2"');
+      const { detect } = setup({}, '[frozenRows]="2"');
       detect();
 
       // Rows 1 and 2 render as frozen; higher rows are not.
@@ -434,7 +434,7 @@ describe('XuiDataTable', () => {
     });
 
     it('keeps frozen rows rendered after scrolling far down', () => {
-      const { detect } = setup({}, '[numFrozenRows]="2"');
+      const { detect } = setup({}, '[frozenRows]="2"');
       detect();
 
       scrollEl().scrollTop = 3000; // row ~100 at 30px each

@@ -9,7 +9,7 @@ import type { ComponentDoc } from '../../app/core/docs.model';
   imports: [XuiDatePickerImports],
   template: `
 <div>
-  <xui-date-picker [(selected)]="selected" showActionsBar />
+  <xui-date-picker [(value)]="selected" showActionsBar />
   <p class="text-foreground-muted mt-3 text-sm">Selected: {{ selected ? selected.toDateString() : '—' }}</p>
 </div>
 `
@@ -23,7 +23,7 @@ export class PreviewDefault {
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [XuiDatePickerImports],
   template: `
-<xui-date-picker [(selected)]="selected" [min]="min" [max]="max" [dateFilter]="noWeekends" />
+<xui-date-picker [(value)]="selected" [min]="min" [max]="max" [dateFilter]="noWeekends" />
 `
 })
 export class PreviewConstrained {
@@ -40,7 +40,7 @@ export const doc: ComponentDoc = {
   package: "@xui/date-picker",
   kind: "ui",
   group: "Date & time",
-  description: "An inline month calendar. Click a day to select it; arrow keys move by day/week, PageUp/PageDown by month, Home/End to the week ends, Enter/Space select. [(selected)] two-way binding, min/max/dateFilter, an optional Today/Clear action bar. Uses the app's DateAdapter (native Date by default).",
+  description: "An inline month calendar. Click a day to select it; arrow keys move by day/week, PageUp/PageDown by month, Home/End to the week ends, Enter/Space select. [(value)] two-way binding, min/max/dateFilter, an optional Today/Clear action bar. Uses the app's DateAdapter (native Date by default).",
   importsConst: "XuiDatePickerImports",
   exports: [
   "XuiDatePicker",
@@ -61,7 +61,7 @@ export const doc: ComponentDoc = {
     "kind": "component",
     "name": "XuiDatePicker",
     "selector": "xui-date-picker",
-    "docs": "An inline month calendar. Click a day to select it; arrow keys move by day/week, PageUp/PageDown by month, Home/End to week ends, Enter/Space select. [(selected)] two-way binding. T is the date type of the active DateAdapter (a Date by default).",
+    "docs": "An inline month calendar. Click a day to select it; arrow keys move by day/week, PageUp/PageDown by month, Home/End to week ends, Enter/Space select. [(value)] two-way binding. T is the date type of the active DateAdapter (a Date by default).",
     "inputs": [
       {
         "name": "class",
@@ -70,12 +70,12 @@ export const doc: ComponentDoc = {
         "required": false
       },
       {
-        "name": "selected",
+        "name": "value",
         "type": "T | null",
         "default": "null",
         "required": false,
         "model": true,
-        "docs": "The selected date. Two-way bindable with [(selected)]."
+        "docs": "The selected date. Two-way bindable with [(value)]."
       },
       {
         "name": "min",
@@ -117,12 +117,7 @@ export const doc: ComponentDoc = {
         "docs": "Show a Today/Clear action bar under the grid."
       }
     ],
-    "outputs": [
-      {
-        "name": "dateChange",
-        "type": "T | null"
-      }
-    ],
+    "outputs": [],
     "variants": [],
     "methods": []
   }
@@ -132,7 +127,7 @@ export const doc: ComponentDoc = {
       name: "Default",
       title: "Default",
       code: `<div>
-  <xui-date-picker [(selected)]="selected" showActionsBar />
+  <xui-date-picker [(value)]="selected" showActionsBar />
   <p class="text-foreground-muted mt-3 text-sm">Selected: {{ selected ? selected.toDateString() : '—' }}</p>
 </div>`,
       preview: PreviewDefault
@@ -140,7 +135,7 @@ export const doc: ComponentDoc = {
     {
       name: "Constrained",
       title: "Constrained",
-      code: `<xui-date-picker [(selected)]="selected" [min]="min" [max]="max" [dateFilter]="noWeekends" />`,
+      code: `<xui-date-picker [(value)]="selected" [min]="min" [max]="max" [dateFilter]="noWeekends" />`,
       preview: PreviewConstrained
     },
   ]

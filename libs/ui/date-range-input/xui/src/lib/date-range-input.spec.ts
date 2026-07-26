@@ -6,7 +6,7 @@ const IMPORTS = [XuiDateRangeInputImports];
 const d = (y: number, m: number, day: number) => new Date(y, m - 1, day);
 
 const setup = (props: Record<string, unknown> = {}) => {
-  const result = render(`<xui-date-range-input [range]="props().range ?? { start: null, end: null }" />`, {
+  const result = render(`<xui-date-range-input [value]="props().range ?? { start: null, end: null }" />`, {
     imports: IMPORTS,
     props
   });
@@ -68,8 +68,8 @@ describe('XuiDateRangeInput', () => {
     firstMonthDay(16)!.click();
     detect();
 
-    expect(cmp.range().start?.getDate()).toBe(8);
-    expect(cmp.range().end?.getDate()).toBe(16);
+    expect(cmp.value().start?.getDate()).toBe(8);
+    expect(cmp.value().end?.getDate()).toBe(16);
     expect(endField().value).toMatch(/16/);
   });
 
@@ -82,9 +82,9 @@ describe('XuiDateRangeInput', () => {
     startField().dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true, cancelable: true }));
     detect();
 
-    expect(cmp.range().start?.getDate()).toBe(5);
+    expect(cmp.value().start?.getDate()).toBe(5);
     // the end boundary is untouched
-    expect(cmp.range().end?.getDate()).toBe(20);
+    expect(cmp.value().end?.getDate()).toBe(20);
   });
 
   it('clears a boundary when its field is emptied', () => {
@@ -96,7 +96,7 @@ describe('XuiDateRangeInput', () => {
     endField().dispatchEvent(new Event('blur'));
     detect();
 
-    expect(cmp.range().end).toBeNull();
-    expect(cmp.range().start?.getDate()).toBe(5);
+    expect(cmp.value().end).toBeNull();
+    expect(cmp.value().start?.getDate()).toBe(5);
   });
 });

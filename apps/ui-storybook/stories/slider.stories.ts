@@ -68,6 +68,6 @@ export const Disabled: Story = {
 export const Vertical: Story = {
   render: () => ({
     props: { value: 6 },
-    template: `<xui-slider vertical [min]="0" [max]="10" [labelStepSize]="2" [(value)]="value" aria-label="Vertical" />`
+    template: `<xui-slider orientation="vertical" [min]="0" [max]="10" [labelStepSize]="2" [(value)]="value" aria-label="Vertical" />`
   })
 };

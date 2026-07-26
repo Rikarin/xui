@@ -82,8 +82,8 @@ import { PageHeader } from '../shell/page-header';
                 aria-label="Role"
                 [items]="roles"
                 [filterable]="false"
-                [selectedItem]="role()"
-                (selectionChange)="role.set($event)"
+                [value]="role()"
+                (valueChange)="onRole($event)"
               />
             </app-field>
 
@@ -168,7 +168,7 @@ import { PageHeader } from '../shell/page-header';
 
     <xui-alert-dialog
       destructive
-      confirmLabel="Close it"
+      confirmText="Close it"
       title="Close this workspace?"
       description="Everything in it goes. In a real application this is the point where you would ask for the workspace name to be typed out."
       [(open)]="confirmClose"
@@ -205,6 +205,12 @@ export class Settings {
   ]);
 
   protected readonly confirmClose = signal(false);
+
+  protected onRole(role: string | null): void {
+    if (role !== null) {
+      this.role.set(role);
+    }
+  }
 
   protected toggle(id: string, enabled: boolean): void {
     this.notifications.update(options => options.map(option => (option.id === id ? { ...option, enabled } : option)));

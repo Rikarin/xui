@@ -4,7 +4,7 @@ import { XuiTabs, XuiTabsImports } from '@xui/tabs';
 /**
  * Tabbed navigation. Arrow keys move between tabs (roving tabindex), Home/End
  * jump to the ends, and disabled tabs are skipped. `[(selectedTabId)]` two-way
- * binding; `animate` slides an indicator, `vertical`/`fill`/`large` adjust layout.
+ * binding; `animate` slides an indicator, `orientation`/`fill`/`large` adjust layout.
  */
 const meta: Meta<XuiTabs> = {
   title: 'Navigation/Tabs',
@@ -74,7 +74,7 @@ export const Vertical: Story = {
   render: () => ({
     template: `
       <div class="w-[32rem]">
-        <xui-tabs vertical animate selectedTabId="profile">
+        <xui-tabs orientation="vertical" animate selectedTabId="profile">
           <xui-tab id="profile" title="Profile">Profile settings</xui-tab>
           <xui-tab id="account" title="Account">Account settings</xui-tab>
           <xui-tab id="security" title="Security">Security settings</xui-tab>

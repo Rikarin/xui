@@ -19,7 +19,7 @@ const USERS: User[] = [
 /**
  * A filterable single-select. The trigger opens a popover with a search field and
  * a keyboard-navigable list (Arrow keys + Enter, Escape closes). Items render with
- * a custom `[xuiSelectOption]` template. `[(selectedItem)]` two-way binding.
+ * a custom `[xuiSelectOption]` template. `[(value)]` two-way binding.
  */
 const meta: Meta<XuiSelect<User>> = {
   title: 'Forms/Select',
@@ -35,7 +35,7 @@ export const Default: Story = {
     props: { users: USERS, itemText: (u: User) => u.name, selected: null as User | null },
     template: `
       <div class="w-64">
-        <xui-select [items]="users" [itemText]="itemText" [(selectedItem)]="selected" placeholder="Select a user" />
+        <xui-select [items]="users" [itemText]="itemText" [(value)]="selected" placeholder="Select a user" />
         <p class="text-foreground-muted mt-3 text-sm">Selected: {{ selected?.name ?? '—' }}</p>
       </div>
     `

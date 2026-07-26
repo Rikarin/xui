@@ -43,7 +43,7 @@ describe('XuiNonIdealState', () => {
   });
 
   it('lays out horizontally when asked', () => {
-    const { query } = setup('<xui-non-ideal-state layout="horizontal" title="No results" />');
+    const { query } = setup('<xui-non-ideal-state orientation="horizontal" title="No results" />');
 
     expectClasses(query('xui-non-ideal-state'), 'flex-row', 'text-start');
     expectNoClasses(query('xui-non-ideal-state'), 'flex-col');

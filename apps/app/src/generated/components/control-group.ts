@@ -38,7 +38,7 @@ export class PreviewFill {
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [XuiButtonImports, XuiControlGroupImports],
   template: `
-<div xuiControlGroup vertical class="w-48">
+<div xuiControlGroup orientation="vertical" class="w-48">
   <button xuiButton variant="outline">Top</button>
   <button xuiButton variant="outline">Middle</button>
   <button xuiButton variant="outline">Bottom</button>
@@ -86,11 +86,10 @@ export const doc: ComponentDoc = {
         "docs": "The user-defined classes. Merged last so they win over the variant classes."
       },
       {
-        "name": "vertical",
-        "type": "boolean",
-        "default": "false",
-        "required": false,
-        "transform": "booleanAttribute"
+        "name": "orientation",
+        "type": "'horizontal' | 'vertical'",
+        "default": "'horizontal'",
+        "required": false
       },
       {
         "name": "fill",
@@ -103,12 +102,12 @@ export const doc: ComponentDoc = {
     "outputs": [],
     "variants": [
       {
-        "name": "vertical",
+        "name": "orientation",
         "options": [
-          "false",
-          "true"
+          "horizontal",
+          "vertical"
         ],
-        "default": "false"
+        "default": "horizontal"
       },
       {
         "name": "fill",
@@ -145,7 +144,7 @@ export const doc: ComponentDoc = {
     {
       name: "Vertical",
       title: "Vertical",
-      code: `<div xuiControlGroup vertical class="w-48">
+      code: `<div xuiControlGroup orientation="vertical" class="w-48">
   <button xuiButton variant="outline">Top</button>
   <button xuiButton variant="outline">Middle</button>
   <button xuiButton variant="outline">Bottom</button>

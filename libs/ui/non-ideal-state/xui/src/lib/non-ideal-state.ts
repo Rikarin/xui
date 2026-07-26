@@ -5,13 +5,13 @@ import type { ClassValue } from 'clsx';
 
 export const nonIdealStateVariants = cva('flex text-center', {
   variants: {
-    layout: {
+    orientation: {
       vertical: 'flex-col items-center justify-center gap-3 p-8',
       horizontal: 'flex-row items-center gap-4 p-6 text-start'
     }
   },
   defaultVariants: {
-    layout: 'vertical'
+    orientation: 'vertical'
   }
 });
 
@@ -60,26 +60,26 @@ export type XuiNonIdealStateVariants = VariantProps<typeof nonIdealStateVariants
 export class XuiNonIdealState {
   /** The user-defined classes. Merged last so they win over the variant classes. */
   readonly class = input<ClassValue>('');
-  readonly layout = input<XuiNonIdealStateVariants['layout']>('vertical');
+  readonly orientation = input<XuiNonIdealStateVariants['orientation']>('vertical');
 
   readonly title = input<string | null>(null);
   readonly description = input<string | null>(null);
 
   protected readonly computedClass = computed(() =>
-    xui(nonIdealStateVariants({ layout: this.layout() }), this.class())
+    xui(nonIdealStateVariants({ orientation: this.orientation() }), this.class())
   );
 
   // The projected visual is muted so it frames the message rather than
   // competing with it.
   protected readonly computedVisualClass = computed(() =>
-    xui('text-foreground-subtle empty:hidden', this.layout() === 'horizontal' && 'shrink-0')
+    xui('text-foreground-subtle empty:hidden', this.orientation() === 'horizontal' && 'shrink-0')
   );
 
   protected readonly computedBodyClass = computed(() =>
-    xui('flex flex-col gap-1', this.layout() === 'vertical' && 'items-center')
+    xui('flex flex-col gap-1', this.orientation() === 'vertical' && 'items-center')
   );
 
   protected readonly computedActionClass = computed(() =>
-    xui('mt-3 flex gap-2 empty:mt-0 empty:hidden', this.layout() === 'vertical' && 'justify-center')
+    xui('mt-3 flex gap-2 empty:mt-0 empty:hidden', this.orientation() === 'vertical' && 'justify-center')
   );
 }

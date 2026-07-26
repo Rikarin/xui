@@ -6,7 +6,6 @@ import {
   computed,
   input,
   model,
-  output,
   ViewEncapsulation
 } from '@angular/core';
 import { xui } from '@xui/core';
@@ -116,8 +115,6 @@ export class XuiTimePicker<T = Date> {
   readonly useAmPm = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
   readonly disabled = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
 
-  readonly timeChange = output<T>();
-
   protected readonly pad = pad;
 
   /** A concrete working value — the bound value, or today at 00:00 when empty. */
@@ -208,6 +205,5 @@ export class XuiTimePicker<T = Date> {
   private commit(unit: 'hour' | 'minute' | 'second' | 'millisecond', value: number): void {
     const next = this.adapter.set(this.working(), { [unit]: value });
     this.value.set(next);
-    this.timeChange.emit(next);
   }
 }

@@ -9,7 +9,6 @@ import {
   effect,
   input,
   model,
-  output,
   signal,
   untracked,
   ViewEncapsulation
@@ -25,7 +24,7 @@ const defaultMatch = (text: string, query: string): boolean => text.toLowerCase(
 /**
  * A typeahead autocomplete: the text input itself is the target. Typing filters a
  * popover list; choosing an item fills the input with its text. Unlike
- * `xui-select`, there is no separate trigger. `[(selectedItem)]` two-way binding.
+ * `xui-select`, there is no separate trigger. `[(value)]` two-way binding.
  */
 @Component({
   selector: 'xui-suggest',
@@ -63,7 +62,7 @@ const defaultMatch = (text: string, query: string): boolean => text.toLowerCase(
           <li
             role="option"
             [class]="optionClass(item)"
-            [attr.aria-selected]="item === selectedItem()"
+            [attr.aria-selected]="item === value()"
             (click)="choose(item)"
             (mouseenter)="list.setActiveItem(item)"
           >
@@ -74,7 +73,7 @@ const defaultMatch = (text: string, query: string): boolean => text.toLowerCase(
                   $implicit: item,
                   item: item,
                   active: list.isActive(item),
-                  selected: item === selectedItem(),
+                  selected: item === value(),
                   index: $index
                 }"
               />
@@ -106,10 +105,8 @@ export class XuiSuggest<T> {
   readonly placeholder = input<string>('Search…');
   readonly noResultsText = input<string>('No results.');
 
-  /** The chosen item. Two-way bindable with `[(selectedItem)]`. */
-  readonly selectedItem = model<T | null>(null);
-
-  readonly selectionChange = output<T>();
+  /** The chosen item. Two-way bindable with `[(value)]`. */
+  readonly value = model<T | null>(null);
 
   protected readonly open = model(false);
   protected readonly query = signal('');
@@ -139,7 +136,7 @@ export class XuiSuggest<T> {
       return this.query();
     }
 
-    const selected = this.selectedItem();
+    const selected = this.value();
     return selected == null ? '' : this.itemText()(selected);
   });
 
@@ -177,7 +174,7 @@ export class XuiSuggest<T> {
     return xui(
       'flex cursor-pointer items-center gap-2 rounded px-2 py-1.5',
       this.list.isActive(item) && 'bg-primary/10',
-      item === this.selectedItem() && 'text-primary font-medium',
+      item === this.value() && 'text-primary font-medium',
       this.list.isDisabled(item) && 'pointer-events-none opacity-50'
     );
   }
@@ -221,8 +218,7 @@ export class XuiSuggest<T> {
       return;
     }
 
-    this.selectedItem.set(item);
-    this.selectionChange.emit(item);
+    this.value.set(item);
     this.open.set(false);
   }
 }

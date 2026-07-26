@@ -105,12 +105,7 @@ export const doc: ComponentDoc = {
         "transform": "booleanAttribute"
       }
     ],
-    "outputs": [
-      {
-        "name": "timeChange",
-        "type": "T"
-      }
-    ],
+    "outputs": [],
     "variants": [],
     "methods": []
   }

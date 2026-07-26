@@ -148,7 +148,7 @@ export class XuiOverflowList<T> {
   readonly itemRole = input<string | null>(null);
 
   /** Emits the hidden items whenever the overflow set changes. */
-  readonly overflow = output<T[]>();
+  readonly overflowChange = output<T[]>();
 
   /** Items that did not fit, in their original order. */
   readonly overflowed = computed<T[]>(() => {
@@ -193,7 +193,7 @@ export class XuiOverflowList<T> {
         }
 
         previous = overflowed;
-        this.overflow.emit(overflowed);
+        this.overflowChange.emit(overflowed);
       });
     });
   }

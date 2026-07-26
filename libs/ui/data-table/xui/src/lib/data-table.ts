@@ -66,7 +66,7 @@ import type { CellCoord, XuiDataColumn, XuiSortState } from './data-table.types'
     >
       <!-- Header row: sticks to the top, scrolls horizontally with the body. -->
       <div role="row" [class]="headerRowClass()" [style.height.px]="headerHeight()" [style.width.px]="totalWidth()">
-        @if (showRowHeader()) {
+        @if (rowHeader()) {
           <!-- Corner cell: pinned to the top-left over both sticky axes. -->
           <div
             role="columnheader"
@@ -136,7 +136,7 @@ import type { CellCoord, XuiDataColumn, XuiSortState } from './data-table.types'
         [style.height.px]="rowHeight()"
         [style.width.px]="totalWidth()"
       >
-        @if (showRowHeader()) {
+        @if (rowHeader()) {
           <!-- Row-header gutter cell: sticky-left, selects the whole row on click. -->
           <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
           <div
@@ -207,17 +207,17 @@ export class XuiDataTable<T> {
   /** Allow selecting cell regions (shift-range, ctrl/cmd-toggle, arrow keys). */
   readonly selectable = input<boolean, BooleanInput>(true, { transform: booleanAttribute });
   /** Allow more than one disjoint region (ctrl/cmd-click, select-all). */
-  readonly enableMultipleSelection = input<boolean, BooleanInput>(true, { transform: booleanAttribute });
+  readonly multiple = input<boolean, BooleanInput>(true, { transform: booleanAttribute });
   /** Allow reordering columns by dragging their headers. */
   readonly reorderable = input<boolean, BooleanInput>(true, { transform: booleanAttribute });
   /** Show a leading row-header gutter (row numbers; click to select the whole row). */
-  readonly showRowHeader = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
+  readonly rowHeader = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
   /** Width of the row-header gutter in pixels. */
   readonly rowHeaderWidth = input<number, NumberInput>(48, { transform: numberAttribute });
   /** Number of leading columns to freeze (pinned left while the rest scroll). */
-  readonly numFrozenColumns = input<number, NumberInput>(0, { transform: numberAttribute });
+  readonly frozenColumns = input<number, NumberInput>(0, { transform: numberAttribute });
   /** Number of leading rows to freeze (pinned below the header while the rest scroll). */
-  readonly numFrozenRows = input<number, NumberInput>(0, { transform: numberAttribute });
+  readonly frozenRows = input<number, NumberInput>(0, { transform: numberAttribute });
 
   /** The focused cell. Two-way bindable with `[(focusedCell)]`. */
   readonly focusedCell = model<CellCoord | null>(null);
@@ -297,13 +297,13 @@ export class XuiDataTable<T> {
   });
 
   /** Width of the leading row-header gutter (0 when hidden). */
-  protected readonly gutter = computed(() => (this.showRowHeader() ? this.rowHeaderWidth() : 0));
+  protected readonly gutter = computed(() => (this.rowHeader() ? this.rowHeaderWidth() : 0));
   protected readonly totalWidth = computed(() => this.columnStore.total() + this.gutter());
   protected readonly totalHeight = computed(() => this.rowStore.total());
 
   /** Number of leading columns actually frozen (clamped to the column count). */
   protected readonly frozenCols = computed(() =>
-    Math.max(0, Math.min(this.numFrozenColumns(), this.orderedColumns().length))
+    Math.max(0, Math.min(this.frozenColumns(), this.orderedColumns().length))
   );
 
   /**
@@ -342,15 +342,15 @@ export class XuiDataTable<T> {
   });
 
   /** Number of leading rows actually frozen (clamped to the row count). */
-  protected readonly frozenRows = computed(() =>
-    Math.max(0, Math.min(this.numFrozenRows(), this.displayData().length))
+  protected readonly frozenRowCount = computed(() =>
+    Math.max(0, Math.min(this.frozenRows(), this.displayData().length))
   );
   /** The always-rendered frozen row indices. */
-  protected readonly frozenRowIndices = computed(() => Array.from({ length: this.frozenRows() }, (_, i) => i));
+  protected readonly frozenRowIndices = computed(() => Array.from({ length: this.frozenRowCount() }, (_, i) => i));
 
   /** The window of scrolling row indices to render (excludes frozen rows). */
   protected readonly visibleRows = computed(() => {
-    const frozen = this.frozenRows();
+    const frozen = this.frozenRowCount();
     const [first, last] = visibleRange(
       this.rowStore.offsets(),
       this.scrollTop(),
@@ -491,7 +491,7 @@ export class XuiDataTable<T> {
   // --- selection ---
   protected onCellClick(rowIndex: number, colIndex: number, event: MouseEvent): void {
     if (this.selectable()) {
-      const multi = (event.metaKey || event.ctrlKey) && this.enableMultipleSelection();
+      const multi = (event.metaKey || event.ctrlKey) && this.multiple();
       if (event.shiftKey && this.selectionAnchor()) {
         const anchor = this.selectionAnchor()!;
         const region = cellRegion(anchor.row, anchor.col, rowIndex, colIndex);
@@ -512,7 +512,7 @@ export class XuiDataTable<T> {
   /** Select whole rows by clicking the row-header gutter (shift-range, ctrl/cmd-toggle). */
   protected onRowHeaderClick(rowIndex: number, event: MouseEvent): void {
     if (this.selectable()) {
-      const multi = (event.metaKey || event.ctrlKey) && this.enableMultipleSelection();
+      const multi = (event.metaKey || event.ctrlKey) && this.multiple();
       if (event.shiftKey && this.selectionAnchor()) {
         const anchor = this.selectionAnchor()!;
         const region = rowRegion(anchor.row, rowIndex);

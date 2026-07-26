@@ -8,11 +8,11 @@ const d = (y: number, m: number, day: number) => new Date(y, m - 1, day);
 const setup = (props: Record<string, unknown> = {}) => {
   const result = render(
     `<xui-date-picker
-       [selected]="props().selected ?? null"
+       [value]="props().selected ?? null"
        [min]="props().min ?? null"
        [max]="props().max ?? null"
        [showActionsBar]="props().showActionsBar ?? false"
-       (dateChange)="props().onChange?.($event)" />`,
+       (valueChange)="props().onChange?.($event)" />`,
     { imports: IMPORTS, props }
   );
   const cmp = result.fixture.debugElement.query(n => n.name === 'xui-date-picker')
@@ -61,7 +61,7 @@ describe('XuiDatePicker', () => {
     dayButton(20)!.click();
     detect();
 
-    expect(cmp.selected()?.getDate()).toBe(20);
+    expect(cmp.value()?.getDate()).toBe(20);
     expect(changes.at(-1)?.getDate()).toBe(20);
   });
 
@@ -99,7 +99,7 @@ describe('XuiDatePicker', () => {
     detect();
 
     // From the 15th, ArrowRight → 16th, Enter selects it.
-    expect(cmp.selected()?.getDate()).toBe(16);
+    expect(cmp.value()?.getDate()).toBe(16);
   });
 
   it('changes month when arrowing across the boundary', () => {
@@ -134,7 +134,7 @@ describe('XuiDatePicker', () => {
       clear.click();
       detect();
 
-      expect(cmp.selected()).toBeNull();
+      expect(cmp.value()).toBeNull();
     });
   });
 });

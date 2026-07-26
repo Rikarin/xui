@@ -70,7 +70,7 @@ export class PreviewFill {
   imports: [XuiTabsImports],
   template: `
 <div class="w-[32rem]">
-  <xui-tabs vertical animate selectedTabId="profile">
+  <xui-tabs orientation="vertical" animate selectedTabId="profile">
     <xui-tab id="profile" title="Profile">Profile settings</xui-tab>
     <xui-tab id="account" title="Account">Account settings</xui-tab>
     <xui-tab id="security" title="Security">Security settings</xui-tab>
@@ -88,7 +88,7 @@ export const doc: ComponentDoc = {
   package: "@xui/tabs",
   kind: "ui",
   group: "Navigation",
-  description: "Tabbed navigation. Arrow keys move between tabs (roving tabindex), Home/End jump to the ends, and disabled tabs are skipped. [(selectedTabId)] two-way binding; animate slides an indicator, vertical/fill/large adjust layout.",
+  description: "Tabbed navigation. Arrow keys move between tabs (roving tabindex), Home/End jump to the ends, and disabled tabs are skipped. [(selectedTabId)] two-way binding; animate slides an indicator, orientation/fill/large adjust layout.",
   importsConst: "XuiTabsImports",
   exports: [
   "XuiTabTitle",
@@ -168,11 +168,10 @@ export const doc: ComponentDoc = {
         "docs": "The active tab id. Two-way bindable with [(selectedTabId)]."
       },
       {
-        "name": "vertical",
-        "type": "boolean",
-        "default": "false",
-        "required": false,
-        "transform": "booleanAttribute"
+        "name": "orientation",
+        "type": "'horizontal' | 'vertical'",
+        "default": "'horizontal'",
+        "required": false
       },
       {
         "name": "fill",
@@ -285,7 +284,7 @@ export const doc: ComponentDoc = {
       name: "Vertical",
       title: "Vertical",
       code: `<div class="w-[32rem]">
-  <xui-tabs vertical animate selectedTabId="profile">
+  <xui-tabs orientation="vertical" animate selectedTabId="profile">
     <xui-tab id="profile" title="Profile">Profile settings</xui-tab>
     <xui-tab id="account" title="Account">Account settings</xui-tab>
     <xui-tab id="security" title="Security">Security settings</xui-tab>

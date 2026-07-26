@@ -105,7 +105,7 @@ describe('XuiSplitter', () => {
 
   it('steps along the block axis when vertical', () => {
     const { detect, cmp } = setup(
-      `<xui-splitter layout="vertical">
+      `<xui-splitter orientation="vertical">
          <xui-splitter-panel [defaultSize]="50">A</xui-splitter-panel>
          <xui-splitter-panel [defaultSize]="50">B</xui-splitter-panel>
        </xui-splitter>`

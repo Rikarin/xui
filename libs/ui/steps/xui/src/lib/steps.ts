@@ -75,7 +75,7 @@ export class XuiSteps {
   readonly class = input<ClassValue>('');
 
   readonly current = model<number>(0);
-  readonly direction = input<'horizontal' | 'vertical'>('horizontal');
+  readonly orientation = input<'horizontal' | 'vertical'>('horizontal');
   readonly clickable = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
 
   protected readonly steps = contentChildren(XuiStep);
@@ -96,11 +96,11 @@ export class XuiSteps {
   }
 
   private get vertical(): boolean {
-    return this.direction() === 'vertical';
+    return this.orientation() === 'vertical';
   }
 
   protected readonly computedClass = computed(() =>
-    xui('flex', this.direction() === 'vertical' ? 'flex-col gap-1' : 'flex-row items-start', this.class())
+    xui('flex', this.orientation() === 'vertical' ? 'flex-col gap-1' : 'flex-row items-start', this.class())
   );
   protected readonly itemClass = computed(() =>
     xui('flex', this.vertical ? 'flex-col' : 'flex-1 items-center gap-3 last:flex-none')

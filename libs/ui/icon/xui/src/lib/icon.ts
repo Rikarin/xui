@@ -46,11 +46,11 @@ const SIZES: Record<string, string> = {
  *
  * ```html
  * <ng-icon xui name="matCheckRound" />
- * <ng-icon xui size="sm" color="error" name="matCloseRound" title="Remove" />
+ * <ng-icon xui size="sm" color="error" name="matCloseRound" label="Remove" />
  * ```
  *
  * An icon is decorative by default and hidden from assistive technology. Give it
- * a `title` when it carries meaning on its own — an icon-only button, a status
+ * a `label` when it carries meaning on its own — an icon-only button, a status
  * glyph — and it becomes an `img` with that accessible name instead.
  */
 @Directive({
@@ -61,9 +61,9 @@ const SIZES: Record<string, string> = {
   host: {
     '[style.--ng-icon__size]': 'computedSize()',
     '[class]': 'computedClass()',
-    '[attr.role]': 'title() ? "img" : null',
-    '[attr.aria-label]': 'title()',
-    '[attr.aria-hidden]': 'title() ? null : "true"'
+    '[attr.role]': 'label() ? "img" : null',
+    '[attr.aria-label]': 'label()',
+    '[attr.aria-hidden]': 'label() ? null : "true"'
   }
 })
 export class XuiIcon {
@@ -78,7 +78,7 @@ export class XuiIcon {
    * An accessible name. Setting it marks the icon as meaningful content rather
    * than decoration.
    */
-  readonly title = input<string | null>(null);
+  readonly label = input<string | null>(null);
 
   protected readonly computedClass = computed(() => xui(iconVariants({ color: this.color() }), this.class()));
 

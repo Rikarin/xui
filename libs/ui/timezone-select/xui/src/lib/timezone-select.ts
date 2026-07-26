@@ -49,8 +49,8 @@ const offsetLabel = (zone: string, at: Date): string => {
       class="w-full"
       [items]="entries()"
       [itemText]="itemText"
-      [selectedItem]="selectedEntry()"
-      (selectionChange)="onSelect($event)"
+      [value]="selectedEntry()"
+      (valueChange)="onSelect($event)"
       [placeholder]="placeholder()"
       [aria-label]="ariaLabel()"
       [disabled]="disabled()"
@@ -95,7 +95,7 @@ export class XuiTimezoneSelect {
 
   protected readonly itemText = (entry: TimeZoneEntry): string => entry.label;
 
-  protected onSelect(entry: TimeZoneEntry): void {
-    this.value.set(entry.id);
+  protected onSelect(entry: TimeZoneEntry | null): void {
+    this.value.set(entry?.id ?? null);
   }
 }

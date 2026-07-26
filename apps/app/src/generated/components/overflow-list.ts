@@ -99,7 +99,7 @@ export const doc: ComponentDoc = {
     ],
     "outputs": [
       {
-        "name": "overflow",
+        "name": "overflowChange",
         "type": "T[]",
         "docs": "Emits the hidden items whenever the overflow set changes."
       }

@@ -58,11 +58,11 @@ export const doc: ComponentDoc = {
     ],
     "outputs": [
       {
-        "name": "action",
+        "name": "actionClicked",
         "type": "void"
       },
       {
-        "name": "dismiss",
+        "name": "dismissed",
         "type": "void"
       }
     ],

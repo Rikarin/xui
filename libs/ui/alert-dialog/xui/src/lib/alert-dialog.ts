@@ -27,7 +27,7 @@ import type { ClassValue } from 'clsx';
  *   destructive
  *   title="Delete project?"
  *   description="This can't be undone."
- *   confirmLabel="Delete"
+ *   confirmText="Delete"
  *   (confirmed)="remove()" />
  * ```
  */
@@ -53,8 +53,8 @@ import type { ClassValue } from 'clsx';
             <ng-content />
           </div>
           <div class="mt-5 flex justify-end gap-2">
-            <button #cancelBtn type="button" [class]="cancelClass()" (click)="cancel()">{{ cancelLabel() }}</button>
-            <button type="button" [class]="confirmClass()" (click)="confirm()">{{ confirmLabel() }}</button>
+            <button #cancelBtn type="button" [class]="cancelClass()" (click)="cancel()">{{ cancelText() }}</button>
+            <button type="button" [class]="confirmClass()" (click)="confirm()">{{ confirmText() }}</button>
           </div>
         </div>
       </div>
@@ -71,8 +71,8 @@ export class XuiAlertDialog {
   readonly open = model<boolean>(false);
   readonly title = input<string>('');
   readonly description = input<string>('');
-  readonly confirmLabel = input<string>('Confirm');
-  readonly cancelLabel = input<string>('Cancel');
+  readonly confirmText = input<string>('Confirm');
+  readonly cancelText = input<string>('Cancel');
   readonly destructive = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
   /** Allow Escape and a backdrop click to dismiss (as a cancel). */
   readonly dismissible = input<boolean, BooleanInput>(true, { transform: booleanAttribute });

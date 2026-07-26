@@ -103,11 +103,11 @@ const FILTERS: XuiSegmentedOption<string>[] = [
     } @else {
       <div xuiCard [elevation]="1" class="overflow-hidden p-0">
         <xui-data-table
-          showRowHeader
+          rowHeader
           [data]="rows()"
           [columns]="columns"
           [height]="520"
-          [numFrozenColumns]="1"
+          [frozenColumns]="1"
           [rowHeight]="40"
         >
           <ng-template xuiDataCell let-value let-column="column">

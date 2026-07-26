@@ -48,7 +48,7 @@ export const OutlineButtons: Story = {
 export const Vertical: Story = {
   render: () => ({
     template: `
-    <div xuiButtonGroup vertical class="w-40">
+    <div xuiButtonGroup orientation="vertical" class="w-40">
       <button xuiButton variant="outline">Top</button>
       <button xuiButton variant="outline">Middle</button>
       <button xuiButton variant="outline">Bottom</button>
@@ -132,7 +132,7 @@ export const MenuTriggers: Story = {
 export const VerticalMenuTriggers: Story = {
   render: () => ({
     template: `
-    <div xuiButtonGroup vertical alignText="left" class="w-40">
+    <div xuiButtonGroup orientation="vertical" alignText="left" class="w-40">
       <button xuiButton variant="outline" [xuiMenuTriggerFor]="file">
         <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9zM13 2v7h7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         File

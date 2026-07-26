@@ -23,11 +23,11 @@ type Side = 'left' | 'right';
 
 /**
  * A dual list-box that moves items between a source and a target list. `items`
- * is the full set; `targetKeys` (two-way) are the keys on the right. Check items
+ * is the full set; `values` (two-way) are the keys on the right. Check items
  * and use the arrow buttons to move them; each side can be searched.
  *
  * ```html
- * <xui-transfer [items]="all" [(targetKeys)]="selected" searchable />
+ * <xui-transfer [items]="all" [(values)]="selected" searchable />
  * ```
  */
 @Component({
@@ -171,7 +171,7 @@ export class XuiTransfer {
 
   readonly class = input<ClassValue>('');
   readonly items = input<XuiTransferItem[]>([]);
-  readonly targetKeys = model<string[]>([]);
+  readonly values = model<string[]>([]);
   readonly titles = input<[string, string]>(['Source', 'Target']);
   readonly searchable = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
 
@@ -185,7 +185,7 @@ export class XuiTransfer {
   private readonly activeRight = signal<string | null>(null);
   private readonly idPrefix = uniqueId('xui-transfer');
 
-  private readonly targetSet = computed(() => new Set(this.targetKeys()));
+  private readonly targetSet = computed(() => new Set(this.values()));
   protected readonly leftItems = computed(() => this.items().filter(item => !this.targetSet().has(item.key)));
   protected readonly rightItems = computed(() => this.items().filter(item => this.targetSet().has(item.key)));
 
@@ -319,7 +319,7 @@ export class XuiTransfer {
   protected move(to: Side): void {
     if (to === 'right') {
       const moving = this.leftItems().filter(item => !item.disabled && this.checkedLeft().has(item.key));
-      this.targetKeys.set([...this.targetKeys(), ...moving.map(item => item.key)]);
+      this.values.set([...this.values(), ...moving.map(item => item.key)]);
       this.checkedLeft.set(new Set());
     } else {
       const movingKeys = new Set(
@@ -327,7 +327,7 @@ export class XuiTransfer {
           .filter(item => !item.disabled && this.checkedRight().has(item.key))
           .map(item => item.key)
       );
-      this.targetKeys.set(this.targetKeys().filter(key => !movingKeys.has(key)));
+      this.values.set(this.values().filter(key => !movingKeys.has(key)));
       this.checkedRight.set(new Set());
     }
   }

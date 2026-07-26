@@ -8,7 +8,7 @@ const d = (y: number, m: number, day: number) => new Date(y, m - 1, day);
 const setup = (props: Record<string, unknown> = {}) => {
   const result = render(
     `<xui-date-range-picker
-       [range]="props().range ?? { start: null, end: null }"
+       [value]="props().range ?? { start: null, end: null }"
        [months]="props().months ?? 2"
        [allowSingleDayRange]="props().allowSingleDayRange ?? false" />`,
     { imports: IMPORTS, props }
@@ -51,8 +51,8 @@ describe('XuiDateRangePicker', () => {
     firstMonthDay(10)!.click();
     detect();
 
-    expect(cmp.range().start?.getDate()).toBe(10);
-    expect(cmp.range().end).toBeNull();
+    expect(cmp.value().start?.getDate()).toBe(10);
+    expect(cmp.value().end).toBeNull();
   });
 
   it('second click completes the range', () => {
@@ -64,8 +64,8 @@ describe('XuiDateRangePicker', () => {
     firstMonthDay(15)!.click();
     detect();
 
-    expect(cmp.range().start?.getDate()).toBe(8);
-    expect(cmp.range().end?.getDate()).toBe(15);
+    expect(cmp.value().start?.getDate()).toBe(8);
+    expect(cmp.value().end?.getDate()).toBe(15);
   });
 
   it('clicking before the start restarts the range', () => {
@@ -75,8 +75,8 @@ describe('XuiDateRangePicker', () => {
     firstMonthDay(5)!.click();
     detect();
 
-    expect(cmp.range().start?.getDate()).toBe(5);
-    expect(cmp.range().end).toBeNull();
+    expect(cmp.value().start?.getDate()).toBe(5);
+    expect(cmp.value().end).toBeNull();
   });
 
   it('ignores a single-day range unless allowed', () => {
@@ -86,7 +86,7 @@ describe('XuiDateRangePicker', () => {
     firstMonthDay(10)!.click(); // same day as start
     detect();
 
-    expect(cmp.range().end).toBeNull();
+    expect(cmp.value().end).toBeNull();
   });
 
   it('allows a single-day range when enabled', () => {
@@ -96,7 +96,7 @@ describe('XuiDateRangePicker', () => {
     firstMonthDay(10)!.click();
     detect();
 
-    expect(cmp.range().end?.getDate()).toBe(10);
+    expect(cmp.value().end?.getDate()).toBe(10);
   });
 
   it('highlights the interior days of the selected range', () => {

@@ -6,7 +6,7 @@ const CITIES = ['Amsterdam', 'Berlin', 'Copenhagen', 'Lisbon', 'Madrid', 'Prague
 /**
  * A typeahead autocomplete: the text input itself is the target. Typing filters a
  * popover list; choosing an item fills the input. Arrow/Enter/Escape keyboard.
- * `[(selectedItem)]` two-way binding.
+ * `[(value)]` two-way binding.
  */
 const meta: Meta<XuiSuggest<string>> = {
   title: 'Forms/Suggest',
@@ -22,7 +22,7 @@ export const Default: Story = {
     props: { cities: CITIES, selected: null as string | null },
     template: `
       <div class="w-64">
-        <xui-suggest [items]="cities" [(selectedItem)]="selected" placeholder="Search a city…" />
+        <xui-suggest [items]="cities" [(value)]="selected" placeholder="Search a city…" />
         <p class="text-foreground-muted mt-3 text-sm">Selected: {{ selected ?? '—' }}</p>
       </div>
     `

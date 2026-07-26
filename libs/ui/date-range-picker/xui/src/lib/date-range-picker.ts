@@ -28,7 +28,7 @@ export interface XuiDateRange<T> {
 /**
  * A multi-month calendar for choosing a date range. The first click sets the
  * start, the second the end (hovering previews the span); clicking again starts a
- * new range. `[(range)]` two-way binding; `T` is the active `DateAdapter`'s type.
+ * new range. `[(value)]` two-way binding; `T` is the active `DateAdapter`'s type.
  */
 @Component({
   selector: 'xui-date-range-picker',
@@ -100,8 +100,8 @@ export class XuiDateRangePicker<T = Date> {
 
   readonly class = input<ClassValue>('');
 
-  /** The chosen range. Two-way bindable with `[(range)]`. */
-  readonly range = model<XuiDateRange<T>>({ start: null, end: null });
+  /** The chosen range. Two-way bindable with `[(value)]`. */
+  readonly value = model<XuiDateRange<T>>({ start: null, end: null });
 
   readonly min = input<T | null>(null);
   readonly max = input<T | null>(null);
@@ -119,7 +119,7 @@ export class XuiDateRangePicker<T = Date> {
 
   // The left-most month on screen, seeded from the range start (or today).
   private readonly viewDate = linkedSignal<XuiDateRange<T>, T>({
-    source: this.range,
+    source: this.value,
     computation: (range, previous) => range.start ?? previous?.value ?? this.adapter.now()
   });
 
@@ -151,13 +151,13 @@ export class XuiDateRangePicker<T = Date> {
   }
 
   protected isEndpoint(date: T): boolean {
-    const { start, end } = this.range();
+    const { start, end } = this.value();
     return (start != null && this.adapter.isSameDay(date, start)) || (end != null && this.adapter.isSameDay(date, end));
   }
 
   /** The provisional end while only a start is chosen (uses the hovered day). */
   private effectiveEnd(): T | null {
-    const { start, end } = this.range();
+    const { start, end } = this.value();
     if (end != null) {
       return end;
     }
@@ -165,7 +165,7 @@ export class XuiDateRangePicker<T = Date> {
   }
 
   private inRange(date: T): boolean {
-    const { start } = this.range();
+    const { start } = this.value();
     const end = this.effectiveEnd();
     if (start == null || end == null) {
       return false;
@@ -200,7 +200,7 @@ export class XuiDateRangePicker<T = Date> {
   }
 
   protected onClick(date: T): void {
-    const { start, end } = this.range();
+    const { start, end } = this.value();
 
     // Start a fresh range if there's no start, both ends are set, or the click is
     // before the current start.
@@ -218,7 +218,7 @@ export class XuiDateRangePicker<T = Date> {
   }
 
   private commit(range: XuiDateRange<T>): void {
-    // `model.set` emits `rangeChange` for `[(range)]` / `(rangeChange)` consumers.
-    this.range.set(range);
+    // `model.set` emits `valueChange` for `[(value)]` / `(valueChange)` consumers.
+    this.value.set(range);
   }
 }

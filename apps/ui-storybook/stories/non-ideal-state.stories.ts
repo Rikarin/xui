@@ -8,9 +8,9 @@ import { XuiNonIdealState, XuiNonIdealStateImports } from '@xui/non-ideal-state'
 const meta: Meta<XuiNonIdealState> = {
   title: 'Feedback/Non-ideal state',
   component: XuiNonIdealState,
-  args: { title: 'No results', description: 'Try a different search term.', layout: 'vertical' },
+  args: { title: 'No results', description: 'Try a different search term.', orientation: 'vertical' },
   argTypes: {
-    layout: { options: ['vertical', 'horizontal'], control: { type: 'select' } }
+    orientation: { options: ['vertical', 'horizontal'], control: { type: 'select' } }
   },
   decorators: [
     moduleMetadata({
@@ -21,7 +21,7 @@ const meta: Meta<XuiNonIdealState> = {
   render: ({ ...args }) => ({
     props: args,
     template: `
-      <xui-non-ideal-state class="border-border rounded-lg border" [title]="title" [description]="description" [layout]="layout">
+      <xui-non-ideal-state class="border-border rounded-lg border" [title]="title" [description]="description" [orientation]="orientation">
         <ng-icon visual xui size="xl" name="matSearchOffRound" />
         <button action xuiButton size="sm" variant="outline">Clear filters</button>
       </xui-non-ideal-state>
@@ -34,7 +34,7 @@ type Story = StoryObj<XuiNonIdealState>;
 
 export const Default: Story = {};
 
-export const Horizontal: Story = { args: { layout: 'horizontal' } };
+export const Horizontal: Story = { args: { orientation: 'horizontal' } };
 
 /** The visual and action slots collapse when nothing is projected. */
 export const TextOnly: Story = {

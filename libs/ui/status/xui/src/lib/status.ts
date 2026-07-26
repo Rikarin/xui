@@ -6,7 +6,7 @@ import type { ClassValue } from 'clsx';
 
 const statusVariants = cva(['inline-flex aspect-square rounded-[50%]'], {
   variants: {
-    variant: {
+    presence: {
       online: 'bg-success',
       idle: 'bg-warning',
       dnd: 'bg-error',
@@ -25,7 +25,7 @@ const statusVariants = cva(['inline-flex aspect-square rounded-[50%]'], {
 
 export type XuiStatusVariants = VariantProps<typeof statusVariants>;
 
-const CLIP_PATHS: Partial<Record<NonNullable<XuiStatusVariants['variant']> & string, string>> = {
+const CLIP_PATHS: Partial<Record<NonNullable<XuiStatusVariants['presence']> & string, string>> = {
   idle: 'M0.564,0 A0.399,0.399,0,1,1,0,0.564 A0.502,0.502,0,1,0,0.564,0',
   dnd: 'M0.5,0 a0.5,0.5,0,1,0,0.5,0.5 A0.5,0.5,0,0,0,0.5,0 M0.78,0.603 H0.22 a0.103,0.103,0,0,1,0,-0.205 H0.78 a0.103,0.103,0,1,1,0,0.205',
   offline:
@@ -52,7 +52,7 @@ const CLIP_PATHS: Partial<Record<NonNullable<XuiStatusVariants['variant']> & str
 export class XuiStatus {
   /** The user-defined classes */
   readonly class = input<ClassValue>('');
-  readonly variant = input.required<XuiStatusVariants['variant']>();
+  readonly presence = input<XuiStatusVariants['presence']>('offline');
   readonly size = input<XuiStatusVariants['size']>('md');
 
   /**
@@ -63,13 +63,13 @@ export class XuiStatus {
 
   /** The classes to apply to the component merged with the user-defined classes */
   protected readonly computedClass = computed(() =>
-    xui(statusVariants({ variant: this.variant(), size: this.size() }), this.class())
+    xui(statusVariants({ presence: this.presence(), size: this.size() }), this.class())
   );
 
   protected readonly clipPath = computed(() => {
-    const variant = this.variant();
-    const d = variant ? CLIP_PATHS[variant] : undefined;
-    return d ? { id: `${this.instanceId}-${variant}`, d } : null;
+    const presence = this.presence();
+    const d = presence ? CLIP_PATHS[presence] : undefined;
+    return d ? { id: `${this.instanceId}-${presence}`, d } : null;
   });
 
   protected readonly computedStyle = computed(() => {

@@ -47,8 +47,8 @@ describe('XuiIcon', () => {
     expectAttributes(query('ng-icon'), { 'aria-hidden': 'true', role: null, 'aria-label': null });
   });
 
-  it('becomes a labelled image once given a title', () => {
-    const { query } = setup('<ng-icon xui title="Remove" />');
+  it('becomes a labelled image once given a label', () => {
+    const { query } = setup('<ng-icon xui label="Remove" />');
 
     expectAttributes(query('ng-icon'), { role: 'img', 'aria-label': 'Remove', 'aria-hidden': null });
   });

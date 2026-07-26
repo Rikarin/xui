@@ -50,7 +50,7 @@ export const WithError: Story = {
 export const Vertical: Story = {
   render: () => ({
     template: `
-      <xui-steps [current]="2" direction="vertical" class="w-[320px]">
+      <xui-steps [current]="2" orientation="vertical" class="w-[320px]">
         <xui-step title="Account created" description="2026-07-01" />
         <xui-step title="Profile completed" description="2026-07-03" />
         <xui-step title="First project" description="In progress" />

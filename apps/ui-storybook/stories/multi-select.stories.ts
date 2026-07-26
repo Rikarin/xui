@@ -19,7 +19,7 @@ const FRAMEWORKS: Framework[] = [
  * A filterable multi-select: removable chips + a query input open a popover of
  * options with a check on the chosen ones. Clicking an option toggles it and the
  * popover stays open; Backspace on an empty query removes the last chip.
- * `[(selectedItems)]` two-way binding.
+ * `[(values)]` two-way binding.
  */
 const meta: Meta<XuiMultiSelect<Framework>> = {
   title: 'Forms/Multi-select',
@@ -39,7 +39,7 @@ export const Default: Story = {
     },
     template: `
       <div class="w-80">
-        <xui-multi-select [items]="items" [itemText]="itemText" [(selectedItems)]="selected" placeholder="Add frameworks…" />
+        <xui-multi-select [items]="items" [itemText]="itemText" [(values)]="selected" placeholder="Add frameworks…" />
         <p class="text-foreground-muted mt-3 text-sm">Selected: {{ selected.length ? selected.map(f => f.name).join(', ') : '—' }}</p>
       </div>
     `

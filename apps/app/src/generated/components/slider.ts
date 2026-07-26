@@ -66,7 +66,7 @@ export class PreviewDisabled {
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [XuiSliderImports],
   template: `
-<xui-slider vertical [min]="0" [max]="10" [labelStepSize]="2" [(value)]="value" aria-label="Vertical" />
+<xui-slider orientation="vertical" [min]="0" [max]="10" [labelStepSize]="2" [(value)]="value" aria-label="Vertical" />
 `
 })
 export class PreviewVertical {
@@ -153,11 +153,10 @@ export const doc: ComponentDoc = {
         "required": false
       },
       {
-        "name": "vertical",
-        "type": "boolean",
-        "default": "false",
-        "required": false,
-        "transform": "booleanAttribute"
+        "name": "orientation",
+        "type": "'horizontal' | 'vertical'",
+        "default": "'horizontal'",
+        "required": false
       },
       {
         "name": "showTrackFill",
@@ -266,7 +265,7 @@ export const doc: ComponentDoc = {
     {
       name: "Vertical",
       title: "Vertical",
-      code: `<xui-slider vertical [min]="0" [max]="10" [labelStepSize]="2" [(value)]="value" aria-label="Vertical" />`,
+      code: `<xui-slider orientation="vertical" [min]="0" [max]="10" [labelStepSize]="2" [(value)]="value" aria-label="Vertical" />`,
       preview: PreviewVertical
     },
   ]

@@ -46,7 +46,7 @@ export const Fill: Story = {
 export const Vertical: Story = {
   render: () => ({
     template: `
-      <div xuiControlGroup vertical class="w-48">
+      <div xuiControlGroup orientation="vertical" class="w-48">
         <button xuiButton variant="outline">Top</button>
         <button xuiButton variant="outline">Middle</button>
         <button xuiButton variant="outline">Bottom</button>

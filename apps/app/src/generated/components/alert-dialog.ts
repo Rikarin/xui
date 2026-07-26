@@ -18,7 +18,7 @@ import type { ComponentDoc } from '../../app/core/docs.model';
   destructive
   title="Delete project?"
   description="This permanently removes the project and all its data. This action cannot be undone."
-  confirmLabel="Delete"
+  confirmText="Delete"
   (confirmed)="last.set('confirmed')"
   (cancelled)="last.set('cancelled')"
 />
@@ -39,7 +39,7 @@ export class PreviewDestructive {
   [(open)]="open"
   title="Publish this release?"
   description="Subscribers will be notified immediately."
-  confirmLabel="Publish"
+  confirmText="Publish"
 />
 `
 })
@@ -58,8 +58,8 @@ export class PreviewConfirm {
   [dismissible]="false"
   title="Accept updated terms"
   description="You need to accept the new terms before continuing."
-  confirmLabel="Accept"
-  cancelLabel="Not now"
+  confirmText="Accept"
+  cancelText="Not now"
 />
 `
 })
@@ -120,13 +120,13 @@ export const doc: ComponentDoc = {
         "required": false
       },
       {
-        "name": "confirmLabel",
+        "name": "confirmText",
         "type": "string",
         "default": "'Confirm'",
         "required": false
       },
       {
-        "name": "cancelLabel",
+        "name": "cancelText",
         "type": "string",
         "default": "'Cancel'",
         "required": false
@@ -174,7 +174,7 @@ export const doc: ComponentDoc = {
   destructive
   title="Delete project?"
   description="This permanently removes the project and all its data. This action cannot be undone."
-  confirmLabel="Delete"
+  confirmText="Delete"
   (confirmed)="last.set('confirmed')"
   (cancelled)="last.set('cancelled')"
 />`,
@@ -188,7 +188,7 @@ export const doc: ComponentDoc = {
   [(open)]="open"
   title="Publish this release?"
   description="Subscribers will be notified immediately."
-  confirmLabel="Publish"
+  confirmText="Publish"
 />`,
       preview: PreviewConfirm
     },
@@ -201,8 +201,8 @@ export const doc: ComponentDoc = {
   [dismissible]="false"
   title="Accept updated terms"
   description="You need to accept the new terms before continuing."
-  confirmLabel="Accept"
-  cancelLabel="Not now"
+  confirmText="Accept"
+  cancelText="Not now"
 />`,
       preview: PreviewBlocking
     },

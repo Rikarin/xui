@@ -59,8 +59,8 @@ describe('XuiSteps', () => {
     expect(cmp.current()).toBe(0);
   });
 
-  it('stacks vertically in vertical direction', () => {
-    const { detect } = setup('direction="vertical"');
+  it('stacks vertically in vertical orientation', () => {
+    const { detect } = setup('orientation="vertical"');
     detect();
 
     expect((document.querySelector('xui-steps') as HTMLElement).className).toContain('flex-col');

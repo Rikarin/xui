@@ -43,7 +43,7 @@ export interface XuiToastData {
       <button
         type="button"
         class="text-link -my-1 shrink-0 self-center rounded px-1 text-sm font-medium hover:underline focus-visible:outline-5 focus-visible:outline-offset-2"
-        (click)="action.emit()"
+        (click)="actionClicked.emit()"
       >
         {{ toast().actionText }}
       </button>
@@ -53,7 +53,7 @@ export interface XuiToastData {
       type="button"
       class="text-foreground-muted hover:bg-hover-overlay hover:text-foreground -me-1 -mt-1 grid size-6 shrink-0 place-items-center rounded focus-visible:outline-5 focus-visible:outline-offset-2"
       aria-label="Dismiss"
-      (click)="dismiss.emit()"
+      (click)="dismissed.emit()"
     >
       <ng-icon xui size="sm" name="matCloseRound" />
     </button>
@@ -69,8 +69,8 @@ export interface XuiToastData {
 export class XuiToast {
   readonly toast = input.required<XuiToastData>();
 
-  readonly action = output<void>();
-  readonly dismiss = output<void>();
+  readonly actionClicked = output<void>();
+  readonly dismissed = output<void>();
 
   protected readonly resolvedIcon = computed(() => {
     const t = this.toast();

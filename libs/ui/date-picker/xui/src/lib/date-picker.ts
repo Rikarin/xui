@@ -10,7 +10,6 @@ import {
   linkedSignal,
   model,
   numberAttribute,
-  output,
   signal,
   ViewEncapsulation
 } from '@angular/core';
@@ -26,7 +25,7 @@ import type { ClassValue } from 'clsx';
 /**
  * An inline month calendar. Click a day to select it; arrow keys move by day/week,
  * PageUp/PageDown by month, Home/End to week ends, Enter/Space select.
- * `[(selected)]` two-way binding. `T` is the date type of the active `DateAdapter`
+ * `[(value)]` two-way binding. `T` is the date type of the active `DateAdapter`
  * (a `Date` by default).
  */
 @Component({
@@ -99,8 +98,8 @@ export class XuiDatePicker<T = Date> {
 
   readonly class = input<ClassValue>('');
 
-  /** The selected date. Two-way bindable with `[(selected)]`. */
-  readonly selected = model<T | null>(null);
+  /** The selected date. Two-way bindable with `[(value)]`. */
+  readonly value = model<T | null>(null);
 
   readonly min = input<T | null>(null);
   readonly max = input<T | null>(null);
@@ -112,11 +111,9 @@ export class XuiDatePicker<T = Date> {
   /** Show a Today/Clear action bar under the grid. */
   readonly showActionsBar = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
 
-  readonly dateChange = output<T | null>();
-
   // The month currently on screen; seeded from the selection (or today).
   private readonly viewDate = linkedSignal<T | null, T>({
-    source: this.selected,
+    source: this.value,
     computation: (selected, previous) => selected ?? previous?.value ?? this.adapter.now()
   });
 
@@ -148,13 +145,13 @@ export class XuiDatePicker<T = Date> {
   );
 
   protected isSelected(date: T): boolean {
-    const selected = this.selected();
+    const selected = this.value();
     return selected != null && this.adapter.isSameDay(date, selected);
   }
 
   /** The roving-tabindex anchor: the focused day, else selected, else today, else the 1st. */
   protected isFocusable(date: T): boolean {
-    const anchor = this.focusedDate() ?? this.selected() ?? this.anchorFallback();
+    const anchor = this.focusedDate() ?? this.value() ?? this.anchorFallback();
     return this.adapter.isSameDay(date, anchor);
   }
 
@@ -181,8 +178,7 @@ export class XuiDatePicker<T = Date> {
 
   protected select(date: T): void {
     this.focusedDate.set(date);
-    this.selected.set(date);
-    this.dateChange.emit(date);
+    this.value.set(date);
   }
 
   protected selectToday(): void {
@@ -192,12 +188,11 @@ export class XuiDatePicker<T = Date> {
   }
 
   protected clear(): void {
-    this.selected.set(null);
-    this.dateChange.emit(null);
+    this.value.set(null);
   }
 
   protected onKeydown(event: KeyboardEvent): void {
-    const current = this.focusedDate() ?? this.selected() ?? this.anchorFallback();
+    const current = this.focusedDate() ?? this.value() ?? this.anchorFallback();
     let next: T;
 
     // The month grid runs inline, so the horizontal arrows step a day in reading

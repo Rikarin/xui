@@ -15,18 +15,18 @@ const alignClass: Record<XuiButtonGroupAlign, string> = {
 
 const buttonGroupVariants = cva('inline-flex', {
   variants: {
-    vertical: {
+    orientation: {
       // Collapse the radii and drop the doubled border between neighbours, on
       // whichever axis the group runs.
-      false: 'flex-row *:not-first:rounded-s-none *:not-last:rounded-e-none *:not-first:border-s-0',
-      true: 'flex-col *:not-first:rounded-t-none *:not-last:rounded-b-none *:not-first:border-t-0'
+      horizontal: 'flex-row *:not-first:rounded-s-none *:not-last:rounded-e-none *:not-first:border-s-0',
+      vertical: 'flex-col *:not-first:rounded-t-none *:not-last:rounded-b-none *:not-first:border-t-0'
     },
     fill: {
       true: '[&>*]:min-w-0 [&>*]:flex-1',
       false: ''
     }
   },
-  defaultVariants: { vertical: false, fill: false }
+  defaultVariants: { orientation: 'horizontal', fill: false }
 });
 
 export type XuiButtonGroupVariants = VariantProps<typeof buttonGroupVariants>;
@@ -43,8 +43,8 @@ export class XuiButtonGroup {
 
   readonly class = input<ClassValue>('');
 
-  /** Stack the buttons vertically rather than in a row. */
-  readonly vertical = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
+  /** Run the buttons in a row (default) or stack them vertically. */
+  readonly orientation = input<'horizontal' | 'vertical'>('horizontal');
 
   /** Stretch the buttons to share the group's width (or height) equally. */
   readonly fill = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
@@ -54,7 +54,7 @@ export class XuiButtonGroup {
 
   protected readonly computedClass = computed(() =>
     xui(
-      buttonGroupVariants({ vertical: this.vertical(), fill: this.fill() }),
+      buttonGroupVariants({ orientation: this.orientation(), fill: this.fill() }),
       alignClass[this.alignText() ?? 'center'],
       this.fill() && 'flex w-full',
       this.class(),

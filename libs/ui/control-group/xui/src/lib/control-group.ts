@@ -6,18 +6,18 @@ import type { ClassValue } from 'clsx';
 
 const controlGroupVariants = cva('flex', {
   variants: {
-    vertical: {
+    orientation: {
       // Collapse the radii and shared borders between adjacent controls so the
       // group reads as one unit, rounded only on its outer ends.
-      false: 'flex-row *:not-first:rounded-s-none *:not-last:rounded-e-none *:not-first:-ms-px',
-      true: 'flex-col *:not-first:rounded-t-none *:not-last:rounded-b-none *:not-first:-mt-px'
+      horizontal: 'flex-row *:not-first:rounded-s-none *:not-last:rounded-e-none *:not-first:-ms-px',
+      vertical: 'flex-col *:not-first:rounded-t-none *:not-last:rounded-b-none *:not-first:-mt-px'
     },
     fill: {
       true: 'w-full *:flex-1',
       false: ''
     }
   },
-  defaultVariants: { vertical: false, fill: false }
+  defaultVariants: { orientation: 'horizontal', fill: false }
 });
 
 export type XuiControlGroupVariants = VariantProps<typeof controlGroupVariants>;
@@ -35,7 +35,7 @@ export type XuiControlGroupVariants = VariantProps<typeof controlGroupVariants>;
  * Collapses the rounding and doubled borders between neighbours — the group is
  * rounded only on its outer ends — and overlaps the shared 1px border with a
  * negative margin so it does not read as double-width. `fill` stretches the
- * children to share the width equally; `vertical` stacks them.
+ * children to share the width equally; `orientation="vertical"` stacks them.
  */
 @Directive({
   selector: '[xuiControlGroup]',
@@ -47,10 +47,10 @@ export type XuiControlGroupVariants = VariantProps<typeof controlGroupVariants>;
 export class XuiControlGroup {
   /** The user-defined classes. Merged last so they win over the variant classes. */
   readonly class = input<ClassValue>('');
-  readonly vertical = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
+  readonly orientation = input<'horizontal' | 'vertical'>('horizontal');
   readonly fill = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
 
   protected readonly computedClass = computed(() =>
-    xui(controlGroupVariants({ vertical: this.vertical(), fill: this.fill() }), this.class())
+    xui(controlGroupVariants({ orientation: this.orientation(), fill: this.fill() }), this.class())
   );
 }

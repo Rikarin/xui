@@ -17,7 +17,7 @@ import { XuiDescriptionsItem } from './descriptions-item';
 /**
  * A key/value description list laid out on a grid. Wrap
  * `<xui-descriptions-item label="…">value</xui-descriptions-item>` entries;
- * `column` sets how many per row, `layout` stacks or inlines the label, and
+ * `column` sets how many per row, `orientation` stacks or inlines the label, and
  * `bordered` draws a boxed, table-like variant.
  *
  * ```html
@@ -55,7 +55,7 @@ export class XuiDescriptions {
   readonly title = input<string>('');
   /** Number of items per row. */
   readonly column = input<number, NumberInput>(3, { transform: numberAttribute });
-  readonly layout = input<'horizontal' | 'vertical'>('horizontal');
+  readonly orientation = input<'horizontal' | 'vertical'>('horizontal');
   readonly bordered = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
 
   protected readonly items = contentChildren(XuiDescriptionsItem);
@@ -73,13 +73,13 @@ export class XuiDescriptions {
     xui('grid', this.bordered() ? 'bg-border gap-px [&>*]:bg-surface' : 'gap-x-6 gap-y-3')
   );
   protected readonly cellClass = computed(() =>
-    xui(this.layout() === 'vertical' ? 'flex flex-col gap-1' : 'flex gap-2', this.bordered() && 'px-4 py-2.5')
+    xui(this.orientation() === 'vertical' ? 'flex flex-col gap-1' : 'flex gap-2', this.bordered() && 'px-4 py-2.5')
   );
   protected readonly labelClass = computed(() =>
     xui(
       'text-foreground-muted',
-      this.layout() === 'horizontal' && 'shrink-0',
-      this.layout() === 'horizontal' && !this.bordered() && 'after:content-[":"]',
+      this.orientation() === 'horizontal' && 'shrink-0',
+      this.orientation() === 'horizontal' && !this.bordered() && 'after:content-[":"]',
       this.bordered() && 'font-medium'
     )
   );

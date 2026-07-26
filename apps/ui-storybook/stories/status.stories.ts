@@ -22,10 +22,10 @@ export const Default: Story = {
   render: () => ({
     template: `
       <div class="inline-flex gap-2">
-        <xui-status variant="online" />
-        <xui-status variant="idle" />
-        <xui-status variant="dnd" />
-        <xui-status variant="offline" />
+        <xui-status presence="online" />
+        <xui-status presence="idle" />
+        <xui-status presence="dnd" />
+        <xui-status presence="offline" />
       </div>
 		`
   })

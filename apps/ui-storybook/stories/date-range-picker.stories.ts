@@ -4,7 +4,7 @@ import { XuiDateRangePicker, XuiDateRangePickerImports } from '@xui/date-range-p
 /**
  * A multi-month calendar for choosing a date range. First click sets the start,
  * the second the end (hovering previews the span); clicking again starts over.
- * `[(range)]` two-way binding, `months` (1 or 2), `min`/`max`/`dateFilter`,
+ * `[(value)]` two-way binding, `months` (1 or 2), `min`/`max`/`dateFilter`,
  * `allowSingleDayRange`.
  */
 const meta: Meta<XuiDateRangePicker> = {
@@ -21,7 +21,7 @@ export const Default: Story = {
     props: { range: { start: new Date(2024, 2, 8), end: new Date(2024, 2, 16) } },
     template: `
       <div>
-        <xui-date-range-picker [(range)]="range" />
+        <xui-date-range-picker [(value)]="range" />
         <p class="text-foreground-muted mt-3 text-sm">
           {{ range.start ? range.start.toDateString() : '—' }} → {{ range.end ? range.end.toDateString() : '—' }}
         </p>
@@ -33,6 +33,6 @@ export const Default: Story = {
 export const SingleMonth: Story = {
   render: () => ({
     props: { range: { start: null, end: null } },
-    template: `<xui-date-range-picker [(range)]="range" [months]="1" allowSingleDayRange />`
+    template: `<xui-date-range-picker [(value)]="range" [months]="1" allowSingleDayRange />`
   })
 };

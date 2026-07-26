@@ -58,7 +58,7 @@ describe('XuiDescriptions', () => {
 
   it('stacks label over value when vertical', () => {
     const { detect } = render(
-      `<xui-descriptions layout="vertical"><xui-descriptions-item label="A">1</xui-descriptions-item></xui-descriptions>`,
+      `<xui-descriptions orientation="vertical"><xui-descriptions-item label="A">1</xui-descriptions-item></xui-descriptions>`,
       { imports: IMPORTS }
     );
     detect();

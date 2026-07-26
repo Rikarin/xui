@@ -22,7 +22,7 @@ const FRAMEWORKS: Framework[] = [
   imports: [XuiMultiSelectImports],
   template: `
 <div class="w-80">
-  <xui-multi-select [items]="items" [itemText]="itemText" [(selectedItems)]="selected" placeholder="Add frameworks…" />
+  <xui-multi-select [items]="items" [itemText]="itemText" [(values)]="selected" placeholder="Add frameworks…" />
   <p class="text-foreground-muted mt-3 text-sm">Selected: {{ selected.length ? selected.map(f => f.name).join(', ') : '—' }}</p>
 </div>
 `
@@ -40,7 +40,7 @@ export const doc: ComponentDoc = {
   package: "@xui/multi-select",
   kind: "ui",
   group: "Forms",
-  description: "A filterable multi-select: removable chips + a query input open a popover of options with a check on the chosen ones. Clicking an option toggles it and the popover stays open; Backspace on an empty query removes the last chip. [(selectedItems)] two-way binding.",
+  description: "A filterable multi-select: removable chips + a query input open a popover of options with a check on the chosen ones. Clicking an option toggles it and the popover stays open; Backspace on an empty query removes the last chip. [(values)] two-way binding.",
   importsConst: "XuiMultiSelectImports",
   exports: [
   "XuiMultiSelect",
@@ -65,7 +65,7 @@ export const doc: ComponentDoc = {
     "kind": "component",
     "name": "XuiMultiSelect",
     "selector": "xui-multi-select",
-    "docs": "A filterable multi-select: an inline field of removable chips plus a query input opens a popover of options with a check on the chosen ones. Clicking an option toggles it (the popover stays open). [(selectedItems)] two-way binding.",
+    "docs": "A filterable multi-select: an inline field of removable chips plus a query input opens a popover of options with a check on the chosen ones. Clicking an option toggles it (the popover stays open). [(values)] two-way binding.",
     "inputs": [
       {
         "name": "class",
@@ -116,12 +116,12 @@ export const doc: ComponentDoc = {
         "required": false
       },
       {
-        "name": "selectedItems",
+        "name": "values",
         "type": "T[]",
         "default": "[]",
         "required": false,
         "model": true,
-        "docs": "The chosen items. Two-way bindable with [(selectedItems)]."
+        "docs": "The chosen items. Two-way bindable with [(values)]."
       }
     ],
     "outputs": [
@@ -143,7 +143,7 @@ export const doc: ComponentDoc = {
       name: "Default",
       title: "Default",
       code: `<div class="w-80">
-  <xui-multi-select [items]="items" [itemText]="itemText" [(selectedItems)]="selected" placeholder="Add frameworks…" />
+  <xui-multi-select [items]="items" [itemText]="itemText" [(values)]="selected" placeholder="Add frameworks…" />
   <p class="text-foreground-muted mt-3 text-sm">Selected: {{ selected.length ? selected.map(f => f.name).join(', ') : '—' }}</p>
 </div>`,
       preview: PreviewDefault

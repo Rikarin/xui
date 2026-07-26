@@ -18,7 +18,7 @@ describe('XuiControlGroup', () => {
   });
 
   it('stacks and collapses vertically when asked', () => {
-    const { query } = setup('<div xuiControlGroup vertical></div>');
+    const { query } = setup('<div xuiControlGroup orientation="vertical"></div>');
 
     expectClasses(query('div'), 'flex-col', '*:not-first:rounded-t-none', '*:not-first:-mt-px');
     expectNoClasses(query('div'), 'flex-row');

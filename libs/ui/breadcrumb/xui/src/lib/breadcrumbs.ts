@@ -122,7 +122,7 @@ export class XuiBreadcrumbsOverflow {}
       [items]="items()"
       [collapseFrom]="collapseFrom()"
       [minVisibleItems]="minVisibleItems()"
-      (overflow)="overflow.emit($event)"
+      (overflowChange)="overflow.emit($event)"
     >
       <ng-template xuiOverflowListItem let-item let-index="index">
         <span xuiBreadcrumbItem class="whitespace-nowrap">

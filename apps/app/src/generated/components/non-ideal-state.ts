@@ -12,7 +12,7 @@ import { matSearchOffRound } from '@ng-icons/material-icons/round';
   imports: [XuiButtonImports, XuiNonIdealStateImports, NgIcon],
   providers: [provideIcons({ matSearchOffRound })],
   template: `
-<xui-non-ideal-state class="border-border rounded-lg border" [title]="title" [description]="description" [layout]="layout">
+<xui-non-ideal-state class="border-border rounded-lg border" [title]="title" [description]="description" [orientation]="orientation">
   <ng-icon visual xui size="xl" name="matSearchOffRound" />
   <button action xuiButton size="sm" variant="outline">Clear filters</button>
 </xui-non-ideal-state>
@@ -21,7 +21,7 @@ import { matSearchOffRound } from '@ng-icons/material-icons/round';
 export class PreviewDefault {
   protected title: any;
   protected description: any;
-  protected layout: any;
+  protected orientation: any;
 }
 
 @Component({
@@ -30,7 +30,7 @@ export class PreviewDefault {
   imports: [XuiButtonImports, XuiNonIdealStateImports, NgIcon],
   providers: [provideIcons({ matSearchOffRound })],
   template: `
-<xui-non-ideal-state class="border-border rounded-lg border" [title]="title" [description]="description" [layout]="layout">
+<xui-non-ideal-state class="border-border rounded-lg border" [title]="title" [description]="description" [orientation]="orientation">
   <ng-icon visual xui size="xl" name="matSearchOffRound" />
   <button action xuiButton size="sm" variant="outline">Clear filters</button>
 </xui-non-ideal-state>
@@ -39,7 +39,7 @@ export class PreviewDefault {
 export class PreviewHorizontal {
   protected title: any;
   protected description: any;
-  protected layout: any;
+  protected orientation: any;
 }
 
 @Component({
@@ -92,8 +92,8 @@ export const doc: ComponentDoc = {
         "docs": "The user-defined classes. Merged last so they win over the variant classes."
       },
       {
-        "name": "layout",
-        "type": "XuiNonIdealStateVariants['layout']",
+        "name": "orientation",
+        "type": "XuiNonIdealStateVariants['orientation']",
         "default": "'vertical'",
         "required": false
       },
@@ -113,7 +113,7 @@ export const doc: ComponentDoc = {
     "outputs": [],
     "variants": [
       {
-        "name": "layout",
+        "name": "orientation",
         "options": [
           "vertical",
           "horizontal"
@@ -128,7 +128,7 @@ export const doc: ComponentDoc = {
     {
       name: "Default",
       title: "Default",
-      code: `<xui-non-ideal-state class="border-border rounded-lg border" [title]="title" [description]="description" [layout]="layout">
+      code: `<xui-non-ideal-state class="border-border rounded-lg border" [title]="title" [description]="description" [orientation]="orientation">
   <ng-icon visual xui size="xl" name="matSearchOffRound" />
   <button action xuiButton size="sm" variant="outline">Clear filters</button>
 </xui-non-ideal-state>`,
@@ -137,7 +137,7 @@ export const doc: ComponentDoc = {
     {
       name: "Horizontal",
       title: "Horizontal",
-      code: `<xui-non-ideal-state class="border-border rounded-lg border" [title]="title" [description]="description" [layout]="layout">
+      code: `<xui-non-ideal-state class="border-border rounded-lg border" [title]="title" [description]="description" [orientation]="orientation">
   <ng-icon visual xui size="xl" name="matSearchOffRound" />
   <button action xuiButton size="sm" variant="outline">Clear filters</button>
 </xui-non-ideal-state>`,

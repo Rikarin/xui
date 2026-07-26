@@ -64,7 +64,7 @@ interface Command {
       [itemText]="text"
       [itemPredicate]="matches"
       [(open)]="open"
-      (itemSelect)="run($event)"
+      (itemSelected)="run($event)"
     >
       <ng-template xuiSelectOption let-item>
         @let command = asCommand(item);

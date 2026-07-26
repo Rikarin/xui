@@ -32,7 +32,7 @@ describe('XuiButtonGroup', () => {
   });
 
   it('collapses on the vertical axis when stacked', () => {
-    const { query } = setup('<div xuiButtonGroup vertical></div>');
+    const { query } = setup('<div xuiButtonGroup orientation="vertical"></div>');
 
     expectClasses(query('div'), 'flex-col', '*:not-first:rounded-t-none', '*:not-first:border-t-0');
     expectNoClasses(query('div'), '*:not-first:border-s-0');

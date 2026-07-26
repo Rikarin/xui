@@ -9,7 +9,7 @@ const ITEMS: XuiTransferItem[] = Array.from({ length: 12 }, (_, i) => ({
 
 /**
  * A dual list-box — check items on either side and move them across with the
- * arrow buttons. `targetKeys` (two-way) holds the keys on the right; each side
+ * arrow buttons. `values` (two-way) holds the keys on the right; each side
  * has a header select-all and an optional search box.
  */
 const meta: Meta<XuiTransfer> = {
@@ -24,13 +24,13 @@ type Story = StoryObj<XuiTransfer>;
 export const Basic: Story = {
   render: () => ({
     props: { items: ITEMS, target: ['k1', 'k4', 'k7'] },
-    template: `<xui-transfer [items]="items" [(targetKeys)]="target" [titles]="['Available', 'Chosen']" />`
+    template: `<xui-transfer [items]="items" [(values)]="target" [titles]="['Available', 'Chosen']" />`
   })
 };
 
 export const Searchable: Story = {
   render: () => ({
     props: { items: ITEMS, target: ['k2'] },
-    template: `<xui-transfer [items]="items" [(targetKeys)]="target" searchable />`
+    template: `<xui-transfer [items]="items" [(values)]="target" searchable />`
   })
 };

@@ -41,7 +41,7 @@ export class PreviewBordered {
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [XuiDescriptionsImports],
   template: `
-<xui-descriptions layout="vertical" [column]="3" bordered class="w-[560px]">
+<xui-descriptions orientation="vertical" [column]="3" bordered class="w-[560px]">
   <xui-descriptions-item label="Plan">Team</xui-descriptions-item>
   <xui-descriptions-item label="Seats">12</xui-descriptions-item>
   <xui-descriptions-item label="Renews">2026-08-01</xui-descriptions-item>
@@ -58,7 +58,7 @@ export const doc: ComponentDoc = {
   package: "@xui/descriptions",
   kind: "ui",
   group: "Data display",
-  description: "A key/value description list on a responsive grid — set column, switch layout between inline and stacked, and toggle the bordered table variant.",
+  description: "A key/value description list on a responsive grid — set column, switch orientation between inline and stacked, and toggle the bordered table variant.",
   importsConst: "XuiDescriptionsImports",
   exports: [
   "XuiDescriptionsItem",
@@ -103,7 +103,7 @@ export const doc: ComponentDoc = {
     "kind": "component",
     "name": "XuiDescriptions",
     "selector": "xui-descriptions",
-    "docs": "A key/value description list laid out on a grid. Wrap <xui-descriptions-item label=\"…\">value</xui-descriptions-item> entries; column sets how many per row, layout stacks or inlines the label, and bordered draws a boxed, table-like variant.",
+    "docs": "A key/value description list laid out on a grid. Wrap <xui-descriptions-item label=\"…\">value</xui-descriptions-item> entries; column sets how many per row, orientation stacks or inlines the label, and bordered draws a boxed, table-like variant.",
     "inputs": [
       {
         "name": "class",
@@ -126,7 +126,7 @@ export const doc: ComponentDoc = {
         "docs": "Number of items per row."
       },
       {
-        "name": "layout",
+        "name": "orientation",
         "type": "'horizontal' | 'vertical'",
         "default": "'horizontal'",
         "required": false
@@ -171,7 +171,7 @@ export const doc: ComponentDoc = {
     {
       name: "Vertical",
       title: "Vertical",
-      code: `<xui-descriptions layout="vertical" [column]="3" bordered class="w-[560px]">
+      code: `<xui-descriptions orientation="vertical" [column]="3" bordered class="w-[560px]">
   <xui-descriptions-item label="Plan">Team</xui-descriptions-item>
   <xui-descriptions-item label="Seats">12</xui-descriptions-item>
   <xui-descriptions-item label="Renews">2026-08-01</xui-descriptions-item>

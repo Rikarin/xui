@@ -24,7 +24,7 @@ type Boundary = 'start' | 'end';
 /**
  * A date-range field: two text inputs (start → end) that share one popover
  * calendar. Focusing either field opens the range picker; typing a boundary
- * parses just that end. `[(range)]` two-way binding.
+ * parses just that end. `[(value)]` two-way binding.
  */
 @Component({
   selector: 'xui-date-range-input',
@@ -64,11 +64,11 @@ type Boundary = 'start' | 'end';
 
     <ng-template #panel>
       <xui-date-range-picker
-        [range]="range()"
+        [value]="value()"
         [min]="min()"
         [max]="max()"
         [allowSingleDayRange]="allowSingleDayRange()"
-        (rangeChange)="onPick($event)"
+        (valueChange)="onPick($event)"
       />
     </ng-template>
   `,
@@ -84,8 +84,8 @@ export class XuiDateRangeInput<T = Date> {
 
   readonly class = input<ClassValue>('');
 
-  /** The chosen range. Two-way bindable with `[(range)]`. */
-  readonly range = model<XuiDateRange<T>>({ start: null, end: null });
+  /** The chosen range. Two-way bindable with `[(value)]`. */
+  readonly value = model<XuiDateRange<T>>({ start: null, end: null });
 
   readonly min = input<T | null>(null);
   readonly max = input<T | null>(null);
@@ -127,7 +127,7 @@ export class XuiDateRangeInput<T = Date> {
       return typed;
     }
 
-    const value = this.range()[boundary];
+    const value = this.value()[boundary];
     return value == null ? '' : this.formatDate()(value, this.locale());
   }
 
@@ -149,7 +149,7 @@ export class XuiDateRangeInput<T = Date> {
       return;
     }
 
-    this.commit({ ...this.range(), [boundary]: next });
+    this.commit({ ...this.value(), [boundary]: next });
   }
 
   protected onPick(range: XuiDateRange<T>): void {
@@ -158,6 +158,6 @@ export class XuiDateRangeInput<T = Date> {
   }
 
   private commit(range: XuiDateRange<T>): void {
-    this.range.set(range);
+    this.value.set(range);
   }
 }

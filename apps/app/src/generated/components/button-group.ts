@@ -40,7 +40,7 @@ export class PreviewOutlineButtons {
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [XuiButtonImports, XuiButtonGroupImports, XuiMenuImports],
   template: `
-<div xuiButtonGroup vertical class="w-40">
+<div xuiButtonGroup orientation="vertical" class="w-40">
   <button xuiButton variant="outline">Top</button>
   <button xuiButton variant="outline">Middle</button>
   <button xuiButton variant="outline">Bottom</button>
@@ -123,7 +123,7 @@ export class PreviewMenuTriggers {
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [XuiButtonImports, XuiButtonGroupImports, XuiMenuImports],
   template: `
-<div xuiButtonGroup vertical alignText="left" class="w-40">
+<div xuiButtonGroup orientation="vertical" alignText="left" class="w-40">
   <button xuiButton variant="outline" [xuiMenuTriggerFor]="file">
     <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9zM13 2v7h7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
     File
@@ -208,12 +208,11 @@ export const doc: ComponentDoc = {
         "required": false
       },
       {
-        "name": "vertical",
-        "type": "boolean",
-        "default": "false",
+        "name": "orientation",
+        "type": "'horizontal' | 'vertical'",
+        "default": "'horizontal'",
         "required": false,
-        "transform": "booleanAttribute",
-        "docs": "Stack the buttons vertically rather than in a row."
+        "docs": "Run the buttons in a row (default) or stack them vertically."
       },
       {
         "name": "fill",
@@ -234,12 +233,12 @@ export const doc: ComponentDoc = {
     "outputs": [],
     "variants": [
       {
-        "name": "vertical",
+        "name": "orientation",
         "options": [
-          "false",
-          "true"
+          "horizontal",
+          "vertical"
         ],
-        "default": "false"
+        "default": "horizontal"
       },
       {
         "name": "fill",
@@ -282,7 +281,7 @@ export const doc: ComponentDoc = {
     {
       name: "Vertical",
       title: "Vertical",
-      code: `<div xuiButtonGroup vertical class="w-40">
+      code: `<div xuiButtonGroup orientation="vertical" class="w-40">
   <button xuiButton variant="outline">Top</button>
   <button xuiButton variant="outline">Middle</button>
   <button xuiButton variant="outline">Bottom</button>
@@ -350,7 +349,7 @@ export const doc: ComponentDoc = {
     {
       name: "VerticalMenuTriggers",
       title: "Vertical menu triggers",
-      code: `<div xuiButtonGroup vertical alignText="left" class="w-40">
+      code: `<div xuiButtonGroup orientation="vertical" alignText="left" class="w-40">
   <button xuiButton variant="outline" [xuiMenuTriggerFor]="file">
     <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9zM13 2v7h7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
     File

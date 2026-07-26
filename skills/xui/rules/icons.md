@@ -30,14 +30,14 @@ This applies to icons named by _string inputs_ too - `icon="matPersonRound"` on 
 colour:
 
 ```html
-<ng-icon xui name="matCheckRound" /> <ng-icon xui size="sm" color="error" name="matCloseRound" title="Remove" />
+<ng-icon xui name="matCheckRound" /> <ng-icon xui size="sm" color="error" name="matCloseRound" label="Remove" />
 ```
 
 - `size`: `xs` (12px), `sm` (16px), `md` (24px), `lg` (32px), `xl` (48px), `none`, or any CSS
   length. Do not add `h-*`/`w-*` classes - use `size`.
 - `color`: `inherit` (default), `muted`, `subtle`, or an intent (`primary`, `error`, …). Inside a
   button or tag the icon should inherit, not be coloured separately.
-- An icon is decorative and hidden from assistive technology by default. Give it a `title` when it
+- An icon is decorative and hidden from assistive technology by default. Give it a `label` when it
   carries meaning on its own - an icon-only button, a status glyph - and it becomes an `img` with
   that accessible name.
 
@@ -52,4 +52,4 @@ component then owns the placement, size and colour for that slot.
 ```
 
 A `<button xuiButton>` with only an icon still needs an accessible name - `aria-label` on the
-button, or `title` on the icon.
+button, or `label` on the icon.

@@ -9,10 +9,10 @@ import { XuiStatusImports } from '@xui/status';
   imports: [XuiStatusImports],
   template: `
 <div class="inline-flex gap-2">
-  <xui-status variant="online" />
-  <xui-status variant="idle" />
-  <xui-status variant="dnd" />
-  <xui-status variant="offline" />
+  <xui-status presence="online" />
+  <xui-status presence="idle" />
+  <xui-status presence="dnd" />
+  <xui-status presence="offline" />
 </div>
 `
 })
@@ -54,9 +54,10 @@ export const doc: ComponentDoc = {
         "docs": "The user-defined classes"
       },
       {
-        "name": "variant",
-        "type": "XuiStatusVariants['variant']",
-        "required": true
+        "name": "presence",
+        "type": "XuiStatusVariants['presence']",
+        "default": "'offline'",
+        "required": false
       },
       {
         "name": "size",
@@ -68,7 +69,7 @@ export const doc: ComponentDoc = {
     "outputs": [],
     "variants": [
       {
-        "name": "variant",
+        "name": "presence",
         "options": [
           "online",
           "idle",
@@ -94,10 +95,10 @@ export const doc: ComponentDoc = {
       name: "Default",
       title: "Default",
       code: `<div class="inline-flex gap-2">
-  <xui-status variant="online" />
-  <xui-status variant="idle" />
-  <xui-status variant="dnd" />
-  <xui-status variant="offline" />
+  <xui-status presence="online" />
+  <xui-status presence="idle" />
+  <xui-status presence="dnd" />
+  <xui-status presence="offline" />
 </div>`,
       preview: PreviewDefault
     },

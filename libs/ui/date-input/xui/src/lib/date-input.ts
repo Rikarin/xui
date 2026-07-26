@@ -6,7 +6,6 @@ import {
   computed,
   input,
   model,
-  output,
   signal,
   ViewEncapsulation
 } from '@angular/core';
@@ -58,12 +57,12 @@ import type { ClassValue } from 'clsx';
 
     <ng-template #panel>
       <xui-date-picker
-        [selected]="value()"
+        [value]="value()"
         [min]="min()"
         [max]="max()"
         [dateFilter]="dateFilter()"
         [firstDayOfWeek]="firstDayOfWeek()"
-        (dateChange)="onPick($event)"
+        (valueChange)="onPick($event)"
       />
     </ng-template>
   `,
@@ -104,8 +103,6 @@ export class XuiDateInput<T = Date> {
     const ms = Date.parse(text);
     return Number.isNaN(ms) ? null : (new Date(ms) as unknown as T);
   });
-
-  readonly dateChange = output<T | null>();
 
   protected readonly open = model(false);
   private readonly typed = signal<string | null>(null);
@@ -171,6 +168,5 @@ export class XuiDateInput<T = Date> {
 
   private setValue(date: T | null): void {
     this.value.set(date);
-    this.dateChange.emit(date);
   }
 }

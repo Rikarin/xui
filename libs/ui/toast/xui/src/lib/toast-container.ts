@@ -19,7 +19,11 @@ import { XuiToastService } from './toast.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     @for (toast of service.toasts(); track toast.id) {
-      <xui-toast [toast]="toast" (action)="service.runAction(toast.id)" (dismiss)="service.dismiss(toast.id)" />
+      <xui-toast
+        [toast]="toast"
+        (actionClicked)="service.runAction(toast.id)"
+        (dismissed)="service.dismiss(toast.id)"
+      />
     }
   `,
   host: {

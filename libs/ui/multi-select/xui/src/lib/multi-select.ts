@@ -27,7 +27,7 @@ const defaultMatch = (text: string, query: string): boolean => text.toLowerCase(
 /**
  * A filterable multi-select: an inline field of removable chips plus a query
  * input opens a popover of options with a check on the chosen ones. Clicking an
- * option toggles it (the popover stays open). `[(selectedItems)]` two-way binding.
+ * option toggles it (the popover stays open). `[(values)]` two-way binding.
  */
 @Component({
   selector: 'xui-multi-select',
@@ -43,7 +43,7 @@ const defaultMatch = (text: string, query: string): boolean => text.toLowerCase(
       [disabled]="disabled()"
       placement="bottom-start"
     >
-      @for (item of selectedItems(); track trackItem($index, item)) {
+      @for (item of values(); track trackItem($index, item)) {
         <xui-tag minimal color="primary" [removable]="!disabled()" (removed)="remove(item)">{{
           displayText(item)
         }}</xui-tag>
@@ -53,7 +53,7 @@ const defaultMatch = (text: string, query: string): boolean => text.toLowerCase(
         #search
         type="text"
         class="text-foreground placeholder:text-foreground-subtle min-w-24 flex-1 bg-transparent py-1 outline-none"
-        [placeholder]="selectedItems().length ? '' : placeholder()"
+        [placeholder]="values().length ? '' : placeholder()"
         [value]="query()"
         [disabled]="disabled()"
         (input)="onQuery($event)"
@@ -115,8 +115,8 @@ export class XuiMultiSelect<T> {
   readonly placeholder = input<string>('Select…');
   readonly noResultsText = input<string>('No results.');
 
-  /** The chosen items. Two-way bindable with `[(selectedItems)]`. */
-  readonly selectedItems = model<T[]>([]);
+  /** The chosen items. Two-way bindable with `[(values)]`. */
+  readonly values = model<T[]>([]);
 
   readonly itemAdded = output<T>();
   readonly itemRemoved = output<T>();
@@ -160,7 +160,7 @@ export class XuiMultiSelect<T> {
   }
 
   protected isSelected(item: T): boolean {
-    return this.selectedItems().includes(item);
+    return this.values().includes(item);
   }
 
   protected optionClass(item: T): string {
@@ -198,8 +198,8 @@ export class XuiMultiSelect<T> {
       }
       case 'Backspace':
         // Remove the last chip when the query is empty.
-        if (this.query() === '' && this.selectedItems().length) {
-          this.remove(this.selectedItems()[this.selectedItems().length - 1]);
+        if (this.query() === '' && this.values().length) {
+          this.remove(this.values()[this.values().length - 1]);
         }
         break;
       case 'Escape':
@@ -219,13 +219,13 @@ export class XuiMultiSelect<T> {
   }
 
   private add(item: T): void {
-    this.selectedItems.update(items => [...items, item]);
+    this.values.update(items => [...items, item]);
     this.query.set('');
     this.itemAdded.emit(item);
   }
 
   protected remove(item: T): void {
-    this.selectedItems.update(items => items.filter(i => i !== item));
+    this.values.update(items => items.filter(i => i !== item));
     this.itemRemoved.emit(item);
   }
 }

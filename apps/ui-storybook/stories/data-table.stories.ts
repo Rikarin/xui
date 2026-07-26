@@ -121,8 +121,8 @@ const WIDE_COLUMNS: XuiDataColumn<Row & Record<string, unknown>>[] = [
 
 /**
  * A wide grid — 32 columns, only the visible window is in the DOM (horizontal
- * virtualization). The first two columns are frozen (`numFrozenColumns`) and the
- * first row is frozen (`numFrozenRows`), forming a pinned quadrant: ID/Name stay
+ * virtualization). The first two columns are frozen (`frozenColumns`) and the
+ * first row is frozen (`frozenRows`), forming a pinned quadrant: ID/Name stay
  * put as you scroll right, and row 1 stays put as you scroll down.
  * Resize/reorder/sort/select all still work.
  */
@@ -135,8 +135,8 @@ export const FrozenColumns: Story = {
         [data]="rows"
         [columns]="columns"
         [height]="360"
-        [numFrozenColumns]="2"
-        [numFrozenRows]="1"
+        [frozenColumns]="2"
+        [frozenRows]="1"
       />
       <p class="text-foreground-muted mt-2 text-sm">32 columns · 2 frozen cols · 1 frozen row · scroll any direction</p>
     `
@@ -148,7 +148,7 @@ export const RowHeaders: Story = {
   render: () => ({
     props: { rows: makeRows(500), columns: COLUMNS },
     template: `
-      <xui-data-table class="w-[760px]" [data]="rows" [columns]="columns" [height]="360" [showRowHeader]="true" />
+      <xui-data-table class="w-[760px]" [data]="rows" [columns]="columns" [height]="360" [rowHeader]="true" />
     `
   })
 };

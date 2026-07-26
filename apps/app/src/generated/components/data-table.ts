@@ -99,8 +99,8 @@ export class PreviewSelectionAndCopy {
   [data]="rows"
   [columns]="columns"
   [height]="360"
-  [numFrozenColumns]="2"
-  [numFrozenRows]="1"
+  [frozenColumns]="2"
+  [frozenRows]="1"
 />
 <p class="text-foreground-muted mt-2 text-sm">32 columns · 2 frozen cols · 1 frozen row · scroll any direction</p>
 `
@@ -115,7 +115,7 @@ export class PreviewFrozenColumns {
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [XuiDataTableImports],
   template: `
-<xui-data-table class="w-[760px]" [data]="rows" [columns]="columns" [height]="360" [showRowHeader]="true" />
+<xui-data-table class="w-[760px]" [data]="rows" [columns]="columns" [height]="360" [rowHeader]="true" />
 `
 })
 export class PreviewRowHeaders {
@@ -240,7 +240,7 @@ export const doc: ComponentDoc = {
         "docs": "Allow selecting cell regions (shift-range, ctrl/cmd-toggle, arrow keys)."
       },
       {
-        "name": "enableMultipleSelection",
+        "name": "multiple",
         "type": "boolean",
         "default": "true",
         "required": false,
@@ -256,7 +256,7 @@ export const doc: ComponentDoc = {
         "docs": "Allow reordering columns by dragging their headers."
       },
       {
-        "name": "showRowHeader",
+        "name": "rowHeader",
         "type": "boolean",
         "default": "false",
         "required": false,
@@ -272,7 +272,7 @@ export const doc: ComponentDoc = {
         "docs": "Width of the row-header gutter in pixels."
       },
       {
-        "name": "numFrozenColumns",
+        "name": "frozenColumns",
         "type": "number",
         "default": "0",
         "required": false,
@@ -280,7 +280,7 @@ export const doc: ComponentDoc = {
         "docs": "Number of leading columns to freeze (pinned left while the rest scroll)."
       },
       {
-        "name": "numFrozenRows",
+        "name": "frozenRows",
         "type": "number",
         "default": "0",
         "required": false,
@@ -559,8 +559,8 @@ export const doc: ComponentDoc = {
   [data]="rows"
   [columns]="columns"
   [height]="360"
-  [numFrozenColumns]="2"
-  [numFrozenRows]="1"
+  [frozenColumns]="2"
+  [frozenRows]="1"
 />
 <p class="text-foreground-muted mt-2 text-sm">32 columns · 2 frozen cols · 1 frozen row · scroll any direction</p>`,
       preview: PreviewFrozenColumns
@@ -568,7 +568,7 @@ export const doc: ComponentDoc = {
     {
       name: "RowHeaders",
       title: "Row headers",
-      code: `<xui-data-table class="w-[760px]" [data]="rows" [columns]="columns" [height]="360" [showRowHeader]="true" />`,
+      code: `<xui-data-table class="w-[760px]" [data]="rows" [columns]="columns" [height]="360" [rowHeader]="true" />`,
       preview: PreviewRowHeaders
     },
     {

@@ -122,7 +122,7 @@ export class XuiOmnibar<T> {
   /** Whether the palette is showing. Two-way bindable with `[(open)]`. */
   readonly open = model(false);
 
-  readonly itemSelect = output<T>();
+  readonly itemSelected = output<T>();
 
   protected readonly query = signal('');
   protected readonly optionTemplate = contentChild(XuiSelectOption<T>);
@@ -219,7 +219,7 @@ export class XuiOmnibar<T> {
       return;
     }
 
-    this.itemSelect.emit(item);
+    this.itemSelected.emit(item);
     this.close();
   }
 

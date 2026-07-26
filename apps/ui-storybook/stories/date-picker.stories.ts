@@ -4,7 +4,7 @@ import { XuiDatePicker, XuiDatePickerImports } from '@xui/date-picker';
 /**
  * An inline month calendar. Click a day to select it; arrow keys move by day/week,
  * PageUp/PageDown by month, Home/End to the week ends, Enter/Space select.
- * `[(selected)]` two-way binding, `min`/`max`/`dateFilter`, an optional Today/Clear
+ * `[(value)]` two-way binding, `min`/`max`/`dateFilter`, an optional Today/Clear
  * action bar. Uses the app's `DateAdapter` (native `Date` by default).
  */
 const meta: Meta<XuiDatePicker> = {
@@ -21,7 +21,7 @@ export const Default: Story = {
     props: { selected: new Date(2024, 2, 15) },
     template: `
       <div>
-        <xui-date-picker [(selected)]="selected" showActionsBar />
+        <xui-date-picker [(value)]="selected" showActionsBar />
         <p class="text-foreground-muted mt-3 text-sm">Selected: {{ selected ? selected.toDateString() : '—' }}</p>
       </div>
     `
@@ -37,6 +37,6 @@ export const Constrained: Story = {
       max: new Date(2024, 2, 27),
       noWeekends: (date: Date) => date.getDay() !== 0 && date.getDay() !== 6
     },
-    template: `<xui-date-picker [(selected)]="selected" [min]="min" [max]="max" [dateFilter]="noWeekends" />`
+    template: `<xui-date-picker [(value)]="selected" [min]="min" [max]="max" [dateFilter]="noWeekends" />`
   })
 };

@@ -137,7 +137,7 @@ describe('XuiSlider', () => {
     });
 
     it('reports a vertical orientation', () => {
-      const { detect } = render('<xui-slider vertical value="5" />', { imports: IMPORTS });
+      const { detect } = render('<xui-slider orientation="vertical" value="5" />', { imports: IMPORTS });
       detect();
 
       expectAttributes(handle(), { 'aria-orientation': 'vertical' });

@@ -66,7 +66,7 @@ describe('XuiSuggest', () => {
     options()[0].click();
     detect();
 
-    expect(cmp.selectedItem()?.name).toBe('Berlin');
+    expect(cmp.value()?.name).toBe('Berlin');
     expect(input().value).toBe('Berlin');
     expect(document.querySelector('.cdk-overlay-container [role="listbox"]')).toBeNull();
   });
@@ -81,7 +81,7 @@ describe('XuiSuggest', () => {
     input().dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true, cancelable: true }));
     detect();
 
-    expect(cmp.selectedItem()?.disabled).toBeFalsy();
+    expect(cmp.value()?.disabled).toBeFalsy();
   });
 
   it('reverts the input to the selected text on close (Escape)', () => {

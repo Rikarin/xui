@@ -234,12 +234,11 @@ export const doc: ComponentDoc = {
         "transform": "booleanAttribute"
       },
       {
-        "name": "horizontal",
-        "type": "boolean",
-        "default": "false",
+        "name": "orientation",
+        "type": "'horizontal' | 'vertical'",
+        "default": "'vertical'",
         "required": false,
-        "transform": "booleanAttribute",
-        "docs": "Lay the buttons out in a row rather than a column."
+        "docs": "Lay the buttons out in a column (default) or a row."
       }
     ],
     "outputs": [],

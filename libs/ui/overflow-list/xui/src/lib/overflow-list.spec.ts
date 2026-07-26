@@ -18,7 +18,7 @@ const ITEM_WIDTH = 100;
       [minVisibleItems]="minVisibleItems()"
       [alwaysRenderOverflow]="alwaysRenderOverflow()"
       [itemRole]="itemRole()"
-      (overflow)="hidden.set($event)"
+      (overflowChange)="hidden.set($event)"
     >
       <ng-template xuiOverflowListItem let-item>
         <span class="item">{{ item }}</span>

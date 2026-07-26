@@ -25,7 +25,7 @@ export class PreviewDefault {
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [XuiDateInputImports, XuiDateRangeInputImports, XuiTimezoneSelectImports],
   template: `
-<xui-date-range-input [(range)]="range" />
+<xui-date-range-input [(value)]="range" />
 `
 })
 export class PreviewRangeInput {
@@ -158,12 +158,7 @@ export const doc: ComponentDoc = {
         "docs": "Parse typed text into a value, or null if it can't. Defaults to Date.parse."
       }
     ],
-    "outputs": [
-      {
-        "name": "dateChange",
-        "type": "T | null"
-      }
-    ],
+    "outputs": [],
     "variants": [],
     "methods": []
   }
@@ -181,7 +176,7 @@ export const doc: ComponentDoc = {
     {
       name: "RangeInput",
       title: "Range input",
-      code: `<xui-date-range-input [(range)]="range" />`,
+      code: `<xui-date-range-input [(value)]="range" />`,
       preview: PreviewRangeInput
     },
     {

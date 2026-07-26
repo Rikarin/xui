@@ -132,8 +132,8 @@ const ALL = 'All';
         aria-label="Filter by status"
         [items]="statuses"
         [filterable]="false"
-        [selectedItem]="status()"
-        (selectionChange)="onStatus($event)"
+        [value]="status()"
+        (valueChange)="onStatus($event)"
       />
 
       <xui-select
@@ -141,8 +141,8 @@ const ALL = 'All';
         aria-label="Filter by plan"
         [items]="plans"
         [filterable]="false"
-        [selectedItem]="plan()"
-        (selectionChange)="onPlan($event)"
+        [value]="plan()"
+        (valueChange)="onPlan($event)"
       />
 
       @if (filtered().length !== data.customers().length) {
@@ -325,7 +325,7 @@ const ALL = 'All';
 
     <xui-alert-dialog
       destructive
-      confirmLabel="Delete"
+      confirmText="Delete"
       [(open)]="confirmDelete"
       [title]="'Delete ' + (active()?.name ?? 'this customer') + '?'"
       description="Their orders stay, but the account and its contact details are removed. You can undo this immediately afterwards."
@@ -427,13 +427,13 @@ export class Customers {
     this.pageIndex.set(0);
   }
 
-  protected onStatus(value: string): void {
-    this.status.set(value);
+  protected onStatus(value: string | null): void {
+    this.status.set(value ?? ALL);
     this.pageIndex.set(0);
   }
 
-  protected onPlan(value: string): void {
-    this.plan.set(value);
+  protected onPlan(value: string | null): void {
+    this.plan.set(value ?? ALL);
     this.pageIndex.set(0);
   }
 

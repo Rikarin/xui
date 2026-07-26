@@ -273,7 +273,7 @@ export const COMPONENTS: ComponentSummary[] = [
     "package": "@xui/date-picker",
     "kind": "ui",
     "group": "Date & time",
-    "description": "An inline month calendar. Click a day to select it; arrow keys move by day/week, PageUp/PageDown by month, Home/End to the week ends, Enter/Space select. [(selected)] two-way binding, min/max/dateFilter, an optional Today/Clear action bar. Uses the app's DateAdapter (native Date by default).",
+    "description": "An inline month calendar. Click a day to select it; arrow keys move by day/week, PageUp/PageDown by month, Home/End to the week ends, Enter/Space select. [(value)] two-way binding, min/max/dateFilter, an optional Today/Clear action bar. Uses the app's DateAdapter (native Date by default).",
     "hasPreview": true
   },
   {
@@ -283,7 +283,7 @@ export const COMPONENTS: ComponentSummary[] = [
     "package": "@xui/date-range-input",
     "kind": "ui",
     "group": "Date & time",
-    "description": "A date-range field: two text inputs (start → end) that share one popover calendar. Focusing either field opens the range picker; typing a boundary parses just that end. [(range)] two-way binding.",
+    "description": "A date-range field: two text inputs (start → end) that share one popover calendar. Focusing either field opens the range picker; typing a boundary parses just that end. [(value)] two-way binding.",
     "hasPreview": false
   },
   {
@@ -293,7 +293,7 @@ export const COMPONENTS: ComponentSummary[] = [
     "package": "@xui/date-range-picker",
     "kind": "ui",
     "group": "Date & time",
-    "description": "A multi-month calendar for choosing a date range. First click sets the start, the second the end (hovering previews the span); clicking again starts over. [(range)] two-way binding, months (1 or 2), min/max/dateFilter, allowSingleDayRange.",
+    "description": "A multi-month calendar for choosing a date range. First click sets the start, the second the end (hovering previews the span); clicking again starts over. [(value)] two-way binding, months (1 or 2), min/max/dateFilter, allowSingleDayRange.",
     "hasPreview": true
   },
   {
@@ -321,7 +321,7 @@ export const COMPONENTS: ComponentSummary[] = [
     "package": "@xui/descriptions",
     "kind": "ui",
     "group": "Data display",
-    "description": "A key/value description list on a responsive grid — set column, switch layout between inline and stacked, and toggle the bordered table variant.",
+    "description": "A key/value description list on a responsive grid — set column, switch orientation between inline and stacked, and toggle the bordered table variant.",
     "hasPreview": true
   },
   {
@@ -577,7 +577,7 @@ export const COMPONENTS: ComponentSummary[] = [
     "package": "@xui/multi-select",
     "kind": "ui",
     "group": "Forms",
-    "description": "A filterable multi-select: removable chips + a query input open a popover of options with a check on the chosen ones. Clicking an option toggles it and the popover stays open; Backspace on an empty query removes the last chip. [(selectedItems)] two-way binding.",
+    "description": "A filterable multi-select: removable chips + a query input open a popover of options with a check on the chosen ones. Clicking an option toggles it and the popover stays open; Backspace on an empty query removes the last chip. [(values)] two-way binding.",
     "hasPreview": true
   },
   {
@@ -785,7 +785,7 @@ export const COMPONENTS: ComponentSummary[] = [
     "package": "@xui/select",
     "kind": "ui",
     "group": "Forms",
-    "description": "A filterable single-select. The trigger opens a popover with a search field and a keyboard-navigable list (Arrow keys + Enter, Escape closes). Items render with a custom [xuiSelectOption] template. [(selectedItem)] two-way binding.",
+    "description": "A filterable single-select. The trigger opens a popover with a search field and a keyboard-navigable list (Arrow keys + Enter, Escape closes). Items render with a custom [xuiSelectOption] template. [(value)] two-way binding.",
     "hasPreview": true
   },
   {
@@ -865,7 +865,7 @@ export const COMPONENTS: ComponentSummary[] = [
     "package": "@xui/suggest",
     "kind": "ui",
     "group": "Forms",
-    "description": "A typeahead autocomplete: the text input itself is the target. Typing filters a popover list; choosing an item fills the input. Arrow/Enter/Escape keyboard. [(selectedItem)] two-way binding.",
+    "description": "A typeahead autocomplete: the text input itself is the target. Typing filters a popover list; choosing an item fills the input. Arrow/Enter/Escape keyboard. [(value)] two-way binding.",
     "hasPreview": true
   },
   {
@@ -905,7 +905,7 @@ export const COMPONENTS: ComponentSummary[] = [
     "package": "@xui/tabs",
     "kind": "ui",
     "group": "Navigation",
-    "description": "Tabbed navigation. Arrow keys move between tabs (roving tabindex), Home/End jump to the ends, and disabled tabs are skipped. [(selectedTabId)] two-way binding; animate slides an indicator, vertical/fill/large adjust layout.",
+    "description": "Tabbed navigation. Arrow keys move between tabs (roving tabindex), Home/End jump to the ends, and disabled tabs are skipped. [(selectedTabId)] two-way binding; animate slides an indicator, orientation/fill/large adjust layout.",
     "hasPreview": true
   },
   {
@@ -995,7 +995,7 @@ export const COMPONENTS: ComponentSummary[] = [
     "package": "@xui/transfer",
     "kind": "ui",
     "group": "Forms",
-    "description": "A dual list-box — check items on either side and move them across with the arrow buttons. targetKeys (two-way) holds the keys on the right; each side has a header select-all and an optional search box.",
+    "description": "A dual list-box — check items on either side and move them across with the arrow buttons. values (two-way) holds the keys on the right; each side has a header select-all and an optional search box.",
     "hasPreview": true
   },
   {

@@ -3,7 +3,7 @@ import { XuiDescriptions, XuiDescriptionsImports } from '@xui/descriptions';
 
 /**
  * A key/value description list on a responsive grid — set `column`, switch
- * `layout` between inline and stacked, and toggle the `bordered` table variant.
+ * `orientation` between inline and stacked, and toggle the `bordered` table variant.
  */
 const meta: Meta<XuiDescriptions> = {
   title: 'Data display/Descriptions',
@@ -44,7 +44,7 @@ export const Bordered: Story = {
 export const Vertical: Story = {
   render: () => ({
     template: `
-      <xui-descriptions layout="vertical" [column]="3" bordered class="w-[560px]">
+      <xui-descriptions orientation="vertical" [column]="3" bordered class="w-[560px]">
         <xui-descriptions-item label="Plan">Team</xui-descriptions-item>
         <xui-descriptions-item label="Seats">12</xui-descriptions-item>
         <xui-descriptions-item label="Renews">2026-08-01</xui-descriptions-item>

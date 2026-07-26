@@ -61,7 +61,7 @@ describe('XuiMultiSelect', () => {
     options()[0].click();
     detect();
 
-    expect(cmp.selectedItems().map(t => t.name)).toEqual(['signals']);
+    expect(cmp.values().map(t => t.name)).toEqual(['signals']);
     expect(chips()).toEqual(['signals']);
     expect(input().value).toBe('');
   });
@@ -83,13 +83,13 @@ describe('XuiMultiSelect', () => {
     type('design', detect);
     options()[0].click();
     detect();
-    expect(cmp.selectedItems().length).toBe(1);
+    expect(cmp.values().length).toBe(1);
 
     type('design', detect);
     options()[0].click();
     detect();
 
-    expect(cmp.selectedItems().length).toBe(0);
+    expect(cmp.values().length).toBe(0);
   });
 
   it('marks selected options with aria-selected', () => {
@@ -113,12 +113,12 @@ describe('XuiMultiSelect', () => {
     type('angular', detect);
     options()[0].click();
     detect();
-    expect(cmp.selectedItems().length).toBe(2);
+    expect(cmp.values().length).toBe(2);
 
     input().dispatchEvent(new KeyboardEvent('keydown', { key: 'Backspace', bubbles: true, cancelable: true }));
     detect();
 
-    expect(cmp.selectedItems().map(t => t.name)).toEqual(['design']);
+    expect(cmp.values().map(t => t.name)).toEqual(['design']);
   });
 
   it('removes a chip via its ✕ button', () => {
@@ -131,6 +131,6 @@ describe('XuiMultiSelect', () => {
     (document.querySelector('xui-multi-select xui-tag button') as HTMLButtonElement).click();
     detect();
 
-    expect(cmp.selectedItems().length).toBe(0);
+    expect(cmp.values().length).toBe(0);
   });
 });

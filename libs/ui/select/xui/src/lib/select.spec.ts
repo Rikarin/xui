@@ -22,7 +22,7 @@ const TEMPLATE = `
     [items]="props().items"
     [itemText]="props().itemText"
     [itemDisabled]="props().itemDisabled"
-    (selectionChange)="props().onChange($event)"
+    (valueChange)="props().onChange($event)"
   />
 `;
 
@@ -110,7 +110,7 @@ describe('XuiSelect', () => {
     (options()[1] as HTMLElement).click();
     detect();
 
-    expect(select.selectedItem()?.name).toBe('Banana');
+    expect(select.value()?.name).toBe('Banana');
     expect(changes).toEqual([FRUITS[1]]);
     expect(trigger().textContent).toContain('Banana');
     expect(panel()).toBeNull();
@@ -129,7 +129,7 @@ describe('XuiSelect', () => {
     search().dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true, cancelable: true }));
     detect();
 
-    expect(select.selectedItem()?.name).toBe('Date');
+    expect(select.value()?.name).toBe('Date');
   });
 
   it('does not select a disabled item on click', () => {
@@ -142,7 +142,7 @@ describe('XuiSelect', () => {
     (options()[2] as HTMLElement).click();
     detect();
 
-    expect(select.selectedItem()).toBeNull();
+    expect(select.value()).toBeNull();
   });
 
   it('closes on Escape', () => {

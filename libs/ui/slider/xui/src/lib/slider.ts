@@ -95,7 +95,7 @@ const roundToGrid = (n: number): number => Math.round(n * 1e10) / 1e10;
         [attr.aria-valuemax]="max()"
         [attr.aria-valuenow]="value()"
         [attr.aria-valuetext]="valueText()"
-        [attr.aria-orientation]="vertical() ? 'vertical' : 'horizontal'"
+        [attr.aria-orientation]="orientation()"
         [attr.aria-disabled]="disabledState() || null"
         [attr.data-disabled]="disabledState() ? '' : null"
         (keydown)="onKeydown($event)"
@@ -135,7 +135,7 @@ export class XuiSlider implements ControlValueAccessor {
   readonly labelRenderer = input<XuiSliderLabelRenderer>((value: number) => String(value));
 
   readonly color = input<XuiSliderColor>('primary');
-  readonly vertical = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
+  readonly orientation = input<'horizontal' | 'vertical'>('horizontal');
   readonly showTrackFill = input<boolean, BooleanInput>(true, { transform: booleanAttribute });
 
   readonly disabled = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
@@ -232,7 +232,7 @@ export class XuiSlider implements ControlValueAccessor {
   protected readonly computedClass = computed(() =>
     xui(
       'relative select-none touch-none',
-      this.vertical() ? 'inline-flex h-48 pe-8' : 'block w-full pb-6',
+      this.orientation() === 'vertical' ? 'inline-flex h-48 pe-8' : 'block w-full pb-6',
       this.disabledState() && 'pointer-events-none opacity-60',
       this.class()
     )
@@ -241,7 +241,7 @@ export class XuiSlider implements ControlValueAccessor {
   protected readonly trackClass = computed(() =>
     xui(
       'bg-surface-inset absolute rounded-full',
-      this.vertical() ? 'top-0 bottom-0 start-2 w-1.5' : 'top-2 end-0 start-0 h-1.5'
+      this.orientation() === 'vertical' ? 'top-0 bottom-0 start-2 w-1.5' : 'top-2 end-0 start-0 h-1.5'
     )
   );
 
@@ -252,7 +252,7 @@ export class XuiSlider implements ControlValueAccessor {
   );
 
   protected readonly axisClass = computed(() =>
-    xui('absolute text-xs', this.vertical() ? 'top-0 bottom-0 start-6' : 'top-6 end-0 start-0')
+    xui('absolute text-xs', this.orientation() === 'vertical' ? 'top-0 bottom-0 start-6' : 'top-6 end-0 start-0')
   );
 
   /**
@@ -268,7 +268,7 @@ export class XuiSlider implements ControlValueAccessor {
     const pct = `${this.fraction() * 100}%`;
     // `insetInlineStart` grows the fill from the track's start edge, so the bar
     // fills right-to-left in RTL without any extra maths.
-    return this.vertical()
+    return this.orientation() === 'vertical'
       ? { left: '0', right: '0', bottom: '0', height: pct }
       : { top: '0', bottom: '0', insetInlineStart: '0', width: pct };
   }
@@ -277,19 +277,19 @@ export class XuiSlider implements ControlValueAccessor {
     const pct = `${this.fraction() * 100}%`;
     // The handle lives inside the track, so 50% of the cross axis centres it on
     // the bar regardless of the track's thickness.
-    return this.vertical()
+    return this.orientation() === 'vertical'
       ? { left: '50%', bottom: pct, transform: 'translate(-50%, 50%)' }
       : { top: '50%', insetInlineStart: pct, transform: `translate(${this.inlineHalf()}, -50%)` };
   }
 
   protected tickStyle(fraction: number): Record<string, string> {
     const pct = `${fraction * 100}%`;
-    return this.vertical() ? { left: '50%', bottom: pct } : { top: '50%', insetInlineStart: pct };
+    return this.orientation() === 'vertical' ? { left: '50%', bottom: pct } : { top: '50%', insetInlineStart: pct };
   }
 
   protected labelStyle(fraction: number): Record<string, string> {
     const pct = `${fraction * 100}%`;
-    return this.vertical()
+    return this.orientation() === 'vertical'
       ? { bottom: pct, transform: 'translateY(50%)' }
       : { insetInlineStart: pct, transform: `translateX(${this.inlineHalf()})` };
   }
@@ -339,9 +339,10 @@ export class XuiSlider implements ControlValueAccessor {
 
   private valueFromPointer(event: PointerEvent): number {
     const rect = this.track().nativeElement.getBoundingClientRect();
-    const fraction = this.vertical()
-      ? (rect.bottom - event.clientY) / rect.height
-      : inlineFraction(event.clientX, rect, this.direction());
+    const fraction =
+      this.orientation() === 'vertical'
+        ? (rect.bottom - event.clientY) / rect.height
+        : inlineFraction(event.clientX, rect, this.direction());
     const clamped = Math.min(1, Math.max(0, fraction));
 
     return this.min() + clamped * (this.max() - this.min());

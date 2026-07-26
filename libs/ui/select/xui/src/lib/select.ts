@@ -12,7 +12,6 @@ import {
   Injector,
   input,
   model,
-  output,
   signal,
   untracked,
   ViewEncapsulation
@@ -32,7 +31,7 @@ const defaultMatch = (text: string, query: string): boolean => text.toLowerCase(
 /**
  * A filterable single-select dropdown: a trigger button opens a popover with a
  * search field and a keyboard-navigable list. Items can be rendered with a custom
- * `[xuiSelectOption]` template. `[(selectedItem)]` two-way binding.
+ * `[xuiSelectOption]` template. `[(value)]` two-way binding.
  */
 @Component({
   selector: 'xui-select',
@@ -54,8 +53,8 @@ const defaultMatch = (text: string, query: string): boolean => text.toLowerCase(
       [minimal]="true"
       placement="bottom-start"
     >
-      <span [class]="selectedItem() ? 'truncate' : 'text-foreground-subtle truncate'">{{
-        selectedItem() ? displayText(selectedItem()!) : placeholder()
+      <span [class]="value() ? 'truncate' : 'text-foreground-subtle truncate'">{{
+        value() ? displayText(value()!) : placeholder()
       }}</span>
       <ng-icon xui name="matExpandMoreRound" size="sm" class="text-foreground-muted ms-2 shrink-0" />
     </button>
@@ -90,7 +89,7 @@ const defaultMatch = (text: string, query: string): boolean => text.toLowerCase(
             <li
               role="option"
               [class]="optionClass(item)"
-              [attr.aria-selected]="item === selectedItem()"
+              [attr.aria-selected]="item === value()"
               (click)="choose(item)"
               (mouseenter)="list.setActiveItem(item)"
             >
@@ -101,7 +100,7 @@ const defaultMatch = (text: string, query: string): boolean => text.toLowerCase(
                     $implicit: item,
                     item: item,
                     active: list.isActive(item),
-                    selected: item === selectedItem(),
+                    selected: item === value(),
                     index: $index
                   }"
                 />
@@ -156,10 +155,8 @@ export class XuiSelect<T> {
   readonly searchPlaceholder = input<string>('Filter…');
   readonly noResultsText = input<string>('No results.');
 
-  /** The chosen item. Two-way bindable with `[(selectedItem)]`. */
-  readonly selectedItem = model<T | null>(null);
-
-  readonly selectionChange = output<T>();
+  /** The chosen item. Two-way bindable with `[(value)]`. */
+  readonly value = model<T | null>(null);
 
   protected readonly open = model(false);
   protected readonly query = signal('');
@@ -231,7 +228,7 @@ export class XuiSelect<T> {
     return xui(
       'flex cursor-pointer items-center gap-2 rounded px-2 py-1.5',
       this.list.isActive(item) && 'bg-primary/10',
-      item === this.selectedItem() && 'text-primary font-medium',
+      item === this.value() && 'text-primary font-medium',
       this.list.isDisabled(item) && 'pointer-events-none opacity-50'
     );
   }
@@ -273,8 +270,7 @@ export class XuiSelect<T> {
       return;
     }
 
-    this.selectedItem.set(item);
-    this.selectionChange.emit(item);
+    this.value.set(item);
     this.open.set(false);
   }
 }

@@ -9,7 +9,7 @@ import type { ComponentDoc } from '../../app/core/docs.model';
   imports: [XuiDateRangePickerImports],
   template: `
 <div>
-  <xui-date-range-picker [(range)]="range" />
+  <xui-date-range-picker [(value)]="range" />
   <p class="text-foreground-muted mt-3 text-sm">
     {{ range.start ? range.start.toDateString() : '—' }} → {{ range.end ? range.end.toDateString() : '—' }}
   </p>
@@ -25,7 +25,7 @@ export class PreviewDefault {
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [XuiDateRangePickerImports],
   template: `
-<xui-date-range-picker [(range)]="range" [months]="1" allowSingleDayRange />
+<xui-date-range-picker [(value)]="range" [months]="1" allowSingleDayRange />
 `
 })
 export class PreviewSingleMonth {
@@ -39,7 +39,7 @@ export const doc: ComponentDoc = {
   package: "@xui/date-range-picker",
   kind: "ui",
   group: "Date & time",
-  description: "A multi-month calendar for choosing a date range. First click sets the start, the second the end (hovering previews the span); clicking again starts over. [(range)] two-way binding, months (1 or 2), min/max/dateFilter, allowSingleDayRange.",
+  description: "A multi-month calendar for choosing a date range. First click sets the start, the second the end (hovering previews the span); clicking again starts over. [(value)] two-way binding, months (1 or 2), min/max/dateFilter, allowSingleDayRange.",
   importsConst: "XuiDateRangePickerImports",
   exports: [
   "XuiDateRangePicker",
@@ -61,7 +61,7 @@ export const doc: ComponentDoc = {
     "kind": "component",
     "name": "XuiDateRangePicker",
     "selector": "xui-date-range-picker",
-    "docs": "A multi-month calendar for choosing a date range. The first click sets the start, the second the end (hovering previews the span); clicking again starts a new range. [(range)] two-way binding; T is the active DateAdapter's type.",
+    "docs": "A multi-month calendar for choosing a date range. The first click sets the start, the second the end (hovering previews the span); clicking again starts a new range. [(value)] two-way binding; T is the active DateAdapter's type.",
     "inputs": [
       {
         "name": "class",
@@ -70,12 +70,12 @@ export const doc: ComponentDoc = {
         "required": false
       },
       {
-        "name": "range",
+        "name": "value",
         "type": "XuiDateRange<T>",
         "default": "{ start: null, end: null }",
         "required": false,
         "model": true,
-        "docs": "The chosen range. Two-way bindable with [(range)]."
+        "docs": "The chosen range. Two-way bindable with [(value)]."
       },
       {
         "name": "min",
@@ -135,7 +135,7 @@ export const doc: ComponentDoc = {
       name: "Default",
       title: "Default",
       code: `<div>
-  <xui-date-range-picker [(range)]="range" />
+  <xui-date-range-picker [(value)]="range" />
   <p class="text-foreground-muted mt-3 text-sm">
     {{ range.start ? range.start.toDateString() : '—' }} → {{ range.end ? range.end.toDateString() : '—' }}
   </p>
@@ -145,7 +145,7 @@ export const doc: ComponentDoc = {
     {
       name: "SingleMonth",
       title: "Single month",
-      code: `<xui-date-range-picker [(range)]="range" [months]="1" allowSingleDayRange />`,
+      code: `<xui-date-range-picker [(value)]="range" [months]="1" allowSingleDayRange />`,
       preview: PreviewSingleMonth
     },
   ]

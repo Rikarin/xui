@@ -29,7 +29,7 @@ const COMMANDS = [
     </button>
     <p class="text-foreground-muted mt-3 text-sm">Last command: {{ last() ?? '—' }}</p>
 
-    <xui-omnibar [items]="commands" [(open)]="open" (itemSelect)="last.set($event)" />
+    <xui-omnibar [items]="commands" [(open)]="open" (itemSelected)="last.set($event)" />
   `
 })
 class OmnibarDemo {

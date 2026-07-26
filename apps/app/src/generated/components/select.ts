@@ -23,7 +23,7 @@ const USERS: User[] = [
   imports: [XuiSelectImports],
   template: `
 <div class="w-64">
-  <xui-select [items]="users" [itemText]="itemText" [(selectedItem)]="selected" placeholder="Select a user" />
+  <xui-select [items]="users" [itemText]="itemText" [(value)]="selected" placeholder="Select a user" />
   <p class="text-foreground-muted mt-3 text-sm">Selected: {{ selected?.name ?? '—' }}</p>
 </div>
 `
@@ -54,7 +54,7 @@ export const doc: ComponentDoc = {
   package: "@xui/select",
   kind: "ui",
   group: "Forms",
-  description: "A filterable single-select. The trigger opens a popover with a search field and a keyboard-navigable list (Arrow keys + Enter, Escape closes). Items render with a custom [xuiSelectOption] template. [(selectedItem)] two-way binding.",
+  description: "A filterable single-select. The trigger opens a popover with a search field and a keyboard-navigable list (Arrow keys + Enter, Escape closes). Items render with a custom [xuiSelectOption] template. [(value)] two-way binding.",
   importsConst: "XuiSelectImports",
   exports: [
   "XuiSelectOption",
@@ -89,7 +89,7 @@ export const doc: ComponentDoc = {
     "kind": "component",
     "name": "XuiSelect",
     "selector": "xui-select",
-    "docs": "A filterable single-select dropdown: a trigger button opens a popover with a search field and a keyboard-navigable list. Items can be rendered with a custom [xuiSelectOption] template. [(selectedItem)] two-way binding.",
+    "docs": "A filterable single-select dropdown: a trigger button opens a popover with a search field and a keyboard-navigable list. Items can be rendered with a custom [xuiSelectOption] template. [(value)] two-way binding.",
     "inputs": [
       {
         "name": "class",
@@ -186,20 +186,15 @@ export const doc: ComponentDoc = {
         "required": false
       },
       {
-        "name": "selectedItem",
+        "name": "value",
         "type": "T | null",
         "default": "null",
         "required": false,
         "model": true,
-        "docs": "The chosen item. Two-way bindable with [(selectedItem)]."
+        "docs": "The chosen item. Two-way bindable with [(value)]."
       }
     ],
-    "outputs": [
-      {
-        "name": "selectionChange",
-        "type": "T"
-      }
-    ],
+    "outputs": [],
     "variants": [],
     "methods": []
   }
@@ -209,7 +204,7 @@ export const doc: ComponentDoc = {
       name: "Default",
       title: "Default",
       code: `<div class="w-64">
-  <xui-select [items]="users" [itemText]="itemText" [(selectedItem)]="selected" placeholder="Select a user" />
+  <xui-select [items]="users" [itemText]="itemText" [(value)]="selected" placeholder="Select a user" />
   <p class="text-foreground-muted mt-3 text-sm">Selected: {{ selected?.name ?? '—' }}</p>
 </div>`,
       preview: PreviewDefault

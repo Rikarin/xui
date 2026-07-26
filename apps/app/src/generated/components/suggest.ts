@@ -11,7 +11,7 @@ const CITIES = ['Amsterdam', 'Berlin', 'Copenhagen', 'Lisbon', 'Madrid', 'Prague
   imports: [XuiSuggestImports],
   template: `
 <div class="w-64">
-  <xui-suggest [items]="cities" [(selectedItem)]="selected" placeholder="Search a city…" />
+  <xui-suggest [items]="cities" [(value)]="selected" placeholder="Search a city…" />
   <p class="text-foreground-muted mt-3 text-sm">Selected: {{ selected ?? '—' }}</p>
 </div>
 `
@@ -28,7 +28,7 @@ export const doc: ComponentDoc = {
   package: "@xui/suggest",
   kind: "ui",
   group: "Forms",
-  description: "A typeahead autocomplete: the text input itself is the target. Typing filters a popover list; choosing an item fills the input. Arrow/Enter/Escape keyboard. [(selectedItem)] two-way binding.",
+  description: "A typeahead autocomplete: the text input itself is the target. Typing filters a popover list; choosing an item fills the input. Arrow/Enter/Escape keyboard. [(value)] two-way binding.",
   importsConst: "XuiSuggestImports",
   exports: [
   "XuiSuggest",
@@ -49,7 +49,7 @@ export const doc: ComponentDoc = {
     "kind": "component",
     "name": "XuiSuggest",
     "selector": "xui-suggest",
-    "docs": "A typeahead autocomplete: the text input itself is the target. Typing filters a popover list; choosing an item fills the input with its text. Unlike xui-select, there is no separate trigger. [(selectedItem)] two-way binding.",
+    "docs": "A typeahead autocomplete: the text input itself is the target. Typing filters a popover list; choosing an item fills the input with its text. Unlike xui-select, there is no separate trigger. [(value)] two-way binding.",
     "inputs": [
       {
         "name": "class",
@@ -100,20 +100,15 @@ export const doc: ComponentDoc = {
         "required": false
       },
       {
-        "name": "selectedItem",
+        "name": "value",
         "type": "T | null",
         "default": "null",
         "required": false,
         "model": true,
-        "docs": "The chosen item. Two-way bindable with [(selectedItem)]."
+        "docs": "The chosen item. Two-way bindable with [(value)]."
       }
     ],
-    "outputs": [
-      {
-        "name": "selectionChange",
-        "type": "T"
-      }
-    ],
+    "outputs": [],
     "variants": [],
     "methods": []
   }
@@ -123,7 +118,7 @@ export const doc: ComponentDoc = {
       name: "Default",
       title: "Default",
       code: `<div class="w-64">
-  <xui-suggest [items]="cities" [(selectedItem)]="selected" placeholder="Search a city…" />
+  <xui-suggest [items]="cities" [(value)]="selected" placeholder="Search a city…" />
   <p class="text-foreground-muted mt-3 text-sm">Selected: {{ selected ?? '—' }}</p>
 </div>`,
       preview: PreviewDefault

@@ -32,7 +32,7 @@ export const Default: Story = {
 export const RangeInput: StoryObj<XuiDateRangeInput> = {
   render: () => ({
     props: { range: { start: new Date(2024, 2, 4), end: new Date(2024, 2, 20) } },
-    template: `<xui-date-range-input [(range)]="range" />`
+    template: `<xui-date-range-input [(value)]="range" />`
   })
 };
 

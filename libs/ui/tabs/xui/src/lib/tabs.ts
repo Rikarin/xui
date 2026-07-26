@@ -45,7 +45,7 @@ export type XuiTabsVariants = VariantProps<typeof tabVariants>;
   selector: 'xui-tabs',
   imports: [NgTemplateOutlet],
   template: `
-    <div #list [class]="listClass()" role="tablist" [attr.aria-orientation]="vertical() ? 'vertical' : 'horizontal'">
+    <div #list [class]="listClass()" role="tablist" [attr.aria-orientation]="orientation()">
       @for (tab of tabs(); track tab.id()) {
         <button
           #tabButton
@@ -103,7 +103,7 @@ export class XuiTabs {
   /** The active tab id. Two-way bindable with `[(selectedTabId)]`. */
   readonly selectedTabId = model<string | null>(null);
 
-  readonly vertical = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
+  readonly orientation = input<'horizontal' | 'vertical'>('horizontal');
   readonly fill = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
   readonly large = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
 
@@ -126,15 +126,17 @@ export class XuiTabs {
     return `${this.uid}-panel-${id}`;
   }
 
-  protected readonly computedClass = computed(() => xui('block', this.vertical() && 'flex gap-4', this.class()));
+  protected readonly computedClass = computed(() =>
+    xui('block', this.orientation() === 'vertical' && 'flex gap-4', this.class())
+  );
 
   protected readonly listClass = computed(() =>
     xui(
       'relative flex',
       // `border-e` rather than `border-e`: the rule belongs on the edge the
       // panel sits against, which swaps sides in RTL.
-      this.vertical() ? 'flex-col border-e border-border' : 'items-end gap-1 border-b border-border',
-      this.fill() && !this.vertical() && 'w-full'
+      this.orientation() === 'vertical' ? 'flex-col border-e border-border' : 'items-end gap-1 border-b border-border',
+      this.fill() && this.orientation() !== 'vertical' && 'w-full'
     )
   );
 
@@ -145,11 +147,11 @@ export class XuiTabs {
   protected readonly indicatorClass = computed(() =>
     xui(
       'bg-primary pointer-events-none absolute transition-all duration-200',
-      this.vertical() ? 'end-0 w-0.5' : 'bottom-0 h-0.5'
+      this.orientation() === 'vertical' ? 'end-0 w-0.5' : 'bottom-0 h-0.5'
     )
   );
 
-  protected readonly panelClass = computed(() => xui('pt-4', this.vertical() && 'flex-1 pt-0 ps-4'));
+  protected readonly panelClass = computed(() => xui('pt-4', this.orientation() === 'vertical' && 'flex-1 pt-0 ps-4'));
 
   constructor() {
     // Default the selection to the first non-disabled tab.
@@ -184,7 +186,7 @@ export class XuiTabs {
         return;
       }
 
-      if (this.vertical()) {
+      if (this.orientation() === 'vertical') {
         this.indicatorStyle.set({ top: `${el.offsetTop}px`, height: `${el.offsetHeight}px` });
         return;
       }
@@ -215,7 +217,7 @@ export class XuiTabs {
     const currentIndex = enabled.findIndex(t => t.id() === this.selectedTabId());
     // Only the arrows along the list's own axis move the selection, and the
     // horizontal pair swaps meaning in RTL.
-    const step = arrowDirectionOnAxis(event.key, this.direction(), this.vertical() ? 'vertical' : 'horizontal');
+    const step = arrowDirectionOnAxis(event.key, this.direction(), this.orientation());
     let target: number;
 
     if (step === 'next') {

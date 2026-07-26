@@ -96,7 +96,7 @@ export const doc: ComponentDoc = {
     ],
     "outputs": [
       {
-        "name": "itemSelect",
+        "name": "itemSelected",
         "type": "T"
       }
     ],

@@ -10,7 +10,7 @@ const setup = (props: Record<string, unknown> = {}) => {
     `<xui-date-input
        [value]="props().value ?? null"
        [closeOnSelection]="props().closeOnSelection ?? true"
-       (dateChange)="props().onChange?.($event)" />`,
+       (valueChange)="props().onChange?.($event)" />`,
     { imports: IMPORTS, props }
   );
   const cmp = result.fixture.debugElement.query(n => n.name === 'xui-date-input')

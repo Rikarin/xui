@@ -4,7 +4,7 @@ import { XuiTransfer, type XuiTransferItem } from './transfer';
 const ITEMS: XuiTransferItem[] = Array.from({ length: 5 }, (_, i) => ({ key: `k${i}`, title: `Item ${i}` }));
 
 const setup = (attrs = '', props: Record<string, unknown> = {}) => {
-  const result = render(`<xui-transfer ${attrs} [items]="props().items" [(targetKeys)]="props().target" />`, {
+  const result = render(`<xui-transfer ${attrs} [items]="props().items" [(values)]="props().target" />`, {
     imports: [XuiTransfer],
     props: { items: ITEMS, target: [], ...props }
   });
@@ -39,7 +39,7 @@ describe('XuiTransfer', () => {
     moveRightBtn().click();
     detect();
 
-    expect(cmp.targetKeys()).toEqual(['k0', 'k2']);
+    expect(cmp.values()).toEqual(['k0', 'k2']);
     expect(itemsIn(panels()[2])).toEqual(['Item 0', 'Item 2']);
   });
 
@@ -52,7 +52,7 @@ describe('XuiTransfer', () => {
     moveLeftBtn().click();
     detect();
 
-    expect(cmp.targetKeys()).toEqual(['k3']);
+    expect(cmp.values()).toEqual(['k3']);
   });
 
   it('disables the move buttons when nothing is checked', () => {
@@ -98,7 +98,7 @@ describe('XuiTransfer', () => {
 
     moveRightBtn().click();
     detect();
-    expect(cmp.targetKeys()).toEqual(['k2']);
+    expect(cmp.values()).toEqual(['k2']);
   });
 
   it('jumps to the ends with Home and End', () => {

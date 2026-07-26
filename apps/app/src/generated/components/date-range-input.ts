@@ -8,7 +8,7 @@ export const doc: ComponentDoc = {
   package: "@xui/date-range-input",
   kind: "ui",
   group: "Date & time",
-  description: "A date-range field: two text inputs (start → end) that share one popover calendar. Focusing either field opens the range picker; typing a boundary parses just that end. [(range)] two-way binding.",
+  description: "A date-range field: two text inputs (start → end) that share one popover calendar. Focusing either field opens the range picker; typing a boundary parses just that end. [(value)] two-way binding.",
   importsConst: "XuiDateRangeInputImports",
   exports: [
   "XuiDateRangeInput",
@@ -31,7 +31,7 @@ export const doc: ComponentDoc = {
     "kind": "component",
     "name": "XuiDateRangeInput",
     "selector": "xui-date-range-input",
-    "docs": "A date-range field: two text inputs (start → end) that share one popover calendar. Focusing either field opens the range picker; typing a boundary parses just that end. [(range)] two-way binding.",
+    "docs": "A date-range field: two text inputs (start → end) that share one popover calendar. Focusing either field opens the range picker; typing a boundary parses just that end. [(value)] two-way binding.",
     "inputs": [
       {
         "name": "class",
@@ -40,12 +40,12 @@ export const doc: ComponentDoc = {
         "required": false
       },
       {
-        "name": "range",
+        "name": "value",
         "type": "XuiDateRange<T>",
         "default": "{ start: null, end: null }",
         "required": false,
         "model": true,
-        "docs": "The chosen range. Two-way bindable with [(range)]."
+        "docs": "The chosen range. Two-way bindable with [(value)]."
       },
       {
         "name": "min",

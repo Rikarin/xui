@@ -12,7 +12,7 @@ const setup = (props: Record<string, unknown> = {}) => {
        [value]="props().value ?? null"
        [precision]="props().precision ?? 'minute'"
        [useAmPm]="props().useAmPm ?? false"
-       (timeChange)="props().onChange?.($event)" />`,
+       (valueChange)="props().onChange?.($event)" />`,
     { imports: IMPORTS, props }
   );
   const cmp = result.fixture.debugElement.query(n => n.name === 'xui-time-picker')

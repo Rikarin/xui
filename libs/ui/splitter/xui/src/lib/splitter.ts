@@ -19,7 +19,7 @@ import { XuiSplitterPanel } from './splitter-panel';
 
 /**
  * Resizable split panes. Wrap `<xui-splitter-panel>` children; drag the gutter
- * between two panels to resize them. `layout` runs the panels horizontally
+ * between two panels to resize them. `orientation` runs the panels horizontally
  * (default) or vertically. Sizes are percentages; `sizeChange` emits them.
  *
  * ```html
@@ -48,7 +48,7 @@ import { XuiSplitterPanel } from './splitter-panel';
         <div
           role="separator"
           tabindex="0"
-          [attr.aria-orientation]="layout() === 'vertical' ? 'horizontal' : 'vertical'"
+          [attr.aria-orientation]="orientation() === 'vertical' ? 'horizontal' : 'vertical'"
           [attr.aria-label]="'Resize panel ' + (i + 1)"
           [attr.aria-valuenow]="Math.round(sizes()[i])"
           [attr.aria-valuemin]="Math.round(panels()[i].min())"
@@ -74,7 +74,7 @@ export class XuiSplitter {
   private readonly direction = injectXDirection();
 
   readonly class = input<ClassValue>('');
-  readonly layout = input<'horizontal' | 'vertical'>('horizontal');
+  readonly orientation = input<'horizontal' | 'vertical'>('horizontal');
 
   readonly sizeChange = output<number[]>();
 
@@ -100,7 +100,7 @@ export class XuiSplitter {
    * by 1%, Shift by 10%, Home/End collapse to the adjacent panel's bound.
    */
   protected onGutterKeydown(gutter: number, event: KeyboardEvent): void {
-    const vertical = this.layout() === 'vertical';
+    const vertical = this.orientation() === 'vertical';
     const step = event.shiftKey ? 10 : 1;
     let deltaPct: number;
 
@@ -142,7 +142,7 @@ export class XuiSplitter {
 
   protected startDrag(gutter: number, event: MouseEvent): void {
     event.preventDefault();
-    const vertical = this.layout() === 'vertical';
+    const vertical = this.orientation() === 'vertical';
     const containerPx = vertical ? this.el.clientHeight : this.el.clientWidth;
     const startPos = vertical ? event.clientY : event.clientX;
     const start = [...this.sizes()];
@@ -192,19 +192,19 @@ export class XuiSplitter {
   }
 
   protected readonly computedClass = computed(() =>
-    xui('flex overflow-hidden', this.layout() === 'vertical' ? 'flex-col' : 'flex-row', this.class())
+    xui('flex overflow-hidden', this.orientation() === 'vertical' ? 'flex-col' : 'flex-row', this.class())
   );
   protected readonly gutterClass = computed(() =>
     xui(
       'group relative z-10 flex shrink-0 items-center justify-center',
       'focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-focus',
-      this.layout() === 'vertical' ? 'h-1.5 w-full cursor-row-resize' : 'w-1.5 cursor-col-resize'
+      this.orientation() === 'vertical' ? 'h-1.5 w-full cursor-row-resize' : 'w-1.5 cursor-col-resize'
     )
   );
   protected readonly gutterHandleClass = computed(() =>
     xui(
       'bg-border group-hover:bg-primary rounded-full transition-colors',
-      this.layout() === 'vertical' ? 'h-0.5 w-8' : 'h-8 w-0.5'
+      this.orientation() === 'vertical' ? 'h-0.5 w-8' : 'h-8 w-0.5'
     )
   );
 }

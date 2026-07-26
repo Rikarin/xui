@@ -14,7 +14,7 @@ const ITEMS: XuiTransferItem[] = Array.from({ length: 12 }, (_, i) => ({
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [XuiTransferImports],
   template: `
-<xui-transfer [items]="items" [(targetKeys)]="target" [titles]="['Available', 'Chosen']" />
+<xui-transfer [items]="items" [(values)]="target" [titles]="['Available', 'Chosen']" />
 `
 })
 export class PreviewBasic {
@@ -27,7 +27,7 @@ export class PreviewBasic {
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [XuiTransferImports],
   template: `
-<xui-transfer [items]="items" [(targetKeys)]="target" searchable />
+<xui-transfer [items]="items" [(values)]="target" searchable />
 `
 })
 export class PreviewSearchable {
@@ -42,7 +42,7 @@ export const doc: ComponentDoc = {
   package: "@xui/transfer",
   kind: "ui",
   group: "Forms",
-  description: "A dual list-box — check items on either side and move them across with the arrow buttons. targetKeys (two-way) holds the keys on the right; each side has a header select-all and an optional search box.",
+  description: "A dual list-box — check items on either side and move them across with the arrow buttons. values (two-way) holds the keys on the right; each side has a header select-all and an optional search box.",
   importsConst: "XuiTransferImports",
   exports: [
   "XuiTransfer",
@@ -61,7 +61,7 @@ export const doc: ComponentDoc = {
     "kind": "component",
     "name": "XuiTransfer",
     "selector": "xui-transfer",
-    "docs": "A dual list-box that moves items between a source and a target list. items is the full set; targetKeys (two-way) are the keys on the right. Check items and use the arrow buttons to move them; each side can be searched.",
+    "docs": "A dual list-box that moves items between a source and a target list. items is the full set; values (two-way) are the keys on the right. Check items and use the arrow buttons to move them; each side can be searched.",
     "inputs": [
       {
         "name": "class",
@@ -76,7 +76,7 @@ export const doc: ComponentDoc = {
         "required": false
       },
       {
-        "name": "targetKeys",
+        "name": "values",
         "type": "string[]",
         "default": "[]",
         "required": false,
@@ -105,13 +105,13 @@ export const doc: ComponentDoc = {
     {
       name: "Basic",
       title: "Basic",
-      code: `<xui-transfer [items]="items" [(targetKeys)]="target" [titles]="['Available', 'Chosen']" />`,
+      code: `<xui-transfer [items]="items" [(values)]="target" [titles]="['Available', 'Chosen']" />`,
       preview: PreviewBasic
     },
     {
       name: "Searchable",
       title: "Searchable",
-      code: `<xui-transfer [items]="items" [(targetKeys)]="target" searchable />`,
+      code: `<xui-transfer [items]="items" [(values)]="target" searchable />`,
       preview: PreviewSearchable
     },
   ]
