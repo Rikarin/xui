@@ -3,10 +3,10 @@ import type { ConnectedPosition } from '@angular/cdk/overlay';
 /**
  * Where a connected overlay sits relative to its trigger.
  *
- * The naming follows the Floating UI / Popper convention Blueprint uses, so
- * `top-start` means "above the trigger, aligned to its start edge". Angular CDK
- * models the same thing as four origin/overlay corner pairs; `connectedPositions`
- * below does the translation.
+ * The naming follows the Floating UI / Popper convention, so `top-start` means
+ * "above the trigger, aligned to its start edge". Angular CDK models the same
+ * thing as four origin/overlay corner pairs; `connectedPositions` below does
+ * the translation.
  */
 export type XPlacement =
   | 'top'
@@ -106,8 +106,8 @@ function toPosition(placement: XPlacement, offset: number): ConnectedPosition {
  * The first entry is the requested placement; CDK falls through the rest when
  * the overlay would leave the viewport. With `flip` the fallbacks are the
  * mirrored placement, then the alignment-shifted variants of both — the same
- * order Floating UI's `flip` + `shift` middleware produce, so components ported
- * from Blueprint land in the same place.
+ * order Floating UI's `flip` + `shift` middleware produce, which is the
+ * behaviour a reader of that convention will expect.
  */
 export function connectedPositions(placement: XPlacement, offset = 0, flip = true): ConnectedPosition[] {
   if (!flip) {

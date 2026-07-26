@@ -15,9 +15,9 @@
  * Components must only ever use these semantic utilities — never a raw Tailwind
  * palette class such as `bg-zinc-800`, which cannot follow the active theme.
  *
- * The palette is derived from Tailwind's own colours and tuned to sit between
- * Blueprint and GitHub Primer: a neutral zinc surface stack, tight elevation
- * shadows, and six intents.
+ * The palette is derived from Tailwind's own colours and tuned for dense
+ * application UI: a neutral zinc surface stack, tight elevation shadows, and
+ * six intents.
  */
 
 /* Class-based dark mode. Tailwind's built-in `dark:` variant follows
@@ -139,9 +139,9 @@
  * One scale for everything a user types in or clicks: buttons, inputs, selects, date fields,
  * pickers. Before these existed each component picked its own height, so a "default" control was
  * 44px as an input, 40px as a button and 36px as a cascader, sitting next to each other with
- * different type sizes. The steps match Blueprint's control heights, which is the density this
- * library targets - a native browser input is around 30px too, so controls no longer tower over
- * unstyled elements on the same form.
+ * different type sizes. The steps target dense application UI rather than a marketing page - a
+ * native browser input is around 30px, so controls no longer tower over unstyled elements on the
+ * same form.
  *
  * An application can re-tune the whole library's density by overriding these three values, the
  * same way overriding one intent re-colours its ramp.

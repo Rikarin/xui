@@ -7,8 +7,8 @@ import { injectXuiIconConfig } from './icon.token';
 /**
  * Named sizes, plus any CSS length for the cases the scale does not cover.
  *
- * The four numbered steps line up with Blueprint's `IconSize` (16/20) extended
- * at both ends, so ported code keeps its visual weight.
+ * The scale is built around the two sizes that carry most of the work — 16px
+ * beside body text and 20px beside a heading — extended one step at each end.
  */
 export type IconSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'none' | (Record<never, never> & string);
 

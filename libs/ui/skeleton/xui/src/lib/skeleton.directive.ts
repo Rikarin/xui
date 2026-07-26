@@ -11,8 +11,7 @@ import { xui } from '@xui/core';
  * ```
  *
  * Where `<xui-skeleton>` replaces content, this masks it: the element keeps its
- * own size, so the layout does not shift when the real content arrives. It is
- * xUI's equivalent of Blueprint's `Classes.SKELETON`.
+ * own size, so the layout does not shift when the real content arrives.
  *
  * Masked content is also taken out of the accessibility tree and made
  * uninteractive — `aria-hidden` plus `inert`, which removes it from the tab

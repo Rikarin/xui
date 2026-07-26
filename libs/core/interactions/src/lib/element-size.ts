@@ -11,8 +11,8 @@ const EMPTY: XElementSize = { width: 0, height: 0 };
 /**
  * Track an element's content-box size.
  *
- * This is the primitive behind Blueprint's `ResizeSensor`, and the measurement
- * step for overflow lists, auto-resizing textareas and the data grid's column
+ * This is the primitive behind {@link XResizeSensor}, and the measurement step
+ * for overflow lists, auto-resizing textareas and the data grid's column
  * sizing. Returns a signal so consumers stay pull-based instead of wiring up
  * their own change detection.
  *

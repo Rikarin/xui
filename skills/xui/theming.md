@@ -39,9 +39,9 @@ anything on the same row lines up:
 | `md` default | 30px   | 12px    | `text-sm`   |
 | `lg`         | 40px   | 16px    | `text-base` |
 
-The steps match Blueprint, and a native browser input is about 30px too, so xUI controls sit level
-with unstyled elements instead of towering over them. Re-tune the whole library's density in one
-place:
+The steps target dense application UI, and a native browser input is about 30px too, so xUI controls
+sit level with unstyled elements instead of towering over them. Re-tune the whole library's density
+in one place:
 
 ```css
 :root {

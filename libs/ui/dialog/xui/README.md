@@ -20,10 +20,10 @@
 
 ---
 
-xUI is an Angular 22 component library styled with Tailwind CSS 4. It takes the composition model of
-[shadcn/ui](https://ui.shadcn.com) and [spartan/ui](https://spartan.ng) and grows it to a
-[Blueprint](https://blueprintjs.com)-sized component set — data tables, dock managers, omnibars and
-date ranges, not just the primitives.
+xUI is an Angular 22 component library styled with Tailwind CSS 4. You compose it from directives and
+standalone components rather than configuring one monolith, and the set goes well past the
+primitives: data tables, dock managers, omnibars, node graphs and date ranges are packages here, not
+things you are left to build.
 
 ```ts
 import { XuiButtonImports } from '@xui/button';
@@ -177,8 +177,9 @@ The workspace is [Nx](https://nx.dev) + pnpm.
 
 ```bash
 pnpm install
-pnpm start                     # documentation site
+pnpm start                     # documentation site on :4200
 pnpm storybook                 # component gallery on :4400
+pnpm nx serve admin            # the example admin application
 pnpm test                      # unit tests
 pnpm nx test-storybook ui-storybook   # render every story in headless Chromium
 pnpm build                     # build every package
@@ -186,7 +187,11 @@ pnpm build                     # build every package
 
 Commits follow [Conventional Commits](https://www.conventionalcommits.org) and are linted — the
 release is cut from them. See [docs/releasing.md](docs/releasing.md) for how a version is published,
-and [apps/ui-storybook/README.md](apps/ui-storybook/README.md) before writing stories.
+[apps/ui-storybook/README.md](apps/ui-storybook/README.md) before writing stories, and
+[apps/app/README.md](apps/app/README.md) for the documentation site, whose component pages are
+generated from those same stories, and [apps/admin/README.md](apps/admin/README.md) for the example
+admin application — a full app built from these packages, which is the fastest way to see how they
+fit together.
 
 ## Contributing
 

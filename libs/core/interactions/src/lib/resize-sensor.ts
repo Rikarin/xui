@@ -4,8 +4,7 @@ import { injectElementSize, type XElementSize } from './element-size';
 /**
  * Emit whenever the host element's size changes.
  *
- * The declarative face of {@link injectElementSize}, and xUI's answer to
- * Blueprint's `ResizeSensor`:
+ * The declarative face of {@link injectElementSize}:
  *
  * ```html
  * <div xResizeSensor (xResize)="onResize($event)">…</div>

@@ -181,7 +181,7 @@ export const doc: ComponentDoc = {
   {
     "kind": "directive",
     "name": "XuiStyledElement",
-    "docs": "Typographic styling for the plain HTML elements Blueprint styles through its Blockquote, Code, Pre, OL and UL components.",
+    "docs": "Typographic styling for the plain HTML elements prose is made of — blockquote, code, pre, and ordered and unordered lists.",
     "inputs": [
       {
         "name": "class",

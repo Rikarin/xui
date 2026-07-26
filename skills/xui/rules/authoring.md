@@ -1,7 +1,6 @@
 # Authoring rules (inside the xUI monorepo)
 
-Conventions for adding or changing a package in `libs/`. `docs/blueprint-parity-plan.md` is the
-long-form version - this is the checklist.
+Conventions for adding or changing a package in `libs/`.
 
 ## Layout of a package
 

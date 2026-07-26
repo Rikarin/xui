@@ -7,7 +7,7 @@ import { injectXuiCardConfig } from './card.token';
 
 export const cardVariants = cva('bg-surface-raised text-foreground block rounded-lg transition-shadow', {
   variants: {
-    /** Drop-shadow depth. Maps 1:1 to Blueprint's `elevation` prop. */
+    /** Drop-shadow depth, from flat to floating. Reads the `--elevation-*` tokens. */
     elevation: {
       0: 'shadow-elevation-0',
       1: 'shadow-elevation-1',

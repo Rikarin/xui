@@ -44,8 +44,8 @@ export interface XuiSegmentedOption<T = string> {
  *
  * `role="radiogroup"` with one tab stop; arrow keys move between segments per
  * the WAI-ARIA radio pattern. It is a `ControlValueAccessor`, so forms bind to
- * it directly. Blueprint calls this `SegmentedControl`; it is a sibling of
- * `@xui/radio` with a different skin.
+ * it directly — a sibling of `@xui/radio` with a different skin, for when the
+ * options are few enough to show at once.
  */
 @Component({
   selector: 'xui-segmented-control',

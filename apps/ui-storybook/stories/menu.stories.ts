@@ -96,8 +96,8 @@ export const Submenu: Story = {
       </ng-template>
       <ng-template #projects>
         <xui-menu>
-          <button xuiMenuItem>xui</button>
-          <button xuiMenuItem>blueprint</button>
+          <button xuiMenuItem>storefront</button>
+          <button xuiMenuItem>warehouse</button>
         </xui-menu>
       </ng-template>
     `

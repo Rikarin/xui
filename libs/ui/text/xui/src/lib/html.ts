@@ -3,8 +3,8 @@ import { xui } from '@xui/core';
 import type { ClassValue } from 'clsx';
 
 /**
- * Typographic styling for the plain HTML elements Blueprint styles through its
- * `Blockquote`, `Code`, `Pre`, `OL` and `UL` components.
+ * Typographic styling for the plain HTML elements prose is made of — blockquote,
+ * code, pre, and ordered and unordered lists.
  *
  * Each is a directive on the native element, so the semantics — quotation,
  * code, list — come from the markup rather than from a wrapper component.

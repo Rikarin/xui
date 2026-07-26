@@ -67,8 +67,8 @@ export class PreviewSelection {
 </ng-template>
 <ng-template #projects>
   <xui-menu>
-    <button xuiMenuItem>xui</button>
-    <button xuiMenuItem>blueprint</button>
+    <button xuiMenuItem>storefront</button>
+    <button xuiMenuItem>warehouse</button>
   </xui-menu>
 </ng-template>
 `
@@ -280,8 +280,8 @@ export const doc: ComponentDoc = {
 </ng-template>
 <ng-template #projects>
   <xui-menu>
-    <button xuiMenuItem>xui</button>
-    <button xuiMenuItem>blueprint</button>
+    <button xuiMenuItem>storefront</button>
+    <button xuiMenuItem>warehouse</button>
   </xui-menu>
 </ng-template>`,
       preview: PreviewSubmenu

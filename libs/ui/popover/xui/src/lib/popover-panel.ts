@@ -12,8 +12,7 @@ import { XUI_POPOVER_CONTENT } from './popover-content';
  * styled once here rather than at each call site.
  *
  * `minimal` drops the rounding for a flush, utilitarian panel (menus, select
- * dropdowns); the default is the rounded, shadowed card Blueprint shows for
- * popovers.
+ * dropdowns); the default is a rounded, shadowed card.
  */
 @Component({
   selector: 'xui-popover-panel',

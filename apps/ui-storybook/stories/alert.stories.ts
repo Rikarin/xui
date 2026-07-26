@@ -32,7 +32,7 @@ export const Default: Story = {
         (confirmed)="result.set('confirmed')"
         (canceled)="result.set('canceled')"
       >
-        Delete <b>blueprint-parity</b>? This permanently removes the project and cannot be undone.
+        Delete <b>warehouse-sync</b>? This permanently removes the project and cannot be undone.
       </xui-alert>
     `
   })

@@ -8,7 +8,7 @@ const panelVariants = cva('pointer-events-none block max-w-xs rounded-md text-sm
   variants: {
     intent: {
       // The neutral tooltip inverts against the page — a dark chip on light, a
-      // light chip on dark — the way Blueprint's default tooltip reads.
+      // light chip on dark — so it reads as an annotation rather than a surface.
       none: 'bg-foreground text-background',
       primary: 'bg-primary text-primary-foreground',
       success: 'bg-success text-success-foreground',

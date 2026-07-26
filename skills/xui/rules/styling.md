@@ -62,7 +62,7 @@ size: {
 }
 ```
 
-30px is the default step (Blueprint's density, and roughly a native input). A wrapper that contains
+30px is the default step, which is roughly a native input. A wrapper that contains
 a control - a numeric input's stepper column, a segmented control's track - carries the height
 itself, so a child cannot stretch the box off the scale.
 

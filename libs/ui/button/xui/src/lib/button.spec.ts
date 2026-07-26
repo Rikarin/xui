@@ -87,7 +87,7 @@ describe('XuiButton', () => {
     expectClasses(query('button'), 'ring-2', 'bg-primary');
   });
 
-  describe('Blueprint-parity extras', () => {
+  describe('layout and content extras', () => {
     it('stretches to fill when asked', () => {
       const { query } = setup('<button xuiButton fill></button>');
 

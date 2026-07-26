@@ -20,10 +20,10 @@
 
 ---
 
-xUI is an Angular 22 component library styled with Tailwind CSS 4. It takes the composition model of
-[shadcn/ui](https://ui.shadcn.com) and [spartan/ui](https://spartan.ng) and grows it to a
-[Blueprint](https://blueprintjs.com)-sized component set — data tables, dock managers, omnibars and
-date ranges, not just the primitives.
+xUI is an Angular 22 component library styled with Tailwind CSS 4. You compose it from directives and
+standalone components rather than configuring one monolith, and the set goes well past the
+primitives: data tables, dock managers, omnibars, node graphs and date ranges are packages here, not
+things you are left to build.
 
 ```ts
 import { XuiButtonImports } from '@xui/button';

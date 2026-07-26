@@ -16,8 +16,9 @@ allowed-tools:
 
 # xUI
 
-xUI is an Angular 22 UI library styled with Tailwind 4. It is **not** a copy-in registry like
-shadcn or spartan/ui: every component is a published npm package you install and import.
+xUI is an Angular 22 UI library styled with Tailwind 4. It is **not** a copy-in registry that
+generates source into the consumer's tree: every component is a published npm package you install
+and import.
 
 Three layers:
 

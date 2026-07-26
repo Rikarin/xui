@@ -19,7 +19,7 @@ import type { ComponentDoc } from '../../app/core/docs.model';
   (confirmed)="result.set('confirmed')"
   (canceled)="result.set('canceled')"
 >
-  Delete <b>blueprint-parity</b>? This permanently removes the project and cannot be undone.
+  Delete <b>warehouse-sync</b>? This permanently removes the project and cannot be undone.
 </xui-alert>
 `
 })
@@ -166,7 +166,7 @@ export const doc: ComponentDoc = {
   (confirmed)="result.set('confirmed')"
   (canceled)="result.set('canceled')"
 >
-  Delete <b>blueprint-parity</b>? This permanently removes the project and cannot be undone.
+  Delete <b>warehouse-sync</b>? This permanently removes the project and cannot be undone.
 </xui-alert>`,
       preview: PreviewDefault
     },

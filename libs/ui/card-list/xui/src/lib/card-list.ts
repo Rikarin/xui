@@ -42,8 +42,7 @@ export type CardListVariants = VariantProps<typeof cardListVariants>;
  * </div>
  * ```
  *
- * `compact` applies to every row, so the child cards do not each need setting —
- * matching Blueprint, where `CardList`'s `compact` cascades.
+ * `compact` cascades to every row, so the child cards do not each need setting.
  *
  * Set `[bordered]="false"` when nesting inside another bordered container such
  * as a section card, which already supplies the frame.

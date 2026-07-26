@@ -59,9 +59,9 @@ export type ProgressBarVariants = VariantProps<typeof progressBarVariants> & Var
  * <xui-progress-bar />
  * ```
  *
- * `value` is a fraction between 0 and 1, matching Blueprint. Omitting it gives
- * an indeterminate bar that fills the track, which is the right thing to show
- * when progress cannot be measured.
+ * `value` is a fraction between 0 and 1, not a percentage. Omitting it gives an
+ * indeterminate bar that fills the track, which is the right thing to show when
+ * progress cannot be measured.
  */
 @Component({
   selector: 'xui-progress-bar',
