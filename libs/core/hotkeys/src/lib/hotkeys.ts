@@ -1,7 +1,11 @@
 /**
  * Pure key-combo logic: parsing `mod+s`-style strings, matching them against
- * keyboard events and formatting them for display. DOM-free — the styled
- * `@xui/hotkeys` package owns registration, dispatch and the help dialog.
+ * keyboard events, deciding whether a key should be swallowed by whatever has
+ * focus, and formatting combos for display.
+ *
+ * Nothing here listens or registers — the styled `@xui/hotkeys` package owns
+ * the global registry and the help dialog, and a component that only wants one
+ * shortcut (`⌘K` on a command palette) binds its own listener over these.
  */
 
 /** A combo broken into its modifier flags and final key. */
@@ -89,6 +93,31 @@ export function matchesXCombo(parsed: XParsedCombo, event: KeyboardEvent, isMac:
   }
 
   return key === parsed.key;
+}
+
+const TEXT_INPUT = /^(input|textarea|select)$/i;
+
+/**
+ * Whether the event target is somewhere the user is typing.
+ *
+ * A shortcut without a modifier — `/`, `?` — must not fire while a text field
+ * has focus, or it eats the character. Modified combos usually should still
+ * fire, which is the caller's decision, not this function's.
+ */
+export function isXTextEntryTarget(target: EventTarget | null): boolean {
+  const element = target as HTMLElement | null;
+
+  return !!element && (TEXT_INPUT.test(element.tagName) || element.isContentEditable);
+}
+
+/**
+ * Whether the platform is one where `mod` means ⌘.
+ *
+ * Sniffs the user agent, which is unreliable in general and adequate here: the
+ * cost of getting it wrong is a shortcut hint that reads `Ctrl` on a Mac.
+ */
+export function isXMacPlatform(navigatorLike: { platform?: string; userAgent?: string } | null | undefined): boolean {
+  return /mac|iphone|ipad|ipod/i.test(navigatorLike?.platform ?? navigatorLike?.userAgent ?? '');
 }
 
 /** Format a combo for display, e.g. `mod+s` → `⌘ S` on mac / `Ctrl S` elsewhere. */

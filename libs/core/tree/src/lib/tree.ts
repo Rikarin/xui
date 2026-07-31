@@ -64,6 +64,41 @@ export function collectExpandedIds(nodes: readonly XTreeNode[]): Set<XTreeNodeId
   return out;
 }
 
+/**
+ * Every root-to-node path whose last node `match` accepts, in depth-first order.
+ *
+ * What "reveal this node" is built on: a path's last entry is the node itself,
+ * and everything before it is what has to be expanded for it to be on screen.
+ *
+ * All of them rather than the first, because a caller matching loosely — a URL
+ * prefix, a substring — usually wants to choose between the hits rather than
+ * take whichever happened to sit nearest the root.
+ */
+export function collectTreePaths<N extends XTreeNode>(nodes: readonly N[], match: (node: N) => boolean): N[][] {
+  const paths: N[][] = [];
+
+  const walk = (list: readonly N[], ancestors: N[]): void => {
+    for (const node of list) {
+      const path = [...ancestors, node];
+
+      if (match(node)) {
+        paths.push(path);
+      }
+
+      walk((node.children ?? []) as N[], path);
+    }
+  };
+
+  walk(nodes, []);
+
+  return paths;
+}
+
+/** Every node in the tree, in depth-first order. */
+export function flattenTree<N extends XTreeNode>(nodes: readonly N[]): N[] {
+  return nodes.flatMap(node => [node, ...flattenTree((node.children ?? []) as N[])]);
+}
+
 /** A new set with `id`'s membership toggled — the input set is not mutated. */
 export function toggleExpandedId(expanded: ReadonlySet<XTreeNodeId>, id: XTreeNodeId): Set<XTreeNodeId> {
   const next = new Set(expanded);
