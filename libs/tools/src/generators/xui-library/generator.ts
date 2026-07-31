@@ -45,6 +45,7 @@ export async function xuiLibraryGenerator(tree: Tree, options: XuiLibraryGenerat
   tree.write(joinPathFragments(srcPath, 'index.ts'), `export const Xui${className}Imports = [] as const;\n`);
 
   alignPackageJson(tree, projectRoot, normalizedName);
+  dropReleaseOverride(tree, projectRoot);
   alignSpecTsConfig(tree, projectRoot);
   alignJestConfig(tree, projectRoot, projectName);
   dropDiagnosticSuppressions(tree, projectRoot);
@@ -114,6 +115,21 @@ function alignPackageJson(tree: Tree, projectRoot: string, normalizedName: strin
     },
     publishConfig: { access: 'public' }
   }));
+}
+
+/**
+ * Drops the per-project `release` block `@nx/angular:library` writes for a publishable library.
+ *
+ * It sets `manifestRootsToUpdate` to `dist/{projectRoot}` alone, which *replaces* rather than adds
+ * to the workspace setting in `nx.json` — where the list is `{projectRoot}` **and** `dist/…`. A
+ * package carrying the override therefore has its built manifest stamped by `nx release` and its
+ * source `package.json` left untouched, so it falls a version behind at every release while every
+ * other package moves on. The gap is invisible until `@nx/dependency-checks` fails the lint.
+ *
+ * The workspace configuration is the one that should govern; a package has no reason to differ.
+ */
+function dropReleaseOverride(tree: Tree, projectRoot: string) {
+  updateJson(tree, joinPathFragments(projectRoot, 'project.json'), ({ release: _release, ...json }) => json);
 }
 
 /**
