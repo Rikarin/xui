@@ -21,8 +21,9 @@ const ENTRIES: XuiTocEntry[] = [
 const meta: Meta<XuiToc> = {
   title: 'Navigation/Table of contents',
   component: XuiToc,
+  // The entries ride in on `props` rather than `args`: an arg has to survive being written out as
+  // an attribute, and an array cannot. Everything the controls should reach stays an arg.
   args: {
-    entries: ENTRIES,
     size: 'md',
     minLevel: 2,
     maxLevel: 3,
@@ -45,8 +46,8 @@ const meta: Meta<XuiToc> = {
     })
   ],
   render: ({ ...args }) => ({
-    props: args,
-    template: `<xui-toc ${argsToTemplate(args)} class="w-56" />`
+    props: { ...args, entries: ENTRIES },
+    template: `<xui-toc [entries]="entries" ${argsToTemplate(args)} class="w-56" />`
   })
 };
 
@@ -65,14 +66,19 @@ export const DeeperLevels: Story = {
 };
 
 export const NoHeading: Story = {
-  args: { label: null }
+  render: ({ ...args }) => ({
+    props: { ...args, entries: ENTRIES },
+    template: `<xui-toc [entries]="entries" [label]="null" ${argsToTemplate(args, {
+      exclude: ['label']
+    })} class="w-56" />`
+  })
 };
 
 /** Scroll the panel: the observer moves the highlight to whichever section is at the top. */
 export const ScrollSpy: Story = {
   args: { scrollSpy: true },
   render: ({ ...args }) => ({
-    props: args,
+    props: { ...args, entries: ENTRIES },
     template: `
       <div class="flex gap-8">
         <article xuiProse class="h-96 flex-1 overflow-y-auto">
@@ -85,7 +91,7 @@ export const ScrollSpy: Story = {
           <h2 xuiProseAnchor="examples">Examples</h2>
           <p class="h-64">The end.</p>
         </article>
-        <xui-toc ${argsToTemplate(args)} class="w-56 shrink-0 self-start" />
+        <xui-toc [entries]="entries" ${argsToTemplate(args)} class="w-56 shrink-0 self-start" />
       </div>
     `
   })

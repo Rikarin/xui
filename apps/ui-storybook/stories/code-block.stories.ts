@@ -8,6 +8,9 @@ const count = signal(0);
 count.update(value => value + 1);
 `;
 
+const LONG_LINE =
+  'const message = "a single very long line that has nowhere to go but sideways, unless the block is told to wrap it, which is what this story is for";';
+
 /**
  * What a build-time classifier hands over: one entry per line, each a run of
  * text plus what that run *is*. No colours — the package owns those.
@@ -52,9 +55,9 @@ const TABS: XuiCodeTab[] = [
 const meta: Meta<XuiCodeBlock> = {
   title: 'Foundations/Code block',
   component: XuiCodeBlock,
+  // The sample rides in on `props` rather than `args`: an arg has to survive being written out as an
+  // attribute, and a multi-line one cannot. Everything the controls should reach stays an arg.
   args: {
-    code: SAMPLE,
-    language: 'ts',
     size: 'md',
     showLineNumbers: false,
     wrap: false,
@@ -68,6 +71,7 @@ const meta: Meta<XuiCodeBlock> = {
     showLineNumbers: { control: { type: 'boolean' } },
     wrap: { control: { type: 'boolean' } },
     copyable: { control: { type: 'boolean' } },
+    code: { control: false },
     tokens: { control: false },
     tabs: { control: false }
   },
@@ -77,8 +81,8 @@ const meta: Meta<XuiCodeBlock> = {
     })
   ],
   render: ({ ...args }) => ({
-    props: args,
-    template: `<xui-code-block ${argsToTemplate(args)} />`
+    props: { ...args, sample: SAMPLE },
+    template: `<xui-code-block [code]="sample" ${argsToTemplate(args)} />`
   })
 };
 
@@ -88,27 +92,38 @@ type Story = StoryObj<XuiCodeBlock>;
 export const Default: Story = {};
 
 export const WithFilename: Story = {
-  args: { filename: 'counter.ts' }
+  args: { filename: 'counter.ts', language: 'ts' }
 };
 
 export const LineNumbersAndHighlights: Story = {
-  args: { showLineNumbers: true, highlightLines: [3, 4] }
+  render: ({ ...args }) => ({
+    props: { ...args, sample: SAMPLE, lines: [3, 4] },
+    template: `<xui-code-block [code]="sample" [highlightLines]="lines" showLineNumbers ${argsToTemplate(args, {
+      exclude: ['showLineNumbers']
+    })} />`
+  })
 };
 
 /** The path the documentation site takes: spans classified by the real compiler, coloured here. */
 export const PreTokenised: Story = {
-  args: { tokens: TOKENS, filename: 'counter.ts', showLineNumbers: true }
+  render: ({ ...args }) => ({
+    props: { ...args, sample: SAMPLE, tokens: TOKENS },
+    template: `<xui-code-block [code]="sample" [tokens]="tokens" filename="counter.ts" showLineNumbers />`
+  })
 };
 
 export const Wrapped: Story = {
-  args: {
-    wrap: true,
-    code: 'const message = "a single very long line that has nowhere to go but sideways, unless the block is told to wrap it, which is what this story is for";'
-  }
+  render: ({ ...args }) => ({
+    props: { ...args, sample: LONG_LINE },
+    template: `<xui-code-block [code]="sample" wrap ${argsToTemplate(args, { exclude: ['wrap'] })} />`
+  })
 };
 
 export const Tabs: Story = {
-  args: { tabs: TABS }
+  render: ({ ...args }) => ({
+    props: { ...args, tabs: TABS },
+    template: `<xui-code-block [tabs]="tabs" ${argsToTemplate(args)} />`
+  })
 };
 
 export const Sizes: Story = {
@@ -116,12 +131,12 @@ export const Sizes: Story = {
     const rest = argsToTemplate(args, { exclude: ['size'] });
 
     return {
-      props: args,
+      props: { ...args, sample: SAMPLE },
       template: `
         <div class="flex flex-col gap-4">
-          <xui-code-block size="sm" ${rest} />
-          <xui-code-block size="md" ${rest} />
-          <xui-code-block size="lg" ${rest} />
+          <xui-code-block size="sm" [code]="sample" ${rest} />
+          <xui-code-block size="md" [code]="sample" ${rest} />
+          <xui-code-block size="lg" [code]="sample" ${rest} />
         </div>
       `
     };
@@ -131,9 +146,9 @@ export const Sizes: Story = {
 /** The copy control is a slot: replace it and it still copies the visible sample. */
 export const CustomCopyAction: Story = {
   render: ({ ...args }) => ({
-    props: args,
+    props: { ...args, sample: SAMPLE },
     template: `
-      <xui-code-block ${argsToTemplate(args)}>
+      <xui-code-block [code]="sample" ${argsToTemplate(args)}>
         <ng-template xuiCodeBlockCopy let-copy let-copied="copied">
           <button xuiButton size="sm" variant="outline" class="absolute end-2 top-2" (click)="copy()">
             {{ copied ? 'Copied!' : 'Copy' }}
