@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { XuiCalloutImports } from '@xui/callout';
 import { XuiLinkImports } from '@xui/link';
+import { XuiProseImports } from '@xui/prose';
 import { XuiTableImports } from '@xui/table';
 import { XuiTextImports } from '@xui/text';
+import { XuiTocImports, type XuiTocEntry } from '@xui/toc';
 import { COMPONENTS } from '../../generated/manifest';
 import { CodeBlock } from '../shared/code-block';
-import { HeadingAnchor } from '../shared/heading-anchor';
-import { TableOfContents, type TocEntry } from '../shared/table-of-contents';
 
 const TOOLS = [
   ['xui_components_list', 'Every package, with its group and one-line description.'],
@@ -28,8 +28,8 @@ const TOOLS = [
     XuiTableImports,
     XuiTextImports,
     CodeBlock,
-    HeadingAnchor,
-    TableOfContents
+    XuiProseImports,
+    XuiTocImports
   ],
   template: `
     <div class="flex gap-8">
@@ -41,7 +41,7 @@ const TOOLS = [
           that carries the conventions.
         </p>
 
-        <h2 xuiHeading [level]="2" class="mt-10 mb-3" docsAnchor="why">Why a server rather than a doc page</h2>
+        <h2 xuiHeading [level]="2" class="mt-10 mb-3" xuiProseAnchor="why">Why a server rather than a doc page</h2>
         <p xuiText color="muted" class="mb-3">
           The server extracts what it answers from the decorated classes themselves — every selector, signal input,
           two-way model, output and <code xuiCode>cva</code> variant axis across all {{ packageCount }} packages, plus
@@ -49,7 +49,7 @@ const TOOLS = [
           answers match the code you have installed rather than whatever shipped last.
         </p>
 
-        <h2 xuiHeading [level]="2" class="mt-10 mb-3" docsAnchor="install">Install</h2>
+        <h2 xuiHeading [level]="2" class="mt-10 mb-3" xuiProseAnchor="install">Install</h2>
         <p xuiText color="muted" class="mb-3">
           The server runs over stdio and ships its own extracted index, so it needs no checkout and no build:
         </p>
@@ -67,7 +67,7 @@ const TOOLS = [
           <code xuiCode>pnpm nx build mcp</code> once first.
         </xui-callout>
 
-        <h2 xuiHeading [level]="2" class="mt-10 mb-4" docsAnchor="tools">What it exposes</h2>
+        <h2 xuiHeading [level]="2" class="mt-10 mb-4" xuiProseAnchor="tools">What it exposes</h2>
         <xui-table bordered compact class="w-full">
           <xui-tr>
             <xui-th class="w-56 min-w-0 shrink">Tool</xui-th>
@@ -90,7 +90,7 @@ const TOOLS = [
           that come up constantly — building a form, theming an intent, picking between two packages.
         </p>
 
-        <h2 xuiHeading [level]="2" class="mt-12 mb-3" docsAnchor="skill">The skill</h2>
+        <h2 xuiHeading [level]="2" class="mt-12 mb-3" xuiProseAnchor="skill">The skill</h2>
         <p xuiText color="muted" class="mb-3">
           The server answers <em>what exists</em>. The skill carries <em>how to use it</em>: the three-layer
           architecture, when to reach for a variant instead of a class, the styling rules, composition patterns for
@@ -102,7 +102,7 @@ const TOOLS = [
           teaches the rules and defers every concrete API question to the MCP server, so it cannot go stale.
         </p>
 
-        <h2 xuiHeading [level]="2" class="mt-12 mb-3" docsAnchor="verify">Checking it works</h2>
+        <h2 xuiHeading [level]="2" class="mt-12 mb-3" xuiProseAnchor="verify">Checking it works</h2>
         <p xuiText color="muted" class="mb-3">Ask your assistant something only the server can answer:</p>
         <docs-code [code]="verify" lang="bash" />
         <p xuiText color="muted" size="sm" class="mt-3">
@@ -111,7 +111,7 @@ const TOOLS = [
           <code xuiCode>severity</code> — which is what you get without the server.
         </p>
 
-        <h2 xuiHeading [level]="2" class="mt-12 mb-3" docsAnchor="source">Source</h2>
+        <h2 xuiHeading [level]="2" class="mt-12 mb-3" xuiProseAnchor="source">Source</h2>
         <p xuiText color="muted" size="sm">
           <a
             xuiLink
@@ -133,7 +133,10 @@ const TOOLS = [
         </p>
       </article>
 
-      <docs-table-of-contents class="hidden xl:block" [entries]="toc" />
+      <xui-toc
+        class="sticky top-20 hidden max-h-[calc(100vh-6rem)] w-56 shrink-0 self-start overflow-y-auto xl:block"
+        [entries]="toc"
+      />
     </div>
   `
 })
@@ -141,7 +144,7 @@ export class AiAgents {
   protected readonly tools = TOOLS;
   protected readonly packageCount = COMPONENTS.length;
 
-  protected readonly toc: TocEntry[] = [
+  protected readonly toc: XuiTocEntry[] = [
     { id: 'why', label: 'Why a server', level: 2 },
     { id: 'install', label: 'Install', level: 2 },
     { id: 'tools', label: 'What it exposes', level: 2 },

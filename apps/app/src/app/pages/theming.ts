@@ -1,13 +1,13 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { XuiCalloutImports } from '@xui/callout';
+import { XuiProseImports } from '@xui/prose';
 import { XuiTableImports } from '@xui/table';
 import { XuiTagImports } from '@xui/tag';
 import { XuiTextImports } from '@xui/text';
+import { XuiTocImports, type XuiTocEntry } from '@xui/toc';
 import { TOKENS } from '../../generated/manifest';
 import type { DocsToken } from '../core/docs.model';
 import { CodeBlock } from '../shared/code-block';
-import { HeadingAnchor } from '../shared/heading-anchor';
-import { TableOfContents, type TocEntry } from '../shared/table-of-contents';
 
 const GROUP_LABEL: Record<string, string> = {
   surfaces: 'Surfaces',
@@ -45,8 +45,8 @@ const SWATCH_GROUPS = new Set(['surfaces', 'text', 'borders', 'intents', 'state'
     XuiTagImports,
     XuiTextImports,
     CodeBlock,
-    HeadingAnchor,
-    TableOfContents
+    XuiProseImports,
+    XuiTocImports
   ],
   template: `
     <div class="flex gap-8">
@@ -58,7 +58,7 @@ const SWATCH_GROUPS = new Set(['surfaces', 'text', 'borders', 'intents', 'state'
           rather than a fork.
         </p>
 
-        <h2 xuiHeading [level]="2" class="mt-10 mb-3" docsAnchor="how">How it works</h2>
+        <h2 xuiHeading [level]="2" class="mt-10 mb-3" xuiProseAnchor="how">How it works</h2>
         <p xuiText color="muted" class="mb-3">
           Components style themselves with semantic utilities — <code xuiCode>bg-surface</code>,
           <code xuiCode>text-foreground-muted</code>, <code xuiCode>border-error-muted</code> — which Tailwind resolves
@@ -72,7 +72,7 @@ const SWATCH_GROUPS = new Set(['surfaces', 'text', 'borders', 'intents', 'state'
           is a token for it.
         </xui-callout>
 
-        <h2 xuiHeading [level]="2" class="mt-10 mb-3" docsAnchor="switching">Switching themes</h2>
+        <h2 xuiHeading [level]="2" class="mt-10 mb-3" xuiProseAnchor="switching">Switching themes</h2>
         <p xuiText color="muted" class="mb-3">
           Put <code xuiCode>.dark</code> or <code xuiCode>[data-theme='dark']</code> on
           <code xuiCode>&lt;html&gt;</code>. With neither present the theme follows
@@ -87,7 +87,7 @@ const SWATCH_GROUPS = new Set(['surfaces', 'text', 'borders', 'intents', 'state'
         </p>
         <docs-code [code]="noFlash" lang="ts" />
 
-        <h2 xuiHeading [level]="2" class="mt-10 mb-3" docsAnchor="retheming">Re-theming</h2>
+        <h2 xuiHeading [level]="2" class="mt-10 mb-3" xuiProseAnchor="retheming">Re-theming</h2>
         <p xuiText color="muted" class="mb-3">
           Override tokens after the import. The <code xuiCode>darker</code>, <code xuiCode>lighter</code>,
           <code xuiCode>subtle</code>, <code xuiCode>muted</code> and <code xuiCode>emphasis</code> steps of each intent
@@ -102,14 +102,14 @@ const SWATCH_GROUPS = new Set(['surfaces', 'text', 'borders', 'intents', 'state'
           that has to stay legible, and hands back exactly this block of CSS.
         </xui-callout>
 
-        <h2 xuiHeading [level]="2" class="mt-10 mb-3" docsAnchor="density">Control density</h2>
+        <h2 xuiHeading [level]="2" class="mt-10 mb-3" xuiProseAnchor="density">Control density</h2>
         <p xuiText color="muted" class="mb-3">
           Anything you click or type into takes its height and horizontal padding from one scale, so a button, an input
           and a date field on the same row line up. Override the middle step and the library re-tunes with it.
         </p>
         <docs-code [code]="density" lang="css" />
 
-        <h2 xuiHeading [level]="2" class="mt-10 mb-4" docsAnchor="reference">Token reference</h2>
+        <h2 xuiHeading [level]="2" class="mt-10 mb-4" xuiProseAnchor="reference">Token reference</h2>
         <p xuiText color="muted" class="mb-6">
           {{ tokenCount }} tokens, read out of <code xuiCode>theme.css</code> at build time. Swatches render in
           whichever theme you are viewing.
@@ -117,7 +117,7 @@ const SWATCH_GROUPS = new Set(['surfaces', 'text', 'borders', 'intents', 'state'
 
         @for (group of groups; track group.key) {
           <section class="mb-10">
-            <h3 xuiHeading [level]="3" class="mb-1" [docsAnchor]="'tokens-' + group.key">
+            <h3 xuiHeading [level]="3" class="mb-1" [xuiProseAnchor]="'tokens-' + group.key">
               {{ group.label }}
             </h3>
             <p xuiText color="muted" size="sm" class="mb-3">{{ group.blurb }}</p>
@@ -160,7 +160,10 @@ const SWATCH_GROUPS = new Set(['surfaces', 'text', 'borders', 'intents', 'state'
         }
       </article>
 
-      <docs-table-of-contents class="hidden xl:block" [entries]="toc" />
+      <xui-toc
+        class="sticky top-20 hidden max-h-[calc(100vh-6rem)] w-56 shrink-0 self-start overflow-y-auto xl:block"
+        [entries]="toc"
+      />
     </div>
   `
 })
@@ -177,7 +180,7 @@ export class Theming {
     }))
     .filter(group => group.tokens.length > 0);
 
-  protected readonly toc: TocEntry[] = [
+  protected readonly toc: XuiTocEntry[] = [
     { id: 'how', label: 'How it works', level: 2 },
     { id: 'switching', label: 'Switching themes', level: 2 },
     { id: 'retheming', label: 'Re-theming', level: 2 },

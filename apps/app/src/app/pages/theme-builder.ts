@@ -1,6 +1,7 @@
 import { afterNextRender, ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { XuiButtonImports } from '@xui/button';
 import { XuiCalloutImports } from '@xui/callout';
+import { XuiProseImports } from '@xui/prose';
 import { XuiSegmentedControlImports, type XuiSegmentedOption } from '@xui/segmented-control';
 import { XuiSliderImports } from '@xui/slider';
 import { XuiTagImports } from '@xui/tag';
@@ -11,7 +12,6 @@ import { ThemeBuilder } from '../core/theme-builder';
 import { COLOUR_GROUPS, DENSITY_TOKENS, PRESETS, type DensityToken, type ThemeScope } from '../core/theme-tokens';
 import { CodeBlock } from '../shared/code-block';
 import { ContrastReport } from '../shared/contrast-report';
-import { HeadingAnchor } from '../shared/heading-anchor';
 import { ThemePreview } from '../shared/theme-preview';
 import { TokenSwatch } from '../shared/token-swatch';
 
@@ -48,7 +48,7 @@ const SCOPES: XuiSegmentedOption<ThemeScope>[] = [
     XuiTooltipImports,
     CodeBlock,
     ContrastReport,
-    HeadingAnchor,
+    XuiProseImports,
     ThemePreview,
     TokenSwatch
   ],
@@ -111,7 +111,7 @@ const SCOPES: XuiSegmentedOption<ThemeScope>[] = [
         <div aria-label="Tokens" class="space-y-8">
           @for (group of groups; track group.key) {
             <section>
-              <h2 xuiHeading [level]="3" class="mb-1" [docsAnchor]="'group-' + group.key">
+              <h2 xuiHeading [level]="3" class="mb-1" [xuiProseAnchor]="'group-' + group.key">
                 {{ group.label }}
               </h2>
               <p xuiText color="muted" size="sm" class="mb-3">{{ group.blurb }}</p>
@@ -124,7 +124,7 @@ const SCOPES: XuiSegmentedOption<ThemeScope>[] = [
           }
 
           <section>
-            <h2 xuiHeading [level]="3" class="mb-1" docsAnchor="group-density">Density</h2>
+            <h2 xuiHeading [level]="3" class="mb-1" xuiProseAnchor="group-density">Density</h2>
             <p xuiText color="muted" size="sm" class="mb-4">
               One scale for everything you click or type into, so a button, an input and a date field on the same row
               line up. Declared once — a control is not a different height in the dark.
@@ -154,19 +154,19 @@ const SCOPES: XuiSegmentedOption<ThemeScope>[] = [
           aria-label="Preview"
           class="min-w-0 lg:sticky lg:top-20 lg:max-h-[calc(100dvh-6rem)] lg:overflow-y-auto"
         >
-          <h2 xuiHeading [level]="2" class="mb-3" docsAnchor="preview">Preview</h2>
+          <h2 xuiHeading [level]="2" class="mb-3" xuiProseAnchor="preview">Preview</h2>
           <docs-theme-preview />
         </section>
       </div>
 
-      <h2 xuiHeading [level]="2" class="mt-12 mb-3" docsAnchor="contrast">Contrast</h2>
+      <h2 xuiHeading [level]="2" class="mt-12 mb-3" xuiProseAnchor="contrast">Contrast</h2>
       <p xuiText color="muted" class="mb-4 max-w-3xl">
         Measured against what is on screen in the theme you are editing, derived steps included. WCAG 2.2 asks for 4.5
         on body text and 3 on anything non-text, like a border or the focus ring.
       </p>
       <docs-contrast-report />
 
-      <h2 xuiHeading [level]="2" class="mt-12 mb-3" docsAnchor="css">Your theme</h2>
+      <h2 xuiHeading [level]="2" class="mt-12 mb-3" xuiProseAnchor="css">Your theme</h2>
       @if (builder.isCustomised()) {
         <p xuiText color="muted" class="mb-4 max-w-3xl">
           Paste this after the theme import in your application's stylesheet. It is the same CSS this page has applied

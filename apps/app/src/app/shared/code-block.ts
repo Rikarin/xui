@@ -1,55 +1,28 @@
-import { ChangeDetectionStrategy, Component, computed, inject, input, signal } from '@angular/core';
-import { NgIcon, provideIcons } from '@ng-icons/core';
-import { matCheckRound, matContentCopyRound } from '@ng-icons/material-icons/round';
-import { XuiButtonImports } from '@xui/button';
-import { XuiIconImports } from '@xui/icon';
-import { Clipboard } from './clipboard';
+import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import { XuiCodeBlockImports } from '@xui/code-block';
 import { highlight, type Language } from './highlight';
 
 /**
- * A code sample with copy-to-clipboard.
+ * A code sample on this site: the tokeniser wired to `@xui/code-block`.
  *
- * Highlighting runs through a small tokeniser rather than a syntax-highlighting library: the site
- * shows five languages in a handful of shapes, and the tokens render as `<span>` elements, so
- * nothing is ever passed through `innerHTML`.
+ * The package renders and copies but deliberately never tokenises — highlighting
+ * is meant to arrive already classified, from whatever knows the language. Here
+ * that is {@link highlight}, a small lexer for the five languages the site shows;
+ * for the engine's own documentation it would be the compiler. Either way the
+ * colours are the package's, so a sample follows the active theme.
  */
 @Component({
   selector: 'docs-code',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIcon, XuiIconImports, XuiButtonImports],
-  providers: [provideIcons({ matContentCopyRound, matCheckRound })],
-  host: { class: 'group relative block' },
-  template: `
-    <pre
-      class="border-border bg-surface-inset overflow-x-auto rounded-lg border p-4 text-[0.8125rem] leading-relaxed"
-    ><code class="font-mono">@for (token of tokens(); track $index) {<span [class]="token.class">{{ token.text }}</span>}</code></pre>
-
-    <button
-      xuiButton
-      variant="ghost"
-      size="sm"
-      type="button"
-      class="absolute end-2 top-2 opacity-0 transition-opacity group-hover:opacity-100 focus-visible:opacity-100"
-      [attr.aria-label]="copied() ? 'Copied' : 'Copy code'"
-      (click)="copy()"
-    >
-      <ng-icon xui [name]="copied() ? 'matCheckRound' : 'matContentCopyRound'" />
-    </button>
-  `
+  imports: [XuiCodeBlockImports],
+  host: { class: 'block' },
+  template: `<xui-code-block [code]="source()" [tokens]="tokens()" />`
 })
 export class CodeBlock {
-  private readonly clipboard = inject(Clipboard);
-
   readonly code = input.required<string>();
   readonly lang = input<Language>('html');
 
-  protected readonly copied = signal(false);
-  protected readonly tokens = computed(() => highlight(this.code().trim(), this.lang()));
-
-  protected async copy(): Promise<void> {
-    if (await this.clipboard.write(this.code().trim())) {
-      this.copied.set(true);
-      setTimeout(() => this.copied.set(false), 1500);
-    }
-  }
+  /** Trimmed once, so the lines that are classified are the lines that are copied. */
+  protected readonly source = computed(() => this.code().trim());
+  protected readonly tokens = computed(() => highlight(this.source(), this.lang()));
 }

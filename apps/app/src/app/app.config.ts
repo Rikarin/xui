@@ -10,7 +10,16 @@ import {
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import { provideRouter, withComponentInputBinding, withInMemoryScrolling } from '@angular/router';
 import { routes } from './app.routes';
-import { HEADING_SCROLL_OFFSET } from './shared/heading-anchor';
+
+/**
+ * How far down the window a heading lands when the router jumps to it: half the viewport, less half
+ * a heading, which leaves it in the middle of the screen rather than tucked under the sticky header.
+ *
+ * It has to agree with the `scroll-margin` `xuiProseAnchor` puts on the heading, which is what the
+ * browser's own scroll uses — the one that runs on a page loaded with a fragment already in the URL,
+ * and on a plain `#` link from the outline.
+ */
+const HEADING_SCROLL_OFFSET = () => window.innerHeight / 2 - 24;
 
 export const appConfig: ApplicationConfig = {
   providers: [

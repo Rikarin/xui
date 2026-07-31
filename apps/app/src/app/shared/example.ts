@@ -12,12 +12,12 @@ import {
   untracked,
   type Type
 } from '@angular/core';
+import { XuiProseImports } from '@xui/prose';
 import { XuiTabsImports } from '@xui/tabs';
 import { XuiTextImports } from '@xui/text';
 import type { DocsExample } from '../core/docs.model';
 import { PREVIEW_MODULES } from '../core/previews';
 import { CodeBlock } from './code-block';
-import { HeadingAnchor } from './heading-anchor';
 
 /**
  * One story, rendered live and shown as source.
@@ -45,10 +45,10 @@ import { HeadingAnchor } from './heading-anchor';
 @Component({
   selector: 'docs-example',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgComponentOutlet, XuiTabsImports, XuiTextImports, CodeBlock, HeadingAnchor],
+  imports: [NgComponentOutlet, XuiTabsImports, XuiTextImports, CodeBlock, XuiProseImports],
   host: { class: 'block' },
   template: `
-    <h3 xuiHeading [level]="3" class="mb-3" [docsAnchor]="anchor()">
+    <h3 xuiHeading [level]="3" class="mb-3" [xuiProseAnchor]="anchor()">
       {{ example().title }}
     </h3>
 
