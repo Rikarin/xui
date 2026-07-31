@@ -14,7 +14,6 @@ import {
 } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { matCheckRound, matContentCopyRound } from '@ng-icons/material-icons/round';
-import { XuiButton } from '@xui/button';
 import { xui } from '@xui/core';
 import { injectXClipboard } from '@xui/core/interactions';
 import { XuiIcon } from '@xui/icon';
@@ -120,14 +119,41 @@ const PLAIN: XuiCodeTokenKind = 'plain';
  */
 @Component({
   selector: 'xui-code-block',
-  imports: [NgTemplateOutlet, NgIcon, XuiIcon, XuiButton, XuiTabs, XuiTab],
+  imports: [NgTemplateOutlet, NgIcon, XuiIcon, XuiTabs, XuiTab],
   providers: [provideIcons({ matContentCopyRound, matCheckRound })],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   template: `
-    <!-- prettier-ignore -->
     <ng-template #surface let-sample>
-      <pre [class]="surfaceClass()" [style.--xui-code-gutter]="gutter()" [attr.data-language]="sample.language"><code>@for (line of sample.lines; track $index) {<span [class]="lineClass($index + 1)">@if (showLineNumbers()) {<span aria-hidden="true" class="text-foreground-subtle sticky start-0 inline-block w-(--xui-code-gutter) shrink-0 pe-4 text-end select-none">{{ $index + 1 }}</span>}@for (token of line; track $index) {<span [class]="tokenClass(token)">{{ token.text }}</span>}</span>}</code></pre>
+      <!-- The copy control is anchored to the sample rather than to the block, so a file-name
+           header or a tab strip keeps its own row instead of being sat on. -->
+      <div class="relative">
+        <!-- prettier-ignore -->
+        <pre [class]="surfaceClass()" [style.--xui-code-gutter]="gutter()" [attr.data-language]="sample.language"><code>@for (line of sample.lines; track $index) {<span [class]="lineClass($index + 1)">@if (showLineNumbers()) {<span aria-hidden="true" class="text-foreground-subtle sticky start-0 inline-block w-(--xui-code-gutter) shrink-0 pe-4 text-end select-none">{{ $index + 1 }}</span>}@for (token of line; track $index) {<span [class]="tokenClass(token)">{{ token.text }}</span>}</span>}</code></pre>
+
+        @if (copyable()) {
+          @if (copyTemplate(); as tpl) {
+            <ng-container
+              [ngTemplateOutlet]="tpl"
+              [ngTemplateOutletContext]="{
+                $implicit: copy,
+                copy: copy,
+                copied: clipboard.copied(),
+                code: activeCode()
+              }"
+            />
+          } @else {
+            <button type="button" [class]="copyClass()" [attr.aria-label]="copyAriaLabel()" (click)="copy()">
+              <ng-icon
+                xui
+                size="sm"
+                [color]="clipboard.copied() ? 'success' : 'inherit'"
+                [name]="clipboard.copied() ? 'matCheckRound' : 'matContentCopyRound'"
+              />
+            </button>
+          }
+        }
+      </div>
     </ng-template>
 
     @if (tabs().length) {
@@ -152,27 +178,6 @@ const PLAIN: XuiCodeTokenKind = 'plain';
         </div>
       }
       <ng-container [ngTemplateOutlet]="surface" [ngTemplateOutletContext]="{ $implicit: samples()[0] }" />
-    }
-
-    @if (copyable()) {
-      @if (copyTemplate(); as tpl) {
-        <ng-container
-          [ngTemplateOutlet]="tpl"
-          [ngTemplateOutletContext]="{ $implicit: copy, copy: copy, copied: clipboard.copied(), code: activeCode() }"
-        />
-      } @else {
-        <button
-          xuiButton
-          type="button"
-          variant="ghost"
-          size="sm"
-          class="absolute end-2 top-2 opacity-0 transition-opacity group-hover/code:opacity-100 focus-visible:opacity-100"
-          [attr.aria-label]="clipboard.copied() ? copiedLabel() : copyLabel()"
-          (click)="copy()"
-        >
-          <ng-icon xui [name]="clipboard.copied() ? 'matCheckRound' : 'matContentCopyRound'" />
-        </button>
-      }
     }
   `,
   host: {
@@ -271,6 +276,22 @@ export class XuiCodeBlock {
   protected readonly gutter = computed(() => `${String(this.activeSample().lines.length).length + 2}ch`);
 
   private readonly highlighted = computed(() => new Set(this.highlightLines()));
+
+  protected readonly copyAriaLabel = computed(() => (this.clipboard.copied() ? this.copiedLabel() : this.copyLabel()));
+
+  /**
+   * A plain button rather than `xuiButton`, for the same reason a tag's remove ✕
+   * is one: every button variant asserts itself on hover, and an affordance
+   * sitting on top of the reader's code should stay out of the way — muted until
+   * pointed at, and invisible until the block is.
+   */
+  protected readonly copyClass = computed(() =>
+    xui(
+      'text-foreground-muted hover:text-foreground hover:bg-surface-raised focus-visible:outline-focus',
+      'absolute end-2 top-2 inline-flex cursor-pointer items-center justify-center rounded-md p-1.5',
+      'opacity-0 transition group-hover/code:opacity-100 focus-visible:opacity-100 focus-visible:outline-2'
+    )
+  );
 
   protected readonly computedClass = computed(() => xui(codeBlockVariants({ size: this.size() }), this.class()));
 

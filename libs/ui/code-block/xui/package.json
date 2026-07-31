@@ -26,7 +26,6 @@
     "@angular/core": "22",
     "@ng-icons/core": "34",
     "@ng-icons/material-icons": "34",
-    "@xui/button": "2.0.0",
     "@xui/core": "2.0.0",
     "@xui/icon": "2.0.0",
     "@xui/tabs": "2.0.0",
