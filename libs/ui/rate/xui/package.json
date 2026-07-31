@@ -1,6 +1,6 @@
 {
   "name": "@xui/rate",
-  "version": "2.1.0-alpha.0",
+  "version": "2.1.0-alpha.1",
   "description": "Modern Angular 22 UI Library based on TailwindCSS",
   "keywords": [
     "angular",
@@ -26,8 +26,8 @@
     "@angular/forms": "22",
     "@ng-icons/core": "34",
     "@ng-icons/material-icons": "34",
-    "@xui/core": "2.1.0-alpha.0",
-    "@xui/icon": "2.1.0-alpha.0",
+    "@xui/core": "2.1.0-alpha.1",
+    "@xui/icon": "2.1.0-alpha.1",
     "clsx": "^2.1.1"
   },
   "publishConfig": {

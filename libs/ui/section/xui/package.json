@@ -1,6 +1,6 @@
 {
   "name": "@xui/section",
-  "version": "2.1.0-alpha.0",
+  "version": "2.1.0-alpha.1",
   "description": "Modern Angular 22 UI Library based on TailwindCSS",
   "keywords": [
     "angular",
@@ -26,9 +26,9 @@
     "@angular/core": "22",
     "@ng-icons/core": "^34.0.0",
     "@ng-icons/material-icons": "^34.0.0",
-    "@xui/collapse": "2.1.0-alpha.0",
-    "@xui/core": "2.1.0-alpha.0",
-    "@xui/icon": "2.1.0-alpha.0",
+    "@xui/collapse": "2.1.0-alpha.1",
+    "@xui/core": "2.1.0-alpha.1",
+    "@xui/icon": "2.1.0-alpha.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1"
   },

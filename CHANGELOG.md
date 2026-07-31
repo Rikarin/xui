@@ -1,3 +1,16 @@
+## 2.1.0-alpha.1 (2026-07-31)
+
+### 🩹 Fixes
+
+- **ci:** add README, LICENSE and update package.json in new components ([1c396b90](https://github.com/Rikarin/xui/commit/1c396b90))
+- **code-block:** make the copy control small, muted and out of the way ([a3fcb79f](https://github.com/Rikarin/xui/commit/a3fcb79f))
+- **repo:** bring the three new packages up to the released version ([bb5c142b](https://github.com/Rikarin/xui/commit/bb5c142b))
+
+### ❤️ Thank You
+
+- Claude Opus 5
+- Rikarin @Rikarin
+
 ## 2.1.0-alpha.0 (2026-07-31)
 
 ### 🚀 Features

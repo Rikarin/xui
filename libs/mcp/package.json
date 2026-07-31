@@ -1,6 +1,6 @@
 {
   "name": "@xui/mcp",
-  "version": "2.1.0-alpha.0",
+  "version": "2.1.0-alpha.1",
   "description": "Model Context Protocol server exposing the xUI component APIs, examples, design tokens and docs to AI coding agents",
   "keywords": [
     "mcp",
