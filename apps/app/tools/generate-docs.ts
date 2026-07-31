@@ -193,7 +193,10 @@ function dropsMarkup(template: string): boolean {
  * description that actually says what the component is.
  */
 function readMetaDoc(source: string): string | undefined {
-  const block = /\/\*\*([\s\S]*?)\*\/\s*(?:const meta|export default)/.exec(source)?.[1];
+  // `(?!\*\/)` keeps the capture inside one comment. Without it a lazy `[\s\S]*?` crosses `*/` on its
+  // way to `meta`, so the match starts at the file's *first* `/**` and drags whatever sits between the
+  // two into the paragraph — which a documented fixture above `meta` makes very visible.
+  const block = /\/\*\*((?:(?!\*\/)[\s\S])*?)\*\/\s*(?:const meta|export default)/.exec(source)?.[1];
 
   return block ? firstParagraph(block.replace(/^\s*\*\s?/gm, '')) : undefined;
 }
