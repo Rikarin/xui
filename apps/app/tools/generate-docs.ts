@@ -259,6 +259,35 @@ function readStoryProps(source: string, exportName: string): string | undefined 
   return props ? readBalanced(body, body.indexOf('{', props.index)) : undefined;
 }
 
+/**
+ * The `props` object the file's `meta.render` hands its template, for the stories that do not
+ * declare a `render` of their own.
+ *
+ * Those stories are rendered by `meta.render`, so a fixture it names is a fixture they need. Without
+ * this the preview declares the field and leaves it undefined, and the example renders empty — which
+ * looks like a broken component rather than a missing fixture.
+ *
+ * `props: args` is the common shape and has no braces to find, so it returns nothing and the args
+ * keep coming through the template as before.
+ */
+function readMetaProps(source: string): string | undefined {
+  const declaration = source.search(/\bconst meta\b/);
+
+  if (declaration === -1) {
+    return undefined;
+  }
+
+  const body = readBalanced(source, source.indexOf('{', declaration));
+
+  if (!body) {
+    return undefined;
+  }
+
+  const props = /\bprops:\s*\{/.exec(body);
+
+  return props ? readBalanced(body, body.indexOf('{', props.index)) : undefined;
+}
+
 /** The `{ … }` starting at `open`, brace-balanced and skipping string and template literals. */
 function readBalanced(text: string, open: number): string | undefined {
   if (open === -1) {
@@ -705,9 +734,19 @@ function storyFixtures(source: string | undefined, referencedIn: string[]): stri
 
   const declarations = new Map<string, string>();
   const pattern = /^(?:export\s+)?(?:const|let|function|class|type|interface)\s+([A-Za-z_]\w*)/gm;
+  const quoted = templateLiteralSpans(source);
 
   for (const hit of [...source.matchAll(pattern)]) {
-    const text = readDeclaration(source, hit.index ?? 0);
+    const at = hit.index ?? 0;
+
+    // A code sample is a template literal full of lines that look exactly like declarations. Copying
+    // one out of the middle of a string produces a fixture that never existed and does not compile —
+    // which a story for a *code* component hits immediately.
+    if (quoted.some(([from, to]) => at > from && at < to)) {
+      continue;
+    }
+
+    const text = readDeclaration(source, at);
 
     // `type Story = StoryObj<…>` is Storybook plumbing, not a fixture, and its types do not exist here.
     if (text && !/\b(StoryObj|Meta|Story)\b/.test(text)) {
@@ -732,6 +771,54 @@ function storyFixtures(source: string | undefined, referencedIn: string[]): stri
   }
 
   return [...wanted].map(name => declarations.get(name) ?? '');
+}
+
+/**
+ * The ranges a template literal covers.
+ *
+ * Only a template literal can hold a line that starts with `const` — a quoted string cannot span
+ * lines — so these are the only spans a line-anchored declaration scan has to be kept out of.
+ *
+ * Comments are stepped over on the way, because backticks are how this file writes `code` in prose
+ * and an unpaired one would otherwise open a literal that swallows the rest of the source.
+ */
+function templateLiteralSpans(source: string): [number, number][] {
+  const spans: [number, number][] = [];
+
+  for (let cursor = 0; cursor < source.length; cursor += 1) {
+    const character = source[cursor];
+    const pair = source.slice(cursor, cursor + 2);
+
+    if (pair === '//') {
+      cursor = source.indexOf('\n', cursor);
+      if (cursor === -1) {
+        break;
+      }
+      continue;
+    }
+
+    if (pair === '/*') {
+      cursor = source.indexOf('*/', cursor);
+      if (cursor === -1) {
+        break;
+      }
+      cursor += 1;
+      continue;
+    }
+
+    if (character === "'" || character === '"') {
+      cursor = skipString(source, cursor);
+      continue;
+    }
+
+    if (character === '`') {
+      const end = skipString(source, cursor);
+      spans.push([cursor, end]);
+      cursor = end;
+    }
+  }
+
+  return spans;
 }
 
 /** A whole `const`/`function`/`type` declaration, from its keyword to the end of its initialiser. */
@@ -884,7 +971,7 @@ function emitComponent(component: XuiComponent, story: StoryMeta | undefined): E
     .map(example => ({
       ...example,
       template: expandTemplate(example, story?.args ?? {}),
-      props: story ? readStoryProps(story.source, example.name) : undefined,
+      props: story ? (readStoryProps(story.source, example.name) ?? readMetaProps(story.source)) : undefined,
       // What the story would have been rendered with: the file's args, overridden by this story's.
       argValues: { ...(story?.args ?? {}), ...parseArgs(example.args) }
     }))
