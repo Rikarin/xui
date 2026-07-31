@@ -21,6 +21,7 @@
   ],
   "sideEffects": false,
   "peerDependencies": {
+    "@angular/cdk": "22",
     "@angular/common": "22",
     "@angular/core": "22",
     "@ng-icons/core": "34",
@@ -28,7 +29,10 @@
     "@xui/core": "2.0.0",
     "@xui/icon": "2.0.0",
     "@xui/select": "2.0.0",
-    "clsx": "^2.1.1"
+    "@xui/spinner": "2.0.0",
+    "@xui/tag": "2.0.0",
+    "clsx": "^2.1.1",
+    "rxjs": "^7.8.0"
   },
   "publishConfig": {
     "access": "public"
