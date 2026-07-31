@@ -1,6 +1,6 @@
 {
   "name": "@xui/breadcrumb",
-  "version": "2.1.0-alpha.2",
+  "version": "2.1.0",
   "description": "Modern Angular 22 UI Library based on TailwindCSS",
   "keywords": [
     "angular",
@@ -27,10 +27,10 @@
     "@angular/router": "22",
     "@ng-icons/core": "34",
     "@ng-icons/material-icons": "34",
-    "@xui/core": "2.1.0-alpha.2",
-    "@xui/icon": "2.1.0-alpha.2",
-    "@xui/menu": "2.1.0-alpha.2",
-    "@xui/overflow-list": "2.1.0-alpha.2",
+    "@xui/core": "2.1.0",
+    "@xui/icon": "2.1.0",
+    "@xui/menu": "2.1.0",
+    "@xui/overflow-list": "2.1.0",
     "clsx": "^2.1.1"
   },
   "publishConfig": {

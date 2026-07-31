@@ -1,6 +1,6 @@
 {
   "name": "@xui/radio",
-  "version": "2.1.0-alpha.2",
+  "version": "2.1.0",
   "description": "Modern Angular 22 UI Library based on TailwindCSS",
   "keywords": [
     "angular",
@@ -24,7 +24,7 @@
     "@angular/cdk": "22",
     "@angular/core": "22",
     "@angular/forms": "22",
-    "@xui/core": "2.1.0-alpha.2",
+    "@xui/core": "2.1.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1"
   },
