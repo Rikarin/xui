@@ -1,3 +1,28 @@
+## 2.1.0-alpha.0 (2026-07-31)
+
+### 🚀 Features
+
+- **breadcrumb:** collapse the middle by count ([687f4586](https://github.com/Rikarin/xui/commit/687f4586))
+- **code-block:** add the package ([b8834bfe](https://github.com/Rikarin/xui/commit/b8834bfe))
+- **core:** add the primitives the documentation packages are built on ([e6e3cfc5](https://github.com/Rikarin/xui/commit/e6e3cfc5))
+- **omnibar:** scale the palette from a command list to a search index ([367ebf1e](https://github.com/Rikarin/xui/commit/367ebf1e))
+- **prose:** add the package ([454b7640](https://github.com/Rikarin/xui/commit/454b7640))
+- **toc:** add the package ([a95f2596](https://github.com/Rikarin/xui/commit/a95f2596))
+- **tree:** follow the router, and make expansion controllable ([0b078e7c](https://github.com/Rikarin/xui/commit/0b078e7c))
+
+### 🩹 Fixes
+
+- **app:** read a story's description from the comment above meta, not the file's first ([ccaccfe4](https://github.com/Rikarin/xui/commit/ccaccfe4))
+- **app:** render the previews of stories whose fixtures are not attributes ([304ed224](https://github.com/Rikarin/xui/commit/304ed224))
+- **ci:** update package-lock.yaml ([d9807f12](https://github.com/Rikarin/xui/commit/d9807f12))
+- **storybook:** hand the code-block and toc examples their fixtures as props ([ad2272e9](https://github.com/Rikarin/xui/commit/ad2272e9))
+- **tabs:** let a tab list come from a control-flow block ([8bb889bd](https://github.com/Rikarin/xui/commit/8bb889bd))
+
+### ❤️ Thank You
+
+- Claude Opus 5
+- Rikarin @Rikarin
+
 # 2.0.0 (2026-07-26)
 
 This was a version bump only, there were no code changes.
