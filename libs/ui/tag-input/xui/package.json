@@ -1,6 +1,6 @@
 {
   "name": "@xui/tag-input",
-  "version": "2.1.0-alpha.1",
+  "version": "2.1.0-alpha.2",
   "description": "Modern Angular 22 UI Library based on TailwindCSS",
   "keywords": [
     "angular",
@@ -24,8 +24,8 @@
     "@angular/cdk": "22",
     "@angular/core": "22",
     "@angular/forms": "22",
-    "@xui/core": "2.1.0-alpha.1",
-    "@xui/tag": "2.1.0-alpha.1",
+    "@xui/core": "2.1.0-alpha.2",
+    "@xui/tag": "2.1.0-alpha.2",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1"
   },

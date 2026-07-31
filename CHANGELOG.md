@@ -1,3 +1,15 @@
+## 2.1.0-alpha.2 (2026-07-31)
+
+### 🩹 Fixes
+
+- **ci:** fix project release ([e0d0589a](https://github.com/Rikarin/xui/commit/e0d0589a))
+- **tools:** stop the library generator overriding the release manifest roots ([3e8f5e36](https://github.com/Rikarin/xui/commit/3e8f5e36))
+
+### ❤️ Thank You
+
+- Claude Opus 5
+- Rikarin @Rikarin
+
 ## 2.1.0-alpha.1 (2026-07-31)
 
 ### 🩹 Fixes
