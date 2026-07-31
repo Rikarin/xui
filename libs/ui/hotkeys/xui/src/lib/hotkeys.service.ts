@@ -1,16 +1,9 @@
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { computed, DestroyRef, inject, Injectable, PLATFORM_ID, signal } from '@angular/core';
-import { matchesXCombo, parseXCombo } from '@xui/core/hotkeys';
+import { isXMacPlatform, isXTextEntryTarget, matchesXCombo, parseXCombo } from '@xui/core/hotkeys';
 import { XuiDialogService } from '@xui/dialog';
 import type { XuiHotkey } from './hotkey';
 import { XuiHotkeysDialog } from './hotkeys-dialog';
-
-const TEXT_INPUT = /^(input|textarea|select)$/i;
-
-const isTextTarget = (target: EventTarget | null): boolean => {
-  const el = target as HTMLElement | null;
-  return !!el && (TEXT_INPUT.test(el.tagName) || el.isContentEditable);
-};
 
 /**
  * Global keyboard-shortcut registry and dispatcher, plus a `?`-triggered help
@@ -27,7 +20,7 @@ export class XuiHotkeysService {
   private helpOpen = false;
   private listening = false;
 
-  readonly isMac = this.isBrowser && /mac|iphone|ipad|ipod/i.test(this.document.defaultView?.navigator.platform ?? '');
+  readonly isMac = this.isBrowser && isXMacPlatform(this.document.defaultView?.navigator);
 
   /** All registered hotkeys (deduped by combo would hide overrides, so kept raw). */
   readonly hotkeys = this.registry.asReadonly();
@@ -74,13 +67,13 @@ export class XuiHotkeysService {
 
   private readonly handleKeydown = (event: KeyboardEvent): void => {
     // `?` opens help from anywhere outside a text field.
-    if (event.key === '?' && !isTextTarget(event.target)) {
+    if (event.key === '?' && !isXTextEntryTarget(event.target)) {
       event.preventDefault();
       this.openHelp();
       return;
     }
 
-    const inText = isTextTarget(event.target);
+    const inText = isXTextEntryTarget(event.target);
     for (const hotkey of this.registry()) {
       if (inText && !hotkey.allowInInput) {
         continue;
