@@ -23,11 +23,13 @@
   "peerDependencies": {
     "@angular/common": "22",
     "@angular/core": "22",
+    "@angular/router": "22",
     "@ng-icons/core": "34",
     "@ng-icons/material-icons": "34",
     "@xui/core": "2.0.0",
     "@xui/icon": "2.0.0",
-    "clsx": "^2.1.1"
+    "clsx": "^2.1.1",
+    "rxjs": "^7.8.0"
   },
   "publishConfig": {
     "access": "public"

@@ -19,6 +19,7 @@ import { xui } from '@xui/core';
 import { injectXDirection } from '@xui/core/a11y';
 import {
   collectExpandedIds,
+  flattenTree,
   flattenVisibleTree,
   isTreeNodeExpandable,
   toggleExpandedId,
@@ -48,6 +49,7 @@ import type { XuiTreeNode } from './tree.types';
           [class]="rowClass(node)"
           [style.padding-inline-start.rem]="0.5 + level * 1.25"
           [attr.data-node-id]="node.id"
+          [attr.aria-current]="node.id === currentId() ? 'page' : null"
           [tabindex]="node.id === focusedId() ? 0 : -1"
           (click)="onRowClick(node)"
           (keydown)="onKeydown($event, node)"
@@ -116,6 +118,26 @@ export class XuiTree {
   /** The selected node id. Two-way bindable with `[(selectedId)]`. */
   readonly selectedId = model<string | number | null>(null);
 
+  /**
+   * Ids of the expanded nodes. Two-way bindable with `[(expandedIds)]`, which is
+   * how expansion survives something else rebuilding `nodes`.
+   *
+   * Seeded from each node's `isExpanded` the first time that node is seen, and
+   * only then: a node the reader has since collapsed stays collapsed when the
+   * array is rebuilt around it.
+   */
+  readonly expandedIds = model<readonly (string | number)[]>([]);
+
+  /**
+   * The node representing where the reader already is, marked `aria-current="page"`.
+   *
+   * Distinct from `selectedId` on purpose — selection is a state of the widget,
+   * current is a fact about the document — though a navigation tree sets both to
+   * the same node. A model rather than an input so `xuiTreeRouter` can write it
+   * from the URL.
+   */
+  readonly currentId = model<string | number | null>(null);
+
   /** Emits the node that was activated, by click or by Enter. */
   readonly nodeClick = output<XuiTreeNode>();
   /** Emits the node that was just expanded. */
@@ -123,7 +145,12 @@ export class XuiTree {
   /** Emits the node that was just collapsed. */
   readonly nodeCollapsed = output<XuiTreeNode>();
 
-  private readonly expanded = signal(new Set<string | number>());
+  /** `expandedIds` as a set, which is what every lookup below wants. */
+  private readonly expanded = computed(() => new Set(this.expandedIds()));
+
+  /** Nodes whose `isExpanded` has already been honoured, so it is not re-applied. */
+  private readonly seeded = new Set<string | number>();
+
   protected readonly focusedId = signal<string | number | null>(null);
 
   protected readonly computedClass = computed(() => xui('block text-sm select-none', this.class()));
@@ -137,13 +164,38 @@ export class XuiTree {
     // Seed expansion from each node's `isExpanded` flag, and the initial focus.
     effect(() => {
       const nodes = this.nodes();
+
       untracked(() => {
-        this.expanded.set(collectExpandedIds(nodes));
+        const flagged = collectExpandedIds(nodes);
+        // Only nodes never seen before: re-applying the flag on every change to
+        // `nodes` would reopen whatever the reader had just closed.
+        const fresh = flattenTree(nodes)
+          .filter(node => !this.seeded.has(node.id))
+          .map(node => node.id)
+          .filter(id => flagged.has(id));
+
+        for (const node of flattenTree(nodes)) {
+          this.seeded.add(node.id);
+        }
+
+        if (fresh.length) {
+          this.expandedIds.update(ids => [...new Set([...ids, ...fresh])]);
+        }
+
         if (this.focusedId() == null && nodes.length) {
           this.focusedId.set(nodes[0].id);
         }
       });
     });
+  }
+
+  /** Expand the given nodes, leaving whatever is already open alone. */
+  expand(...ids: readonly (string | number)[]): void {
+    const missing = ids.filter(id => !this.expanded().has(id));
+
+    if (missing.length) {
+      this.expandedIds.update(current => [...current, ...missing]);
+    }
   }
 
   protected isExpandable(node: XuiTreeNode): boolean {
@@ -177,7 +229,7 @@ export class XuiTree {
     }
 
     const wasExpanded = this.isExpanded(node);
-    this.expanded.update(set => toggleExpandedId(set, node.id));
+    this.expandedIds.set([...toggleExpandedId(this.expanded(), node.id)]);
     (wasExpanded ? this.nodeCollapsed : this.nodeExpanded).emit(node);
   }
 

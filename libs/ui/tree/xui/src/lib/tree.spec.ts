@@ -129,6 +129,56 @@ describe('XuiTree', () => {
     expect(tabbable.length).toBe(1);
   });
 
+  describe('expansion as a model', () => {
+    it('publishes the seed taken from the isExpanded flags', () => {
+      const { detect, fixture } = render<{ nodes: XuiTreeNode[]; expanded: (string | number)[] }>(
+        '<xui-tree [nodes]="props().nodes" [(expandedIds)]="props().expanded" />',
+        { imports: IMPORTS, props: { nodes: NODES, expanded: [] } }
+      );
+      detect();
+
+      expect(fixture.componentInstance.props().expanded).toEqual(['src']);
+    });
+
+    it('opens whatever the caller puts in the model', () => {
+      const { detect } = render<{ nodes: XuiTreeNode[]; expanded: (string | number)[] }>(
+        '<xui-tree [nodes]="props().nodes" [(expandedIds)]="props().expanded" />',
+        { imports: IMPORTS, props: { nodes: NODES, expanded: ['src', 'app'] } }
+      );
+      detect();
+
+      expect(rowById('main')).toBeTruthy();
+    });
+
+    it('does not reopen a node the reader closed when the nodes are rebuilt', () => {
+      const { detect, press, setProps } = render<{ nodes: XuiTreeNode[] }>('<xui-tree [nodes]="props().nodes" />', {
+        imports: IMPORTS,
+        props: { nodes: NODES }
+      });
+      detect();
+
+      press(rowById('src'), 'ArrowLeft');
+      // `src` still carries `isExpanded`, but the flag has already been honoured
+      // once — re-seeding here would undo the collapse the reader just asked for.
+      setProps({ nodes: [...NODES] });
+
+      expect(rowById('app')).toBeNull();
+    });
+  });
+
+  describe('the current node', () => {
+    it('marks it for assistive technology, and only it', () => {
+      const { detect } = render<{ nodes: XuiTreeNode[]; current: string }>(
+        '<xui-tree [nodes]="props().nodes" [currentId]="props().current" />',
+        { imports: IMPORTS, props: { nodes: NODES, current: 'index' } }
+      );
+      detect();
+
+      expectAttributes(rowById('index'), { 'aria-current': 'page' });
+      expect(rowById('src').hasAttribute('aria-current')).toBe(false);
+    });
+  });
+
   describe('RTL', () => {
     const rtlSetup = () =>
       render('<xui-tree [nodes]="props().nodes" aria-label="Files" />', {
