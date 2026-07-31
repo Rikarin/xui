@@ -47,6 +47,30 @@ export const Collapsing: Story = {
   })
 };
 
+/**
+ * `maxItems` collapses by count rather than by width, and takes the **middle** —
+ * the root and where you are both survive, and the trail reads the same on every
+ * screen. Open the ellipsis for what it stands for.
+ */
+export const CollapseTheMiddle: Story = {
+  render: () => ({
+    props: { items: TRAIL },
+    template: `
+      <div class="w-72">
+        <xui-breadcrumbs [items]="items" [maxItems]="3" [itemsBeforeCollapse]="1" [itemsAfterCollapse]="1" />
+      </div>
+    `
+  })
+};
+
+/** Both ends can keep more than one crumb. */
+export const CollapseTheMiddleKeepingTwoEnds: Story = {
+  render: () => ({
+    props: { items: TRAIL },
+    template: `<xui-breadcrumbs [items]="items" [maxItems]="4" [itemsBeforeCollapse]="2" [itemsAfterCollapse]="2" />`
+  })
+};
+
 /** Collapsing from the end keeps where you started rather than where you are. */
 export const CollapseFromEnd: Story = {
   render: () => ({

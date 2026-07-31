@@ -29,6 +29,7 @@
     "@ng-icons/material-icons": "34",
     "@xui/core": "2.0.0",
     "@xui/icon": "2.0.0",
+    "@xui/menu": "2.0.0",
     "@xui/overflow-list": "2.0.0",
     "clsx": "^2.1.1"
   },

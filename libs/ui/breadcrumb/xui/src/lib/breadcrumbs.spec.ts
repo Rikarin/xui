@@ -116,4 +116,78 @@ describe('XuiBreadcrumbs', () => {
 
     expect(rendered(host, 'b').map(node => node.textContent)).toEqual(['xui']);
   });
+
+  describe('collapsing by count', () => {
+    const DEEP: XuiBreadcrumbData[] = [
+      { text: 'Docs', href: '/docs' },
+      { text: 'API', href: '/docs/api' },
+      { text: 'Vixen.Ecs', href: '/docs/api/vixen.ecs' },
+      { text: 'World', href: '/docs/api/vixen.ecs/world' },
+      { text: 'Query' }
+    ];
+
+    const collapsed = (template: string) => setup(template, { items: DEEP });
+
+    /** The counted branch renders a real list, so the crumbs are `<li>`s rather than roled wrappers. */
+    const countedCrumbs = (host: HTMLElement) => rendered(host, 'ol > li');
+
+    it('keeps both ends and folds the middle away', () => {
+      const { host } = collapsed(
+        '<xui-breadcrumbs [items]="props().items" [maxItems]="3" [itemsBeforeCollapse]="1" [itemsAfterCollapse]="1" />'
+      );
+
+      expect(countedCrumbs(host).map(node => node.textContent?.trim())).toEqual(['Docs', 'More', 'Query']);
+    });
+
+    it('hangs the collapsed crumbs off the ellipsis as a menu', () => {
+      const { host, click } = collapsed('<xui-breadcrumbs [items]="props().items" [maxItems]="3" />');
+
+      click(host.querySelector('button[aria-label]') as HTMLElement);
+
+      const menu = document.querySelector('.cdk-overlay-container xui-menu');
+      expect([...(menu?.querySelectorAll('[role="menuitem"]') ?? [])].map(node => node.textContent?.trim())).toEqual([
+        'API',
+        'Vixen.Ecs',
+        'World'
+      ]);
+
+      document.querySelectorAll('.cdk-overlay-container').forEach(node => node.remove());
+    });
+
+    it('reports the collapsed crumbs the same way the measured trail does', () => {
+      const seen: XuiBreadcrumbData[][] = [];
+      render<Props & { onOverflow: (items: XuiBreadcrumbData[]) => void }>(
+        '<xui-breadcrumbs [items]="props().items" [maxItems]="3" (overflow)="props().onOverflow($event)" />',
+        {
+          imports: IMPORTS,
+          props: { items: DEEP, onClick: () => undefined, onOverflow: items => seen.push(items) }
+        }
+      );
+
+      expect(seen.at(-1)?.map(item => item.text)).toEqual(['API', 'Vixen.Ecs', 'World']);
+    });
+
+    it('leaves a short trail alone', () => {
+      const { host } = setup('<xui-breadcrumbs [items]="props().items" [maxItems]="5" />');
+
+      expect(crumbs(host).map(node => node.textContent?.trim())).toEqual(['Home', 'Projects', 'xui']);
+    });
+
+    it('refuses to hide crumbs the two ends asked to keep', () => {
+      // Two pinned ends of three against a cap of three: honouring the cap would
+      // drop a crumb that was explicitly asked for, so the cap gives way.
+      const { host } = collapsed(
+        '<xui-breadcrumbs [items]="props().items" [maxItems]="3" [itemsBeforeCollapse]="3" [itemsAfterCollapse]="3" />'
+      );
+
+      // Nothing collapsed, so the trail falls back to the measured layout.
+      expect(crumbs(host).map(node => node.textContent?.trim())).toEqual([
+        'Docs',
+        'API',
+        'Vixen.Ecs',
+        'World',
+        'Query'
+      ]);
+    });
+  });
 });
