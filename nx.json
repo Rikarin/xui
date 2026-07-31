@@ -107,16 +107,12 @@
     "projectsRelationship": "fixed",
     "releaseTag": {
       "pattern": "v{version}",
-      // Every tag in this repo is a prerelease (v2.0.0-alpha.x). Nx's strict-preid matching only
-      // considers tags whose preid matches the invocation, so with it on, a run without
-      // `--preid alpha` finds no tag at all, silently falls back to the version on disk, and then
-      // writes a changelog covering the entire history instead of the last release onwards.
       "strictPreid": false
     },
     "version": {
+      "preVersionCommand": "pnpm exec nx run-many -t build",
       "conventionalCommits": true,
       "fallbackCurrentVersionResolver": "disk",
-      "preVersionCommand": "pnpm exec nx run-many -t build",
       "manifestRootsToUpdate": [
         "{projectRoot}",
         {
@@ -137,8 +133,6 @@
       "commit": true,
       "commitMessage": "chore(release): publish {version} [skip ci]",
       "tag": true,
-      // Nx pushes the commit and tag before it creates the GitHub Release. Creating the release
-      // first would make GitHub materialise the tag itself, at the wrong commit.
       "push": true
     }
   },
