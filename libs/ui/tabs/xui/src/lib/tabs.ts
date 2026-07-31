@@ -1,16 +1,17 @@
 import { BooleanInput } from '@angular/cdk/coercion';
 import { NgTemplateOutlet } from '@angular/common';
 import {
+  afterRenderEffect,
   booleanAttribute,
   ChangeDetectionStrategy,
   Component,
   computed,
   contentChildren,
-  effect,
   ElementRef,
   input,
   model,
   signal,
+  untracked,
   viewChild,
   viewChildren,
   ViewEncapsulation
@@ -75,9 +76,9 @@ export type XuiTabsVariants = VariantProps<typeof tabsTabVariants>;
           [id]="tabId(tab.id())"
           [class]="tabClass()"
           [disabled]="tab.disabled()"
-          [attr.aria-selected]="tab.id() === selectedTabId()"
+          [attr.aria-selected]="tab.id() === activeTabId()"
           [attr.aria-controls]="panelId(tab.id())"
-          [tabindex]="tab.id() === selectedTabId() ? 0 : -1"
+          [tabindex]="tab.id() === activeTabId() ? 0 : -1"
           (click)="select(tab.id())"
           (keydown)="onKeydown($event)"
         >
@@ -95,12 +96,12 @@ export type XuiTabsVariants = VariantProps<typeof tabsTabVariants>;
     </div>
 
     @for (tab of tabs(); track tab.id()) {
-      @if (tab.id() === selectedTabId() || !renderActiveTabPanelOnly()) {
+      @if (tab.id() === activeTabId() || !renderActiveTabPanelOnly()) {
         <div
           role="tabpanel"
           [id]="panelId(tab.id())"
           [attr.aria-labelledby]="tabId(tab.id())"
-          [hidden]="tab.id() !== selectedTabId()"
+          [hidden]="tab.id() !== activeTabId()"
           [class]="panelClass()"
         >
           <ng-container [ngTemplateOutlet]="tab.content()" />
@@ -124,7 +125,12 @@ export class XuiTabs {
   /** The projected `xui-tab` children, in DOM order. Read-only: add or remove tabs in the template. */
   readonly tabs = contentChildren(XuiTab);
 
-  /** The active tab id. Two-way bindable with `[(selectedTabId)]`. */
+  /**
+   * The active tab id. Two-way bindable with `[(selectedTabId)]`.
+   *
+   * Left `null` it settles on the first enabled tab and writes that back after
+   * the first render; an id naming no live tab falls back the same way.
+   */
   readonly selectedTabId = model<string | null>(null);
 
   /**
@@ -146,6 +152,27 @@ export class XuiTabs {
   private readonly list = viewChild.required<ElementRef<HTMLElement>>('list');
   protected readonly direction = injectXDirection();
   protected readonly indicatorStyle = signal<Record<string, string>>({});
+
+  /**
+   * Which tab is actually showing: the selected one while it is live and
+   * enabled, else the first enabled tab.
+   *
+   * A computed rather than an effect writing `selectedTabId`, because it is only
+   * ever read from the template — and by then every child's `id` binding has
+   * been applied. An effect reads them while the content query is still
+   * reconciling, which for tabs built by a `@for` block is before that block has
+   * bound anything, and a required input read in that window throws NG0950.
+   */
+  protected readonly activeTabId = computed<string | null>(() => {
+    const tabs = this.tabs();
+    const selected = this.selectedTabId();
+
+    if (selected != null && tabs.some(tab => tab.id() === selected && !tab.disabled())) {
+      return selected;
+    }
+
+    return tabs.find(tab => !tab.disabled())?.id() ?? null;
+  });
 
   protected tabId(id: string): string {
     return `${this.uid}-tab-${id}`;
@@ -183,33 +210,31 @@ export class XuiTabs {
   protected readonly panelClass = computed(() => xui('pt-4', this.orientation() === 'vertical' && 'flex-1 pt-0 ps-4'));
 
   constructor() {
-    // Default the selection to the first non-disabled tab.
-    effect(() => {
-      const tabs = this.tabs();
-      if (!tabs.length) {
-        return;
-      }
+    // Publish the resolved selection so `[(selectedTabId)]` reports what is on
+    // screen. After render, because that is the first moment every child's `id`
+    // is bound — and because the view already renders correctly without it, the
+    // server, which runs no after-render work, loses nothing.
+    afterRenderEffect(() => {
+      const active = this.activeTabId();
 
-      const current = this.selectedTabId();
-      const stillPresent = current != null && tabs.some(t => t.id() === current && !t.disabled());
-      if (!stillPresent) {
-        const first = tabs.find(t => !t.disabled());
-        if (first) {
-          this.selectedTabId.set(first.id());
+      untracked(() => {
+        if (active != null && active !== this.selectedTabId()) {
+          this.selectedTabId.set(active);
         }
-      }
+      });
     });
 
-    // Position the sliding indicator under the active tab button.
-    effect(() => {
+    // Position the sliding indicator under the active tab button. After render
+    // too: it measures laid-out boxes.
+    afterRenderEffect(() => {
       if (!this.animate()) {
         return;
       }
 
-      const selected = this.selectedTabId();
+      const active = this.activeTabId();
       const buttons = this.tabButtons();
       const tabs = this.tabs();
-      const index = tabs.findIndex(t => t.id() === selected);
+      const index = tabs.findIndex(t => t.id() === active);
       const el = buttons[index]?.nativeElement;
       if (!el) {
         return;
@@ -243,7 +268,7 @@ export class XuiTabs {
       return;
     }
 
-    const currentIndex = enabled.findIndex(t => t.id() === this.selectedTabId());
+    const currentIndex = enabled.findIndex(t => t.id() === this.activeTabId());
     // Only the arrows along the list's own axis move the selection, and the
     // horizontal pair swaps meaning in RTL.
     const step = arrowDirectionOnAxis(event.key, this.direction(), this.orientation());

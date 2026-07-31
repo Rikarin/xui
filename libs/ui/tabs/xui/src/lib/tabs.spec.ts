@@ -137,6 +137,39 @@ describe('XuiTabs', () => {
     });
   });
 
+  describe('a tab list built by a control-flow block', () => {
+    const DYNAMIC = `
+      <xui-tabs [(selectedTabId)]="props().selected">
+        @for (tab of props().tabs; track tab.id) {
+          <xui-tab [id]="tab.id" [title]="tab.title">Panel {{ tab.title }}</xui-tab>
+        }
+      </xui-tabs>
+    `;
+
+    const TABS = [
+      { id: 'a', title: 'Alpha' },
+      { id: 'b', title: 'Beta' }
+    ];
+
+    // `@for` applies its bindings after `xui-tabs` first sees the tabs, so an id
+    // read in that window is not yet the bound one. Selection has to converge.
+    it('selects the first tab once the bound ids arrive', () => {
+      const { detect } = render(DYNAMIC, { imports: IMPORTS, props: { selected: null, tabs: TABS } });
+      detect();
+
+      expect(tabButtons().map(b => b.textContent?.trim())).toEqual(['Alpha', 'Beta']);
+      expectAttributes(tabButtons()[0], { 'aria-selected': 'true' });
+      expect(visiblePanel()?.textContent?.trim()).toBe('Panel Alpha');
+    });
+
+    it('honours a selection given up front', () => {
+      const { detect } = render(DYNAMIC, { imports: IMPORTS, props: { selected: 'b', tabs: TABS } });
+      detect();
+
+      expectAttributes(tabButtons()[1], { 'aria-selected': 'true' });
+    });
+  });
+
   describe('renderActiveTabPanelOnly', () => {
     it('keeps every panel mounted by default', () => {
       const { detect } = render(TEMPLATE, { imports: IMPORTS, props: { selected: 'a' } });
