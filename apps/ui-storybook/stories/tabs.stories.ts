@@ -69,6 +69,54 @@ export const Fill: Story = {
   })
 };
 
+/**
+ * A tab list built from data by a `@for` block. The ids arrive as bindings
+ * rather than static attributes, which is a different moment in the render —
+ * so the strip is worth showing driven both ways.
+ */
+export const FromData: Story = {
+  render: () => ({
+    props: {
+      selected: null,
+      items: [
+        { id: 'inbox', title: 'Inbox', body: 'Everything addressed to you.' },
+        { id: 'drafts', title: 'Drafts', body: 'Started, not yet sent.' },
+        { id: 'sent', title: 'Sent', body: 'On its way.' }
+      ]
+    },
+    template: `
+      <div class="w-[32rem]">
+        <xui-tabs animate [(selectedTabId)]="selected">
+          @for (item of items; track item.id) {
+            <xui-tab [id]="item.id" [title]="item.title">
+              <p class="text-sm">{{ item.body }}</p>
+            </xui-tab>
+          }
+        </xui-tabs>
+      </div>
+    `
+  })
+};
+
+/**
+ * `id` is optional. Left off, each tab takes a generated one — enough for the
+ * ARIA wiring and for an uncontrolled strip. Name the tabs you intend to select
+ * from outside.
+ */
+export const WithoutIds: Story = {
+  render: () => ({
+    template: `
+      <div class="w-[32rem]">
+        <xui-tabs>
+          <xui-tab title="Description">What the thing is.</xui-tab>
+          <xui-tab title="Reviews">What people made of it.</xui-tab>
+          <xui-tab title="Shipping">When it turns up.</xui-tab>
+        </xui-tabs>
+      </div>
+    `
+  })
+};
+
 /** A vertical tab strip. */
 export const Vertical: Story = {
   render: () => ({

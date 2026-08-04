@@ -170,6 +170,34 @@ describe('XuiTabs', () => {
     });
   });
 
+  describe('a tab given no id', () => {
+    const UNIDENTIFIED = `
+      <xui-tabs>
+        <xui-tab title="Alpha">Panel A</xui-tab>
+        <xui-tab title="Beta">Panel B</xui-tab>
+      </xui-tabs>
+    `;
+
+    it('works uncontrolled, on generated ids', () => {
+      const { detect, click } = render(UNIDENTIFIED, { imports: IMPORTS });
+      detect();
+
+      expectAttributes(tabButtons()[0], { 'aria-selected': 'true' });
+
+      click(tabButtons()[1]);
+      expect(visiblePanel()?.textContent?.trim()).toBe('Panel B');
+    });
+
+    it('gives each tab a distinct id, so the ARIA wiring still pairs up', () => {
+      const { detect } = render(UNIDENTIFIED, { imports: IMPORTS });
+      detect();
+
+      const [first, second] = tabButtons();
+      expect(first.getAttribute('aria-controls')).not.toBe(second.getAttribute('aria-controls'));
+      expect(panels().map(p => p.getAttribute('aria-labelledby'))).toEqual([first.id, second.id]);
+    });
+  });
+
   describe('renderActiveTabPanelOnly', () => {
     it('keeps every panel mounted by default', () => {
       const { detect } = render(TEMPLATE, { imports: IMPORTS, props: { selected: 'a' } });

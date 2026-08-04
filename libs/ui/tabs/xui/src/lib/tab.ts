@@ -11,6 +11,7 @@ import {
   viewChild,
   ViewEncapsulation
 } from '@angular/core';
+import { uniqueId } from '@xui/core/a11y';
 
 /**
  * Marks an `<ng-template>` inside a `xui-tab` as the tab's title, for when a
@@ -40,8 +41,15 @@ export class XuiTabTitle {
   encapsulation: ViewEncapsulation.None
 })
 export class XuiTab {
-  /** Stable identifier used for selection and ARIA wiring. */
-  readonly id = input.required<string>();
+  /**
+   * Stable identifier used for selection and ARIA wiring.
+   *
+   * Optional: a tab left without one takes a generated id, which is enough for
+   * the ARIA wiring and for the tab strip to work uncontrolled. Give real ids
+   * to the tabs whose selection is driven from outside — `[(selectedTabId)]`
+   * can only name a tab it can spell.
+   */
+  readonly id = input<string>(uniqueId('xui-tab'));
 
   /** Plain-text tab-strip label (ignored when a `[xuiTabTitle]` template is given). */
   readonly title = input<string>('');
