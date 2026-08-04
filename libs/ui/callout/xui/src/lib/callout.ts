@@ -117,6 +117,10 @@ export class XuiCallout {
   /**
    * Intent of the callout. Picks the tint, the border and the default icon, and promotes `error` and `warning` to
    * `role="alert"` so they are announced.
+   *
+   * The input is `color`, not `intent` — other libraries call it that, and
+   * Angular says nothing about an unknown attribute on a component, so
+   * `intent="error"` renders an untinted callout that is never announced.
    */
   readonly color = input<XuiCalloutColor>(this.config.color);
 
