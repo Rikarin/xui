@@ -14,6 +14,12 @@
       "port": 4301
     },
     {
+      "name": "storybook",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["exec", "nx", "storybook", "ui-storybook", "--port", "4405"],
+      "port": 4405
+    },
+    {
       "name": "admin",
       "runtimeExecutable": "pnpm",
       "runtimeArgs": ["exec", "nx", "serve", "admin", "--port", "4402"],
