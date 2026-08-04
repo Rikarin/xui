@@ -24,10 +24,10 @@ const content = (contentId: string, extra: Partial<XuiDockContentPane> = {}): Xu
   ...extra
 });
 
-const setup = (layout: XuiDockManagerLayout, direction?: 'ltr' | 'rtl', template = TEMPLATE) => {
-  const result = render<{ layout: XuiDockManagerLayout }>(template, {
+const setup = (layout: XuiDockManagerLayout, direction?: 'ltr' | 'rtl', template = TEMPLATE, ids?: string[]) => {
+  const result = render<{ layout: XuiDockManagerLayout; ids?: string[] }>(template, {
     imports: [XuiDockManagerImports],
-    props: { layout },
+    props: { layout, ids },
     providers: direction ? [provideDirection(direction)] : []
   });
   const cmp = result.fixture.debugElement.query(node => node.name === 'xui-dock-manager')
@@ -756,5 +756,34 @@ describe('XuiDockManager', () => {
     expect(cmp.activePane()).toBeNull();
     expect(active.at(-1)).toBeNull();
     expect(a.isPinned).toBeUndefined();
+  });
+
+  // `contentId` is a required input, and the outlet mounts from an effect that
+  // matches it against the content children. Declared by a `@for` block the ids
+  // are bindings rather than static attributes, so they land later — read in
+  // that window a required input throws NG0950 instead of returning undefined.
+  describe('content templates declared by a control-flow block', () => {
+    const DYNAMIC = `
+      <xui-dock-manager [layout]="props().layout">
+        @for (id of props().ids; track id) {
+          <ng-template [xuiDockContent]="id">Body {{ id }}</ng-template>
+        }
+      </xui-dock-manager>
+    `;
+
+    it('mounts each pane body, without an error from the mounting effect', () => {
+      const errors: unknown[] = [];
+      const spy = jest.spyOn(console, 'error').mockImplementation((...args) => errors.push(args));
+
+      try {
+        const { host } = setup(pair().layout, undefined, DYNAMIC, ['a', 'b']);
+
+        const bodies = [...host.querySelectorAll('[data-dock-key] > div:last-child')];
+        expect(bodies.map(el => el.textContent?.trim())).toEqual(['Body a', 'Body b']);
+        expect(errors).toEqual([]);
+      } finally {
+        spy.mockRestore();
+      }
+    });
   });
 });
