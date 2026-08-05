@@ -1,3 +1,14 @@
+## 2.2.0-alpha.0 (2026-08-05)
+
+### 🚀 Features
+
+- **tabs:** let a tab go without an id ([6c077bc2](https://github.com/Rikarin/xui/commit/6c077bc2))
+
+### ❤️ Thank You
+
+- Claude Opus 5
+- Rikarin @Rikarin
+
 ## 2.1.0 (2026-07-31)
 
 This was a version bump only, there were no code changes.
