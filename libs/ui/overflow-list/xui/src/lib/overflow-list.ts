@@ -1,5 +1,5 @@
 import type { BooleanInput, NumberInput } from '@angular/cdk/coercion';
-import { NgTemplateOutlet } from '@angular/common';
+import { isPlatformBrowser, NgTemplateOutlet } from '@angular/common';
 import {
   booleanAttribute,
   ChangeDetectionStrategy,
@@ -13,6 +13,7 @@ import {
   input,
   numberAttribute,
   output,
+  PLATFORM_ID,
   signal,
   TemplateRef,
   untracked,
@@ -117,6 +118,7 @@ export class XuiOverflowListOverflow {}
 })
 export class XuiOverflowList<T> {
   private readonly host: HTMLElement = inject(ElementRef).nativeElement;
+  private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
   private readonly hostSize = injectXElementSize();
   private readonly ruler = viewChild.required<ElementRef<HTMLElement>>('ruler');
 
@@ -179,6 +181,16 @@ export class XuiOverflowList<T> {
       // Re-measure when the container resizes or the item set changes.
       this.hostSize();
       this.items();
+
+      if (!this.isBrowser) {
+        // The server has no layout, and its DOM answers none of the questions a
+        // measurement pass asks — `children` is not iterable there, elements
+        // have no `getBoundingClientRect`, and `clientWidth` is `undefined`.
+        // Leaving `visibleCount` alone renders every item, which is the right
+        // answer without a viewport to fit them into; the browser measures once
+        // it takes over and collapses from there.
+        return;
+      }
 
       this.measure();
     });

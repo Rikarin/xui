@@ -1,4 +1,4 @@
-import { Component, signal, viewChild } from '@angular/core';
+import { Component, PLATFORM_ID, signal, viewChild } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { XuiOverflowList, XuiOverflowListImports } from '../index';
 
@@ -39,6 +39,16 @@ class OverflowHost {
   readonly hidden = signal<string[] | null>(null);
 }
 
+/**
+ * The items on screen. The ruler renders a copy of every item, so anything
+ * inside it has to be filtered out or each item shows up twice.
+ */
+function visibleItems(root: HTMLElement): (string | null)[] {
+  return [...root.querySelectorAll('.item')]
+    .filter((node: Element) => !node.closest('[aria-hidden="true"]'))
+    .map((node: Element) => node.textContent);
+}
+
 function setup(availableWidth: number) {
   TestBed.resetTestingModule();
   TestBed.configureTestingModule({ imports: [OverflowHost] });
@@ -72,12 +82,7 @@ function setup(availableWidth: number) {
       fixture.componentInstance.items.update(items => [...items]);
       fixture.detectChanges();
     },
-    // The ruler renders a copy of every item, so anything inside it has to be
-    // filtered out or each item shows up twice.
-    visible: () =>
-      [...fixture.nativeElement.querySelectorAll('.item')]
-        .filter((node: Element) => !node.closest('[aria-hidden="true"]'))
-        .map((node: Element) => node.textContent),
+    visible: () => visibleItems(fixture.nativeElement),
     overflowLabel: () => fixture.nativeElement.querySelector('.overflow')?.textContent ?? null
   };
 }
@@ -188,5 +193,91 @@ describe('XuiOverflowList', () => {
     remeasure();
 
     expect(visible()).toEqual(['a', 'b']);
+  });
+
+  describe('on the server', () => {
+    /**
+     * Angular renders on the server against domino, not jsdom, and the two
+     * differ in exactly the places a measurement pass reads: `children` has no
+     * `Symbol.iterator`, elements have no `getBoundingClientRect`, and
+     * `clientWidth` is `undefined`. Standing those three in makes any attempt
+     * to measure fail here the way it fails in production.
+     */
+    function useServerDom(onRulerChildren: () => void): () => void {
+      const children = Object.getOwnPropertyDescriptor(Element.prototype, 'children');
+      const clientWidth = Object.getOwnPropertyDescriptor(Element.prototype, 'clientWidth');
+      const boundingRect = Object.getOwnPropertyDescriptor(Element.prototype, 'getBoundingClientRect');
+
+      Object.defineProperty(Element.prototype, 'children', {
+        configurable: true,
+        get(this: Element) {
+          const live = children?.get?.call(this) as HTMLCollection;
+
+          if (this.getAttribute('aria-hidden') === 'true') {
+            onRulerChildren();
+          }
+
+          // domino's ChildrenCollection: indices and a length, and nothing else.
+          const arrayLike: Record<number | 'length', unknown> = { length: live.length };
+
+          for (let i = 0; i < live.length; i++) {
+            arrayLike[i] = live[i];
+          }
+
+          return arrayLike;
+        }
+      });
+
+      Object.defineProperty(Element.prototype, 'clientWidth', { configurable: true, get: () => undefined });
+      Reflect.deleteProperty(Element.prototype, 'getBoundingClientRect');
+
+      return () => {
+        Object.defineProperty(Element.prototype, 'children', children!);
+        Object.defineProperty(Element.prototype, 'clientWidth', clientWidth!);
+        Object.defineProperty(Element.prototype, 'getBoundingClientRect', boundingRect!);
+      };
+    }
+
+    let rulerReads: number;
+    let restoreDom: () => void;
+
+    beforeEach(() => {
+      rulerReads = 0;
+      restoreDom = useServerDom(() => rulerReads++);
+    });
+
+    afterEach(() => restoreDom());
+
+    function render() {
+      TestBed.resetTestingModule();
+      TestBed.configureTestingModule({
+        imports: [OverflowHost],
+        providers: [{ provide: PLATFORM_ID, useValue: 'server' }]
+      });
+
+      const fixture = TestBed.createComponent(OverflowHost);
+      fixture.detectChanges();
+
+      return fixture;
+    }
+
+    it('never measures, so nothing lands in the log', () => {
+      // A measurement pass dies on the first thing it touches here — as it does
+      // in production, where the platform reports the failure to its
+      // `ErrorHandler` rather than failing the response: one log line per
+      // rendered request, on a server that renders one list per page.
+      expect(() => render()).not.toThrow();
+
+      // Asserting on the output alone would pass without the guard: the throw
+      // lands while `visibleCount` is still at its initial value, so the markup
+      // is already right today. What has to be true is that the pass never ran.
+      expect(rulerReads).toBe(0);
+    });
+
+    it('renders every item, since nothing has been measured yet', () => {
+      const fixture = render();
+
+      expect(visibleItems(fixture.nativeElement)).toEqual(['a', 'b', 'c', 'd', 'e']);
+    });
   });
 });
