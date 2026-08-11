@@ -1,4 +1,5 @@
 import type { BooleanInput, NumberInput } from '@angular/cdk/coercion';
+import { isPlatformBrowser } from '@angular/common';
 import {
   booleanAttribute,
   ChangeDetectionStrategy,
@@ -11,6 +12,7 @@ import {
   model,
   numberAttribute,
   output,
+  PLATFORM_ID,
   signal,
   untracked,
   ViewEncapsulation
@@ -233,6 +235,7 @@ let nextGraphId = 0;
 export class XuiNodeGraph {
   private readonly config = injectXuiNodeGraphConfig();
   private readonly element = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
+  private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
   private readonly uid = nextGraphId++;
 
   /** Pointer position where the current gesture began, in client coordinates. */
@@ -534,6 +537,19 @@ export class XuiNodeGraph {
     });
 
     this.store.setSurface(this.element);
+
+    // The server has no `ResizeObserver` at all, so reaching for one here is a
+    // `ReferenceError` inside the constructor — the graph and everything
+    // projected into it drop out of the response rather than merely rendering
+    // unmeasured. Leaving `surfaceSize` at 0×0 is what the store already treats
+    // as "not measured yet", and the browser measures once it takes over.
+    //
+    // This is `injectXElementSize`'s guard rather than a call to it: the
+    // primitive reports the *content* box, and the canvas needs the padding box
+    // its own pointer maths is written against.
+    if (!this.isBrowser || typeof ResizeObserver === 'undefined') {
+      return;
+    }
 
     const observer = new ResizeObserver(() =>
       this.store.surfaceSize.set({ width: this.element.clientWidth, height: this.element.clientHeight })

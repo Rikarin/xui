@@ -1,5 +1,16 @@
 import type { BooleanInput } from '@angular/cdk/coercion';
-import { booleanAttribute, computed, Directive, effect, ElementRef, inject, input, signal } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import {
+  booleanAttribute,
+  computed,
+  Directive,
+  effect,
+  ElementRef,
+  inject,
+  input,
+  PLATFORM_ID,
+  signal
+} from '@angular/core';
 import { xui } from '@xui/core';
 import { injectXElementSize } from '@xui/core/interactions';
 import { cva, VariantProps } from 'class-variance-authority';
@@ -66,6 +77,7 @@ export type XuiTextVariants = VariantProps<typeof textVariants>;
 })
 export class XuiText {
   private readonly element: HTMLElement = inject(ElementRef).nativeElement;
+  private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
   private readonly observedSize = injectXElementSize();
   private readonly overflowing = signal(false);
   private readonly config = injectXuiTextConfig();
@@ -122,7 +134,14 @@ export class XuiText {
    * detection cycle, which is exactly the reflow cost that makes long lists slow.
    */
   remeasure(): void {
-    if (!this.ellipsize()) {
+    // Nothing overflows on the server: there is no viewport for it to overflow,
+    // and both properties below read back as `undefined` there, so the
+    // comparison lands on `false` by accident rather than by measurement. The
+    // answer is the same either way, which is exactly why this is worth
+    // guarding — it would never show up as a wrong result, only as a layout
+    // read per instance per request on a directive that is on nearly every
+    // page. The browser measures for real once it takes over.
+    if (!this.ellipsize() || !this.isBrowser) {
       this.overflowing.set(false);
 
       return;

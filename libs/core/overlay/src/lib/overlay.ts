@@ -319,7 +319,13 @@ function inertBackground(overlayRef: OverlayRef): () => void {
   // Set the attribute rather than the IDL property: it is what the a11y tree
   // reads, it round-trips in jsdom, and skipping already-inert siblings keeps
   // nested modals from clearing an outer one's work on the way out.
-  const inerted = [...body.children].filter(
+  //
+  // `Array.from` rather than a spread: this is reachable on the server, where a
+  // dialog rendered already-open attaches from a plain effect, and the server's
+  // `children` collection has no `Symbol.iterator`. The throw is swallowed by
+  // the platform's `ErrorHandler`, so the cost is a log line plus a modal that
+  // shipped without hiding anything behind it.
+  const inerted = Array.from(body.children).filter(
     (element): element is HTMLElement =>
       element !== container && element instanceof HTMLElement && !element.hasAttribute('inert')
   );

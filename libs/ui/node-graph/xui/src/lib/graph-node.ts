@@ -1,4 +1,5 @@
 import type { BooleanInput, NumberInput } from '@angular/cdk/coercion';
+import { isPlatformBrowser } from '@angular/common';
 import {
   booleanAttribute,
   ChangeDetectionStrategy,
@@ -13,6 +14,7 @@ import {
   numberAttribute,
   type OnInit,
   output,
+  PLATFORM_ID,
   signal,
   untracked,
   ViewEncapsulation
@@ -143,6 +145,7 @@ export type XuiGraphNodeVariants = VariantProps<typeof graphNodeVariants>;
 })
 export class XuiGraphNode implements XuiGraphNodeHandle, OnInit {
   private readonly store = inject(XuiNodeGraphStore);
+  private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
   private readonly sizeState = signal<XuiGraphSize>({ width: 0, height: 0 });
   private readonly layoutEpochState = signal(0);
   private dragOrigin: { x: number; y: number } | null = null;
@@ -264,6 +267,16 @@ export class XuiGraphNode implements XuiGraphNodeHandle, OnInit {
   );
 
   constructor() {
+    // No `ResizeObserver` exists on the server, and constructing one throws
+    // rather than doing nothing, which would take the whole graph down with it.
+    // A node keeps its 0×0 size there — the same "not measured yet" the store
+    // starts every node at — and measures for real once the browser takes over.
+    if (!this.isBrowser || typeof ResizeObserver === 'undefined') {
+      inject(DestroyRef).onDestroy(() => this.store.unregisterNode(this));
+
+      return;
+    }
+
     const observer = new ResizeObserver(entries => {
       const box = entries[0]?.borderBoxSize?.[0];
       const width = box ? box.inlineSize : this.element.offsetWidth;

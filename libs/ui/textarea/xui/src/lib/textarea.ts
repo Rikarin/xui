@@ -1,7 +1,9 @@
 import type { BooleanInput } from '@angular/cdk/coercion';
+import { isPlatformBrowser } from '@angular/common';
 import {
   Directive,
   ElementRef,
+  PLATFORM_ID,
   booleanAttribute,
   computed,
   effect,
@@ -68,6 +70,7 @@ export type XuiTextareaVariants = VariantProps<typeof textareaVariants>;
 })
 export class XuiTextarea implements XFormFieldControl {
   private readonly host: HTMLTextAreaElement = inject(ElementRef).nativeElement;
+  private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
   private readonly formState = createXErrorState();
   private readonly config = injectXuiTextareaConfig();
 
@@ -101,7 +104,12 @@ export class XuiTextarea implements XFormFieldControl {
 
   /** Pin the height to the content. Public so a consumer can call it after setting the value in code. */
   resize(): void {
-    if (!this.autoResize()) {
+    // Nothing to fit to on the server, where `scrollHeight` is `undefined`. The
+    // template literal below does not fail on that, it stringifies — so the box
+    // would ship with `style="height: undefinedpx"`, a declaration the browser
+    // drops on the floor after it has already been parsed. Leaving the height
+    // alone lets `min-h-16` and the content size it until the browser fits it.
+    if (!this.autoResize() || !this.isBrowser) {
       return;
     }
 

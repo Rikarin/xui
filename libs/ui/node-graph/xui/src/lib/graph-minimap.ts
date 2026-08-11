@@ -1,4 +1,5 @@
 import type { NumberInput } from '@angular/cdk/coercion';
+import { isPlatformBrowser } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -7,6 +8,7 @@ import {
   inject,
   input,
   numberAttribute,
+  PLATFORM_ID,
   ViewEncapsulation
 } from '@angular/core';
 import { xui } from '@xui/core';
@@ -71,6 +73,7 @@ import type { XuiGraphRect } from './node-graph.types';
 export class XuiGraphMinimap {
   private readonly store = inject(XuiNodeGraphStore);
   private readonly element = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
+  private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
   private dragging = false;
 
   /** Extra classes, merged into the component's own rather than replacing them. */
@@ -128,11 +131,25 @@ export class XuiGraphMinimap {
     return `${x} ${y} ${width} ${height}`;
   });
 
-  /** Keep hairlines and corners visually constant however far the extent zooms out. */
-  private readonly unitScale = computed(() => this.extent().width / Math.max(this.element.clientWidth, 1));
+  /**
+   * Keep hairlines and corners visually constant however far the extent zooms out.
+   *
+   * `null` on the server, which reports no `clientWidth` for anything. This is a
+   * computed the template pulls on, not an effect, so an unguarded read is not
+   * an error that gets logged and skipped — the NaN it produces serialises, and
+   * every node in the response comes back carrying `rx="NaN"`. Withholding the
+   * attribute leaves SVG's own default in place until the browser measures.
+   */
+  private readonly unitScale = computed<number | null>(() =>
+    this.isBrowser ? this.extent().width / Math.max(this.element.clientWidth, 1) : null
+  );
 
   protected readonly strokeWidth = computed(() => this.unitScale());
-  protected readonly cornerRadius = computed(() => this.unitScale() * 2);
+  protected readonly cornerRadius = computed(() => {
+    const scale = this.unitScale();
+
+    return scale === null ? null : scale * 2;
+  });
 
   protected readonly computedClass = computed(() =>
     xui(
