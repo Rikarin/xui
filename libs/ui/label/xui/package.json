@@ -1,6 +1,6 @@
 {
   "name": "@xui/label",
-  "version": "2.2.0",
+  "version": "2.2.1-alpha.0",
   "description": "Modern Angular 22 UI Library based on TailwindCSS",
   "keywords": [
     "angular",
@@ -22,7 +22,7 @@
   "sideEffects": false,
   "peerDependencies": {
     "@angular/core": "22",
-    "@xui/core": "2.2.0",
+    "@xui/core": "2.2.1-alpha.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1"
   },

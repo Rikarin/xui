@@ -1,3 +1,14 @@
+## 2.2.1-alpha.0 (2026-08-11)
+
+### 🩹 Fixes
+
+- **overflow-list:** stop measuring the DOM on the server ([6218d79d](https://github.com/Rikarin/xui/commit/6218d79d))
+
+### ❤️ Thank You
+
+- Claude Opus 5
+- Rikarin @Rikarin
+
 ## 2.2.0 (2026-08-07)
 
 This was a version bump only, there were no code changes.
