@@ -15,7 +15,7 @@ import {
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { matCloseRound } from '@ng-icons/material-icons/round';
 import { xui } from '@xui/core';
-import { uniqueId } from '@xui/core/a11y';
+import { injectUniqueId } from '@xui/core/a11y';
 import { injectXOverlay, type XGlobalPosition, type XOverlayRef } from '@xui/core/overlay';
 import { XuiIcon } from '@xui/icon';
 import type { ClassValue } from 'clsx';
@@ -84,7 +84,7 @@ export class XuiDrawer {
   private readonly config = injectXuiDrawerConfig();
   private readonly surface = viewChild.required<TemplateRef<unknown>>('surface');
 
-  protected readonly titleId = uniqueId('xui-drawer-title');
+  protected readonly titleId = injectUniqueId('xui-drawer-title');
   private ref: XOverlayRef | null = null;
 
   /** The user-defined classes on the surface. Merged last so they win. */

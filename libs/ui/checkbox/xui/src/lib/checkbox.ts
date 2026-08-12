@@ -14,7 +14,7 @@ import { ControlValueAccessor } from '@angular/forms';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { matCheckRound, matRemoveRound } from '@ng-icons/material-icons/round';
 import { xui } from '@xui/core';
-import { uniqueId } from '@xui/core/a11y';
+import { injectUniqueId } from '@xui/core/a11y';
 import { XCheckbox, XCheckboxImports } from '@xui/core/checkbox';
 import { createXValueAccessor, provideXValueAccessor } from '@xui/core/forms';
 import { XuiIcon, XuiIconSize } from '@xui/icon';
@@ -193,7 +193,7 @@ export class XuiCheckbox implements ControlValueAccessor {
   /** Fall back to the plain-text label for the box's accessible name. */
   protected readonly effectiveAriaLabel = computed(() => this.ariaLabel() ?? (this.label() || null));
 
-  protected readonly labelId = uniqueId('xui-checkbox-label');
+  protected readonly labelId = injectUniqueId('xui-checkbox-label');
 
   /**
    * Projected label content lives in a sibling span, not inside the button, so

@@ -16,7 +16,7 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import { xui } from '@xui/core';
-import { uniqueId } from '@xui/core/a11y';
+import { injectUniqueId } from '@xui/core/a11y';
 import { injectXOverlay, type XOverlayRef } from '@xui/core/overlay';
 import { cva } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
@@ -90,8 +90,8 @@ export class XuiAlertDialog {
   private readonly destroyRef = inject(DestroyRef);
   private readonly surface = viewChild.required<TemplateRef<unknown>>('surface');
 
-  protected readonly titleId = uniqueId('xui-alert-dialog-title');
-  protected readonly descriptionId = uniqueId('xui-alert-dialog-description');
+  protected readonly titleId = injectUniqueId('xui-alert-dialog-title');
+  protected readonly descriptionId = injectUniqueId('xui-alert-dialog-description');
   private ref: XOverlayRef | null = null;
   private destroyed = false;
 

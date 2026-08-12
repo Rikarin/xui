@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 import { xui } from '@xui/core';
-import { uniqueId } from '@xui/core/a11y';
+import { injectUniqueId } from '@xui/core/a11y';
 import { createXValueAccessor, provideXValueAccessor } from '@xui/core/forms';
 import { cva, type VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
@@ -98,7 +98,7 @@ export class XuiSwitch implements ControlValueAccessor {
   readonly size = input<XuiSwitchSize>(this.config.size);
 
   /** The switch's DOM id, so a `<label for>` can point at it. Defaults to a generated unique id. */
-  readonly id = input<string | null>(uniqueId('xui-switch'));
+  readonly id = input<string | null>(injectUniqueId('xui-switch'));
   /** Accessible name for the switch — what it turns on. */
   readonly ariaLabel = input<string | null>(null, { alias: 'aria-label' });
   /** Id of an element naming the switch. Use it instead of `aria-label` when that text is already on screen. */

@@ -17,7 +17,7 @@ import {
 } from '@angular/core';
 import type { ControlValueAccessor } from '@angular/forms';
 import { xui } from '@xui/core';
-import { injectXDirection, uniqueId } from '@xui/core/a11y';
+import { injectUniqueId, injectXDirection } from '@xui/core/a11y';
 import { createXValueAccessor, provideXValueAccessor } from '@xui/core/forms';
 import { injectXOverlay, type XOverlayRef } from '@xui/core/overlay';
 import {
@@ -172,7 +172,7 @@ const toTreeNode = (node: XuiTreeSelectNode): PanelNode => ({
 })
 export class XuiTreeSelect implements ControlValueAccessor {
   protected readonly direction = injectXDirection();
-  protected readonly panelId = uniqueId('xui-tree-select-panel');
+  protected readonly panelId = injectUniqueId('xui-tree-select-panel');
   private readonly overlay = injectXOverlay();
   private readonly trigger = viewChild.required<ElementRef<HTMLElement>>('trigger');
   private readonly panel = viewChild.required<TemplateRef<unknown>>('panel');

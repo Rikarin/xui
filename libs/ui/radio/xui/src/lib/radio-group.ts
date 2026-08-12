@@ -13,7 +13,7 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 import { xui } from '@xui/core';
-import { uniqueId } from '@xui/core/a11y';
+import { injectUniqueId } from '@xui/core/a11y';
 import { createXValueAccessor, provideXValueAccessor } from '@xui/core/forms';
 import type { ClassValue } from 'clsx';
 import { injectXuiRadioConfig } from './radio.token';
@@ -90,7 +90,7 @@ export class XuiRadioGroup<T = unknown> implements ControlValueAccessor, XuiRadi
    * The shared `name` for the radios in the group, so the browser treats them as one set. Defaults to a generated
    * unique name.
    */
-  readonly name = input<string>(uniqueId('xui-radio-group'));
+  readonly name = input<string>(injectUniqueId('xui-radio-group'));
   /** Accessible name for the group — what is being chosen. */
   readonly ariaLabel = input<string | null>(null, { alias: 'aria-label' });
   /** Id of an element naming the group. Use it instead of `aria-label` when that text is already on screen. */

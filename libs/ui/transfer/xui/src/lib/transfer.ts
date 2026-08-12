@@ -13,7 +13,7 @@ import {
 } from '@angular/core';
 import type { ControlValueAccessor } from '@angular/forms';
 import { xui } from '@xui/core';
-import { uniqueId } from '@xui/core/a11y';
+import { injectUniqueId } from '@xui/core/a11y';
 import { createXValueAccessor, provideXValueAccessor } from '@xui/core/forms';
 import type { ClassValue } from 'clsx';
 
@@ -206,7 +206,7 @@ export class XuiTransfer implements ControlValueAccessor {
   /** The option the arrow keys are on, per side — see `aria-activedescendant`. */
   private readonly activeLeft = signal<string | null>(null);
   private readonly activeRight = signal<string | null>(null);
-  private readonly idPrefix = uniqueId('xui-transfer');
+  private readonly idPrefix = injectUniqueId('xui-transfer');
 
   private readonly targetSet = computed(() => new Set(this.values()));
   protected readonly leftItems = computed(() => this.items().filter(item => !this.targetSet().has(item.key)));

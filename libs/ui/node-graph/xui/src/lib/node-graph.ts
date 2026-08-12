@@ -18,6 +18,7 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import { xui } from '@xui/core';
+import { injectUniqueId } from '@xui/core/a11y';
 import type { ClassValue } from 'clsx';
 import { XuiNodeGraphStore, type XuiGraphSettings } from './node-graph-store';
 import { xuiGraphEdgeMidpoint, xuiGraphEdgePath, type XuiGraphRouteOptions } from './node-graph.routing';
@@ -54,8 +55,6 @@ interface RenderedEdge {
   label: string | null;
   labelPosition: XuiGraphPoint;
 }
-
-let nextGraphId = 0;
 
 /**
  * A pannable, zoomable canvas for node-based editors and schematics.
@@ -236,7 +235,7 @@ export class XuiNodeGraph {
   private readonly config = injectXuiNodeGraphConfig();
   private readonly element = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
   private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
-  private readonly uid = nextGraphId++;
+  private readonly uid = injectUniqueId('xui-graph');
 
   /** Pointer position where the current gesture began, in client coordinates. */
   private gestureOrigin: XuiGraphPoint = { x: 0, y: 0 };
@@ -351,9 +350,9 @@ export class XuiNodeGraph {
   readonly canvasContextMenu = output<{ event: MouseEvent; position: XuiGraphPoint }>();
 
   protected readonly Math = Math;
-  protected readonly arrowId = `xui-graph-arrow-${this.uid}`;
-  protected readonly arrowClosedId = `xui-graph-arrow-closed-${this.uid}`;
-  protected readonly dotId = `xui-graph-dot-${this.uid}`;
+  protected readonly arrowId = `${this.uid}-arrow`;
+  protected readonly arrowClosedId = `${this.uid}-arrow-closed`;
+  protected readonly dotId = `${this.uid}-dot`;
 
   protected readonly marqueeRect = computed(() => {
     const rect = this.marqueeState();

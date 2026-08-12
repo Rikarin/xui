@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, input, ViewEncapsulation } from '@angular/core';
 import { xui } from '@xui/core';
-import { uniqueId } from '@xui/core/a11y';
+import { injectUniqueId } from '@xui/core/a11y';
 import { cva, VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
 import { injectXuiStatusConfig } from './status.token';
@@ -76,7 +76,7 @@ export class XuiStatus {
    * DOM ids must be unique, so each instance defines its own clip path rather
    * than sharing fixed ids across every status dot on the page.
    */
-  private readonly instanceId = uniqueId('xui-status');
+  private readonly instanceId = injectUniqueId('xui-status');
 
   /** The classes to apply to the component merged with the user-defined classes */
   protected readonly computedClass = computed(() =>

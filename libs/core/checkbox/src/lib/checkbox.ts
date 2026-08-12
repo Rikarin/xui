@@ -26,7 +26,7 @@ import {
 import { SIGNAL, type SignalNode, signalSetFn } from '@angular/core/primitives/signals';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { uniqueId } from '@xui/core/a11y';
+import { injectUniqueId } from '@xui/core/a11y';
 import { XChangeFn, XTouchFn } from '@xui/core/forms';
 
 export const X_CHECKBOX_VALUE_ACCESSOR = {
@@ -135,7 +135,7 @@ export class XCheckbox implements ControlValueAccessor, AfterContentInit, OnDest
    * When provided, the inner button gets ID without '-checkbox' suffix.
    * Auto-generates ID if not provided.
    */
-  readonly id = input<string | null>(uniqueId('x-checkbox'));
+  readonly id = input<string | null>(injectUniqueId('x-checkbox'));
 
   /**
    * Form control name for checkbox.

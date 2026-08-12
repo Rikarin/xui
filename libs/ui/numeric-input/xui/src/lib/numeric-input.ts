@@ -17,7 +17,7 @@ import { ControlValueAccessor, type NgControl } from '@angular/forms';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { matKeyboardArrowDownRound, matKeyboardArrowUpRound } from '@ng-icons/material-icons/round';
 import { xui } from '@xui/core';
-import { uniqueId } from '@xui/core/a11y';
+import { injectUniqueId } from '@xui/core/a11y';
 import { XFormFieldControl } from '@xui/core/form-field';
 import { createXErrorState, createXValueAccessor, provideXValueAccessor } from '@xui/core/forms';
 import { XuiIcon, type XuiIconSize } from '@xui/icon';
@@ -113,7 +113,7 @@ import {
 export class XuiNumericInput implements ControlValueAccessor, XFormFieldControl {
   private readonly config = injectXuiNumericInputConfig();
   private readonly formState = createXErrorState();
-  protected readonly fieldId = uniqueId('xui-numeric-input');
+  protected readonly fieldId = injectUniqueId('xui-numeric-input');
 
   /** Error state for `xui-form-field`, derived from the optional bound form control. */
   readonly errorState = this.formState.errorState;

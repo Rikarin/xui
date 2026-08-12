@@ -12,7 +12,7 @@ import {
   numberAttribute,
   untracked
 } from '@angular/core';
-import { uniqueId } from '@xui/core/a11y';
+import { injectUniqueId } from '@xui/core/a11y';
 import { createXHoverGate, injectXOverlay, type XOverlayRef, type XPlacement } from '@xui/core/overlay';
 import { XUI_TOOLTIP_CONTENT } from './tooltip-content';
 import { XuiTooltipPanel } from './tooltip-panel';
@@ -51,7 +51,7 @@ export class XuiTooltip {
   private readonly overlay = injectXOverlay();
   private readonly config = injectXuiTooltipConfig();
 
-  protected readonly panelId = uniqueId('xui-tooltip');
+  protected readonly panelId = injectUniqueId('xui-tooltip');
 
   private ref: XOverlayRef | null = null;
 

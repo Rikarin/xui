@@ -12,13 +12,12 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import { xui } from '@xui/core';
+import { injectUniqueId } from '@xui/core/a11y';
 import { XFormFieldControl } from '@xui/core/form-field';
 import { cva, VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
 import { XuiError } from './error';
 import { injectXuiFormFieldConfig } from './form-field.token';
-
-let nextId = 0;
 
 export const formFieldRootVariants = cva('', {
   variants: {
@@ -133,7 +132,7 @@ export class XuiFormField {
   /** Lay the label beside the control rather than above it. */
   readonly inline = input<boolean, BooleanInput>(this.config.inline, { transform: booleanAttribute });
 
-  private readonly generatedId = `xui-form-field-${nextId++}`;
+  private readonly generatedId = injectUniqueId('xui-form-field');
 
   protected readonly computedClass = computed(() =>
     xui(formFieldRootVariants({ inline: this.inline() }), this.class())

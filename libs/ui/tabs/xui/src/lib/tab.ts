@@ -11,7 +11,7 @@ import {
   viewChild,
   ViewEncapsulation
 } from '@angular/core';
-import { uniqueId } from '@xui/core/a11y';
+import { injectUniqueId } from '@xui/core/a11y';
 
 /**
  * Marks an `<ng-template>` inside a `xui-tab` as the tab's title, for when a
@@ -49,7 +49,7 @@ export class XuiTab {
    * to the tabs whose selection is driven from outside — `[(selectedTabId)]`
    * can only name a tab it can spell.
    */
-  readonly id = input<string>(uniqueId('xui-tab'));
+  readonly id = input<string>(injectUniqueId('xui-tab'));
 
   /** Plain-text tab-strip label (ignored when a `[xuiTabTitle]` template is given). */
   readonly title = input<string>('');

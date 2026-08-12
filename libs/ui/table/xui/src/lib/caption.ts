@@ -11,10 +11,9 @@ import {
   untracked
 } from '@angular/core';
 import { xui } from '@xui/core';
+import { injectUniqueId } from '@xui/core/a11y';
 import type { ClassValue } from 'clsx';
 import { XuiTable } from './table';
-
-let captionIdSequence = 0;
 
 /**
  * The table's accessible name.
@@ -50,7 +49,7 @@ export class XuiCaption {
   /** Extra classes, merged into the component's own rather than replacing them. */
   readonly class = input<ClassValue>('');
 
-  protected readonly id = input<string | null | undefined>(`${captionIdSequence++}`);
+  protected readonly id = input<string | null | undefined>(injectUniqueId('xui-caption'));
   protected readonly computedClass = computed(() =>
     xui('text-center block mt-4 text-sm text-foreground-subtle', this.hidden() ? 'sr-only' : 'order-last', this.class())
   );

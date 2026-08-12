@@ -17,7 +17,7 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import { xui } from '@xui/core';
-import { arrowDirectionOnAxis, injectXDirection, uniqueId } from '@xui/core/a11y';
+import { arrowDirectionOnAxis, injectUniqueId, injectXDirection } from '@xui/core/a11y';
 import { cva, VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
 import { XuiTab } from './tab';
@@ -116,7 +116,7 @@ export type XuiTabsVariants = VariantProps<typeof tabsTabVariants>;
   encapsulation: ViewEncapsulation.None
 })
 export class XuiTabs {
-  private readonly uid = uniqueId('xui-tabs');
+  private readonly uid = injectUniqueId('xui-tabs');
   private readonly config = injectXuiTabsConfig();
 
   /** Extra classes, merged into the component's own rather than replacing them. */

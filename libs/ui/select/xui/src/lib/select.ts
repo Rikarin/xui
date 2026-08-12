@@ -22,7 +22,7 @@ import type { ControlValueAccessor, NgControl } from '@angular/forms';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { matExpandMoreRound, matSearchRound } from '@ng-icons/material-icons/round';
 import { xui } from '@xui/core';
-import { uniqueId } from '@xui/core/a11y';
+import { injectUniqueId } from '@xui/core/a11y';
 import { XFormFieldControl } from '@xui/core/form-field';
 import { createXErrorState, createXValueAccessor, provideXValueAccessor } from '@xui/core/forms';
 import { createXActiveOption, createXItemListPredicate, createXQueryList, trackXItem } from '@xui/core/query';
@@ -138,8 +138,8 @@ export class XuiSelect<T> implements XFormFieldControl, ControlValueAccessor {
   private readonly injector = inject(Injector);
   private readonly document = inject(DOCUMENT);
   private readonly formState = createXErrorState();
-  protected readonly searchId = uniqueId('xui-select-search');
-  protected readonly triggerId = uniqueId('xui-select-trigger');
+  protected readonly searchId = injectUniqueId('xui-select-search');
+  protected readonly triggerId = injectUniqueId('xui-select-trigger');
 
   /** Error state for `xui-form-field`, derived from the optional bound form control. */
   readonly errorState = this.formState.errorState;

@@ -1,8 +1,7 @@
 import { isPlatformBrowser } from '@angular/common';
 import { DestroyRef, Directive, ElementRef, type OnInit, PLATFORM_ID, inject, input, signal } from '@angular/core';
 import { NgControl } from '@angular/forms';
-
-let nextId = 0;
+import { injectUniqueId } from '@xui/core/a11y';
 
 /**
  * The headless half of a label: a stable id, plus the control's validity and disabled state
@@ -36,7 +35,7 @@ export class XLabel implements OnInit {
    * The label's DOM id, so a control can point `aria-labelledby` at it. Defaults to a generated
    * unique id.
    */
-  readonly id = input<string>(`x-label-${nextId++}`);
+  readonly id = input<string>(injectUniqueId('x-label'));
 
   private readonly _dataDisabled = signal<boolean | 'auto'>('auto');
   readonly dataDisabled = this._dataDisabled.asReadonly();

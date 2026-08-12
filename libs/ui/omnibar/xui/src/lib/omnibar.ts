@@ -26,7 +26,7 @@ import {
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { matSearchRound } from '@ng-icons/material-icons/round';
 import { xui } from '@xui/core';
-import { uniqueId } from '@xui/core/a11y';
+import { injectUniqueId } from '@xui/core/a11y';
 import { isXMacPlatform, isXTextEntryTarget, matchesXCombo, parseXCombo } from '@xui/core/hotkeys';
 import { injectXOverlay, type XOverlayRef } from '@xui/core/overlay';
 import {
@@ -229,8 +229,8 @@ export class XuiOmnibar<T> {
   private readonly surface = viewChild.required<TemplateRef<unknown>>('surface');
   private readonly viewport = viewChild(CdkVirtualScrollViewport);
   private readonly destroyRef = inject(DestroyRef);
-  protected readonly listId = uniqueId('xui-omnibar-list');
-  protected readonly searchId = uniqueId('xui-omnibar-search');
+  protected readonly listId = injectUniqueId('xui-omnibar-list');
+  protected readonly searchId = injectUniqueId('xui-omnibar-search');
   private ref: XOverlayRef | null = null;
   private destroyed = false;
 

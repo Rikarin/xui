@@ -30,11 +30,25 @@ import { XuiNodeGraphImports } from '../index';
 })
 class ServerHost {}
 
-function render(): Promise<string> {
-  return renderApplication(context => bootstrapApplication(ServerHost, {}, context), {
+/** Two graphs on one page, so the marker ids have something to collide with. */
+@Component({
+  selector: 'xui-root',
+  imports: [XuiNodeGraphImports],
+  template: `
+    <xui-node-graph [edges]="[]"><xui-graph-node nodeId="a" label="A" [position]="{ x: 0, y: 0 }" /></xui-node-graph>
+    <xui-node-graph [edges]="[]"><xui-graph-node nodeId="b" label="B" [position]="{ x: 0, y: 0 }" /></xui-node-graph>
+  `
+})
+class TwoGraphs {}
+
+function render(root: typeof ServerHost | typeof TwoGraphs = ServerHost): Promise<string> {
+  return renderApplication(context => bootstrapApplication(root, {}, context), {
     document: '<html><body><xui-root></xui-root></body></html>'
   });
 }
+
+/** Every `<marker>` id, in source order. */
+const markerIds = (html: string): string[] => [...html.matchAll(/<marker[^>]*\sid="([^"]*)"/g)].map(match => match[1]);
 
 describe('XuiNodeGraph on the server', () => {
   /**
@@ -70,5 +84,53 @@ describe('XuiNodeGraph on the server', () => {
     // it is NaN — and NaN reaches the response as an attribute value, which is
     // markup the browser has to recover from rather than a line in a log.
     expect(html).not.toContain('NaN');
+  });
+
+  describe('marker ids', () => {
+    it('draws the arrowhead markers at all', async () => {
+      const html = await render(TwoGraphs);
+
+      // Anchor: the assertions below are about the *values* of these ids, and
+      // every one of them holds vacuously on a response with no `<marker>` in
+      // it — two empty lists are equal and contain no duplicates. The graph
+      // throwing in its constructor is exactly how this file's other cases got
+      // an empty response, so it is not a hypothetical failure mode here.
+      expect(markerIds(html)).toHaveLength(6);
+    });
+
+    it('serves two requests for the same page the same bytes', async () => {
+      const first = await render(TwoGraphs);
+      const second = await render(TwoGraphs);
+
+      // The markers are addressed by `marker-end="url(#…)"`, so an id counted
+      // from the process makes the whole SVG a function of how many graphs the
+      // process has already drawn.
+      expect(second).toBe(first);
+    });
+
+    it('numbers graphs from the page rather than from the process', async () => {
+      await render(TwoGraphs);
+      await render(TwoGraphs);
+
+      const html = await render(TwoGraphs);
+
+      expect(markerIds(html)).toEqual([
+        'xui-graph-0-arrow',
+        'xui-graph-0-arrow-closed',
+        'xui-graph-0-dot',
+        'xui-graph-1-arrow',
+        'xui-graph-1-arrow-closed',
+        'xui-graph-1-dot'
+      ]);
+    });
+
+    it('keeps the two graphs on a page apart', async () => {
+      const html = await render(TwoGraphs);
+
+      // Determinism is buyable by giving every graph the same marker ids, and an
+      // SVG `url(#…)` resolves to the first match in the document — so the second
+      // graph would quietly borrow the first one's arrowheads.
+      expect(new Set(markerIds(html)).size).toBe(6);
+    });
   });
 });

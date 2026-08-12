@@ -13,7 +13,7 @@ import { NgIcon, provideIcons } from '@ng-icons/core';
 import { matExpandMoreRound } from '@ng-icons/material-icons/round';
 import { XuiCollapseImports } from '@xui/collapse';
 import { xui } from '@xui/core';
-import { uniqueId } from '@xui/core/a11y';
+import { injectUniqueId } from '@xui/core/a11y';
 import { XuiIcon } from '@xui/icon';
 import { cva, VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
@@ -115,7 +115,7 @@ export type XuiSectionVariants = VariantProps<typeof sectionVariants>;
   }
 })
 export class XuiSection {
-  protected readonly panelId = uniqueId('xui-section-panel');
+  protected readonly panelId = injectUniqueId('xui-section-panel');
   private readonly config = injectXuiSectionConfig();
 
   /** The user-defined classes. Merged last so they win over the variant classes. */
