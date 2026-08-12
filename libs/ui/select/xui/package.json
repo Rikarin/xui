@@ -1,6 +1,6 @@
 {
   "name": "@xui/select",
-  "version": "2.2.2",
+  "version": "2.2.3-alpha.0",
   "description": "Modern Angular 22 UI Library based on TailwindCSS",
   "keywords": [
     "angular",
@@ -27,9 +27,9 @@
     "@angular/forms": "22",
     "@ng-icons/core": "34",
     "@ng-icons/material-icons": "34",
-    "@xui/core": "2.2.2",
-    "@xui/icon": "2.2.2",
-    "@xui/popover": "2.2.2",
+    "@xui/core": "2.2.3-alpha.0",
+    "@xui/icon": "2.2.3-alpha.0",
+    "@xui/popover": "2.2.3-alpha.0",
     "clsx": "^2.1.1"
   },
   "publishConfig": {

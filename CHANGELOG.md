@@ -1,3 +1,16 @@
+## 2.2.3-alpha.0 (2026-08-12)
+
+### 🩹 Fixes
+
+- **core:** allocate generated ids per application, not per process ([#2](https://github.com/Rikarin/xui/issues/2))
+- **core:** strip only a trailing -checkbox from the checkbox button id ([908e5140](https://github.com/Rikarin/xui/commit/908e5140))
+- **konva:** render a stage on the server instead of throwing in its constructor ([eedf0642](https://github.com/Rikarin/xui/commit/eedf0642))
+
+### ❤️ Thank You
+
+- Claude Opus 5
+- Rikarin @Rikarin
+
 ## 2.2.2 (2026-08-12)
 
 This was a version bump only, there were no code changes.
