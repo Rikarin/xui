@@ -121,6 +121,92 @@ describe('XuiPanelStack', () => {
     expect(closed).toEqual(['Next']);
   });
 
+  /**
+   * The slide is decorative, but skipping it is not: `prefers-reduced-motion` is
+   * an accessibility setting, and a guard that skips the animation whenever it
+   * cannot read that setting is as wrong as one that never skips it.
+   *
+   * jsdom has no `matchMedia` at all, which makes it the awkward case rather
+   * than the easy one — "the API is missing" must keep meaning "animate", or a
+   * fix aimed at the server has quietly changed the browser. Each case installs
+   * the environment it is about; the `afterEach` puts jsdom back.
+   */
+  describe('reduced motion', () => {
+    let animate: jest.SpyInstance;
+    let queries: string[];
+
+    const matchMedia = (answer: (query: string) => boolean) => {
+      (globalThis as unknown as { matchMedia: unknown }).matchMedia = (query: string) => {
+        queries.push(query);
+
+        return { matches: answer(query), media: query };
+      };
+    };
+
+    /** Push a panel — the only thing that moves the depth, and so the only thing that slides. */
+    const push = (detect: () => void) => {
+      (document.querySelector('xui-panel-stack button') as HTMLElement).click();
+      detect();
+    };
+
+    beforeEach(() => {
+      queries = [];
+      animate = jest.spyOn(Element.prototype, 'animate');
+    });
+
+    afterEach(() => {
+      animate.mockRestore();
+      delete (globalThis as unknown as { matchMedia?: unknown }).matchMedia;
+    });
+
+    it('skips the slide when the user has asked for less motion', () => {
+      matchMedia(query => query.includes('prefers-reduced-motion'));
+      const { detect } = setup();
+      detect();
+
+      push(detect);
+
+      // The panel still changes; only the motion is dropped.
+      expect(title()).toBe('Second');
+      expect(animate).not.toHaveBeenCalled();
+    });
+
+    it('slides when the query is answered, but answered no', () => {
+      // The environment that hands back a `MediaQueryList` whose `matches` is
+      // always false — a real answer, and a different thing from no answer.
+      matchMedia(() => false);
+      const { detect } = setup();
+      detect();
+
+      push(detect);
+
+      expect(animate).toHaveBeenCalledTimes(1);
+    });
+
+    it('slides when the browser cannot answer at all', () => {
+      // jsdom as it comes: no `matchMedia`. Absent is not "yes, less motion" — a
+      // fix that early-returns on a missing `matchMedia` would turn the
+      // animation off for every browser that lacks it, and this case says so.
+      expect(globalThis.matchMedia).toBeUndefined();
+      const { detect } = setup();
+      detect();
+
+      push(detect);
+
+      expect(animate).toHaveBeenCalledTimes(1);
+    });
+
+    it('asks about motion, not about something else', () => {
+      matchMedia(() => false);
+      const { detect } = setup();
+      detect();
+
+      push(detect);
+
+      expect(queries).toEqual(['(prefers-reduced-motion: reduce)']);
+    });
+  });
+
   it('hides the header when asked', () => {
     const { detect } = setup(
       `<xui-panel-stack [showPanelHeader]="false" [initialPanel]="{ title: 'Root', content: root }" />

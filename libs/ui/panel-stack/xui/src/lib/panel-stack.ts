@@ -1,5 +1,5 @@
 import type { BooleanInput } from '@angular/cdk/coercion';
-import { NgComponentOutlet, NgTemplateOutlet } from '@angular/common';
+import { isPlatformBrowser, NgComponentOutlet, NgTemplateOutlet } from '@angular/common';
 import {
   booleanAttribute,
   ChangeDetectionStrategy,
@@ -11,6 +11,7 @@ import {
   Injector,
   input,
   output,
+  PLATFORM_ID,
   signal,
   TemplateRef,
   untracked,
@@ -79,6 +80,7 @@ import { XUI_PANEL_DATA, XUI_PANEL_STACK, type XuiPanel } from './panel-stack.ty
 })
 export class XuiPanelStack<D = unknown> {
   private readonly host = inject(Injector);
+  private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
   private readonly view = viewChild.required<ElementRef<HTMLElement>>('view');
 
   /** The user-defined classes. Merged last so they win over the base classes. */
@@ -182,6 +184,24 @@ export class XuiPanelStack<D = unknown> {
   }
 
   private slide(direction: 1 | -1): void {
+    // The platform first, and separately from the preference.
+    //
+    // `globalThis.matchMedia?.(…).matches` looks like it covers the server and
+    // does not: `?.()` short-circuits the whole chain, so with no `matchMedia`
+    // the expression is `undefined`, the guard reads "the user is fine with
+    // motion", and the render falls through to `element.animate` — which the
+    // server DOM does not implement. This effect is reached whenever the depth
+    // changes, and the depth can change during a server render: a component
+    // panel that calls `openPanel` from its constructor is the documented use
+    // of `XUI_PANEL_STACK`.
+    if (!this.isBrowser) {
+      return;
+    }
+
+    // The preference, which is a separate question and only meaningful here.
+    // `matches === false` is a real answer and means animate; a browser with no
+    // `matchMedia` at all cannot answer, which is also not a request for less
+    // motion. Only an explicit yes skips the slide.
     if (globalThis.matchMedia?.('(prefers-reduced-motion: reduce)').matches) {
       return;
     }

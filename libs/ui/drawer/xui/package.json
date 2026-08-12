@@ -22,6 +22,7 @@
   "sideEffects": false,
   "peerDependencies": {
     "@angular/cdk": "22",
+    "@angular/common": "22",
     "@angular/core": "22",
     "@ng-icons/core": "34",
     "@ng-icons/material-icons": "34",

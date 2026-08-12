@@ -96,6 +96,23 @@ describe('XuiDrawer', () => {
     expect(drawer()).toBeNull();
   });
 
+  it('slides in from its edge when it opens', () => {
+    // The other half of the pair below, and the browser side of the platform
+    // guard in `slideIn`: on a real client the drawer still animates, whether or
+    // not `matchMedia` is there to be asked — jsdom has none.
+    const animate = jest.spyOn(Element.prototype, 'animate');
+
+    try {
+      const { setProps } = setup('right');
+      setProps({ open: true });
+
+      expect(animate).toHaveBeenCalledTimes(1);
+      expect(animate.mock.calls[0][0]).toEqual([{ transform: 'translateX(100%)' }, { transform: 'none' }]);
+    } finally {
+      animate.mockRestore();
+    }
+  });
+
   it('slides out before it goes, whichever way it was closed', async () => {
     let land!: () => void;
     const finished = new Promise<void>(resolve => (land = () => resolve()));

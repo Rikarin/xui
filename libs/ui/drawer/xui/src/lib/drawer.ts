@@ -1,12 +1,15 @@
 import type { BooleanInput } from '@angular/cdk/coercion';
+import { isPlatformBrowser } from '@angular/common';
 import {
   booleanAttribute,
   ChangeDetectionStrategy,
   Component,
   computed,
   effect,
+  inject,
   input,
   model,
+  PLATFORM_ID,
   TemplateRef,
   untracked,
   viewChild,
@@ -82,6 +85,7 @@ const EDGE: Record<XuiDrawerPosition, { cross: string; border: string; pin: XGlo
 export class XuiDrawer {
   private readonly overlay = injectXOverlay();
   private readonly config = injectXuiDrawerConfig();
+  private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
   private readonly surface = viewChild.required<TemplateRef<unknown>>('surface');
 
   protected readonly titleId = injectUniqueId('xui-drawer-title');
@@ -191,6 +195,21 @@ export class XuiDrawer {
   }
 
   private slideIn(pane: HTMLElement, from: string): void {
+    // Nothing to transition on the server, and `stillness()` will not stop this:
+    // it reads `globalThis.matchMedia?.(…)`, which short-circuits to `undefined`
+    // where there is no `matchMedia`, so it answers "the user is fine with
+    // motion" and lets the call through to `pane.animate` — which the server DOM
+    // does not have. A drawer rendered `[open]="true"` attaches its overlay
+    // during the server render and reaches here.
+    //
+    // `slideOut` below is safe from the same DOM without this check, and not
+    // because of `stillness()`: it calls `pane.animate?.(...)` and returns when
+    // nothing comes back. The optional call there is on the API that may be
+    // missing rather than on the one that always exists.
+    if (!this.isBrowser) {
+      return;
+    }
+
     // A transition from off-screen; skipped when the user asks for less motion.
     if (this.stillness()) {
       return;
