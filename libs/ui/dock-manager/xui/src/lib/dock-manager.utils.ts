@@ -1,3 +1,4 @@
+import { Injectable } from '@angular/core';
 import {
   isContentPane,
   isDocumentHost,
@@ -32,24 +33,65 @@ import {
  */
 
 const paneKeys = new WeakMap<XuiDockPane, string>();
-let nextPaneKey = 0;
 
 /**
- * A stable string key for a pane object, allocated on first use.
+ * Allocates the keys a dock manager writes to `data-dock-key`, one counter per
+ * application.
  *
- * Used for `@for` tracking and for finding the pane behind a DOM element during a
- * drag. Keyed by object identity, so it survives every operation in this file and
- * is *not* preserved by {@link cloneDockLayout}.
+ * The counter has to be scoped to something, and the process is the one scope
+ * that is wrong. A server renders many pages from one process, so a key drawn
+ * from a module-level counter makes the response a function of how many pages
+ * the process has already served: the same request answered twice comes back
+ * with `pane-1` once and `pane-3` the next time. `providedIn: 'root'` puts the
+ * counter in the application's own injector, and an application is exactly one
+ * render — one server request, or one page in the browser. Two renders count
+ * from the same place, and so does the client that takes over from either.
+ *
+ * One counter serves every dock manager in the application rather than one per
+ * component, so two dock managers on a page still get four distinct keys for
+ * their four panes. Nothing needs that — every lookup is scoped to the manager's
+ * own host element — but a key that identifies a pane is worth more than one
+ * that identifies its position in whichever manager happens to hold it.
+ *
+ * Keyed by object identity, so a key survives every operation in this file: a
+ * pane keeps it while it is dragged, docked, floated and tabbed, and so keeps
+ * its DOM. {@link cloneDockLayout} produces different objects, which get fresh
+ * keys — that is the point of a clone.
+ */
+@Injectable({ providedIn: 'root' })
+export class XuiDockPaneKeys {
+  private readonly keys = new WeakMap<XuiDockPane, string>();
+  private next = 0;
+
+  /** This application's key for `pane`, allocated on first use. */
+  keyFor(pane: XuiDockPane): string {
+    let key = this.keys.get(pane);
+
+    if (!key) {
+      key = `pane-${++this.next}`;
+      this.keys.set(pane, key);
+
+      // Mirrored so {@link dockPaneKey} can answer for a pane without an
+      // injector. The per-application map stays authoritative: two applications
+      // sharing one pane object each number it from their own counter, and only
+      // the last render's answer is visible here.
+      paneKeys.set(pane, key);
+    }
+
+    return key;
+  }
+}
+
+/**
+ * The key a dock manager gave `pane`, or `''` if none has rendered it yet.
+ *
+ * Pairs with the `data-dock-key` attribute — `[data-dock-key="${dockPaneKey(pane)}"]`
+ * finds the element a pane was rendered into. Keys are allocated by
+ * {@link XuiDockPaneKeys}, so this reports one rather than minting it: a pane no
+ * dock manager has drawn has no element to find, and `''` matches nothing.
  */
 export function dockPaneKey(pane: XuiDockPane): string {
-  let key = paneKeys.get(pane);
-
-  if (!key) {
-    key = `pane-${++nextPaneKey}`;
-    paneKeys.set(pane, key);
-  }
-
-  return key;
+  return paneKeys.get(pane) ?? '';
 }
 
 /**

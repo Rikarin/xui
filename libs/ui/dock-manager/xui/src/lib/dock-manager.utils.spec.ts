@@ -19,7 +19,8 @@ import {
   removeDockPane,
   selectedTabPane,
   unpinnedDockPanes,
-  visibleDockChildren
+  visibleDockChildren,
+  XuiDockPaneKeys
 } from './dock-manager.utils';
 
 const content = (contentId: string, extra: Partial<XuiDockContentPane> = {}): XuiDockContentPane => ({
@@ -323,10 +324,39 @@ describe('dock layout utilities', () => {
 
   describe('pane identity', () => {
     it('gives a pane the same key for as long as it lives', () => {
+      const keys = new XuiDockPaneKeys();
       const pane = content('a');
 
-      expect(dockPaneKey(pane)).toBe(dockPaneKey(pane));
-      expect(dockPaneKey(content('a'))).not.toBe(dockPaneKey(pane));
+      expect(keys.keyFor(pane)).toBe(keys.keyFor(pane));
+      expect(keys.keyFor(content('a'))).not.toBe(keys.keyFor(pane));
+    });
+
+    it('counts from the start in each application, so two of them agree', () => {
+      // The property the server depends on: a render is an application, and two
+      // renders of the same page number their panes identically. A counter that
+      // outlived the application would make the second render's markup differ
+      // from the first's for no reason the request can see.
+      const first = new XuiDockPaneKeys();
+      const second = new XuiDockPaneKeys();
+
+      expect([first.keyFor(content('a')), first.keyFor(content('b'))]).toEqual([
+        second.keyFor(content('a')),
+        second.keyFor(content('b'))
+      ]);
+    });
+
+    it('reports nothing for a pane no dock manager has rendered', () => {
+      const keys = new XuiDockPaneKeys();
+      const pane = content('a');
+
+      // `dockPaneKey` pairs with the `data-dock-key` attribute, and a pane that
+      // was never drawn has no element to find. Minting a key here is what put
+      // the counter outside any application in the first place.
+      expect(dockPaneKey(pane)).toBe('');
+      expect(dockPaneKey(pane)).toBe('');
+
+      expect(keys.keyFor(pane)).not.toBe('');
+      expect(dockPaneKey(pane)).toBe(keys.keyFor(pane));
     });
 
     it('cloneDockLayout produces an independent snapshot', () => {

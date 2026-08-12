@@ -71,6 +71,22 @@ describe('XuiDockManager', () => {
     expect(host.querySelectorAll('[role="separator"]')).toHaveLength(1);
   });
 
+  it('keys the panes the same way every application does', () => {
+    const keysOf = (host: HTMLElement) =>
+      [...host.querySelectorAll('[data-dock-key]')].map(el => el.getAttribute('data-dock-key'));
+
+    const first = keysOf(setup(pair().layout).host);
+    const second = keysOf(setup(pair().layout).host);
+
+    // Each `setup` is a fresh application, which is what one server request and
+    // one browser page each are. The literal values are asserted, not just their
+    // equality, because the same values have to come back from a server render
+    // of this layout — see `dock-manager.server.spec.ts`. A key drawn from a
+    // counter the application does not own would agree with neither.
+    expect(first).toEqual(['pane-1', 'pane-2']);
+    expect(second).toEqual(first);
+  });
+
   it('keeps a content view alive as the layout changes around it', () => {
     const { a, b, layout } = pair();
     const { host, cmp, detect } = setup(layout);

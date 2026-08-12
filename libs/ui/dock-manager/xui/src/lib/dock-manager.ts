@@ -2,19 +2,19 @@ import { NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  DestroyRef,
-  ElementRef,
-  ViewContainerRef,
-  ViewEncapsulation,
   computed,
   contentChildren,
+  DestroyRef,
   effect,
+  ElementRef,
   forwardRef,
   inject,
   input,
   model,
   output,
   signal,
+  ViewContainerRef,
+  ViewEncapsulation,
   type EmbeddedViewRef
 } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
@@ -57,14 +57,14 @@ import {
   collectContentPanes,
   defaultUnpinnedLocation,
   dockPaneAt,
-  dockPaneKey,
   findMaximizedPane,
   floatDockPane,
   normalizeDockLayout,
   removeDockPane,
   selectedTabPane,
   unpinnedDockPanes,
-  visibleDockChildren
+  visibleDockChildren,
+  XuiDockPaneKeys
 } from './dock-manager.utils';
 
 /** Thickness of the edge strips that hold unpinned panes' tabs, in pixels. */
@@ -525,6 +525,7 @@ export class XuiDockManager implements XuiDockContentMounter {
   private readonly el: HTMLElement = inject(ElementRef).nativeElement;
   private readonly document = this.el.ownerDocument;
   private readonly vcr = inject(ViewContainerRef);
+  private readonly paneKeys = inject(XuiDockPaneKeys);
   private readonly direction = injectXDirection();
 
   /** Detached parking space for the content views of panes that are not on screen. */
@@ -839,7 +840,12 @@ export class XuiDockManager implements XuiDockContentMounter {
 
   // ─── template helpers ─────────────────────────────────────────────────────
 
-  protected readonly key = dockPaneKey;
+  /**
+   * The `data-dock-key` a pane is rendered with, and the handle every DOM lookup
+   * below goes back through. Allocated per application rather than per process —
+   * see {@link XuiDockPaneKeys}.
+   */
+  protected readonly key = (pane: XuiDockPane): string => this.paneKeys.keyFor(pane);
 
   protected childrenOf(pane: XuiDockPane): XuiDockPane[] {
     return visibleDockChildren(pane);
@@ -1275,7 +1281,7 @@ export class XuiDockManager implements XuiDockContentMounter {
 
     return candidates.map(candidate => ({
       ...candidate,
-      key: `${dockPaneKey(candidate.pane)}-${candidate.position}-${candidate.side}`,
+      key: `${this.key(candidate.pane)}-${candidate.position}-${candidate.side}`,
       active: false
     }));
   }
@@ -1318,7 +1324,7 @@ export class XuiDockManager implements XuiDockContentMounter {
    */
   private paneAt(clientX: number, clientY: number): XuiDockPane | null {
     const dragged = this.drag()?.window;
-    const draggedEl = dragged ? this.el.querySelector(`[data-dock-window="${dockPaneKey(dragged)}"]`) : null;
+    const draggedEl = dragged ? this.el.querySelector(`[data-dock-window="${this.key(dragged)}"]`) : null;
     let element: HTMLElement | null = null;
     let smallest = Number.POSITIVE_INFINITY;
 
@@ -1395,14 +1401,14 @@ export class XuiDockManager implements XuiDockContentMounter {
   }
 
   private elementForPane(pane: XuiDockPane): HTMLElement | null {
-    return this.el.querySelector<HTMLElement>(`[data-dock-key="${dockPaneKey(pane)}"]`);
+    return this.el.querySelector<HTMLElement>(`[data-dock-key="${this.key(pane)}"]`);
   }
 
   private paneForKey(key: string): XuiDockPane | null {
     let found: XuiDockPane | null = null;
 
     const walk = (pane: XuiDockPane): void => {
-      if (dockPaneKey(pane) === key) {
+      if (this.key(pane) === key) {
         found = pane;
         return;
       }
