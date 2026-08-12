@@ -1,6 +1,6 @@
 {
   "name": "@xui/date-range-picker",
-  "version": "2.2.4",
+  "version": "2.2.5-alpha.0",
   "description": "Modern Angular 22 UI Library based on TailwindCSS",
   "keywords": [
     "angular",
@@ -26,8 +26,8 @@
     "@angular/forms": "22",
     "@ng-icons/core": "34",
     "@ng-icons/material-icons": "34",
-    "@xui/core": "2.2.4",
-    "@xui/icon": "2.2.4",
+    "@xui/core": "2.2.5-alpha.0",
+    "@xui/icon": "2.2.5-alpha.0",
     "clsx": "^2.1.1"
   },
   "publishConfig": {

@@ -1,3 +1,16 @@
+## 2.2.5-alpha.0 (2026-08-12)
+
+### 🩹 Fixes
+
+- **carousel:** stop autoplay advancing the slide during a server render ([fc653a21](https://github.com/Rikarin/xui/commit/fc653a21))
+- **drawer:** stop the slide-in reaching pane.animate on the server ([a23a3b58](https://github.com/Rikarin/xui/commit/a23a3b58))
+- **panel-stack:** stop the slide reaching element.animate on the server ([b8d8702d](https://github.com/Rikarin/xui/commit/b8d8702d))
+
+### ❤️ Thank You
+
+- Claude Opus 5
+- Rikarin @Rikarin
+
 ## 2.2.4 (2026-08-12)
 
 This was a version bump only, there were no code changes.
