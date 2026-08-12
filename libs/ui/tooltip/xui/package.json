@@ -1,6 +1,6 @@
 {
   "name": "@xui/tooltip",
-  "version": "2.2.2-alpha.0",
+  "version": "2.2.2",
   "description": "Modern Angular 22 UI Library based on TailwindCSS",
   "keywords": [
     "angular",
@@ -24,7 +24,7 @@
     "@angular/cdk": "22",
     "@angular/common": "22.0.8",
     "@angular/core": "22",
-    "@xui/core": "2.2.2-alpha.0",
+    "@xui/core": "2.2.2",
     "class-variance-authority": "^0.7.1"
   },
   "publishConfig": {
