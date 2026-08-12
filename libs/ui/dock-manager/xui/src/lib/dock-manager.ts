@@ -659,6 +659,32 @@ export class XuiDockManager implements XuiDockContentMounter {
 
   // ─── content mounting ─────────────────────────────────────────────────────
 
+  /**
+   * Put `contentId`'s view inside `host`, building it on first use.
+   *
+   * A view is created once and moved, never rebuilt: a pane keeps its DOM — and
+   * so its scroll position, focus and form state — as it is dragged, docked,
+   * floated and tabbed.
+   *
+   * ⚠ This is also what makes `XuiDockManager` unhydratable. The view is created
+   * from the manager's own `ViewContainerRef`, which anchors it after the
+   * manager's host, and its root nodes are then appended into a pane element
+   * somewhere else in the tree. Its declared position and its real position are
+   * different places, and hydration walks from the declared one —
+   * `locateOrCreateAnchorNode` → `locateDehydratedViewsInContainer` →
+   * `validateSiblingNodeExists`, which finds nothing where the annotation says
+   * the view begins. `ngSkipHydration` on the dock manager does not help: the
+   * `<ng-template xuiDockContent>` is declared in the consumer's template, so
+   * the container Angular fails to locate is the consumer's, not this
+   * component's.
+   *
+   * The fix is to give each pane's content host a `ViewContainerRef` of its own
+   * and move views between containers with `insert`/`detach` rather than
+   * `appendChild` — the same operation, expressed so that Angular knows about
+   * it, and it keeps the view instance this design exists to preserve.
+   * `dock-manager.hydration.spec.ts` measures the current state and fails the
+   * moment it changes.
+   */
   mountContent(contentId: string, host: HTMLElement): void {
     let view = this.views.get(contentId);
 
