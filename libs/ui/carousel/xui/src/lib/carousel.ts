@@ -1,5 +1,5 @@
 import { BooleanInput, NumberInput } from '@angular/cdk/coercion';
-import { NgTemplateOutlet } from '@angular/common';
+import { isPlatformBrowser, NgTemplateOutlet } from '@angular/common';
 import {
   booleanAttribute,
   ChangeDetectionStrategy,
@@ -7,9 +7,11 @@ import {
   computed,
   contentChildren,
   effect,
+  inject,
   input,
   model,
   numberAttribute,
+  PLATFORM_ID,
   signal,
   ViewEncapsulation
 } from '@angular/core';
@@ -133,14 +135,28 @@ export class XuiCarousel {
    */
   readonly effect = input<'scrollx' | 'fade'>('scrollx');
 
+  private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
+
   protected readonly items = contentChildren(XuiCarouselItem);
   protected readonly count = computed(() => this.items().length);
   protected readonly paused = signal(false);
 
   constructor() {
     // Autoplay: a self-cleaning interval that pauses on hover.
+    //
+    // Browser only, and not because of an API the server lacks — `setInterval`
+    // exists there. This effect runs during server change detection like any
+    // other, so every tick it manages before the response is serialised advances
+    // `index`, and `index` is what `transform`, `opacity`, `aria-hidden`,
+    // `inert` and `aria-current` are bound to. Unguarded, the slide a reader
+    // gets before hydration is a function of how long the render took: a page
+    // waiting on data serves a later slide than the same page served warm.
+    //
+    // The interval is not left behind — destroying the application runs the
+    // cleanup below — so this is about the response being a pure function of the
+    // page, not about a leak.
     effect(onCleanup => {
-      if (!this.autoplay() || this.paused() || this.count() <= 1) {
+      if (!this.isBrowser || !this.autoplay() || this.paused() || this.count() <= 1) {
         return;
       }
       const id = setInterval(() => this.next(), this.interval());
