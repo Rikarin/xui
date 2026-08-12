@@ -1,6 +1,6 @@
 {
   "name": "@xui/textarea",
-  "version": "2.2.1-alpha.1",
+  "version": "2.2.1",
   "description": "Modern Angular 22 UI Library based on TailwindCSS",
   "keywords": [
     "angular",
@@ -25,7 +25,7 @@
     "@angular/common": "22.0.8",
     "@angular/core": "22",
     "@angular/forms": "22",
-    "@xui/core": "2.2.1-alpha.1",
+    "@xui/core": "2.2.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1"
   },
