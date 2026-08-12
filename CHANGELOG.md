@@ -1,3 +1,14 @@
+## 2.2.1-alpha.1 (2026-08-12)
+
+### 🩹 Fixes
+
+- **ui:** stop reading a layout that does not exist on the server ([61b469ba](https://github.com/Rikarin/xui/commit/61b469ba))
+
+### ❤️ Thank You
+
+- Claude Opus 5
+- Rikarin @Rikarin
+
 ## 2.2.1-alpha.0 (2026-08-11)
 
 ### 🩹 Fixes
