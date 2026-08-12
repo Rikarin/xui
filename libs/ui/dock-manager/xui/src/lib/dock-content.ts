@@ -1,4 +1,13 @@
-import { Directive, ElementRef, InjectionToken, TemplateRef, effect, inject, input } from '@angular/core';
+import {
+  Directive,
+  ElementRef,
+  InjectionToken,
+  TemplateRef,
+  ViewContainerRef,
+  effect,
+  inject,
+  input
+} from '@angular/core';
 
 /**
  * Declares the body of one content pane.
@@ -27,40 +36,70 @@ export class XuiDockContent {
   readonly template = inject<TemplateRef<unknown>>(TemplateRef);
 }
 
+/**
+ * One place a pane body can be rendered.
+ *
+ * Both halves are needed, and for different reasons. `container` is where a view
+ * is *born*, so that the server's hydration annotations describe the view at the
+ * position its nodes actually occupy. `host` is where it *lives* afterwards,
+ * because a view left inside `container` would be destroyed along with it — see
+ * {@link XuiDockContentMounter.mountContent}.
+ */
+export interface XuiDockContentTarget {
+  /** Anchored inside {@link host}; only ever used for the first render of a body. */
+  readonly container: ViewContainerRef;
+
+  /** The pane's scroll box, or `null` before the outlet is in the DOM. */
+  host(): HTMLElement | null;
+}
+
 /** What {@link XuiDockContentOutlet} needs from the dock manager above it. */
 export interface XuiDockContentMounter {
-  /** Move the view for `contentId` into `host`, creating it on first use. */
-  mountContent(contentId: string, host: HTMLElement): void;
+  /** Move the view for `contentId` into `target`, creating it on first use. */
+  mountContent(contentId: string, target: XuiDockContentTarget): void;
 
-  /** Park the view for `contentId` if — and only if — it still sits in `host`. */
-  releaseContent(contentId: string, host: HTMLElement): void;
+  /** Park the view for `contentId` if — and only if — it still sits in `target`. */
+  releaseContent(contentId: string, target: XuiDockContentTarget): void;
 }
 
 export const XUI_DOCK_CONTENT_MOUNTER = new InjectionToken<XuiDockContentMounter>('XuiDockContentMounter');
 
 /**
- * Fills its host element with the content view for a `contentId`.
+ * Hosts the content view for a `contentId` at its own position.
  *
- * Used internally by `xui-dock-manager` wherever a pane body is rendered.
+ * Used internally by `xui-dock-manager` wherever a pane body is rendered, and
+ * declared on an `<ng-container>` rather than an element: a `ViewContainerRef`
+ * taken from an element anchors its views *after* that element, whereas an
+ * `<ng-container>`'s own comment node is the anchor, so a body created here
+ * renders inside the pane's scroll box — which is the whole point, since the
+ * server has to serialise the view where its nodes really are.
  */
 @Directive({ selector: '[xuiDockContentOutlet]', exportAs: 'xuiDockContentOutlet' })
-export class XuiDockContentOutlet {
-  private readonly host: HTMLElement = inject(ElementRef).nativeElement;
+export class XuiDockContentOutlet implements XuiDockContentTarget {
+  /** The `<ng-container>`'s own comment node. */
+  private readonly anchor: Node = inject(ElementRef).nativeElement;
   private readonly mounter = inject(XUI_DOCK_CONTENT_MOUNTER);
+
+  readonly container = inject(ViewContainerRef);
 
   /** Which pane's content view to mount here — the `contentId` of the matching `xuiDockContent`. */
   readonly contentId = input.required<string>({ alias: 'xuiDockContentOutlet' });
 
+  /** Read lazily: the anchor is only parented once the outlet is in the DOM. */
+  host(): HTMLElement | null {
+    return this.anchor.parentElement;
+  }
+
   constructor() {
     effect(onCleanup => {
       const contentId = this.contentId();
-      this.mounter.mountContent(contentId, this.host);
+      this.mounter.mountContent(contentId, this);
 
       // Angular gives no ordering guarantee between the old outlet's cleanup and
       // the new outlet's mount, so release is conditional on the nodes still
       // being here — otherwise a re-layout could pull content out of the element
       // that just claimed it.
-      onCleanup(() => this.mounter.releaseContent(contentId, this.host));
+      onCleanup(() => this.mounter.releaseContent(contentId, this));
     });
   }
 }

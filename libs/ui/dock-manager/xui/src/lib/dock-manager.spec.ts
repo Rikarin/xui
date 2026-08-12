@@ -103,6 +103,115 @@ describe('XuiDockManager', () => {
     expect(afterMove).toBe(probe);
     expect(afterMove?.value).toBe('half-typed');
     expect((layout.rootPane as XuiDockSplitPane).orientation).toBe('vertical');
+
+    // On its own the assertion above is weaker than it reads: a split dock only
+    // re-parents the frame A already occupies, so `@for` moves the whole subtree
+    // and the outlet never remounts — a mounter that rebuilt on every mount would
+    // satisfy it. Tabbing does destroy the frame and mount the body into a tab
+    // panel instead, so the view has to survive the move to be here afterwards.
+    cmp.dockPane(a, b, 'center');
+    detect();
+
+    const afterTab = host.querySelector<HTMLInputElement>('#probe');
+    expect(afterTab).toBe(probe);
+    expect(afterTab?.value).toBe('half-typed');
+  });
+
+  /**
+   * The property the mounting design exists for, asserted rather than assumed.
+   *
+   * A pane's body is instantiated once and *moved* thereafter, so its DOM — and
+   * with it scroll offsets, focus and half-typed input — survives every way the
+   * layout can be rearranged. Node identity is the evidence: a rebuilt view
+   * would put a different `<input>` on screen, and comparing only its `value`
+   * would pass against a fresh, empty one just as happily if the assertion were
+   * dropped. Each case therefore checks `toBe` on the element *and* the state it
+   * carries.
+   *
+   * This is the constraint any change to `mountContent` has to keep. It is
+   * cheaper to break than to notice: every one of these still renders something
+   * that looks right.
+   */
+  describe('moving a pane keeps its view instance', () => {
+    const typeInto = (host: HTMLElement) => {
+      const probe = host.querySelector<HTMLInputElement>('#probe') as HTMLInputElement;
+      probe.value = 'half-typed';
+
+      return probe;
+    };
+
+    const survivor = (host: HTMLElement, probe: HTMLInputElement) => {
+      const found = host.querySelector<HTMLInputElement>('#probe');
+
+      expect(found).toBe(probe);
+      expect(found?.value).toBe('half-typed');
+    };
+
+    it('survives being torn out into a floating window and docked back', () => {
+      const { layout } = pair();
+      const { host, detect, click } = setup(layout);
+      const probe = typeInto(host);
+
+      click(buttonFor(host, 'Float A'));
+      detect();
+      survivor(host, probe);
+
+      click(buttonFor(host, 'Dock window'));
+      detect();
+      survivor(host, probe);
+    });
+
+    it('survives being collapsed to an edge strip, flown out and pinned back', () => {
+      const { layout } = pair();
+      const { host, detect, click } = setup(layout);
+      const probe = typeInto(host);
+
+      click(buttonFor(host, 'Collapse A'));
+      detect();
+
+      // Collapsed, A has no outlet at all: the view is parked, not destroyed,
+      // which is the case that would look identical if it were being rebuilt.
+      expect(host.querySelector('#probe')).toBeNull();
+
+      click(host.querySelector('[data-dock-strip] button') as HTMLElement);
+      detect();
+      survivor(host, probe);
+
+      click(buttonFor(host, 'Pin A'));
+      detect();
+      survivor(host, probe);
+    });
+
+    it('survives being maximized and restored', () => {
+      const { layout } = pair();
+      const { host, detect, click } = setup(layout);
+      const probe = typeInto(host);
+
+      click(buttonFor(host, 'Maximize A'));
+      detect();
+      survivor(host, probe);
+
+      click(buttonFor(host, 'Restore A'));
+      detect();
+      survivor(host, probe);
+    });
+
+    it('survives a tab losing and regaining the selection', () => {
+      const group: XuiDockTabGroupPane = { type: 'tabGroupPane', panes: [content('a'), content('b')] };
+      const layout: XuiDockManagerLayout = {
+        rootPane: { type: 'splitPane', orientation: 'horizontal', panes: [group] }
+      };
+      const { host, detect, click } = setup(layout);
+      const probe = typeInto(host);
+
+      click(host.querySelectorAll<HTMLElement>('[role="tab"]')[1]);
+      detect();
+      expect(host.querySelector('#probe')).toBeNull();
+
+      click(host.querySelectorAll<HTMLElement>('[role="tab"]')[0]);
+      detect();
+      survivor(host, probe);
+    });
   });
 
   it('closes a pane, removes it from the layout and reports it', () => {
@@ -506,6 +615,32 @@ describe('XuiDockManager', () => {
 
       expect(dragged).toEqual([a]);
       expect(cmp.layout().floatingPanes?.[0].panes).toEqual([a]);
+    });
+
+    it('carries the pane its own DOM through a real pointer drag', () => {
+      const { host, frameA, detect } = layoutOut();
+      const probe = host.querySelector<HTMLInputElement>('#probe') as HTMLInputElement;
+      probe.value = 'half-typed';
+
+      // Dropped in the *centre* of B, which tabs the two. That matters: a drop on
+      // an edge only re-parents the outlet element A already lives in, so `@for`
+      // moves the whole subtree and `mountContent` is never called again — a
+      // rebuilding mounter would pass such a case untouched. Tabbing replaces the
+      // pane frame with a tab panel, so the view has to survive a move between two
+      // different outlets, which is the operation actually under test.
+      drag(
+        frameA.firstElementChild as HTMLElement,
+        [20, 10],
+        [
+          [50, 20],
+          [300, 100]
+        ]
+      );
+      detect();
+
+      const afterDrag = host.querySelector<HTMLInputElement>('#probe');
+      expect(afterDrag).toBe(probe);
+      expect(afterDrag?.value).toBe('half-typed');
     });
 
     it('does nothing when the pointer never leaves the press point', () => {

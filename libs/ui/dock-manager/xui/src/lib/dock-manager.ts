@@ -1,5 +1,6 @@
 import { NgTemplateOutlet } from '@angular/common';
 import {
+  afterNextRender,
   ChangeDetectionStrategy,
   Component,
   computed,
@@ -9,10 +10,12 @@ import {
   ElementRef,
   forwardRef,
   inject,
+  Injector,
   input,
   model,
   output,
   signal,
+  viewChild,
   ViewContainerRef,
   ViewEncapsulation,
   type EmbeddedViewRef
@@ -35,7 +38,8 @@ import {
   XUI_DOCK_CONTENT_MOUNTER,
   XuiDockContent,
   XuiDockContentOutlet,
-  type XuiDockContentMounter
+  type XuiDockContentMounter,
+  type XuiDockContentTarget
 } from './dock-content';
 import {
   isContentPane,
@@ -207,7 +211,11 @@ interface Rect {
           </div>
         }
 
-        <div class="min-h-0 min-w-0 flex-1 overflow-auto" [xuiDockContentOutlet]="pane.contentId"></div>
+        <!-- The outlet sits on an <ng-container> so its view container anchors
+             inside this box rather than after it — see XuiDockContentOutlet. -->
+        <div class="min-h-0 min-w-0 flex-1 overflow-auto">
+          <ng-container [xuiDockContentOutlet]="pane.contentId" />
+        </div>
       </div>
     </ng-template>
 
@@ -305,10 +313,11 @@ interface Rect {
           <div
             role="tabpanel"
             class="min-h-0 min-w-0 flex-1 overflow-auto"
-            [xuiDockContentOutlet]="tab.contentId"
             (pointerdown)="activate(tab)"
             (focusin)="activate(tab)"
-          ></div>
+          >
+            <ng-container [xuiDockContentOutlet]="tab.contentId" />
+          </div>
         }
       </div>
     </ng-template>
@@ -498,6 +507,11 @@ interface Rect {
       </div>
     }
 
+    <!-- Owns every pane body once it has been rendered once, so that a body
+         outlives the frame it is shown in. Empty in the server's response and
+         empty when the browser hydrates it; see mountContent. -->
+    <ng-template #holdingBay />
+
     <!-- ─── an edge strip of collapsed panes ────────────────────────────── -->
     <ng-template #stripTpl let-location>
       <div data-dock-strip [class]="stripClass(location)">
@@ -524,9 +538,21 @@ interface Rect {
 export class XuiDockManager implements XuiDockContentMounter {
   private readonly el: HTMLElement = inject(ElementRef).nativeElement;
   private readonly document = this.el.ownerDocument;
-  private readonly vcr = inject(ViewContainerRef);
+  private readonly injector = inject(Injector);
   private readonly paneKeys = inject(XuiDockPaneKeys);
   private readonly direction = injectXDirection();
+
+  /**
+   * Where every pane body is owned once its first render is on screen.
+   *
+   * Deliberately not `inject(ViewContainerRef)`, which the previous design used:
+   * that container is anchored after this component's host, inside the
+   * *consumer's* view, so the server described every body as living there while
+   * writing it into a pane. This one sits in this component's own template, is
+   * created empty on both sides of a hydration, and is only ever filled
+   * afterwards. See {@link mountContent}.
+   */
+  private readonly holdingBay = viewChild.required('holdingBay', { read: ViewContainerRef });
 
   /** Detached parking space for the content views of panes that are not on screen. */
   private readonly holder = this.document.createElement('div');
@@ -660,61 +686,104 @@ export class XuiDockManager implements XuiDockContentMounter {
   // ─── content mounting ─────────────────────────────────────────────────────
 
   /**
-   * Put `contentId`'s view inside `host`, building it on first use.
+   * Put `contentId`'s view inside `target`'s host, building it on first use.
    *
    * A view is created once and moved, never rebuilt: a pane keeps its DOM — and
    * so its scroll position, focus and form state — as it is dragged, docked,
    * floated and tabbed.
    *
-   * ⚠ This is also what makes `XuiDockManager` unhydratable. The view is created
-   * from the manager's own `ViewContainerRef`, which anchors it after the
-   * manager's host, and its root nodes are then appended into a pane element
-   * somewhere else in the tree. Its declared position and its real position are
-   * different places, and hydration walks from the declared one —
-   * `locateOrCreateAnchorNode` → `locateDehydratedViewsInContainer` →
-   * `validateSiblingNodeExists`, which finds nothing where the annotation says
-   * the view begins. `ngSkipHydration` on the dock manager does not help: the
-   * `<ng-template xuiDockContent>` is declared in the consumer's template, so
-   * the container Angular fails to locate is the consumer's, not this
-   * component's.
+   * ⚠ A pane body therefore has to outlive the frame it is rendered in, and two
+   * facts about Angular pull against each other over how:
    *
-   * The fix is to give each pane's content host a `ViewContainerRef` of its own
-   * and move views between containers with `insert`/`detach` rather than
-   * `appendChild` — the same operation, expressed so that Angular knows about
-   * it, and it keeps the view instance this design exists to preserve.
-   * `dock-manager.hydration.spec.ts` measures the current state and fails the
-   * moment it changes.
+   * - Hydration reads a view's position from the container it was **created** in.
+   *   Creating a body somewhere convenient and then `appendChild`ing its nodes
+   *   into the pane leaves the annotation describing one place and the markup
+   *   another, and the browser walks from the annotation:
+   *   `locateOrCreateAnchorNode` → `locateDehydratedViewsInContainer` →
+   *   `validateSiblingNodeExists`, which finds nothing. That was the old defect,
+   *   and `ngSkipHydration` did not cover it, because the container Angular could
+   *   not locate belonged to the *consumer's* view rather than this component's.
+   * - A view left **inside** a container dies with it. `destroyViewTree` descends
+   *   into an `LContainer`'s views and cleans them up before it reaches the host
+   *   view's own destroy hooks, so an outlet cannot rescue its body on the way
+   *   out: by the time the outlet's cleanup runs the view is already destroyed.
+   *   Maximizing, tabbing, floating and unpinning each destroy an outlet.
+   *
+   * So a body is *born* in the outlet's own container — which is what makes the
+   * server's annotations agree with its own markup, and the browser's first
+   * render agree with both — and is {@link adopt}ed into this component's holding
+   * bay once that render is on screen, after which it is moved by hand as before.
+   * Hydration only ever looks at the first render, so the hand-off costs it
+   * nothing. `dock-manager.hydration.spec.ts` holds one line and the "moving a
+   * pane keeps its view instance" cases in `dock-manager.spec.ts` hold the other.
    */
-  mountContent(contentId: string, host: HTMLElement): void {
-    let view = this.views.get(contentId);
+  mountContent(contentId: string, target: XuiDockContentTarget): void {
+    const view = this.views.get(contentId);
 
-    if (!view) {
-      const template = this.contents().find(content => content.contentId() === contentId)?.template;
+    if (view) {
+      this.place(view, target.host());
 
-      if (!template) {
-        return;
-      }
-
-      view = this.vcr.createEmbeddedView(template);
-      this.views.set(contentId, view);
+      return;
     }
 
-    for (const node of view.rootNodes as Node[]) {
-      host.appendChild(node);
+    const template = this.contents().find(content => content.contentId() === contentId)?.template;
+
+    if (!template) {
+      return;
     }
+
+    // Declared in the consumer's template, created from the outlet's container:
+    // the ordinary `ngTemplateOutlet` arrangement, which hydration follows.
+    this.views.set(contentId, target.container.createEmbeddedView(template));
+
+    // Never runs on the server, which is exactly right — the response has to be
+    // serialised with the view still where it was created.
+    afterNextRender({ write: () => this.adopt(contentId, target) }, { injector: this.injector });
   }
 
-  releaseContent(contentId: string, host: HTMLElement): void {
+  releaseContent(contentId: string, target: XuiDockContentTarget): void {
     const view = this.views.get(contentId);
 
     if (!view) {
       return;
     }
 
+    // An outlet torn down before its body was adopted would take the body with
+    // it, so claim ownership here rather than waiting for the render callback.
+    this.adopt(contentId, target);
+
+    const host = target.host();
+
     for (const node of view.rootNodes as Node[]) {
       if (node.parentNode === host) {
         this.holder.appendChild(node);
       }
+    }
+  }
+
+  /**
+   * Take ownership of a freshly created body, now that the render it belongs to
+   * has been painted and — on a hydrated page — matched against the server's.
+   *
+   * `insert` moves rather than copies: it detaches the view from the outlet's
+   * container before taking it, so the instance, and the pane's DOM with it, is
+   * the same one throughout. Its nodes follow the container, hence putting them
+   * back where the pane renders.
+   */
+  private adopt(contentId: string, target: XuiDockContentTarget): void {
+    const view = this.views.get(contentId);
+
+    if (!view || view.destroyed || target.container.indexOf(view) === -1) {
+      return;
+    }
+
+    this.holdingBay().insert(view);
+    this.place(view, target.host());
+  }
+
+  private place(view: EmbeddedViewRef<unknown>, host: HTMLElement | null): void {
+    for (const node of view.rootNodes as Node[]) {
+      host?.appendChild(node);
     }
   }
 
