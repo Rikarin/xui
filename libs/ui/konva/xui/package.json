@@ -21,6 +21,7 @@
   ],
   "sideEffects": false,
   "peerDependencies": {
+    "@angular/common": "22.0.8",
     "@angular/core": "22",
     "konva": "^9.3.22 || ^10.0.0"
   },

@@ -1,3 +1,4 @@
+import { isPlatformBrowser } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -7,6 +8,7 @@ import {
   inject,
   model,
   output,
+  PLATFORM_ID,
   ViewEncapsulation
 } from '@angular/core';
 import Konva from 'konva';
@@ -46,6 +48,7 @@ import { applyNodeProps, createListener, getNodeName, updatePicture, type XuiKon
   encapsulation: ViewEncapsulation.None
 })
 export class XuiKonvaShape implements XuiKonvaComponent, XuiKonvaContainer, XuiKonvaChild {
+  private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
   readonly hostElement: HTMLElement = inject(ElementRef).nativeElement;
 
   /** The Konva class this tag stands for, e.g. `RegularPolygon`. */
@@ -120,6 +123,14 @@ export class XuiKonvaShape implements XuiKonvaComponent, XuiKonvaContainer, XuiK
       this.node.destroy();
     });
 
+    // A server has no `MutationObserver`, and nothing for one to watch: the DOM
+    // order this mirrors onto Konva z-indices is only read once a scene is being
+    // painted, which is the browser's job. See `XuiKonvaStage` for what a stage
+    // does emit on the server.
+    if (!this.isBrowser) {
+      return;
+    }
+
     if (this.node instanceof Container) {
       // `@for` with `track` reorders host elements in place rather than
       // rebuilding them, so z-indices have to follow the DOM.
@@ -131,7 +142,16 @@ export class XuiKonvaShape implements XuiKonvaComponent, XuiKonvaContainer, XuiK
   }
 
   private readonly applyConfig = effect(() => {
-    this.uploadKonva(this.config() ?? {});
+    const config = this.config() ?? {};
+
+    // Nothing to draw into on the server. Reading `config` above keeps the
+    // dependency, so the node is filled in on the client's first run rather than
+    // waiting for the next change.
+    if (!this.isBrowser) {
+      return;
+    }
+
+    this.uploadKonva(config);
 
     // Registered only once the node carries its properties, so it never draws
     // at the origin for a frame before moving into place.

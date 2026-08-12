@@ -1,14 +1,18 @@
+import { isPlatformBrowser } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  computed,
   DestroyRef,
   effect,
   ElementRef,
   inject,
   input,
   output,
+  PLATFORM_ID,
   signal,
   untracked,
+  viewChild,
   ViewEncapsulation
 } from '@angular/core';
 import type { ContainerConfig } from 'konva/lib/Container';
@@ -36,18 +40,60 @@ import { applyNodeProps, createListener, updatePicture, type XuiKonvaProps } fro
  *
  * Konva renders into a `div` of its own inside the host, so projected content
  * and the canvas can live side by side without Konva wiping the template.
+ *
+ * ## What this renders on the server
+ *
+ * An empty `<div>` of the declared `width` and `height`, and nothing else.
+ *
+ * A Konva scene is painted into a `<canvas>` by imperative calls, so there is no
+ * HTML that stands for its contents — no server can produce the picture, and
+ * there is nothing to describe in markup that a consumer did not already write
+ * themselves. That leaves three things the response could carry: nothing, a
+ * substitute for the drawing, or the space the drawing will occupy.
+ *
+ * It carries the space. A substitute would be a second rendering of the scene in
+ * a different medium, which nothing here knows how to produce and which would go
+ * stale against the canvas. Nothing at all is what the component emitted before
+ * this — a stage threw in its constructor, taking itself and everything nested
+ * inside it out of the response — and it costs a layout shift: the page reflows
+ * the moment the canvas appears. The size is declared on `config` and is the one
+ * fact about the scene the server does know, so reserving it is free and
+ * correct. A stage without a declared size reserves nothing, which is the same
+ * bargain the browser makes for it.
+ *
+ * The container is a template element rather than one prepended in the
+ * constructor, so the server renders it and the client adopts the very same
+ * node. Sizing it is left to Konva in the browser; the reserved size applies
+ * only while there is no stage to own it.
  */
 @Component({
   selector: 'xui-konva-stage',
-  template: `<ng-content />`,
+  template: `
+    <div #surface [style.width.px]="reservedSize()?.width" [style.height.px]="reservedSize()?.height"></div>
+    <ng-content />
+  `,
   providers: [{ provide: XUI_KONVA_CONTAINER, useFactory: () => inject(XuiKonvaStage) }],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None
 })
 export class XuiKonvaStage implements XuiKonvaComponent, XuiKonvaContainer {
-  private readonly container: HTMLDivElement;
+  private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
+  private readonly surface = viewChild.required<ElementRef<HTMLDivElement>>('surface');
   private readonly children: XuiKonvaChild[] = [];
   private cacheProps: XuiKonvaProps = {};
+
+  /**
+   * The box the canvas will occupy, while nothing has drawn into it yet. Null in
+   * the browser, where Konva sizes the container itself and two writers would
+   * fight over one style.
+   */
+  protected readonly reservedSize = computed(() =>
+    this.isBrowser ? null : { width: this.config()?.width, height: this.config()?.height }
+  );
+
+  private get container(): HTMLDivElement {
+    return this.surface().nativeElement;
+  }
 
   /**
    * Signal-backed so anything reading `getStage()` reactively re-runs the
@@ -108,20 +154,23 @@ export class XuiKonvaStage implements XuiKonvaComponent, XuiKonvaContainer {
   readonly transformend = output<XuiKonvaEventObject<MouseEvent>>();
 
   constructor() {
-    const host: HTMLElement = inject(ElementRef).nativeElement;
+    if (!this.isBrowser) {
+      return;
+    }
 
-    blockNativeEvents(host);
-
-    // Konva empties whatever element it is handed, so it gets its own div and
-    // the host keeps the projected `<xui-konva-layer>` elements.
-    this.container = document.createElement('div');
-    host.prepend(this.container);
-
+    blockNativeEvents(inject(ElementRef).nativeElement);
     inject(DestroyRef).onDestroy(() => untracked(this.stage)?.destroy());
   }
 
   private readonly applyConfig = effect(() => {
     const config = this.config() ?? {};
+
+    // Konva paints into a canvas, which the server has none of. Reading `config`
+    // above keeps the dependency, so the stage is built on the client's first
+    // run rather than waiting for the next change.
+    if (!this.isBrowser) {
+      return;
+    }
 
     // Untracked: the effect writes `stage`, and depending on it would make it
     // re-run on its own write.
