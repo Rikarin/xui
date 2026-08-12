@@ -1,6 +1,6 @@
 {
   "name": "@xui/core",
-  "version": "2.2.3",
+  "version": "2.2.4-alpha.0",
   "description": "Modern Angular 22 UI Library based on TailwindCSS",
   "keywords": [
     "angular",

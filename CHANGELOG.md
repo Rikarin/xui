@@ -1,3 +1,14 @@
+## 2.2.4-alpha.0 (2026-08-12)
+
+### 🩹 Fixes
+
+- **dock-manager:** render pane bodies where hydration can find them ([bcb95706](https://github.com/Rikarin/xui/commit/bcb95706))
+
+### ❤️ Thank You
+
+- Claude Opus 5
+- Rikarin @Rikarin
+
 ## 2.2.3 (2026-08-12)
 
 This was a version bump only, there were no code changes.

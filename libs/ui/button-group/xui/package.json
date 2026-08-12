@@ -1,6 +1,6 @@
 {
   "name": "@xui/button-group",
-  "version": "2.2.3",
+  "version": "2.2.4-alpha.0",
   "description": "Modern Angular 22 UI Library based on TailwindCSS",
   "keywords": [
     "angular",
@@ -23,7 +23,7 @@
   "peerDependencies": {
     "@angular/cdk": "22",
     "@angular/core": "22",
-    "@xui/core": "2.2.3",
+    "@xui/core": "2.2.4-alpha.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1"
   },
