@@ -1,3 +1,14 @@
+## 2.2.2-alpha.0 (2026-08-12)
+
+### 🩹 Fixes
+
+- **dock-manager:** allocate pane keys per application, not per process ([58110355](https://github.com/Rikarin/xui/commit/58110355))
+
+### ❤️ Thank You
+
+- Claude Opus 5
+- Rikarin @Rikarin
+
 ## 2.2.1 (2026-08-12)
 
 This was a version bump only, there were no code changes.
