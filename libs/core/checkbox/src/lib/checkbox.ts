@@ -287,13 +287,25 @@ export class XCheckbox implements ControlValueAccessor, AfterContentInit, OnDest
 
   /**
    * Gets proper ID for an inner button element.
-   * Removes '-checkbox' suffix if present in container ID.
+   * Removes the '-checkbox' suffix the container id carries.
+   *
+   * Only a *trailing* suffix, since the container id is `${id}-checkbox` and an
+   * id may legitimately contain the word elsewhere — the generated default,
+   * `x-checkbox-0`, always does. Removing the first match instead turns
+   * `x-checkbox-0-checkbox` into `x-0-checkbox`, an id no caller can predict and
+   * no `<label for>` can name.
    *
    * @param idPassedToContainer - ID applied to container element
    * @returns ID to use for inner button or null
    */
   protected getCheckboxButtonId(idPassedToContainer: string | null | undefined): string | null {
-    return idPassedToContainer ? idPassedToContainer.replace(CONTAINER_POST_FIX, '') : null;
+    if (!idPassedToContainer) {
+      return null;
+    }
+
+    return idPassedToContainer.endsWith(CONTAINER_POST_FIX)
+      ? idPassedToContainer.slice(0, -CONTAINER_POST_FIX.length)
+      : idPassedToContainer;
   }
 
   /**
