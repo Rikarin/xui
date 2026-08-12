@@ -1,3 +1,7 @@
+## 2.2.5 (2026-08-12)
+
+This was a version bump only, there were no code changes.
+
 ## 2.2.5-alpha.0 (2026-08-12)
 
 ### 🩹 Fixes
