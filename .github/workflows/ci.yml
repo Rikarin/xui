@@ -16,7 +16,11 @@ jobs:
     name: Commit messages
     # Releases are cut from the commit messages on master, so a non-conventional message is a
     # release bug, not a style nit.
-    if: github.event_name == 'pull_request'
+    #
+    # Dependabot is exempt: its subject already follows the convention (see the commit-message
+    # prefix in dependabot.yml), but its body lists every bump on its own line and those lines
+    # run past config-conventional's 100-character body-max-line-length.
+    if: github.event_name == 'pull_request' && github.actor != 'dependabot[bot]'
     runs-on: ubuntu-latest
     permissions:
       contents: read

@@ -1,0 +1,36 @@
+version: 2
+
+updates:
+  - package-ecosystem: npm
+    # The pnpm workspace root. Dependabot reads pnpm-workspace.yaml from here, so
+    # libs/mcp and libs/tools - the only other manifests with real dependencies -
+    # are covered by this one entry.
+    directory: /
+    schedule:
+      interval: weekly
+      day: wednesday
+      time: '06:00'
+      timezone: Europe/Prague
+    # One group holding every dependency means one pull request a week instead of one
+    # per package. With a single group the limit below can only ever bind on that PR.
+    groups:
+      dependencies:
+        patterns:
+          - '*'
+    open-pull-requests-limit: 1
+    # The root manifest is private, so `auto` would already resolve to `increase`;
+    # spelled out because this is a library monorepo and `widen` would rewrite the
+    # pinned toolchain versions into ranges.
+    versioning-strategy: increase
+    # A literal `chore(deps)` prefix rather than `include: scope`, which emits
+    # `chore(deps-dev)` for devDependencies - a scope commitlint's scope-enum rejects.
+    commit-message:
+      prefix: chore(deps)
+    ignore:
+      # @angular/compiler-cli 22 declares `typescript: ">=6.0 <6.1"` and ts-jest caps it
+      # at "<7", so TypeScript 7 cannot be taken until Angular supports it. Without this
+      # the weekly pull request would always carry a bump that cannot pass CI. Drop this
+      # entry when Angular widens the range.
+      - dependency-name: typescript
+        update-types:
+          - version-update:semver-major
