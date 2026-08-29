@@ -1,3 +1,13 @@
+## 2.2.6-alpha.0 (2026-08-29)
+
+### 🩹 Fixes
+
+- **button:** drop the spaces from the transition property list ([1e0a739e](https://github.com/Rikarin/xui/commit/1e0a739e))
+
+### ❤️ Thank You
+
+- Rikarin @Rikarin
+
 ## 2.2.5 (2026-08-12)
 
 This was a version bump only, there were no code changes.
