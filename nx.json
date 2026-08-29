@@ -107,7 +107,7 @@
     "projectsRelationship": "fixed",
     "releaseTag": {
       "pattern": "v{version}",
-      "strictPreid": false
+      "strictPreid": true
     },
     "version": {
       "preVersionCommand": "pnpm exec nx run-many -t build",

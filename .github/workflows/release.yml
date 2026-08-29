@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
     inputs:
       specifier:
-        description: 'Version bump: prerelease, patch, minor, major, or an exact version. Leave empty to derive it (prerelease line continues, otherwise conventional commits decide).'
+        description: 'Version bump: patch, minor, major, prerelease, prepatch, preminor, premajor, or an exact version. Leave empty to let the conventional commits decide the next stable version.'
         required: false
         type: string
       dryRun:
@@ -68,7 +68,12 @@ jobs:
             exit 0
           fi
 
-          last_tag=$(git tag --list 'v*' --sort=-v:refname | head -n 1 || true)
+          # Stable tags only, because that is what Nx resolves the current version from when no
+          # preid is in play. A prerelease tag left behind by a manual run must not shorten the
+          # range, or the commits it already covers would never reach a stable release.
+          last_tag=$(git -c versionsort.suffix=- tag --list 'v*' --sort=-v:refname \
+            | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' \
+            | sed -n '1p' || true)
           range=${last_tag:+$last_tag..HEAD}
 
           # `grep -c` rather than `grep -q`: under `pipefail`, a short-circuiting `grep -q` kills
@@ -112,15 +117,14 @@ jobs:
           dry_run_flag=''
           [ "${INPUT_DRY_RUN:-false}" = 'true' ] && dry_run_flag='--dry-run'
 
-          if [ -z "$specifier" ]; then
-            # Stay on the prerelease line while the current version has one; otherwise let the
-            # conventional commits decide the bump. Graduating to a stable release is a deliberate
-            # act: run this workflow manually with an explicit specifier.
-            case "$before" in
-              *-*) specifier='prerelease' ;;
-              *) specifier='' ;;
-            esac
-          fi
+          # A push to master releases the next stable version, so nothing here may add a preid:
+          # `--preid` turns a conventional-commit `patch` into a `prepatch`, which is what used to
+          # make every master push an `-alpha.0`. Prereleases are a deliberate manual run with an
+          # explicit `pre*` specifier.
+          preid_flag=''
+          case "$specifier" in
+            pre*) preid_flag='--preid alpha' ;;
+          esac
 
           # `nx release` builds every package first (release.version.preVersionCommand) and then
           # writes the new version into both the source and the dist manifests, so the artifacts
@@ -128,7 +132,7 @@ jobs:
           # pushes and creates the GitHub Release, in that order.
           # `--skip-publish` already answers the only interactive prompt, and Nx rejects it
           # together with `--yes`. Publishing happens in its own step below.
-          pnpm exec nx release $specifier --preid alpha --skip-publish $dry_run_flag
+          pnpm exec nx release $specifier $preid_flag --skip-publish $dry_run_flag
 
           after=$(node -p "require('./libs/core/package.json').version")
 
