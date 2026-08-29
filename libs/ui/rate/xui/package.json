@@ -24,8 +24,8 @@
     "@angular/cdk": "22",
     "@angular/core": "22",
     "@angular/forms": "22",
-    "@ng-icons/core": "34",
-    "@ng-icons/material-icons": "34",
+    "@ng-icons/core": "35",
+    "@ng-icons/material-icons": "35",
     "@xui/core": "2.2.6",
     "@xui/icon": "2.2.6",
     "clsx": "^2.1.1"

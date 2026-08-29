@@ -22,10 +22,10 @@
   "sideEffects": false,
   "peerDependencies": {
     "@angular/cdk": "22",
-    "@angular/common": "22.0.8",
+    "@angular/common": "22",
     "@angular/core": "22",
-    "@ng-icons/core": "^34.0.0",
-    "@ng-icons/material-icons": "^34.0.0",
+    "@ng-icons/core": "^35.0.0",
+    "@ng-icons/material-icons": "^35.0.0",
     "@xui/collapse": "2.2.6",
     "@xui/core": "2.2.6",
     "@xui/icon": "2.2.6",

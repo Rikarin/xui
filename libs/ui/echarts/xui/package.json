@@ -21,7 +21,7 @@
   ],
   "sideEffects": false,
   "peerDependencies": {
-    "@angular/cdk": "22.0.6",
+    "@angular/cdk": "22",
     "@angular/core": "22",
     "@xui/core": "2.2.6",
     "clsx": "^2.1.1",
