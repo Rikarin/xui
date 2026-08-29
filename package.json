@@ -54,7 +54,6 @@
     "@modelcontextprotocol/sdk": "^1.30.0",
     "@ng-icons/core": "^35.1.0",
     "@ng-icons/material-icons": "^35.1.0",
-    "@ng-icons/material-symbols": "^35.1.0",
     "@tailwindcss/postcss": "^4.3.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
