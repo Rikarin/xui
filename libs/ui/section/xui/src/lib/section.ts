@@ -39,7 +39,7 @@ export type XuiSectionVariants = VariantProps<typeof sectionVariants>;
  * ```html
  * <xui-section title="Details" subtitle="Everything about this record" collapsible>
  *   <button xuiButton right-element size="sm">Edit</button>
- *   <div xuiSectionCard>…</div>
+ *   <xui-section-card>…</xui-section-card>
  * </xui-section>
  * ```
  *

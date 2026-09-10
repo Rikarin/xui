@@ -27,7 +27,8 @@ This applies to icons named by _string inputs_ too - `icon="matPersonRound"` on 
 ## Rendering an icon directly
 
 `@xui/icon` is a directive on `<ng-icon>`, so the `xui` attribute is what applies sizing and
-colour:
+colour. `XuiIconImports` bundles the `NgIcon` element with the `xui` directive, so it is the only
+import a template with `<ng-icon xui …>` needs:
 
 ```html
 <ng-icon xui name="matCheckRound" /> <ng-icon xui size="sm" color="error" name="matCloseRound" label="Remove" />
