@@ -1,3 +1,24 @@
+# 3.0.0 (2026-09-10)
+
+### 🩹 Fixes
+
+- **icon:** bundle NgIcon into XuiIconImports; fix the section docstring ([#154](https://github.com/Rikarin/xui/issues/154))
+- **numeric-input:** emit valueChange so [(value)] binds two-way ([#152](https://github.com/Rikarin/xui/issues/152))
+- ⚠️  **tooltip:** prefix the bubble's color and compact inputs ([#153](https://github.com/Rikarin/xui/issues/153))
+
+### ⚠️  Breaking Changes
+
+- **tooltip:** prefix the bubble's color and compact inputs  ([#153](https://github.com/Rikarin/xui/issues/153))
+  `color` and `compact` on `[xuiTooltip]` are now
+  `xuiTooltipColor` and `xuiTooltipCompact`. A bare `color`/`compact` on the
+  element no longer reaches the tooltip.
+  Closes #153
+
+### ❤️ Thank You
+
+- Claude Opus 5
+- Rikarin @Rikarin
+
 ## 2.3.0 (2026-08-29)
 
 This was a version bump only, there were no code changes.
