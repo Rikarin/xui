@@ -1,7 +1,15 @@
+import { Directive, input } from '@angular/core';
 import { render, type RenderResult } from '@xui/testing';
 import { XuiTooltipImports } from '../index';
 
 const IMPORTS = [XuiTooltipImports];
+
+/** Stands in for `xuiButton`, `xui-tag` and every other host that owns a `color` input. */
+@Directive({ selector: '[xuiColouredHost]' })
+class ColouredHost {
+  /** The host's own colour, which must not reach the tooltip. */
+  readonly color = input<string>('none');
+}
 
 const panel = () => document.querySelector('xui-tooltip-panel');
 const panelText = () => panel()?.textContent?.trim() ?? null;
@@ -166,7 +174,7 @@ describe('XuiTooltip', () => {
   });
 
   it('carries the color onto the chip', () => {
-    const result = render(`<button [xuiTooltip]="'Danger'" color="error">S</button>`, { imports: IMPORTS });
+    const result = render(`<button [xuiTooltip]="'Danger'" xuiTooltipColor="error">S</button>`, { imports: IMPORTS });
 
     hover(result);
 
@@ -174,8 +182,20 @@ describe('XuiTooltip', () => {
     expect(panel()?.className).toContain('text-error-foreground');
   });
 
+  it('leaves the host its own color', () => {
+    // A bare `color` on the element belongs to the host; the tooltip only listens to its prefixed name.
+    const result = render(`<button xuiColouredHost color="secondary" [xuiTooltip]="'Save'">S</button>`, {
+      imports: [...IMPORTS, ColouredHost]
+    });
+
+    hover(result);
+
+    expect(panel()?.className).toContain('bg-foreground');
+    expect(panel()?.className).not.toContain('secondary');
+  });
+
   it('tightens the padding when compact', () => {
-    const result = render(`<button [xuiTooltip]="'Save'" compact>S</button>`, { imports: IMPORTS });
+    const result = render(`<button [xuiTooltip]="'Save'" xuiTooltipCompact>S</button>`, { imports: IMPORTS });
 
     hover(result);
 

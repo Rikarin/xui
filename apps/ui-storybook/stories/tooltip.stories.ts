@@ -33,7 +33,7 @@ export const Colors: Story = {
     template: `
       <div class="flex flex-wrap gap-3 p-12">
         @for (color of colors; track color) {
-          <button xuiButton variant="outline" [xuiTooltip]="color + ' hint'" [color]="color">{{ color }}</button>
+          <button xuiButton variant="outline" [xuiTooltip]="color + ' hint'" [xuiTooltipColor]="color">{{ color }}</button>
         }
       </div>
     `
@@ -43,7 +43,7 @@ export const Colors: Story = {
 /** Compact trims the padding for dense toolbars. */
 export const Compact: Story = {
   render: () => ({
-    template: `<button xuiButton [xuiTooltip]="'Undo'" compact>Undo</button>`
+    template: `<button xuiButton [xuiTooltip]="'Undo'" xuiTooltipCompact>Undo</button>`
   })
 };
 

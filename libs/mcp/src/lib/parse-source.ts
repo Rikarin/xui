@@ -268,7 +268,9 @@ function parseMember(ts: typeof TS, source: TS.SourceFile, member: TS.PropertyDe
   const typeArguments = call.typeArguments?.map(type => type.getText(source)) ?? [];
 
   if (callee === 'output') {
-    return { kind: 'output', output: { name, type: typeArguments[0] ?? 'void', docs } };
+    const [options] = call.arguments;
+
+    return { kind: 'output', output: { name: aliasOf(ts, options) ?? name, type: typeArguments[0] ?? 'void', docs } };
   }
 
   const isInput = callee === 'input' || callee === 'input.required';
@@ -290,7 +292,9 @@ function parseMember(ts: typeof TS, source: TS.SourceFile, member: TS.PropertyDe
   return {
     kind: 'input',
     input: {
-      name,
+      // The alias is the name a template binds, which is what a consumer needs; the class
+      // property behind it (`valueInput`, `content`) is an implementation detail.
+      name: aliasOf(ts, options) ?? name,
       type: typeArguments[0] ?? inferType(ts, transform, first),
       default: defaultValue,
       required,
@@ -299,6 +303,17 @@ function parseMember(ts: typeof TS, source: TS.SourceFile, member: TS.PropertyDe
       docs
     }
   };
+}
+
+/** The `alias` from an `input()`/`model()`/`output()` options literal, when it is a string literal. */
+function aliasOf(ts: typeof TS, options: TS.Expression | undefined): string | undefined {
+  if (!options || !ts.isObjectLiteralExpression(options)) {
+    return undefined;
+  }
+
+  const alias = objectProperties(ts, options).get('alias');
+
+  return alias && (ts.isStringLiteral(alias) || ts.isNoSubstitutionTemplateLiteral(alias)) ? alias.text : undefined;
 }
 
 function inferType(ts: typeof TS, transform: string | undefined, defaultValue: TS.Expression | undefined): string {

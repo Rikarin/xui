@@ -31,7 +31,11 @@ export class XuiButton {
   /** Stretch to fill the available width. */
   readonly fill = input(false, { transform: booleanAttribute });
   readonly open = model(false);
+  /** Aliased so the selector doubles as the input. */
+  readonly content = input.required<string>({ alias: 'xuiButton' });
+  readonly tone = input<string>('none', { alias: 'xuiButtonTone' });
   readonly closed = output<string>();
+  readonly toneChange = output<string>({ alias: 'xuiButtonToneChange' });
 
   protected readonly computedClass = buttonVariants;
 
@@ -55,7 +59,14 @@ describe('parseLibraryFile', () => {
   });
 
   it('reads signal inputs with their type, default and transform', () => {
-    expect(symbol.inputs.map(input => input.name)).toEqual(['variant', 'label', 'fill', 'open']);
+    expect(symbol.inputs.map(input => input.name)).toEqual([
+      'variant',
+      'label',
+      'fill',
+      'open',
+      'xuiButton',
+      'xuiButtonTone'
+    ]);
 
     const variant = symbol.inputs[0];
     expect(variant.type).toBe("ButtonVariants['variant']");
@@ -74,8 +85,19 @@ describe('parseLibraryFile', () => {
     expect(symbol.inputs[3].model).toBe(true);
   });
 
+  it('reports an aliased input or output under the name a template binds', () => {
+    const content = symbol.inputs[4];
+    expect(content.required).toBe(true);
+    expect(content.docs).toBe('Aliased so the selector doubles as the input.');
+
+    const tone = symbol.inputs[5];
+    expect(tone.default).toBe("'none'");
+
+    expect(symbol.outputs.map(output => output.name)).toEqual(['closed', 'xuiButtonToneChange']);
+  });
+
   it('reads outputs and public methods, and skips private members', () => {
-    expect(symbol.outputs).toEqual([{ name: 'closed', type: 'string', docs: undefined }]);
+    expect(symbol.outputs[0]).toEqual({ name: 'closed', type: 'string', docs: undefined });
     expect(symbol.methods).toEqual([
       { name: 'setClass', signature: 'setClass(classes: string): void', docs: 'Merge extra classes in.' }
     ]);

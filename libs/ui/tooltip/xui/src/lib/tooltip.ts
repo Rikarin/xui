@@ -22,7 +22,7 @@ import { injectXuiTooltipConfig, type XuiTooltipColor } from './tooltip.token';
  * A hint that floats over an element on hover or focus.
  *
  * ```html
- * <button xuiButton [xuiTooltip]="'Delete forever'" color="error">Delete</button>
+ * <button xuiButton color="error" [xuiTooltip]="'Delete forever'" xuiTooltipColor="error">Delete</button>
  * ```
  *
  * A preset built on the same `@xui/core/overlay` foundation as `@xui/popover`,
@@ -33,6 +33,12 @@ import { injectXuiTooltipConfig, type XuiTooltipColor } from './tooltip.token';
  * Content is a string or a `TemplateRef`. Empty content never opens, so a
  * tooltip bound to a maybe-empty expression stays quiet rather than flashing an
  * empty chip.
+ *
+ * The inputs that style the bubble itself — `xuiTooltipColor`, `xuiTooltipCompact`
+ * — carry the selector as a prefix. The directive sits on buttons, tags and
+ * other hosts that own a `color` or `compact` input of their own, and a bare
+ * name on the element would feed both: a `secondary` button is not a tooltip
+ * colour, and an `error` button rarely wants a red hint.
  */
 @Directive({
   selector: '[xuiTooltip]',
@@ -63,10 +69,13 @@ export class XuiTooltip {
 
   /** Preferred side and alignment relative to the target. The overlay flips it when there is no room. */
   readonly placement = input<XPlacement>(this.config.placement);
-  /** Intent colour of the bubble. */
-  readonly color = input<XuiTooltipColor>(this.config.color);
-  /** Tighter padding and smaller text, for one-word hints. */
-  readonly compact = input<boolean, BooleanInput>(this.config.compact, { transform: booleanAttribute });
+  /** Intent colour of the bubble. Prefixed so the host's own `color` stays the host's. */
+  readonly color = input<XuiTooltipColor>(this.config.color, { alias: 'xuiTooltipColor' });
+  /** Tighter padding and smaller text, for one-word hints. Prefixed for the same reason as `xuiTooltipColor`. */
+  readonly compact = input<boolean, BooleanInput>(this.config.compact, {
+    alias: 'xuiTooltipCompact',
+    transform: booleanAttribute
+  });
   /** Also open when the target takes keyboard focus, so the hint is reachable without a pointer. */
   readonly openOnTargetFocus = input<boolean, BooleanInput>(this.config.openOnTargetFocus, {
     transform: booleanAttribute
