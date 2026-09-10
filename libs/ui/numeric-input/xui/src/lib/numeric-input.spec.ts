@@ -115,6 +115,42 @@ describe('XuiNumericInput', () => {
     expect(field().value).toBe('1.');
   });
 
+  it('folds user changes back through [(value)]', () => {
+    const { fixture, detect, click } = render<{ value: number | null }>(
+      '<xui-numeric-input [(value)]="props().value" />',
+      { imports: IMPORTS, props: { value: 5 } }
+    );
+    detect();
+    const bound = () => fixture.componentInstance.props().value;
+
+    click(incrementBtn());
+    expect(bound()).toBe(6);
+
+    type('42', detect);
+    expect(bound()).toBe(42);
+
+    type('', detect);
+    expect(bound()).toBeNull();
+  });
+
+  it('does not re-emit an unchanged value on blur', () => {
+    const changes: (number | null)[] = [];
+    const { detect } = render<{ onChange: (value: number | null) => void }>(
+      '<xui-numeric-input value="3" [min]="0" [max]="10" clampValueOnBlur (valueChange)="props().onChange($event)" />',
+      { imports: IMPORTS, props: { onChange: value => changes.push(value) } }
+    );
+    detect();
+
+    field().dispatchEvent(new Event('blur', { bubbles: true }));
+    detect();
+    expect(changes).toEqual([]);
+
+    type('99', detect);
+    field().dispatchEvent(new Event('blur', { bubbles: true }));
+    detect();
+    expect(changes).toEqual([99, 10]);
+  });
+
   describe('as a form control', () => {
     it('writes the control value into the field', () => {
       const control = new FormControl(42);

@@ -10,6 +10,7 @@ import {
   input,
   linkedSignal,
   numberAttribute,
+  output,
   signal,
   type Signal
 } from '@angular/core';
@@ -184,6 +185,11 @@ export class XuiNumericInput implements ControlValueAccessor, XFormFieldControl 
   });
   /** The current numeric value, or `null` when empty. Two-way via `value`. */
   readonly value = linkedSignal(this.valueInput);
+  /**
+   * Fires with every value the user commits — typing, a stepper press or an arrow key — so
+   * `[(value)]` folds the change back into the bound signal. A form's `writeValue` does not emit.
+   */
+  readonly valueChange = output<number | null>();
 
   // The text the field shows. Kept separate from `value` so a half-typed entry
   // ("-", "1.") is preserved while the parsed value stays null/last-valid.
@@ -242,9 +248,7 @@ export class XuiNumericInput implements ControlValueAccessor, XFormFieldControl 
   protected onInput(raw: string): void {
     this.text.set(raw);
 
-    const parsed = this.parse(raw);
-    this.value.set(parsed);
-    this.cva.notifyChange(parsed);
+    this.commit(this.parse(raw));
   }
 
   protected onKeydown(event: KeyboardEvent): void {
@@ -259,7 +263,12 @@ export class XuiNumericInput implements ControlValueAccessor, XFormFieldControl 
 
   protected onBlur(): void {
     if (this.clampValueOnBlur()) {
-      this.commit(this.clamp(this.value()));
+      const clamped = this.clamp(this.value());
+
+      // Only an actual pull-back is a change worth announcing.
+      if (clamped !== this.value()) {
+        this.commit(clamped);
+      }
     }
 
     // Re-sync the text with the committed value, dropping a half-typed entry.
@@ -282,6 +291,7 @@ export class XuiNumericInput implements ControlValueAccessor, XFormFieldControl 
   private commit(value: number | null): void {
     this.value.set(value);
     this.cva.notifyChange(value);
+    this.valueChange.emit(value);
   }
 
   private parse(raw: string): number | null {
