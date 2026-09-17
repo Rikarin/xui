@@ -1,6 +1,6 @@
 {
   "name": "@xui/alert",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Modern Angular 22 UI Library based on TailwindCSS",
   "keywords": [
     "angular",
@@ -25,9 +25,9 @@
     "@angular/core": "22",
     "@ng-icons/core": "35",
     "@ng-icons/material-icons": "35",
-    "@xui/button": "3.0.0",
-    "@xui/dialog": "3.0.0",
-    "@xui/icon": "3.0.0"
+    "@xui/button": "3.0.1",
+    "@xui/dialog": "3.0.1",
+    "@xui/icon": "3.0.1"
   },
   "publishConfig": {
     "access": "public"

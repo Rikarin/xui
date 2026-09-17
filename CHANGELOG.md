@@ -1,3 +1,14 @@
+## 3.0.1 (2026-09-17)
+
+### 🩹 Fixes
+
+- **checkbox:** size the box on the control scale instead of from the tick ([0662eda5](https://github.com/Rikarin/xui/commit/0662eda5))
+
+### ❤️ Thank You
+
+- Claude Opus 5
+- Rikarin @Rikarin
+
 # 3.0.0 (2026-09-10)
 
 ### 🩹 Fixes
