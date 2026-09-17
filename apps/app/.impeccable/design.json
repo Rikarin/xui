@@ -1,0 +1,356 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-17T00:00:00Z",
+  "title": "Design System: xuijs.org",
+  "extensions": {
+    "colorMeta": {
+      "stage-black": {
+        "role": "neutral",
+        "displayName": "Stage Black",
+        "canonical": "var(--color-black)",
+        "tonalRamp": [
+          "oklch(0% 0 0)",
+          "oklch(17% 0.004 286)",
+          "oklch(20% 0.004 286)",
+          "oklch(23% 0.004 286)",
+          "oklch(24% 0.004 286)",
+          "oklch(50% 0.004 286)",
+          "oklch(75% 0.004 286)",
+          "oklch(95% 0.004 286)"
+        ]
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "Surface",
+        "canonical": "oklch(17% 0.004 286)",
+        "tonalRamp": [
+          "oklch(15% 0.004 286)",
+          "oklch(17% 0.004 286)",
+          "oklch(20% 0.004 286)",
+          "oklch(23% 0.004 286)",
+          "oklch(24% 0.004 286)",
+          "oklch(45% 0.004 286)",
+          "oklch(70% 0.004 286)",
+          "oklch(95% 0.004 286)"
+        ]
+      },
+      "surface-raised": { "role": "neutral", "displayName": "Surface Raised", "canonical": "oklch(20% 0.004 286)" },
+      "surface-inset": { "role": "neutral", "displayName": "Surface Inset", "canonical": "oklch(23% 0.004 286)" },
+      "surface-overlay": { "role": "neutral", "displayName": "Surface Overlay", "canonical": "oklch(24% 0.004 286)" },
+      "glass-fill": {
+        "role": "neutral",
+        "displayName": "Glass Fill",
+        "canonical": "color-mix(in oklab, var(--color-white) 5%, transparent)",
+        "tonalRamp": [
+          "rgb(255 255 255 / 0.05)",
+          "rgb(255 255 255 / 0.06)",
+          "rgb(255 255 255 / 0.07)",
+          "rgb(255 255 255 / 0.10)",
+          "rgb(255 255 255 / 0.12)",
+          "rgb(255 255 255 / 0.18)",
+          "rgb(255 255 255 / 0.22)",
+          "rgb(255 255 255 / 0.25)"
+        ]
+      },
+      "glass-fill-hover": {
+        "role": "neutral",
+        "displayName": "Glass Fill Hover",
+        "canonical": "color-mix(in oklab, var(--color-white) 7%, transparent)"
+      },
+      "hairline-muted": {
+        "role": "neutral",
+        "displayName": "Hairline Muted (--border-muted)",
+        "canonical": "color-mix(in oklab, var(--color-white) 7%, transparent)"
+      },
+      "hairline-card": {
+        "role": "neutral",
+        "displayName": "Hairline Card",
+        "canonical": "color-mix(in oklab, var(--color-white) 10%, transparent)"
+      },
+      "hairline": {
+        "role": "neutral",
+        "displayName": "Hairline (--border)",
+        "canonical": "color-mix(in oklab, var(--color-white) 12%, transparent)"
+      },
+      "hairline-hover": {
+        "role": "neutral",
+        "displayName": "Hairline Hover",
+        "canonical": "color-mix(in oklab, var(--color-white) 18%, transparent)"
+      },
+      "hairline-strong": {
+        "role": "neutral",
+        "displayName": "Hairline Strong (--border-strong)",
+        "canonical": "color-mix(in oklab, var(--color-white) 22%, transparent)"
+      },
+      "foreground": { "role": "neutral", "displayName": "Foreground (zinc-100)", "canonical": "var(--color-zinc-100)" },
+      "foreground-muted": {
+        "role": "neutral",
+        "displayName": "Foreground Muted (zinc-400)",
+        "canonical": "var(--color-zinc-400)"
+      },
+      "foreground-subtle": {
+        "role": "neutral",
+        "displayName": "Foreground Subtle",
+        "canonical": "oklch(66% 0.01 286)"
+      },
+      "primary": {
+        "role": "primary",
+        "displayName": "xUI Blue",
+        "canonical": "oklch(55.88% 0.154 252.84)",
+        "tonalRamp": [
+          "oklch(15% 0.154 252.84)",
+          "oklch(26% 0.154 252.84)",
+          "oklch(37% 0.154 252.84)",
+          "oklch(48% 0.154 252.84)",
+          "oklch(55.88% 0.154 252.84)",
+          "oklch(68% 0.154 252.84)",
+          "oklch(82% 0.10 252.84)",
+          "oklch(95% 0.04 252.84)"
+        ]
+      },
+      "focus": { "role": "primary", "displayName": "Focus Sky (sky-500)", "canonical": "var(--color-sky-500)" },
+      "gradient-lavender": { "role": "secondary", "displayName": "Gradient Lavender", "canonical": "#cabfff" },
+      "gradient-ice": { "role": "secondary", "displayName": "Gradient Ice", "canonical": "#bfeaff" },
+      "gradient-rose": { "role": "secondary", "displayName": "Gradient Rose (warm alt)", "canonical": "#ffabab" },
+      "gradient-violet": { "role": "secondary", "displayName": "Gradient Violet (warm alt)", "canonical": "#bbadff" },
+      "comet-lavender": { "role": "secondary", "displayName": "Comet Lavender", "canonical": "rgb(170 153 255)" },
+      "comet-cyan": { "role": "secondary", "displayName": "Comet Cyan", "canonical": "rgb(26 179 255)" }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "The h1 only; gradient-filled, balanced, fit-content. Scales 2.75rem -> 3.75rem (sm) -> 4.5rem (md)."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Section h2s; same class pair as the h1 one step down. 2.25rem -> 3rem (sm) -> 3.75rem (md)."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Card titles; solid foreground, never gradient. 1.25rem in pillar/agent cards, 1.125rem in the theming stage, 1rem on catalogue tiles."
+      },
+      "lead": {
+        "displayName": "Lead",
+        "purpose": "The one muted paragraph under each headline; 1.25rem at sm in the hero only."
+      },
+      "body": { "displayName": "Body", "purpose": "Card copy, footer links, table cells; muted, leading-relaxed." },
+      "label": {
+        "displayName": "Label",
+        "purpose": "The version pill; the Built-on list uses 0.875rem at 500 in subtle."
+      },
+      "code": { "displayName": "Code", "purpose": "Install/usage panels on bg-black/40 and inline xuiCode / xuiKbd." }
+    },
+    "shadows": [
+      {
+        "name": "card-lit-edge",
+        "value": "inset 0 1px 0 color-mix(in oklab, var(--color-white) 6%, transparent)",
+        "purpose": "Every .landing-card; the top edge catching light."
+      },
+      {
+        "name": "comet-lift",
+        "value": "inset 0 1px 0 rgb(255 255 255 / 0.14), 0 16px 40px -16px rgb(120 140 255 / 0.55)",
+        "purpose": "Primary CTA at rest; the only outer shadow on the page."
+      },
+      {
+        "name": "comet-lift-hover",
+        "value": "inset 0 1px 0 rgb(255 255 255 / 0.18), 0 20px 48px -16px rgb(120 140 255 / 0.7)",
+        "purpose": "Primary CTA on hover."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-out-expo",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Card hover (200ms colour, 300ms transform), CTA shadow/transform (300ms), pill hover (200ms), hero entrance (900ms)."
+      },
+      {
+        "name": "ease-sine",
+        "value": "cubic-bezier(0.445, 0.05, 0.55, 0.95)",
+        "purpose": "CTA background tint and comet opacity, 200ms."
+      },
+      {
+        "name": "landing-rise",
+        "value": "900ms ease-out-expo both; delay calc(var(--i, 0) * 90ms); from opacity 0 / translateY(14px) / blur(6px)",
+        "purpose": "Hero entrance, --i 0..5; only under prefers-reduced-motion: no-preference."
+      },
+      {
+        "name": "landing-comet",
+        "value": "2.5s linear infinite; --landing-comet-angle 0deg -> 1.5turn",
+        "purpose": "Conic sweep orbiting the CTA hairline; 55% opacity at rest, 100% on hover/focus-visible; reduced-motion gated."
+      },
+      { "name": "buy-hover", "value": "opacity 150ms", "purpose": "Header solid button hover to 0.92." }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" },
+      { "name": "xl", "value": "1280px" }
+    ],
+    "glows": [
+      {
+        "name": "landing-glow",
+        "value": "radial-gradient(60% 70% at 50% -5%, color-mix(in oklab, var(--primary) 55%, transparent), transparent 72%), radial-gradient(35% 45% at 68% 12%, rgb(170 153 255 / 0.28), transparent 70%), radial-gradient(30% 40% at 32% 18%, rgb(26 179 255 / 0.16), transparent 70%)",
+        "purpose": "Cobalt wash behind the hero (h-40rem layer) and inside the closer card."
+      },
+      {
+        "name": "landing-grid",
+        "value": "radial-gradient(color-mix(in oklab, var(--color-white) 9%, transparent) 1px, transparent 1px) 22px 22px; mask radial-gradient(70% 70% at 50% 50%, #000, transparent)",
+        "purpose": "Dot grid behind the agent section."
+      }
+    ],
+    "scope": {
+      "landing": "Route / only; host class `landing dark bg-background text-foreground block min-h-svh`. Overrides --background, --surface*, --border*, --foreground-subtle, font-family and font-feature-settings.",
+      "docs": "Routes under /docs inherit libs/core/styles/theme.css (zinc light / zinc-950 dark) with the user toggle in localStorage['xui-docs-theme']; not restyled."
+    }
+  },
+  "components": [
+    {
+      "name": "Comet Button (primary)",
+      "kind": "button",
+      "refersTo": "button-comet",
+      "description": "The page's one lit action: lavender-to-cyan tint, gradient hairline, orbiting comet on hover.",
+      "html": "<a class=\"ds-cta\" href=\"#\">Get started <svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"currentColor\" aria-hidden=\"true\"><path d=\"M5 13h11.17l-4.88 4.88a1 1 0 1 0 1.42 1.41l6.59-6.59a1 1 0 0 0 0-1.41l-6.59-6.59a1 1 0 0 0-1.41 1.41L16.17 11H5a1 1 0 1 0 0 2Z\"/></svg></a>",
+      "css": "@property --ds-comet-angle { syntax: '<angle>'; inherits: false; initial-value: 0deg; } .ds-cta { position: relative; isolation: isolate; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; height: 3.5rem; padding-inline: 1.625rem; border-radius: 0.75rem; background: linear-gradient(90deg, rgb(170 153 255 / 0.24), rgb(26 179 255 / 0.24)); color: #fff; font-family: 'Inter Variable', Inter, system-ui, sans-serif; font-size: 1.125rem; font-weight: 600; text-decoration: none; overflow: hidden; box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.14), 0 16px 40px -16px rgb(120 140 255 / 0.55); transition: background 200ms cubic-bezier(0.445, 0.05, 0.55, 0.95), box-shadow 300ms cubic-bezier(0.16, 1, 0.3, 1), transform 300ms cubic-bezier(0.16, 1, 0.3, 1); } .ds-cta::before, .ds-cta::after { content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; padding: 1px; mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0); } .ds-cta::before { background: linear-gradient(90deg, rgb(170 153 255 / 0.85), rgb(26 179 255 / 0.85)); z-index: 1; } .ds-cta::after { background: conic-gradient(from var(--ds-comet-angle), transparent 60%, #fff, rgb(255 255 255 / 0.07) 80%, transparent); opacity: 0.55; z-index: 2; transition: opacity 200ms cubic-bezier(0.445, 0.05, 0.55, 0.95); } @keyframes ds-comet { to { --ds-comet-angle: 1.5turn; } } @media (prefers-reduced-motion: no-preference) { .ds-cta::after { animation: ds-comet 2.5s linear infinite; } } .ds-cta:hover { background: linear-gradient(90deg, rgb(170 153 255 / 0.34), rgb(26 179 255 / 0.34)); box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.18), 0 20px 48px -16px rgb(120 140 255 / 0.7); } .ds-cta:hover::after, .ds-cta:focus-visible::after { opacity: 1; } .ds-cta:active { transform: translateY(1px); } .ds-cta:focus-visible { outline: 2px solid var(--focus, #0ea5e9); outline-offset: 2px; }"
+    },
+    {
+      "name": "Solid Button (header)",
+      "kind": "button",
+      "refersTo": "button-solid",
+      "description": "The one primary-filled control, in the header; lit top edge and hairline outline so it reads raised.",
+      "html": "<a class=\"ds-buy\" href=\"#\">Get started</a>",
+      "css": ".ds-buy { display: inline-flex; align-items: center; justify-content: center; height: 2.25rem; padding-inline: 1.125rem; border-radius: 0.375rem; --ds-primary: var(--primary, oklch(55.88% 0.154 252.84)); background: linear-gradient(oklch(from var(--ds-primary) calc(l + 0.12) c h), transparent 100%), var(--ds-primary); outline: 1px solid rgb(255 255 255 / 0.15); outline-offset: -1px; color: #fff; font-family: 'Inter Variable', Inter, system-ui, sans-serif; font-size: 0.875rem; font-weight: 600; text-decoration: none; transition: opacity 150ms; } .ds-buy:hover { opacity: 0.92; } .ds-buy:focus-visible { outline: 2px solid var(--focus, #0ea5e9); outline-offset: 2px; }"
+    },
+    {
+      "name": "Ghost Button (secondary)",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "The unlit partner beside the comet: library ghost button at the same height and radius.",
+      "html": "<a class=\"ds-ghost\" href=\"#\">Browse the 92 components</a>",
+      "css": ".ds-ghost { display: inline-flex; align-items: center; justify-content: center; height: 3.5rem; padding-inline: 1.25rem; border-radius: 0.75rem; background: transparent; color: var(--foreground-muted, #a1a1aa); font-family: 'Inter Variable', Inter, system-ui, sans-serif; font-size: 1rem; font-weight: 500; text-decoration: none; transition: color 150ms, background-color 150ms; } .ds-ghost:hover { color: var(--foreground, #f4f4f5); background: color-mix(in oklab, #fff 5%, transparent); } .ds-ghost:focus-visible { outline: 2px solid var(--focus, #0ea5e9); outline-offset: 2px; }"
+    },
+    {
+      "name": "Version Pill",
+      "kind": "chip",
+      "refersTo": "pill-version",
+      "description": "Glass pill above the h1 linking to Getting started; trailing chevron sits tighter than the leading text.",
+      "html": "<a class=\"ds-pill\" href=\"#\">xUI 2.3.0 · Angular 22 · Tailwind CSS 4 <svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"currentColor\" aria-hidden=\"true\"><path d=\"M9.29 6.71a1 1 0 0 0 0 1.41L13.17 12l-3.88 3.88a1 1 0 1 0 1.41 1.41l4.59-4.59a1 1 0 0 0 0-1.41L10.7 6.7a1 1 0 0 0-1.41.01Z\"/></svg></a>",
+      "css": ".ds-pill { display: inline-flex; align-items: center; gap: 0.375rem; border-radius: 9999px; border: 1px solid color-mix(in oklab, #fff 12%, transparent); background: color-mix(in oklab, #fff 6%, transparent); padding: 0.3rem 0.5rem 0.3rem 0.85rem; font-family: 'Inter Variable', Inter, system-ui, sans-serif; font-size: 0.8125rem; font-weight: 500; color: var(--foreground, #f4f4f5); text-decoration: none; transition: border-color 200ms cubic-bezier(0.16, 1, 0.3, 1); } .ds-pill svg { color: var(--foreground-muted, #a1a1aa); } .ds-pill:hover { border-color: color-mix(in oklab, #fff 25%, transparent); } .ds-pill:focus-visible { outline: 2px solid var(--focus, #0ea5e9); outline-offset: 2px; }"
+    },
+    {
+      "name": "Glass Card",
+      "kind": "card",
+      "refersTo": "card-glass",
+      "description": "5% white over black, 10% hairline, 1.5rem radius, lit top edge; the interactive variant lifts 2px on hover.",
+      "html": "<a class=\"ds-card ds-card-interactive\" href=\"#\"><div class=\"ds-card-head\"><h3>Forms</h3><span>17</span></div><p>Cascader, Checkbox, Color picker, Control card, Control group…</p></a>",
+      "css": ".ds-card { position: relative; display: flex; flex-direction: column; border-radius: 1.5rem; border: 1px solid color-mix(in oklab, #fff 10%, transparent); background: color-mix(in oklab, #fff 5%, transparent); box-shadow: inset 0 1px 0 color-mix(in oklab, #fff 6%, transparent); padding: 1.25rem; color: var(--foreground, #f4f4f5); font-family: 'Inter Variable', Inter, system-ui, sans-serif; text-decoration: none; } .ds-card-head { display: flex; align-items: baseline; justify-content: space-between; gap: 0.75rem; } .ds-card h3 { margin: 0; font-size: 1rem; font-weight: 600; } .ds-card-head span { font-size: 0.875rem; font-variant-numeric: tabular-nums; color: var(--foreground-subtle, oklch(66% 0.01 286)); } .ds-card p { margin: 0.5rem 0 0; font-size: 0.875rem; line-height: 1.625; color: var(--foreground-muted, #a1a1aa); } .ds-card-interactive { transition: border-color 200ms cubic-bezier(0.16, 1, 0.3, 1), background-color 200ms cubic-bezier(0.16, 1, 0.3, 1), transform 300ms cubic-bezier(0.16, 1, 0.3, 1); } .ds-card-interactive:hover { border-color: color-mix(in oklab, #fff 18%, transparent); background: color-mix(in oklab, #fff 7%, transparent); transform: translateY(-2px); } .ds-card-interactive:focus-visible { outline: 2px solid var(--focus, #0ea5e9); outline-offset: 2px; }"
+    },
+    {
+      "name": "Gradient Display Headline",
+      "kind": "custom",
+      "refersTo": "display",
+      "description": "Inter 600, -0.025em, 1.05, balanced, fit-content, filled lavender -> white -> ice. Display and section headlines only.",
+      "html": "<h2 class=\"ds-display ds-gradient\">A component library tailored for Angular</h2>",
+      "css": ".ds-display { font-family: 'Inter Variable', Inter, system-ui, sans-serif; font-feature-settings: 'cv11', 'ss01'; font-weight: 600; font-size: 2.25rem; letter-spacing: -0.025em; line-height: 1.05; text-wrap: balance; margin: 0; text-align: center; } .ds-gradient { display: block; width: fit-content; margin-inline: auto; padding-bottom: 0.08em; margin-bottom: -0.08em; background-image: linear-gradient(90deg, #cabfff 0%, #ffffff 45%, #ffffff 55%, #bfeaff 100%); background-clip: text; -webkit-background-clip: text; color: transparent; -webkit-text-fill-color: transparent; } .ds-gradient-warm { background-image: linear-gradient(90deg, #ffabab 0%, #ffffff 40%, #ffffff 52%, #bbadff 100%); }"
+    },
+    {
+      "name": "Nav Segment (landing header)",
+      "kind": "nav",
+      "refersTo": "nav-segment",
+      "description": "Centred glass pill holding ghost, fully-rounded nav links; the header itself is 60% black with backdrop blur and a 6% hairline.",
+      "html": "<nav class=\"ds-nav\" aria-label=\"Main\"><a class=\"ds-nav-item\" href=\"#\">Getting started</a><a class=\"ds-nav-item\" href=\"#\">Theming</a><a class=\"ds-nav-item\" href=\"#\">Components</a><a class=\"ds-nav-item\" href=\"#\">AI agents</a></nav>",
+      "css": ".ds-nav { display: inline-flex; align-items: center; gap: 0.125rem; padding: 0.25rem; border-radius: 9999px; border: 1px solid rgb(255 255 255 / 0.10); background: rgb(255 255 255 / 0.05); font-family: 'Inter Variable', Inter, system-ui, sans-serif; } .ds-nav-item { display: inline-flex; align-items: center; height: 1.875rem; padding-inline: 0.75rem; border-radius: 9999px; font-size: 0.875rem; font-weight: 500; color: var(--foreground-muted, #a1a1aa); text-decoration: none; transition: color 150ms, background-color 150ms; } .ds-nav-item:hover { color: var(--foreground, #f4f4f5); background: color-mix(in oklab, #fff 6%, transparent); } .ds-nav-item:focus-visible { outline: 2px solid var(--focus, #0ea5e9); outline-offset: 2px; }"
+    },
+    {
+      "name": "Code Panel",
+      "kind": "custom",
+      "refersTo": "card-glass",
+      "description": "Glass card wrapping a titled code region on 40% black with a 6% hairline divider.",
+      "html": "<div class=\"ds-code-card\"><div class=\"ds-code-head\"><span>Install</span></div><pre class=\"ds-code\">ng add @xui/core\npnpm add @xui/button @xui/dialog @xui/icon</pre></div>",
+      "css": ".ds-code-card { border-radius: 1.5rem; border: 1px solid color-mix(in oklab, #fff 10%, transparent); background: color-mix(in oklab, #fff 5%, transparent); box-shadow: inset 0 1px 0 color-mix(in oklab, #fff 6%, transparent); overflow: hidden; font-family: 'Inter Variable', Inter, system-ui, sans-serif; color: var(--foreground, #f4f4f5); } .ds-code-head { display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.25rem; border-bottom: 1px solid rgb(255 255 255 / 0.06); font-size: 0.875rem; font-weight: 500; } .ds-code { margin: 0; padding: 1rem 1.25rem; background: rgb(0 0 0 / 0.4); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.875rem; line-height: 1.6; color: var(--foreground-muted, #a1a1aa); white-space: pre; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Dark Stage",
+    "overview": "The landing page is a black stage on which the xUI library performs. There is no scenery: the ground is true black, the only light comes from a cobalt wash behind the hero and from the components themselves, and every \"product screenshot\" is a running @xui/* component inside a translucent card. Display headlines are set in Inter at semibold with tight tracking and filled with a lavender-to-white-to-ice gradient, the single decorative flourish the world allows itself; everything below the headline is plain white-on-black prose. The manner is that of eagle.cool, which the product owner made binding: black ground, gradient display type, glass cards at a 24px radius, the product shown inside the cards.\n\nDensity is low and centred. Every section opens with a centred column no wider than 48rem (headline, one lead paragraph), then widens to a 100rem shell of cards laid on a 1rem gap. Cards are quiet glass, never grey slabs: a 5% white fill, a 10% white hairline, a 1px lit top edge. Depth is expressed through translucency and a single blue glow, not through drop shadows; the one object that casts light is the primary call to action, whose \"comet\" orbits its hairline.\n\nThis world is the site's marketing identity and is scoped to the / route via the .landing.dark host class. The documentation under /docs deliberately does not inherit it: it runs on the component library's own semantic token layer (libs/core/styles/theme.css, zinc light and zinc-950 dark) with a user toggle persisted in localStorage['xui-docs-theme']. The landing page overrides only the ground, the surface family, the border family and --foreground-subtle; every other token (primary, focus, text, control heights) is the library's own, so the library components render on the black stage without a fork.",
+    "keyCharacteristics": [
+      "True black ground (--background: var(--color-black)) pinned regardless of the site toggle",
+      "Translucent glass cards: 5% white fill, 10% white hairline, 1.5rem radius, inset 1px top highlight",
+      "Inter Variable as the one face, with cv11 and ss01 stylistic sets on",
+      "Gradient text on display headlines only (h1 and section h2), never on card titles, body or UI text",
+      "One chromatic accent (the library's blue primary) confined to the header CTA, the hero glow and tiny status marks",
+      "Depth by translucency and glow; no drop shadows except the CTA's own tinted lift",
+      "Motion only where prefers-reduced-motion: no-preference: one staggered hero entrance, one orbiting comet"
+    ],
+    "rules": [
+      {
+        "name": "The One Lamp Rule",
+        "body": "Blue owns exactly one region of the page at a time: the hero glow, the theming stage glow, the closer's glow. Elsewhere it is a 1rem glyph or the header button. A second blue-filled control on the same screen breaks the world.",
+        "section": "colors"
+      },
+      {
+        "name": "The White-Alpha Rule",
+        "body": "Every border and fill on the stage is white at an alpha between 5% and 25%. No grey hex, no zinc utility class, no opaque card. If a divider needs to be stronger, raise the alpha; do not change the hue.",
+        "section": "colors"
+      },
+      {
+        "name": "The Gradient-Is-Display Rule",
+        "body": ".landing-gradient and .landing-gradient-warm attach only to elements that also carry .landing-display (the h1 and section h2s). Card titles, pills, buttons, body and code are solid --foreground.",
+        "section": "colors"
+      },
+      {
+        "name": "The Two-Weight Rule",
+        "body": "Landing type is 600 (display, headline, title, button labels) or 400 (everything else), with 500 reserved for the pill and the \"Built on\" list. No 700, no 300.",
+        "section": "typography"
+      },
+      {
+        "name": "The Balanced Headline Rule",
+        "body": "Every display and headline element balances its lines (text-wrap: balance) and never runs past max-w-3xl. If a headline needs three lines at md, shorten the copy.",
+        "section": "typography"
+      },
+      {
+        "name": "The No-Eyebrow Rule",
+        "body": "Sections open with the gradient headline itself. There are no uppercase tracked kickers, numbered labels or icon eyebrows above headlines; the build shipped none and the world does not want them.",
+        "section": "typography"
+      },
+      {
+        "name": "The Intro-Then-Grid Rule",
+        "body": "A landing section is a centred headline and one lead paragraph, then cards. Do not put body copy beside a grid or open a section with a card.",
+        "section": "layout"
+      },
+      {
+        "name": "The No-Cast-Shadow Rule",
+        "body": "No grey or black box-shadow on any landing surface. Depth comes from alpha, blur and glow; if a card needs to separate from its neighbour, raise its hairline alpha.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Lit-Edge Rule",
+        "body": "Anything that reads as a raised object (card, CTA, solid button) carries a 1px white inset highlight on its top edge.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Three-Radius Rule",
+        "body": "1.5rem for containers, 0.75rem for actions and panels, 0.375rem for compact controls, full pill for text tags. Do not introduce a fourth.",
+        "section": "shapes"
+      }
+    ],
+    "dos": [
+      "Do pin the stage with `landing dark bg-background text-foreground` on the route host, not on `body`, so /docs keeps its own theme and toggle.",
+      "Do build new landing surfaces from .landing-card, .landing-display + .landing-gradient, .landing-cta, .landing-pill and .landing-glow; extend these classes in styles.css rather than inventing parallel utilities.",
+      "Do use the library's own tokens (--primary, --focus, --foreground-*, --surface-*) inside cards; the stage overrides only ground, surfaces, borders and --foreground-subtle.",
+      "Do show a running @xui/* component where a product image would otherwise go; the strip and the theming stage are the pattern.",
+      "Do keep --foreground-subtle at or above oklch(66% 0.01 286) on black; the library's zinc-500 fails 4.5:1 there.",
+      "Do gate every animation (landing-rise, landing-comet) behind prefers-reduced-motion: no-preference and leave the element fully visible without it.",
+      "Do put the second action beside the comet as a ghost xuiButton at the same h-14 rounded-xl; the pair is always one lit, one unlit."
+    ],
+    "donts": [
+      "Don't apply .landing-gradient or .landing-gradient-warm to anything that is not a .landing-display headline.",
+      "Don't fill a second control with --primary on the same screen as the header button; blue is the header CTA, the glow and 1rem glyphs.",
+      "Don't use grey hex or zinc utility colours for landing borders or fills; use white at 5% to 25% alpha.",
+      "Don't add grey or black drop shadows; the comet lift is the only outer shadow, and it is tinted.",
+      "Don't put uppercase tracked kickers, eyebrows or numbered labels above section headlines.",
+      "Don't introduce a second typeface or a weight outside 400/500/600; Inter Variable with cv11/ss01 is the whole voice.",
+      "Don't restyle /docs pages in the landing manner; they inherit theme.css light/dark and the user toggle by design.",
+      "Don't hardcode component counts or group names; they come from src/generated/manifest.ts."
+    ]
+  }
+}

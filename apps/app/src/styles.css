@@ -8,6 +8,9 @@
    container, which needs its positioning styles to float rather than sit in the document flow. */
 @import '@angular/cdk/overlay-prebuilt.css';
 
+/* The landing page's display face, self-hosted so the first paint does not wait on a third party. */
+@import '@fontsource-variable/inter';
+
 @plugin 'tailwindcss-animate';
 
 /* The component sources, plus this app's own templates and the generated preview components. */
@@ -40,4 +43,321 @@ body {
 
 .skip-link:focus {
   @apply bg-surface-raised text-foreground ring-focus not-sr-only absolute start-4 top-4 z-50 rounded-md px-4 py-2 ring-2;
+}
+
+/* ------------------------------------------------------------------ landing */
+/* The landing page is pinned to a black stage whatever the site toggle says: it is the
+   library's showcase, and the docs keep light/dark. `.dark` supplies the component tokens,
+   these few overrides move the ground from zinc to true black and thin the hairlines to
+   match the translucent cards. Everything below is scoped to `.landing`. */
+.landing.dark {
+  --background: var(--color-black);
+  --surface: oklch(17% 0.004 286);
+  --surface-raised: oklch(20% 0.004 286);
+  --surface-overlay: oklch(24% 0.004 286);
+  --surface-inset: oklch(23% 0.004 286);
+  --surface-sunken: var(--color-black);
+  --border: color-mix(in oklab, var(--color-white) 12%, transparent);
+  --border-muted: color-mix(in oklab, var(--color-white) 7%, transparent);
+  --border-strong: color-mix(in oklab, var(--color-white) 22%, transparent);
+  /* zinc-500 sits at 4.3:1 on true black; this clears 4.5:1 for the small print. */
+  --foreground-subtle: oklch(66% 0.01 286);
+
+  font-family: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+  font-feature-settings: 'cv11', 'ss01';
+  scrollbar-color: color-mix(in oklab, var(--color-white) 20%, transparent) transparent;
+}
+
+.landing ::selection {
+  background: color-mix(in oklab, var(--primary) 45%, transparent);
+  color: var(--color-white);
+}
+
+/* Display type: Inter at semibold with the tight tracking the reference sets, balanced so a
+   two-line headline never orphans a word. */
+.landing-display {
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1.05;
+  text-wrap: balance;
+}
+
+/* The lavender → white → ice fill on display headlines, the reference's own stops. The box
+   shrinks to the text so the coloured ends land on the first and last words instead of dying in
+   the container's empty margins; `padding-bottom` keeps descenders inside the clipped box. */
+.landing-gradient,
+.landing-gradient-warm {
+  display: block;
+  width: fit-content;
+  margin-inline: auto;
+  padding-bottom: 0.08em;
+  margin-bottom: -0.08em;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+.landing-gradient {
+  background-image: linear-gradient(90deg, #cabfff 0%, #ffffff 45%, #ffffff 55%, #bfeaff 100%);
+}
+
+.landing-gradient-warm {
+  background-image: linear-gradient(90deg, #ffabab 0%, #ffffff 40%, #ffffff 52%, #bbadff 100%);
+}
+
+/* A quieter cool fill for the two agent-tooling card titles: the comet tint pair, softened
+   towards white so a 20px title reads as lit rather than coloured. */
+.landing-gradient-cool {
+  display: block;
+  width: fit-content;
+  padding-bottom: 0.08em;
+  margin-bottom: -0.08em;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  background-image: linear-gradient(
+    90deg,
+    color-mix(in oklab, #aa99ff 80%, #ffffff) 25%,
+    color-mix(in oklab, #1ab3ff 80%, #ffffff) 100%
+  );
+}
+
+/* Left-aligned headings keep the fill on the text but drop the centring. */
+.landing-gradient.text-start,
+.landing-gradient-warm.text-start {
+  margin-inline: 0;
+}
+
+/* Translucent card on black. The inset highlight is the top edge catching light, which is
+   what separates a glass card from a grey rectangle. */
+.landing-card {
+  position: relative;
+  border-radius: 1.5rem;
+  border: 1px solid color-mix(in oklab, var(--color-white) 10%, transparent);
+  background: color-mix(in oklab, var(--color-white) 5%, transparent);
+  box-shadow: inset 0 1px 0 color-mix(in oklab, var(--color-white) 6%, transparent);
+}
+
+.landing-card-interactive {
+  transition:
+    border-color 200ms cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 200ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 300ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.landing-card-interactive:hover {
+  border-color: color-mix(in oklab, var(--color-white) 18%, transparent);
+  background: color-mix(in oklab, var(--color-white) 7%, transparent);
+  transform: translateY(-2px);
+}
+
+/* The version pill above the headline. */
+.landing-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  border-radius: 9999px;
+  border: 1px solid color-mix(in oklab, var(--color-white) 12%, transparent);
+  background: color-mix(in oklab, var(--color-white) 6%, transparent);
+  padding: 0.3rem 0.5rem 0.3rem 0.85rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--foreground);
+  text-decoration: none;
+  transition: border-color 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.landing-pill:hover {
+  border-color: color-mix(in oklab, var(--color-white) 25%, transparent);
+}
+
+/* Primary action: the reference's "comet" button. A cool lavender→cyan tint on the black
+   ground, a 1px gradient hairline drawn by masking a padding-box out of a border-box fill, and
+   on hover a comet of light that orbits the hairline once every 2.5s. */
+@property --landing-comet-angle {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+
+.landing-cta {
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  height: 3.5rem;
+  padding-inline: 1.625rem;
+  border-radius: 0.75rem;
+  background: linear-gradient(90deg, rgb(170 153 255 / 0.24), rgb(26 179 255 / 0.24));
+  color: var(--color-white);
+  font-size: 1.125rem;
+  font-weight: 600;
+  text-decoration: none;
+  overflow: hidden;
+  /* A lit top edge and a lift in the tint's own hue, so the button reads as the brightest
+     object in the hero before anyone hovers it. */
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.14),
+    0 16px 40px -16px rgb(120 140 255 / 0.55);
+  transition:
+    background 200ms cubic-bezier(0.445, 0.05, 0.55, 0.95),
+    box-shadow 300ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 300ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.landing-cta::before,
+.landing-cta::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  padding: 1px;
+  mask:
+    linear-gradient(#000 0 0) content-box exclude,
+    linear-gradient(#000 0 0);
+}
+
+/* The standing hairline. */
+.landing-cta::before {
+  background: linear-gradient(90deg, rgb(170 153 255 / 0.85), rgb(26 179 255 / 0.85));
+  z-index: 1;
+}
+
+/* The comet: a conic sweep whose bright head trails off into the hairline. */
+.landing-cta::after {
+  background: conic-gradient(
+    from var(--landing-comet-angle),
+    transparent 60%,
+    #fff,
+    rgb(255 255 255 / 0.07) 80%,
+    transparent
+  );
+  /* Always faintly in orbit, so a touch screen sees the signature too; full strength on hover. */
+  opacity: 0.55;
+  z-index: 2;
+  transition: opacity 200ms cubic-bezier(0.445, 0.05, 0.55, 0.95);
+}
+
+.landing-cta:hover {
+  background: linear-gradient(90deg, rgb(170 153 255 / 0.34), rgb(26 179 255 / 0.34));
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.18),
+    0 20px 48px -16px rgb(120 140 255 / 0.7);
+}
+
+.landing-cta:hover::after,
+.landing-cta:focus-visible::after {
+  opacity: 1;
+}
+
+@keyframes landing-comet {
+  to {
+    --landing-comet-angle: 1.5turn;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .landing-cta::after {
+    animation: landing-comet 2.5s linear infinite;
+  }
+}
+
+.landing-cta:active {
+  transform: translateY(1px);
+}
+
+/* The filled blue action in the header: the reference's solid primary with a lit top edge and a
+   hairline outline, so it reads as a raised object rather than a flat slab. */
+.landing-buy {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 2.25rem;
+  padding-inline: 1.125rem;
+  border-radius: 0.375rem;
+  background: linear-gradient(oklch(from var(--primary) calc(l + 0.12) c h), transparent 100%), var(--primary);
+  outline: 1px solid rgb(255 255 255 / 0.15);
+  outline-offset: -1px;
+  color: var(--color-white);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: opacity 150ms;
+}
+
+.landing-buy:hover {
+  opacity: 0.92;
+}
+
+.landing-buy:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.landing-cta:focus-visible,
+.landing-pill:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+/* A cobalt wash behind the hero and the theming stage: the one colour that is allowed to own
+   a region on this page. */
+.landing-glow {
+  background:
+    radial-gradient(60% 70% at 50% -5%, color-mix(in oklab, var(--primary) 55%, transparent), transparent 72%),
+    radial-gradient(35% 45% at 68% 12%, rgb(170 153 255 / 0.28), transparent 70%),
+    radial-gradient(30% 40% at 32% 18%, rgb(26 179 255 / 0.16), transparent 70%);
+}
+
+/* The showcase strip: a real scroll container, keyboard reachable, faded at both edges so the
+   cards read as continuing past the viewport. */
+.landing-strip {
+  display: flex;
+  justify-content: safe center;
+  gap: 1rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: 1.5rem;
+  padding-block: 0.5rem 1.25rem;
+  scrollbar-width: thin;
+  mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent);
+}
+
+.landing-strip > * {
+  scroll-snap-align: center;
+  flex: 0 0 auto;
+}
+
+/* One entrance for the hero. Elements are visible by default; the animation only runs where
+   motion is welcome, staggered by `--i`. */
+@keyframes landing-rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .landing-rise {
+    animation: landing-rise 900ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation-delay: calc(var(--i, 0) * 90ms);
+  }
+}
+
+/* Hairline rules and dot grid the reference uses behind its agent section. */
+.landing-grid {
+  background-image: radial-gradient(color-mix(in oklab, var(--color-white) 9%, transparent) 1px, transparent 1px);
+  background-size: 22px 22px;
+  mask-image: radial-gradient(70% 70% at 50% 50%, #000, transparent);
 }
