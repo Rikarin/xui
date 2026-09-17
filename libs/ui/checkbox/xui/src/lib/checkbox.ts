@@ -53,6 +53,20 @@ export const checkboxVariants = cva(
 
 export type XuiCheckboxVariants = VariantProps<typeof checkboxVariants> & { size: XuiIconSize };
 
+/**
+ * The box on the shared control scale, matching `@xui/radio` step for step (16px, 20px, 24px), with
+ * the tick drawn a step smaller so it sits inside the border rather than filling the box. Sizing the
+ * box from the icon's own scale made a default checkbox 26px, a step larger than every other
+ * inline control.
+ */
+const BOX_SIZES: Partial<Record<string, { box: string; icon: string }>> = {
+  xs: { box: 'size-3.5', icon: '10px' },
+  sm: { box: 'size-4', icon: '12px' },
+  md: { box: 'size-5', icon: '16px' },
+  lg: { box: 'size-6', icon: '20px' },
+  xl: { box: 'size-7', icon: '24px' }
+};
+
 /** The `<label>` that wraps the box and its text, governing layout. */
 export const checkboxWrapperVariants = cva('items-center gap-x-2 data-disabled:cursor-not-allowed', {
   variants: {
@@ -169,10 +183,20 @@ export class XuiCheckbox implements ControlValueAccessor {
   readonly large = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
 
   /** The box grows a step when `large`; otherwise follows the configured size. */
-  protected readonly iconSize = computed<XuiIconSize>(() => (this.large() ? 'lg' : this.size()));
+  private readonly effectiveSize = computed<XuiIconSize>(() => (this.large() ? 'lg' : this.size()));
+
+  /** A named size draws the tick a step inside the box; any other CSS length sizes the box by the tick. */
+  protected readonly iconSize = computed<XuiIconSize>(
+    () => BOX_SIZES[this.effectiveSize()]?.icon ?? this.effectiveSize()
+  );
 
   protected readonly computedClass = computed(() =>
-    xui(checkboxVariants({ color: this.color() }), this.large() && 'p-0.5', this.class())
+    xui(
+      checkboxVariants({ color: this.color() }),
+      BOX_SIZES[this.effectiveSize()]?.box ?? 'p-0.5',
+      'justify-center',
+      this.class()
+    )
   );
   protected readonly computedIconClass = computed(() => xui('leading-none group-data-[state=unchecked]:opacity-0'));
 

@@ -95,10 +95,25 @@ describe('XuiCheckbox', () => {
       expectClasses(query('xui-checkbox > span'), 'inline-flex');
     });
 
+    it('sizes the box on the control scale, matching the radio', () => {
+      const { query } = setup('<xui-checkbox label="x" />');
+
+      expectClasses(query('button'), 'size-5');
+      expect(query('ng-icon').style.getPropertyValue('--ng-icon__size')).toBe('16px');
+    });
+
     it('grows the box and label when large', () => {
       const { query } = setup('<xui-checkbox large label="x" />');
 
+      expectClasses(query('button'), 'size-6');
+      expect(query('ng-icon').style.getPropertyValue('--ng-icon__size')).toBe('20px');
+    });
+
+    it('lets an arbitrary length size the box through the tick', () => {
+      const { query } = setup('<xui-checkbox size="40px" label="x" />');
+
       expectClasses(query('button'), 'p-0.5');
+      expect(query('ng-icon').style.getPropertyValue('--ng-icon__size')).toBe('40px');
     });
 
     it('reflects disabled onto the wrapping label', () => {
