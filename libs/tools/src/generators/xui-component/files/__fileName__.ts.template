@@ -48,7 +48,12 @@ export type <%= variantsName %> = VariantProps<typeof <%= propertyVariantsName %
   encapsulation: ViewEncapsulation.None,
   template: `<ng-content />`,
   host: {
-    '[class]': 'computedClass()'
+    '[class]': 'computedClass()',
+    // The resolved variant, reflected so CSS can target it without reading the generated
+    // utility classes. See `.claude/skills/xui/rules/styling.md`.
+    '[attr.data-variant]': 'variant()',
+    '[attr.data-color]': 'color()',
+    '[attr.data-size]': 'size()'
   }
 })
 export class <%= componentName %> {

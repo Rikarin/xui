@@ -37,7 +37,8 @@ import { injectXuiAvatarConfig } from './avatar.token';
     }
   `,
   host: {
-    '[class]': 'computedClass()'
+    '[class]': 'computedClass()',
+    '[attr.data-size]': 'size()'
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None

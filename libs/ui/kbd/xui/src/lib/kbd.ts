@@ -31,7 +31,8 @@ export type XuiKbdVariants = VariantProps<typeof kbdVariants>;
   selector: 'kbd[xuiKbd], [xuiKbd]',
   exportAs: 'xuiKbd',
   host: {
-    '[class]': 'computedClass()'
+    '[class]': 'computedClass()',
+    '[attr.data-size]': 'size()'
   }
 })
 export class XuiKbd {

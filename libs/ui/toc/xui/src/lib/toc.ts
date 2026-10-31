@@ -83,7 +83,8 @@ const INDENT_PER_LEVEL = 0.75;
     </nav>
   `,
   host: {
-    '[class]': 'computedClass()'
+    '[class]': 'computedClass()',
+    '[attr.data-size]': 'size()'
   }
 })
 export class XuiToc {

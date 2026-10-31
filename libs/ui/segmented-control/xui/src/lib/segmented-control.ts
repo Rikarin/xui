@@ -79,7 +79,8 @@ export interface XuiSegmentedOption<T = string> {
   host: {
     role: 'radiogroup',
     '[attr.aria-label]': 'ariaLabel()',
-    '[class]': 'computedClass()'
+    '[class]': 'computedClass()',
+    '[attr.data-size]': 'size()'
   }
 })
 export class XuiSegmentedControl<T = string> implements ControlValueAccessor {

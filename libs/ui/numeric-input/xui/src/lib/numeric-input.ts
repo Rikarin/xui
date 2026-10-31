@@ -108,7 +108,8 @@ import {
     </ng-template>
   `,
   host: {
-    '[class]': 'computedClass()'
+    '[class]': 'computedClass()',
+    '[attr.data-size]': 'size()'
   }
 })
 export class XuiNumericInput implements ControlValueAccessor, XFormFieldControl {

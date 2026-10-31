@@ -59,6 +59,7 @@ const CLIP_PATHS: Partial<Record<NonNullable<XuiStatusVariants['presence']> & st
   `,
   host: {
     '[class]': 'computedClass()',
+    '[attr.data-size]': 'size()',
     '[style.clip-path]': 'computedStyle()'
   }
 })

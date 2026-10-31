@@ -50,6 +50,7 @@ export type XuiAvatarVariants = VariantProps<typeof avatarVariants>;
   `,
   host: {
     '[class]': 'computedClass()',
+    '[attr.data-size]': 'size()',
     // An unnamed `role="img"` is an axe violation and announces as a bare
     // "image" — so an avatar with nothing to say is decorative instead.
     '[attr.role]': 'accessibleName() ? "img" : null',

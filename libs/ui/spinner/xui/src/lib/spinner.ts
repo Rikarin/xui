@@ -85,7 +85,9 @@ const CENTER = VIEWBOX / 2;
     '[attr.aria-valuemin]': 'indeterminate() ? null : 0',
     '[attr.aria-valuemax]': 'indeterminate() ? null : 100',
     '[attr.aria-valuenow]': 'percent()',
-    '[class]': 'computedClass()'
+    '[class]': 'computedClass()',
+    '[attr.data-color]': 'color()',
+    '[attr.data-size]': 'size()'
   }
 })
 export class XuiSpinner {

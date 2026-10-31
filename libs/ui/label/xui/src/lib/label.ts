@@ -56,7 +56,8 @@ export type XuiLabelVariants = VariantProps<typeof labelVariants>;
     }
   ],
   host: {
-    '[class]': 'computedClass()'
+    '[class]': 'computedClass()',
+    '[attr.data-variant]': 'variant()'
   }
 })
 export class XuiLabel {

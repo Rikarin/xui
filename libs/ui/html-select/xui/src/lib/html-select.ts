@@ -99,7 +99,8 @@ export interface XuiHtmlSelectOption<T = string> {
     />
   `,
   host: {
-    '[class]': 'computedClass()'
+    '[class]': 'computedClass()',
+    '[attr.data-size]': 'size()'
   }
 })
 export class XuiHtmlSelect<T = string> implements ControlValueAccessor, XFormFieldControl {

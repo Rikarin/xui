@@ -44,6 +44,7 @@ import { injectXuiTooltipConfig, type XuiTooltipColor } from './tooltip.token';
   selector: '[xuiTooltip]',
   exportAs: 'xuiTooltip',
   host: {
+    '[attr.data-color]': 'color()',
     '[attr.aria-describedby]': 'open() ? panelId : null',
     '(pointerenter)': 'onEnter()',
     '(pointerleave)': 'onLeave()',

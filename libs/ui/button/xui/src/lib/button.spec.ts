@@ -125,4 +125,32 @@ describe('XuiButton', () => {
       expectClasses(query('a'), 'inline-flex', 'bg-primary');
     });
   });
+
+  describe('variant reflection', () => {
+    it('reflects the resolved variant so a theme can select on it', () => {
+      const { query } = setup('<button xuiButton variant="outline" color="error" size="sm"></button>');
+
+      expect(query('button').getAttribute('data-variant')).toBe('outline');
+      expect(query('button').getAttribute('data-color')).toBe('error');
+      expect(query('button').getAttribute('data-size')).toBe('sm');
+    });
+
+    it('reflects the defaults when nothing was passed', () => {
+      const { query } = setup('<button xuiButton></button>');
+
+      expect(query('button').getAttribute('data-variant')).toBe('default');
+      expect(query('button').getAttribute('data-color')).toBe('primary');
+      expect(query('button').getAttribute('data-size')).toBe('md');
+    });
+
+    it('reflects a default that came from the config token, not the input', () => {
+      const { query } = setup('<button xuiButton></button>', [
+        provideXuiButtonConfig({ variant: 'ghost', color: 'success', size: 'lg' })
+      ]);
+
+      expect(query('button').getAttribute('data-variant')).toBe('ghost');
+      expect(query('button').getAttribute('data-color')).toBe('success');
+      expect(query('button').getAttribute('data-size')).toBe('lg');
+    });
+  });
 });

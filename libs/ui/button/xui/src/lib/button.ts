@@ -151,6 +151,9 @@ export type XuiButtonVariants = VariantProps<typeof buttonVariants>;
   exportAs: 'xuiButton',
   host: {
     '[class]': 'computedClass()',
+    '[attr.data-variant]': 'variant()',
+    '[attr.data-color]': 'color()',
+    '[attr.data-size]': 'size()',
     '[attr.aria-pressed]': "active() ? 'true' : null",
     '[attr.aria-busy]': "loading() ? 'true' : null",
     '[attr.data-loading]': "loading() ? '' : null"

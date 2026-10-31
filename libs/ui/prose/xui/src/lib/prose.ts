@@ -141,7 +141,8 @@ export type XuiProseVariants = VariantProps<typeof proseVariants>;
   selector: '[xuiProse]',
   exportAs: 'xuiProse',
   host: {
-    '[class]': 'computedClass()'
+    '[class]': 'computedClass()',
+    '[attr.data-size]': 'size()'
   }
 })
 export class XuiProse {

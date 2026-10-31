@@ -59,6 +59,7 @@ export type XuiTextareaVariants = VariantProps<typeof textareaVariants>;
   exportAs: 'xuiTextarea',
   host: {
     '[class]': 'computedClass()',
+    '[attr.data-size]': 'size()',
     '(input)': 'resize()'
   },
   providers: [

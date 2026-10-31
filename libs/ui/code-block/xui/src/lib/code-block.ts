@@ -181,7 +181,8 @@ const PLAIN: XuiCodeTokenKind = 'plain';
     }
   `,
   host: {
-    '[class]': 'computedClass()'
+    '[class]': 'computedClass()',
+    '[attr.data-size]': 'size()'
   }
 })
 export class XuiCodeBlock {

@@ -68,6 +68,8 @@ const SIZES: Record<string, string> = {
     // which matters, because the shared `color` input name means it is handed the variant name too.
     '[style.--ng-icon__color]': 'computedColor()',
     '[class]': 'computedClass()',
+    '[attr.data-color]': 'color()',
+    '[attr.data-size]': 'size()',
     '[attr.role]': 'label() ? "img" : null',
     '[attr.aria-label]': 'label()',
     '[attr.aria-hidden]': 'label() ? null : "true"'

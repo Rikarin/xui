@@ -58,7 +58,7 @@ const EDGE: Record<XuiDrawerPosition, { cross: string; border: string; pin: XGlo
   encapsulation: ViewEncapsulation.None,
   template: `
     <ng-template #surface>
-      <div [class]="computedClass()">
+      <div [class]="computedClass()" [attr.data-size]="size()">
         @if (title() || showCloseButton()) {
           <header class="border-border flex shrink-0 items-center gap-3 border-b px-6 py-4">
             <h2 [id]="titleId" class="text-foreground min-w-0 flex-1 truncate text-base font-semibold">

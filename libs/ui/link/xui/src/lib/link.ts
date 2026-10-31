@@ -47,7 +47,8 @@ export type XuiLinkVariants = VariantProps<typeof linkVariants>;
   selector: 'a[xuiLink]',
   exportAs: 'xuiLink',
   host: {
-    '[class]': 'computedClass()'
+    '[class]': 'computedClass()',
+    '[attr.data-color]': 'color()'
   }
 })
 export class XuiLink {

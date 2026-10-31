@@ -93,6 +93,7 @@ export type XuiFileInputVariants = VariantProps<typeof fileInputVariants>;
     </label>
   `,
   host: {
+    '[attr.data-size]': 'size()',
     class: 'block'
   }
 })

@@ -31,6 +31,10 @@ Scaffold it with `pnpm nx g @xui/tools:library <name> --generate=component --sto
 - Styling: a `cva()` variant map merged through `xui(...)`, applied with
   `host: { '[class]': 'computedClass()' }`, and always a `class = input<ClassValue>('')` escape
   hatch that merges rather than replaces.
+- Every variant axis the component takes as an input is reflected on the host as
+  `[attr.data-variant]`, `[attr.data-color]`, `[attr.data-size]`, so a theme can select on the
+  resolved variant instead of on the generated utility classes. Where the styled element is in the
+  template (a dialog's surface), the attribute goes on that element. See `styling.md`.
 - Every `cva()` map is **exported**, named `<name>Variants` for the root and
   `<name><Part>Variants` for the parts (`switchTrackVariants`), so consumers can extend a
   package's styling. The `VariantProps` type alias is exported as `Xui<Name>Variants`.

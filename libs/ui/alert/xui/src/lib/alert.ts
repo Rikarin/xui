@@ -45,6 +45,9 @@ import {
   viewProviders: [provideIcons({ matInfoRound, matCheckCircleRound, matWarningRound, matErrorRound })],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
+  host: {
+    '[attr.data-color]': 'color()'
+  },
   template: `
     <xui-dialog
       [(open)]="open"

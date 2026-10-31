@@ -87,7 +87,9 @@ export type XuiInputVariants = VariantProps<typeof inputVariants>;
   selector: '[xuiInput]',
   exportAs: 'xuiInput',
   host: {
-    '[class]': 'computedClass()'
+    '[class]': 'computedClass()',
+    '[attr.data-color]': 'color()',
+    '[attr.data-size]': 'size()'
   },
   providers: [
     {

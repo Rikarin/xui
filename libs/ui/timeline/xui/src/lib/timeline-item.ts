@@ -24,7 +24,8 @@ export type XuiTimelineColor = 'primary' | 'success' | 'error' | 'warning' | 'in
     </div>
   `,
   host: {
-    '[class]': 'computedClass()'
+    '[class]': 'computedClass()',
+    '[attr.data-color]': 'color()'
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None

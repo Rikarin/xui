@@ -61,6 +61,7 @@ const HEADER_HEIGHT = 26;
   `,
   host: {
     '[class]': 'computedClass()',
+    '[attr.data-color]': 'color()',
     '[attr.data-xui-graph-group]': 'groupId()',
     '[style.transform]': 'transform()',
     '[style.width.px]': 'bounds()?.width',

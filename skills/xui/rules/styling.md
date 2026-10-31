@@ -49,6 +49,29 @@ protected readonly computedClass = computed(() =>
 );
 ```
 
+## Targeting a variant from CSS
+
+Every variant-bearing component reflects its resolved variant onto the host as `data-variant`,
+`data-color` and `data-size` (whichever axes it has). A theme or an app stylesheet selects on
+those, never on the utility classes the `cva` map emits:
+
+```css
+/* correct - the documented contract */
+[xuiButton][data-variant='outline'] { … }
+[xuiButton][data-color='error'] { … }
+xui-tag[data-color='success'] { … }
+
+/* wrong - these are generated class names, and they change when a variant map is edited */
+[xuiButton].text-foreground:not(.border-none, .text-link) { … }
+[xuiButton]:is(.bg-primary, .bg-secondary) { … }
+```
+
+The attribute carries the value the component actually resolved, including the default that came
+from its config token, so a selector matches whether or not the caller passed the input.
+
+Where the styled element is in the template rather than the host - a dialog's or drawer's surface -
+the attribute sits on that element, beside its `[class]`, for the same reason.
+
 ## Control sizing
 
 Anything a user clicks or types into takes its height and horizontal padding from the shared

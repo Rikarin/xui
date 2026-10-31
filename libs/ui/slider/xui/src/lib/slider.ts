@@ -122,7 +122,8 @@ const roundToGrid = (n: number): number => Math.round(n * 1e10) / 1e10;
     }
   `,
   host: {
-    '[class]': 'computedClass()'
+    '[class]': 'computedClass()',
+    '[attr.data-color]': 'color()'
   },
   providers: [provideXValueAccessor(() => XuiSlider)],
   changeDetection: ChangeDetectionStrategy.OnPush,

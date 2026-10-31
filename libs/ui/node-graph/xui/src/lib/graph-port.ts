@@ -84,6 +84,7 @@ const SIDE_FOR_DIRECTION: Record<XuiGraphPortDirection, XuiGraphPortSide> = {
   `,
   host: {
     '[class]': 'computedClass()',
+    '[attr.data-color]': 'color()',
     '[attr.data-xui-graph-port]': 'portId()',
     '[attr.data-xui-graph-port-node]': 'nodeId()',
     '[attr.data-side]': 'resolvedSide()',

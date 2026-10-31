@@ -83,6 +83,7 @@ export type XuiSwitchVariants = VariantProps<typeof switchTrackVariants>;
     '[attr.aria-disabled]': 'isDisabled() || null',
     '[attr.tabindex]': 'isDisabled() ? -1 : 0',
     '[class]': 'trackClass()',
+    '[attr.data-size]': 'size()',
     '(click)': 'toggle()',
     '(keydown.space)': 'onKey($event)',
     '(keydown.enter)': 'onKey($event)',

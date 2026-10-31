@@ -55,6 +55,7 @@ export type XuiRadioVariants = VariantProps<typeof radioVariants>;
     '[attr.aria-disabled]': 'isDisabled() || null',
     '[attr.tabindex]': 'tabIndex()',
     '[class]': 'computedClass()',
+    '[attr.data-size]': 'size()',
     '(click)': 'select()',
     '(keydown.space)': 'onKey($event)',
     '(keydown.enter)': 'onKey($event)'

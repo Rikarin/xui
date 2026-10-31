@@ -144,6 +144,8 @@ export type XuiCheckboxAlignIndicator = NonNullable<WrapperVariants['alignIndica
     </span>
   `,
   host: {
+    '[attr.data-color]': 'color()',
+    '[attr.data-size]': 'size()',
     class: 'contents',
     '[attr.id]': 'null',
     '[attr.aria-label]': 'null',

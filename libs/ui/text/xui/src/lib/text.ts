@@ -72,6 +72,8 @@ export type XuiTextVariants = VariantProps<typeof textVariants>;
   exportAs: 'xuiText',
   host: {
     '[class]': 'computedClass()',
+    '[attr.data-color]': 'color()',
+    '[attr.data-size]': 'size()',
     '[attr.title]': 'resolvedTitle()'
   }
 })

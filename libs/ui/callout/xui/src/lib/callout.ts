@@ -106,6 +106,7 @@ const DEFAULT_ICONS: Record<XuiCalloutColor, string | null> = {
   `,
   host: {
     '[class]': 'computedClass()',
+    '[attr.data-color]': 'color()',
     '[attr.role]': 'role()'
   }
 })

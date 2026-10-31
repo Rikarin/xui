@@ -50,7 +50,7 @@ import { XUI_DIALOG_SIZES, injectXuiDialogConfig, type XuiDialogSize } from './d
   encapsulation: ViewEncapsulation.None,
   template: `
     <ng-template #surface>
-      <div [class]="computedClass()">
+      <div [class]="computedClass()" [attr.data-size]="size()">
         @if (title() || showCloseButton()) {
           <header class="border-border flex shrink-0 items-center gap-3 border-b px-6 py-4">
             @if (icon()) {

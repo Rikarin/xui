@@ -99,7 +99,8 @@ export type XuiFormFieldColor = NonNullable<VariantProps<typeof formFieldColorTe
     </div>
   `,
   host: {
-    '[class]': 'computedClass()'
+    '[class]': 'computedClass()',
+    '[attr.data-color]': 'color()'
   }
 })
 export class XuiFormField {

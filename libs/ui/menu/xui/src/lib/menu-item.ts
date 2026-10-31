@@ -88,7 +88,8 @@ export type XuiMenuItemColor = NonNullable<VariantProps<typeof menuItemVariants>
     }
   `,
   host: {
-    '[class]': 'computedClass()'
+    '[class]': 'computedClass()',
+    '[attr.data-color]': 'color()'
   }
 })
 export class XuiMenuItem {

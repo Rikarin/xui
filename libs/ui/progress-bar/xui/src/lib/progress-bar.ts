@@ -85,7 +85,9 @@ export type XuiProgressBarVariants = VariantProps<typeof progressBarVariants> &
     '[attr.aria-valuenow]': 'percent()',
     '[attr.aria-label]': 'ariaLabel()',
     '[attr.aria-labelledby]': 'ariaLabelledby()',
-    '[class]': 'computedClass()'
+    '[class]': 'computedClass()',
+    '[attr.data-color]': 'color()',
+    '[attr.data-size]': 'size()'
   }
 })
 export class XuiProgressBar {
