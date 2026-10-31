@@ -210,4 +210,30 @@ describe('XuiSelect', () => {
       expect(trigger().disabled).toBe(true);
     });
   });
+
+  describe('width', () => {
+    const host = (fixture: { nativeElement: HTMLElement }) =>
+      fixture.nativeElement.querySelector('xui-select') as HTMLElement;
+
+    it('puts its minimum width on the host, where class merges', () => {
+      const { fixture } = render('<xui-select [items]="[]" />', { imports: [XuiSelectImports] });
+
+      expect(host(fixture).className).toContain('min-w-44');
+      // The trigger fills the host rather than setting a minimum of its own, so the host's width wins.
+      const trigger = fixture.nativeElement.querySelector('button[role="combobox"]') as HTMLElement;
+      expect(trigger.className).toContain('w-full');
+      expect(trigger.className).not.toContain('min-w-44');
+    });
+
+    it('lets a caller narrow it past the default minimum', () => {
+      const { fixture } = render('<xui-select class="min-w-0 w-20" [items]="[]" />', {
+        imports: [XuiSelectImports]
+      });
+
+      // tailwind-merge resolves the conflict in the caller's favour instead of keeping both.
+      expect(host(fixture).className).toContain('min-w-0');
+      expect(host(fixture).className).not.toContain('min-w-44');
+      expect(host(fixture).className).toContain('w-20');
+    });
+  });
 });

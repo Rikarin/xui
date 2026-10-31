@@ -41,7 +41,9 @@ Every component accepts `class` and merges it with its own classes through `xui(
 ```
 
 In library code the same contract is mandatory: build the host class with `xui(variants(…),
-this.class())` and never drop the input.
+this.class())` and never drop the input. The merge only works between classes on the _same_
+element, so whatever decides the component's outer box - width, minimum width, margin - has to be
+on the host too; an inner trigger or container gets `w-full` and fills it.
 
 ```ts
 protected readonly computedClass = computed(() =>

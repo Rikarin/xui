@@ -237,7 +237,7 @@ export class XuiSelect<T> implements XFormFieldControl, ControlValueAccessor {
     closeOnTab: true
   });
 
-  protected readonly computedClass = computed(() => xui('inline-block', this.class()));
+  protected readonly computedClass = computed(() => xui('inline-block min-w-44', this.class()));
 
   protected readonly effectiveAriaLabel = computed(() =>
     this.ariaLabelledby() ? null : (this.ariaLabel() ?? this.placeholder())
@@ -245,7 +245,7 @@ export class XuiSelect<T> implements XFormFieldControl, ControlValueAccessor {
 
   protected readonly triggerClass = computed(() =>
     xui(
-      'border-border bg-surface-inset text-foreground flex h-(--control-height-md) w-full min-w-44 items-center justify-between rounded-control border px-(--control-padding-md) text-sm',
+      'border-border bg-surface-inset text-foreground flex h-(--control-height-md) w-full items-center justify-between rounded-control border px-(--control-padding-md) text-sm',
       'focus-visible:border-focus transition-colors focus:outline-none',
       this.isDisabled() && 'cursor-not-allowed opacity-50'
     )

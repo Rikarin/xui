@@ -31,6 +31,12 @@ Scaffold it with `pnpm nx g @xui/tools:library <name> --generate=component --sto
 - Styling: a `cva()` variant map merged through `xui(...)`, applied with
   `host: { '[class]': 'computedClass()' }`, and always a `class = input<ClassValue>('')` escape
   hatch that merges rather than replaces.
+- **The host owns the box.** `class` lands on the host, and `tailwind-merge` can only resolve a
+  conflict between classes on the same element - so anything that decides the component's outer
+  box (`w-*`, `min-w-*`, `max-w-*`, margin) belongs on the host, even when the thing that _looks_
+  like the control is an inner element. Give that inner element `w-full` and let it fill the host.
+  Put a minimum on the inner box instead and a caller's `class="w-40"` cannot win: the two sit on
+  different elements, both survive the merge, and the control overflows the width they asked for.
 - Every variant axis the component takes as an input is reflected on the host as
   `[attr.data-variant]`, `[attr.data-color]`, `[attr.data-size]`, so a theme can select on the
   resolved variant instead of on the generated utility classes. Where the styled element is in the

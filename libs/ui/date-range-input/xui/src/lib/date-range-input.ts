@@ -131,10 +131,10 @@ export class XuiDateRangeInput<T = Date> implements ControlValueAccessor {
   });
   protected readonly isDisabled = this.cva.disabled;
 
-  protected readonly computedClass = computed(() => xui('inline-block', this.class()));
+  protected readonly computedClass = computed(() => xui('inline-block min-w-72', this.class()));
   protected readonly groupClass = computed(() =>
     xui(
-      'border-border bg-surface-inset flex h-(--control-height-md) w-full min-w-72 items-center gap-2 rounded-control border px-(--control-padding-md) text-sm',
+      'border-border bg-surface-inset flex h-(--control-height-md) w-full items-center gap-2 rounded-control border px-(--control-padding-md) text-sm',
       'focus-within:border-focus transition-colors',
       this.isDisabled() && 'cursor-not-allowed opacity-50'
     )

@@ -19,21 +19,24 @@ import { XuiTag } from '@xui/tag';
 import { cva, VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
 
-export const tagInputContainerVariants = cva(
-  [
-    'flex min-h-(--control-height-md) flex-wrap items-center gap-1.5 rounded-control border border-border bg-surface-inset px-(--control-padding-sm) py-0.5 text-sm',
-    'focus-within:border-focus transition-colors',
-    'data-disabled:cursor-not-allowed data-disabled:opacity-50'
-  ],
-  {
-    variants: {
-      fill: { true: 'w-full', false: 'min-w-72' }
-    },
-    defaultVariants: { fill: false }
-  }
-);
+/**
+ * The host owns how wide the control is, because that is the element `class` lands on - a caller
+ * narrowing it with `class="w-40"` has to be able to beat the minimum through the usual merge.
+ */
+export const tagInputVariants = cva(['block'], {
+  variants: {
+    fill: { true: 'w-full', false: 'min-w-72' }
+  },
+  defaultVariants: { fill: false }
+});
 
-export type XuiTagInputVariants = VariantProps<typeof tagInputContainerVariants>;
+export const tagInputContainerVariants = cva([
+  'flex w-full min-h-(--control-height-md) flex-wrap items-center gap-1.5 rounded-control border border-border bg-surface-inset px-(--control-padding-sm) py-0.5 text-sm',
+  'focus-within:border-focus transition-colors',
+  'data-disabled:cursor-not-allowed data-disabled:opacity-50'
+]);
+
+export type XuiTagInputVariants = VariantProps<typeof tagInputVariants>;
 
 /**
  * A token/chip input: type and press Enter (or the separator) to add a tag, click
@@ -120,8 +123,8 @@ export class XuiTagInput implements ControlValueAccessor {
   });
   protected readonly isDisabled = this.cva.disabled;
 
-  protected readonly computedClass = computed(() => xui('block', this.class()));
-  protected readonly containerClass = computed(() => xui(tagInputContainerVariants({ fill: this.fill() })));
+  protected readonly computedClass = computed(() => xui(tagInputVariants({ fill: this.fill() }), this.class()));
+  protected readonly containerClass = computed(() => xui(tagInputContainerVariants()));
 
   protected onInput(event: Event): void {
     this.draft.set((event.target as HTMLInputElement).value);
