@@ -32,23 +32,6 @@
       "dependsOn": ["^build"],
       "inputs": ["production", "^production"]
     },
-    "@nx/eslint:lint": {
-      "cache": true,
-      "inputs": ["default", "^default", "{workspaceRoot}/eslint.config.mjs"]
-    },
-    "@nx/jest:jest": {
-      "cache": true,
-      "inputs": ["default", "^production", "{workspaceRoot}/jest.preset.cjs"],
-      "options": {
-        "passWithNoTests": true
-      },
-      "configurations": {
-        "ci": {
-          "ci": true,
-          "codeCoverage": true
-        }
-      }
-    },
     "e2e-ci--**/*": {
       "dependsOn": ["^build"]
     },
@@ -70,7 +53,23 @@
       "cache": true,
       "dependsOn": ["^build"],
       "inputs": ["production", "^production"]
-    }
+    },
+    "test": [
+      {
+        "filter": {
+          "plugin": "@nx/jest/plugin"
+        },
+        "configurations": {
+          "ci": {
+            "ci": true,
+            "coverage": true
+          }
+        },
+        "options": {
+          "passWithNoTests": true
+        }
+      }
+    ]
   },
   "plugins": [
     {
@@ -84,6 +83,111 @@
       "options": {
         "targetName": "lint"
       }
+    },
+    {
+      "plugin": "@nx/jest/plugin",
+      "options": {
+        "targetName": "test"
+      },
+      "include": [
+        "apps/admin/**/*",
+        "apps/app/**/*",
+        "libs/core/**/*",
+        "libs/testing/**/*",
+        "libs/tools/**/*",
+        "libs/ui/accordion/xui/**/*",
+        "libs/ui/alert/xui/**/*",
+        "libs/ui/alert-dialog/xui/**/*",
+        "libs/ui/aspect-ratio/xui/**/*",
+        "libs/ui/avatar/xui/**/*",
+        "libs/ui/breadcrumb/xui/**/*",
+        "libs/ui/button/xui/**/*",
+        "libs/ui/button-group/xui/**/*",
+        "libs/ui/callout/xui/**/*",
+        "libs/ui/card/xui/**/*",
+        "libs/ui/card-list/xui/**/*",
+        "libs/ui/carousel/xui/**/*",
+        "libs/ui/cascader/xui/**/*",
+        "libs/ui/checkbox/xui/**/*",
+        "libs/ui/code-block/xui/**/*",
+        "libs/ui/collapse/xui/**/*",
+        "libs/ui/color-picker/xui/**/*",
+        "libs/ui/context-menu/xui/**/*",
+        "libs/ui/control-card/xui/**/*",
+        "libs/ui/control-group/xui/**/*",
+        "libs/ui/data-table/xui/**/*",
+        "libs/ui/date-input/xui/**/*",
+        "libs/ui/date-picker/xui/**/*",
+        "libs/ui/date-range-input/xui/**/*",
+        "libs/ui/date-range-picker/xui/**/*",
+        "libs/ui/descriptions/xui/**/*",
+        "libs/ui/dialog/xui/**/*",
+        "libs/ui/divider/xui/**/*",
+        "libs/ui/dock-manager/xui/**/*",
+        "libs/ui/drawer/xui/**/*",
+        "libs/ui/echarts/xui/**/*",
+        "libs/ui/editable-text/xui/**/*",
+        "libs/ui/entity-title/xui/**/*",
+        "libs/ui/file-input/xui/**/*",
+        "libs/ui/form-field/xui/**/*",
+        "libs/ui/hotkeys/xui/**/*",
+        "libs/ui/html-select/xui/**/*",
+        "libs/ui/icon/xui/**/*",
+        "libs/ui/input/xui/**/*",
+        "libs/ui/input-otp/xui/**/*",
+        "libs/ui/kbd/xui/**/*",
+        "libs/ui/konva/xui/**/*",
+        "libs/ui/label/xui/**/*",
+        "libs/ui/link/xui/**/*",
+        "libs/ui/menu/xui/**/*",
+        "libs/ui/menubar/xui/**/*",
+        "libs/ui/multi-select/xui/**/*",
+        "libs/ui/navbar/xui/**/*",
+        "libs/ui/navigation-menu/xui/**/*",
+        "libs/ui/node-graph/xui/**/*",
+        "libs/ui/non-ideal-state/xui/**/*",
+        "libs/ui/numeric-input/xui/**/*",
+        "libs/ui/omnibar/xui/**/*",
+        "libs/ui/overflow-list/xui/**/*",
+        "libs/ui/pagination/xui/**/*",
+        "libs/ui/panel-stack/xui/**/*",
+        "libs/ui/popover/xui/**/*",
+        "libs/ui/progress-bar/xui/**/*",
+        "libs/ui/prose/xui/**/*",
+        "libs/ui/radio/xui/**/*",
+        "libs/ui/rate/xui/**/*",
+        "libs/ui/result/xui/**/*",
+        "libs/ui/rich-text-editor/xui/**/*",
+        "libs/ui/scroll-area/xui/**/*",
+        "libs/ui/section/xui/**/*",
+        "libs/ui/segmented-control/xui/**/*",
+        "libs/ui/select/xui/**/*",
+        "libs/ui/skeleton/xui/**/*",
+        "libs/ui/slider/xui/**/*",
+        "libs/ui/spinner/xui/**/*",
+        "libs/ui/splitter/xui/**/*",
+        "libs/ui/statistic/xui/**/*",
+        "libs/ui/status/xui/**/*",
+        "libs/ui/steps/xui/**/*",
+        "libs/ui/suggest/xui/**/*",
+        "libs/ui/switch/xui/**/*",
+        "libs/ui/table/xui/**/*",
+        "libs/ui/tabs/xui/**/*",
+        "libs/ui/tag/xui/**/*",
+        "libs/ui/tag-input/xui/**/*",
+        "libs/ui/text/xui/**/*",
+        "libs/ui/textarea/xui/**/*",
+        "libs/ui/time-picker/xui/**/*",
+        "libs/ui/timeline/xui/**/*",
+        "libs/ui/timezone-select/xui/**/*",
+        "libs/ui/toast/xui/**/*",
+        "libs/ui/toc/xui/**/*",
+        "libs/ui/tooltip/xui/**/*",
+        "libs/ui/transfer/xui/**/*",
+        "libs/ui/tree/xui/**/*",
+        "libs/ui/tree-select/xui/**/*",
+        "libs/ui/upload/xui/**/*"
+      ]
     }
   ],
   "generators": {
@@ -136,5 +240,8 @@
       "push": true
     }
   },
-  "analytics": false
+  "analytics": false,
+  "affected": {
+    "legacy": true
+  }
 }

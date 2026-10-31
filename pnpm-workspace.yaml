@@ -12,11 +12,12 @@ onlyBuiltDependencies:
   - workerd
 
 overrides:
-  # Nx 23.1 still bundles @typescript-eslint 8.46, which references the
-  # `FlatESLint` export removed in ESLint 10. Pin the family to a version
-  # that declares ESLint 10 support.
-  '@typescript-eslint/eslint-plugin': ^8.65.0
-  '@typescript-eslint/parser': ^8.65.0
-  '@typescript-eslint/type-utils': ^8.65.0
-  '@typescript-eslint/typescript-estree': ^8.65.0
-  '@typescript-eslint/utils': ^8.65.0
+  # @nx/eslint-plugin and angular-eslint each pull their own @typescript-eslint
+  # range, and the older ones reference the `FlatESLint` export ESLint 10
+  # removed. Hold the packages that touch ESLint's API on one current line -
+  # the version the root devDependencies declare, which this override shadows.
+  '@typescript-eslint/eslint-plugin': ^8.72.1
+  '@typescript-eslint/parser': ^8.72.1
+  '@typescript-eslint/type-utils': ^8.72.1
+  '@typescript-eslint/typescript-estree': ^8.72.1
+  '@typescript-eslint/utils': ^8.72.1

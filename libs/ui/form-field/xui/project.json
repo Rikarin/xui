@@ -9,6 +9,7 @@
     "build": {
       "executor": "@nx/angular:package",
       "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
+      "defaultConfiguration": "production",
       "options": {
         "project": "libs/ui/form-field/xui/ng-package.json",
         "tsConfig": "libs/ui/form-field/xui/tsconfig.lib.json"
@@ -18,8 +19,7 @@
           "tsConfig": "libs/ui/form-field/xui/tsconfig.lib.prod.json"
         },
         "development": {}
-      },
-      "defaultConfiguration": "production"
+      }
     },
     "nx-release-publish": {
       "options": {
@@ -27,15 +27,7 @@
       }
     },
     "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
-      "options": {
-        "jestConfig": "libs/ui/form-field/xui/jest.config.ts",
-        "tsConfig": "libs/ui/form-field/xui/tsconfig.spec.json"
-      }
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint"
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}", "{workspaceRoot}/libs/coverage/libs/ui/form-field"]
     }
   }
 }
