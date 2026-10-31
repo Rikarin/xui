@@ -91,6 +91,8 @@
   --chrome-top: #f1f1f3;
   --chrome-bottom: #dcdcdf;
   --glass: rgb(242 242 244 / 0.78);
+  --menu-glass: rgb(255 255 255 / 0.72);
+  --menu-edge: rgb(0 0 0 / 0.22);
   --pane-header-top: #f4f4f6;
   --pane-header-bottom: #e7e7ea;
 
@@ -157,6 +159,8 @@
   --chrome-top: #3a3a3e;
   --chrome-bottom: #2a2a2d;
   --glass: rgb(44 44 47 / 0.72);
+  --menu-glass: rgb(46 46 49 / 0.82);
+  --menu-edge: rgb(255 255 255 / 0.25);
   --pane-header-top: #313134;
   --pane-header-bottom: #29292c;
 
@@ -217,6 +221,8 @@
     --chrome-top: #3a3a3e;
     --chrome-bottom: #2a2a2d;
     --glass: rgb(44 44 47 / 0.72);
+    --menu-glass: rgb(46 46 49 / 0.82);
+    --menu-edge: rgb(255 255 255 / 0.25);
     --pane-header-top: #313134;
     --pane-header-bottom: #29292c;
 
@@ -679,12 +685,18 @@
  * `xui-popover-panel` and `xui-menu` are their own elements; the three that build a panel out of a
  * plain div mark it with `data-part="panel"`. That hook is not scoped to a cdk overlay pane: the
  * colour picker positions its panel itself, and is just as much a floating surface for it.
+ *
+ * Two values are per theme rather than fixed. `--menu-glass` because Cathode's 85% reads as glass
+ * over its graphite editor and as plain white over a light page, where nothing behind it is dark
+ * enough to show through. `--menu-edge` because a panel's edge has to read against whatever is
+ * behind it: a black hairline draws the boundary on a light page and vanishes on the near-black
+ * window these panels also open over, where the edge has to be a light one instead.
  */
 [data-skin='bezel'] :is(xui-popover-panel, xui-menu),
 [data-skin='bezel'] [data-part='panel'] {
-  border-color: var(--hairline-strong);
+  border-color: var(--menu-edge);
   border-radius: 0.5rem;
-  background-color: color-mix(in oklab, var(--surface-overlay) 85%, transparent);
+  background-color: var(--menu-glass);
   backdrop-filter: blur(24px) saturate(1.8);
   -webkit-backdrop-filter: blur(24px) saturate(1.8);
   box-shadow:
@@ -702,22 +714,32 @@
 /*
  * Menu rows.
  *
- * Compact, and the row under the pointer or the arrow keys fills with the accent in white - a tint
- * is a web hover, a filled row is a menu. The chosen one is marked with a check in the gutter
- * instead of being coloured, so "where I am" and "what is set" stay two different signals rather
- * than competing for the same one.
+ * Compact, and the row you are on fills with the accent in white - a tint is a web hover, a filled
+ * row is a menu.
  */
 [data-skin='bezel'] :is(xui-popover-panel, [data-part='panel']) li[role='option'] {
   position: relative;
-  padding: 0.1875rem 0.625rem 0.1875rem 1.5rem;
   border-radius: 0.25rem;
   color: var(--color-foreground);
   font-size: 13px;
   font-weight: 400;
   line-height: 1.25rem;
+  padding-block: 0.1875rem;
 
-  &[data-active],
   &:hover:not([aria-disabled='true']) {
+    background-color: var(--color-primary);
+    color: var(--color-primary-foreground);
+  }
+}
+
+/*
+ * A list of values keeps two signals apart: the row the keys are on is filled, and the value that
+ * is actually set is ticked in the gutter. Colouring both would say the same thing twice.
+ */
+[data-skin='bezel'] xui-popover-panel li[role='option'] {
+  padding-inline: 1.5rem 0.625rem;
+
+  &[data-active] {
     background-color: var(--color-primary);
     color: var(--color-primary-foreground);
   }
@@ -734,6 +756,18 @@
     mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' fill='none' stroke='black' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2 6.5 4.75 9.25 10 3'/%3E%3C/svg%3E")
       center / contain no-repeat;
   }
+}
+
+/*
+ * A cascading menu has only one signal. Its `aria-selected` is the branch you are inside, which is
+ * the row whose submenu is open - so that row is the filled one, and there is no gutter to tick.
+ * The component tints it ten per cent and recolours the label, which is the washed-out blue this
+ * replaces.
+ */
+[data-skin='bezel'] :is(xui-cascader, xui-tree-select) li[role='option'][aria-selected='true'] {
+  padding-inline: 0.625rem;
+  background-color: var(--color-primary);
+  color: var(--color-primary-foreground);
 }
 
 /*
