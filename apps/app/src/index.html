@@ -18,6 +18,12 @@
           var stored = localStorage.getItem('xui-docs-theme');
           var dark = stored ? stored === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
           document.documentElement.classList.add(dark ? 'dark' : 'light');
+
+          // The skin is opted into the same way a consuming app does it, and for the same reason
+          // it is decided here: applying it at bootstrap would flash the other style.
+          if (localStorage.getItem('xui-docs-skin') === 'bezel') {
+            document.documentElement.setAttribute('data-skin', 'bezel');
+          }
         } catch (error) {
           document.documentElement.classList.add('dark');
         }

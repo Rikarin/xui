@@ -4,6 +4,10 @@
    `@xui/core/styles/theme.css`; imported by path inside the workspace. */
 @import '../../../libs/core/styles/theme.css';
 
+/* The optional bezelled skin, published as `@xui/core/styles/bezel.css`. Inert until `data-skin`
+   is set on <html>, which the Style picker in the header does. */
+@import '../../../libs/core/styles/bezel.css';
+
 /* Popovers, tooltips, menus, dialogs and the mobile nav drawer all render through the CDK overlay
    container, which needs its positioning styles to float rather than sit in the document flow. */
 @import '@angular/cdk/overlay-prebuilt.css';

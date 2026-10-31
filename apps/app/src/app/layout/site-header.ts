@@ -4,9 +4,11 @@ import { NgIcon, provideIcons } from '@ng-icons/core';
 import { matDarkModeRound, matLightModeRound, matMenuRound } from '@ng-icons/material-icons/round';
 import { XuiButtonImports } from '@xui/button';
 import { XuiIconImports } from '@xui/icon';
+import { XuiSelectImports } from '@xui/select';
 import { XuiTagImports } from '@xui/tag';
 import { VERSION } from '../../generated/manifest';
 import { LayoutState } from '../core/layout-state';
+import { SKINS, Skin, type SkinName } from '../core/skin';
 import { Theme } from '../core/theme';
 
 const NAV = [
@@ -26,7 +28,7 @@ export type SiteHeaderVariant = 'docs' | 'landing';
 @Component({
   selector: 'docs-site-header',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, RouterLinkActive, NgIcon, XuiIconImports, XuiButtonImports, XuiTagImports],
+  imports: [RouterLink, RouterLinkActive, NgIcon, XuiIconImports, XuiButtonImports, XuiTagImports, XuiSelectImports],
   providers: [provideIcons({ matMenuRound, matDarkModeRound, matLightModeRound })],
   host: { '[class]': 'hostClass()' },
   template: `
@@ -99,6 +101,17 @@ export type SiteHeaderVariant = 'docs' | 'landing';
         </nav>
 
         <div class="ms-auto flex items-center gap-1">
+          <!-- Narrowed past the select's default minimum, which the host carries so class wins. -->
+          <xui-select
+            class="hidden w-32 min-w-0 sm:block"
+            aria-label="Component style"
+            [items]="skins"
+            [itemText]="skinLabel"
+            [filterable]="false"
+            [value]="selectedSkin()"
+            (valueChange)="chooseSkin($event)"
+          />
+
           <button
             xuiButton
             variant="ghost"
@@ -150,8 +163,17 @@ export type SiteHeaderVariant = 'docs' | 'landing';
 export class SiteHeader {
   protected readonly layout = inject(LayoutState);
   protected readonly theme = inject(Theme);
+  protected readonly skin = inject(Skin);
   protected readonly nav = NAV;
   protected readonly version = VERSION;
+
+  protected readonly skins = SKINS;
+  protected readonly skinLabel = (item: (typeof SKINS)[number]) => item.label;
+  protected readonly selectedSkin = computed(() => SKINS.find(s => s.value === this.skin.name()) ?? SKINS[0]);
+
+  protected chooseSkin(choice: (typeof SKINS)[number] | null): void {
+    this.skin.name.set((choice?.value ?? 'default') as SkinName);
+  }
 
   /** Only the docs pages have a sidebar to open. */
   readonly showMenuButton = input(false);
