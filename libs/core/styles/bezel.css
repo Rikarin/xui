@@ -503,6 +503,57 @@
   }
 }
 
+/*
+ * Prose. A document rendered inside an application, so the furniture it hangs on the text is the
+ * app's: hairline rules instead of grey borders, code in the same recess the code block uses, and
+ * a `kbd` that is an actual key rather than a bordered chip.
+ */
+[data-skin='bezel'] [xuiProse] {
+  /* Inline code is a recess too, drawn with a ring rather than a border so adding it does not
+     shift the line it sits in. */
+  & code {
+    background-color: var(--field);
+    box-shadow: inset 0 0 0 1px var(--hairline);
+  }
+
+  & pre {
+    background-color: var(--field);
+    border-color: var(--hairline-strong);
+    box-shadow: inset 0 1px 3px var(--field-shadow);
+  }
+
+  & pre code {
+    background-color: transparent;
+    box-shadow: none;
+  }
+
+  /* A key, with the bezel's face and a little depth under it. */
+  & kbd {
+    background-color: transparent;
+    background-image: linear-gradient(to bottom, var(--bezel-top), var(--bezel-bottom));
+    border-color: var(--bezel-border);
+    border-radius: calc(var(--radius-control) - 2px);
+    box-shadow:
+      inset 0 1px 0 var(--highlight),
+      var(--bezel-shadow);
+  }
+
+  /* The quote bar is a rule, not a slab: four pixels of accent is a web convention, and reads as
+     decoration next to chrome this quiet. */
+  & blockquote {
+    border-inline-start-width: 1px;
+    border-color: var(--hairline-strong);
+  }
+
+  /* Every separator in the document is the same seam the chrome uses. */
+  & hr,
+  & h2,
+  & thead,
+  & td {
+    border-color: var(--hairline);
+  }
+}
+
 /* Anything typed into reads as a recess: a pale field in light, a deep one in dark. */
 [data-skin='bezel'] [xuiInput],
 [data-skin='bezel'] textarea[xuiTextarea],
