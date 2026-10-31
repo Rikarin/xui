@@ -393,12 +393,11 @@
  * Unlayered on purpose: Tailwind's utilities live in a layer, so these win without `!important`.
  */
 
-/* Outline and dash: a raised bezel face rather than a flat outlined box. */
-[data-skin='bezel'] [xuiButton]:where([data-variant='outline'], [data-variant='dash']) {
+/* Outline: a raised bezel face rather than a flat outlined box. */
+[data-skin='bezel'] [xuiButton][data-variant='outline'] {
   background-color: transparent;
   background-image: linear-gradient(to bottom, var(--bezel-top), var(--bezel-bottom));
   border-color: var(--bezel-border);
-  color: var(--color-foreground);
   box-shadow:
     inset 0 1px 0 var(--highlight),
     var(--bezel-shadow);
@@ -407,7 +406,6 @@
   &:hover:not(:disabled) {
     background-color: transparent;
     background-image: linear-gradient(to bottom, var(--bezel-hover-top), var(--bezel-hover-bottom));
-    color: var(--color-foreground);
   }
 
   &:active:not(:disabled),
@@ -418,18 +416,64 @@
 }
 
 /*
- * A destructive outline button keeps the ordinary face and puts the intent in its label, turning
- * red only under the pointer - so the colour arrives as the click is about to happen.
+ * Dash is a placeholder - the slot you press to add the thing that is not there yet - so it stays
+ * flat and sunk, with its dashed edge drawn on a recess. Raising it like an outline button made
+ * the two indistinguishable apart from a dashed line scored across a piece of metal.
  */
-[data-skin='bezel'] [xuiButton]:where([data-variant='outline'], [data-variant='dash'])[data-color='error'] {
-  color: var(--color-error);
+[data-skin='bezel'] [xuiButton][data-variant='dash'] {
+  background-color: var(--field);
+  background-image: none;
+  border-color: var(--hairline-strong);
+  box-shadow: inset 0 1px 2px var(--field-shadow);
 
   &:hover:not(:disabled) {
-    border-color: rgb(0 0 0 / 0.45);
-    background-color: var(--color-error);
-    background-image: var(--bezel-gloss);
-    color: var(--color-error-foreground);
+    background-color: var(--surface-raised);
+    background-image: none;
   }
+}
+
+/*
+ * The intent goes on the edge, not the label.
+ *
+ * Every bezel face is the same metal, so an intent has to show somewhere - but coloured text on
+ * that face does not survive its own contrast budget. Measured against the gradient's light stop,
+ * the intent colours come out between 2.2:1 and 5.2:1, and even the `-emphasis` step leaves error
+ * at 3.6:1 and success at 4.1:1, under the 4.5:1 body text owes. A one pixel edge is a non-text
+ * element and owes 3:1, which `-emphasis` clears from 6.6:1 up. So the label stays in the ordinary
+ * foreground at 9.5:1, and the border carries the meaning.
+ *
+ * Primary and secondary keep the neutral edge: in this language a marked button is one that does
+ * something particular, and the default action is not that.
+ */
+[data-skin='bezel'] [xuiButton]:where([data-variant='outline'], [data-variant='dash']):not([data-loading]) {
+  color: var(--color-foreground);
+}
+
+[data-skin='bezel'] [xuiButton]:where([data-variant='outline'], [data-variant='dash']) {
+  &[data-color='success'] {
+    border-color: var(--success-emphasis);
+  }
+  &[data-color='warning'] {
+    border-color: var(--warning-emphasis);
+  }
+  &[data-color='info'] {
+    border-color: var(--info-emphasis);
+  }
+  &[data-color='error'] {
+    border-color: var(--error-emphasis);
+  }
+}
+
+/*
+ * A destructive outline button fills under the pointer, so the colour arrives as the click is
+ * about to happen. Not while loading: the label is transparent then, and colouring it would print
+ * the text back over the spinner.
+ */
+[data-skin='bezel'] [xuiButton][data-variant='outline'][data-color='error']:not([data-loading]):hover:not(:disabled) {
+  border-color: rgb(0 0 0 / 0.45);
+  background-color: var(--color-error);
+  background-image: var(--bezel-gloss);
+  color: var(--color-error-foreground);
 }
 
 /* Filled buttons: macOS's default-button gloss over whatever intent they carry. */
@@ -441,12 +485,32 @@
     var(--bezel-shadow);
 }
 
-/* Ghost buttons are toolbar icons and list rows: quiet until pressed, then a sunken key. */
+/*
+ * Ghost buttons are toolbar icons and list rows: quiet until pointed at, then a sunken key. The
+ * base variant lifts them on a shadow, which is the other language's way of saying "interactive" -
+ * here nothing floats, so hover is a tint and pressing presses.
+ */
 [data-skin='bezel'] [xuiButton][data-variant='ghost'] {
+  &:hover:not(:disabled) {
+    background-color: var(--hover-overlay);
+    background-image: none;
+    box-shadow: none;
+  }
+
   &:active:not(:disabled),
   &[aria-pressed='true'] {
+    background-color: transparent;
     background-image: linear-gradient(to bottom, var(--bezel-pressed-top), var(--bezel-pressed-bottom));
     box-shadow: inset 0 1px 2px rgb(0 0 0 / 0.35);
+  }
+}
+
+/* A link is text, so it gains nothing from the chrome around it - least of all a shadow. */
+[data-skin='bezel'] [xuiButton][data-variant='link'] {
+  box-shadow: none;
+
+  &:hover:not(:disabled) {
+    box-shadow: none;
   }
 }
 

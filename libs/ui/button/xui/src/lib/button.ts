@@ -35,7 +35,9 @@ export const buttonVariants = cva(
         dash: 'shadow-elevation-1 text-foreground not-disabled:hover:shadow-elevation-2 border-dashed',
         outline: 'text-foreground shadow-elevation-1 not-disabled:hover:shadow-elevation-2',
         ghost: 'text-foreground not-disabled:hover:shadow-elevation-2 border-none', // TODO: this is shifted by border size compared to others
-        link: 'text-link underline-offset-4 not-disabled:hover:underline'
+        // `border-transparent` rather than `border-none`: a link is not a box, but keeping the
+        // border's width keeps it on the same metrics as every other variant.
+        link: 'text-link border-transparent underline-offset-4 not-disabled:hover:underline'
       },
       // The shared control scale from `@xui/core/styles/theme.css`. The gap and icon size scale
       // with the box, so a 24px button does not carry a 16px icon.
