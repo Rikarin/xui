@@ -617,10 +617,61 @@
   color: var(--color-foreground);
 }
 
+/*
+ * Pop-up buttons.
+ *
+ * A control you pick from rather than type into is a raised button in macOS, not a sunken field -
+ * the list is the thing that opens, and the control stays a button while it is closed. So these
+ * carry the bezel face the ordinary buttons do, and sink while their list is open.
+ */
+[data-skin='bezel'] :is(xui-select, xui-cascader, xui-tree-select, xui-color-picker) > button {
+  background-color: transparent;
+  background-image: linear-gradient(to bottom, var(--bezel-top), var(--bezel-bottom));
+  border-color: var(--bezel-border);
+  border-radius: var(--radius-control);
+  box-shadow:
+    inset 0 1px 0 var(--highlight),
+    var(--bezel-shadow);
+  transition: background-image var(--duration-press) ease-out;
+
+  &:hover:not(:disabled) {
+    background-image: linear-gradient(to bottom, var(--bezel-hover-top), var(--bezel-hover-bottom));
+  }
+
+  &[aria-expanded='true'] {
+    background-image: linear-gradient(to bottom, var(--bezel-pressed-top), var(--bezel-pressed-bottom));
+    box-shadow: inset 0 1px 2px rgb(0 0 0 / 0.35);
+  }
+}
+
+/*
+ * Checkboxes and radios.
+ *
+ * Off, the box is cut into the surface - a hairline edge, the shadow across its top, a highlight
+ * catching the lower lip. On, it fills with its intent and takes the same gloss a filled button
+ * has, so the two read as the same material. The fill colour is left to the component, which
+ * already paints all six intents.
+ */
+[data-skin='bezel'] xui-checkbox x-checkbox[data-state='unchecked'],
+[data-skin='bezel'] xui-radio[data-state='unchecked'] {
+  border-color: var(--hairline-strong);
+  box-shadow:
+    inset 0 1px 2px var(--field-shadow),
+    0 1px 0 var(--highlight);
+}
+
+[data-skin='bezel'] xui-checkbox x-checkbox:not([data-state='unchecked']),
+[data-skin='bezel'] xui-radio:not([data-state='unchecked']) {
+  background-image: var(--bezel-gloss);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.2),
+    var(--bezel-shadow);
+}
+
 /* Anything typed into reads as a recess: a pale field in light, a deep one in dark. */
 [data-skin='bezel'] [xuiInput],
 [data-skin='bezel'] textarea[xuiTextarea],
-[data-skin='bezel'] :is(xui-select, xui-suggest, xui-multi-select, xui-tag-input, xui-numeric-input) {
+[data-skin='bezel'] :is(xui-suggest, xui-multi-select, xui-tag-input, xui-numeric-input) {
   /* The controls fill themselves with `bg-surface-inset`; re-pointing that token on the control
      itself sinks the field without having to restate what the component paints. */
   --surface-inset: var(--field);
