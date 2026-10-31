@@ -801,18 +801,29 @@
  * already paints all six intents.
  */
 [data-skin='bezel'] xui-checkbox button[data-state='unchecked'],
-[data-skin='bezel'] xui-radio[data-state='unchecked'] {
+[data-skin='bezel'] xui-radio {
   /* The box fills itself with `bg-surface-inset`, which is also what a pane one step down is
      filled with - on such a pane the recess disappeared into its own background. Pointing the
      token at `--field` cuts the box below whatever it sits on, as it does for a text field. */
   --surface-inset: var(--field);
-  border-color: var(--hairline-strong);
   box-shadow:
     inset 0 1px 2px var(--field-shadow),
     0 1px 0 var(--highlight);
 }
 
-/* Only the checkbox fills; a checked radio is an outline around a dot, so it keeps its own face. */
+/* The component only fills the unpicked radio, so the picked one would be a well with no floor. */
+[data-skin='bezel'] xui-radio[data-state='checked'] {
+  background-color: var(--field);
+}
+
+/* The neutral edge, only where the component has not marked one - a picked radio keeps its ring. */
+[data-skin='bezel'] xui-checkbox button[data-state='unchecked'],
+[data-skin='bezel'] xui-radio[data-state='unchecked'] {
+  border-color: var(--hairline-strong);
+}
+
+/* Only the checkbox fills. A radio is a well with a dot sitting in it, so it stays cut in whether
+   or not it is picked - which is why the rule above is not restricted to its unchecked state. */
 [data-skin='bezel'] xui-checkbox button:not([data-state='unchecked']) {
   background-image: var(--bezel-gloss);
   box-shadow:
@@ -837,7 +848,9 @@
 
   &[data-state='checked'] {
     background-color: var(--primary);
-    background-image: var(--bezel-gloss);
+    /* The same shading as when it is off. A gloss lights the top and says convex, which argues
+       with the slot the knob is riding in - only the colour of the fill should change. */
+    background-image: linear-gradient(to bottom, rgb(0 0 0 / 0.22), transparent 70%);
     border-color: color-mix(in oklab, var(--primary) 55%, black);
   }
 
