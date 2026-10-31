@@ -91,8 +91,8 @@
   --chrome-top: #f1f1f3;
   --chrome-bottom: #dcdcdf;
   --glass: rgb(242 242 244 / 0.78);
-  --menu-glass: rgb(255 255 255 / 0.72);
-  --menu-edge: rgb(0 0 0 / 0.22);
+  --menu-glass: rgb(255 255 255 / 0.7);
+  --menu-edge: rgb(0 0 0 / 0.12);
   --pane-header-top: #f4f4f6;
   --pane-header-bottom: #e7e7ea;
 
@@ -159,8 +159,8 @@
   --chrome-top: #3a3a3e;
   --chrome-bottom: #2a2a2d;
   --glass: rgb(44 44 47 / 0.72);
-  --menu-glass: rgb(46 46 49 / 0.82);
-  --menu-edge: rgb(255 255 255 / 0.25);
+  --menu-glass: rgb(46 46 49 / 0.7);
+  --menu-edge: rgb(255 255 255 / 0.12);
   --pane-header-top: #313134;
   --pane-header-bottom: #29292c;
 
@@ -221,8 +221,8 @@
     --chrome-top: #3a3a3e;
     --chrome-bottom: #2a2a2d;
     --glass: rgb(44 44 47 / 0.72);
-    --menu-glass: rgb(46 46 49 / 0.82);
-    --menu-edge: rgb(255 255 255 / 0.25);
+    --menu-glass: rgb(46 46 49 / 0.7);
+    --menu-edge: rgb(255 255 255 / 0.12);
     --pane-header-top: #313134;
     --pane-header-bottom: #29292c;
 
@@ -686,11 +686,12 @@
  * plain div mark it with `data-part="panel"`. That hook is not scoped to a cdk overlay pane: the
  * colour picker positions its panel itself, and is just as much a floating surface for it.
  *
- * Two values are per theme rather than fixed. `--menu-glass` because Cathode's 85% reads as glass
- * over its graphite editor and as plain white over a light page, where nothing behind it is dark
- * enough to show through. `--menu-edge` because a panel's edge has to read against whatever is
- * behind it: a black hairline draws the boundary on a light page and vanishes on the near-black
- * window these panels also open over, where the edge has to be a light one instead.
+ * Two values are per theme. `--menu-glass` is the material: Cathode's 85% over its own graphite
+ * editor is near-opaque anywhere lighter or flatter, so this sits at 70% and the blur has
+ * something to say. `--menu-edge` is the boundary, and it inverts - a dark hairline reads on a
+ * light page, a light one on the near-black window these also open over, where a black edge and a
+ * black shadow are both invisible. Both stay low: an edge you notice as an outline looks worse
+ * than no edge at all, which is the first thing that went wrong here.
  */
 [data-skin='bezel'] :is(xui-popover-panel, xui-menu),
 [data-skin='bezel'] [data-part='panel'] {
