@@ -169,7 +169,7 @@ export class XuiSuggest<T> implements ControlValueAccessor {
 
   protected readonly inputClass = computed(() =>
     xui(
-      'border-border bg-surface-inset text-foreground placeholder:text-foreground-subtle h-(--control-height-md) w-full min-w-44 rounded-lg border px-(--control-padding-md) text-sm',
+      'border-border bg-surface-inset text-foreground placeholder:text-foreground-subtle h-(--control-height-md) w-full min-w-44 rounded-control border px-(--control-padding-md) text-sm',
       'focus-visible:border-focus transition-colors focus:outline-none',
       this.isDisabled() && 'cursor-not-allowed opacity-50'
     )

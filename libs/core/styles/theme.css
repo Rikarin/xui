@@ -123,6 +123,12 @@
   --shadow-elevation-4: var(--elevation-4);
   --shadow-overlay: var(--elevation-overlay);
 
+  /* Chrome. Separators and the bevel a raised surface carries, mapped so `border-hairline`,
+     `bg-highlight` and friends exist. */
+  --color-hairline: var(--hairline);
+  --color-hairline-strong: var(--hairline-strong);
+  --color-highlight: var(--highlight);
+
   /* Motion */
   --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
   --ease-decelerate: cubic-bezier(0, 0, 0.2, 1);
@@ -152,6 +158,19 @@
  * | md   | 30px   | 12px    | text-sm   |
  * | lg   | 40px   | 16px    | text-base |
  */
+/*
+ * The radius a control carries, as a role rather than a size step.
+ *
+ * `rounded-lg` is a size: panes, cards and overlay surfaces use it too, so re-pointing it to
+ * round the controls rounds everything else with them. A theme that wants 6px controls inside 8px
+ * panes needs the two separable, which is what this token is for - override it alone and only the
+ * things a user types in or clicks follow. It is a literal rather than `var(--radius-lg)` so the
+ * two are genuinely independent; it happens to equal the `lg` step today.
+ */
+@theme {
+  --radius-control: 0.5rem;
+}
+
 :root {
   --control-height-sm: 1.5rem;
   --control-height-md: 1.875rem;
@@ -187,6 +206,11 @@
   --border: var(--color-zinc-200);
   --border-muted: var(--color-zinc-100);
   --border-strong: var(--color-zinc-300);
+
+  /* --------------------------------------------------------------- chrome */
+  --hairline: rgb(0 0 0 / 0.14);
+  --hairline-strong: rgb(0 0 0 / 0.24);
+  --highlight: rgb(255 255 255 / 0.85);
 
   /* ---------------------------------------------------------------- intents */
   --primary: oklch(55.88% 0.154 252.84);
@@ -289,6 +313,10 @@
   --border: var(--color-zinc-700);
   --border-muted: var(--color-zinc-800);
   --border-strong: var(--color-zinc-600);
+  /* --------------------------------------------------------------- chrome */
+  --hairline: rgb(0 0 0 / 0.62);
+  --hairline-strong: rgb(0 0 0 / 0.85);
+  --highlight: rgb(255 255 255 / 0.07);
 
   --warning-foreground: var(--color-zinc-950);
 
@@ -349,6 +377,10 @@
     --border: var(--color-zinc-700);
     --border-muted: var(--color-zinc-800);
     --border-strong: var(--color-zinc-600);
+    /* ------------------------------------------------------------- chrome */
+    --hairline: rgb(0 0 0 / 0.62);
+    --hairline-strong: rgb(0 0 0 / 0.85);
+    --highlight: rgb(255 255 255 / 0.07);
 
     --chart-1: #3987e5;
     --chart-2: #d95926;

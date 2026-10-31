@@ -18,7 +18,7 @@ import type { ClassValue } from 'clsx';
 import { injectXuiSegmentedControlConfig } from './segmented-control.token';
 
 export const segmentedControlContainerVariants = cva(
-  'bg-surface-inset border-border inline-flex gap-0.5 rounded-lg border p-0.5',
+  'bg-surface-inset border-border inline-flex gap-0.5 rounded-control border p-0.5',
   {
     variants: {
       size: { md: 'text-sm', sm: 'text-xs' },

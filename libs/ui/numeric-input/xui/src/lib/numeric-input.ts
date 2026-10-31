@@ -207,7 +207,7 @@ export class XuiNumericInput implements ControlValueAccessor, XFormFieldControl 
 
   protected readonly computedClass = computed(() =>
     xui(
-      'border-border bg-surface-inset focus-within:border-focus inline-flex items-stretch overflow-hidden rounded-lg border transition-colors',
+      'border-border bg-surface-inset focus-within:border-focus inline-flex items-stretch overflow-hidden rounded-control border transition-colors',
       // The wrapper carries the control height so the stepper column cannot stretch the field
       // past the shared scale.
       this.size() === 'sm' ? 'h-(--control-height-sm)' : 'h-(--control-height-md)',

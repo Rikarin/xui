@@ -159,7 +159,7 @@ export class XuiTimePicker<T = Date> implements ControlValueAccessor {
   protected readonly computedClass = computed(() => xui('inline-block', this.class()));
   protected readonly groupClass = computed(() =>
     xui(
-      'border-border bg-surface-inset inline-flex h-(--control-height-md) items-center gap-1 rounded-lg border px-(--control-padding-sm)',
+      'border-border bg-surface-inset inline-flex h-(--control-height-md) items-center gap-1 rounded-control border px-(--control-padding-sm)',
       'focus-within:border-focus transition-colors',
       this.isDisabled() && 'cursor-not-allowed opacity-50'
     )

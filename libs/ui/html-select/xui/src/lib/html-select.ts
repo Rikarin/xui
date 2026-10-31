@@ -23,7 +23,7 @@ import type { ClassValue } from 'clsx';
 import { injectXuiHtmlSelectConfig } from './html-select.token';
 
 export const htmlSelectWrapperVariants = cva(
-  'border-border bg-surface-inset text-foreground focus-within:border-focus relative inline-flex items-center rounded-lg border transition-colors has-disabled:cursor-not-allowed has-disabled:opacity-50',
+  'border-border bg-surface-inset text-foreground focus-within:border-focus relative inline-flex items-center rounded-control border transition-colors has-disabled:cursor-not-allowed has-disabled:opacity-50',
   {
     variants: {
       size: { md: 'h-(--control-height-md) text-sm', sm: 'h-(--control-height-sm) text-xs' },

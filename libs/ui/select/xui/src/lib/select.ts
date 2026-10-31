@@ -245,7 +245,7 @@ export class XuiSelect<T> implements XFormFieldControl, ControlValueAccessor {
 
   protected readonly triggerClass = computed(() =>
     xui(
-      'border-border bg-surface-inset text-foreground flex h-(--control-height-md) w-full min-w-44 items-center justify-between rounded-lg border px-(--control-padding-md) text-sm',
+      'border-border bg-surface-inset text-foreground flex h-(--control-height-md) w-full min-w-44 items-center justify-between rounded-control border px-(--control-padding-md) text-sm',
       'focus-visible:border-focus transition-colors focus:outline-none',
       this.isDisabled() && 'cursor-not-allowed opacity-50'
     )

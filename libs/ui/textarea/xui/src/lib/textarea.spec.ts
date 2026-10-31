@@ -15,7 +15,7 @@ describe('XuiTextarea', () => {
   it('applies the base classes to the host textarea', () => {
     const { query } = setup('<textarea xuiTextarea></textarea>');
 
-    expectClasses(query('textarea'), 'flex', 'w-full', 'rounded-lg', 'border', 'bg-surface-inset');
+    expectClasses(query('textarea'), 'flex', 'w-full', 'rounded-control', 'border', 'bg-surface-inset');
   });
 
   it('defaults to a resizable default size', () => {
@@ -85,7 +85,7 @@ describe('XuiTextarea', () => {
   it('merges the class input', () => {
     const { query } = setup('<textarea xuiTextarea class="max-w-md"></textarea>');
 
-    expectClasses(query('textarea'), 'max-w-md', 'rounded-lg');
+    expectClasses(query('textarea'), 'max-w-md', 'rounded-control');
   });
 
   it('provides XFormFieldControl, so xui-form-field accepts it', () => {

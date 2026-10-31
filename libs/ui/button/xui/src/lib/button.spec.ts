@@ -12,7 +12,7 @@ describe('XuiButton', () => {
     const { query } = setup('<button xuiButton>Save</button>');
 
     expect(query('button').textContent).toBe('Save');
-    expectClasses(query('button'), 'inline-flex', 'rounded-lg', 'cursor-pointer');
+    expectClasses(query('button'), 'inline-flex', 'rounded-control', 'cursor-pointer');
   });
 
   it('defaults to a filled primary button at the default size', () => {

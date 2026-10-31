@@ -15,7 +15,8 @@ Tailwind utility namespaces with `@theme inline`. `--surface` becomes `bg-surfac
 | State     | `focus`, `link`, `link-hover`, `selection`, `hover-overlay`, `active-overlay`                                                                    |
 | Elevation | `elevation-0` … `elevation-4`, `elevation-overlay` (a namespace of its own, separate from Tailwind's `shadow-*`)                                 |
 | Motion    | `duration-fast`, `duration-base`, `duration-slow`                                                                                                |
-| Controls  | `control-height-sm\|md\|lg`, `control-padding-sm\|md\|lg` - the density every control shares                                                     |
+| Controls  | `control-height-sm\|md\|lg`, `control-padding-sm\|md\|lg` - the density every control shares; `radius-control`                                   |
+| Chrome    | `hairline`, `hairline-strong` - seams between chrome pieces; `highlight` - a raised surface's top bevel                                          |
 
 ## Which step to use
 
@@ -53,6 +54,30 @@ in one place:
 In library code, never hard-code `h-10`/`h-11` on something a user clicks or types into - use
 `h-(--control-height-md)` and `px-(--control-padding-md)`, and let the size variant swap the step.
 
+## Control radius
+
+`rounded-lg` is a size, and panes, cards and overlay surfaces use it too, so re-pointing it rounds
+them along with the controls. `--radius-control` is the role instead: everything a user types in or
+clicks carries it, nothing else does, and a theme that wants tighter controls inside softer panes
+overrides just this one value.
+
+```css
+:root {
+  --radius-control: 0.375rem; /* 6px controls, panes left alone */
+}
+```
+
+In library code a control's own box uses `rounded-control`; its inner parts (a chip, a menu row, a
+swatch) and every container keep the `rounded-*` scale.
+
+## Chrome
+
+`--hairline` and `--hairline-strong` are the seams between pieces of chrome - a line under a header,
+a divider inside a joined control - and sit darker than `--border`, which is a component's own edge.
+`--highlight` is the bevel along the top of a raised surface. All three are exposed as colours
+(`border-hairline`, `bg-highlight`) and invert sensibly between the themes, so a graded bar is the
+same two declarations in light and dark.
+
 ## Dark mode
 
 Add `.dark` or `[data-theme='dark']`; with neither present the theme follows
@@ -84,7 +109,7 @@ Redeclare tokens after the import:
 :root {
   --primary: var(--color-violet-600);
   --surface-inset: var(--color-zinc-50);
-  --radius: 0.5rem;
+  --radius-control: 0.375rem;
 }
 ```
 

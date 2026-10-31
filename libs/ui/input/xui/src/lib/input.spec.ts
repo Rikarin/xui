@@ -14,7 +14,7 @@ describe('XuiInput', () => {
   it('applies the base classes to the host input', () => {
     const { query } = setup('<input xuiInput />');
 
-    expectClasses(query('input'), 'flex', 'rounded-lg', 'border', 'border-border');
+    expectClasses(query('input'), 'flex', 'rounded-control', 'border', 'border-border');
   });
 
   it('styles itself from theme tokens rather than a fixed palette', () => {
@@ -61,7 +61,7 @@ describe('XuiInput', () => {
   it('merges the class input', () => {
     const { query } = setup('<input xuiInput class="w-full" />');
 
-    expectClasses(query('input'), 'w-full', 'rounded-lg');
+    expectClasses(query('input'), 'w-full', 'rounded-control');
   });
 
   it('applies the colour accent border, independent of the invalid state', () => {

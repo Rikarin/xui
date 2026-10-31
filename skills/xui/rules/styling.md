@@ -85,6 +85,10 @@ size: {
 }
 ```
 
+Its corners come from the role, not a size step: a control's own box is `rounded-control`, so a
+theme can tighten the controls without also rounding every pane. Inner parts - a chip inside a tag
+input, a menu row, a swatch - and all containers keep the `rounded-*` scale.
+
 30px is the default step, which is roughly a native input. A wrapper that contains
 a control - a numeric input's stepper column, a segmented control's track - carries the height
 itself, so a child cannot stretch the box off the scale.

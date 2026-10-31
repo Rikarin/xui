@@ -25,7 +25,7 @@ import type { ClassValue } from 'clsx';
 import { injectXuiFileInputConfig } from './file-input.token';
 
 export const fileInputVariants = cva(
-  'border-border bg-surface-inset text-foreground-muted focus-within:border-focus flex cursor-pointer items-center gap-2 rounded-lg border pe-1 transition-colors has-disabled:cursor-not-allowed has-disabled:opacity-50',
+  'border-border bg-surface-inset text-foreground-muted focus-within:border-focus flex cursor-pointer items-center gap-2 rounded-control border pe-1 transition-colors has-disabled:cursor-not-allowed has-disabled:opacity-50',
   {
     variants: {
       size: {

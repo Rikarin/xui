@@ -133,7 +133,7 @@ export class XuiDateInput<T = Date> implements ControlValueAccessor {
   protected readonly computedClass = computed(() => xui('inline-block', this.class()));
   protected readonly groupClass = computed(() =>
     xui(
-      'border-border bg-surface-inset flex h-(--control-height-md) w-full min-w-48 items-center rounded-lg border pe-1 ps-(--control-padding-md) text-sm',
+      'border-border bg-surface-inset flex h-(--control-height-md) w-full min-w-48 items-center rounded-control border pe-1 ps-(--control-padding-md) text-sm',
       'focus-within:border-focus transition-colors',
       this.isDisabled() && 'cursor-not-allowed opacity-50'
     )

@@ -26,7 +26,7 @@ const ADORNMENT_LANE = {
 
 export const inputVariants = cva(
   [
-    'flex rounded-lg border border-border font-normal transition-all',
+    'flex rounded-control border border-border font-normal transition-all',
     'file:border-0 file:text-foreground file:bg-transparent file:font-medium',
     // The focus border replaces the base outline ring. Text-entry controls match
     // `:focus-visible` for pointer focus too, so mouse users still get it.

@@ -21,7 +21,7 @@ import type { ClassValue } from 'clsx';
 
 export const tagInputContainerVariants = cva(
   [
-    'flex min-h-(--control-height-md) flex-wrap items-center gap-1.5 rounded-lg border border-border bg-surface-inset px-(--control-padding-sm) py-0.5 text-sm',
+    'flex min-h-(--control-height-md) flex-wrap items-center gap-1.5 rounded-control border border-border bg-surface-inset px-(--control-padding-sm) py-0.5 text-sm',
     'focus-within:border-focus transition-colors',
     'data-disabled:cursor-not-allowed data-disabled:opacity-50'
   ],
