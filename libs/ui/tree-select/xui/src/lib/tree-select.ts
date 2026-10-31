@@ -109,7 +109,7 @@ const toTreeNode = (node: XuiTreeSelectNode): PanelNode => ({
     </button>
 
     <ng-template #panel>
-      <div data-part="panel" [class]="panelClass()" role="tree" [id]="panelId">
+      <div data-part="panel" data-selection="path" [class]="panelClass()" role="tree" [id]="panelId">
         @for (row of rows(); track row.node.id; let i = $index) {
           <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
           <div

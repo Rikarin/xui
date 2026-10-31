@@ -772,8 +772,12 @@
  * the row whose submenu is open - so that row is the filled one, and there is no gutter to tick.
  * The component tints it ten per cent and recolours the label, which is the washed-out blue this
  * replaces.
+ *
+ * Keyed on the panel, not on the component: these panels render through the overlay, so they are
+ * not descendants of the `xui-cascader` that opened them and a selector rooted there matches
+ * nothing at all.
  */
-[data-skin='bezel'] :is(xui-cascader, xui-tree-select) li[role='option'][aria-selected='true'] {
+[data-skin='bezel'] [data-selection='path'] li[role='option'][aria-selected='true'] {
   padding-inline: 0.625rem;
   background-color: var(--menu-selection);
   color: #fff;
