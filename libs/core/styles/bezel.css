@@ -92,6 +92,7 @@
   --chrome-bottom: #dcdcdf;
   --glass: rgb(242 242 244 / 0.78);
   --menu-glass: rgb(255 255 255 / 0.7);
+  --menu-selection: #0071e3;
   --menu-edge: rgb(0 0 0 / 0.12);
   --pane-header-top: #f4f4f6;
   --pane-header-bottom: #e7e7ea;
@@ -160,6 +161,7 @@
   --chrome-bottom: #2a2a2d;
   --glass: rgb(44 44 47 / 0.72);
   --menu-glass: rgb(46 46 49 / 0.7);
+  --menu-selection: #0a84ff;
   --menu-edge: rgb(255 255 255 / 0.12);
   --pane-header-top: #313134;
   --pane-header-bottom: #29292c;
@@ -222,6 +224,7 @@
     --chrome-bottom: #2a2a2d;
     --glass: rgb(44 44 47 / 0.72);
     --menu-glass: rgb(46 46 49 / 0.7);
+    --menu-selection: #0a84ff;
     --menu-edge: rgb(255 255 255 / 0.12);
     --pane-header-top: #313134;
     --pane-header-bottom: #29292c;
@@ -686,7 +689,12 @@
  * plain div mark it with `data-part="panel"`. That hook is not scoped to a cdk overlay pane: the
  * colour picker positions its panel itself, and is just as much a floating surface for it.
  *
- * Two values are per theme. `--menu-glass` is the material: Cathode's 85% over its own graphite
+ * `--menu-selection` is the filled row. It is the system blue rather than `--primary` because
+ * dark needs the brighter one: at #0071e3 the row sits 3.25:1 above the material, which is
+ * what Cathode has and reads as muted anywhere the menu is this dark; #0a84ff takes it to
+ * 4.2:1. The label stays pure white, as macOS does on its own accent.
+ *
+ * Two more values are per theme. `--menu-glass` is the material: Cathode's 85% over its own graphite
  * editor is near-opaque anywhere lighter or flatter, so this sits at 70% and the blur has
  * something to say. `--menu-edge` is the boundary, and it inverts - a dark hairline reads on a
  * light page, a light one on the near-black window these also open over, where a black edge and a
@@ -728,8 +736,8 @@
   padding-block: 0.1875rem;
 
   &:hover:not([aria-disabled='true']) {
-    background-color: var(--color-primary);
-    color: var(--color-primary-foreground);
+    background-color: var(--menu-selection);
+    color: #fff;
   }
 }
 
@@ -741,8 +749,8 @@
   padding-inline: 1.5rem 0.625rem;
 
   &[data-active] {
-    background-color: var(--color-primary);
-    color: var(--color-primary-foreground);
+    background-color: var(--menu-selection);
+    color: #fff;
   }
 
   &[aria-selected='true']::before {
@@ -767,8 +775,8 @@
  */
 [data-skin='bezel'] :is(xui-cascader, xui-tree-select) li[role='option'][aria-selected='true'] {
   padding-inline: 0.625rem;
-  background-color: var(--color-primary);
-  color: var(--color-primary-foreground);
+  background-color: var(--menu-selection);
+  color: #fff;
 }
 
 /*
