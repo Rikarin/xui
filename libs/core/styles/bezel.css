@@ -812,6 +812,47 @@
 }
 
 /*
+ * A control card is a small pane you can pick, so it takes a pane's face rather than a flat
+ * bordered box: a hairline edge and the highlight along its top, which is what Cathode's grouped
+ * settings list is made of.
+ *
+ * Picked, it is marked the way a tinted surface is marked anywhere else - the intent's `subtle`
+ * fill behind its own edge. The component's five per cent of primary is too faint to find once
+ * the card already has a face.
+ *
+ * `aria-checked` is on the host, so this needs no hook of its own.
+ */
+[data-skin='bezel'] xui-control-card {
+  border-color: var(--hairline-strong);
+  box-shadow: inset 0 1px 0 var(--highlight);
+}
+
+[data-skin='bezel'] xui-control-card[aria-checked='true'] {
+  border-color: var(--primary);
+  /* Mixed into the card, not into the window. `--primary-subtle` is derived from `--background`,
+     so on a raised card it lands darker than the unpicked one and selecting reads as sinking. */
+  background-color: color-mix(in oklab, var(--primary) 16%, var(--surface-raised));
+}
+
+/*
+ * The card draws its own box, switch and dot rather than embedding the components, so none of the
+ * checkable rules reach it. Same face: cut in when it is off, filled and glossed when it is on.
+ */
+[data-skin='bezel'] xui-control-card > span[aria-hidden='true'] {
+  border-color: var(--hairline-strong);
+  box-shadow:
+    inset 0 1px 2px var(--field-shadow),
+    0 1px 0 var(--highlight);
+}
+
+[data-skin='bezel'] xui-control-card[aria-checked='true'] > span[aria-hidden='true'] {
+  background-image: var(--bezel-gloss);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.2),
+    var(--bezel-shadow);
+}
+
+/*
  * The colour picker builds its own controls out of bare elements rather than the library's, so
  * none of the rules above reach them: the hex and channel boxes are plain `input`s and the format
  * picker is a native `select`.
