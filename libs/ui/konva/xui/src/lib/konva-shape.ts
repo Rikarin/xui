@@ -15,6 +15,7 @@ import Konva from 'konva';
 import { Container } from 'konva/lib/Container';
 import type { Node, NodeConfig } from 'konva/lib/Node';
 import type { Shape } from 'konva/lib/Shape';
+import type { Tween, TweenConfig } from 'konva/lib/Tween';
 import { XUI_KONVA_CONTAINER, type XuiKonvaChild, type XuiKonvaContainer } from './konva.token';
 import { XuiKonvaComponent, type XuiKonvaEventObject } from './konva.types';
 import { applyNodeProps, createListener, getNodeName, updatePicture, type XuiKonvaProps } from './konva.utils';
@@ -238,8 +239,8 @@ export class XuiKonvaShape implements XuiKonvaComponent, XuiKonvaContainer, XuiK
   private trackAnimatedAttrs(): void {
     const animate = this.node.to.bind(this.node);
 
-    this.node.to = (params: NodeConfig): void => {
-      animate(params);
+    this.node.to = (params: Omit<TweenConfig, 'node'>): Tween => {
+      const tween = animate(params);
 
       setTimeout(() => {
         if (!this.config()) {
@@ -252,6 +253,8 @@ export class XuiKonvaShape implements XuiKonvaComponent, XuiKonvaContainer, XuiK
 
         this.config.update(config => ({ ...config, ...animated }));
       }, ANIMATION_SETTLE_MS);
+
+      return tween;
     };
   }
 }

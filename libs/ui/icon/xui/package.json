@@ -22,7 +22,7 @@
   "sideEffects": false,
   "peerDependencies": {
     "@angular/core": "22",
-    "@ng-icons/core": "35",
+    "@ng-icons/core": "36",
     "@xui/core": "3.0.1",
     "clsx": "^2.1.1"
   },

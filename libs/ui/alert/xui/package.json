@@ -23,8 +23,8 @@
   "peerDependencies": {
     "@angular/cdk": "22",
     "@angular/core": "22",
-    "@ng-icons/core": "35",
-    "@ng-icons/material-icons": "35",
+    "@ng-icons/core": "36",
+    "@ng-icons/material-icons": "36",
     "@xui/button": "3.0.1",
     "@xui/dialog": "3.0.1",
     "@xui/icon": "3.0.1"
