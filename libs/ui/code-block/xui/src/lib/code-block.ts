@@ -129,7 +129,7 @@ const PLAIN: XuiCodeTokenKind = 'plain';
            header or a tab strip keeps its own row instead of being sat on. -->
       <div class="relative">
         <!-- prettier-ignore -->
-        <pre [class]="surfaceClass()" [style.--xui-code-gutter]="gutter()" [attr.data-language]="sample.language"><code>@for (line of sample.lines; track $index) {<span [class]="lineClass($index + 1)">@if (showLineNumbers()) {<span aria-hidden="true" class="text-foreground-subtle sticky start-0 inline-block w-(--xui-code-gutter) shrink-0 pe-4 text-end select-none">{{ $index + 1 }}</span>}@for (token of line; track $index) {<span [class]="tokenClass(token)">{{ token.text }}</span>}</span>}</code></pre>
+        <pre data-part="surface" [class]="surfaceClass()" [style.--xui-code-gutter]="gutter()" [attr.data-language]="sample.language"><code>@for (line of sample.lines; track $index) {<span [class]="lineClass($index + 1)">@if (showLineNumbers()) {<span aria-hidden="true" class="text-foreground-subtle sticky start-0 inline-block w-(--xui-code-gutter) shrink-0 pe-4 text-end select-none">{{ $index + 1 }}</span>}@for (token of line; track $index) {<span [class]="tokenClass(token)">{{ token.text }}</span>}</span>}</code></pre>
 
         @if (copyable()) {
           @if (copyTemplate(); as tpl) {
@@ -167,6 +167,7 @@ const PLAIN: XuiCodeTokenKind = 'plain';
     } @else {
       @if (filename() || language()) {
         <div
+          data-part="header"
           class="border-border bg-surface-sunken text-foreground-muted flex items-center gap-2 rounded-t-lg border border-b-0 px-4 py-2 font-mono text-xs"
         >
           @if (filename()) {
