@@ -645,6 +645,30 @@
 }
 
 /*
+ * A pop-up button says so with the two chevrons, one up one down - the single down chevron is a
+ * dropdown on the web and a different control here. The component's own icon steps aside for it.
+ */
+[data-skin='bezel'] :is(xui-select, xui-cascader, xui-tree-select) > button {
+  & > ng-icon,
+  & > svg {
+    display: none;
+  }
+
+  &::after {
+    content: '';
+    flex-shrink: 0;
+    width: 0.5rem;
+    height: 0.75rem;
+    /* The icons it replaces carry `ms-auto`, so it takes the same place at the end of the row. */
+    margin-inline-start: auto;
+    padding-inline-start: 0.5rem;
+    background-color: var(--color-foreground-muted);
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 12' fill='none' stroke='black' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M1.5 4.25 4 1.75l2.5 2.5M1.5 7.75 4 10.25l2.5-2.5'/%3E%3C/svg%3E")
+      center / contain no-repeat;
+  }
+}
+
+/*
  * Checkboxes and radios.
  *
  * Off, the box is cut into the surface - a hairline edge, the shadow across its top, a highlight
@@ -652,16 +676,20 @@
  * has, so the two read as the same material. The fill colour is left to the component, which
  * already paints all six intents.
  */
-[data-skin='bezel'] xui-checkbox x-checkbox[data-state='unchecked'],
+[data-skin='bezel'] xui-checkbox button[data-state='unchecked'],
 [data-skin='bezel'] xui-radio[data-state='unchecked'] {
+  /* The box fills itself with `bg-surface-inset`, which is also what a pane one step down is
+     filled with - on such a pane the recess disappeared into its own background. Pointing the
+     token at `--field` cuts the box below whatever it sits on, as it does for a text field. */
+  --surface-inset: var(--field);
   border-color: var(--hairline-strong);
   box-shadow:
     inset 0 1px 2px var(--field-shadow),
     0 1px 0 var(--highlight);
 }
 
-[data-skin='bezel'] xui-checkbox x-checkbox:not([data-state='unchecked']),
-[data-skin='bezel'] xui-radio:not([data-state='unchecked']) {
+/* Only the checkbox fills; a checked radio is an outline around a dot, so it keeps its own face. */
+[data-skin='bezel'] xui-checkbox button:not([data-state='unchecked']) {
   background-image: var(--bezel-gloss);
   box-shadow:
     inset 0 1px 0 rgb(255 255 255 / 0.2),
