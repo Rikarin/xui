@@ -669,6 +669,30 @@
 }
 
 /*
+ * The surfaces that float.
+ *
+ * A macOS menu is not an opaque card: it is translucent material over whatever it covers, blurred
+ * and saturated, with a hairline edge, a highlight along the top and a shadow deep enough to lift
+ * it off the page. A list that opens from a pop-up button is the same material, which is what ties
+ * the open control to the closed one.
+ *
+ * `xui-popover-panel` and `xui-menu` are their own elements; the three that build a panel out of a
+ * plain div mark it with `data-part="panel"`. That hook is not scoped to a cdk overlay pane: the
+ * colour picker positions its panel itself, and is just as much a floating surface for it.
+ */
+[data-skin='bezel'] :is(xui-popover-panel, xui-menu),
+[data-skin='bezel'] [data-part='panel'] {
+  border-color: var(--hairline-strong);
+  border-radius: 0.5rem;
+  background-color: color-mix(in oklab, var(--surface-overlay) 85%, transparent);
+  backdrop-filter: blur(24px) saturate(1.8);
+  -webkit-backdrop-filter: blur(24px) saturate(1.8);
+  box-shadow:
+    inset 0 1px 0 var(--highlight),
+    0 10px 30px rgb(0 0 0 / 0.45);
+}
+
+/*
  * Checkboxes and radios.
  *
  * Off, the box is cut into the surface - a hairline edge, the shadow across its top, a highlight

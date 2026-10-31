@@ -57,7 +57,7 @@ export interface XuiCascaderOption {
     </button>
 
     <ng-template #panel>
-      <div [class]="panelClass()">
+      <div data-part="panel" [class]="panelClass()">
         @for (column of columns(); track $index; let col = $index) {
           <ul class="border-border max-h-64 min-w-40 overflow-auto border-e last:border-e-0">
             @for (option of column; track option.value) {

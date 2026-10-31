@@ -64,7 +64,7 @@ function clampPercent(value: number): number {
     </button>
 
     @if (open()) {
-      <div [class]="panelClass()" role="dialog" aria-label="Color picker">
+      <div data-part="panel" [class]="panelClass()" role="dialog" aria-label="Color picker">
         <!-- 2D area — its axes depend on the format: S×V (hex/RGB), S×L (HSL), C×L (LCH).
              A two-axis control has no single ARIA role, so it is a focusable group
              the arrow keys drive; the labelled channel inputs below expose and
