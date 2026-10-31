@@ -24,6 +24,10 @@
     "./styles/theme.css": {
       "style": "./styles/theme.css",
       "default": "./styles/theme.css"
+    },
+    "./styles/bezel.css": {
+      "style": "./styles/bezel.css",
+      "default": "./styles/bezel.css"
     }
   },
   "peerDependencies": {

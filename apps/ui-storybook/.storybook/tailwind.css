@@ -10,6 +10,10 @@
    renders against the working copy rather than the last build. */
 @import '../../../libs/core/styles/theme.css';
 
+/* The optional bezelled skin, published as `@xui/core/styles/bezel.css`. It only applies under
+   `data-skin="bezel"`, which the Skin toolbar toggles, so the default stories are unaffected. */
+@import '../../../libs/core/styles/bezel.css';
+
 @plugin 'tailwindcss-animate';
 
 /* Tailwind's automatic source detection is rooted at the Vite project, which

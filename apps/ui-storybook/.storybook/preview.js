@@ -11,6 +11,18 @@ const withDirection = (story, context) => {
   return story();
 };
 
+// The skin is opt-in through `data-skin`, so toggling it is a matter of setting that attribute on
+// the root — the same thing a consuming app does in its index.html.
+const withSkin = (story, context) => {
+  const skin = context.globals.skin ?? 'default';
+  if (skin === 'default') {
+    document.documentElement.removeAttribute('data-skin');
+  } else {
+    document.documentElement.setAttribute('data-skin', skin);
+  }
+  return story();
+};
+
 export const decorators = [
   withThemeByClassName({
     themes: {
@@ -19,10 +31,24 @@ export const decorators = [
     },
     defaultTheme: 'dark'
   }),
-  withDirection
+  withDirection,
+  withSkin
 ];
 
 export const globalTypes = {
+  skin: {
+    description: 'Component skin',
+    defaultValue: 'default',
+    toolbar: {
+      title: 'Skin',
+      icon: 'paintbrush',
+      items: [
+        { value: 'default', title: 'Default' },
+        { value: 'bezel', title: 'Bezelled' }
+      ],
+      dynamicTitle: true
+    }
+  },
   direction: {
     description: 'Layout direction',
     defaultValue: 'ltr',

@@ -98,6 +98,43 @@ freeze a nested subtree at the document theme. Keep that in mind when adding tok
 Do not write `dark:` variants in component code - the tokens already carry both themes. A `dark:`
 class in a component is a sign a raw palette colour crept in.
 
+## The bezelled skin
+
+`@xui/core/styles/bezel.css` is an optional second skin: a Logic Pro / current-macOS reading of the
+library for desktop-shaped applications - graphite panes in a near-black window, chrome with soft
+gradients and hairline seams, bezelled controls, a glossy LCD, sunken wells.
+
+```css
+@import 'tailwindcss';
+@import '@xui/core/styles/theme.css';
+@import '@xui/core/styles/bezel.css';
+```
+
+```html
+<html class="dark" data-skin="bezel"></html>
+```
+
+It is opt-in through `data-skin="bezel"` and scopes like the themes do, so a subtree can carry it
+on its own. It re-tunes the base tokens, adds the materials below as `@utility` classes, and gives
+the xUI controls their face by selecting on the `data-variant` / `data-color` each one reflects -
+never on the utility classes a variant map emits.
+
+| Utility                     | What it draws                                                          |
+| --------------------------- | ---------------------------------------------------------------------- |
+| `chrome-bar`                | A window bar: vertical gradient, top highlight, hairline under.        |
+| `glass-bar`                 | A translucent toolbar over content, blurred like a macOS one.          |
+| `pane` / `pane-header`      | A graphite pane with a hairline edge, and its graded title bar.        |
+| `bezel` / `bezel-group`     | A raised face, and several joined into one capsule split by hairlines. |
+| `lcd-glass`                 | A readout's glass: gradient, glare over the top half, inset edge.      |
+| `well`                      | A recess cut into the surface.                                         |
+| `section-label` / `readout` | A group heading, and tabular figures that do not jitter.               |
+
+Use `bezel` and `bezel-group` for chrome controls built on native elements; xUI's own controls
+already pick the face up. The skin carries nothing domain-shaped - meters, faders and track
+palettes belong to the application that has tracks.
+
+The **Foundations → Bezelled skin** story renders every material in both themes.
+
 ## Re-theming an application
 
 Redeclare tokens after the import:

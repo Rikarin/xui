@@ -1,0 +1,479 @@
+/**
+ * The bezelled skin: a Logic Pro / current-macOS reading of xUI.
+ *
+ * Graphite panes in a near-black window, chrome with soft vertical gradients and hairline seams, a
+ * highlight along every raised top edge, gradient-bezelled controls, glossy LCD readouts and sunken
+ * wells. Built for desktop-shaped applications - an Electron shell, a dense editor, a console -
+ * rather than for a page that scrolls.
+ *
+ * Opt in with `data-skin="bezel"`, on `<html>` for the whole app or on any element for a subtree:
+ *
+ * ```css
+ * @import 'tailwindcss';
+ * @import '@xui/core/styles/theme.css';
+ * @import '@xui/core/styles/bezel.css';
+ * ```
+ *
+ * ```html
+ * <html class="dark" data-skin="bezel"></html>
+ * ```
+ *
+ * It composes with `.light` / `.dark` exactly as the base theme does, so a light inspector inside a
+ * dark window still works. Two things it relies on from the base theme: `--hairline`,
+ * `--hairline-strong` and `--highlight`, which it re-tunes rather than invents, and the
+ * `data-variant` / `data-color` attributes every component reflects - the control rules at the
+ * bottom select on those, never on the utility classes a variant map happens to emit.
+ *
+ * Deliberately not here: anything domain-shaped. Meters, faders, transport colours and track
+ * palettes belong to the application that has tracks, not to a UI library.
+ */
+
+@theme {
+  /* An app, not a document: SF Pro on Apple platforms, the platform's UI face elsewhere. */
+  --font-sans-bezel:
+    -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro', system-ui, 'Segoe UI', Roboto, 'Helvetica Neue',
+    sans-serif;
+  --font-mono-bezel: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+}
+
+@theme inline {
+  --color-hairline-bezel: var(--hairline);
+  --color-chrome: var(--chrome-bottom);
+  --color-glass: var(--glass);
+
+  --color-lcd: var(--lcd-bottom);
+  --color-lcd-foreground: var(--lcd-foreground);
+  --color-lcd-muted: var(--lcd-muted);
+  --color-lcd-accent: var(--lcd-accent);
+  --color-lcd-border: var(--lcd-border);
+
+  --color-well: var(--well);
+  --color-field: var(--field);
+}
+
+/* ------------------------------------------------------------------------------------ light */
+/* The bare `[data-skin='bezel']` carries light, the way the base theme's `:root` does; the dark
+   blocks below are more specific and take over when a dark scope applies. */
+[data-skin='bezel'],
+[data-skin='bezel'].light,
+[data-skin='bezel'][data-theme='light'] {
+  font-family: var(--font-sans-bezel);
+
+  --radius-control: 0.375rem;
+  --duration-press: 80ms;
+
+  /* macOS light window greys. */
+  --background: #dcdcdf;
+  --surface: #f2f2f4;
+  --surface-raised: #fbfbfc;
+  --surface-overlay: #ffffff;
+  --surface-sunken: #e4e4e7;
+  --surface-inset: #e8e8eb;
+  --muted: #e2e2e5;
+  --muted-foreground: #5f5f65;
+
+  --foreground: #1d1d1f;
+  --foreground-muted: #505055;
+  --foreground-subtle: #636369;
+
+  --border: #c9c9ce;
+  --border-muted: #dcdce0;
+  --border-strong: #b0b0b6;
+
+  --primary: #0071e3;
+  --focus: #0071e3;
+  --link: #0062c4;
+  --link-hover: #004f9e;
+  --selection: color-mix(in oklab, #0071e3 24%, transparent);
+
+  --hairline: rgb(0 0 0 / 0.14);
+  --hairline-strong: rgb(0 0 0 / 0.24);
+  --highlight: rgb(255 255 255 / 0.85);
+
+  --chrome-top: #f1f1f3;
+  --chrome-bottom: #dcdcdf;
+  --glass: rgb(242 242 244 / 0.78);
+  --pane-header-top: #f4f4f6;
+  --pane-header-bottom: #e7e7ea;
+
+  --bezel-top: #ffffff;
+  --bezel-bottom: #ececee;
+  --bezel-border: rgb(0 0 0 / 0.2);
+  --bezel-hover-top: #ffffff;
+  --bezel-hover-bottom: #f4f4f6;
+  --bezel-pressed-top: #d4d4d8;
+  --bezel-pressed-bottom: #e0e0e3;
+  --bezel-shadow: 0 0.5px 1px rgb(0 0 0 / 0.14);
+  --bezel-gloss: linear-gradient(to bottom, rgb(255 255 255 / 0.16), rgb(255 255 255 / 0));
+
+  --lcd-top: #eef2f6;
+  --lcd-bottom: #d7dee6;
+  --lcd-border: rgb(0 0 0 / 0.22);
+  --lcd-foreground: #142030;
+  --lcd-muted: #4a5868;
+  --lcd-accent: #0062c4;
+  --lcd-divider: rgb(20 32 48 / 0.16);
+  --lcd-glare: rgb(255 255 255 / 0.65);
+
+  /* A well is a recess cut into the surface; it stays dark in both themes, like a slot in metal. */
+  --well: #26262a;
+  --field: #ffffff;
+  --field-shadow: rgb(0 0 0 / 0.14);
+}
+
+/* ------------------------------------------------------------------------------------- dark */
+[data-skin='bezel'].dark,
+[data-skin='bezel'][data-theme='dark'],
+/* The base theme's system-dark rule is `:root:not(.light):not([data-theme='light'])`, which is
+   more specific than a bare class - so an app that pins `.dark` while the OS is also dark would
+   otherwise keep the base greys. This restates the dark scope specifically enough to win. */
+:root[data-skin='bezel'].dark:not(.light) {
+  /* Logic's graphite: window gutters darkest, panes a step up, raised controls a step more. */
+  --background: #111112;
+  --surface: #222224;
+  --surface-raised: #2c2c2f;
+  --surface-overlay: #2e2e31;
+  --surface-sunken: #171718;
+  --surface-inset: #1a1a1c;
+  --muted: #38383b;
+  --muted-foreground: #a3a3a9;
+
+  --foreground: #ececee;
+  --foreground-muted: #aeaeb4;
+  --foreground-subtle: #98989f;
+
+  --border: #3a3a3e;
+  --border-muted: #2c2c2f;
+  --border-strong: #505056;
+
+  --primary: #0071e3;
+  --focus: #3a96f5;
+  --link: #4aa0f7;
+  --link-hover: #7cbaf9;
+  --selection: color-mix(in oklab, #0a84ff 36%, transparent);
+
+  --hairline: rgb(0 0 0 / 0.62);
+  --hairline-strong: rgb(0 0 0 / 0.85);
+  --highlight: rgb(255 255 255 / 0.07);
+
+  --chrome-top: #3a3a3e;
+  --chrome-bottom: #2a2a2d;
+  --glass: rgb(44 44 47 / 0.72);
+  --pane-header-top: #313134;
+  --pane-header-bottom: #29292c;
+
+  --bezel-top: #4c4c51;
+  --bezel-bottom: #3b3b3f;
+  --bezel-border: rgb(0 0 0 / 0.7);
+  --bezel-hover-top: #56565b;
+  --bezel-hover-bottom: #444448;
+  --bezel-pressed-top: #262628;
+  --bezel-pressed-bottom: #303033;
+  --bezel-shadow: 0 1px 1px rgb(0 0 0 / 0.35);
+  --bezel-gloss: linear-gradient(to bottom, rgb(255 255 255 / 0.16), rgb(255 255 255 / 0));
+
+  --lcd-top: #20262e;
+  --lcd-bottom: #12161b;
+  --lcd-border: rgb(0 0 0 / 0.8);
+  --lcd-foreground: #eef3f8;
+  --lcd-muted: #93a1b2;
+  --lcd-accent: #6cb4ff;
+  --lcd-divider: rgb(255 255 255 / 0.09);
+  --lcd-glare: rgb(255 255 255 / 0.06);
+
+  --well: #0e0e0f;
+  --field: #141416;
+  --field-shadow: rgb(0 0 0 / 0.6);
+}
+
+/* Follow the OS when the app has not pinned a theme, matching the base theme's own fallback. */
+@media (prefers-color-scheme: dark) {
+  [data-skin='bezel']:not(.light):not([data-theme='light']) {
+    --background: #111112;
+    --surface: #222224;
+    --surface-raised: #2c2c2f;
+    --surface-overlay: #2e2e31;
+    --surface-sunken: #171718;
+    --surface-inset: #1a1a1c;
+    --muted: #38383b;
+    --muted-foreground: #a3a3a9;
+
+    --foreground: #ececee;
+    --foreground-muted: #aeaeb4;
+    --foreground-subtle: #98989f;
+
+    --border: #3a3a3e;
+    --border-muted: #2c2c2f;
+    --border-strong: #505056;
+
+    --primary: #0071e3;
+    --focus: #3a96f5;
+    --link: #4aa0f7;
+    --link-hover: #7cbaf9;
+    --selection: color-mix(in oklab, #0a84ff 36%, transparent);
+
+    --hairline: rgb(0 0 0 / 0.62);
+    --hairline-strong: rgb(0 0 0 / 0.85);
+    --highlight: rgb(255 255 255 / 0.07);
+
+    --chrome-top: #3a3a3e;
+    --chrome-bottom: #2a2a2d;
+    --glass: rgb(44 44 47 / 0.72);
+    --pane-header-top: #313134;
+    --pane-header-bottom: #29292c;
+
+    --bezel-top: #4c4c51;
+    --bezel-bottom: #3b3b3f;
+    --bezel-border: rgb(0 0 0 / 0.7);
+    --bezel-hover-top: #56565b;
+    --bezel-hover-bottom: #444448;
+    --bezel-pressed-top: #262628;
+    --bezel-pressed-bottom: #303033;
+    --bezel-shadow: 0 1px 1px rgb(0 0 0 / 0.35);
+    --bezel-gloss: linear-gradient(to bottom, rgb(255 255 255 / 0.16), rgb(255 255 255 / 0));
+
+    --lcd-top: #20262e;
+    --lcd-bottom: #12161b;
+    --lcd-border: rgb(0 0 0 / 0.8);
+    --lcd-foreground: #eef3f8;
+    --lcd-muted: #93a1b2;
+    --lcd-accent: #6cb4ff;
+    --lcd-divider: rgb(255 255 255 / 0.09);
+    --lcd-glare: rgb(255 255 255 / 0.06);
+
+    --well: #0e0e0f;
+    --field: #141416;
+    --field-shadow: rgb(0 0 0 / 0.6);
+  }
+}
+
+/* ------------------------------------------------------------------------------- composites */
+/* The materials the skin is built from. Each is one class so a gradient is never hand-rolled
+   twice, and each reads its values from the scopes above so light and dark need no `dark:`. */
+
+/* Window chrome - a title bar, a status bar: a soft vertical gradient under a top highlight. */
+@utility chrome-bar {
+  background-image: linear-gradient(to bottom, var(--chrome-top), var(--chrome-bottom));
+  box-shadow:
+    inset 0 1px 0 var(--highlight),
+    inset 0 -1px 0 var(--hairline);
+}
+
+/* A translucent toolbar floating over content, blurred like a macOS toolbar. */
+@utility glass-bar {
+  background-color: var(--glass);
+  backdrop-filter: blur(20px) saturate(1.6);
+  -webkit-backdrop-filter: blur(20px) saturate(1.6);
+  box-shadow:
+    inset 0 1px 0 var(--highlight),
+    inset 0 -1px 0 var(--hairline);
+}
+
+/* A pane in the near-black window: graphite, a hairline edge, a highlight along its top. */
+@utility pane {
+  background-color: var(--surface);
+  border: 1px solid var(--hairline-strong);
+  border-radius: 0.5rem;
+  box-shadow: inset 0 1px 0 var(--highlight);
+  /* `clip`, not `hidden`: a hidden pane is a scroll container, which drops its content-based
+     minimum height, so panes in a scrolling list shrink and cut their rows off. */
+  overflow: clip;
+}
+
+/* A pane's title bar: a graded header with a hairline under it. */
+@utility pane-header {
+  background-image: linear-gradient(to bottom, var(--pane-header-top), var(--pane-header-bottom));
+  box-shadow:
+    inset 0 1px 0 var(--highlight),
+    inset 0 -1px 0 var(--hairline);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+/* A raised, gradient-bezelled face. Hover lightens it; pressed - `:active` or
+   `aria-pressed="true"` - sinks it. Use it on chrome controls that are not xUI components; the
+   xUI controls get the same face from the rules further down. */
+@utility bezel {
+  background-image: linear-gradient(to bottom, var(--bezel-top), var(--bezel-bottom));
+  border: 1px solid var(--bezel-border);
+  border-radius: var(--radius-control);
+  box-shadow:
+    inset 0 1px 0 var(--highlight),
+    var(--bezel-shadow);
+  transition: background-image var(--duration-press) ease-out;
+
+  &:hover:not(:disabled) {
+    background-image: linear-gradient(to bottom, var(--bezel-hover-top), var(--bezel-hover-bottom));
+  }
+
+  &:active:not(:disabled),
+  &[aria-pressed='true'] {
+    background-image: linear-gradient(to bottom, var(--bezel-pressed-top), var(--bezel-pressed-bottom));
+    box-shadow: inset 0 1px 2px rgb(0 0 0 / 0.35);
+  }
+}
+
+/* Controls joined into one bezelled capsule split by hairlines; the children carry no face. */
+@utility bezel-group {
+  display: inline-flex;
+  align-items: stretch;
+  overflow: hidden;
+  background-image: linear-gradient(to bottom, var(--bezel-top), var(--bezel-bottom));
+  border: 1px solid var(--bezel-border);
+  border-radius: calc(var(--radius-control) + 1px);
+  box-shadow:
+    inset 0 1px 0 var(--highlight),
+    var(--bezel-shadow);
+
+  & > * {
+    border-radius: 0;
+    background: transparent;
+    border: 0;
+  }
+
+  & > * + * {
+    box-shadow: inset 1px 0 0 var(--hairline);
+  }
+
+  & > *:hover:not(:disabled) {
+    background-image: linear-gradient(to bottom, var(--bezel-hover-top), var(--bezel-hover-bottom));
+  }
+
+  & > *:active:not(:disabled),
+  & > [aria-pressed='true'] {
+    background-image: linear-gradient(to bottom, var(--bezel-pressed-top), var(--bezel-pressed-bottom));
+    box-shadow:
+      inset 1px 0 0 var(--hairline),
+      inset 0 1px 3px rgb(0 0 0 / 0.4);
+  }
+}
+
+/* The LCD: glass with a glare across its top half and an inset edge. */
+@utility lcd-glass {
+  color: var(--lcd-foreground);
+  background-image:
+    linear-gradient(to bottom, var(--lcd-glare), transparent 52%),
+    linear-gradient(to bottom, var(--lcd-top), var(--lcd-bottom));
+  border: 1px solid var(--lcd-border);
+  border-radius: 0.5rem;
+  box-shadow:
+    inset 0 1px 3px rgb(0 0 0 / 0.45),
+    0 1px 0 var(--highlight);
+  font-variant-numeric: tabular-nums;
+}
+
+/* A recess cut into the surface: a gauge's slot, a readout's housing. */
+@utility well {
+  background-color: var(--well);
+  box-shadow:
+    inset 0 1px 2px rgb(0 0 0 / 0.6),
+    0 1px 0 var(--highlight);
+}
+
+/* A group heading inside a pane or an inspector. */
+@utility section-label {
+  color: var(--color-foreground-muted);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* Any figure that changes while you watch it, so the digits do not jitter. */
+@utility readout {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1;
+}
+
+/* ---------------------------------------------------------------------------- xUI controls */
+/*
+ * What makes an xUI control look native here. Every selector reads the `data-variant` /
+ * `data-color` a component reflects, which is its documented contract - so editing a variant map
+ * cannot quietly break this file, the way selecting on the emitted utility classes would.
+ *
+ * Unlayered on purpose: Tailwind's utilities live in a layer, so these win without `!important`.
+ */
+
+/* Outline and dash: a raised bezel face rather than a flat outlined box. */
+[data-skin='bezel'] [xuiButton]:where([data-variant='outline'], [data-variant='dash']) {
+  background-color: transparent;
+  background-image: linear-gradient(to bottom, var(--bezel-top), var(--bezel-bottom));
+  border-color: var(--bezel-border);
+  color: var(--color-foreground);
+  box-shadow:
+    inset 0 1px 0 var(--highlight),
+    var(--bezel-shadow);
+  transition: background-image var(--duration-press) ease-out;
+
+  &:hover:not(:disabled) {
+    background-color: transparent;
+    background-image: linear-gradient(to bottom, var(--bezel-hover-top), var(--bezel-hover-bottom));
+    color: var(--color-foreground);
+  }
+
+  &:active:not(:disabled),
+  &[aria-pressed='true'] {
+    background-image: linear-gradient(to bottom, var(--bezel-pressed-top), var(--bezel-pressed-bottom));
+    box-shadow: inset 0 1px 2px rgb(0 0 0 / 0.35);
+  }
+}
+
+/*
+ * A destructive outline button keeps the ordinary face and puts the intent in its label, turning
+ * red only under the pointer - so the colour arrives as the click is about to happen.
+ */
+[data-skin='bezel'] [xuiButton]:where([data-variant='outline'], [data-variant='dash'])[data-color='error'] {
+  color: var(--color-error);
+
+  &:hover:not(:disabled) {
+    border-color: rgb(0 0 0 / 0.45);
+    background-color: var(--color-error);
+    background-image: var(--bezel-gloss);
+    color: var(--color-error-foreground);
+  }
+}
+
+/* Filled buttons: macOS's default-button gloss over whatever intent they carry. */
+[data-skin='bezel'] [xuiButton][data-variant='default'] {
+  background-image: var(--bezel-gloss);
+  border-color: rgb(0 0 0 / 0.45);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.2),
+    var(--bezel-shadow);
+}
+
+/* Ghost buttons are toolbar icons and list rows: quiet until pressed, then a sunken key. */
+[data-skin='bezel'] [xuiButton][data-variant='ghost'] {
+  &:active:not(:disabled),
+  &[aria-pressed='true'] {
+    background-image: linear-gradient(to bottom, var(--bezel-pressed-top), var(--bezel-pressed-bottom));
+    box-shadow: inset 0 1px 2px rgb(0 0 0 / 0.35);
+  }
+}
+
+/* A joined group is one capsule, so the members lose their own edges and are split by hairlines. */
+[data-skin='bezel'] [xuiButtonGroup] {
+  border-radius: calc(var(--radius-control) + 1px);
+  box-shadow: var(--bezel-shadow);
+
+  & > [xuiButton] + [xuiButton] {
+    box-shadow:
+      inset 1px 0 0 var(--hairline),
+      inset 0 1px 0 var(--highlight);
+  }
+}
+
+/* Anything typed into reads as a recess: a pale field in light, a deep one in dark. */
+[data-skin='bezel'] [xuiInput],
+[data-skin='bezel'] textarea[xuiTextarea],
+[data-skin='bezel'] :is(xui-select, xui-suggest, xui-multi-select, xui-tag-input, xui-numeric-input) {
+  /* The controls fill themselves with `bg-surface-inset`; re-pointing that token on the control
+     itself sinks the field without having to restate what the component paints. */
+  --surface-inset: var(--field);
+}
+
+[data-skin='bezel'] [xuiInput],
+[data-skin='bezel'] textarea[xuiTextarea] {
+  box-shadow: inset 0 1px 2px var(--field-shadow);
+}
