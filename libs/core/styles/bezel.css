@@ -579,17 +579,6 @@
     box-shadow: none;
   }
 
-  /* A key, with the bezel's face and a little depth under it. */
-  & kbd {
-    background-color: transparent;
-    background-image: linear-gradient(to bottom, var(--bezel-top), var(--bezel-bottom));
-    border-color: var(--bezel-border);
-    border-radius: calc(var(--radius-control) - 2px);
-    box-shadow:
-      inset 0 1px 0 var(--highlight),
-      var(--bezel-shadow);
-  }
-
   /* The quote bar is a rule, not a slab: four pixels of accent is a web convention, and reads as
      decoration next to chrome this quiet. */
   & blockquote {
@@ -604,6 +593,28 @@
   & td {
     border-color: var(--hairline);
   }
+}
+
+/*
+ * Keys as keycaps.
+ *
+ * The bezel face again, but the shadow under it is hard rather than blurred - a single dark line
+ * along the bottom edge, which is what reads as a moulded key rather than a chip with a drop
+ * shadow. The label brightens to the ordinary foreground; `kbd` ships muted, which is right for a
+ * flat chip and too quiet once the cap has depth.
+ *
+ * Both the component and a bare `<kbd>` in prose, since markdown writes the latter.
+ */
+[data-skin='bezel'] [xuiKbd],
+[data-skin='bezel'] [xuiProse] kbd {
+  background-color: transparent;
+  background-image: linear-gradient(to bottom, var(--bezel-top), var(--bezel-bottom));
+  border-color: var(--bezel-border);
+  border-radius: calc(var(--radius-control) - 1px);
+  box-shadow:
+    inset 0 1px 0 var(--highlight),
+    0 1px 0 rgb(0 0 0 / 0.45);
+  color: var(--color-foreground);
 }
 
 /* Anything typed into reads as a recess: a pale field in light, a deep one in dark. */
