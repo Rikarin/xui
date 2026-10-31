@@ -514,18 +514,6 @@
   }
 }
 
-/* A joined group is one capsule, so the members lose their own edges and are split by hairlines. */
-[data-skin='bezel'] [xuiButtonGroup] {
-  border-radius: calc(var(--radius-control) + 1px);
-  box-shadow: var(--bezel-shadow);
-
-  & > [xuiButton] + [xuiButton] {
-    box-shadow:
-      inset 1px 0 0 var(--hairline),
-      inset 0 1px 0 var(--highlight);
-  }
-}
-
 /*
  * A code block is a readonly text surface, so it reads as the same recess a field does rather than
  * as another panel sitting on the pane: sunk into the surface, hairline-edged, with the shadow
