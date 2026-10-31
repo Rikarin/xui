@@ -888,29 +888,59 @@
 
 /*
  * The card draws its own box, switch and dot rather than embedding the components, so none of the
- * checkable rules reach it. Same face: cut in when it is off, filled and glossed when it is on.
+ * checkable rules reach it. These mirror them, keyed on the role the card reports, so a card reads
+ * the same as the control it stands in for.
  */
 [data-skin='bezel'] xui-control-card > span[aria-hidden='true'] {
-  border-color: var(--hairline-strong);
+  /* Cut below the card rather than below the window, the same re-pointing the checkbox needs. */
+  --surface-inset: var(--field);
   box-shadow:
     inset 0 1px 2px var(--field-shadow),
     0 1px 0 var(--highlight);
 }
 
-[data-skin='bezel'] xui-control-card[aria-checked='true'] > span[aria-hidden='true'] {
+/* The neutral edge only where nothing is picked, so a ticked box keeps the accent ring it paints. */
+[data-skin='bezel'] xui-control-card[aria-checked='false'] > span[aria-hidden='true'] {
+  border-color: var(--hairline-strong);
+}
+
+/* Only a checkbox fills and lifts when it is ticked. */
+[data-skin='bezel'] xui-control-card[role='checkbox'][aria-checked='true'] > span[aria-hidden='true'] {
   background-image: var(--bezel-gloss);
   box-shadow:
     inset 0 1px 0 rgb(255 255 255 / 0.2),
     var(--bezel-shadow);
 }
 
-/* Its switch rides the same metal knob the real one does. */
-[data-skin='bezel'] xui-control-card > span[aria-hidden='true'] > span {
-  background-image: linear-gradient(to bottom, var(--knob-top), var(--knob-bottom));
-  box-shadow:
-    0 0 0 0.5px rgb(0 0 0 / 0.55),
-    0 1px 2px rgb(0 0 0 / 0.45),
-    inset 0 1px 0 rgb(255 255 255 / 0.6);
+/* The switch is a slot the knob rides in, on or off, so only the colour of the fill changes. */
+[data-skin='bezel'] xui-control-card[role='switch'] > span[aria-hidden='true'] {
+  background-image: linear-gradient(to bottom, rgb(0 0 0 / 0.22), transparent 70%);
+
+  /* Its knob is the same turned metal the real one rides on. */
+  & > span {
+    background-image: linear-gradient(to bottom, var(--knob-top), var(--knob-bottom));
+    box-shadow:
+      0 0 0 0.5px rgb(0 0 0 / 0.55),
+      0 1px 2px rgb(0 0 0 / 0.45),
+      inset 0 1px 0 rgb(255 255 255 / 0.6);
+  }
+}
+
+[data-skin='bezel'] xui-control-card[role='switch'][aria-checked='true'] > span[aria-hidden='true'] {
+  border-color: color-mix(in oklab, var(--primary) 55%, black);
+}
+
+/*
+ * A radio stays a well whether or not it is picked, so the accent goes into the ring and the dot
+ * rather than flooding the floor - the card paints a white dot on blue, which is the one place it
+ * parts company with the component.
+ */
+[data-skin='bezel'] xui-control-card[role='radio'][aria-checked='true'] > span[aria-hidden='true'] {
+  background-color: var(--field);
+
+  & > span {
+    background-color: var(--primary);
+  }
 }
 
 /*
