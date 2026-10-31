@@ -63,6 +63,7 @@ import type { ClassValue } from 'clsx';
           <li
             role="option"
             [class]="optionClass(item)"
+            [attr.data-active]="list.isActive(item) ? '' : null"
             [attr.aria-selected]="item === value()"
             (click)="choose(item)"
             (mouseenter)="list.setActiveItem(item)"
