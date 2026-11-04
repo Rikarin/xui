@@ -202,14 +202,16 @@ describe('injectXOverlay', () => {
     expect(document.activeElement).toBe(inner);
   });
 
-  it('matches the origin width when asked', () => {
+  it('takes the origin width as a floor when asked', () => {
     const fixture = setup();
     const trigger = fixture.componentInstance.trigger().nativeElement;
     jest.spyOn(trigger, 'getBoundingClientRect').mockReturnValue({ width: 240 } as DOMRect);
 
     fixture.componentInstance.open({ matchOriginWidth: true });
 
-    expect((pane() as HTMLElement).style.width).toBe('240px');
+    // A minimum, not a width: a row longer than the trigger widens the overlay rather than wrapping.
+    expect((pane() as HTMLElement).style.minWidth).toBe('240px');
+    expect((pane() as HTMLElement).style.width).toBe('');
   });
 
   it('throws when a connected overlay has no origin', () => {

@@ -48,7 +48,10 @@ export interface XOverlayConfig {
   offset?: number;
   /** Whether the overlay may flip/shift to stay in the viewport. */
   flip?: boolean;
-  /** Match the overlay's width to the trigger's — for select-style dropdowns. */
+  /**
+   * Give the overlay the trigger's width as a minimum — for select-style dropdowns. It still
+   * grows past it where its content needs the room, so a long row stays on one line.
+   */
   matchOriginWidth?: boolean;
 
   hasBackdrop?: boolean;

@@ -90,7 +90,8 @@ export type XuiTagColor = NonNullable<XuiTagVariants['color']>;
   `,
   host: {
     '[class]': 'computedClass()',
-    '[attr.data-color]': 'color()'
+    '[attr.data-color]': 'color()',
+    '[attr.data-minimal]': 'minimal() ? "" : null'
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,

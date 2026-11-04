@@ -57,7 +57,7 @@ import { CodeBlock } from './code-block';
         <xui-tab [id]="'preview-' + anchor()" title="Preview">
           <div
             data-preview-frame
-            class="border-border bg-background min-h-24 rounded-lg border p-6"
+            class="border-border bg-surface min-h-24 rounded-lg border p-6"
             [class.overflow-x-auto]="scrollable()"
           >
             @if (preview(); as component) {

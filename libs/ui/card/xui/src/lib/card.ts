@@ -5,45 +5,51 @@ import { cva, VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
 import { injectXuiCardConfig } from './card.token';
 
-export const cardVariants = cva('bg-surface-raised text-foreground block rounded-lg transition-shadow', {
-  variants: {
-    /** Drop-shadow depth, from flat to floating. Reads the `--elevation-*` tokens. */
-    elevation: {
-      0: 'shadow-elevation-0',
-      1: 'shadow-elevation-1',
-      2: 'shadow-elevation-2',
-      3: 'shadow-elevation-3',
-      4: 'shadow-elevation-4'
+export const cardVariants = cva(
+  // A column rather than a block: on a `button` host the browser centres the content box inside
+  // the button, so a card stretched to a taller sibling floated its content - title included -
+  // down the middle of itself. A flex column lays it out from the top whatever the host is.
+  'bg-surface-raised text-foreground flex flex-col items-stretch rounded-lg transition-shadow',
+  {
+    variants: {
+      /** Drop-shadow depth, from flat to floating. Reads the `--elevation-*` tokens. */
+      elevation: {
+        0: 'shadow-elevation-0',
+        1: 'shadow-elevation-1',
+        2: 'shadow-elevation-2',
+        3: 'shadow-elevation-3',
+        4: 'shadow-elevation-4'
+      },
+      interactive: {
+        true: 'cursor-pointer',
+        false: ''
+      },
+      selected: {
+        true: 'ring-primary ring-2',
+        false: ''
+      },
+      compact: {
+        true: 'p-3',
+        false: 'p-5'
+      }
     },
-    interactive: {
-      true: 'cursor-pointer',
-      false: ''
-    },
-    selected: {
-      true: 'ring-primary ring-2',
-      false: ''
-    },
-    compact: {
-      true: 'p-3',
-      false: 'p-5'
+    compoundVariants: [
+      // An interactive card lifts one step on hover. Written per elevation
+      // because Tailwind cannot compute "one step up" from a variable.
+      { interactive: true, elevation: 0, class: 'hover:shadow-elevation-1' },
+      { interactive: true, elevation: 1, class: 'hover:shadow-elevation-2' },
+      { interactive: true, elevation: 2, class: 'hover:shadow-elevation-3' },
+      { interactive: true, elevation: 3, class: 'hover:shadow-elevation-4' },
+      { interactive: true, elevation: 4, class: 'hover:shadow-elevation-4' }
+    ],
+    defaultVariants: {
+      elevation: 0,
+      interactive: false,
+      selected: false,
+      compact: false
     }
-  },
-  compoundVariants: [
-    // An interactive card lifts one step on hover. Written per elevation
-    // because Tailwind cannot compute "one step up" from a variable.
-    { interactive: true, elevation: 0, class: 'hover:shadow-elevation-1' },
-    { interactive: true, elevation: 1, class: 'hover:shadow-elevation-2' },
-    { interactive: true, elevation: 2, class: 'hover:shadow-elevation-3' },
-    { interactive: true, elevation: 3, class: 'hover:shadow-elevation-4' },
-    { interactive: true, elevation: 4, class: 'hover:shadow-elevation-4' }
-  ],
-  defaultVariants: {
-    elevation: 0,
-    interactive: false,
-    selected: false,
-    compact: false
   }
-});
+);
 
 export type XuiCardVariants = VariantProps<typeof cardVariants>;
 export type XuiCardElevation = NonNullable<XuiCardVariants['elevation']>;
@@ -65,6 +71,8 @@ export type XuiCardElevation = NonNullable<XuiCardVariants['elevation']>;
   exportAs: 'xuiCard',
   host: {
     '[class]': 'computedClass()',
+    '[attr.data-elevation]': 'elevation()',
+    '[attr.data-compact]': 'compact() ? "" : null',
     // `aria-selected` is only valid on a handful of roles (option, row, tab,
     // gridcell, treeitem) — on a plain button or link it is an invalid-attribute
     // violation. A toggling button is `aria-pressed`; a link marking the current

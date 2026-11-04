@@ -123,6 +123,9 @@
   --well: #26262a;
   --field: #ffffff;
   --field-shadow: rgb(0 0 0 / 0.14);
+  /* The same recess read all round a small round control rather than as a crease along its top,
+     where the field's own strength would leave more shadow than floor. */
+  --well-shadow: rgb(0 0 0 / 0.07);
 }
 
 /* ------------------------------------------------------------------------------------- dark */
@@ -194,6 +197,7 @@
   --well: #0e0e0f;
   --field: #141416;
   --field-shadow: rgb(0 0 0 / 0.6);
+  --well-shadow: rgb(0 0 0 / 0.26);
 }
 
 /* Follow the OS when the app has not pinned a theme, matching the base theme's own fallback. */
@@ -260,6 +264,7 @@
     --well: #0e0e0f;
     --field: #141416;
     --field-shadow: rgb(0 0 0 / 0.6);
+    --well-shadow: rgb(0 0 0 / 0.26);
   }
 }
 
@@ -667,6 +672,9 @@
  * dropdown on the web and a different control here. The component's own icon steps aside for it.
  */
 [data-skin='bezel'] :is(xui-select, xui-cascader, xui-tree-select) > button {
+  /* A label that runs the width of the control would otherwise end against the chevrons. */
+  column-gap: 0.625rem;
+
   & > ng-icon,
   & > svg {
     display: none;
@@ -677,9 +685,52 @@
     flex-shrink: 0;
     width: 0.5rem;
     height: 0.75rem;
-    /* The icons it replaces carry `ms-auto`, so it takes the same place at the end of the row. */
+    /* The icons it replaces carry `ms-auto`, so it takes the same place at the end of the row.
+       The room before it is the row's gap, below: padding here would only widen the box the
+       mask is centred in, which moves the glyph rather than making space for it. */
     margin-inline-start: auto;
-    padding-inline-start: 0.5rem;
+    background-color: var(--color-foreground-muted);
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 12' fill='none' stroke='black' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M1.5 4.25 4 1.75l2.5 2.5M1.5 7.75 4 10.25l2.5-2.5'/%3E%3C/svg%3E")
+      center / contain no-repeat;
+  }
+}
+
+/*
+ * The native select is a pop-up button too, but the framed box is the component's host rather than
+ * a button it owns, so the face goes there and the real `select` inside stays transparent. There
+ * is no open state to read - the platform's list is not the page's - so it marks the press only.
+ */
+[data-skin='bezel'] xui-html-select {
+  background-color: transparent;
+  background-image: linear-gradient(to bottom, var(--bezel-top), var(--bezel-bottom));
+  border-color: var(--bezel-border);
+  border-radius: var(--radius-control);
+  box-shadow:
+    inset 0 1px 0 var(--highlight),
+    var(--bezel-shadow);
+  transition: background-image var(--duration-press) ease-out;
+
+  &:hover:not(:has(select:disabled)) {
+    background-image: linear-gradient(to bottom, var(--bezel-hover-top), var(--bezel-hover-bottom));
+  }
+
+  &:active:not(:has(select:disabled)) {
+    background-image: linear-gradient(to bottom, var(--bezel-pressed-top), var(--bezel-pressed-bottom));
+    box-shadow: inset 0 1px 2px rgb(0 0 0 / 0.35);
+  }
+
+  /* The two chevrons, as on every other pop-up button, in place of the component's single one. */
+  & > ng-icon {
+    display: none;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset-inline-end: 0.5rem;
+    width: 0.5rem;
+    height: 0.75rem;
+    pointer-events: none;
     background-color: var(--color-foreground-muted);
     mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 12' fill='none' stroke='black' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M1.5 4.25 4 1.75l2.5 2.5M1.5 7.75 4 10.25l2.5-2.5'/%3E%3C/svg%3E")
       center / contain no-repeat;
@@ -710,7 +761,10 @@
  * black shadow are both invisible. Both stay low: an edge you notice as an outline looks worse
  * than no edge at all, which is the first thing that went wrong here.
  */
+/* A date picker opened from a field draws its own surface inside a bare panel, so it is one of
+   these rather than something sitting on one. Shown inline it stays the pane the component made. */
 [data-skin='bezel'] :is(xui-popover-panel, xui-menu),
+[data-skin='bezel'] .cdk-overlay-pane :is(xui-date-picker, xui-date-range-picker),
 [data-skin='bezel'] [data-part='panel'] {
   border-color: var(--menu-edge);
   border-radius: 0.5rem;
@@ -807,13 +861,28 @@
      token at `--field` cuts the box below whatever it sits on, as it does for a text field. */
   --surface-inset: var(--field);
   box-shadow:
-    inset 0 1px 2px var(--field-shadow),
+    inset 0 0 2px var(--well-shadow),
     0 1px 0 var(--highlight);
 }
 
-/* The component only fills the unpicked radio, so the picked one would be a well with no floor. */
+/*
+ * A picked radio is built like the switch, and like the control card's own: the component only
+ * fills the unpicked one, so the well is filled here with the accent, keeps the concave shading
+ * the track has, and holds a bead of the same turned metal the knob is made of.
+ */
 [data-skin='bezel'] xui-radio[data-state='checked'] {
-  background-color: var(--field);
+  background-color: var(--primary);
+  background-image: linear-gradient(to bottom, rgb(0 0 0 / 0.22), transparent 70%);
+  border-color: color-mix(in oklab, var(--primary) 55%, black);
+
+  /* Smaller than the knob, so the drop under it is a single pixel rather than the knob's two. */
+  & > span {
+    background-image: linear-gradient(to bottom, var(--knob-top), var(--knob-bottom));
+    box-shadow:
+      0 0 0 0.5px rgb(0 0 0 / 0.55),
+      0 1px 1px rgb(0 0 0 / 0.45),
+      inset 0 1px 0 rgb(255 255 255 / 0.6);
+  }
 }
 
 /* The neutral edge, only where the component has not marked one - a picked radio keeps its ring. */
@@ -843,7 +912,7 @@
   background-image: linear-gradient(to bottom, rgb(0 0 0 / 0.22), transparent 70%);
   border-color: var(--hairline-strong);
   box-shadow:
-    inset 0 1px 2px var(--field-shadow),
+    inset 0 0 2px var(--well-shadow),
     0 1px 0 var(--highlight);
 
   &[data-state='checked'] {
@@ -895,7 +964,7 @@
   /* Cut below the card rather than below the window, the same re-pointing the checkbox needs. */
   --surface-inset: var(--field);
   box-shadow:
-    inset 0 1px 2px var(--field-shadow),
+    inset 0 0 2px var(--well-shadow),
     0 1px 0 var(--highlight);
 }
 
@@ -931,16 +1000,759 @@
 }
 
 /*
- * A radio stays a well whether or not it is picked, so the accent goes into the ring and the dot
- * rather than flooding the floor - the card paints a white dot on blue, which is the one place it
- * parts company with the component.
+ * The card's radio is built like its switch rather than like the component: the well fills with
+ * the accent and keeps the concave shading, and the dot is a bead of the same turned metal the
+ * knob is made of. On a card the control is read at a glance from across the pane, so the filled
+ * well carries further than an accent ring would.
  */
 [data-skin='bezel'] xui-control-card[role='radio'][aria-checked='true'] > span[aria-hidden='true'] {
-  background-color: var(--field);
+  background-image: linear-gradient(to bottom, rgb(0 0 0 / 0.22), transparent 70%);
+  border-color: color-mix(in oklab, var(--primary) 55%, black);
 
+  /* Smaller than the knob, so the drop is a single pixel rather than the knob's two. */
   & > span {
-    background-color: var(--primary);
+    background-image: linear-gradient(to bottom, var(--knob-top), var(--knob-bottom));
+    box-shadow:
+      0 0 0 0.5px rgb(0 0 0 / 0.55),
+      0 1px 1px rgb(0 0 0 / 0.45),
+      inset 0 1px 0 rgb(255 255 255 / 0.6);
   }
+}
+
+/*
+ * Its trigger is a plain span rather than a button, so the bezel is drawn here rather than picked
+ * up from the button rule. The whole field is the click target, so the face lights on the label's
+ * hover rather than its own.
+ */
+[data-skin='bezel'] xui-file-input > label > span:not(.min-w-0) {
+  background-color: transparent;
+  background-image: linear-gradient(to bottom, var(--bezel-top), var(--bezel-bottom));
+  border-color: var(--bezel-border);
+  box-shadow:
+    inset 0 1px 0 var(--highlight),
+    var(--bezel-shadow);
+}
+
+[data-skin='bezel'] xui-file-input > label:hover:not(:has(:disabled)) > span:not(.min-w-0) {
+  background-image: linear-gradient(to bottom, var(--bezel-hover-top), var(--bezel-hover-bottom));
+}
+
+[data-skin='bezel'] xui-file-input > label:active:not(:has(:disabled)) > span:not(.min-w-0) {
+  background-image: linear-gradient(to bottom, var(--bezel-pressed-top), var(--bezel-pressed-bottom));
+  box-shadow: inset 0 1px 2px rgb(0 0 0 / 0.35);
+}
+
+/*
+ * Editing turns a label into a field, so it takes a field's face rather than the bare outline the
+ * component draws. At rest it stays a label - the hover plate is all that marks it, which is how
+ * a filename behaves in the Finder - so the plate is pointed at the colour the field will be.
+ *
+ * The box grows outward by its own padding, so the text does not shift as it opens.
+ */
+[data-skin='bezel'] xui-editable-text {
+  --surface-inset: var(--field);
+}
+
+[data-skin='bezel'] xui-editable-text :is(input, textarea) {
+  background-color: var(--field);
+  border: 1px solid var(--hairline-strong);
+  border-radius: var(--radius-control);
+  box-shadow:
+    inset 0 1px 0 var(--field-shadow),
+    inset 0 2px 3px var(--field-shadow),
+    0 1px 0 var(--highlight);
+  padding-inline: 0.25rem;
+  margin-inline: -0.25rem;
+}
+
+/*
+ * A code field is a row of little wells, one per character, each cut in the way a text field is.
+ * The slot the next character lands in keeps the accent ring the component paints, which is the
+ * only thing that moves as you type.
+ */
+[data-skin='bezel'] xui-input-otp [data-part='slot'] {
+  background-color: var(--field);
+  border-radius: var(--radius-control);
+  box-shadow:
+    inset 0 1px 0 var(--field-shadow),
+    inset 0 2px 3px var(--field-shadow),
+    0 1px 0 var(--highlight);
+
+  &:not([data-active]) {
+    border-color: var(--hairline-strong);
+  }
+}
+
+/*
+ * A tag is a capsule of the theme's material, which in Cathode means a faint fill, a hairline edge
+ * and a light along the top barely above nothing - not a plate. Anything heavier reads as a button
+ * you can press, and a row of them turns a field into a toolbar. The fill and the edge are the
+ * component's, per intent; all this adds is the light and the shadow that lifts it off a field.
+ *
+ * `data-part="chip"` is the tree select's, which borrows the tag's variants but cannot nest a
+ * real one: its trigger is a button, and a tag's remove control is a button too.
+ */
+[data-skin='bezel'] :is(xui-tag, [data-part='chip']) {
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.1),
+    0 1px 1px rgb(0 0 0 / 0.25);
+}
+
+/*
+ * A minimal tag is a 15% wash of its intent, which is enough on a flat page and not enough on a
+ * bezel - a chip in a pop-up button's face all but disappeared. Mixing from `currentColor`, which
+ * the component already sets to the intent, raises the wash without naming any of the six.
+ */
+[data-skin='bezel'] :is(xui-tag, [data-part='chip'])[data-minimal] {
+  background-color: color-mix(in oklab, currentColor 30%, transparent);
+  border-color: color-mix(in oklab, currentColor 60%, transparent);
+}
+
+/*
+ * A multi-selectable list draws its own tick inside the row, and this skin draws one in the
+ * gutter, so a picked row carried two. The gutter is the macOS place for it and it turns white
+ * with the row when the keys are on it, where the component's stays its own colour - so the
+ * component's steps aside. `aria-multiselectable` is what says that leading icon is a tick.
+ */
+[data-skin='bezel'] ul[aria-multiselectable='true'] li[role='option'] > ng-icon:first-child {
+  display: none;
+}
+
+/*
+ * A number field, as Cathode's: the field itself stays the recess it already is, and the steppers
+ * joined to its end are two bezelled keys rather than part of the well. The column's dividing
+ * rule gives way to the bezel's own edge, and the two keys are parted by a hairline.
+ *
+ * The wrapper clips to `--radius-control`, so the outer corners need no rounding here.
+ */
+[data-skin='bezel'] xui-numeric-input > div {
+  border-color: var(--bezel-border);
+
+  & > button {
+    background-image: linear-gradient(to bottom, var(--bezel-top), var(--bezel-bottom));
+    box-shadow: inset 0 1px 0 var(--highlight);
+    transition: background-image var(--duration-press) ease-out;
+  }
+
+  & > button + button {
+    box-shadow: inset 0 1px 0 var(--hairline);
+  }
+
+  & > button:hover:not(:disabled) {
+    background-image: linear-gradient(to bottom, var(--bezel-hover-top), var(--bezel-hover-bottom));
+  }
+
+  & > button:active:not(:disabled) {
+    background-image: linear-gradient(to bottom, var(--bezel-pressed-top), var(--bezel-pressed-bottom));
+  }
+}
+
+/*
+ * The paginator's keys are plain buttons the component draws itself, so nothing in this file
+ * reached them and a row of outlined boxes sat on the metal. They take the same face every other
+ * key does; the current page keeps the accent fill the component paints, cut in rather than
+ * raised, because it is the one that cannot be pressed.
+ */
+[data-skin='bezel'] xui-pagination > button {
+  background-image: linear-gradient(to bottom, var(--bezel-top), var(--bezel-bottom));
+  border-color: var(--bezel-border);
+  border-radius: var(--radius-control);
+  box-shadow:
+    inset 0 1px 0 var(--highlight),
+    var(--bezel-shadow);
+  transition: background-image var(--duration-press) ease-out;
+
+  &:hover:not(:disabled) {
+    background-image: linear-gradient(to bottom, var(--bezel-hover-top), var(--bezel-hover-bottom));
+  }
+
+  &:active:not(:disabled) {
+    background-image: linear-gradient(to bottom, var(--bezel-pressed-top), var(--bezel-pressed-bottom));
+    box-shadow: inset 0 1px 2px rgb(0 0 0 / 0.35);
+  }
+
+  /* The page you are on: the component fills it, and the fill sits in the surface, not on it. */
+  &[aria-current='page'] {
+    background-image: linear-gradient(to bottom, rgb(0 0 0 / 0.22), transparent 70%);
+    border-color: color-mix(in oklab, var(--primary) 55%, black);
+    box-shadow: inset 0 0 2px var(--well-shadow);
+  }
+}
+
+/*
+ * A rating is two stacked glyphs, an empty star and a lit one clipped to the score. A glyph takes
+ * its depth from its own outline rather than from a box, so this is drawn with drop shadows: the
+ * empty star is scored into the surface, shaded along its top and catching the light underneath,
+ * and the lit one stands on it with a shadow beneath.
+ *
+ * `data-color` is the component's own hook, so neither rule depends on a utility class.
+ */
+[data-skin='bezel'] xui-rate ng-icon[data-color='subtle'] {
+  /* A hole is darker than what it is cut into, in either theme, which is why this mixes toward
+     black from the surface rather than using a grey from the ramp. The component's own subtle
+     grey was lighter than the metal and read as a sticker laid on it. */
+  color: color-mix(in oklab, var(--surface) 80%, black);
+  /* `--highlight` is a hairline's worth of white and disappears against a glyph, so the catch
+     light under the cut is set here. */
+  filter: drop-shadow(0 1px 0 rgb(255 255 255 / 0.16));
+}
+
+[data-skin='bezel'] xui-rate ng-icon[data-color='warning'] {
+  filter: drop-shadow(0 1px 1.5px rgb(0 0 0 / 0.55));
+}
+
+/*
+ * A rich text editor is a writing well with a toolbar laid across its top, which is how a macOS
+ * document window is built: the chrome is a bar of its own material, and everything below it is
+ * the page you type on. The component paints both out of flat surface tokens, so neither read.
+ *
+ * The host is the well. Its own `overflow-hidden` keeps the bar's corners, so only the recess is
+ * drawn here. The border is left to the component where focus or an invalid value means
+ * something by it, as it is for every other field.
+ */
+[data-skin='bezel'] xui-rich-text-editor {
+  --surface-inset: var(--field);
+  box-shadow:
+    inset 0 1px 0 var(--field-shadow),
+    inset 0 2px 3px var(--field-shadow),
+    0 1px 0 var(--highlight);
+
+  &:not(:focus-within, .ng-invalid.ng-touched) {
+    border-color: var(--hairline-strong);
+  }
+}
+
+/*
+ * The toolbar and the link bar are the chrome: a graded bar closed by a hairline along its foot,
+ * sitting over the well rather than in it. Their `bg-surface-sunken` is the flat fill that made
+ * them vanish into the page.
+ */
+[data-skin='bezel'] xui-rich-text-editor > :is([role='toolbar'], div:has(> input)) {
+  background-color: transparent;
+  background-image: linear-gradient(to bottom, var(--chrome-top), var(--chrome-bottom));
+  border-bottom-color: var(--hairline-strong);
+  box-shadow:
+    inset 0 1px 0 var(--highlight),
+    inset 0 -1px 0 var(--hairline);
+}
+
+/*
+ * A formatting tool is a toggle, not a key you launch something with, so it stays part of the bar
+ * until you touch it: hover lifts it a little and the set state sinks it, the way a pressed
+ * toolbar button does in macOS. Raising all of them would turn the bar into a keyboard.
+ */
+[data-skin='bezel'] xui-rich-text-editor button {
+  border-radius: var(--radius-control);
+
+  &:enabled:hover {
+    background-image: linear-gradient(to bottom, var(--bezel-hover-top), var(--bezel-hover-bottom));
+    box-shadow: inset 0 1px 0 var(--highlight);
+  }
+
+  &[data-active] {
+    background-color: transparent;
+    background-image: linear-gradient(to bottom, rgb(0 0 0 / 0.22), transparent 70%);
+    box-shadow: inset 0 0 2px var(--well-shadow);
+  }
+}
+
+/*
+ * A segmented control, as Cathode has it: a sunken track with one bezelled key riding in it. The
+ * unpicked segments carry no face at all - only the chosen one is raised, which is what says the
+ * set is one control rather than a row of buttons.
+ */
+[data-skin='bezel'] xui-segmented-control {
+  --surface-inset: var(--field);
+  border-color: var(--hairline);
+  box-shadow: inset 0 1px 1px rgb(0 0 0 / 0.18);
+}
+
+[data-skin='bezel'] xui-segmented-control [role='radio'][aria-checked='true'] {
+  background-image: linear-gradient(to bottom, var(--bezel-top), var(--bezel-bottom));
+  box-shadow:
+    inset 0 1px 0 var(--highlight),
+    0 0 0 0.5px var(--bezel-border),
+    var(--bezel-shadow);
+}
+
+/*
+ * Scrollbars, everywhere in the skin, as Cathode has them: thin and rounded, a transparent track
+ * and a thumb in the theme's own border colour that brightens under the pointer, so they read as
+ * part of the surface rather than as the operating system's chrome.
+ *
+ * Giving the pseudo-elements a width also takes them out of the overlay scrollbars macOS fades
+ * away, which is the point: in a window built of panes you want to see what scrolls.
+ *
+ * The thumb is drawn inside a transparent border, so its 4px of visible width sits in a 10px
+ * hit target - small to look at, still catchable with a pointer.
+ */
+@supports not selector(::-webkit-scrollbar) {
+  /* Firefox's two properties, only where the WebKit ones are missing: Chromium ignores them once
+     the pseudo-elements are set. */
+  [data-skin='bezel'] * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-strong) transparent;
+  }
+}
+
+:is([data-skin='bezel'], [data-skin='bezel'] *)::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+  /* The widget itself, not just its track: left to the browser it paints its own plate over the
+     element's background, which is what shows beside a pinned header as a strip the bar stops
+     at. Transparent, the element's own background runs the full width under it. */
+  background: transparent;
+}
+
+:is([data-skin='bezel'], [data-skin='bezel'] *)::-webkit-scrollbar-track,
+:is([data-skin='bezel'], [data-skin='bezel'] *)::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+:is([data-skin='bezel'], [data-skin='bezel'] *)::-webkit-scrollbar-thumb {
+  border: 3px solid transparent;
+  border-radius: 9999px;
+  background: var(--border-strong) padding-box;
+}
+
+:is([data-skin='bezel'], [data-skin='bezel'] *)::-webkit-scrollbar-thumb:hover {
+  background: var(--foreground-subtle) padding-box;
+}
+
+/*
+ * A slider as macOS's: the track a groove cut into the surface, with the accent sitting in it,
+ * and riding on top the same knob of turned metal the switch has. The component rings its handle
+ * in the accent at two pixels, which is a web idiom - here the knob is metal and its rim is a
+ * hairline, so the border gives way to the knob's own shadow stack.
+ */
+[data-skin='bezel'] xui-slider > div:has(> [role='slider']) {
+  --surface-inset: var(--field);
+  box-shadow:
+    inset 0 1px 1px var(--field-shadow),
+    0 1px 0 var(--highlight);
+}
+
+[data-skin='bezel'] xui-slider [role='slider'] {
+  border: 0;
+  background-color: transparent;
+  background-image: linear-gradient(to bottom, var(--knob-top), var(--knob-bottom));
+  box-shadow:
+    0 0 0 0.5px rgb(0 0 0 / 0.55),
+    0 1px 2px rgb(0 0 0 / 0.45),
+    inset 0 1px 0 rgb(255 255 255 / 0.6);
+}
+
+/*
+ * A transfer is two panes with a pair of keys between them, and the component builds all of it
+ * out of bare elements, so nothing else in this file reaches it. Each list is a pane with a
+ * graded header, the search box inside is a field, the keys between are bezelled, and the two
+ * little boxes it draws for itself - select-all and each row's tick - are wells like the real
+ * checkbox's.
+ */
+/* The lists, not the column of keys between them, which is a `div` of the host's too. */
+[data-skin='bezel'] xui-transfer > div:has(> ul) {
+  background-color: var(--surface);
+  border-color: var(--hairline-strong);
+  box-shadow: inset 0 1px 0 var(--highlight);
+  /* The header fills to its own square corners, which stand outside the pane's rounded ones
+     unless the pane clips. `clip` rather than `hidden`, which would make it a scroll container
+     and let the list below collapse. */
+  overflow: clip;
+}
+
+/* The header, and the search row under it when there is one: the pane's own chrome. */
+[data-skin='bezel'] xui-transfer > div:has(> ul) > div:not(:last-child) {
+  background-image: linear-gradient(to bottom, var(--pane-header-top), var(--pane-header-bottom));
+  border-bottom-color: var(--hairline);
+}
+
+/*
+ * Header and search are one bar. Only the one that meets the list closes with a hairline, and the
+ * second carries on flat from where the first's gradient ended - two ramps stacked would step
+ * from the foot of one to the head of the next, which draws the line the hairline just gave up.
+ */
+[data-skin='bezel'] xui-transfer > div:has(> ul) > div:not(:last-child):has(+ div:not(:last-child)) {
+  border-bottom-color: transparent;
+}
+
+[data-skin='bezel'] xui-transfer > div:has(> ul) > div:not(:last-child) + div:not(:last-child) {
+  background-color: var(--pane-header-bottom);
+  background-image: none;
+}
+
+[data-skin='bezel'] xui-transfer input {
+  background-color: var(--field);
+  border-color: var(--hairline-strong);
+  border-radius: var(--radius-control);
+  box-shadow:
+    inset 0 1px 0 var(--field-shadow),
+    inset 0 2px 3px var(--field-shadow),
+    0 1px 0 var(--highlight);
+}
+
+/* The keys that move a selection across: the same face every other key has. Not the select-all
+   box, which is a button too and is dressed as a tick below. */
+[data-skin='bezel'] xui-transfer button:not([data-part='tick']) {
+  background-image: linear-gradient(to bottom, var(--bezel-top), var(--bezel-bottom));
+  border-color: var(--bezel-border);
+  border-radius: var(--radius-control);
+  box-shadow:
+    inset 0 1px 0 var(--highlight),
+    var(--bezel-shadow);
+  transition: background-image var(--duration-press) ease-out;
+
+  &:enabled:hover {
+    background-image: linear-gradient(to bottom, var(--bezel-hover-top), var(--bezel-hover-bottom));
+  }
+
+  &:enabled:active {
+    background-image: linear-gradient(to bottom, var(--bezel-pressed-top), var(--bezel-pressed-bottom));
+    box-shadow: inset 0 1px 2px rgb(0 0 0 / 0.35);
+  }
+}
+
+/*
+ * Its tick boxes. The component marks a ticked one with the accent and leaves the rest bordered,
+ * which is the only thing telling the two states apart here, so the recess is drawn on both and
+ * the neutral edge only where the accent is not.
+ */
+[data-skin='bezel'] xui-transfer [data-part='tick'] {
+  box-shadow:
+    inset 0 0 2px var(--well-shadow),
+    0 1px 0 var(--highlight);
+
+  /* The neutral edge only where the component has not marked one with the accent. */
+  &:not([data-checked]) {
+    border-color: var(--hairline-strong);
+  }
+}
+
+/*
+ * An upload is a slot you drop something into, a key to open the picker with, and a row for each
+ * file. The component draws all of it out of bare elements, so it carries `data-part` hooks for
+ * the three.
+ *
+ * The slot is cut in and left flat, the same reading the dashed button variant gets: it is the
+ * place a thing is not yet, so raising it would make it look like the thing.
+ */
+[data-skin='bezel'] xui-upload [data-part='dropzone'] {
+  background-color: var(--field);
+  box-shadow: inset 0 1px 2px var(--field-shadow);
+}
+
+/* The picker key, which is the host's own child - not the bare cross that clears a row. */
+[data-skin='bezel'] xui-upload > button {
+  background-image: linear-gradient(to bottom, var(--bezel-top), var(--bezel-bottom));
+  border-color: var(--bezel-border);
+  border-radius: var(--radius-control);
+  box-shadow:
+    inset 0 1px 0 var(--highlight),
+    var(--bezel-shadow);
+  transition: background-image var(--duration-press) ease-out;
+
+  &:enabled:hover {
+    background-image: linear-gradient(to bottom, var(--bezel-hover-top), var(--bezel-hover-bottom));
+  }
+
+  &:enabled:active {
+    background-image: linear-gradient(to bottom, var(--bezel-pressed-top), var(--bezel-pressed-bottom));
+    box-shadow: inset 0 1px 2px rgb(0 0 0 / 0.35);
+  }
+}
+
+/* Each file is a small plate resting on the page, not a band of colour across it. */
+[data-skin='bezel'] xui-upload [data-part='row'] {
+  background-color: var(--surface-raised);
+  border: 1px solid var(--hairline);
+  box-shadow:
+    inset 0 1px 0 var(--highlight),
+    0 1px 1px rgb(0 0 0 / 0.18);
+}
+
+/* Its progress is a groove with the accent running along it, as the slider's track is. */
+[data-skin='bezel'] xui-upload [data-part='progress'] {
+  --surface-inset: var(--field);
+  box-shadow:
+    inset 0 1px 1px var(--field-shadow),
+    0 1px 0 var(--highlight);
+}
+
+/*
+ * A date or range picker floating over the page is a menu, so its days answer like menu rows
+ * rather than
+ * like buttons on a pane: the system blue the rest of this skin fills a row with, and white on
+ * it, in place of the surface tints and the accent the component paints on a flat page. Inline,
+ * where the picker is a pane and not a menu, the component's own colours are right.
+ */
+[data-skin='bezel'] .cdk-overlay-pane :is(xui-date-picker, xui-date-range-picker) {
+  & td > button:enabled:hover {
+    background-color: var(--menu-selection);
+    color: #fff;
+  }
+
+  & td[aria-selected='true'] > button {
+    background-color: var(--menu-selection);
+    color: #fff;
+  }
+
+  /* The band between a range's two ends, in the same blue at a wash rather than the accent's. */
+  & td[data-in-range] {
+    background-color: color-mix(in oklab, var(--menu-selection) 22%, transparent);
+  }
+}
+
+/*
+ * A picked day is a disc set into the page, not a dot of flat colour on it - the same reading the
+ * switch, the radio and the current page of a paginator get, so the one blue thing in this skin
+ * that is pressed in does not become three. It holds inline as well as in an overlay; only which
+ * blue it is depends on whether the picker is floating.
+ *
+ * The rim is a shadow rather than a border: the disc has none, and adding one would shrink it.
+ */
+[data-skin='bezel'] :is(xui-date-picker, xui-date-range-picker) td[aria-selected='true'] > button {
+  background-image: linear-gradient(to bottom, rgb(0 0 0 / 0.22), transparent 70%);
+  box-shadow:
+    inset 0 0 2px var(--well-shadow),
+    0 0 0 0.5px color-mix(in oklab, var(--primary) 55%, black);
+}
+
+/*
+ * The AM/PM key inside a time field: a small bezel, as the number field's steppers are. It sits
+ * in the recess rather than next to it, so it keeps the rim and the highlight and drops the
+ * shadow a key standing on a surface would cast.
+ */
+[data-skin='bezel'] xui-time-picker button {
+  background-image: linear-gradient(to bottom, var(--bezel-top), var(--bezel-bottom));
+  border: 1px solid var(--bezel-border);
+  box-shadow: inset 0 1px 0 var(--highlight);
+  transition: background-image var(--duration-press) ease-out;
+
+  &:enabled:hover {
+    background-image: linear-gradient(to bottom, var(--bezel-hover-top), var(--bezel-hover-bottom));
+  }
+
+  &:enabled:active {
+    background-image: linear-gradient(to bottom, var(--bezel-pressed-top), var(--bezel-pressed-bottom));
+    box-shadow: inset 0 1px 2px rgb(0 0 0 / 0.35);
+  }
+}
+
+/*
+ * An avatar is a portrait set into the surface: a hairline rim, a shade falling from its top edge
+ * and a catch light under it.
+ *
+ * The rim and the shade are laid over the content rather than behind it. An inset shadow paints
+ * above the background but below the children, so on an avatar showing a photograph the picture
+ * would cover both and only the initials would get them.
+ */
+[data-skin='bezel'] xui-avatar {
+  position: relative;
+  background-color: var(--field);
+  box-shadow: 0 1px 0 var(--highlight);
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    box-shadow:
+      inset 0 0 0 0.5px rgb(0 0 0 / 0.55),
+      inset 0 1px 3px rgb(0 0 0 / 0.35);
+  }
+}
+
+/*
+ * A card is a little window, which is what Cathode makes of it: a pane with a hairline round it,
+ * the light along its top, and its title carried on a graded bar that runs edge to edge across
+ * the top - so a card reads as a thing with a title bar rather than a box with bold text in it.
+ *
+ * The elevation scale collapses to two readings here, sitting on the page or lifted off it,
+ * since a window made of metal has one shadow rather than five graded ones.
+ */
+[data-skin='bezel'] :is([xuiCard], [xuiCardList]) {
+  --card-pad: 1.25rem;
+  background-color: var(--surface-raised);
+  border: 1px solid var(--hairline-strong);
+  box-shadow: inset 0 1px 0 var(--highlight);
+  /* The title bar is pulled out over the card's own padding, so the card has to clip. */
+  overflow: clip;
+}
+
+[data-skin='bezel'] [xuiCard][data-compact] {
+  --card-pad: 0.75rem;
+}
+
+/*
+ * A picked card. The component marks it with a two pixel ring, which is a box-shadow and so the
+ * first casualty of the shadow above - and a ring round a window is not how this skin marks a
+ * selection anywhere else. It takes the accent edge and tint a control card does.
+ */
+[data-skin='bezel'] [xuiCard]:is([aria-pressed='true'], [aria-current='true'], [aria-selected='true']) {
+  border-color: var(--primary);
+  background-color: color-mix(in oklab, var(--primary) 16%, var(--surface-raised));
+}
+
+[data-skin='bezel'] [xuiCard]:not([data-elevation='0']) {
+  box-shadow:
+    inset 0 1px 0 var(--highlight),
+    var(--bezel-shadow);
+}
+
+/*
+ * The title bar: the card's first heading, or the row that holds one. Anything else at the top
+ * of a card is content, and content is not a title bar.
+ */
+[data-skin='bezel'] [xuiCard] > :is(h1, h2, h3):first-child,
+[data-skin='bezel'] [xuiCard] > div:first-child:has(> :is(h1, h2, h3)) {
+  /* Out over the card's padding on three sides, and the card's padding again below it, so the
+     content starts as far from the bar as it does from the card's sides. */
+  margin: calc(var(--card-pad) * -1) calc(var(--card-pad) * -1) var(--card-pad);
+  padding: 0.5rem var(--card-pad);
+  background-image: linear-gradient(to bottom, var(--pane-header-top), var(--pane-header-bottom));
+  box-shadow:
+    inset 0 1px 0 var(--highlight),
+    inset 0 -1px 0 var(--hairline);
+}
+
+/* The title itself, whether the bar is the heading or a row holding it and something else. */
+[data-skin='bezel'] [xuiCard] > :is(h1, h2, h3):first-child,
+[data-skin='bezel'] [xuiCard] > div:first-child > :is(h1, h2, h3) {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* In a list the cards are rows of one pane, so each gives up its own box for a hairline rule. */
+[data-skin='bezel'] [xuiCardList] > * {
+  border: 0;
+  border-bottom: 1px solid var(--hairline);
+  box-shadow: none;
+}
+
+[data-skin='bezel'] [xuiCardList] > *:last-child {
+  border-bottom: 0;
+}
+
+/*
+ * A carousel is a picture set into the window: the frame is cut in, the arrows float over it on
+ * the same material a menu is made of, and the dots are little wells with the current one lit.
+ *
+ * The arrows are the frame's own children and the dots sit in a strip of their own, which is
+ * what tells the two sets of buttons apart here.
+ */
+[data-skin='bezel'] xui-carousel {
+  --surface-inset: var(--field);
+  border: 1px solid var(--hairline-strong);
+  box-shadow:
+    inset 0 1px 2px var(--field-shadow),
+    0 1px 0 var(--highlight);
+}
+
+[data-skin='bezel'] xui-carousel > div > button {
+  background-color: var(--menu-glass);
+  border: 1px solid var(--menu-edge);
+  box-shadow:
+    inset 0 1px 0 var(--highlight),
+    0 2px 8px rgb(0 0 0 / 0.4);
+}
+
+[data-skin='bezel'] xui-carousel > div > div > button {
+  box-shadow:
+    inset 0 1px 2px rgb(0 0 0 / 0.5),
+    0 1px 0 var(--highlight);
+}
+
+/*
+ * A table as Cathode has it: rows split by the pane's own hairlines rather than by the page's
+ * border colour, and the header row carried on the graded bar a pane's title sits on - the
+ * component builds no `thead`, so the header is the row that holds the `th`s.
+ */
+[data-skin='bezel'] xui-table {
+  border-color: var(--hairline-strong);
+  /* The header bar fills to its corners, which a rounded table has to clip. */
+  overflow: clip;
+}
+
+[data-skin='bezel'] :is(xui-tr, xui-th, xui-td) {
+  border-color: var(--hairline);
+}
+
+[data-skin='bezel'] xui-tr:has(xui-th) {
+  background-image: linear-gradient(to bottom, var(--pane-header-top), var(--pane-header-bottom));
+  border-bottom-color: var(--hairline-strong);
+  box-shadow: inset 0 1px 0 var(--highlight);
+}
+
+/* A picked row in the tint Cathode marks one with, which has to beat the hover under it. */
+[data-skin='bezel'] xui-tr[data-state='selected'],
+[data-skin='bezel'] xui-tr[data-state='selected']:hover {
+  background-color: color-mix(in oklab, var(--primary) 18%, transparent);
+}
+
+/*
+ * The data table is a grid of divs rather than the table elements above, so the same reading has
+ * to be stated again against its roles. Its header sticks and scrolls sideways with the body, so
+ * the bar is the header row itself.
+ */
+[data-skin='bezel'] xui-data-table {
+  border-color: var(--hairline-strong);
+  box-shadow: inset 0 1px 0 var(--highlight);
+}
+
+/*
+ * The scrollbar runs the full height of the scroller, so its track passes beside the pinned
+ * header and the bar stops short of the table's edge. Cathode's answer, and this one: the track
+ * starts below the header, and the gutter beside the header is painted as the bar - a scroller's
+ * own background does not scroll, so the three layers stay put under the rows.
+ */
+[data-skin='bezel'] xui-data-table [role='grid'] {
+  --header-height: var(--xui-data-table-header-height, 0px);
+  background-image:
+    linear-gradient(var(--highlight), var(--highlight)),
+    linear-gradient(var(--hairline-strong), var(--hairline-strong)),
+    linear-gradient(to bottom, var(--pane-header-top), var(--pane-header-bottom));
+  background-position:
+    0 0,
+    0 calc(var(--header-height) - 1px),
+    0 0;
+  background-size:
+    100% 1px,
+    100% 1px,
+    100% var(--header-height);
+  background-repeat: no-repeat;
+  /* Measured from the border box, so the bar runs under the scrollbar's gutter as well - from
+     the padding box it stops where the gutter starts, leaving the bar short of the edge. */
+  background-origin: border-box;
+
+  &::-webkit-scrollbar-track:vertical {
+    margin-top: var(--header-height);
+  }
+}
+
+[data-skin='bezel'] xui-data-table [role='row']:has([role='columnheader']) {
+  background-color: transparent;
+  background-image: linear-gradient(to bottom, var(--pane-header-top), var(--pane-header-bottom));
+  border-bottom-color: var(--hairline-strong);
+  box-shadow: inset 0 1px 0 var(--highlight);
+}
+
+/* The corner cell is pinned over the bar's start, so it is painted as the bar. */
+[data-skin='bezel'] xui-data-table [role='columnheader'] {
+  background-color: transparent;
+  border-color: var(--hairline);
+}
+
+[data-skin='bezel'] xui-data-table [role='columnheader'][aria-label='Row number'] {
+  background-image: linear-gradient(to bottom, var(--pane-header-top), var(--pane-header-bottom));
+}
+
+/* The rules between rows and cells, and the number gutter down the side. */
+[data-skin='bezel'] xui-data-table :is([role='row'], [role='gridcell'], [role='rowheader']) {
+  border-color: var(--hairline);
+}
+
+[data-skin='bezel'] xui-data-table [role='gridcell'][aria-selected='true'] {
+  background-color: color-mix(in oklab, var(--primary) 18%, transparent);
 }
 
 /*
@@ -992,13 +1804,61 @@
 /* Anything typed into reads as a recess: a pale field in light, a deep one in dark. */
 [data-skin='bezel'] [xuiInput],
 [data-skin='bezel'] textarea[xuiTextarea],
+[data-skin='bezel'] xui-file-input > label,
+[data-skin='bezel'] :is(xui-date-input, xui-date-range-input, xui-time-picker) > div,
 [data-skin='bezel'] :is(xui-suggest, xui-multi-select, xui-tag-input, xui-numeric-input) {
   /* The controls fill themselves with `bg-surface-inset`; re-pointing that token on the control
      itself sinks the field without having to restate what the component paints. */
   --surface-inset: var(--field);
 }
 
+/*
+ * The field itself, as macOS's: sunk into the surface under a hard line where the light falls off
+ * its top edge, a soft shadow spreading from there, and a catch light along the outside of the
+ * lower edge - which is what tells a recess from a flat box painted a darker colour.
+ */
 [data-skin='bezel'] [xuiInput],
-[data-skin='bezel'] textarea[xuiTextarea] {
-  box-shadow: inset 0 1px 2px var(--field-shadow);
+[data-skin='bezel'] textarea[xuiTextarea],
+[data-skin='bezel'] xui-file-input > label,
+/* The frame is the host only for the numeric input; the rest draw it on an element inside. */
+[data-skin='bezel'] xui-numeric-input,
+[data-skin='bezel'] xui-suggest > input,
+[data-skin='bezel'] :is(xui-multi-select, xui-tag-input, xui-date-input, xui-date-range-input, xui-time-picker) > div {
+  box-shadow:
+    inset 0 1px 0 var(--field-shadow),
+    inset 0 2px 3px var(--field-shadow),
+    0 1px 0 var(--highlight);
+}
+
+/*
+ * The edge itself. It is left to the component wherever the component means something by it - a
+ * focused field, one marked with an intent, or an invalid one - which is why this cannot simply
+ * be set on the rule above.
+ *
+ * It is one colour all round. Darkening only the top, as a real bevel would, breaks at the
+ * corners: the two colours meet on the curve and the dark line reads as overflowing past it.
+ * The inset shadow inside the edge already says where the light falls off.
+ */
+[data-skin='bezel']
+  :is(
+    [xuiInput],
+    textarea[xuiTextarea],
+    xui-file-input > label,
+    xui-suggest > input,
+    xui-multi-select > div,
+    xui-tag-input > div,
+    xui-date-input > div,
+    xui-date-range-input > div,
+    xui-time-picker > div,
+    xui-numeric-input
+  ):not(
+    :focus-visible,
+    :focus-within,
+    .border-primary,
+    .border-success,
+    .border-warning,
+    .border-error,
+    .ng-invalid.ng-touched
+  ) {
+  border-color: var(--hairline-strong);
 }

@@ -32,7 +32,7 @@ import type { ClassValue } from 'clsx';
     <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
     <div [class]="rowClass()" (click)="focus()">
       @for (i of slots(); track i) {
-        <div [class]="slotClass(i)">
+        <div [class]="slotClass(i)" data-part="slot" [attr.data-active]="isActive(i) ? '' : null">
           @if (charAt(i)) {
             <span>{{ mask() ? '•' : charAt(i) }}</span>
           } @else if (showCaret(i)) {
@@ -49,7 +49,7 @@ import type { ClassValue } from 'clsx';
       [attr.inputmode]="inputType() === 'numeric' ? 'numeric' : 'text'"
       [attr.maxlength]="length()"
       [disabled]="disabled()"
-      autocomplete="one-time-code"
+      [attr.autocomplete]="autocomplete()"
       aria-label="One-time code"
       (input)="onInput($event)"
       (focus)="focused.set(true)"
@@ -75,6 +75,11 @@ export class XuiInputOtp {
   readonly inputType = input<'numeric' | 'text'>('numeric');
   /** Render each filled slot as a dot instead of the character. */
   readonly mask = input<boolean, BooleanInput>(false, { transform: booleanAttribute });
+  /**
+   * The `autocomplete` token on the hidden field. `one-time-code` is what lets the platform offer
+   * the code it has just received; set it to `off` where that offer is noise, such as a demo.
+   */
+  readonly autocomplete = input<string>('one-time-code');
   /** Fired once every slot is filled. */
   readonly completed = output<string>();
 
@@ -87,9 +92,9 @@ export class XuiInputOtp {
     return this.value()[index] ?? '';
   }
 
-  /** The caret sits in the first empty slot while focused. */
+  /** The caret sits in the first empty slot while focused - the active one, where there is one. */
   protected showCaret(index: number): boolean {
-    return this.focused() && index === this.value().length && index < this.length();
+    return this.isActive(index) && index < this.length();
   }
 
   protected focus(): void {
@@ -112,12 +117,16 @@ export class XuiInputOtp {
   protected readonly computedClass = computed(() => xui('relative inline-flex', this.class()));
   protected readonly rowClass = computed(() => xui('flex items-center gap-2'));
 
+  /** The slot the next character lands in, which is the one that carries the caret. */
+  protected isActive(index: number): boolean {
+    return this.focused() && index === this.value().length;
+  }
+
   protected slotClass(index: number): string {
-    const active = this.focused() && index === this.value().length;
     return xui(
       'flex size-(--control-height-lg) items-center justify-center rounded-md border text-lg font-medium tabular-nums transition-colors',
       'border-border bg-surface text-foreground',
-      active && 'border-primary ring-primary/30 ring-2',
+      this.isActive(index) && 'border-primary ring-primary/30 ring-2',
       this.disabled() && 'opacity-50'
     );
   }

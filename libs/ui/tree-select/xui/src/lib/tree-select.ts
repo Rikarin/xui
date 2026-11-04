@@ -88,7 +88,7 @@ const toTreeNode = (node: XuiTreeSelectNode): PanelNode => ({
         @if (selectedValues().length) {
           <span class="flex flex-wrap gap-1">
             @for (val of selectedValues(); track val) {
-              <span [class]="chipClass()">
+              <span data-part="chip" data-minimal [class]="chipClass()">
                 {{ labelOf(val) }}
                 <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
                 <span class="hover:text-error cursor-pointer" (click)="removeChip(val, $event)">×</span>
@@ -429,7 +429,10 @@ export class XuiTreeSelect implements ControlValueAccessor {
    * A selected value reads as a tag, matching the chips xui-multi-select shows for the same job.
    *
    * It borrows the variant map rather than rendering an xui-tag: the trigger is a button, and a
-   * tag's remove control is a button too, which may not nest inside one. What the hand-rolled chip
+   * tag's remove control is a button too, which may not nest inside one. It carries
+   * `data-part="chip"` so a theme can reach it the way it reaches a real tag.
+   *
+   * What the hand-rolled chip
    * had instead was bg-surface-inset, the same colour the dark theme gives the trigger's
    * bg-surface, and no border — so a selection read as bare text.
    */

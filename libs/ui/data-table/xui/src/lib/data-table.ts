@@ -53,6 +53,9 @@ import type { CellCoord, XuiDataColumn, XuiSortState } from './data-table.types'
   imports: [NgTemplateOutlet],
   // eslint-disable-next-line local/no-hand-z-index -- the reorder indicator stacks above sticky headers inside the table’s own scroll context
   template: `
+    <!-- The scroll container publishes the header's height as a custom property, for anything
+         that has to line up with a bar it cannot measure - a theme keeping the scrollbar out
+         from under it, say. -->
     <div
       #scroll
       role="grid"
@@ -61,6 +64,7 @@ import type { CellCoord, XuiDataColumn, XuiSortState } from './data-table.types'
       [attr.aria-multiselectable]="selectable() ? true : null"
       [class]="scrollClass()"
       [style.height.px]="height()"
+      [style.--xui-data-table-header-height.px]="headerHeight()"
       (scroll)="onScroll()"
       (keydown)="onKeydown($event)"
       tabindex="0"
@@ -392,7 +396,9 @@ export class XuiDataTable<T> {
   );
   protected readonly scrollClass = computed(() =>
     xui(
-      'focus-visible:outline-focus relative overflow-auto outline-none focus-visible:outline-2 focus-visible:-outline-offset-2'
+      // `overscroll-none` turns off the rubber band at the ends. The header is sticky, so it
+      // rides the bounce and lifts away from the top of the table on the way back.
+      'focus-visible:outline-focus relative overflow-auto overscroll-none outline-none focus-visible:outline-2 focus-visible:-outline-offset-2'
     )
   );
   /**
@@ -429,8 +435,20 @@ export class XuiDataTable<T> {
   protected cellLeft(index: number, frozen: boolean): number {
     return frozen ? this.columnOffset(index) + this.scrollLeft() : this.columnOffset(index);
   }
+  /**
+   * Space the columns leave over when they do not fill the viewport. It goes to the last column
+   * rather than being left beside it, where a strip of header bar and row rules reads as a
+   * column with nothing in it.
+   */
+  private readonly trailingSlack = computed(() => {
+    // The same reading `renderColumns` uses: the measured viewport, or the observer's fallback.
+    const measured = this.measuredWidth() || this.hostSize().width;
+    return measured > 0 ? Math.max(0, measured - this.totalWidth()) : 0;
+  });
+
   protected columnWidth(index: number): number {
-    return this.columnStore.size(index);
+    const width = this.columnStore.size(index);
+    return index === this.orderedColumns().length - 1 ? width + this.trailingSlack() : width;
   }
   protected rowOffset(index: number): number {
     return this.rowStore.offsets()[index];
@@ -460,9 +478,16 @@ export class XuiDataTable<T> {
     );
   }
 
+  /** The rule a cell draws down its right side, which the last column has no room for: it ends
+   *  at the table's own edge, and the two lines fall on top of each other. */
+  private trailingRule(colIndex: number): string | false {
+    return colIndex === this.orderedColumns().length - 1 && 'border-r-0';
+  }
+
   protected headerCellClass(column: XuiDataColumn<T>, colIndex: number, frozen = false): string {
     return xui(
       'text-foreground-muted border-border absolute top-0 flex h-full items-center border-r px-3 font-medium',
+      this.trailingRule(colIndex),
       alignClass(column.align),
       column.sortable && 'hover:text-foreground cursor-pointer select-none',
       this.reorderable() && 'cursor-grab',
@@ -479,6 +504,7 @@ export class XuiDataTable<T> {
     const isSelected = this.isSelected(rowIndex, colIndex);
     return xui(
       'border-border/60 text-foreground absolute top-0 flex h-full items-center border-r px-3',
+      this.trailingRule(colIndex),
       alignClass(column.align),
       // Frozen cells need an opaque base and a raised layer so scrolling cells pass under them.
       // eslint-disable-next-line local/no-hand-z-index -- frozen cells ride above scrolling cells inside the table’s scroll context

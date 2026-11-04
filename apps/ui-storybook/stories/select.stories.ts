@@ -8,12 +8,26 @@ interface User {
   disabled?: boolean;
 }
 
+/** Long enough that the list scrolls, which is half of what the panel has to get right. */
 const USERS: User[] = [
   { id: 1, name: 'Ada Lovelace', role: 'Owner' },
   { id: 2, name: 'Alan Turing', role: 'Admin' },
   { id: 3, name: 'Grace Hopper', role: 'Editor' },
   { id: 4, name: 'Katherine Johnson', role: 'Editor' },
-  { id: 5, name: 'Margaret Hamilton', role: 'Viewer', disabled: true }
+  { id: 5, name: 'Margaret Hamilton', role: 'Viewer', disabled: true },
+  { id: 6, name: 'Barbara Liskov', role: 'Admin' },
+  { id: 7, name: 'Edsger Dijkstra', role: 'Editor' },
+  { id: 8, name: 'Donald Knuth', role: 'Editor' },
+  { id: 9, name: 'Frances Allen', role: 'Admin' },
+  { id: 10, name: 'John McCarthy', role: 'Viewer' },
+  { id: 11, name: 'Radia Perlman', role: 'Editor' },
+  { id: 12, name: 'Ken Thompson', role: 'Admin' },
+  { id: 13, name: 'Dennis Ritchie', role: 'Editor' },
+  { id: 14, name: 'Jean Bartik', role: 'Viewer' },
+  { id: 15, name: 'Tony Hoare', role: 'Editor', disabled: true },
+  { id: 16, name: 'Shafi Goldwasser', role: 'Admin' },
+  { id: 17, name: 'Leslie Lamport', role: 'Editor' },
+  { id: 18, name: 'Niklaus Wirth', role: 'Viewer' }
 ];
 
 /**

@@ -43,6 +43,9 @@ type Side = 'left' | 'right';
           <button
             type="button"
             role="checkbox"
+            data-part="tick"
+            class="cursor-pointer disabled:cursor-not-allowed"
+            [attr.data-checked]="allChecked(side) ? '' : null"
             [class]="checkboxClass(allChecked(side))"
             [disabled]="isDisabled()"
             [attr.aria-checked]="allChecked(side) ? 'true' : someChecked(side) ? 'mixed' : 'false'"
@@ -106,7 +109,11 @@ type Side = 'left' | 'right';
               [attr.aria-disabled]="item.disabled ? true : null"
               (click)="activate(side, item)"
             >
-              <span [class]="checkboxClass(checked(side).has(item.key))">
+              <span
+                data-part="tick"
+                [attr.data-checked]="checked(side).has(item.key) ? '' : null"
+                [class]="checkboxClass(checked(side).has(item.key))"
+              >
                 @if (checked(side).has(item.key)) {
                   <svg viewBox="0 0 24 24" class="h-3 w-3" fill="none">
                     <path
@@ -382,9 +389,14 @@ export class XuiTransfer implements ControlValueAccessor {
     )
   );
 
+  /**
+   * No cursor of its own: `cursor` inherits, and the box is only ever part of something that has
+   * already said which one it is - a row, which turns to `not-allowed` when the item is disabled,
+   * or the select-all button, which asks for the pointer itself.
+   */
   protected checkboxClass(active: boolean): string {
     return xui(
-      'flex h-4 w-4 shrink-0 cursor-pointer items-center justify-center rounded border',
+      'flex h-4 w-4 shrink-0 items-center justify-center rounded border',
       active ? 'bg-primary border-primary text-primary-foreground' : 'border-border'
     );
   }

@@ -158,7 +158,10 @@ export function injectXOverlay(): XOverlayFactory {
       backdropClass: resolved.backdropClass,
       panelClass: resolved.panelClass,
       disposeOnNavigation: true,
-      ...(resolved.matchOriginWidth && originElement ? { width: originElement.getBoundingClientRect().width } : {})
+      // The trigger's width is a floor, not a cap: a pop-up list is at least as wide as the
+      // control it opens from and grows to whatever its longest row needs, rather than wrapping
+      // that row to stay inside it.
+      ...(resolved.matchOriginWidth && originElement ? { minWidth: originElement.getBoundingClientRect().width } : {})
     };
 
     const overlayRef: OverlayRef = createOverlayRef(injector, overlayConfig);

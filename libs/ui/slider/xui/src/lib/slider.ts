@@ -61,6 +61,12 @@ export const sliderHandleVariants = cva(
 
 export type XuiSliderColor = NonNullable<VariantProps<typeof sliderFillVariants>['color']>;
 
+/**
+ * What the tick run is inset by at either end: the dot's own radius, and as much again to clear
+ * the track's rounded cap, which the dot would otherwise sit across rather than inside.
+ */
+const TICK_INSET_PX = 5;
+
 /** Round away binary-float dust so stepped values stay exact (e.g. 0.1 + 0.2). */
 const roundToGrid = (n: number): number => Math.round(n * 1e10) / 1e10;
 
@@ -304,9 +310,14 @@ export class XuiSlider implements ControlValueAccessor {
       : { top: '50%', insetInlineStart: pct, transform: `translate(${this.inlineHalf()}, -50%)` };
   }
 
+  /**
+   * A tick is centred on its point, so one placed at either end of the run would hang half of
+   * itself over the track's edge. The run is inset at both ends instead, which lands the
+   * outermost dots clear of the track's rounded caps rather than across them.
+   */
   protected tickStyle(fraction: number): Record<string, string> {
-    const pct = `${fraction * 100}%`;
-    return this.orientation() === 'vertical' ? { left: '50%', bottom: pct } : { top: '50%', insetInlineStart: pct };
+    const pos = `calc(${TICK_INSET_PX}px + ${fraction} * (100% - ${TICK_INSET_PX * 2}px))`;
+    return this.orientation() === 'vertical' ? { left: '50%', bottom: pos } : { top: '50%', insetInlineStart: pos };
   }
 
   protected labelStyle(fraction: number): Record<string, string> {

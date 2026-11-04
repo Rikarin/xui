@@ -62,6 +62,7 @@ export interface XuiUploadFile {
 
     @if (type() === 'drag') {
       <div
+        data-part="dropzone"
         [class]="dropzoneClass()"
         role="button"
         tabindex="0"
@@ -88,7 +89,7 @@ export interface XuiUploadFile {
     @if (files().length) {
       <ul class="mt-2 flex flex-col gap-1">
         @for (file of files(); track file.uid) {
-          <li [class]="fileRowClass(file)">
+          <li data-part="row" [class]="fileRowClass(file)">
             <ng-icon xui size="sm" name="matInsertDriveFileRound" class="shrink-0" />
             <span class="min-w-0 flex-1">
               <span class="flex items-center gap-2">
@@ -98,7 +99,7 @@ export interface XuiUploadFile {
                 }
               </span>
               @if (file.status === 'uploading') {
-                <span class="bg-surface-inset mt-1 block h-1 w-full overflow-hidden rounded-full">
+                <span data-part="progress" class="bg-surface-inset mt-1 block h-1 w-full overflow-hidden rounded-full">
                   <span class="bg-primary block h-full transition-all" [style.width.%]="file.percent ?? 0"></span>
                 </span>
               }

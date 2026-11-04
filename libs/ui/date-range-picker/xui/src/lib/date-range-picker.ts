@@ -96,7 +96,11 @@ export interface XuiDateRange<T> {
                       <td class="p-0"></td>
                     } @else {
                       <!-- Selection belongs on the gridcell, not the button. -->
-                      <td [class]="cellClass(day)" [attr.aria-selected]="isEndpoint(day.date)">
+                      <td
+                        [class]="cellClass(day)"
+                        [attr.aria-selected]="isEndpoint(day.date)"
+                        [attr.data-in-range]="inBand(day) ? '' : null"
+                      >
                         <button
                           type="button"
                           [class]="dayClass(day)"
@@ -238,12 +242,17 @@ export class XuiDateRangePicker<T = Date> implements ControlValueAccessor {
    * silhouette the circle draws. Squaring them off left a tinted corner poking out past the curve
    * at each end — the band read as a box drawn around the selection rather than a line joining it.
    */
+  /** A day the range covers, its two ends included - the band the cells are tinted along. */
+  protected inBand(day: XCalendarDay<T>): boolean {
+    return this.endpointSide(day.date) !== null || (this.spansDays() && this.inRange(day.date));
+  }
+
   protected cellClass(day: XCalendarDay<T>): string {
     const side = this.endpointSide(day.date);
 
     return xui(
       'p-0 text-center',
-      side !== null || (this.spansDays() && this.inRange(day.date)) ? 'bg-primary/10' : '',
+      this.inBand(day) ? 'bg-primary/10' : '',
       side === 'start' && 'rounded-s-full',
       side === 'end' && 'rounded-e-full'
     );
