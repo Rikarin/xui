@@ -54,17 +54,17 @@ jobs:
     timeout-minutes: 45
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           # Full history so conventional commits and the previous release tag resolve.
           fetch-depth: 0
           ref: ${{ github.ref_name }}
 
       - name: Install pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@v6
 
       - name: Install Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version-file: .node-version
           # No `registry-url`: setup-node would write an .npmrc whose token line is the literal
@@ -249,16 +249,16 @@ jobs:
     timeout-minutes: 30
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
           ref: ${{ inputs.tag || github.ref }}
 
       - name: Install pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@v6
 
       - name: Install Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version-file: .node-version
           # No `registry-url`, for the same reason as the release job: the .npmrc it writes carries
