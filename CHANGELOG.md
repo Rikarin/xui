@@ -1,3 +1,41 @@
+## 3.1.0 (2026-11-04)
+
+### 🚀 Features
+
+- **app:** add a style picker to the docs header ([d39b746d](https://github.com/Rikarin/xui/commit/d39b746d))
+- **app:** render the hotkeys demo, and let a preview be written by hand ([af6333b0](https://github.com/Rikarin/xui/commit/af6333b0))
+- **app:** write the four remaining docs previews ([72fbf1e9](https://github.com/Rikarin/xui/commit/72fbf1e9))
+- **code-block:** give the bezelled skin a code surface ([5bb9b367](https://github.com/Rikarin/xui/commit/5bb9b367))
+- **core:** add a control radius and the chrome tokens ([f0d830c7](https://github.com/Rikarin/xui/commit/f0d830c7))
+- **core:** add the bezelled skin ([78b700f9](https://github.com/Rikarin/xui/commit/78b700f9))
+- **core:** dress prose in the bezelled skin ([bf9dd7ed](https://github.com/Rikarin/xui/commit/bf9dd7ed))
+- **core:** make kbd a keycap in the bezelled skin ([bf30ed56](https://github.com/Rikarin/xui/commit/bf30ed56))
+- **core:** dress the pop-up buttons and the checkable controls ([fb13776d](https://github.com/Rikarin/xui/commit/fb13776d))
+- **core:** give the floating surfaces the skin's material ([afa9c90f](https://github.com/Rikarin/xui/commit/afa9c90f))
+- **core:** finish the skin's menus, rows and all ([bcd86748](https://github.com/Rikarin/xui/commit/bcd86748))
+- **core:** brighten the filled menu row in dark ([8f029fcc](https://github.com/Rikarin/xui/commit/8f029fcc))
+- **core:** dress the colour picker's own controls ([aea743c7](https://github.com/Rikarin/xui/commit/aea743c7))
+- **core:** give the control card a face and depth ([1eb932ed](https://github.com/Rikarin/xui/commit/1eb932ed))
+- **core:** give the switch its metal knob ([bf06156d](https://github.com/Rikarin/xui/commit/bf06156d))
+- **core:** dress the rest of the catalogue in the bezelled skin ([b2978c67](https://github.com/Rikarin/xui/commit/b2978c67))
+- **ui:** reflect the resolved variant on the host ([b3f1845a](https://github.com/Rikarin/xui/commit/b3f1845a))
+
+### 🩹 Fixes
+
+- **button:** repair the bezelled skin's variants ([58005f56](https://github.com/Rikarin/xui/commit/58005f56))
+- **core:** stop the bezelled skin doubling a button group's seams ([5ae1f233](https://github.com/Rikarin/xui/commit/5ae1f233))
+- **core:** land the skin on the controls it was missing ([1a01ba3d](https://github.com/Rikarin/xui/commit/1a01ba3d))
+- **core:** make a floating panel read against the page behind it ([d7978e3e](https://github.com/Rikarin/xui/commit/d7978e3e))
+- **core:** tune the menu glass by looking at it ([1ec484e0](https://github.com/Rikarin/xui/commit/1ec484e0))
+- **core:** fill the cascader's in-path row, which never matched ([422cc57a](https://github.com/Rikarin/xui/commit/422cc57a))
+- **core:** keep the switch a slot and the radio a well when on ([c7b2271a](https://github.com/Rikarin/xui/commit/c7b2271a))
+- **core:** give the control card the same switch and radio ([b54f95a7](https://github.com/Rikarin/xui/commit/b54f95a7))
+- **ui:** let the host own the control's box ([d59afd57](https://github.com/Rikarin/xui/commit/d59afd57))
+
+### ❤️ Thank You
+
+- Rikarin @Rikarin
+
 ## 3.0.1 (2026-09-17)
 
 ### 🩹 Fixes
