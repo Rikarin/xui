@@ -6,8 +6,22 @@ on:
     # from here. Change this branch - and the one in docs/releasing.md - if it ever moves back.
     branches:
       - master
+    # Tags created outside this workflow - a local `pnpm release` followed by
+    # `git push --follow-tags` - are published by the `publish-tag` job below. This used to be a
+    # separate publish.yaml, but npm matches a trusted-publisher entry against the workflow's
+    # *filename*, so a second file would need its own entry on all ~95 packages. Both jobs living
+    # here means the entries each package already has cover both paths.
+    #
+    # Tags that this workflow pushes itself use GITHUB_TOKEN, which by design does not trigger
+    # further workflow runs, so a release cannot publish the same version twice.
+    tags:
+      - v*.*.*
   workflow_dispatch:
     inputs:
+      tag:
+        description: 'Publish an existing tag that was never published, e.g. v2.0.0-alpha.9. Leave empty to cut a new release instead.'
+        required: false
+        type: string
       specifier:
         description: 'Version bump: patch, minor, major, prerelease, prepatch, preminor, premajor, or an exact version. Leave empty to let the conventional commits decide the next stable version.'
         required: false
@@ -27,8 +41,13 @@ jobs:
   release:
     name: Version, tag and publish
     runs-on: ubuntu-latest
-    # The release commit is pushed back to master; skip the run it triggers.
-    if: github.event_name == 'workflow_dispatch' || !startsWith(github.event.head_commit.message, 'chore(release):')
+    # Only for cutting a new version: a push to the release branch, or a dispatch with no `tag`.
+    # A tag push lands in `publish-tag` instead, and the release commit this job pushes back to
+    # master must not start another run of it.
+    if: |
+      (github.event_name == 'push' && github.ref_type == 'branch'
+        && !startsWith(github.event.head_commit.message, 'chore(release):'))
+      || (github.event_name == 'workflow_dispatch' && inputs.tag == '')
     permissions:
       contents: write # push the release commit, tag and GitHub Release
       id-token: write # npm provenance
@@ -48,7 +67,10 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version-file: .node-version
-          registry-url: https://registry.npmjs.org/
+          # No `registry-url`: setup-node would write an .npmrc whose token line is the literal
+          # `${NODE_AUTH_TOKEN}`, and npm sends that string as a bearer token rather than falling
+          # back to OIDC - a 401 that reads like a bad secret. registry.npmjs.org is npm's default
+          # anyway, so nothing is lost by leaving the file unwritten.
           cache: 'pnpm'
 
       - name: Install dependencies
@@ -152,43 +174,38 @@ jobs:
           echo "published=true" >> "$GITHUB_OUTPUT"
           echo "Releasing $after under the '$dist_tag' dist-tag."
 
-      - name: Authenticate with npm
-        # Fail here rather than after versioning and building 93 packages: npm answers an
-        # unauthenticated publish with a 404 that reads like the package does not exist.
+      - name: Prepare npm for trusted publishing
+        # Publishing is authenticated by the workflow's own OIDC identity (hence `id-token: write`
+        # in the permissions above) against the trusted-publisher entry each @xui package carries on
+        # npm, which names this repository and this file. Nothing here writes a token, so there is
+        # no credential to go stale and no early `npm whoami` to run - npm mints a short-lived one
+        # at publish time or fails loudly then.
+        #
+        # The exchange itself needs npm 11.5.1 or newer, and the npm bundled with a Node release can
+        # predate that. pnpm hands the exchange to whatever npm is on the PATH, so that is the
+        # version that has to be new enough.
         if: steps.changes.outputs.release == 'true' && steps.version.outputs.published == 'true'
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-          # actions/setup-node writes an .npmrc whose token line is the literal `${NODE_AUTH_TOKEN}`,
-          # expanded from the environment on every npm call - so the variable has to be present here
-          # too, or npm authenticates as nobody and answers 401.
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
           set -euo pipefail
 
-          if [ -z "${NPM_TOKEN:-}" ]; then
-            echo "::error::The NPM_TOKEN secret is empty. Publishing needs a token with write access to the @xui scope."
-            exit 1
+          required='11.5.1'
+          current=$(npm --version)
+
+          # `sort -V` puts the lower version first, so if the head is not the requirement then the
+          # installed npm already exceeds it.
+          if [ "$(printf '%s\n%s\n' "$required" "$current" | sort -V | head -n1)" != "$required" ]; then
+            echo "npm $current predates trusted publishing; installing npm@^11.20.0."
+            npm install -g 'npm@^11.20.0'
           fi
 
-          # pnpm does not expand NODE_AUTH_TOKEN, so the literal token goes into the same file npm
-          # is reading - setup-node points at it through NPM_CONFIG_USERCONFIG.
-          npmrc="${NPM_CONFIG_USERCONFIG:-$HOME/.npmrc}"
-          echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> "$npmrc"
-
-          if ! whoami_output=$(npm whoami 2>&1); then
-            # The whole output, not the last line: npm's parting words are the path to its log file,
-            # while the reason (401, 403, ENEEDAUTH) is further up.
-            echo "::error::npm rejected the token: ${whoami_output}"
-            echo "::error::Check that NPM_TOKEN is an automation token, or a granular token with read/write on the whole @xui scope."
-            exit 1
-          fi
-
-          echo "Authenticated with npm as $(printf '%s\n' "${whoami_output}" | tail -n 1)."
+          echo "Publishing with npm $(npm --version) as this workflow's OIDC identity."
 
       - name: Publish to npm
         if: steps.changes.outputs.release == 'true' && steps.version.outputs.published == 'true'
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          # Deliberately no NODE_AUTH_TOKEN: a token anywhere in the environment or in .npmrc makes
+          # npm authenticate with it and skip the OIDC exchange entirely, so trusted publishing
+          # silently never engages and the whole point of the migration is lost.
           NPM_CONFIG_PROVENANCE: true
           DIST_TAG: ${{ steps.version.outputs.distTag }}
           INPUT_DRY_RUN: ${{ inputs.dryRun }}
@@ -215,4 +232,115 @@ jobs:
               echo "- dist-tag: \`${{ steps.version.outputs.distTag }}\`"
               echo "- dry run: \`${{ inputs.dryRun == true }}\`"
             fi
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  publish-tag:
+    name: Publish an existing tag
+    runs-on: ubuntu-latest
+    # The recovery path: a tag pushed from a laptop, or a dispatch naming a tag whose publish
+    # failed partway. It never versions, tags or writes a changelog - the tag already exists, and
+    # everything is resolved from the checkout at that tag.
+    if: |
+      (github.event_name == 'push' && github.ref_type == 'tag')
+      || (github.event_name == 'workflow_dispatch' && inputs.tag != '')
+    permissions:
+      contents: read
+      id-token: write # trusted publishing authenticates with this
+    timeout-minutes: 30
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ inputs.tag || github.ref }}
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Install Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          # No `registry-url`, for the same reason as the release job: the .npmrc it writes carries
+          # a literal `${NODE_AUTH_TOKEN}`, which npm sends as a bearer token instead of falling
+          # back to OIDC.
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Resolve and verify the version
+        id: version
+        env:
+          # Through the environment rather than template interpolation, so the value can never be
+          # parsed as shell.
+          RELEASE_TAG: ${{ inputs.tag || github.ref_name }}
+        run: |
+          set -euo pipefail
+
+          tag="$RELEASE_TAG"
+          version=$(node -p "require('./libs/core/package.json').version")
+
+          # Publishing a tag whose checkout carries a different version would push the wrong
+          # artifacts to npm under a name nobody can trace back.
+          if [ "$tag" != "v$version" ]; then
+            echo "::error::Tag $tag does not match the workspace version $version."
+            exit 1
+          fi
+
+          case "$version" in
+            *-*) dist_tag='next' ;;
+            *) dist_tag='latest' ;;
+          esac
+
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "distTag=$dist_tag" >> "$GITHUB_OUTPUT"
+          echo "Publishing $version under the '$dist_tag' dist-tag."
+
+      - name: Print environment info
+        run: pnpm exec nx report
+
+      - name: Prepare npm for trusted publishing
+        # Same requirement as the release job: pnpm hands the OIDC token exchange to whatever npm is
+        # on the PATH, and that exchange needs npm 11.5.1 or newer.
+        run: |
+          set -euo pipefail
+
+          required='11.5.1'
+          current=$(npm --version)
+
+          if [ "$(printf '%s\n%s\n' "$required" "$current" | sort -V | head -n1)" != "$required" ]; then
+            echo "npm $current predates trusted publishing; installing npm@^11.20.0."
+            npm install -g 'npm@^11.20.0'
+          fi
+
+          echo "Publishing with npm $(npm --version) as this workflow's OIDC identity."
+
+      - name: Verify the workspace
+        run: pnpm exec nx run-many -t lint test --parallel=3
+
+      - name: Build packages
+        run: pnpm exec nx run-many -t build
+
+      - name: Publish to npm
+        env:
+          # No NODE_AUTH_TOKEN; see the release job's publish step.
+          NPM_CONFIG_PROVENANCE: true
+          DIST_TAG: ${{ steps.version.outputs.distTag }}
+          INPUT_DRY_RUN: ${{ inputs.dryRun }}
+        run: |
+          set -euo pipefail
+
+          dry_run_flag=''
+          [ "${INPUT_DRY_RUN:-false}" = 'true' ] && dry_run_flag='--dry-run'
+
+          pnpm exec nx release publish --tag "$DIST_TAG" $dry_run_flag
+
+      - name: Summary
+        if: always()
+        run: |
+          {
+            echo "### Publish \`${{ steps.version.outputs.version }}\`"
+            echo "- dist-tag: \`${{ steps.version.outputs.distTag }}\`"
+            echo "- dry run: \`${{ inputs.dryRun == true }}\`"
           } >> "$GITHUB_STEP_SUMMARY"

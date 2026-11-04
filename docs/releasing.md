@@ -77,13 +77,19 @@ pnpm release                           # version, changelog, commit, tag, push
 pnpm release prepatch --preid alpha    # ... or start an alpha line
 ```
 
-`pnpm release` **pushes** the commit and tag. The
-[Publish workflow](../.github/workflows/publish.yaml) then picks the tag up, re-verifies that the
-tag matches the workspace version, rebuilds and publishes. It can also be run manually from the
-Actions tab against an existing tag - useful if a publish failed halfway.
+`pnpm release` **pushes** the commit and tag. The `publish-tag` job in the same Release workflow
+picks the tag up, re-verifies that the tag matches the workspace version, rebuilds and publishes. It
+can also be run against an existing tag from **Actions → Release → Run workflow**, by filling in the
+`tag` input - useful if a publish failed halfway. Leaving `tag` empty cuts a new release instead;
+the two jobs are mutually exclusive.
 
-Tags pushed by the Release workflow use `GITHUB_TOKEN` and therefore never trigger the Publish
-workflow, so the two cannot publish the same version twice.
+This used to be a separate `publish.yaml`. It is one file now because npm matches a trusted-publisher
+entry against the workflow's _filename_: a second file would need its own entry on every one of the
+~95 packages, and `npm trust` writes only one entry per package. Both jobs living in `release.yml`
+means the entry each package already carries covers both paths.
+
+Tags pushed by the Release workflow itself use `GITHUB_TOKEN`, which by design does not trigger
+further workflow runs, so a release cannot publish the same version twice.
 
 ## Verifying a publish locally
 
@@ -94,6 +100,29 @@ pnpm exec nx release publish --registry http://localhost:4873 --tag next
 
 ## Secrets and permissions
 
-- `NPM_TOKEN` - an npm automation token with publish rights on the `@xui` scope.
-- The workflows request `id-token: write` so npm provenance is attached to every package, and the
-  release job needs `contents: write` to push the release commit, tag and GitHub Release.
+The Release workflow publishes through npm **trusted publishing**: no token is involved, and nothing
+in the workflow writes one. npm mints a short-lived credential from the workflow's OIDC identity and
+checks it against a trusted-publisher entry on each package, which names this repository and the
+file `.github/workflows/release.yml`. Renaming that file, or moving the publish step into another
+one, breaks every package's entry at once - npm matches the filename case-sensitively.
+
+- `id-token: write` on both publishing jobs. This is what trusted publishing authenticates with, and
+  what attaches provenance.
+- `contents: write` on the release job, to push the release commit, tag and GitHub Release.
+  There is no `NPM_TOKEN` secret and nothing needs one. If you ever reintroduce a second publishing
+  workflow, remember that it cannot authenticate this way without its own trusted-publisher entry on
+  each package.
+
+### Configuring trusted publishing for a new package
+
+A package must already exist on the registry before it can be trusted, which makes a brand-new
+package's first publish the one case this setup cannot do on its own: publish it once from a laptop
+with `npm publish` and your own account, then configure it. After that:
+
+```bash
+npm trust github @xui/<name> --repo Rikarin/xui --file release.yml --allow-publish
+```
+
+`npm trust list @xui/<name>` prints the entry; an unconfigured package prints nothing at all and
+exits 0. The command needs a one-time password, and npm's web auth page offers a five-minute 2FA
+skip - enough for roughly 80 packages in one scripted pass.
