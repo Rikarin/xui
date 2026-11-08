@@ -1,6 +1,6 @@
 {
   "name": "@xui/toast",
-  "version": "3.1.0",
+  "version": "3.2.0",
   "description": "Modern Angular 22 UI Library based on TailwindCSS",
   "keywords": [
     "angular",
@@ -24,8 +24,8 @@
     "@angular/core": "22",
     "@ng-icons/core": "36",
     "@ng-icons/material-icons": "36",
-    "@xui/core": "3.1.0",
-    "@xui/icon": "3.1.0"
+    "@xui/core": "3.2.0",
+    "@xui/icon": "3.2.0"
   },
   "publishConfig": {
     "access": "public"

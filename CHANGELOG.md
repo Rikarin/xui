@@ -1,3 +1,13 @@
+## 3.2.0 (2026-11-08)
+
+### 🚀 Features
+
+- **core:** dress the remaining catalogue in the bezelled skin ([538f578e](https://github.com/Rikarin/xui/commit/538f578e))
+
+### ❤️ Thank You
+
+- Rikarin @Rikarin
+
 ## 3.1.0 (2026-11-04)
 
 ### 🚀 Features
