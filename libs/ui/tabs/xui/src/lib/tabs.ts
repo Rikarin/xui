@@ -110,7 +110,11 @@ export type XuiTabsVariants = VariantProps<typeof tabsTabVariants>;
     }
   `,
   host: {
-    '[class]': 'computedClass()'
+    '[class]': 'computedClass()',
+    // A skin that draws the strip as one control rather than a row of titles has to size it to its
+    // tabs, and must not do that to a filled set that was asked to span its container. The flag is
+    // otherwise only in the emitted utilities.
+    '[attr.data-fill]': 'fill() ? "" : null'
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None

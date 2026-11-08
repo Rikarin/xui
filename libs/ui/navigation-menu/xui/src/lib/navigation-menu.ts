@@ -67,7 +67,11 @@ import { XuiNavigationMenuItem } from './navigation-menu-item';
 
       @if (activeItem(); as item) {
         <div [class]="viewportClass()">
-          <div [class]="panelClass()">
+          <!-- data-part="panel" is the hook skins use for a floating surface built out of a plain
+               div, as this one is. It is deliberately not scoped to a cdk overlay pane: this panel
+               positions itself inline so the pointer can bridge the gap to it, and it is a floating
+               surface all the same. -->
+          <div data-part="panel" [class]="panelClass()">
             <ng-container [ngTemplateOutlet]="item.content()!" />
           </div>
         </div>

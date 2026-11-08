@@ -365,12 +365,3 @@ body {
   background-size: 22px 22px;
   mask-image: radial-gradient(70% 70% at 50% 50%, #000, transparent);
 }
-
-/*
- * The tab strip's rule runs the width of the page and the well below it draws its own top edge,
- * so the two stack into a double line with a gap between them. The strip gives way: the active
- * tab's own marker is what carries the row, and the box says where the content starts.
- */
-[data-skin='bezel'] docs-example [role='tablist'] {
-  border-bottom-color: transparent;
-}

@@ -13,8 +13,9 @@ export type XuiTimelineColor = 'primary' | 'success' | 'error' | 'warning' | 'in
   selector: 'xui-timeline-item',
   template: `
     <span class="relative flex flex-col items-center">
-      <span [class]="dotClass()"></span>
-      <span class="xui-tl-line bg-border w-px flex-1"></span>
+      <span data-part="dot" [class]="dotClass()"></span>
+      <!-- xui-tl-line stays: the parent hides the last item's line through it. -->
+      <span data-part="line" class="xui-tl-line bg-border w-px flex-1"></span>
     </span>
     <div class="-mt-0.5 min-w-0 flex-1 pb-6">
       @if (label()) {

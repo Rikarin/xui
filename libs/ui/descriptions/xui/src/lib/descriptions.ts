@@ -32,19 +32,24 @@ import { XuiDescriptionsItem } from './descriptions-item';
   imports: [NgTemplateOutlet],
   template: `
     @if (title()) {
-      <div [class]="titleClass()">{{ title() }}</div>
+      <div data-part="title" [class]="titleClass()">{{ title() }}</div>
     }
-    <div [class]="gridClass()" [style.grid-template-columns]="templateColumns()">
+    <div data-part="grid" [class]="gridClass()" [style.grid-template-columns]="templateColumns()">
       @for (item of items(); track $index) {
-        <div [class]="cellClass()" [style.grid-column]="'span ' + clampSpan(item.span())">
-          <span [class]="labelClass()">{{ item.label() }}</span>
-          <span [class]="valueClass()"><ng-container [ngTemplateOutlet]="item.content()" /></span>
+        <div data-part="cell" [class]="cellClass()" [style.grid-column]="'span ' + clampSpan(item.span())">
+          <span data-part="label" [class]="labelClass()">{{ item.label() }}</span>
+          <span data-part="value" [class]="valueClass()"><ng-container [ngTemplateOutlet]="item.content()" /></span>
         </div>
       }
     </div>
   `,
   host: {
-    '[class]': 'computedClass()'
+    '[class]': 'computedClass()',
+    // Skins style this one through its own hooks rather than the emitted utilities: `bordered` is
+    // the variant that draws a box, and a skin that gives that box depth needs to know which cells
+    // are inside it.
+    '[attr.data-bordered]': 'bordered() ? "" : null',
+    '[attr.data-orientation]': 'orientation()'
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None

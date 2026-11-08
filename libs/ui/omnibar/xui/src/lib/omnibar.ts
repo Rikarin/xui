@@ -89,7 +89,10 @@ type Row<T> = XuiOmnibarRow<T> & { segments?: XMatchSegment[] };
   ],
   template: `
     <ng-template #surface>
-      <div [class]="panelClass()">
+      <!-- data-part="panel" is the hook skins use for a floating surface built out of a plain div.
+           A command palette is one, and marking it means a skin dresses it as the same material it
+           gives menus and popovers rather than needing a rule of its own. -->
+      <div data-part="panel" [class]="panelClass()">
         <div class="border-border relative border-b">
           <ng-icon
             xui

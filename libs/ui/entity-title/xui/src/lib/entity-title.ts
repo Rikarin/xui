@@ -32,7 +32,7 @@ import type { ClassValue } from 'clsx';
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   template: `
-    <div class="text-foreground-muted shrink-0 empty:hidden">
+    <div data-part="visual" class="text-foreground-muted shrink-0 empty:hidden">
       <ng-content select="[visual]" />
     </div>
 

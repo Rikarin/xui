@@ -25,9 +25,9 @@ import type { ClassValue } from 'clsx';
   selector: 'xui-countdown',
   template: `
     @if (title()) {
-      <div class="text-foreground-muted mb-1 text-sm">{{ title() }}</div>
+      <div data-part="title" class="text-foreground-muted mb-1 text-sm">{{ title() }}</div>
     }
-    <div class="text-foreground text-2xl font-semibold tabular-nums">{{ display() }}</div>
+    <div data-part="value" class="text-foreground text-2xl font-semibold tabular-nums">{{ display() }}</div>
   `,
   host: {
     '[class]': 'computedClass()'

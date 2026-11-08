@@ -35,9 +35,11 @@ import { injectXuiStepsConfig } from './steps.token';
   selector: 'xui-steps',
   template: `
     @for (step of steps(); track $index; let i = $index, last = $last) {
-      <div [class]="itemClass()">
+      <!-- data-status is the hook skins read: the four statuses otherwise exist only in the
+           utility classes below, which a skin must not select on. -->
+      <div [attr.data-status]="statusAt(i)" [class]="itemClass()">
         <button type="button" [class]="headerClass()" [disabled]="!clickable()" (click)="select(i)">
-          <span [class]="circleClass(statusAt(i))">
+          <span data-part="marker" [class]="circleClass(statusAt(i))">
             @if (statusAt(i) === 'finish') {
               <ng-icon xui size="sm" name="matCheckRound" />
             } @else if (statusAt(i) === 'error') {
@@ -54,13 +56,16 @@ import { injectXuiStepsConfig } from './steps.token';
           </span>
         </button>
         @if (!last) {
-          <span [class]="connectorClass(statusAt(i))"></span>
+          <span data-part="connector" [class]="connectorClass(statusAt(i))"></span>
         }
       </div>
     }
   `,
   host: {
-    '[class]': 'computedClass()'
+    '[class]': 'computedClass()',
+    // The axis, as a hook: a skin that draws the connector as something with a lit edge has to know
+    // which side the light leaves it on, and that is otherwise only in the emitted classes.
+    '[attr.data-orientation]': 'orientation()'
   },
   imports: [NgIcon, XuiIcon],
   viewProviders: [provideIcons({ matCheckRound, matCloseRound })],

@@ -10,7 +10,7 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { matChevronLeftRound, matChevronRightRound } from '@ng-icons/material-icons/round';
+import { matChevronLeftRound, matChevronRightRound, matExpandMoreRound } from '@ng-icons/material-icons/round';
 import { xui } from '@xui/core';
 import { XuiIcon } from '@xui/icon';
 import type { ClassValue } from 'clsx';
@@ -73,16 +73,24 @@ import { injectXuiPaginationConfig } from './pagination.token';
     </button>
 
     @if (showSizeChanger()) {
-      <select
-        [class]="selectClass()"
-        [disabled]="disabled()"
-        (change)="changeSize($any($event.target).value)"
-        aria-label="Page size"
-      >
-        @for (option of pageSizeOptions(); track option) {
-          <option [value]="option" [selected]="option === pageSize()">{{ option }} / page</option>
-        }
-      </select>
+      <span data-part="size-changer" class="relative ms-2 inline-flex items-center">
+        <select
+          [class]="selectClass()"
+          [disabled]="disabled()"
+          (change)="changeSize($any($event.target).value)"
+          aria-label="Page size"
+        >
+          @for (option of pageSizeOptions(); track option) {
+            <option [value]="option" [selected]="option === pageSize()">{{ option }} / page</option>
+          }
+        </select>
+        <ng-icon
+          xui
+          size="sm"
+          name="matExpandMoreRound"
+          class="text-foreground-muted pointer-events-none absolute end-2"
+        />
+      </span>
     }
   `,
   host: {
@@ -91,7 +99,7 @@ import { injectXuiPaginationConfig } from './pagination.token';
     'aria-label': 'Pagination'
   },
   imports: [NgIcon, XuiIcon],
-  viewProviders: [provideIcons({ matChevronLeftRound, matChevronRightRound })],
+  viewProviders: [provideIcons({ matChevronLeftRound, matChevronRightRound, matExpandMoreRound })],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None
 })
@@ -160,7 +168,12 @@ export class XuiPagination {
   protected readonly computedClass = computed(() => xui('inline-flex items-center gap-1', this.class()));
   protected readonly selectClass = computed(() =>
     xui(
-      'border-border bg-surface text-foreground ms-2 h-(--control-height-md) rounded-md border px-(--control-padding-sm) text-sm'
+      'border-border bg-surface text-foreground h-(--control-height-md) rounded-md border text-sm',
+      // `appearance-none` and our own glyph beside it, which is what `xui-html-select` does and for
+      // the same reason: padding does not move the platform's arrow, only the label in front of it,
+      // so there is no amount of `pe-` that lifts it off the border. Turning it off and drawing the
+      // chevron ourselves is the only way to place it. `pe-7` is the room that glyph sits in.
+      'cursor-pointer appearance-none ps-(--control-padding-sm) pe-7 outline-none'
     )
   );
 

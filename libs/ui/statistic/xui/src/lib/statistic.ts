@@ -16,15 +16,15 @@ import type { ClassValue } from 'clsx';
 @Component({
   selector: 'xui-statistic',
   template: `
-    <div [class]="titleClass()">{{ title() }}<ng-content select="[xuiStatisticTitle]" /></div>
-    <div [class]="valueRowClass()">
+    <div data-part="title" [class]="titleClass()">{{ title() }}<ng-content select="[xuiStatisticTitle]" /></div>
+    <div data-part="value" [class]="valueRowClass()">
       @if (prefix()) {
-        <span class="text-base font-normal">{{ prefix() }}</span>
+        <span data-part="prefix" class="text-base font-normal">{{ prefix() }}</span>
       }
       <ng-content select="[xuiStatisticPrefix]" />
-      <span>{{ formattedValue() }}</span>
+      <span data-part="figure">{{ formattedValue() }}</span>
       @if (suffix()) {
-        <span class="text-foreground-muted text-base font-normal">{{ suffix() }}</span>
+        <span data-part="suffix" class="text-foreground-muted text-base font-normal">{{ suffix() }}</span>
       }
       <ng-content select="[xuiStatisticSuffix]" />
     </div>

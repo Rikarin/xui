@@ -1180,6 +1180,57 @@
 }
 
 /*
+ * The size changer is a pop-up button like any other, so it is dressed as one rather than as a key
+ * that happens to open a list: the face goes on the wrapper and the real `select` inside stays
+ * transparent, which is the same shape `xui-html-select` takes further up this file.
+ *
+ * The component turns the platform's arrow off and draws its own, because padding moves only the
+ * label in front of that arrow and never the arrow itself. The skin then hides that glyph and
+ * paints the double chevrons every pop-up button here wears, through a mask so the ink tracks the
+ * theme rather than being baked into an image.
+ */
+[data-skin='bezel'] xui-pagination [data-part='size-changer'] {
+  background-image: linear-gradient(to bottom, var(--bezel-top), var(--bezel-bottom));
+  border: 1px solid var(--bezel-border);
+  border-radius: var(--radius-control);
+  box-shadow:
+    inset 0 1px 0 var(--highlight),
+    var(--bezel-shadow);
+  transition: background-image var(--duration-press) ease-out;
+
+  &:hover:not(:has(select:disabled)) {
+    background-image: linear-gradient(to bottom, var(--bezel-hover-top), var(--bezel-hover-bottom));
+  }
+
+  &:active:not(:has(select:disabled)) {
+    background-image: linear-gradient(to bottom, var(--bezel-pressed-top), var(--bezel-pressed-bottom));
+    box-shadow: inset 0 1px 2px rgb(0 0 0 / 0.35);
+  }
+
+  /* The wrapper carries the face, so the control itself must not paint one over it. */
+  & > select {
+    background: transparent;
+    border-color: transparent;
+  }
+
+  & > ng-icon {
+    display: none;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset-inline-end: 0.5rem;
+    width: 0.5rem;
+    height: 0.75rem;
+    pointer-events: none;
+    background-color: var(--color-foreground-muted);
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 12' fill='none' stroke='black' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M1.5 4.25 4 1.75l2.5 2.5M1.5 7.75 4 10.25l2.5-2.5'/%3E%3C/svg%3E")
+      center / contain no-repeat;
+  }
+}
+
+/*
  * A rating is two stacked glyphs, an empty star and a lit one clipped to the score. A glyph takes
  * its depth from its own outline rather than from a box, so this is drawn with drop shadows: the
  * empty star is scored into the surface, shaded along its top and catching the light underneath,
@@ -1753,6 +1804,471 @@
 
 [data-skin='bezel'] xui-data-table [role='gridcell'][aria-selected='true'] {
   background-color: color-mix(in oklab, var(--primary) 18%, transparent);
+}
+
+/*
+ * The scrim behind every overlay. The components ask for `bg-foreground/40`, and in a dark theme
+ * the foreground is near-white - so what dims the page is a 40% white wash, which lightens it
+ * instead. A scrim is a shadow cast by the thing in front of it, so it is black at both ends of
+ * the theme and only its depth changes.
+ *
+ * Stated once for the container's backdrop rather than per component, because dialog, alert dialog,
+ * drawer and omnibar all pass that same class.
+ */
+[data-skin='bezel'] .cdk-overlay-backdrop {
+  background-color: rgb(0 0 0 / 0.45);
+}
+
+/*
+ * A command palette is the floating material, as Spotlight is - the panel itself is marked
+ * `data-part="panel"`, so the menu-material rule above already dressed it. What is left is the
+ * opaque fills inside it: the component paints its section headings on `surface-raised`, which over
+ * glass reads as a plate floating on the material rather than part of it.
+ *
+ * Reached through the pane, not through `xui-omnibar`. The panel lives in an `ng-template` that the
+ * overlay renders into the cdk container, so the component element is not an ancestor of it - the
+ * same reason the dialog rules below are keyed on the pane.
+ */
+[data-skin='bezel'] .cdk-overlay-pane[role='dialog'] [data-part='panel'] [role='presentation'] {
+  background-color: transparent;
+  backdrop-filter: blur(24px) saturate(1.8);
+  -webkit-backdrop-filter: blur(24px) saturate(1.8);
+}
+
+/*
+ * The search row and the filter strip are chrome on the material, so the rules between them are
+ * the material's own edge. Every direct child, rather than the ones carrying a border utility:
+ * recolouring a border nobody drew costs nothing, and this file does not read the classes a
+ * component emits.
+ */
+[data-skin='bezel'] .cdk-overlay-pane[role='dialog'] [data-part='panel'] > div {
+  border-bottom-color: var(--menu-edge);
+}
+
+/*
+ * Dialogs as windows. A dialog is the one surface on the page that genuinely floats, so it gets
+ * what a window gets: a graded title bar, a raised face, a hard hairline round it and a shadow deep
+ * enough to say how far off the page it is - deeper than a menu's, because it is further.
+ *
+ * Keyed on the overlay pane's role rather than on the component, because the surface is teleported
+ * out of `xui-dialog` into the cdk container and the host is left behind. `xui-alert` builds its
+ * confirmation out of the dialog too, so it is dressed by these same rules without being named.
+ *
+ * The component's own `shadow-overlay` is replaced rather than added to: two shadows at different
+ * depths on one edge read as a double border.
+ *
+ * Not a surface that has already declared itself the floating material. `role="dialog"` is what the
+ * cdk gives any modal pane, so an omnibar arrives here wearing it too - and a command palette is
+ * glass, not a window. The exclusion is what keeps this rule from outranking the material rule
+ * above it, which it otherwise does by one attribute.
+ */
+[data-skin='bezel'] .cdk-overlay-pane[role='dialog'] > div:not([data-part='panel']) {
+  background-color: var(--surface-raised);
+  border-color: var(--hairline-strong);
+  box-shadow:
+    inset 0 1px 0 var(--highlight),
+    0 18px 48px rgb(0 0 0 / 0.55);
+}
+
+/*
+ * The title bar, on the same chrome every other one in this skin is made of, and at a window title
+ * bar's height. The component's own is 16px of padding around a 32px icon, which comes to 65px -
+ * two thirds taller than anything macOS puts a title in. These are Cathode's numbers.
+ *
+ * The title's own size is left alone, and deliberately: once the close key is 24px it is the
+ * tallest thing in the bar, so shrinking the type buys no height at all and only makes the dialog
+ * quieter than the component meant it to be.
+ */
+[data-skin='bezel'] .cdk-overlay-pane[role='dialog'] > div > header {
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem 0.5rem 1rem;
+  background-image: linear-gradient(to bottom, var(--pane-header-top), var(--pane-header-bottom));
+  border-bottom-color: var(--hairline-strong);
+  box-shadow: inset 0 1px 0 var(--highlight);
+
+  /* The glyph sets its own box through a custom property, so the cascade cannot reach it. */
+  & > ng-icon {
+    --ng-icon__size: 18px !important;
+  }
+
+  & > button {
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-inline-end: 0;
+  }
+}
+
+/*
+ * An alert has no title bar - it is a single short question, so macOS gives it no chrome strip to
+ * put one in. It stays the floating material instead, edged and lifted, which is Cathode's reading.
+ */
+[data-skin='bezel'] .cdk-overlay-pane[role='alertdialog'] > div {
+  border-color: var(--hairline-strong);
+  border-radius: 0.75rem;
+  box-shadow:
+    inset 0 1px 0 var(--highlight),
+    0 18px 48px rgb(0 0 0 / 0.55);
+}
+
+/*
+ * Tabs as a macOS segmented control, which is Cathode's reading of them: a sunken track with the
+ * chosen tab a bezelled key riding in it, in place of the underlined strip the component draws.
+ * Same object as `xui-segmented-control` above, and deliberately the same rules, because a reader
+ * should not have to learn that these two differ.
+ *
+ * Both axes, so the component reads as one control however it is laid out. The track itself is the
+ * same either way; what differs is how it is sized, and that is stated per axis below.
+ *
+ * Three things the component draws have to go: the strip's bottom rule, which the track replaces;
+ * the static underline on the selected tab, which the key replaces; and the sliding indicator,
+ * which is the only child of the list that is not a tab. Cathode hides it the same way.
+ */
+/*
+ * Sizing, per axis. Across, the track hugs its tabs - unless the set was asked to fill, where it
+ * spans its container instead. Down, the host is a flex row and a flex item stretches by default,
+ * so without this the track would run the full height of the panel beside it as a tall empty
+ * column; it hugs its tabs instead and sits at the top.
+ */
+[data-skin='bezel'] xui-tabs:not([data-fill]) > [role='tablist'][aria-orientation='horizontal'] {
+  width: fit-content;
+}
+
+[data-skin='bezel'] xui-tabs > [role='tablist'][aria-orientation='vertical'] {
+  align-self: start;
+}
+
+[data-skin='bezel'] xui-tabs > [role='tablist'] {
+  gap: 0;
+  padding: 2px;
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-control);
+  background-color: var(--surface-inset);
+  box-shadow: inset 0 1px 1px rgb(0 0 0 / 0.18);
+
+  & > :not([role='tab']) {
+    display: none;
+  }
+
+  & > [role='tab'] {
+    border-bottom-color: transparent;
+    border-radius: calc(var(--radius-control) - 2px);
+  }
+
+  /* The unpicked tabs carry no face at all - only the chosen one is raised, which is what says the
+     set is one control rather than a row of buttons. */
+  & > [role='tab'][aria-selected='true'] {
+    background-image: linear-gradient(to bottom, var(--bezel-top), var(--bezel-bottom));
+    box-shadow:
+      inset 0 1px 0 var(--highlight),
+      0 0 0 0.5px var(--bezel-border),
+      var(--bezel-shadow);
+  }
+}
+
+/*
+ * Steps: a row of numbered discs joined by a channel, which is the progress indicator on a piece of
+ * equipment rather than four outlined circles on a page.
+ *
+ * The marker takes its colour from the component and its depth from here, so one pair of rules
+ * covers all four statuses. A reached disc stands out of the surface - domed, rimmed, with a drop
+ * under it - and the one still to come is cut into it instead, because an empty socket is what an
+ * unreached step is. That is the whole reading: what you have done is raised, what is left is a
+ * hole. `data-status` is the component's own hook; nothing here touches its utility classes.
+ */
+[data-skin='bezel']
+  xui-steps
+  :is([data-status='process'], [data-status='finish'], [data-status='error'])
+  [data-part='marker'] {
+  background-image: linear-gradient(to bottom, rgb(255 255 255 / 0.3), rgb(255 255 255 / 0) 55%);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.35),
+    0 1px 2px rgb(0 0 0 / 0.35);
+}
+
+[data-skin='bezel'] xui-steps [data-status='wait'] [data-part='marker'] {
+  border-color: var(--hairline-strong);
+  box-shadow:
+    inset 0 1px 3px var(--field-shadow),
+    0 1px 0 var(--highlight);
+}
+
+/*
+ * The connector as an engraved channel, like a timeline's rail. The run already covered keeps the
+ * accent the component paints and only gains the light along its edge; the run still to come is the
+ * groove on its own. Both are 1px, so the second line is a shadow rather than a border - and it
+ * falls on the side the light would leave it, which flips with the axis the steps run along.
+ */
+[data-skin='bezel'] xui-steps [data-part='connector'] {
+  box-shadow: 0 1px 0 var(--highlight);
+}
+
+[data-skin='bezel'] xui-steps[data-orientation='vertical'] [data-part='connector'] {
+  box-shadow: 1px 0 0 var(--highlight);
+}
+
+[data-skin='bezel'] xui-steps [data-status]:not([data-status='finish']) [data-part='connector'] {
+  background-color: var(--hairline-strong);
+}
+
+/*
+ * A panel stack is a drill-down pane - the current title centred in a bar, the way back on the left
+ * of it, the panel below - so it is the same mini window a card and a bordered description list
+ * are: graded chrome across the top, a raised face under it, a hard hairline between them.
+ *
+ * No hook needed for either part: the bar is a `header` and the host's only one.
+ *
+ * The highlight is stated on both, not just the bar. `showPanelHeader` can be off, and then the
+ * host's own top edge is the one the light catches; where the bar is present it covers that edge
+ * and paints its own.
+ */
+[data-skin='bezel'] xui-panel-stack {
+  border-color: var(--hairline-strong);
+  box-shadow: inset 0 1px 0 var(--highlight);
+}
+
+[data-skin='bezel'] xui-panel-stack > header {
+  background-image: linear-gradient(to bottom, var(--pane-header-top), var(--pane-header-bottom));
+  border-bottom-color: var(--hairline-strong);
+  box-shadow: inset 0 1px 0 var(--highlight);
+}
+
+/*
+ * A bordered description list is the same mini window a card is: graded chrome across the top, a
+ * raised face under it, hairlines between the cells. Only the bordered variant - unbordered, it is
+ * open rows on the page with no box to give depth to, and drawing one would be a design change
+ * rather than a skin.
+ *
+ * The rules between cells are the grid's own background showing through a 1px gap, so the rule is
+ * the grid's colour and the face is the cells'. Both have to beat the utilities the component
+ * emits (`bg-border` on the grid, `[&>*]:bg-surface` on its children), which the extra attribute
+ * in each selector does.
+ */
+[data-skin='bezel'] xui-descriptions[data-bordered] {
+  background-color: var(--surface-raised);
+  border-color: var(--hairline-strong);
+  box-shadow: inset 0 1px 0 var(--highlight);
+}
+
+/* The title is the window's titlebar, not a line of text inside it. */
+[data-skin='bezel'] xui-descriptions[data-bordered] [data-part='title'] {
+  background-color: transparent;
+  background-image: linear-gradient(to bottom, var(--pane-header-top), var(--pane-header-bottom));
+  border-bottom-color: var(--hairline-strong);
+  box-shadow: inset 0 1px 0 var(--highlight);
+}
+
+[data-skin='bezel'] xui-descriptions[data-bordered] [data-part='grid'] {
+  background-color: var(--hairline);
+}
+
+[data-skin='bezel'] xui-descriptions[data-bordered] [data-part='cell'] {
+  background-color: var(--surface-raised);
+}
+
+/*
+ * A navbar is a window's title bar, so it is made of the same graded chrome every titlebar in this
+ * skin is: the ramp, a hard hairline under it, the highlight along its top edge.
+ *
+ * The drop is kept because the component puts `shadow-elevation-1` on a `sticky` navbar and this
+ * rule's own `box-shadow` would otherwise replace it, leaving a pinned bar floating over scrolled
+ * content with no shadow at all. A title bar casting onto the content below it is right whether or
+ * not it is pinned, so it is stated for every navbar rather than guessed at per variant.
+ */
+[data-skin='bezel'] [xuiNavbar] {
+  background-color: transparent;
+  background-image: linear-gradient(to bottom, var(--pane-header-top), var(--pane-header-bottom));
+  border-bottom-color: var(--hairline-strong);
+  box-shadow:
+    inset 0 1px 0 var(--highlight),
+    0 1px 2px rgb(0 0 0 / 0.08);
+}
+
+/* Dividers in chrome are cut into it: the dark line the component draws, lit down one side. */
+[data-skin='bezel'] [xuiNavbarDivider] {
+  border-inline-start-color: var(--hairline-strong);
+  box-shadow: 1px 0 0 var(--highlight);
+}
+
+/*
+ * A menubar is the same chrome in a floating strip rather than across the window. A navigation menu
+ * is the same bar again - a row of titles, one of them open - so it takes the same two rules rather
+ * than a second copy of them. Its bar is the `nav` inside the host, which is only `inline-block`.
+ *
+ * Its panel needs nothing here: it is marked `data-part="panel"`, so the floating-surface rule
+ * above already gives it the menu material.
+ */
+[data-skin='bezel'] :is([xuiMenubar], xui-navigation-menu > nav) {
+  background-color: transparent;
+  background-image: linear-gradient(to bottom, var(--pane-header-top), var(--pane-header-bottom));
+  border-color: var(--hairline-strong);
+  box-shadow:
+    inset 0 1px 0 var(--highlight),
+    0 1px 0 var(--highlight);
+}
+
+/*
+ * The open title is pushed into the bar, not raised out of it. This is where a menubar parts from
+ * the segmented control above, which looks much the same and means the opposite: there, one key
+ * stands proud of a sunken track to say it is chosen. Here the menu is down because the title is
+ * held in, so the gloss points the other way and the shadow falls inside.
+ *
+ * The component's own `aria-expanded:bg-active-overlay` fill is left to do the colouring - it is
+ * translucent and reads on either theme, which an accent fill with inherited text would not.
+ */
+[data-skin='bezel'] :is([xuiMenubar] [xuiMenubarTrigger], xui-navigation-menu > nav button)[aria-expanded='true'] {
+  box-shadow:
+    inset 0 1px 2px rgb(0 0 0 / 0.22),
+    inset 0 0 0 0.5px var(--hairline);
+}
+
+/*
+ * A breadcrumb gets no bevel. It is a row of links, and this file's position on those is already
+ * stated above: a link is text, so it gains nothing from the chrome around it. What it gets instead
+ * is the two things a path bar has and this trail does not.
+ *
+ * The separator drops below the crumbs. The component paints chevron and link from the same ink, so
+ * the punctuation arrives with the same weight as the words it divides; a path bar's dividers sit
+ * behind them.
+ */
+[data-skin='bezel'] [xuiBreadcrumbSeparator] {
+  color: var(--color-foreground-subtle);
+  opacity: 0.7;
+}
+
+/*
+ * And the crumbs answer the pointer. The component already rounds the link - `rounded-sm` with no
+ * background and no padding, so the radius has nothing to shape - which reads as a plate that was
+ * intended and never arrived. This is it: padding for the plate to breathe, cancelled by an equal
+ * negative margin so no crumb moves and the trail's spacing is untouched.
+ */
+[data-skin='bezel'] [xuiBreadcrumbLink] {
+  padding-inline: 0.25rem;
+  margin-inline: -0.25rem;
+}
+
+[data-skin='bezel'] [xuiBreadcrumbLink]:hover:not([aria-disabled='true']) {
+  background-color: color-mix(in oklab, var(--foreground) 10%, transparent);
+}
+
+/*
+ * A tree is a source list, and the one thing in it with any depth is the picked row: the skin's own
+ * selection tint, graded from a highlight at its top and rimmed in the accent, so it reads as a
+ * capsule lifted out of the list rather than a wash of colour across it.
+ *
+ * `aria-selected` is on the `li`; the row is the `div` inside it that carries the node id, so the
+ * state and the thing being painted are one element apart. Stated for `:hover` as well, because the
+ * component's own hover tint would otherwise sit on top of the selection.
+ */
+[data-skin='bezel'] xui-tree [role='treeitem'][aria-selected='true'] > [data-node-id],
+[data-skin='bezel'] xui-tree [role='treeitem'][aria-selected='true'] > [data-node-id]:hover {
+  background-color: color-mix(in oklab, var(--primary) 18%, transparent);
+  /* An explicit low white rather than `--highlight`, which is an edge token: 0.85 in light and 0.07
+     in dark, so spread over most of the capsule's height it would wash the tint out in one theme
+     and vanish in the other. The token is still right for the 1px edge below. */
+  background-image: linear-gradient(to bottom, rgb(255 255 255 / 0.18), transparent 70%);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in oklab, var(--primary) 40%, transparent),
+    inset 0 1px 0 var(--highlight);
+}
+
+/*
+ * Indicator lamps: a timeline's dots and a presence dot, which are one object under two names.
+ *
+ * A domed lens rather than turned metal. Both carry an intent colour, and metal is what the
+ * switch's knob and the radio's bead are made of - a coloured knob would read as the wrong thing.
+ * The dome is a white gradient laid over whatever fill the component painted, so this rule never
+ * has to know which colour it is sitting on.
+ *
+ * The lift is a `filter`, not the outer box-shadow the rest of this file uses. Every presence but
+ * `online` is cut to its glyph with a `clip-path`, and a clip removes an outer shadow outright -
+ * three of the four dots would have quietly had none. A `drop-shadow` filter is applied after the
+ * clip and follows the shape that survives it, so the bar cut through `dnd` casts a shadow too.
+ */
+[data-skin='bezel'] :is(xui-status, xui-timeline-item [data-part='dot']) {
+  background-image: linear-gradient(to bottom, rgb(255 255 255 / 0.45), rgb(255 255 255 / 0) 55%);
+  /* Inset, so these follow the circle and are clipped with it rather than ringing the cut-out. */
+  box-shadow:
+    inset 0 0 0 0.5px rgb(0 0 0 / 0.4),
+    inset 0 -1px 1px rgb(0 0 0 / 0.25);
+  filter: drop-shadow(0 1px 1px rgb(0 0 0 / 0.3));
+}
+
+/*
+ * The rail as an engraved channel: the dark line the component already draws, with a highlight
+ * down the side of it. The highlight stays on the right in both modes - the light comes from above
+ * the page, not from the side the content happens to sit on.
+ */
+[data-skin='bezel'] xui-timeline-item [data-part='line'] {
+  background-color: var(--hairline-strong);
+  box-shadow: 1px 0 0 var(--highlight);
+}
+
+/*
+ * A statistic is a figure you read off an instrument, so here it is one: the value goes behind
+ * glass and the title becomes the engraved label above it. The `lcd-glass` and `section-label`
+ * utilities above say it in one word each, but this file emits no `@apply` anywhere and this is not
+ * the rule to start with, so both are written out.
+ *
+ * A countdown is the same component with a clock behind it - the one readout on the page that is
+ * genuinely ticking - so it takes the same glass. Its digits are already tabular, which is what
+ * keeps them from jittering as they count.
+ *
+ * `inline-flex`, so the glass is a panel the width of the figure rather than a band across whatever
+ * container the statistic was dropped into.
+ */
+[data-skin='bezel'] :is(xui-statistic, xui-countdown) [data-part='value'] {
+  display: inline-flex;
+  padding: 0.25rem 0.625rem;
+  color: var(--lcd-foreground);
+  background-image:
+    linear-gradient(to bottom, var(--lcd-glare), transparent 52%),
+    linear-gradient(to bottom, var(--lcd-top), var(--lcd-bottom));
+  border: 1px solid var(--lcd-border);
+  border-radius: 0.5rem;
+  box-shadow:
+    inset 0 1px 3px rgb(0 0 0 / 0.45),
+    0 1px 0 var(--highlight);
+  font-variant-numeric: tabular-nums;
+}
+
+/*
+ * The unit is inside the glass, so it takes the readout's own muted ink rather than the page's: the
+ * component paints it `text-foreground-muted`, which is legible on the surface and nearly invisible
+ * against a dark panel. Keyed on the part, not on position - with a prefix and no suffix the figure
+ * is itself the last span, and a positional rule would mute the number.
+ */
+[data-skin='bezel'] xui-statistic [data-part='suffix'] {
+  color: var(--lcd-muted);
+}
+
+/* The label reads as engraved into the chrome above the panel, not as a line of body text. */
+[data-skin='bezel'] :is(xui-statistic, xui-countdown) [data-part='title'] {
+  color: var(--color-foreground-muted);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/*
+ * An entity title is text, which a bezel has nothing to say about. Its one surface is the leading
+ * visual, which otherwise floats loose beside the name: here it gets the small chrome plate an icon
+ * sits on everywhere else in this skin.
+ *
+ * Not when the slot already carries its own frame. An avatar is a bezel in its own right and an
+ * image brings its own edges, so a plate behind either is a second frame around the first.
+ */
+[data-skin='bezel'] xui-entity-title [data-part='visual']:not(:has(xui-avatar, img)) {
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 0.375rem;
+  background-image: linear-gradient(to bottom, var(--pane-header-top), var(--pane-header-bottom));
+  box-shadow:
+    inset 0 1px 0 var(--highlight),
+    inset 0 0 0 1px var(--hairline-strong),
+    0 1px 0 var(--highlight);
 }
 
 /*
